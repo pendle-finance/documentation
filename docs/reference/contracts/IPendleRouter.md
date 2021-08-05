@@ -16,7 +16,7 @@ ___
 ### `MarketCreated`
 Emitted when a market for a future yield token and an ERC20 token is created.
 ___
-```sol
+```solidity
 event MarketCreated(
     bytes32 marketFactoryId,
     address indexed xyt,
@@ -27,7 +27,7 @@ event MarketCreated(
 
 |     Parameter     |  Type   |                            Description                             |
 | :---------------: | :-----: | :----------------------------------------------------------------: |
-| `marketFactoryId` | bytes32 |                         Forge identifier.                          |
+| `marketFactoryId` | bytes32 |                     Market factory ID in bytes                     |
 |       `xyt`       | address | The address of the tokenized future yield token as the base asset. |
 |      `token`      | address |         The address of an ERC20 token as the quote asset.          |
 |     `market`      | address |              The address of the newly created market.              |
@@ -39,7 +39,7 @@ Signature: `0xb18af3690cc6a832c9b2e802aab7a21111f4cfca5c2e4fcf614f6ea55b405f4a`
 ### `SwapEvent`
 Emitted when a swap happens on the market.
 ___
-```sol
+```solidity
 event SwapEvent(
     address indexed trader,
     address inToken,
@@ -66,7 +66,7 @@ Signature: `0xf5fd10e802251a919c2bfd2cfc15e2526d3864c819e2b4dc346ca1ade0f51658`
 ### `Join`
 Emitted when user adds liquidity.
 ___
-```sol
+```solidity
 event Join(
     address indexed sender,
     uint256 token0Amount,
@@ -91,7 +91,7 @@ Signature: `0xe37fea01e65dea7d589abafc4bd0d5282a09ddce3e9ea971ed3399d776a1a296`
 ### `Exit`
 Emitted when user removes liquidity.
 ___
-```sol
+```solidity
 event Exit(
     address indexed sender,
     uint256 token0Amount,
@@ -118,7 +118,7 @@ Signature: `0x3af46289ed754c6821a8849534b8412a33bcd8387cb986f39e7e9937fb251cde`
 ### `data`
 Gets a reference to the PendleData contract.
 ___
-```sol
+```solidity
 function data() external view returns (IPendleData);
 ```
 **Returns:**<br />
@@ -129,7 +129,7 @@ IPendleData — Returns the data contract reference.
 ### `weth`
 Gets a reference of the WETH9 token contract address.
 ___
-```sol
+```solidity
 function weth() external view returns (IWETH);
 ```
 **Returns:**<br />
@@ -142,7 +142,7 @@ IWETH — WETH token reference.
 ### `newYieldContracts`
 Gets a reference of the WETH9 token contract address.
 ___
-```sol
+```solidity
 function newYieldContracts(
     bytes32 forgeId,
     address underlyingAsset,
@@ -165,7 +165,7 @@ xyt — address of the YT token created.
 ### `redeemAfterExpiry`
 Redeems the underlying asset after the yield contract expiry by burning OT and YT.
 ___
-```sol
+```solidity
 function redeemAfterExpiry(
     bytes32 forgeId,
     address underlyingAsset,
@@ -187,7 +187,7 @@ redeemedAmount — amount that was redeemed.
 ### `redeemDueInterests`
 Redeems the user's due interests earned from the yield protocols.
 ___
-```sol
+```solidity
 function redeemDueInterests(
     bytes32 forgeId,
     address underlyingAsset,
@@ -211,7 +211,7 @@ interests — amount of due interests that was redeemed.
 ### `redeemUnderlying`
 Redeems the underlying asset by burning OT and YT.
 ___
-```sol
+```solidity
 function redeemUnderlying(
     bytes32 forgeId,
     address underlyingAsset,
@@ -235,7 +235,7 @@ redeemedAmount — amount that was redeemed.
 ### `renewYield`
 Renews his yield contract by burning the old OT and YT tokens, while mining new OT and YT tokens without having to remove his underlying asset.
 ___
-```sol
+```solidity
 function renewYield(
     bytes32 forgeId,
     uint256 oldExpiry,
@@ -273,7 +273,7 @@ amountTokenMinted — amount of LP tokens minted.
 ### `tokenizeYield`
 Tokenize the underlying asset into OT and YT for a yield contract.
 ___
-```sol
+```solidity
 function tokenizeYield(
     bytes32 forgeId,
     address underlyingAsset,
@@ -307,17 +307,17 @@ amountTokenMinted — amount of LP tokens minted.
 ### Market Functions
 
 ### `addMarketLiquidityDual`
-Tokenize the underlying asset into OT and YT for a yield contract.
+Add both YT and Token liquidity into the market.
 ___
-```sol
+```solidity
 function addMarketLiquidityDual(
-    bytes32 _marketFactoryId,
-    address _xyt,
-    address _token,
-    uint256 _desiredXytAmount,
-    uint256 _desiredTokenAmount,
-    uint256 _xytMinAmount,
-    uint256 _tokenMinAmount
+    bytes32 marketFactoryId,
+    address xyt,
+    address token,
+    uint256 desiredXytAmount,
+    uint256 desiredTokenAmount,
+    uint256 xytMinAmount,
+    uint256 tokenMinAmount
 )
     external
     payable
@@ -328,25 +328,27 @@ function addMarketLiquidityDual(
     );
 ```
 
-|     Parameter      |  Type   |                   Description                   |
-| :----------------: | :-----: | :---------------------------------------------: |
-|     `forgeId`      | bytes32 |             The forge ID in bytes.              |
-| `underlyingAsset`  | address |      The address of the underlying token.       |
-|      `expiry`      | uint256 | The expiry of the yield contract in epoch time. |
-| `amountToTokenize` | uint256 |     Amount of underlying asset to tokenize.     |
-|        `to`        | address |      The address to send the OT and YT to.      |
+|      Parameter       |  Type   |                                 Description                                 |
+| :------------------: | :-----: | :-------------------------------------------------------------------------: |
+|  `marketFactoryId`   | bytes32 |                       The market factory ID in bytes.                       |
+|        `xyt`         | address |                        The address of the YT token.                         |
+|       `token`        | address |                       The address of the quote token.                       |
+|  `desiredXytAmount`  | uint256 |                Amount of YT to add liquidity to the market.                 |
+| `desiredTokenAmount` | uint256 |           Amount of quote tokens to add liquidity to the market.            |
+|    `xytMinAmount`    | uint256 |      The minimum expected amount of YT to add liquidity to the market.      |
+|   `tokenMinAmount`   | uint256 | The minimum expected amount of quote tokens to add liquidity to the market. |
 
 **Returns:**<br />
-ot — address of the new OT token.<br />
-xyt — address of the new YT token.<br />
-amountTokenMinted — amount of LP tokens minted.
+amountXytUsed — amount of YT liquidity added to the market.<br />
+amountTokenUsed — amount of quote tokens liquidity added to the market.<br />
+lpOut — amount of LP tokens minted.
 
 <br />
 
 ### `addMarketLiquiditySingle`
-Tokenize the underlying asset into OT and YT for a yield contract.
+Add either YT or Token liquidity into the market.
 ___
-```sol
+```solidity
 function addMarketLiquiditySingle(
     bytes32 marketFactoryId,
     address xyt,
@@ -357,25 +359,24 @@ function addMarketLiquiditySingle(
 ) external payable returns (uint256 exactOutLp);
 ```
 
-|     Parameter      |  Type   |                   Description                   |
-| :----------------: | :-----: | :---------------------------------------------: |
-|     `forgeId`      | bytes32 |             The forge ID in bytes.              |
-| `underlyingAsset`  | address |      The address of the underlying token.       |
-|      `expiry`      | uint256 | The expiry of the yield contract in epoch time. |
-| `amountToTokenize` | uint256 |     Amount of underlying asset to tokenize.     |
-|        `to`        | address |      The address to send the OT and YT to.      |
+|     Parameter     |  Type   |                         Description                          |
+| :---------------: | :-----: | :----------------------------------------------------------: |
+| `marketFactoryId` | bytes32 |               The market factory ID in bytes.                |
+|       `xyt`       | address |                 The address of the YT token.                 |
+|      `token`      | address |               The address of the quote token.                |
+|     `forXyt`      |  bool   |     `true` if adding liquidity to YT, otherwise `false`.     |
+|  `exactInAsset`   | uint256 | Amount of YT or quote tokens to add liquidity to the market. |
+|    `minOutLp`     | uint256 |        The minimum amount of LP tokens to be minted.         |
 
 **Returns:**<br />
-ot — address of the new OT token.<br />
-xyt — address of the new YT token.<br />
-amountTokenMinted — amount of LP tokens minted.
+exactOutLp — amount of LP tokens minted.
 
 <br />
 
 ### `removeMarketLiquidityDual`
-Tokenize the underlying asset into OT and YT for a yield contract.
+Remove both YT and Token liquidity from the market.
 ___
-```sol
+```solidity
 function removeMarketLiquidityDual(
     bytes32 marketFactoryId,
     address xyt,
@@ -386,25 +387,25 @@ function removeMarketLiquidityDual(
 ) external returns (uint256 exactOutXyt, uint256 exactOutToken);
 ```
 
-|     Parameter      |  Type   |                   Description                   |
-| :----------------: | :-----: | :---------------------------------------------: |
-|     `forgeId`      | bytes32 |             The forge ID in bytes.              |
-| `underlyingAsset`  | address |      The address of the underlying token.       |
-|      `expiry`      | uint256 | The expiry of the yield contract in epoch time. |
-| `amountToTokenize` | uint256 |     Amount of underlying asset to tokenize.     |
-|        `to`        | address |      The address to send the OT and YT to.      |
+|     Parameter     |  Type   |                              Description                              |
+| :---------------: | :-----: | :-------------------------------------------------------------------: |
+| `marketFactoryId` | bytes32 |                    The market factory ID in bytes.                    |
+|       `xyt`       | address |                     The address of the YT token.                      |
+|      `token`      | address |                    The address of the quote token.                    |
+|    `exactInLp`    | uint256 | The exact amount of LP tokens provided to redeem YT and quote tokens. |
+|    `minOutXyt`    | uint256 |      The minimum expected amount of YT redeemed from the market.      |
+|   `minOutToken`   | uint256 | The minimum expected amount of quote tokens redeemed from the market. |
 
 **Returns:**<br />
-ot — address of the new OT token.<br />
-xyt — address of the new YT token.<br />
-amountTokenMinted — amount of LP tokens minted.
+exactOutXyt — the exact amount of YT redeemed from the market.<br />
+exactOutToken — the exact amount of quote tokens redeemed from the market.
 
 <br />
 
 ### `removeMarketLiquiditySingle`
-Tokenize the underlying asset into OT and YT for a yield contract.
+Remove either YT or Token liquidity from the market.
 ___
-```sol
+```solidity
 function removeMarketLiquiditySingle(
     bytes32 marketFactoryId,
     address xyt,
@@ -415,25 +416,26 @@ function removeMarketLiquiditySingle(
 ) external returns (uint256 exactOutXyt, uint256 exactOutToken);
 ```
 
-|     Parameter      |  Type   |                   Description                   |
-| :----------------: | :-----: | :---------------------------------------------: |
-|     `forgeId`      | bytes32 |             The forge ID in bytes.              |
-| `underlyingAsset`  | address |      The address of the underlying token.       |
-|      `expiry`      | uint256 | The expiry of the yield contract in epoch time. |
-| `amountToTokenize` | uint256 |     Amount of underlying asset to tokenize.     |
-|        `to`        | address |      The address to send the OT and YT to.      |
+|     Parameter     |  Type   |                           Description                           |
+| :---------------: | :-----: | :-------------------------------------------------------------: |
+| `marketFactoryId` | bytes32 |                 The market factory ID in bytes.                 |
+|       `xyt`       | address |                  The address of the YT token.                   |
+|      `token`      | address |                 The address of the quote token.                 |
+|     `forXyt`      |  bool   |     `true` if removing liquidity to YT, otherwise `false`.      |
+|    `exactInLp`    | uint256 |  Amount of exact LP tokens used to redeem YT and quote tokens.  |
+|   `minOutAsset`   | uint256 | The minimum amount of either YT ro quote tokens to be redeemed. |
+
 
 **Returns:**<br />
-ot — address of the new OT token.<br />
-xyt — address of the new YT token.<br />
-amountTokenMinted — amount of LP tokens minted.
+exactOutXyt — the exact amount of YT redeemed from the market.<br />
+exactOutToken — the exact amount of quote tokens redeemed from the market.
 
 <br />
 
 ### `createMarket`
-Tokenize the underlying asset into OT and YT for a yield contract.
+Creates a market given a protocol ID, future yield token, and an ERC20 token.
 ___
-```sol
+```solidity
 function createMarket(
     bytes32 marketFactoryId,
     address xyt,
@@ -441,25 +443,21 @@ function createMarket(
 ) external returns (address market);
 ```
 
-|     Parameter      |  Type   |                   Description                   |
-| :----------------: | :-----: | :---------------------------------------------: |
-|     `forgeId`      | bytes32 |             The forge ID in bytes.              |
-| `underlyingAsset`  | address |      The address of the underlying token.       |
-|      `expiry`      | uint256 | The expiry of the yield contract in epoch time. |
-| `amountToTokenize` | uint256 |     Amount of underlying asset to tokenize.     |
-|        `to`        | address |      The address to send the OT and YT to.      |
+|     Parameter     |  Type   |           Description           |
+| :---------------: | :-----: | :-----------------------------: |
+| `marketFactoryId` | bytes32 | The market factory ID in bytes. |
+|       `xyt`       | address |  The address of the YT token.   |
+|      `token`      | address | The address of the quote token. |
 
 **Returns:**<br />
-ot — address of the new OT token.<br />
-xyt — address of the new YT token.<br />
-amountTokenMinted — amount of LP tokens minted.
+market — address of the newly created market.
 
 <br />
 
 ### `bootstrapMarket`
-Tokenize the underlying asset into OT and YT for a yield contract.
+Bootstrap initial liquidity in the newly created market.
 ___
-```sol
+```solidity
 function bootstrapMarket(
     bytes32 marketFactoryId,
     address xyt,
@@ -469,13 +467,13 @@ function bootstrapMarket(
 ) external payable;
 ```
 
-|     Parameter      |  Type   |                   Description                   |
-| :----------------: | :-----: | :---------------------------------------------: |
-|     `forgeId`      | bytes32 |             The forge ID in bytes.              |
-| `underlyingAsset`  | address |      The address of the underlying token.       |
-|      `expiry`      | uint256 | The expiry of the yield contract in epoch time. |
-| `amountToTokenize` | uint256 |     Amount of underlying asset to tokenize.     |
-|        `to`        | address |      The address to send the OT and YT to.      |
+|        Parameter        |  Type   |              Description               |
+| :---------------------: | :-----: | :------------------------------------: |
+|    `marketFactoryId`    | bytes32 |    The market factory ID in bytes.     |
+|          `xyt`          | address |      The address of the YT token.      |
+|         `token`         | address |    The address of the quote token.     |
+|  `initialXytLiquidity`  | uint256 |  Initial YT liquidity in the market.   |
+| `initialTokenLiquidity` | uint256 | Initial token liquidity in the market. |
 
 **Returns:**<br />
 ot — address of the new OT token.<br />
@@ -485,9 +483,9 @@ amountTokenMinted — amount of LP tokens minted.
 <br />
 
 ### `swapExactIn`
-Tokenize the underlying asset into OT and YT for a yield contract.
+Trades an exact amount of source assets into destination assets.
 ___
-```sol
+```solidity
 function swapExactIn(
     address tokenIn,
     address tokenOut,
@@ -497,25 +495,23 @@ function swapExactIn(
 ) external payable returns (uint256 outTotalAmount);
 ```
 
-|     Parameter      |  Type   |                   Description                   |
-| :----------------: | :-----: | :---------------------------------------------: |
-|     `forgeId`      | bytes32 |             The forge ID in bytes.              |
-| `underlyingAsset`  | address |      The address of the underlying token.       |
-|      `expiry`      | uint256 | The expiry of the yield contract in epoch time. |
-| `amountToTokenize` | uint256 |     Amount of underlying asset to tokenize.     |
-|        `to`        | address |      The address to send the OT and YT to.      |
+|      Parameter      |  Type   |                     Description                     |
+| :-----------------: | :-----: | :-------------------------------------------------: |
+|      `tokenIn`      | address |      The address of the source asset to trade.      |
+|     `tokenOut`      | address |   The address of the destination asset to trade.    |
+|   `inTotalAmount`   | uint256 |     The exact amount of source assets to trade.     |
+| `minOutTotalAmount` | uint256 | The minimum output amount resulting from the trade. |
+|  `marketFactoryId`  | bytes32 |            The market factory in bytes.             |
 
 **Returns:**<br />
-ot — address of the new OT token.<br />
-xyt — address of the new YT token.<br />
-amountTokenMinted — amount of LP tokens minted.
+outTotalAmount — the total output amount resulting from the trade.
 
 <br />
 
 ### `swapExactOut`
 Tokenize the underlying asset into OT and YT for a yield contract.
 ___
-```sol
+```solidity
 function swapExactOut(
     address tokenIn,
     address tokenOut,
@@ -525,37 +521,30 @@ function swapExactOut(
 ) external payable returns (uint256 inTotalAmount);
 ```
 
-|     Parameter      |  Type   |                   Description                   |
-| :----------------: | :-----: | :---------------------------------------------: |
-|     `forgeId`      | bytes32 |             The forge ID in bytes.              |
-| `underlyingAsset`  | address |      The address of the underlying token.       |
-|      `expiry`      | uint256 | The expiry of the yield contract in epoch time. |
-| `amountToTokenize` | uint256 |     Amount of underlying asset to tokenize.     |
-|        `to`        | address |      The address to send the OT and YT to.      |
+|     Parameter      |  Type   |                             Description                             |
+| :----------------: | :-----: | :-----------------------------------------------------------------: |
+|     `tokenIn`      | address |              The address of the source asset to trade.              |
+|     `tokenOut`     | address |           The address of the destination asset to trade.            |
+|  `outTotalAmount`  | uint256 | The exact amount of destination assets desired to use in the trade. |
+| `maxInTotalAmount` | uint256 |        The maximum input amount allowed to use in the trade.        |
+| `marketFactoryId`  | bytes32 |                    The market factory in bytes.                     |
 
 **Returns:**<br />
-ot — address of the new OT token.<br />
-xyt — address of the new YT token.<br />
-amountTokenMinted — amount of LP tokens minted.
+inTotalAmount — the total input amount used in the trade.
 
 <br />
 
 ### `redeemLpInterests`
-Tokenize the underlying asset into OT and YT for a yield contract.
+Redeem the LP interests generated from the market LP tokens.
 ___
-```sol
+```solidity
 function redeemLpInterests(address market, address user) external returns (uint256 interests);
 ```
 
-|     Parameter      |  Type   |                   Description                   |
-| :----------------: | :-----: | :---------------------------------------------: |
-|     `forgeId`      | bytes32 |             The forge ID in bytes.              |
-| `underlyingAsset`  | address |      The address of the underlying token.       |
-|      `expiry`      | uint256 | The expiry of the yield contract in epoch time. |
-| `amountToTokenize` | uint256 |     Amount of underlying asset to tokenize.     |
-|        `to`        | address |      The address to send the OT and YT to.      |
+| Parameter |  Type   |        Description         |
+| :-------: | :-----: | :------------------------: |
+| `market`  | address | The address of the market. |
+|  `user`   | address |  The address of the user.  |
 
 **Returns:**<br />
-ot — address of the new OT token.<br />
-xyt — address of the new YT token.<br />
-amountTokenMinted — amount of LP tokens minted.
+interests — amount of interests redeemed.

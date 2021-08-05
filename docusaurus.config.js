@@ -1,5 +1,3 @@
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const math = require('remark-math');
 const katex = require('rehype-katex');
 
@@ -8,7 +6,7 @@ module.exports = {
   title: 'Pendle Documentation',
   tagline: 'Liberating Future Yield',
   url: 'https://pendle.finance/',
-  baseUrl: '/',
+  baseUrl: '/documentation/',
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'ignore',
   favicon: 'img/favicon.ico',
@@ -127,10 +125,6 @@ module.exports = {
         },
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Pendle Finance`,
-    },
-    prism: {      
-      theme: lightCodeTheme,
-      darkTheme: darkCodeTheme,
     },
   },
   presets: [

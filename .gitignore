@@ -50,5 +50,6 @@ report
 
 # Environment
 .env
+.docusaurus
 .vscode
 typechain
