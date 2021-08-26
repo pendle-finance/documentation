@@ -28,7 +28,6 @@ sidebar_position: 1
 ### `PendleCompoundYieldContractDeployer`
 `0xA023FfA56e5672FDB87499144c96D481e6Aa55ce`
 
-
 ### `PendleAaveV2YieldContractDeployer`
 `0x2Ae9bCDF80871F5BA4bd591Bb07eB690951B3b93`
 
@@ -43,3 +42,39 @@ sidebar_position: 1
 
 ### `PendleCompoundLiquidityMining`
 `0x5B1C59Eb6872f88a92469751a034B9B5ADA9A73F`
+
+### `PendleLiquidityMiningBaseV2`
+`0x309d8Cf8f7C3340b50ff0ef457075A3c5792203f`
+
+### `PendleRewardManagerSushiswapSimple`
+`0x5f183210d58EBA0812a2c33888786E7028B4E687`
+
+### `PendleSushiswapSimpleYieldContractDeployer`
+`0x3714e5d5a32fDC16e3e6FEE6788AFC3Ac9Eb5762`
+
+### `PendleSushiswapSimpleForge`
+`0x6B0e6B4C0ee4b6460E5CD35A3625a172FE9d3930`
+
+### `PendleRewardManagerSushiswapComplex`
+`0x831Ab3253170EcED5C4Eef67606cCA1f6699fd68`
+
+### `PendleSushiswapComplexYieldContractDeployer`
+`0x2AB81E127c8f4df9F39ee639d09A35dED94171f0`
+
+### `PendleSushiswapComplexForge`
+`0xA71bdADD4AaBee6c5005aaAbAC0Ddd27a6657251`
+
+### `PendleRewardManagerCompoundV2`
+`0xbbEF00df1D8800877fa27D9726e5CF0d27B2A99a`
+
+### `PendleCompoundV2YieldContractDeployer`
+`0xf6943b98e69b59cCb3e18Bc261493af3E901B2aB`
+
+### `PendleCompoundV2Forge`
+`0x65c97DDca593dA3df529798B2fa6865C9CcD0035`
+
+### `PendleGenericMarketFactory`
+`0xc02F1C34CdDe6D5b940a31B286A987E905ec5E8D`
+
+### `PendleGenericLiquidityMining`
+`0xA78029ab5235B9A83EC45eD036042Db26c6E4300`

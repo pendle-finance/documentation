@@ -101,13 +101,13 @@ event Exit(
 );
 ```
 
-|   Parameter    |      Type       |                   Description                    |
-| :------------: | :-------------: | :----------------------------------------------: |
-|    `sender`    | indexed address |         The user who removed liquidity.          |
-| `token0Amount` |     uint256     | The amount of token0 (xyt) returned to the user. |
-| `token1Amount` |     uint256     |    The amount of token1 returned to the user.    |
-|    `market`    |     address     |               The market address.                |
-|  `exactOutLp`  |     address     |              The exact LP removed.               |
+|   Parameter    |  Type   |                   Description                    |
+| :------------: | :-----: | :----------------------------------------------: |
+|    `sender`    | address |         The user who removed liquidity.          |
+| `token0Amount` | uint256 | The amount of token0 (xyt) returned to the user. |
+| `token1Amount` | uint256 |    The amount of token1 returned to the user.    |
+|    `market`    | address |               The market address.                |
+|  `exactOutLp`  | address |              The exact LP removed.               |
 
 Signature: `0x3af46289ed754c6821a8849534b8412a33bcd8387cb986f39e7e9937fb251cde`
 

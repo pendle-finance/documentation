@@ -38,6 +38,9 @@ module.exports = {
   ],
   sidebarIntegration: [
     'integration/intro',
+    'integration/tokenizing-yield-tokens',
+    'integration/performing-a-swap',
+    'integration/provisioning-liquidity',
   ],
   sidebarAddresses: [
     'addresses/mainnet',
