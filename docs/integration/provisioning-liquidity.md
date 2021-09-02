@@ -43,6 +43,16 @@ constructor(IPendleRouter _pendleRouter) {
 }
 ```
 
+## Things to note
+
+Before creating a new Market, it is recommended that an external price source is used to determine the ratio to bootstrap the Market.
+
+Your smart contract should also:
+
+1. Have enough ETH / tokens when adding liquidity.
+2. Be able to receive ETH removing liquidity.
+3. Granted approval to the router when adding or removing token liquidity.
+
 ## Market Creation
 
 You may have a case where you may be instantiating a new market for a YT/Token pair. This can be done by calling the router's [createMarket](../reference/contracts/IPendleRouter.md#createmarket) function. Let us assume two examples where we create a Market then [bootstrap liquidity](../reference/contracts/IPendleRouter.md#bootstrapmarket), and another where we add liquidity to an existing market.

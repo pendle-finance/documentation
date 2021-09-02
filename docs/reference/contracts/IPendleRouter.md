@@ -140,7 +140,7 @@ IWETH — WETH token reference.
 ### Forge Functions
 
 ### `newYieldContracts`
-Gets a reference of the WETH9 token contract address.
+Tokenizes the yield-bearing asset into YT and OT.
 ___
 ```solidity
 function newYieldContracts(
@@ -170,7 +170,7 @@ function redeemAfterExpiry(
     bytes32 forgeId,
     address underlyingAsset,
     uint256 expiry
-) external returns (address ot, address xyt);
+) external returns (uint256 redeemedAmount);
 ```
 
 |     Parameter     |  Type   |                   Description                   |
@@ -233,7 +233,7 @@ redeemedAmount — amount that was redeemed.
 <br />
 
 ### `renewYield`
-Renews his yield contract by burning the old OT and YT tokens, while mining new OT and YT tokens without having to remove his underlying asset.
+Renews this yield contract by burning the old OT and YT tokens, while mining new OT and YT tokens without having to remove his underlying asset.
 ___
 ```solidity
 function renewYield(
