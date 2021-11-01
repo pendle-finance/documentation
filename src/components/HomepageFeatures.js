@@ -1,48 +1,66 @@
 import React from 'react';
+import Link from '@docusaurus/Link';
 import clsx from 'clsx';
 import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
   {
-    title: 'Accessibility',
-    Svg: require('../../static/img/undraw_docusaurus_mountain.svg').default,
+    title: 'Learn about Pendle',
+    Svg: require('../../static/img/logo.svg').default,
     description: (
       <>
-        Pendle aims to support numerous protocols and assets, allowing you holistic and effortless management of yield on a single platform.
+        All you need to know to get started on your Pendle journey
       </>
     ),
+    url: '/documentation/docs/information/intro',
   },
   {
-    title: 'Flexibility',
-    Svg: require('../../static/img/undraw_docusaurus_tree.svg').default,
+    title: 'Build on top of Pendle',
+    Svg: require('../../static/img/database.svg').default,
     description: (
       <>
-        You own your capital. On Pendle, you can deposit or withdraw as you please, without having to wait for contract maturation.
+        Build DApps on top of the Pendle ecosystem
       </>
     ),
+    url: '/documentation/docs/guides/intro',
   },
   {
-    title: 'Fully On-Chain',
-    Svg: require('../../static/img/undraw_docusaurus_react.svg').default,
+    title: 'Contract reference',
+    Svg: require('../../static/img/contracts.svg').default,
     description: (
       <>
-        All transactions are handled by smart contracts and are verifiable. This means transparency and honesty between Pendle and you.
+        Detailed documentation on the smart contract functions
       </>
     ),
+    url: '/documentation/docs/reference/intro',
+  },
+  {
+    title: 'List of addresses',
+    Svg: require('../../static/img/addresses.svg').default,
+    description: (
+      <>
+        The necessary Pendle contract addresses across the different chains
+      </>
+    ),
+    url: '/documentation/docs/addresses/mainnet',
   },
 ];
 
-function Feature({Svg, title, description}) {
+function Feature({Svg, title, description, url}) {
   return (
-    <div className={clsx('col col--4')}>
-      <div className="text--center">
-        <Svg className={styles.featureSvg} alt={title} />
+    <Link
+    className="button button--primary col col--4 item shadow--tl"
+    to={url}>
+      <div>
+        <div className="text--center">
+          <Svg className={styles.featureSvg} alt={title} />
+        </div>
+        <div className={`text--left padding-left--xxl ${styles.featureTextColor}`}>
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </div>
       </div>
-      <div className="text--center padding-horiz--md">
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </div>
-    </div>
+    </Link>
   );
 }
 
@@ -50,7 +68,7 @@ export default function HomepageFeatures() {
   return (
     <section className={styles.features}>
       <div className="container">
-        <div className="row">
+        <div className={`row ${styles.featureRow}`}>
           {FeatureList.map((props, idx) => (
             <Feature key={idx} {...props} />
           ))}

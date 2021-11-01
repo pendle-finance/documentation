@@ -6,6 +6,11 @@
  */
 
 /* You can override the default Infima variables here. */
+@font-face {
+  font-family: "Kyrial Sans Pro";
+  src: url('/static/KyrialSansPro-Regular.ttf') format('truetype');
+}
+
 :root {
   --ifm-color-primary: #1e4480;
   --ifm-color-primary-dark: #1b3d73;
@@ -15,6 +20,8 @@
   --ifm-color-primary-lighter: #4b6999;
   --ifm-color-primary-lightest: #627ca6;
   --ifm-code-font-size: 95%;
+  --ifm-font-family-monospace: "Kyrial Sans Pro";
+  --ifm-font-family-base: "Kyrial Sans Pro";
 }
 
 .docusaurus-highlight-code-line {
@@ -43,7 +50,42 @@ figcaption {
   text-align: center;
 }
 
-.header--background {
-  background-image: url('../../static/img/background.jpeg');
+.hero__title {
+  text-align: left;
+}
+
+.hero__subtitle {
+  text-align: justify;
+  width: 50%
+}
+
+.main--landing {
+  background-image: url('../../static/img/heroBanner.png');
   background-size: cover;
+  /* position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px; */
+  opacity: 0.8;
+}
+
+.button {
+  white-space: normal;
+}
+
+.padding-left--xxl {
+  padding-left: 6rem !important;
+}
+
+.row {
+  column-gap: 50px;
+  row-gap: 50px;
+  justify-content: center;
+}
+
+.row .col.col--4 {
+  background-color: #f2f6fa;
+  border-radius: 30px;
+  padding: 30px 30px 30px 30px;
 }

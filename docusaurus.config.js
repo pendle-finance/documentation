@@ -4,7 +4,7 @@ const katex = require('rehype-katex');
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 module.exports = {
   title: 'Pendle Documentation',
-  tagline: 'Liberating Future Yield',
+  tagline: 'Pendle is a protocol that liberates future yield. It enables the tokenization and trading of future yield on a novel AMM designed to support assets with time decay.',
   url: 'https://pendle.finance/',
   baseUrl: '/documentation/',
   onBrokenLinks: 'warn',
@@ -13,6 +13,10 @@ module.exports = {
   organizationName: 'pendle-finance', // Usually your GitHub org/user name.
   projectName: 'pendle-core', // Usually your repo name.
   themeConfig: {
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: true,
+    },
     prism: {
       additionalLanguages: ["solidity"],
     },
@@ -22,10 +26,9 @@ module.exports = {
       appId: "8YJ1OICVXV",
     },
     navbar: {
-      title: 'Pendle Finance',
       logo: {
         alt: 'My Site Logo',
-        src: 'img/logo.png',
+        src: 'img/logo-title.png',
       },
       items: [
         {
@@ -36,9 +39,9 @@ module.exports = {
         },
         {
           type: 'doc',
-          docId: 'integration/intro',
+          docId: 'guides/intro',
           position: 'left',
-          label: 'Integration',
+          label: 'Guides',
         },
         {
           type: 'doc',
@@ -50,7 +53,7 @@ module.exports = {
           type: 'doc',
           docId: 'reference/intro',
           position: 'left',
-          label: 'Reference',
+          label: 'References',
         },
         {
           type: 'doc',
@@ -66,31 +69,23 @@ module.exports = {
       ],
     },
     footer: {
-      style: 'dark',
+      style: 'light',
       links: [
         {
-          title: 'Essentials',
+          title: 'Pages',
           items: [
             {
-              label: 'Getting Started',
-              to: '/docs/information/getting-started',
+              label: 'Website',
+              href: 'https://pendle.finance',
             },
             {
-              label: 'Core Concepts',
-              to: '/docs/information/core-concepts',
-            },
-            {
-              label: 'Addresses',
-              to: '/docs/addresses/mainnet',
-            },
-            {
-              label: 'Contract Reference',
-              to: '/docs/reference/contracts/IPendleRouter',
+              label: 'App',
+              href: 'https://app.pendle.finance',
             },
           ],
         },
         {
-          title: 'Community',
+          title: 'Socials',
           items: [
             {
               label: 'Discord',
@@ -121,9 +116,18 @@ module.exports = {
               label: 'Media Kit',
               href: 'https://pendle.finance/Pendle_Media_Kit.zip',
             },
+            {
+              label: 'Audits',
+              href: 'https://github.com/pendle-finance/pendle-core/tree/master/docs/audits'
+            }
           ],
         },
       ],
+      logo: {
+        alt: 'Pendle Finance Logo',
+        src: 'img/logo.svg',
+        href: 'https://pendle.finance',
+      },
       copyright: `Copyright © ${new Date().getFullYear()} Pendle Finance`,
     },
   },

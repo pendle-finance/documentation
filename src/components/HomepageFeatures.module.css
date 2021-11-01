@@ -6,6 +6,15 @@
 }
 
 .featureSvg {
-  height: 200px;
-  width: 200px;
+  float: left;
+  height: 80px;
+  width: 80px;
+}
+
+.featureTextColor {
+  color: #152e51;
+}
+
+.featureRow {
+  justify-content: left;
 }

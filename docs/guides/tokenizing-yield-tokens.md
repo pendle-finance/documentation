@@ -243,24 +243,24 @@ contract Examples {
     }
 
     function renewYieldContract(uint256 oldExpiry, uint256 newExpiry) public returns (
-            uint256 redeemedAmount,
-            uint256 amountRenewed,
-            address ot,
-            address xyt,
-            uint256 amountTokenMinted
-        ) {
-            // Transfer the whole OT balance to this contract to be used for renewal
-            uint256 balance = ot.balanceOf(msg.sender);
-            require(ot.transferFrom(msg.sender, (address(this), balance), 'failed token transfer'));
-            require(ot.approve(address(pendleRouter), balance), 'approve failed');
+        uint256 redeemedAmount,
+        uint256 amountRenewed,
+        address ot,
+        address xyt,
+        uint256 amountTokenMinted
+    ) {
+        // Transfer the whole OT balance to this contract to be used for renewal
+        uint256 balance = ot.balanceOf(msg.sender);
+        require(ot.transferFrom(msg.sender, (address(this), balance), 'failed token transfer'));
+        require(ot.approve(address(pendleRouter), balance), 'approve failed');
 
-            (redeemedAmount, amountRenewed, ot, xyt, amountTokenMinted) = pendleRouter.renewYield(
-                FORGE_ID,
-                oldExpiry,
-                address(AUSDC),
-                newExpiry,
-                1
-            );
+        (redeemedAmount, amountRenewed, ot, xyt, amountTokenMinted) = pendleRouter.renewYield(
+            FORGE_ID,
+            oldExpiry,
+            address(AUSDC),
+            newExpiry,
+            1
+        );
         }
 }
 ```
