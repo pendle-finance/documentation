@@ -5,7 +5,7 @@ import styles from './HomepageFeatures.module.css';
 
 const FeatureList = [
   {
-    title: 'Learn about Pendle',
+    title: 'Learn about us',
     Svg: require('../../static/img/logo.svg').default,
     description: (
       <>
@@ -29,7 +29,7 @@ const FeatureList = [
     Svg: require('../../static/img/contracts.svg').default,
     description: (
       <>
-        Detailed documentation on the smart contract functions
+        Detailed documentation on Pendle's contracts
       </>
     ),
     url: '/documentation/docs/reference/intro',
@@ -49,13 +49,13 @@ const FeatureList = [
 function Feature({Svg, title, description, url}) {
   return (
     <Link
-    className="button button--primary col col--4 item shadow--tl"
+    className="button col col--4 item shadow--md"
     to={url}>
       <div>
         <div className="text--center">
           <Svg className={styles.featureSvg} alt={title} />
         </div>
-        <div className={`text--left padding-left--xxl ${styles.featureTextColor}`}>
+        <div className={`text--left padding-left--xl ${styles.featureText}`}>
           <h3>{title}</h3>
           <p>{description}</p>
         </div>

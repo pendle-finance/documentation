@@ -60,7 +60,7 @@ The Pendle curve shifting algorithm closely resembles the concept of option pric
 The motivation for the constants chosen for the above formula is the fact that the price loses about 1/3 of its original value (at the beginning of the contract period) when time to maturity reaches 50%.
 
 <figure>
-  <img src="/img/core-concepts/pendle-amm-2.png" alt="Graph" />
+  <img src="/documentation/img/core-concepts/pendle-amm-2.png" alt="Graph" />
   <figcaption>The function of price (fraction) w.r.t. time remaining to maturity</figcaption>
 </figure>
 

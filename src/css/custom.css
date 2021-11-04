@@ -45,6 +45,10 @@ img {
   margin: 0 auto;
 }
 
+h3 {
+  margin: 0;
+}
+
 figcaption {
   color: grey;
   text-align: center;
@@ -60,32 +64,31 @@ figcaption {
 }
 
 .main--landing {
-  background-image: url('../../static/img/heroBanner.png');
+  background-image: url('../../static/img/heroBanner.jpeg');
   background-size: cover;
-  /* position: absolute;
-  top: 0px;
-  right: 0px;
-  bottom: 0px;
-  left: 0px; */
-  opacity: 0.8;
+  opacity: 1;
 }
 
 .button {
   white-space: normal;
 }
 
-.padding-left--xxl {
-  padding-left: 6rem !important;
+.button p {
+  font-weight: normal;
+}
+
+.padding-left--xl {
+  padding-left: 5rem !important;
 }
 
 .row {
   column-gap: 50px;
-  row-gap: 50px;
+  row-gap: 40px;
   justify-content: center;
 }
 
 .row .col.col--4 {
   background-color: #f2f6fa;
   border-radius: 30px;
-  padding: 30px 30px 30px 30px;
+  padding: 30px 30px 10px 30px;
 }

@@ -7,12 +7,15 @@
 
 .featureSvg {
   float: left;
-  height: 80px;
-  width: 80px;
+  vertical-align: middle;
+  height: 50px;
+  width: 50px;
+  margin-top: 10px;
 }
 
-.featureTextColor {
+.featureText {
   color: #152e51;
+  font-size: 1rem;
 }
 
 .featureRow {

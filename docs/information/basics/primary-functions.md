@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Basic Functions
+# Primary Functions
 
 This section covers the basic functions on Pendle with elaboration on how each of the features enables different exposures.
 
