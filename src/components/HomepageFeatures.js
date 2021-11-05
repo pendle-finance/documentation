@@ -12,7 +12,7 @@ const FeatureList = [
         All you need to know to get started on your Pendle journey
       </>
     ),
-    url: '/documentation/docs/information/intro',
+    url: '/docs/information/intro',
   },
   {
     title: 'Build on top of Pendle',
@@ -22,7 +22,7 @@ const FeatureList = [
         Build DApps on top of the Pendle ecosystem
       </>
     ),
-    url: '/documentation/docs/guides/intro',
+    url: '/docs/guides/intro',
   },
   {
     title: 'Contract reference',
@@ -32,7 +32,7 @@ const FeatureList = [
         Detailed documentation on Pendle's contracts
       </>
     ),
-    url: '/documentation/docs/reference/intro',
+    url: '/docs/reference/intro',
   },
   {
     title: 'List of addresses',
@@ -42,7 +42,7 @@ const FeatureList = [
         The necessary Pendle contract addresses across the different chains
       </>
     ),
-    url: '/documentation/docs/addresses/mainnet',
+    url: '/docs/addresses/mainnet',
   },
 ];
 
