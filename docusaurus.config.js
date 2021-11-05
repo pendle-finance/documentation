@@ -140,8 +140,6 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           remarkPlugins: [math],
           rehypePlugins: [katex],
-          editUrl:
-            'https://github.com/pendle-finance/documentation/edit/master/website/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
