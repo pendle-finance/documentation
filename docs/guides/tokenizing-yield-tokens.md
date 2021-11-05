@@ -35,7 +35,7 @@ As this is just an example and for simplicity, let us hardcode the yield-bearing
 
 ```solidity
 IERC20 public constant AUSDC = 0xBcca60bB61934080951369a648Fb03DF4F96263C;
-bytes32 public constant FORGE_ID = 0x41617665000000000000000000000000000000000000000000000000000000;
+bytes32 public constant FORGE_ID = 0x41617665;
 
 constructor(IPendleRouter _pendleRouter) {
     pendleRouter = _pendleRouter;
@@ -182,7 +182,7 @@ import '@openzeppelin/contracts/token/ERC20/IERC20.sol';
 contract Examples {
     IPendleRouter public immutable pendleRouter;
     IERC20 public constant AUSDC = 0xBcca60bB61934080951369a648Fb03DF4F96263C;
-    bytes32 public constant FORGE_ID = 0x41617665000000000000000000000000000000000000000000000000000000;
+    bytes32 public constant FORGE_ID = 0x41617665;
 
     constructor(IPendleRouter _pendleRouter) {
         pendleRouter = _pendleRouter;
