@@ -93,3 +93,26 @@ figcaption {
   border-radius: 30px;
   padding: 30px 30px 10px 30px;
 }
+
+@media screen and (max-width: 800px) {
+  footer {
+    font-size: 1.5rem;
+  }
+
+  .footer__title {
+    font-size: 1.5rem;
+  }
+
+  .footer__col {
+    text-align: center;
+  }
+
+  .hero__subtitle {
+    text-align: left;
+    width: 100%
+  }
+
+  .hero__title {
+    font-size: 2rem;
+  }
+}
