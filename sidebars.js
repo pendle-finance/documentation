@@ -14,6 +14,7 @@ module.exports = {
   sidebarMain: [
     'information/intro',
     'information/faq',
+    'information/cheatsheets',
     {
       type: 'category',
       label: 'The Basics',
@@ -56,7 +57,8 @@ module.exports = {
     'guides/provisioning-liquidity',
   ],
   sidebarAddresses: [
-    'addresses/mainnet',
+    'addresses/ethereum',
+    'addresses/avalanche',
     'addresses/kovan',
   ],
   sidebarReference: [

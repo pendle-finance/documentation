@@ -42,7 +42,7 @@ const FeatureList = [
         The necessary Pendle contract addresses across the different chains
       </>
     ),
-    url: '/docs/addresses/mainnet',
+    url: '/docs/addresses/avalanche',
   },
 ];
 

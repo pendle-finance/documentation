@@ -46,7 +46,7 @@ module.exports = {
         },
         {
           type: 'doc',
-          docId: 'addresses/mainnet',
+          docId: 'addresses/avalanche',
           position: 'left',
           label: 'Addresses',
         },

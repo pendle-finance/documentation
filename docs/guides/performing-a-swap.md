@@ -57,7 +57,7 @@ Your smart contract should also:
 
 The Market Factory ID is a unique ID in bytes that identifies the market factory contract, and is used frequently to find information such as Market or YT/OT addresses. One unique ID maps to one factory address. The ID is simply generated from ASCII to its hexadecimal counterpart. e.g. For the Aave Market Factory ID, we take the ASCII "Aave" and convert it to hex, which results to `0x41617665`. In bytes32, this would be `0x41617665000000000000000000000000000000000000000000000000000000`.
 
-To find the actual IDs of deployed Market Factories, you can check the deployed market factory contracts at [Addresses](../addresses/mainnet.md), as each market factory will have a public immutable variable called `marketFactoryId`.
+To find the actual IDs of deployed Market Factories, you can check the deployed market factory contracts at [Addresses](../addresses/ethereum.md), as each market factory will have a public immutable variable called `marketFactoryId`.
 
 ## Executing the Swap - Examples
 
