@@ -17,3 +17,7 @@ In essence, (Pe,P) achieves 3 objectives:
 * Reward users that contribute the most to the protocol
 
 Refer to [this piece](https://medium.com/pendle/pe-p-tutorial-2d49f9c0e2aa) on how to execute (Pe,P).
+
+:::note
+The equivalent on Avalanche would be (Pa,P), using PENDLE/AVAX pool.
+:::
