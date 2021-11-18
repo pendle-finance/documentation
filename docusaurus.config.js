@@ -22,9 +22,9 @@ module.exports = {
       additionalLanguages: ["solidity"],
     },
     algolia: {
-      apiKey: "eb7e0ba752b13b50b0836bc9f7c72af1",
-      indexName: "pendle-docs",
-      appId: "8YJ1OICVXV",
+      apiKey: "81e1c66e67990e589a57e783a401dbb3",
+      indexName: "pendle",
+      appId: "BH4D9OD16A",
     },
     navbar: {
       logo: {
