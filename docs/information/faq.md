@@ -101,7 +101,7 @@ Time-dependent impermanent loss describes the phenomenon that occurs due to the 
 
 Impermanent loss is the difference between holding tokens in an AMM and holding them in a wallet. It occurs when the price of tokens inside an AMM diverges in any direction. The greater the divergence, the greater the impermanent loss.
 
-As the value of YT gradually depreciates to 0, it can be described as time-decaying. Not taking into account price volatility due to market movements, the change in total liquidity value for the LP would be -100% if the LP is to stake through the entirety of the contract duration.
+As the value of YT gradually depreciates to 0, it can be described as time-decaying. Not taking into account price volatility due to market movements, there would not be any impermanent loss for the LP if the LP is to stake through the entirety of the contract duration.
 
 
 ## Security
