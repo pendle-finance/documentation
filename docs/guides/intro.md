@@ -19,4 +19,4 @@ The section on [liquidity provision](provisioning-liquidity.md) will guide liqui
 Generally, the contracts of interest are the following:
 
 * Router contract for tokenization, swapping, querying token rates, and liquidity provision.
-* Data contract for fetching specific forge, market, or YT/OT token data, such as fees, forge or market IDs, and canonical YT/OT addresses.
+* Data contract for fetching specific forge, market, or YT/OT data, such as fees, forge or market IDs, and canonical YT/OT addresses.

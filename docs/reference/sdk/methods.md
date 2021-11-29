@@ -4,6 +4,72 @@ sidebar_position: 2
 
 # Methods
 
+## Comptroller
+
+### Instantiation
+
+```ts
+import { Comptroller } from '@pendle/sdk';
+
+const address: string = '0x...';
+const protocol: string = 'compound';
+
+const comptroller: Comptroller = new Comptroller(address, protocol);
+```
+
+### `getSupplierAprs`
+**Comptroller.getSupplierAprs( qiOrCToken: [Token](#token) ) ⇒ Promise<[AprInfo](types#aprinfo)[]>**<br />
+&emsp;Fetch the APR of a given yield bearing protocol token.
+
+## Market
+
+### Instantiation
+
+```ts
+import { Market } from '@pendle/sdk';
+
+const address: string = '0x...';
+
+const market: Market = Market.find(address);
+```
+
+### `find`
+**Market.find( address: string, chainId?: number ) ⇒ Market**<br />
+&emsp;Find the Market given the address and creates an instance.
+
+
+## PendleMarket
+
+### Instantiation
+
+```ts
+import { PendleMarket } from '@pendle/sdk';
+
+const address: string = '0x...';
+
+const pendleMarket: PendleMarket = PendleMarket.find(address);
+```
+
+### `find`
+**PendleMarket.find( address: string, chainId?: number ) ⇒ PendleMarket**<br />
+&emsp;Find the PendleMarket given the address and creates an instance.
+
+### `yieldContract`
+**PendleMarket.yieldContract( chainId?: number ) ⇒ [YieldContract](#yieldcontract-1)**<br />
+&emsp;Find the PendleMarket given the address and creates an instance.
+
+### `fetchInterests`
+**PendleMarket.methods( signer ).fetchInterests( userAddress: string ) ⇒ Promise<YtOrMarketInterest[]>**<br />
+&emsp;Fetches the accrued interests from the YT in the market for a user.
+
+### `getSwapTransactions`
+**PendleMarket.methods( signer ).getSwapTransactions( query: [PendleAmmQuery](types#pendleammquery) ) ⇒ Promise<[TRANSACTION](types#transaction)[]>**<br />
+&emsp;Fetches the swap transactions of the signer in the market.
+
+### `getLiquidityTransactions`
+**PendleMarket.methods( signer ).getLiquidityTransactions( query: [PendleAmmQuery](types#pendleammquery) ) ⇒ Promise<[TRANSACTION](types#transaction)[]>**<br />
+&emsp;Fetches the add/remove liquidity transactions of the signer in the market.
+
 ## Token
 
 ### Instantiation
@@ -18,7 +84,7 @@ const token: Token = Token.find(address);
 
 ### `find`
 **Token.find( address: string [ , chainId: number ,  [, expiry: number ] ) ⇒ Token**<br />
-&emsp;Find the Token and creates an instance.
+&emsp;Find the Token given the params and creates an instance.
 
 ## TokenAmount
 
@@ -116,4 +182,4 @@ const yt: Yt = Yt.find(ytAddress, chainId);
 
 ### `fetchInterests`
 **Yt.methods( signer ).fetchInterests( userAddress: string ) ⇒ Promise<YtOrMarketInterest[]>**<br />
-&emsp;Fetches the interest rate from the yield token for a user.
+&emsp;Fetches the accrued interests from the YT for a user.

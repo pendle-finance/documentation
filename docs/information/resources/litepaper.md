@@ -30,15 +30,15 @@ To allow owners to give up rights to their yield for a fixed period of time, use
 
 #### Future Yield Token (YT)
 
-Each YT token represents ownership of the future yield of the locked aLINK for a preset number of blocks. YT can be traded in the AMM, and the holder of the token receives aLINK yield as distributed by the base lending platform.
+Each YT represents ownership of the future yield of the locked aLINK for a preset number of blocks. YT can be traded in the AMM, and the holder of the token receives aLINK yield as distributed by the base lending platform.
 
-At expiry, YT tokens have a value of zero. The holder of OT can then roll his position into a new YT expiry date or redeem the underlying asset.
+At expiry, YT have a value of zero. After expiry, only the OT is needed to redeem the underlying asset.
 
-YT tokens differ from each other according to underlying asset and expiry date. Tokens with the same underlying asset and expiry are fungible. 
+YT differ from each other according to underlying asset and expiry date. Tokens with the same underlying asset and expiry are fungible. 
 
 #### Ownership Token (OT)
 
-OT tokens represent the underlying staked asset and are transferable. Only wallets holding OT and its corresponding YT token can withdraw the underlying asset deposited.
+OT represent the underlying staked asset and are transferable. Only wallets holding OT and its corresponding YT can withdraw the underlying asset deposited.
 
 ### Automated Market Maker (AMM) for Tokens with Time-Decay
 
@@ -71,8 +71,8 @@ Essentially, the overlapping of liquidity pools enables a constant yield curve f
 
 1. User mints YT and OT through Pendle by depositing aToken; OT (ownership token) and YT (future yield token) are minted. OT represents ownership of the underlying aToken, and YT represents the future yield of the underlying aToken.
 2. YT Minter can sell the YT or add to the YT liquidity pool in exchange for LP tokens to earn liquidity incentives.
-3. YT tokens can be purchased or sold, and after the change of ownership has occurred, the entitlement of subsequent interest revenue tied to the underlying aToken will be changed to the new YT owner.
-4. YT token can be traded until its expiry. YT has no value upon expiry. The OT holder can choose to roll forward to a new expiry and repeat the process, or redeem the underlying
+3. YT can be purchased or sold, and after the change of ownership has occurred, the entitlement of subsequent interest revenue tied to the underlying aToken will be changed to the new YT owner.
+4. YT can be traded until its expiry. YT has no value upon expiry. The OT holder can choose to roll forward to a new expiry and repeat the process, or redeem the underlying
 
 #### Redeeming the Underlying Asset
 
@@ -84,7 +84,7 @@ Essentially, the overlapping of liquidity pools enables a constant yield curve f
 
 ### Increased Exposure
 
-If a trader holds the view that lending rates on LINK will continue to increase, he can simply buy YT tokens on Pendle. The value of YT increases if interest rates rise, and he can choose to sell at any time or hold YT until expiry. He gains exposure in a more capital efficient manner as compared to buying and depositing the underlying asset.
+If a trader holds the view that lending rates on LINK will continue to increase, he can simply buy YT on Pendle. The value of YT increases if interest rates rise, and he can choose to sell at any time or hold YT until expiry. He gains exposure in a more capital efficient manner as compared to buying and depositing the underlying asset.
 
 Example:
 
@@ -96,7 +96,7 @@ Disregarding time value of money, a trader can purchase exposure to 2 months of 
 
 An upcoming staking event increases demand for LINK, causing lending rates to increase sharply. Lender A holding Aave's aLINK anticipates that demand will begin to fall post event, leading to a decrease in rates in 2 week's time. He can act on this view and lock in his yields with Pendle. 
 
-To do this, he deposits his aLINK, and in turn, receives both OT and YT. Next, he sells his YT token (Uniswap style) on Pendle and receives USDT in return for giving up ownership of his future aLINK yield. Lender A can now repeat the process to lock in more yield or deploy his funds elsewhere. 
+To do this, he deposits his aLINK, and in turn, receives both OT and YT. Next, he sells his YT (Uniswap style) on Pendle and receives USDT in return for giving up ownership of his future aLINK yield. Lender A can now repeat the process to lock in more yield or deploy his funds elsewhere. 
 
 ### Interest Rate Oracle
 
@@ -104,7 +104,7 @@ Using the price of YT traded and the time left to maturity, we can derive the im
 
 ### Spread Trading
 
-As the forward yield curve is created, traders can express their views on the market by trading YT tokens with different maturities or different underlying assets. Pendle can be involved by creating products that provide 1-click exposure to such structures. For future development, it is possible for fees to be charged on such products and funnelled to the treasury to be managed by PENDLE holders (see below).
+As the forward yield curve is created, traders can express their views on the market by trading YT with different maturities or different underlying assets. Pendle can be involved by creating products that provide 1-click exposure to such structures. For future development, it is possible for fees to be charged on such products and funnelled to the treasury to be managed by PENDLE holders (see below).
 
 ### On-Chain Yield Strategies
 

@@ -157,8 +157,8 @@ function newYieldContracts(
 |     `expiry`      | uint256 | The expiry of the yield contract in epoch time. |
 
 **Returns:**<br />
-ot — address of the OT token created.<br />
-xyt — address of the YT token created.
+ot — address of the OT created.<br />
+xyt — address of the YT created.
 
 <br />
 
@@ -233,7 +233,7 @@ redeemedAmount — amount that was redeemed.
 <br />
 
 ### `renewYield`
-Renews this yield contract by burning the old OT and YT tokens, while mining new OT and YT tokens without having to remove his underlying asset.
+Renews this yield contract by burning the old OT and YT, while mining new OT and YT without having to remove his underlying asset.
 ___
 ```solidity
 function renewYield(
@@ -264,8 +264,8 @@ function renewYield(
 **Returns:**<br />
 redeemedAmount — amount that was redeemed.<br />
 amountRenewed — amount that was renewed.<br />
-ot — address of the new OT token.<br />
-xyt — address of the new YT token.<br />
+ot — address of the new OT.<br />
+xyt — address of the new YT.<br />
 amountTokenMinted — amount of LP tokens minted.
 
 <br />
@@ -298,8 +298,8 @@ function tokenizeYield(
 |        `to`        | address |      The address to send the OT and YT to.      |
 
 **Returns:**<br />
-ot — address of the new OT token.<br />
-xyt — address of the new YT token.<br />
+ot — address of the new OT.<br />
+xyt — address of the new YT.<br />
 amountTokenMinted — amount of LP tokens minted.
 
 <br />
@@ -331,7 +331,7 @@ function addMarketLiquidityDual(
 |      Parameter       |  Type   |                                 Description                                 |
 | :------------------: | :-----: | :-------------------------------------------------------------------------: |
 |  `marketFactoryId`   | bytes32 |                       The market factory ID in bytes.                       |
-|        `xyt`         | address |                        The address of the YT token.                         |
+|        `xyt`         | address |                        The address of the YT.                         |
 |       `token`        | address |                       The address of the quote token.                       |
 |  `desiredXytAmount`  | uint256 |                Amount of YT to add liquidity to the market.                 |
 | `desiredTokenAmount` | uint256 |           Amount of quote tokens to add liquidity to the market.            |
@@ -362,7 +362,7 @@ function addMarketLiquiditySingle(
 |     Parameter     |  Type   |                         Description                          |
 | :---------------: | :-----: | :----------------------------------------------------------: |
 | `marketFactoryId` | bytes32 |               The market factory ID in bytes.                |
-|       `xyt`       | address |                 The address of the YT token.                 |
+|       `xyt`       | address |                 The address of the YT.                 |
 |      `token`      | address |               The address of the quote token.                |
 |     `forXyt`      |  bool   |     `true` if adding liquidity to YT, otherwise `false`.     |
 |  `exactInAsset`   | uint256 | Amount of YT or quote tokens to add liquidity to the market. |
@@ -390,7 +390,7 @@ function removeMarketLiquidityDual(
 |     Parameter     |  Type   |                              Description                              |
 | :---------------: | :-----: | :-------------------------------------------------------------------: |
 | `marketFactoryId` | bytes32 |                    The market factory ID in bytes.                    |
-|       `xyt`       | address |                     The address of the YT token.                      |
+|       `xyt`       | address |                     The address of the YT.                      |
 |      `token`      | address |                    The address of the quote token.                    |
 |    `exactInLp`    | uint256 | The exact amount of LP tokens provided to redeem YT and quote tokens. |
 |    `minOutXyt`    | uint256 |      The minimum expected amount of YT redeemed from the market.      |
@@ -419,7 +419,7 @@ function removeMarketLiquiditySingle(
 |     Parameter     |  Type   |                           Description                           |
 | :---------------: | :-----: | :-------------------------------------------------------------: |
 | `marketFactoryId` | bytes32 |                 The market factory ID in bytes.                 |
-|       `xyt`       | address |                  The address of the YT token.                   |
+|       `xyt`       | address |                  The address of the YT.                   |
 |      `token`      | address |                 The address of the quote token.                 |
 |     `forXyt`      |  bool   |     `true` if removing liquidity to YT, otherwise `false`.      |
 |    `exactInLp`    | uint256 |  Amount of exact LP tokens used to redeem YT and quote tokens.  |
@@ -446,7 +446,7 @@ function createMarket(
 |     Parameter     |  Type   |           Description           |
 | :---------------: | :-----: | :-----------------------------: |
 | `marketFactoryId` | bytes32 | The market factory ID in bytes. |
-|       `xyt`       | address |  The address of the YT token.   |
+|       `xyt`       | address |  The address of the YT.   |
 |      `token`      | address | The address of the quote token. |
 
 **Returns:**<br />
@@ -470,14 +470,14 @@ function bootstrapMarket(
 |        Parameter        |  Type   |              Description               |
 | :---------------------: | :-----: | :------------------------------------: |
 |    `marketFactoryId`    | bytes32 |    The market factory ID in bytes.     |
-|          `xyt`          | address |      The address of the YT token.      |
+|          `xyt`          | address |      The address of the YT.      |
 |         `token`         | address |    The address of the quote token.     |
 |  `initialXytLiquidity`  | uint256 |  Initial YT liquidity in the market.   |
 | `initialTokenLiquidity` | uint256 | Initial token liquidity in the market. |
 
 **Returns:**<br />
-ot — address of the new OT token.<br />
-xyt — address of the new YT token.<br />
+ot — address of the new OT.<br />
+xyt — address of the new YT.<br />
 amountTokenMinted — amount of LP tokens minted.
 
 <br />
