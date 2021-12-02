@@ -11,6 +11,16 @@
   src: url('/static/KyrialSansPro-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: "Inter";
+  src: url('/static/Inter-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Consolas";
+  src: url('/static/Consolas-Regular.ttf') format('truetype');
+}
+
 :root {
   --ifm-color-primary: #1e4480;
   --ifm-color-primary-dark: #1b3d73;
@@ -20,8 +30,9 @@
   --ifm-color-primary-lighter: #4b6999;
   --ifm-color-primary-lightest: #627ca6;
   --ifm-code-font-size: 95%;
-  --ifm-font-family-monospace: "Kyrial Sans Pro";
-  --ifm-font-family-base: "Kyrial Sans Pro";
+  --ifm-font-family-monospace: "Consolas";
+  --ifm-font-family-base: "Inter";
+  --ifm-font-family-headers: "Kyrial Sans Pro";
   --ifm-font-color-base: rgba(0, 41, 60, 0.9);
 }
 
@@ -33,12 +44,25 @@
 }
 
 html[data-theme='dark'] .docusaurus-highlight-code-line {
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: #0000004d;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--ifm-font-family-headers);
 }
 
 h3 code {
   background-color: transparent;
   color: #1E79C1;
+}
+
+code {
+  font-family: var(--ifm-font-family-monospace);
 }
 
 img {

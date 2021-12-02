@@ -13,6 +13,9 @@ sidebar_position: 2
 ### `PendleData`
 `0x94D7E5c48Ca9627001FACb04D1820C54dFf3032c`
 
+### `PendleWrapper`
+`0x91B7c55301c6cC44ce01BCE66dc0DFd176cF16BB`
+
 ### `PendleXJoeForge`
 `0x09131D750F3f7E646fBDce6Dd9699775fa0DaacA`
 

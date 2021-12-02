@@ -93,13 +93,46 @@ type MarketDetails = {
 };
 ```
 
-### `PairTokens`
+### `MarketReservesRaw`
 
 ```ts
-type PairTokens = { 
-	tokenA: string; 
-	tokenB: string;
-	_confirmNoDuplication: boolean;
+type MarketReservesRaw = {
+  xytBalance: BN;
+  xytWeight: BN;
+  tokenBalance: BN;
+  tokenWeight: BN;
+  currentBlock: BN;
+}
+```
+
+### `OtherMarketDetails`
+
+```ts
+type OtherMarketDetails = {
+  tokenReserves: TokenAmount[];
+  otherDetails: {
+    rates: TokenAmount[];
+    liquidity: CurrencyAmount;
+    totalSupplyLP: string;
+    otPrice?: CurrencyAmount;,
+    impliedDiscount?: string;
+  }
+}
+```
+
+```ts
+type MarketDetails = {
+  tokenReserves: TokenReserveDetails[];
+  otherDetails: { // from subgraph
+    dailyVolume: CurrencyAmount;
+    volume24hChange: string;
+    liquidity: CurrencyAmount;
+    liquidity24HChange: string;
+    swapFeeApr: string;
+    impliedYield: string;
+    underlyingYieldRate: number;
+    YTPrice: CurrencyAmount;
+  }
 };
 ```
 
