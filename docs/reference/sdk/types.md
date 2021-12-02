@@ -4,7 +4,6 @@ sidebar_position: 3
 
 # Types
 
-
 ### `AddDualLiquidityDetails`
 
 ```ts
@@ -60,18 +59,87 @@ type CurrencyAmount = {
 };
 ```
 
-### `ForgeQuery`
+### `DataAddLiqOT`
 
 ```ts
-type SubgraphQuery = {
-  page: number;
-  limit: number;
+type DataAddLiqOT = {
+  baseToken: string;
+  amountTokenDesired: string; // theoritical + slippage
+  amountTokenMin: string; // theoritical - slippage
+  deadline: number; // + 3hr
+  liqMiningAddr: string;
 };
+```
 
-interface ForgeQuery extends SubgraphQuery {
-  forgeId: string;
-  expiry: number;
-  underlyingTokenAddress: Address;
+### `DataAddLiqYT`
+
+```ts
+type DataAddLiqYT = {
+  baseToken: string;
+  amountTokenDesired: string; // theoritical + slippage
+  amountTokenMin: string; // theoritical - slippagef
+  marketFactoryId: string;
+  liqMiningAddr: string;
+};
+```
+
+### `DataAddLiqUniFork`
+
+```ts
+type DataAddLiqUniFork = {
+  tokenA: string;
+  tokenB: string;
+  amountADesired: string; // input
+  amountBDesired: string; // theoritical amount + slippage
+  amountAMin: string; // input
+  amountBMin: string; // theoritical amount - slippage
+  deadline: number; // timestamp + 3 hr
+  kyberPool: string;
+  kybervReserveRatioBounds: number[];
+};
+```
+### `DataAddLiqUniFork`
+
+```ts
+type DataAddLiqUniFork = {
+  tokenA: string;
+  tokenB: string;
+  amountADesired: string; // input
+  amountBDesired: string; // theoritical amount + slippage
+  amountAMin: string; // input
+  amountBMin: string; // theoritical amount - slippage
+  deadline: number; // timestamp + 3 hr
+  kyberPool: string;
+  kybervReserveRatioBounds: number[];
+};
+```
+
+### `DataTknz`
+
+```ts
+type DataTknz = {
+  single: DataTknzSingle;
+  double: DataAddLiqUniFork;
+  forge: string; // address
+  expiryYT: number;
+};
+```
+
+### `DataTknzSingle`
+
+```ts
+type DataTknzSingle = {
+  token: string;
+  amount: string;
+};
+```
+
+### `FutureEpochRewards`
+
+```ts
+type FutureEpochRewards = {
+  epochId: number;
+  rewards: TokenAmount[];
 };
 ```
 
@@ -114,7 +182,7 @@ type OtherMarketDetails = {
     rates: TokenAmount[];
     liquidity: CurrencyAmount;
     totalSupplyLP: string;
-    otPrice?: CurrencyAmount;,
+    otPrice?: CurrencyAmount;
     impliedDiscount?: string;
   }
 }
@@ -152,19 +220,42 @@ type PairTokens = {
 type PairUints = {
 	uintA: BN;
 	uintB: BN;
+};
+```
+
+### `PendleFixture`
+
+```ts
+type PendleFixture = {
+  yieldContract: YieldContract;
+  ot: Ot;
+  yt: Yt;
+  forge: Contract;
+  data: Contract;
+  ytMarket: PendleMarket;
+  otMarket: Market;
+  otStakingPool: StakingPool
+  ytStakingPool: StakingPool;
 }
 ```
 
-### `PendleAmmQuery`
+### `PoolAccruingRewards`
 
 ```ts
-type SubgraphQuery = {
-  page: number;
-  limit: number;
+type PoolAccruingRewards = {
+  address: string;
+  inputToken: Token;
+  accruingRewards: FutureEpochRewards[];
 };
+```
 
-interface PendleAmmQuery extends SubgraphQuery {
-  marketAddress: Address;
+### `PoolYields`
+
+```ts
+type PoolYields = {
+  address: string; // pool
+  inputToken: Token;
+  yields: YieldInfo[];
 };
 ```
 
@@ -196,6 +287,19 @@ type RemoveSingleLiquidityDetails = {
 };
 ```
 
+### `SimulationDetails`
+
+```ts
+type SimulationDetails = {
+  tokenAmounts: TokenAmount[];
+  transactions: Transaction[];
+  poolShares: {
+    otPoolShare: string;
+    ytPoolShare: string;
+  };
+};
+```
+
 ### `SwapDetails`
 
 ```ts
@@ -207,6 +311,28 @@ type SwapDetails = {
   priceImpact: string;
   swapFee: TokenAmount;
 };
+```
+
+### `StakedAmount`
+
+```ts
+type StakedAmount = {
+  amount: TokenAmount;
+  valuation: CurrencyAmount;
+}
+```
+
+### `Transaction`
+
+```ts
+type Transaction = {
+  action: TransactionAction;
+  user?: string;
+  paid: TokenAmount[];
+  maxPaid: TokenAmount[];
+  received: TokenAmount[];
+  protocol: 'pendle' | 'external';
+}
 ```
 
 ### `TRANSACTION`
@@ -233,11 +359,108 @@ type TokenReserveDetails = {
 };
 ```
 
+### `WrapperAPRInfo`
+
+```ts
+type WrapperAPRInfo = {
+  totalApr: string;
+  composition: {
+    otPoolApr: AprInfo[];
+    ytPoolApr: AprInfo[];
+  };
+};
+```
+
+### `YieldInfo`
+
+```ts
+type YieldInfo = {
+  yield: TokenAmount;
+  yieldType: YieldType;
+};
+```
+
 ### `YtOrMarketInterest`
 
 ```ts
 type YtOrMarketInterest = {
   address: string;
   interest: TokenAmount;
+};
+```
+
+# Enums
+
+### `Action`
+
+```ts
+enum Action {
+  stakeOT;
+  stakeYT;
+  stakeOTYT;
+}
+```
+
+### `TransactionAction`
+
+```ts
+enum TransactionAction {
+  preMint;
+  mint;
+  redeem;
+  addLiquidity;
+  removeLiquidity;
+  swap;
+  stake;
+  unstake;
+}
+```
+
+### `YieldType`
+
+```ts
+enum YieldType {
+  INTEREST = "interest";
+  REWARDS = "reward";
+};
+```
+
+# Interfaces
+
+### `ForgeQuery`
+
+```ts
+type SubgraphQuery = {
+  page: number;
+  limit: number;
+};
+
+interface ForgeQuery extends SubgraphQuery {
+  forgeId: string;
+  expiry: number;
+  underlyingTokenAddress: Address;
+};
+```
+
+### `PendleAmmQuery`
+
+```ts
+type SubgraphQuery = {
+  page: number;
+  limit: number;
+};
+
+interface PendleAmmQuery extends SubgraphQuery {
+  marketAddress: Address;
+};
+```
+
+### `StakingPoolId`
+
+```ts
+interface StakingPoolId {
+  address: string;
+  inputTokenAddress: string;
+  contractType: string;
 };
 ```

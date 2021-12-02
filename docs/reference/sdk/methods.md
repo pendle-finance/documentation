@@ -34,9 +34,71 @@ const market: Market = Market.find(address);
 ```
 
 ### `find`
-**Market.find( address: string, chainId?: number ) ⇒ Market**<br />
+**Market.find( address: string [, chainId: number ] ) ⇒ Market**<br />
 &emsp;Find the Market given the address and creates an instance.
 
+## OneClickWrapper
+
+### Instantiation
+
+```ts
+import { OneClickWrapper, YieldContract, Token } from '@pendle/sdk';
+
+const tokenAddress: string = '0x...';
+const forgeId: string = '0x...';
+const expiry: number: 1640995200;
+const chainId: number: 1;
+
+const underlyingAsset: Token = Token.find(tokenAddress, chainId, expiry);
+const yieldContract: YieldContract = new YieldContract(forgeId, underlyingAsset, expiry, chainId);
+const oneClickWrapper: OneClickWrapper = new OneClickWrapper(yieldContract);
+```
+
+### `apr`
+**OneClickWrapper.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).apr( action: [Action](types#action) ) ⇒ Promise<[WrapperAPRInfo](types#wrapperaprinfo)>**<br />
+&emsp;Fetches the APR for a particular zap function.
+
+### `send`
+**OneClickWrapper.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).send( action: [Action](types#action), sTxns: [Transaction](types#transaction)[], slippage: number ) ⇒ Promise<providers\.TransactionResponse>**<br />
+&emsp;Performs the actual zap by broadcasting a tx.
+
+### `simulate`
+**OneClickWrapper.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).simulate( action: [Action](types#action), inputTokenAmount: [TokenAmount](#tokenamount), slippage: number [ , walletAddress: string ] ) ⇒ Promise<[SimulationDetails](types#simulationdetails)>**<br />
+&emsp;Simulate a zap and fetch the details such as the resulting pool shares.
+
+## OT
+
+### Instantiation
+
+```ts
+import { Ot } from '@pendle/sdk';
+
+const otAddress: string = '0x...';
+const chainId: number = 1;
+
+const ot: Ot = Ot.find(otAddress, chainId);
+```
+
+### `find`
+**Ot.find( address: string [ , chainId: number ] ) ⇒ Ot**<br />
+&emsp;Gets the OT (ownership token) and creates an instance.
+
+### `fetchRewards`
+**Ot.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).fetchRewards( userAddress: string ) ⇒ Promise<[OtReward](types#otreward)[]>**<br />
+&emsp;Fetches the accrued rewards (such as stkAave, COMP) from the OT for a user.
+
+### `hasRewardsByForgeId`
+**Ot.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).hasRewardsByForgeId( forgeId: string ) ⇒ boolean**<br />
+&emsp;Returns a bool indicating if a user has rewards by forgeId.
+
+### `hasRewards`
+**Ot.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).hasRewards() ⇒ boolean**<br />
+&emsp;Returns a bool indicating if a user has rewards by forgeId for a particular instance of an OT.
+
+
+### `yieldContract`
+**Ot.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).yieldContract( [ chainId: number ] ) ⇒ [YieldContract](#yieldcontract)**<br />
+&emsp;Gets an instance of the underlying yield token contract.
 
 ## PendleMarket
 
@@ -51,19 +113,19 @@ const pendleMarket: PendleMarket = PendleMarket.find(address);
 ```
 
 ### `addDualDetails`
-**PendleMarket.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).addDualDetails( tokenAmount: TokenAmount, _: number ) ⇒ Promise<[AddDualLiquidityDetails](types#adddualliquiditydetails)>**<br />
+**PendleMarket.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).addDualDetails( tokenAmount: [TokenAmount](#tokenamount), _: number ) ⇒ Promise<[AddDualLiquidityDetails](types#adddualliquiditydetails)>**<br />
 &emsp;Fetches the adding of liquidity details for 2 assets, such as token amount and share of pool. 2nd arg is unused as we only fetch details here.
 
 ### `addDual`
-**PendleMarket.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).addDual( tokenAmounts: TokenAmount[], slippage: number ) ⇒ Promise<providers\.TransactionResponse>**<br />
+**PendleMarket.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).addDual( tokenAmounts: [TokenAmount](#tokenamount)[], slippage: number ) ⇒ Promise<providers\.TransactionResponse>**<br />
 &emsp;Broadcasts a tx to add liquidity for 2 assets.
 
 ### `addSingleDetails`
-**PendleMarket.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).addSingleDetails( tokenAmount: TokenAmount ) ⇒ Promise<[AddSingleLiquidityDetails](types#addsingleliquiditydetails)>**<br />
+**PendleMarket.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).addSingleDetails( tokenAmount: [TokenAmount](#tokenamount) ) ⇒ Promise<[AddSingleLiquidityDetails](types#addsingleliquiditydetails)>**<br />
 &emsp;Fetches the adding of liquidity details for 1 asset of the pair, such as token amount and share of pool.
 
 ### `addSingle`
-**PendleMarket.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).addSingle( tokenAmount: TokenAmount, slippage: number ) ⇒ Promise<providers\.TransactionResponse>**<br />
+**PendleMarket.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).addSingle( tokenAmount: [TokenAmount](#tokenamount), slippage: number ) ⇒ Promise<providers\.TransactionResponse>**<br />
 &emsp;Broadcasts a tx to add liquidity for 1 asset of the pair.
 
 ### `fetchInterests`
@@ -71,7 +133,7 @@ const pendleMarket: PendleMarket = PendleMarket.find(address);
 &emsp;Fetches the accrued interests from the YT in the market for a user.
 
 ### `find`
-**PendleMarket.find( address: string, chainId?: number ) ⇒ PendleMarket**<br />
+**PendleMarket.find( address: string [, chainId: number ] ) ⇒ PendleMarket**<br />
 &emsp;Find the PendleMarket given the address and creates an instance.
 
 ### `getLiquidityTransactions`
@@ -123,7 +185,7 @@ const pendleMarket: PendleMarket = PendleMarket.find(address);
 &emsp;Fetches the removing of liquidity details for 2 assets, such as token amount and share of pool. 2nd arg is unused as we only fetch details here.
 
 ### `removeDual`
-**PendleMarket.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).removeDual( tokenAmounts: TokenAmount[], slippage: number ) ⇒ Promise<providers\.TransactionResponse>**<br />
+**PendleMarket.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).removeDual( tokenAmounts: [TokenAmount](#tokenamount)[], slippage: number ) ⇒ Promise<providers\.TransactionResponse>**<br />
 &emsp;Broadcasts a tx to remove liquidity for 2 assets.
 
 ### `removeSingleDetails`
@@ -135,8 +197,58 @@ const pendleMarket: PendleMarket = PendleMarket.find(address);
 &emsp;Broadcasts a tx to remove liquidity for 1 asset of the pair.
 
 ### `yieldContract`
-**PendleMarket.yieldContract( chainId?: number ) ⇒ [YieldContract](#yieldcontract-1)**<br />
+**PendleMarket.yieldContract( [ chainId: number ] ) ⇒ [YieldContract](#yieldcontract-1)**<br />
 &emsp;Find the PendleMarket given the address and creates an instance.
+
+## MasterChef
+
+### Instantiation
+
+```ts
+import { MasterChef } from '@pendle/sdk';
+```
+
+### `getRewardsAprs`
+**MasterChef.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).getRewardsAprs( pid: number ) ⇒ Promise<[AprInfo](types#aprinfo)[]>**<br />
+&emsp;Gets the reward APRs for a given PID from the masterchef contracts (e.g. Sushi, TraderJoe).
+
+## StakingPool
+
+### Instantiation
+
+```ts
+import { StakingPool } from '@pendle/sdk';
+
+const address: string = '0x...';
+const inputTokenAddress: string = '0x...';
+const chainId: number = 1;
+
+const stakingPool: StakingPool = StakingPool.find(address, inputTokenAddress, chainid);
+```
+
+### `find`
+**StakingPool.find( address: string, inputTokenAddress: string, chainId?: number ) ⇒ StakingPool**<br />
+&emsp;Find the StakingPool given the address and input token address, then creates an instance.
+
+### `balanceOf`
+**StakingPool.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).balanceOf( address: string ) ⇒ Promise<[StakedAmount](types#stakedamount)>**<br />
+&emsp;Gets the staked amount of a user in the masterchef.
+
+### `rewardAprs`
+**StakingPool.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).rewardAprs() ⇒ Promise<[AprInfo](types#aprinfo)[]>**<br />
+&emsp;Gets the reward APRs from the masterchef.
+
+### `stake`
+**StakingPool.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).stake( amount: [TokenAmount](#tokenamount) ) ⇒ Promise<providers\.TransactionResponse>**<br />
+&emsp;Broadcasts a tx to stake into the masterchef.
+
+### `stake`
+**StakingPool.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).stake( amount: [TokenAmount](#tokenamount) ) ⇒ Promise<providers\.TransactionResponse>**<br />
+&emsp;Broadcasts a tx to stake into the masterchef.
+
+### `unstake`
+**StakingPool.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).unstake( amount: [TokenAmount](#tokenamount) ) ⇒ Promise<providers\.TransactionResponse>**<br />
+&emsp;Broadcasts a tx to unstake from the masterchef.
 
 ## Token
 
@@ -179,6 +291,18 @@ const tokenAmount: TokenAmount = new TokenAmount(token, amount);
 ### `balancesOf`
 **tokenAmount.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).balancesOf( { user, tokens }: { user: string, tokens: [Token](#token)[] } ) ⇒ Promise<TokenAmount[]>**<br />
 &emsp;Returns the token balance of the passed in user address.
+
+## TokenDistributor
+
+### Instantiation
+
+```ts
+import { TokenDistributor } from '@pendle/sdk';
+```
+
+### `fetchClaimableRewards`
+**TokenDistributor.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).fetchClaimableRewards( tokens: Token[], userAddress: string} ) ⇒ Promise<[TokenAmount](#tokenamount)[]>**<br />
+&emsp;Fetches the claimable reward amounts of the provider signer.
 
 ## YieldContract
 
@@ -245,9 +369,9 @@ const yt: Yt = Yt.find(ytAddress, chainId);
 
 
 ### `yieldContract`
-**Yt.yieldContract( [ chainId: number ] ) ⇒ [YieldContract](#YieldContract)**<br />
-&emsp; Gets an instance of the underlying yield token contract.
+**Yt.yieldContract( [ chainId: number ] ) ⇒ [YieldContract](#yieldcontract)**<br />
+&emsp;Gets an instance of the underlying yield token contract.
 
 ### `fetchInterests`
-**Yt.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).fetchInterests( userAddress: string ) ⇒ Promise<YtOrMarketInterest[]>**<br />
+**Yt.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).fetchInterests( userAddress: string ) ⇒ Promise<[YtOrMarketInterest](types#ytormarketinterest[]>**<br />
 &emsp;Fetches the accrued interests from the YT for a user.
