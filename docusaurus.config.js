@@ -26,6 +26,7 @@ module.exports = {
       indexName: "pendle",
       appId: "BH4D9OD16A",
     },
+    hideableSidebar: true,
     navbar: {
       logo: {
         alt: 'My Site Logo',

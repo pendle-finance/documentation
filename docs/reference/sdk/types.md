@@ -188,22 +188,6 @@ type OtherMarketDetails = {
 }
 ```
 
-```ts
-type MarketDetails = {
-  tokenReserves: TokenReserveDetails[];
-  otherDetails: { // from subgraph
-    dailyVolume: CurrencyAmount;
-    volume24hChange: string;
-    liquidity: CurrencyAmount;
-    liquidity24HChange: string;
-    swapFeeApr: string;
-    impliedYield: string;
-    underlyingYieldRate: number;
-    YTPrice: CurrencyAmount;
-  }
-};
-```
-
 ### `PairTokens`
 
 ```ts

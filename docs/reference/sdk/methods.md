@@ -242,10 +242,6 @@ const stakingPool: StakingPool = StakingPool.find(address, inputTokenAddress, ch
 **StakingPool.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).stake( amount: [TokenAmount](#tokenamount) ) ⇒ Promise<providers\.TransactionResponse>**<br />
 &emsp;Broadcasts a tx to stake into the masterchef.
 
-### `stake`
-**StakingPool.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).stake( amount: [TokenAmount](#tokenamount) ) ⇒ Promise<providers\.TransactionResponse>**<br />
-&emsp;Broadcasts a tx to stake into the masterchef.
-
 ### `unstake`
 **StakingPool.methods( chainSpecifics: [ChainSpecifics](types#chainspecifics) ).unstake( amount: [TokenAmount](#tokenamount) ) ⇒ Promise<providers\.TransactionResponse>**<br />
 &emsp;Broadcasts a tx to unstake from the masterchef.
