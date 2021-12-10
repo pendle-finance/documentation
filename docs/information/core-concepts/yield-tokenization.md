@@ -10,10 +10,16 @@ Pendle enables the tokenization of yield-bearing assets by splitting them into O
 
 ### Currently Supported Assets
 
-| Protocol | Yield Bearing Asset |                       Each YT / OT Represents                       |
-| :------: | :-----------------: | :-----------------------------------------------------------------: |
-| Compound |        cDAI         | Represents Yield / Ownership of 0.021475 DAI deposited in Compound. |
-|   Aave   |        aUSDC        |      Represents Yield / Ownership of 1 USDC deposited in Aave.      |
+| Protocol  | Yield Bearing Asset |                       Each YT / OT Represents                       |
+| :-------: | :-----------------: | :-----------------------------------------------------------------: |
+| TraderJoe |   PENDLE/AVAX LP    |   Represents Yield / Ownership of PENDLE/AVAX LP from TraderJoe.    |
+| TraderJoe |        xJoe         |    Represents Yield / Ownership of 1 JOE deposited in TraderJoe.    |
+|   BenQi   |       qiUSDC        |     Represents Yield / Ownership of 1 USDC deposited in BenQi.      |
+|   BenQi   |       qiAVAX        |     Represents Yield / Ownership of 1 AVAX deposited in BenQi.      |
+|   Aave    |        aUSDC        |      Represents Yield / Ownership of 1 USDC deposited in Aave.      |
+| Compound  |        cDAI         | Represents Yield / Ownership of 0.021475 DAI deposited in Compound. |
+|   Sushi   |    PENDLE/ETH LP    |    Represents Yield / Ownership of PENDLE/ETH LP from SushiSwap.    |
+|   Sushi   |     ETH/USDC LP     |     Represents Yield / Ownership of ETH/USDC LP from SushiSwap.     |
 
 ### Ownership Token (OT)
 
