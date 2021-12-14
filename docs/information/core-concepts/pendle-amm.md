@@ -67,7 +67,7 @@ The motivation for the constants chosen for the above formula is the fact that t
 
 ## Fees
 
-There will be a default 0.35% liquidity provider fee for all trades against liquidity pools on the Pendle's AMM. This fee will be adjustable via governance proposals and voting once it goes live.
+There will be a default 1% swap fee for all trades against liquidity pools on the Pendle's AMM. This fee will be adjustable via governance proposals and voting once it goes live.
 
 The Pendle AMM is designed to support a protocol-level exit fee to be used to support continual work on the Pendle platform. However, it is currently being set to 0% and will be changeable via governance proposals if deemed necessary.
 

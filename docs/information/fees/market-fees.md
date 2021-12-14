@@ -37,7 +37,7 @@ How Pendle will do it:
   * $x^\alpha \cdot y^{(1 - \alpha)} = k$
   * Initially, $\alpha = 0.5$ and we mint exactly $k$ LPs to the bootstrapper
 * As such, the "liquidity" definition in our case is exactly $k$, or the weighted geometric mean of the token balances.
-* When there are no curve shifts, (and alpha is fixed), $k$ will also increase due to 0.35% of the token swapped being retained in the market.
+* When there are no curve shifts, (and alpha is fixed), $k$ will also increase due to 1% of the token swapped being retained in the market.
   * As such, we can adopt a similar approach, to mint a percentage of the increases in $k$ to the protocol
   * We will also need to save the last k right after any non-swapping event, and call a function `mintProtocolFees()` to mint the protocol LPs right before $k$ is changed due to a non-swapping event
   * `mintProtocolFees()`:
