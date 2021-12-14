@@ -10,9 +10,13 @@ sidebar_position: 3
 
 ![xJoe Tokenization](/img/cheatsheets/xJOE_Tokenization.jpg)
 
-### Qi Yield Trading
+### Qi Tokenization
 
-![Qi Yield Trading](/img/cheatsheets/QiToken_Yield_Trading.jpg)
+![Qi Tokenization](/img/cheatsheets/QiToken_Tokenization.jpg)
+
+### wMEMO Tokenization
+
+![wMEMO Tokenization](/img/cheatsheets/wMEMO_Tokenization.png)
 
 ### YT Cheatsheet
 
