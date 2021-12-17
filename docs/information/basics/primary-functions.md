@@ -32,7 +32,7 @@ Holders of YT have the right to future yield for as long as they own it. This yi
 Users will be able to claim the accrued yield through Pendle at any given time.
 
 :::note
-Claiming accrued yield will incur gas fees on the Ethereum blockchain.
+Claiming accrued yield will incur gas fees on the blockchain.
 :::
 
 ## Liquidity Provision
