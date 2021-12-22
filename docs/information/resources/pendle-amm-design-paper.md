@@ -224,4 +224,5 @@ Removing liquidity follows a similar logic where the quantity of LP tokens burnt
 
 1. Fernando Martinelli and Nikolai Mushegian. [A non-custodial portfolio manager, liquidity provider, and price sensor](https://balancer.finance/whitepaper/).
 2. Hayden Adams, Noah Zinsmeister, and Dan Robinson. [Uniswap v2 Core](https://uniswap.org/whitepaper.pdf). 
-3. Michael Egorov. [StableSwap - efficient mechanism for Stablecoin liquidity](https://www.curve.fi/stableswap-paper.pdf). 
+3. Michael Egorov. [StableSwap - efficient mechanism for Stablecoin liquidity](https://www.curve.fi/stableswap-paper.pdf).
+4. 

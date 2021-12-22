@@ -319,27 +319,27 @@ type Transaction = {
 }
 ```
 
-### `TRANSACTION`
-
-```ts
-type TRANSACTION = {
-  action: 'Mint' | 'Redeem' | 'Swap';
-	hash: Address;
-	user: Address;
-  amount: CurrencyAmount;
-  paid: [TokenAmount; TokenAmount];
-  received: [TokenAmount; TokenAmount];
-	network: 'mainnet';
-  timestamp?: number;
-};
-```
-
 ### `TokenReserveDetails`
 
 ```ts
 type TokenReserveDetails = {
   reserves: TokenAmount;
   weights: string;
+};
+```
+
+### `TRANSACTION`
+
+```ts
+type TRANSACTION = {
+  action: 'Mint' | 'Redeem' | 'Swap';
+  hash: Address;
+  user: Address;
+  amount: CurrencyAmount;
+  paid: [TokenAmount; TokenAmount];
+  received: [TokenAmount; TokenAmount];
+  network: 'mainnet';
+  timestamp?: number;
 };
 ```
 
