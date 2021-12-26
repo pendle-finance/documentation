@@ -36,7 +36,7 @@ To simply illustrate this, when LP token is deposited into Pendle, the amount of
 
 Let's say that at the very start, the PENDLE/ETH pool on Sushiswap has 10 ETH and 1000 PENDLE. We'll subsequently refer to this pool as *PE*.
 
-* Amount of liquidity of the pool = $\sqrt{10 \cdot 1000} = 100 liquidity
+* Amount of liquidity of the pool = $\sqrt{10 \cdot 1000}$ = 100 liquidity
 * Initially, the total amount of LPs is also exactly 100 LPs
 * 1 LP = 1 liquidity = 0.1 ETH + 10 PENDLE
 
