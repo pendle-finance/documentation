@@ -42,8 +42,12 @@ How Pendle will do it:
   * We will also need to save the last k right after any non-swapping event, and call a function `mintProtocolFees()` to mint the protocol LPs right before $k$ is changed due to a non-swapping event
   * `mintProtocolFees()`:
     $$$
-    currentK = x^\alpha \cdot y^{(1-\alpha)} \\
-    toMint = \cfrac{(currentK - lastK)}{( (\cfrac{1}{feesPortion} - 1) * currentK + lastK )} * totalLP \\
+    currentK = x^\alpha \cdot y^{(1-\alpha)}
+    $$$
+    $$$
+    toMint = \cfrac{currentK - lastK}{\left(\cfrac{1}{feesPortion} - 1\right) * currentK + lastK} * totalLP
+    $$$
+    $$$
     mint(protocol, toMint)
     $$$
   * Basically, we need to make sure that:
