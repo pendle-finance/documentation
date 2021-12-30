@@ -14,7 +14,7 @@ There will be COMP/StkAAVE rewards accrued in the `PendleYieldTokenHolder` Whene
 * At time t1 : There is $rewards_0$ coming in, A should get: $\cfrac{balanceA}{totalOT_0} \cdot rewards_0$
 * At time t2 : There is $rewards_1$ coming in, A should get: $\cfrac{balanceA}{totalOT_1} \cdot rewards_1$
 
-In total: A should get $balanceA \cdot (\cfrac{rewards_0}{totalOT_0} + \cfrac{rewards_1}{totalOT_1})$
+In total: A should get $balanceA \cdot \left(\cfrac{rewards_0}{totalOT_0} + \cfrac{rewards_1}{totalOT_1}\right)$
 
 As such, we can generalise it and let:
 

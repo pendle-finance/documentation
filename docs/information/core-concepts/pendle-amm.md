@@ -81,13 +81,13 @@ The LP token issuance will be in proportion to the liquidity provided to the poo
 Taking inspiration from Balancer, for a generic joinMarketByAll, the LP tokens received by the depositor is the ratio of deposited tokens to the current reserves of the token in the pool. In other words:
 
 $$$
-inAmount = (\cfrac{totalLP + outAmount LP}{totalLP} - 1) \cdot B_{in}
+inAmount = \left(\cfrac{totalLP + outAmount LP}{totalLP} - 1\right) \cdot B_{in}
 $$$
 
 derives to
 
 $$$
-outAmountLp = (\cfrac{inAmount}{B_{in}}) \cdot totalLp
+outAmountLp = \left(\cfrac{inAmount}{B_{in}}\right) \cdot totalLp
 $$$
 
 where
@@ -102,7 +102,7 @@ Without considering the swapFee, the liquidity withdrawal formula is the inverse
 With swapFee, adapting from Balancer, the formula for outAmountToken given inAmountLp is:
 
 $$$
-outAmountToken = B_{out} \cdot (1 - (1 - \cfrac{inAmountLp}{totalLp})^{\cfrac{1}{W_{out}}}) \cdot (1 - (1 - W_{out}) \cdot swapFee)
+outAmountToken = B_{out} \cdot \left(1 - \left(1 - \cfrac{inAmountLp}{totalLp}\right)^{\cfrac{1}{W_{out}}}\right) \cdot \left(1 - \left(1 - W_{out}\right) \cdot swapFee\right)
 $$$
 
 where
