@@ -19,10 +19,10 @@ In total: A should get $balanceA \cdot \left(\cfrac{rewards_0}{totalOT_0} + \cfr
 As such, we can generalise it and let:
 
 $$$
-L(t+1) = (\cfrac{rewards_0}{totalOT_0} + \cfrac{rewards_1}{totalOT_1} + ... + \cfrac{rewards_t}{totalOT_t})
+L(t+1) = \cfrac{rewards_0}{totalOT_0} + \cfrac{rewards_1}{totalOT_1} + ... + \cfrac{rewards_t}{totalOT_t} = \sum_{i=0}^{t}\cfrac{rewards_i}{totalOT_i}
 $$$
 
-Then, rewards for a userAA with balanceA for holding OT from t1 to t2 is: $balanceA \cdot (L(t2) - L(t1))$
+Then, rewards for a userA with balanceA for holding OT from t1 to t2 is: $balanceA \cdot (L(t2) - L(t1))$
 
 As such, before any action that changes the totalOT, we will then need to:
 * claim the COMP/StkAAVE rewards
