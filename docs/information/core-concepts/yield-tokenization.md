@@ -10,16 +10,17 @@ Pendle enables the tokenization of yield-bearing assets by splitting them into O
 
 ### Currently Supported Assets
 
-| Protocol  | Yield Bearing Asset |                       Each YT / OT Represents                       |
-| :-------: | :-----------------: | :-----------------------------------------------------------------: |
-| TraderJoe |   PENDLE/AVAX LP    |   Represents Yield / Ownership of PENDLE/AVAX LP from TraderJoe.    |
-| TraderJoe |        xJoe         |    Represents Yield / Ownership of 1 JOE deposited in TraderJoe.    |
-|   BenQi   |       qiUSDC        |     Represents Yield / Ownership of 1 USDC deposited in BenQi.      |
-|   BenQi   |       qiAVAX        |     Represents Yield / Ownership of 1 AVAX deposited in BenQi.      |
-|   Aave    |        aUSDC        |      Represents Yield / Ownership of 1 USDC deposited in Aave.      |
-| Compound  |        cDAI         | Represents Yield / Ownership of 0.021475 DAI deposited in Compound. |
-|   Sushi   |    PENDLE/ETH LP    |    Represents Yield / Ownership of PENDLE/ETH LP from SushiSwap.    |
-|   Sushi   |     ETH/USDC LP     |     Represents Yield / Ownership of ETH/USDC LP from SushiSwap.     |
+|  Protocol  | Yield Bearing Asset |                         Each YT / OT Represents                         |
+| :--------: | :-----------------: | :---------------------------------------------------------------------: |
+| TraderJoe  |   PENDLE/AVAX LP    |     Represents Yield / Ownership of PENDLE/AVAX LP from TraderJoe.      |
+| TraderJoe  |        xJoe         |      Represents Yield / Ownership of 1 JOE deposited in TraderJoe.      |
+|   BenQi    |       qiUSDC        |       Represents Yield / Ownership of 1 USDC deposited in BenQi.        |
+|   BenQi    |       qiAVAX        |       Represents Yield / Ownership of 1 AVAX deposited in BenQi.        |
+|    Aave    |        aUSDC        |        Represents Yield / Ownership of 1 USDC deposited in Aave.        |
+|  Compound  |        cDAI         |   Represents Yield / Ownership of 0.021475 DAI deposited in Compound.   |
+|   Sushi    |    PENDLE/ETH LP    | Represents Yield / Ownership of 1 unit of PENDLE/ETH LP from SushiSwap. |
+|   Sushi    |     ETH/USDC LP     |  Represents Yield / Ownership of 1 unit of ETH/USDC LP from SushiSwap.  |
+| Wonderland |        wMEMO        |     Represents Yield / Ownership of 1 wMEMO deposited in Wonderland.    |
 
 ### Ownership Token (OT)
 
@@ -62,8 +63,14 @@ The Active State makes up the majority of the life cycle of the market. During t
 
 As YT contracts near expiry, the market will enter the Frozen State. The start time for the Frozen State can be calculated as follows:
 
+**On Ethereum**
 $$$
 startTimeFrozenState = \cfrac{1}{20} \cdot contractDuration
+$$$
+
+**On Avalanche**
+$$$
+startTimeFrozenState = \cfrac{1}{360} \cdot contractDuration
 $$$
 
 During this time, there will be a margin of error in the accuracy of token quantity. Swaps, additions, and removals of liquidity with a single token will be impacted by this loss of accuracy.
