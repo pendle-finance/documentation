@@ -59,7 +59,7 @@ module.exports = {
         },
         {
           type: 'doc',
-          docId: 'information/resources/litepaper',
+          docId: 'information/about-the-project/litepaper',
           position: 'right',
           label: 'Litepaper',
         },

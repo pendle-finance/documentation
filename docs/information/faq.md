@@ -74,9 +74,9 @@ Incentives accrued from LPing YT / baseToken pools have a vesting schedule of 5 
 
 Incentives accrued through PENDLE/ETH on Sushiswap and PENDLE single-sided staking are not vested.
 
-:::note
-Incentives never expire, there is no time limit to collecting incentives.
-:::
+### When can I collect my incentives?
+
+You can collect them at any time via the Dashboard. Incentives never expire, and there is no time limit to collecting incentives.
 
 ### How long is an epoch?
 
