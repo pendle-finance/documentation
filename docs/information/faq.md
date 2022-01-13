@@ -91,7 +91,7 @@ Tokens with time decay are tokens that decrease in value over time.
 
 OT and YT are minted with specific expiry dates. YT represents the rights to future yield, and this yield will be actualized with time. Holders of YT can then claim this yield.
 
-The gradual actualisation of yield reduces the remaining portion of YT with time. This causes the value, and thus price, of YT to gradually decrease as the contract matures. This behavior closely resembles that of options contracts.
+The gradual actualization of yield reduces the remaining portion of YT with time. This causes the value, and thus price, of YT to gradually decrease as the contract matures. This behavior closely resembles that of options contracts.
 
 ### What is time-dependent impermanent loss?
 

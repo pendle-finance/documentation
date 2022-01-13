@@ -9,7 +9,7 @@ import TabItem from '@theme/TabItem';
 
 ## Ownership Token (OT)
 
-OT represents ownership of the underlying asset deposited for minting. For example, 1 OT-aUSDC represents 1 aUSDC. Upon expiry, you only need OT to redeem the underlying asset 1:1.
+OT represents ownership of the underlying asset deposited for minting. For example, 1 OT-aUSDC represents 1 USDC staked in Aave. Upon expiry, you only need OT to redeem the underlying asset 1:1.
 
 Since OT represents ownership of the asset, OT holders are also entitled to any incentives distributed by the asset protocol, such as xJOE farming incentives, as well as any airdrops.
 
