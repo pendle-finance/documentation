@@ -2,7 +2,7 @@
 sidebar_position: 4
 ---
 
-# Compounded Yield
+# Compound Yield
 
 Leverage is a common concept in crypto. You loop lending and borrowing to increase your exposure to the price of an asset, so that when its price increase 100x, you will profit 300x.
 
