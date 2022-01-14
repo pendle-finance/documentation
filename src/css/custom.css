@@ -34,6 +34,11 @@
   --ifm-font-family-base: "Inter";
   --ifm-font-family-headers: "Kyrial Sans Pro";
   --ifm-font-color-base: rgba(0, 41, 60, 0.9);
+  --ifm-link-color: #4b6999;
+}
+
+.markdown a {
+  text-decoration: underline;
 }
 
 .docusaurus-highlight-code-line {
