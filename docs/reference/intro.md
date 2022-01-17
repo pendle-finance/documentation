@@ -10,5 +10,5 @@ Welcome to the Pendle Finance Contracts and SDK Reference. Here you can find eas
 The latest version of the SDK is used in production in the Pendle DApp. However, the SDK itself should be considered alpha software and may contain bugs or may even contain significant changes between released versions.
 
 * [Pendle Contracts GitHub Repo](https://github.com/pendle-finance/pendle-core)
-* [Pendle SDK GitHub Repo](https://github.com/pendle-finance/sdk)
+* [Pendle SDK GitHub Repo](https://github.com/pendle-finance/pendle-sdk)
 * [Pendle SDK NPM Package](https://www.npmjs.com/package/@pendle/sdk)
