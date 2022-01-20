@@ -53,13 +53,13 @@ $$$
 which we can plug it into (2) to get our second simultaneous equation.
 
 $$$
-OT : YT = 100% : 200% = 1 : 2
+OT : YT = 100\% : 200\% = 1 : 2
 $$$
 
 With (3) and (4), we solve for OT and YT, giving us
 
 $$$
-OT = 1200
+OT = 1200 \\
 YT = 2400
 $$$
 
