@@ -25,7 +25,9 @@ At $time = 0$, $\alpha$ and $\beta$ are initiated at 0.5, the quantity of Token 
 When a swap happens, the equilibrium point shifts along the curve. At subsequent time step $time = i$, $\alpha$ and $\beta$ will change with the following formulas:
 
 $$$
-\alpha_{i+1} = \alpha_i - \epsilon_i \\
+\alpha_{i+1} = \alpha_i - \epsilon_i
+$$$
+$$$
 \beta_{i+1} = \beta_i + \epsilon_i
 $$$
 
