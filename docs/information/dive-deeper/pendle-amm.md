@@ -25,7 +25,7 @@ At $time = 0$, $\alpha$ and $\beta$ are initiated at 0.5, the quantity of Token 
 When a swap happens, the equilibrium point shifts along the curve. At subsequent time step $time = i$, $\alpha$ and $\beta$ will change with the following formulas:
 
 $$$
-\alpha_{i+1} = \alpha_i - \epsilon_i
+\alpha_{i+1} = \alpha_i - \epsilon_i \\
 \beta_{i+1} = \beta_i + \epsilon_i
 $$$
 
@@ -40,9 +40,9 @@ t_{now} = t(T_{now}) \\
 t_{eq} = t(T_{eq})
 $$$
 
-$t$: time to maturity from 1 to 0
-$T$: UNIX timestamp
-$T_{start}$: contract start timestamp
+$t$: time to maturity from 1 to 0 <br />
+$T$: UNIX timestamp <br />
+$T_{start}$: contract start timestamp <br />
 $T_{end}$: contract end timestamp
 
 The changing weights of X and Y cause changes in the shape of the curve.
