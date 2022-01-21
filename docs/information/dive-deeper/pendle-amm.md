@@ -32,17 +32,27 @@ $$$
 where
 
 $$$
-\epsilon_i = \cfrac{\alpha_i \cdot \beta_i \cdot (1 - R_i)}{(R_i \cdot \alpha_i) + \beta_i} \\
-R_i = \cfrac{p(t_{now})}{p(t_{eq})} \\
-p(t) = \cfrac{ln(3.14 \cdot t+1)}{ln(4.14)} \\
-t(T) = \cfrac{T_{end} - T}{T_{end} - T_{start}} \\
-t_{now} = t(T_{now}) \\
+\epsilon_i = \cfrac{\alpha_i \cdot \beta_i \cdot (1 - R_i)}{(R_i \cdot \alpha_i) + \beta_i}
+$$$
+$$$
+R_i = \cfrac{p(t_{now})}{p(t_{eq})}
+$$$
+$$$
+p(t) = \cfrac{ln(3.14 \cdot t+1)}{ln(4.14)}
+$$$
+$$$
+t(T) = \cfrac{T_{end} - T}{T_{end} - T_{start}}
+$$$
+$$$
+t_{now} = t(T_{now})
+$$$
+$$$
 t_{eq} = t(T_{eq})
 $$$
 
-$t$: time to maturity from 1 to 0
-$T$: UNIX timestamp
-$T_{start}$: contract start timestamp
+$t$: time to maturity from 1 to 0<br />
+$T$: UNIX timestamp<br />
+$T_{start}$: contract start timestamp<br />
 $T_{end}$: contract end timestamp
 
 The changing weights of X and Y cause changes in the shape of the curve.
