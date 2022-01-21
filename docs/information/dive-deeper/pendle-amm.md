@@ -26,6 +26,8 @@ When a swap happens, the equilibrium point shifts along the curve. At subsequent
 
 $$$
 \alpha_{i+1} = \alpha_i - \epsilon_i
+$$$
+$$$
 \beta_{i+1} = \beta_i + \epsilon_i
 $$$
 
