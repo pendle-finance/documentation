@@ -28,6 +28,7 @@ module.exports = {
     },
     hideableSidebar: true,
     navbar: {
+      hideOnScroll: false,
       logo: {
         alt: 'My Site Logo',
         src: 'img/logo-title.png',
@@ -65,8 +66,9 @@ module.exports = {
         },
         {
           href: 'https://github.com/pendle-finance/',
-          label: 'GitHub',
           position: 'right',
+          className: 'header-github-link',
+          'aria-label': 'GitHub repository',
         },
       ],
     },
