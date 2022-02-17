@@ -36,7 +36,7 @@ As YT is ERC-20 compliant, it is technically possible to set up a pool on other 
 
 ### Can I redeem the underlying before contract expiry?
 
-Yes. As long as you hold an equal amount of OT and YT, you’ll be able to redeem the underlying.
+Yes. As long as you hold an equal amount of OT and YT, you'll be able to redeem the underlying.
 
 ### What happens to the accrued interest if left unclaimed after the contract has expired?
 
@@ -108,7 +108,7 @@ As the value of YT gradually depreciates to 0, it can be described as time-decay
 
 ### Has Pendle been audited?
 
-Yes, Pendle smart contracts were [audited](https://github.com/pendle-finance/pendle-core/tree/master/docs/audits) by Least Authority and reviewed by independent whitehats but it’s worth noting that audits don’t eliminate risks entirely.
+Yes, Pendle smart contracts were [audited](https://github.com/pendle-finance/pendle-core/tree/master/docs/audits) by Least Authority and reviewed by independent whitehats but it's worth noting that audits don't eliminate risks entirely.
 
 [Report 1](https://github.com/pendle-finance/pendle-core/blob/master/docs/audits/Least%20Authority%20-%20Pendle%20Protocol%20Smart%20Contracts%20-%20Final%20Audit%20Report%20(v3).pdf) <br />
 [Report 2](https://github.com/pendle-finance/pendle-core/blob/master/docs/audits/Pendle%20Contract%20Security%20Audit.pdf) <br />
@@ -117,7 +117,7 @@ Yes, Pendle smart contracts were [audited](https://github.com/pendle-finance/pen
 
 ## Pausing admins
 
-The PausingManager contract designates pausing admins capable of pausing protocol functionality. The pausing admins have only one ability, during the event of unforeseen vulnerability, the pausing admins are able to ‘pause’ the mint, swap, add and remove liquidity functions. The pausing admins cannot unpause a paused state.
+The PausingManager contract designates pausing admins capable of pausing protocol functionality. The pausing admins have only one ability, during the event of unforeseen vulnerability, the pausing admins are able to ‘pause' the mint, swap, add and remove liquidity functions. The pausing admins cannot unpause a paused state.
 
 Governance will have the power to:
 

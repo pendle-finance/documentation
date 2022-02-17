@@ -20,7 +20,7 @@ A lower YT price implies a lower yield, while a higher YT price implies higher y
 
 <figure>
   <img src="/img/pendle-guide/implied-yield.png" alt="Graph" />
-  <figcaption>Implied yield of YT-PA/P as displayed on the [Market](https://app.pendle.finance/market)</figcaption>
+  <figcaption>Implied yield of YT-PA/P as displayed on https://app.pendle.finance/market</figcaption>
 </figure>
 
 To know when to buy or sell, you just need to compare the yield of the underlying asset versus the implied yield or discount.
@@ -33,31 +33,20 @@ Knowing all this, you can easily make informed trading decisions on Pendle.
 
 ## Case Study
 
-We can see the power of yield arbitrage on Pendle from [Vu's 240K% APY example](https://twitter.com/gabavineb/status/1471782829419745284) that was brought up in the previous page. Let's take a look at what he did.
+We can see the power of yield trading on Pendle from [Vu's 240K% APY example](https://twitter.com/gabavineb/status/1471782829419745284) that was brought up earlier. Let's see if we can emulate what he did with a more relevant asset. 
 
-![Case Study 1](/img/pendle-guide/case-study-1.png)
+Lets say you want to farm stablecoins on Avalanche and you have supplied $1000 of USDC into Benqi, receiving qiUSDC in return. That deposit would net you around 6% APY if you simply let it sit there.
 
-Okay, simple enough, he mints YT and OT by depositing wMEMO into Pendle. 
+That's not a lot, but Pendle can help to make your wealth work a little harder and squeeze out some extra yield. 
 
-<figure>
-  <img src="/img/pendle-guide/case-study-2.png" alt="Graph" />
-  <figcaption>MIM to *YT-wMEMO, pardon the typo</figcaption>
-</figure>
+Let's say the implied yield of qiUSDC on Pendle is currently at 4%. If you think that the Benqi yield of 6% will hold in the long term, it means that YT-qiUSDC is currently underpriced.
 
-Pause. Here's where the action happens.
+To convert your qiUSDC to YT-qiUSDC, you can first mint YT and OT from qiUSDC, then sell your OT for USDC and use that to buy YT.
 
-At the time of the trade, YT-wMEMO was trading with an implied yield of just 20K%. Compared to Wonderland's APY at the time, which was 80K%, that's a massive discount! As a reference, YT-wMEMO generally traded at twice the price of OT-wMEMO at that point in time.
+How much of a difference does this make? Using this method, you will actually get an APY of 150%, since you have effectively bought a 6% APY at the price of a 4% APY. That's a huge difference compared to simply holding qiUSDC.
 
-So how does this translate to 6-digit APY?
+In the case that the implied yield is higher than the actual yield, this means the OT is underpriced and you can simply buy and hold OT to earn the extra APY.
 
-![Case Study 3](/img/pendle-guide/case-study-3.png)
+Of course, there is a bit of luck and timing involved, but with the volatility of crypto prices and some number crunching, there will be plenty of opportunities to make quick bucks.
 
-In total, Vu now holds 0.96 YT-wMEMO, which will produce 2.44 MEMO of yield at Wonderland's 80K% APY up till expiry.
-
-Getting 2.44 MEMO returns from 0.56 MEMO is a whopping 430% upside in just two months! Doing a little bit more math gets you to the promised wonderland of 240K% APY.
-
-Of course, there is a bit of luck and timing involved, but with the volatility of crypto prices, there will be plenty of opportunities to make quick bucks.
-
-Furthermore, there is a [resource](https://docs.google.com/spreadsheets/d/1D57dlQil37fMIjYRcsuFDsmRvfTe6WmCKlbcr4nPlfY/edit#gid=0) to help you to calculate better understand when these opportunities are present, courtesy of the man himself.
-
-![Case Study 3](/img/pendle-guide/case-study-4.png)
+Furthermore, there is a [resource](https://docs.google.com/spreadsheets/d/1D57dlQil37fMIjYRcsuFDsmRvfTe6WmCKlbcr4nPlfY/edit#gid=0) to help you to calculate better understand when these opportunities are present, courtesy of Vu himself.

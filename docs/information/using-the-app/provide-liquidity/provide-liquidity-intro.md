@@ -13,7 +13,7 @@ Liquidity provision and staking can be found on the [Stake](https://app.pendle.f
 ![Staking Page](/img/using-the-app/liquidity-guide-1.png)
 
 1. Click Liquidity under the asset you wish to LP for
-2. (for YT only) Choose whether you want to LP with single or dual asset. Note that when LPing with single asset, your tokens will be swapped to the paired token to make up the ratio in the pool. 
+2. For YT, choose whether you can perform a single or dual asset LP. Note that when LPing with a single asset, your tokens will be swapped to the paired token to make up the ratio in the pool. For OT, you can only perform dual asset LP.
 3. Enter the amount of liquidity to provide. The amount of the corresponding paired token will be calculated and displayed automatically. 
 4. Add Liquidity!
 

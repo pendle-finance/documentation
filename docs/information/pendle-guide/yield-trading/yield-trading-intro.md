@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Introduction
 
-Wonderland's yield on MEMO usually hovers between 70,000-90,000%, but [this guy](https://twitter.com/gabavineb/status/1471782829419745284) managed to get 240,000% APY. How?!
+At the peak of its hype-train, Wonderland's yield on MEMO hovered between 70,000-90,000%, but [this guy](https://twitter.com/gabavineb/status/1471782829419745284) managed to get 240,000% APY. How?!
 
 ![Wonderland Strategy](/img/pendle-guide/vu-tweet.png)
 
