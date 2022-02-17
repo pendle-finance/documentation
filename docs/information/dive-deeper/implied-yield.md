@@ -25,13 +25,13 @@ $$$
 The first one is simple, the sum of YT and OT prices should equal the price of the underlying, since 1 unit of YT and 1 unit of OT together can be redeemed for 1 unit of the underlying asset.
 
 $$$
-(1) YT + OT = underlying
+(1)\, YT + OT = underlying
 $$$
 
 The second equation is slightly more involved, saying that the ratio of OT and YT price is equal to the ratio of underlying to yield. This is so that the APY of OT and YT remains the same, following the perfect market assumption.
 
 $$$
-(2) OT : YT = underlying : yield
+(2)\, OT : YT = underlying : yield
 $$$
 
 To determine market equilibrium prices for OT and YT, you simply have to plug in the underlying and yield values, and solve for OT and YT.
@@ -41,19 +41,19 @@ Let's use qiAVAX as an example, with Pendle contract expiry of 2 years, given th
 Using $AVAX price, we can plug it into (1) to get the first of our two simultaneous equations.
 
 $$$
-(3) YT + OT = 90
+(3)\, YT + OT = 90
 $$$
 
-Then, we calculate the yield for two months
+Then, we calculate the yield for two years
 
 $$$
-TwoMonthYield = \left(\cfrac{10}{100} + 1\right)^\cfrac{730}{365} - 1 = 0.21 \approx 20%
+TwoYearYield = \left(\cfrac{10}{100} + 1\right)^\cfrac{730}{365} - 1 = 0.21 \approx 20%
 $$$
 
 which we can plug it into (2) to get our second simultaneous equation.
 
 $$$
-(4) OT : YT = 100\% : 20\% = 5 : 1
+(4)\,  OT : YT = 100\% : 20\% = 5 : 1
 $$$
 
 With (3) and (4), we solve for OT and YT, giving us
