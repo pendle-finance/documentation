@@ -6,9 +6,13 @@ sidebar_position: 2
 
 ## Avalanche
 
-### xJoe Tokenization
+### YT Cheatsheet
 
-![xJoe Tokenization](/img/cheatsheets/xJOE_Tokenization.jpg)
+![YT Cheatsheet](/img/cheatsheets/YT_Avalanche.jpg)
+
+### OT Cheatsheet
+
+![OT Cheatsheet](/img/cheatsheets/OT_Avalanche.jpg)
 
 ### Qi Tokenization
 
@@ -18,19 +22,7 @@ sidebar_position: 2
 
 ![wMEMO Tokenization](/img/cheatsheets/wMEMO_Tokenization.png)
 
-### YT Cheatsheet
-
-![YT Cheatsheet](/img/cheatsheets/YT_Avalanche.jpg)
-
-### OT Cheatsheet
-
-![OT Cheatsheet](/img/cheatsheets/OT_Avalanche.jpg)
-
 ## Ethereum
-
-### SLP Tokenization
-
-![SLP Tokenization](/img/cheatsheets/SLP_Tokenization.png)
 
 ### YT Cheatsheet
 
@@ -39,3 +31,7 @@ sidebar_position: 2
 ### OT Cheatsheet
 
 ![OT Cheatsheet](/img/cheatsheets/OT_Ethereum.jpg)
+
+### SLP Tokenization
+
+![SLP Tokenization](/img/cheatsheets/SLP_Tokenization.png)
