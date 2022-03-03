@@ -35,3 +35,7 @@ sidebar_position: 2
 ### SLP Tokenization
 
 ![SLP Tokenization](/img/cheatsheets/SLP_Tokenization.png)
+
+### wxBTRFLY Tokenization
+
+![wxBTRLFY Tokenization](/img/cheatsheets/wxBTRFLY_Tokenization.png)
