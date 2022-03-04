@@ -18,14 +18,23 @@ The Active State makes up the majority of the life cycle of the market. During t
 As YT contracts near expiry, the market will enter the Frozen State. The start time for the Frozen State can be calculated as follows:
 
 **On Ethereum**
-$$$
-startTimeFrozenState = \cfrac{1}{20} \cdot contractDuration
-$$$
+
+|  Protocol  |     Asset     |          startTimeFrozenState           |
+| :--------: | :-----------: | :-------------------------------------: |
+|   Sushi    | PENDLE/ETH LP | $\cfrac{1}{20} \cdot contractDuration$  |
+|   Sushi    |  ETH/USDC LP  | $\cfrac{1}{20} \cdot contractDuration$  |
+|    Aave    |     aUSDC     | $\cfrac{1}{20} \cdot contractDuration$  |
+|  Compound  |     cDAI      | $\cfrac{1}{20} \cdot contractDuration$  |
+| [Redacted] |   wxBTRFLY    | $\cfrac{1}{360} \cdot contractDuration$ |
 
 **On Avalanche**
-$$$
-startTimeFrozenState = \cfrac{1}{360} \cdot contractDuration
-$$$
+
+|  Protocol  |     Asset      |          startTimeFrozenState           |
+| :--------: | :------------: | :-------------------------------------: |
+| TraderJoe  | PENDLE/AVAX LP | $\cfrac{1}{360} \cdot contractDuration$ |
+| Wonderland |     wMEMO      | $\cfrac{1}{360} \cdot contractDuration$ |
+|   BenQi    |     qiUSDC     | $\cfrac{1}{360} \cdot contractDuration$ |
+|   BenQi    |     qiAVAX     | $\cfrac{1}{360} \cdot contractDuration$ |
 
 During the Frozen state, the following functions will be disabled for that pool:
 
