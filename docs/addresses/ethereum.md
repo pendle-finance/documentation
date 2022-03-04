@@ -73,6 +73,15 @@ sidebar_position: 1
 ### `PendleCompoundV2Forge`
 `0x65c97DDca593dA3df529798B2fa6865C9CcD0035`
 
+### `PendleRewardManagerRedacted`
+`0x41cf5bbd11b8194ebcff7a8ae9ab8b6ddbd43e86`
+
+### `PendleRedactedYieldContractDeployer`
+`0xf6943b98e69b59cCb3e18Bc261493af3E901B2aB`
+
+### `PendleRedactedForge`
+`0x00fA04e424CBE24526949056b71e00d7eE6C24Fa`
+
 ### `PendleGenericMarketFactory`
 `0xc02F1C34CdDe6D5b940a31B286A987E905ec5E8D`
 
@@ -96,7 +105,7 @@ sidebar_position: 1
 ### `YT-cDAI-30DEC2021`
 `0x31654eb46a3a450265c6dfc4fc4fbbfe371e26fe`
 
-### `OT-cDAI-30DEC2021"`
+### `OT-cDAI-30DEC2021`
 `0xe55e3b62005a2035d48ac0c41a5a9c799f04892c`
 
 ### `YT-cDAI-29DEC2022`
@@ -105,6 +114,12 @@ sidebar_position: 1
 ### `OT-cDAI-29DEC2022`
 `0x3D4e7F52efaFb9E0C70179B688FC3965a75BCfEa`
 
+### `YT-wxBTRFLY-21APR2022`
+`0x0F2B3200d559C3877f11033551459000ab7C0d06`
+
+### `OT-wxBTRFLY-21APR2022`
+`0x189564397643D9e6173A002f1BA98da7d40a0FA6`
+
 ## Forge and Market Factory IDs
 
 ### `Aave`
@@ -112,3 +127,6 @@ sidebar_position: 1
 
 ### `AaveV2`
 `0x4161766556320000000000000000000000000000000000000000000000000000`
+
+### `Redacted Cartel`
+`0x5265646163746564000000000000000000000000000000000000000000000000`
