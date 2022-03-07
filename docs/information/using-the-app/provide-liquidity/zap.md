@@ -19,7 +19,7 @@ If you hold MEMO and want to LP in Pendle to earn additional yield, you would ne
 7. 
 Whew, that's a lot of work.
 
-What if there was an easier way? Just [Zap](https://app.pendle.finance/zap! Zap is your one-stop shop for liquidity provision. Simply enter your tokens and click Zap - your tokens will be turned into staked liquidity with just one click!
+What if there was an easier way? Just [Zap](https://app.pendle.finance/zap)! Zap is your one-stop shop for liquidity provision. Simply enter your tokens and click Zap - your tokens will be turned into staked liquidity with just one click!
 
 You can choose to Zap with dual tokens or single token.
 
