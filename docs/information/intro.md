@@ -18,7 +18,7 @@ Examples of yield-bearing assets are [ETH/USDC] SLP, aUSDC, and xJOE.
 $ETH, $USDC, and $JOE are not yield-bearing assets. 
 :::
 
-Pendle exists on top of first-degree yield-generating protocols. We currently support [Aave](https://aave.com/), [Compound](https://compound.finance/), and [Sushi](https://sushi.com/) on Ethereum, and [TraderJoe](https://traderjoexyz.com/#/home), [Benqi](https://benqi.fi/), and [Wonderland](https://www.wonderland.money/) on Avalanche, with more protocols to be integrated in the future.
+Pendle exists on top of first-degree yield-generating protocols. We currently support [Aave](https://aave.com/), [Compound](https://compound.finance/), [Sushi](https://sushi.com/), and [Redacted Cartel](https://www.redactedcartel.xyz/) on Ethereum, and [TraderJoe](https://traderjoexyz.com/#/home) and [Benqi](https://benqi.fi/) on Avalanche, with more protocols to be integrated in the future.
 
 ## How does Pendle work?
 
