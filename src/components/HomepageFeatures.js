@@ -1,53 +1,52 @@
 import React from "react";
 import Link from "@docusaurus/Link";
-import clsx from "clsx";
 import styles from "./HomepageFeatures.module.css";
 
 const FeatureList = [
   {
     title: "Introduction",
     Svg: require("../../static/img/intro.svg").default,
-    url: "/docs/reference/intro"
+    url: "/docs/intro"
   },
   {
     title: "Pendle - Simple",
     Svg: require("../../static/img/intro.svg").default,
-    url: "/docs/reference/intro"
+    url: "/docs/simple"
   },
   {
     title: "Pendle - Pro",
     Svg: require("../../static/img/intro.svg").default,
-    url: "/docs/reference/intro"
+    url: "/docs/pro"
   },
   {
     title: "Governance",
     Svg: require("../../static/img/intro.svg").default,
-    url: "/docs/reference/intro"
+    url: "/docs/governance"
   },
   {
     title: "Developers",
     Svg: require("../../static/img/intro.svg").default,
-    url: "/docs/reference/intro"
+    url: "/docs/developers"
   },
   {
     title: "Contracts",
     Svg: require("../../static/img/intro.svg").default,
-    url: "/docs/reference/intro"
+    url: "/docs/contracts"
   },
   {
     title: "Purchase Assets at a Discount",
     Svg: require("../../static/img/intro.svg").default,
-    url: "/docs/reference/intro"
+    url: "/docs/discounted-assets"
   },
   {
     title: "Farm",
     Svg: require("../../static/img/intro.svg").default,
-    url: "/docs/reference/intro"
+    url: "/docs/farm"
   },
   {
     title: "Yield Trading",
     Svg: require("../../static/img/intro.svg").default,
-    url: "/docs/reference/intro"
+    url: "/docs/yield-trading"
   },
 ];
 
