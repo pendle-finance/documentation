@@ -6,11 +6,10 @@ import styles from './index.module.css';
 import HomepageFeatures from '../components/HomepageFeatures';
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
   return (
     <header className={styles.heroBanner}>
-      <h1 className="hero__title">{siteConfig.title}</h1>
-      <p className="hero__subtitle">{siteConfig.tagline}</p>
+      <h1 className="hero__title">Welcome to the Pendle Docs</h1>
+      <p className="hero__subtitle">Learn more about Pendle, a decentralised finance protocol that allows users to tokenize and sell future yields.</p>
     </header>
   );
 }
@@ -22,9 +21,8 @@ export default function Home() {
       title={siteConfig.title}
       description="Description will go into a meta tag in <head />">
       <main className="main--landing">
-        <div className={clsx('container')}>
+        <div className={styles.root}>
           <HomepageHeader />
-          <h1 className="hero__title">Explore</h1>
           <HomepageFeatures />
         </div>
       </main>
