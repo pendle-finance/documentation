@@ -14,6 +14,7 @@ export default function GettingStarted() {
   useEffect(() => {
     lottie.loadAnimation({
       container: introRef.current,
+      name: "intro",
       renderer: "svg",
       loop: false,
       autoplay: false,
@@ -22,6 +23,7 @@ export default function GettingStarted() {
 
     lottie.loadAnimation({
       container: discountRef.current,
+      name: "discount",
       renderer: "svg",
       loop: false,
       autoplay: false,
@@ -30,6 +32,7 @@ export default function GettingStarted() {
 
     lottie.loadAnimation({
       container: farmRef.current,
+      name: "farm",
       renderer: "svg",
       loop: false,
       autoplay: false,
@@ -41,15 +44,15 @@ export default function GettingStarted() {
     };
   }, []);
 
-  const play = () => {
+  const play = (name) => {
     lottie.setDirection(1);
     lottie.setSpeed(2);
-    lottie.play();
+    lottie.play(name);
   };
-  const playReverse = () => {
+  const playReverse = (name) => {
     lottie.setDirection(-1);
     lottie.setSpeed(2);
-    lottie.play();
+    lottie.play(name);
   };
   return (
     <div>
@@ -57,8 +60,12 @@ export default function GettingStarted() {
       <div className={styles.featureContainer}>
         <div
           className={styles.leftFeatureCard}
-          onMouseEnter={play}
-          onMouseLeave={playReverse}
+          onMouseEnter={() => {
+            play("intro");
+          }}
+          onMouseLeave={() => {
+            playReverse("intro");
+          }}
         >
           Introduction to Pendle
           <div className={styles.introLottie} ref={introRef} />
@@ -68,8 +75,12 @@ export default function GettingStarted() {
           <div className={styles.rightFeatures}>
             <div
               className={styles.indivFeature}
-              onMouseEnter={play}
-              onMouseLeave={playReverse}
+              onMouseEnter={() => {
+                play("discount");
+              }}
+              onMouseLeave={() => {
+                playReverse("discount");
+              }}
             >
               <div className={styles.lottie} ref={discountRef} />
               <div className={styles.featureTitle}>
@@ -78,8 +89,12 @@ export default function GettingStarted() {
             </div>
             <div
               className={styles.indivFeature}
-              onMouseEnter={play}
-              onMouseLeave={playReverse}
+              onMouseEnter={() => {
+                play("farm");
+              }}
+              onMouseLeave={() => {
+                playReverse("farm");
+              }}
             >
               <div className={styles.lottie} ref={farmRef} />
               <div className={styles.featureTitle}>Farm</div>

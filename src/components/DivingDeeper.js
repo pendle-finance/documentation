@@ -2,9 +2,6 @@ import React, { useEffect, useRef } from "react";
 import styles from "./DivingDeeper.module.css";
 
 import lottie from "lottie-web";
-import IntroAnimationData from "../lotties/Introduction.json";
-import DiscountAnimationData from "../lotties/Discount.json";
-import FarmAnimationData from "../lotties/Farm.json";
 import GovernanceAnimationData from "../lotties/Governance.json";
 import SDKAnimationData from "../lotties/SDK.json";
 import YieldAnimationData from "../lotties/Yield.json";
@@ -17,6 +14,7 @@ export default function DivingDeeper() {
   useEffect(() => {
     lottie.loadAnimation({
       container: sdkRef.current,
+      name: 'sdk',
       renderer: "svg",
       loop: false,
       autoplay: false,
@@ -25,6 +23,7 @@ export default function DivingDeeper() {
 
     lottie.loadAnimation({
       container: yieldRef.current,
+      name: 'yield',
       renderer: "svg",
       loop: false,
       autoplay: false,
@@ -33,6 +32,7 @@ export default function DivingDeeper() {
 
     lottie.loadAnimation({
       container: governanceRef.current,
+      name: 'governance',
       renderer: "svg",
       loop: false,
       autoplay: false,
@@ -44,15 +44,15 @@ export default function DivingDeeper() {
     };
   }, []);
 
-  const play = () => {
+  const play = (name) => {
     lottie.setDirection(1);
     lottie.setSpeed(2);
-    lottie.play();
+    lottie.play(name);
   };
-  const playReverse = () => {
+  const playReverse = (name) => {
     lottie.setDirection(-1);
     lottie.setSpeed(2);
-    lottie.play();
+    lottie.play(name);
   };
 
   return (
@@ -64,8 +64,12 @@ export default function DivingDeeper() {
           <div className={styles.leftFeatures}>
             <div
               className={styles.indivFeature}
-              onMouseEnter={play}
-              onMouseLeave={playReverse}
+              onMouseEnter={() => {
+                play("yield");
+              }}
+              onMouseLeave={() => {
+                playReverse("yield");
+              }}
             >
               <div className={styles.lottie} ref={yieldRef} />
 
@@ -73,8 +77,12 @@ export default function DivingDeeper() {
             </div>
             <div
               className={styles.indivFeature}
-              onMouseEnter={play}
-              onMouseLeave={playReverse}
+              onMouseEnter={() => {
+                play("governance");
+              }}
+              onMouseLeave={() => {
+                playReverse("governance");
+              }}
             >
               <div className={styles.lottie} ref={governanceRef} />
               <div className={styles.featureTitle}>Governance</div>
@@ -83,8 +91,12 @@ export default function DivingDeeper() {
         </div>
         <div
           className={styles.rightFeatureCard}
-          onMouseEnter={play}
-          onMouseLeave={playReverse}
+          onMouseEnter={() => {
+            play("sdk");
+          }}
+          onMouseLeave={() => {
+            playReverse("sdk");
+          }}
         >
           SDK
           <div className={styles.sdkLottie} ref={sdkRef} />
