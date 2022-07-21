@@ -68,8 +68,8 @@ function Footer() {
         'footer--dark': footer.style === 'dark',
       })}>
       <div className="container">
-        <div class={clsx('row', styles.footerRow)}>
-          <div class="col col--2 col--offset-1">
+        <div className={clsx('row', styles.footerRow)}>
+          <div className="col col--2 col--offset-1">
             {(logo) && (
               <div className="footer__bottom text--center">
                 {logo && (logo.src || logo.srcDark) && (
@@ -91,7 +91,7 @@ function Footer() {
               </div>
             )}
           </div>
-          <div class="col col--4 col--offset-3">
+          <div className="col col--4 col--offset-3">
             {links && links.length > 0 && (
               <div className={clsx('row footer__links', styles.footerColumn)}>
                 {links.map((linkItem, i) => (
