@@ -1,0 +1,52 @@
+.root{
+    margin: 3rem 0rem;
+}
+.linkContainer{
+    display: flex;
+    justify-content: space-between;
+}
+.discordLink{
+    
+    background: rgb(107,122,255);
+    color: white;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 1rem;
+}
+.filter{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(38px);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 7rem;
+    width: 100%;
+}
+.filter:hover{
+    backdrop-filter: blur(0px);
+}
+.twitterLink{
+    
+    background-color: #48B2F4;
+    color: white;
+
+    border-radius: 1rem;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.telegramLink{
+    
+    background-color: #69AEFF;
+    color: white;
+
+    border-radius: 1rem;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.logo{
+    margin-right: 1rem;
+}
