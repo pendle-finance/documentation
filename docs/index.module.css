@@ -6,7 +6,7 @@
  */
 
  .heroBanner {
-    padding: 4rem 0 2rem 0;
+    padding: 1rem 0 0rem 0;
     position: relative;
     overflow: hidden;
     width: 70vw;
@@ -22,4 +22,3 @@
     flex-direction: column;
     align-items: center;
   }
-  
