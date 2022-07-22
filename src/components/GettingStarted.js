@@ -67,7 +67,7 @@ export default function GettingStarted() {
             playReverse("intro");
           }}
         >
-          <Link className={styles.link} to="/docs/introduction">
+          <Link className={styles.link} to="/introduction">
             Introduction to Pendle
             <div className={styles.introLottie} ref={introRef} />
           </Link>
@@ -84,7 +84,7 @@ export default function GettingStarted() {
                 playReverse("discount");
               }}
             >
-              <Link className={styles.link} to="/docs/simple">
+              <Link className={styles.link} to="/simple">
                 <div className={styles.lottie} ref={discountRef} />
                 <div className={styles.featureTitle}>
                   Purchase Assets <br /> at a Discount
@@ -100,7 +100,7 @@ export default function GettingStarted() {
                 playReverse("farm");
               }}
             >
-              <Link className={styles.link} to="/docs/simple#farm">
+              <Link className={styles.link} to="/simple#farm">
                 <div className={styles.lottie} ref={farmRef} />
                 <div className={styles.featureTitle}>Farm</div>
               </Link>
