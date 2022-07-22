@@ -34,7 +34,7 @@ export default function DocSidebarDesktopContent({ path, sidebar, className }) {
         className
       )}
     >
-      <Link to="/">
+      <Link to="/home">
         <img src={pendleLogo} className={styles.logo} />
       </Link>
       <SearchBar />
