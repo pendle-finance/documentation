@@ -27,13 +27,9 @@
   font-weight: 700;
 }
 
-.link:hover {
-  text-decoration: none;
-  color: white;
-}
-
 .link {
-  color: white;
+  text-decoration: none !important;
+  color: white !important;
 }
 
 .featureContainer {
