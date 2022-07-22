@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-
+import Link from "@docusaurus/Link";
 import styles from "./GettingStarted.module.css";
 import lottie from "lottie-web";
 import IntroAnimationData from "../lotties/Introduction.json";
@@ -67,8 +67,10 @@ export default function GettingStarted() {
             playReverse("intro");
           }}
         >
-          Introduction to Pendle
-          <div className={styles.introLottie} ref={introRef} />
+          <Link className={styles.link} to="/docs/introduction">
+            Introduction to Pendle
+            <div className={styles.introLottie} ref={introRef} />
+          </Link>
         </div>
         <div className={styles.featureCard}>
           Using Pendle
@@ -82,10 +84,12 @@ export default function GettingStarted() {
                 playReverse("discount");
               }}
             >
-              <div className={styles.lottie} ref={discountRef} />
-              <div className={styles.featureTitle}>
-                Purchase Assets <br /> at a Discount
-              </div>
+              <Link className={styles.link} to="/docs/simple">
+                <div className={styles.lottie} ref={discountRef} />
+                <div className={styles.featureTitle}>
+                  Purchase Assets <br /> at a Discount
+                </div>
+              </Link>
             </div>
             <div
               className={styles.indivFeature}
@@ -96,8 +100,10 @@ export default function GettingStarted() {
                 playReverse("farm");
               }}
             >
-              <div className={styles.lottie} ref={farmRef} />
-              <div className={styles.featureTitle}>Farm</div>
+              <Link className={styles.link} to="/docs/simple#farm">
+                <div className={styles.lottie} ref={farmRef} />
+                <div className={styles.featureTitle}>Farm</div>
+              </Link>
             </div>
           </div>
         </div>

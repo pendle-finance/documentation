@@ -7,9 +7,9 @@ import Telegram from "../../static/img/Telegram.svg";
 import styles from "./JoinTheConvo.module.css";
 
 export default function JoinTheConvo() {
-  const discordURL = "https://www.google.com";
-  const twitterURL = "https://www.google.com";
-  const teleURL = "https://www.google.com";
+  const discordURL = "https://discord.com/invite/EAujvncY2R";
+  const twitterURL = "https://twitter.com/pendle_fi/";
+  const teleURL = "https://t.me/pendlefinance/";
 
   return (
     <div className={styles.root}>
