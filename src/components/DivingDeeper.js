@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import styles from "./DivingDeeper.module.css";
-
+import Link from "@docusaurus/Link";
 import lottie from "lottie-web";
 import GovernanceAnimationData from "../lotties/Governance.json";
 import SDKAnimationData from "../lotties/SDK.json";
@@ -14,7 +14,7 @@ export default function DivingDeeper() {
   useEffect(() => {
     lottie.loadAnimation({
       container: sdkRef.current,
-      name: 'sdk',
+      name: "sdk",
       renderer: "svg",
       loop: false,
       autoplay: false,
@@ -23,7 +23,7 @@ export default function DivingDeeper() {
 
     lottie.loadAnimation({
       container: yieldRef.current,
-      name: 'yield',
+      name: "yield",
       renderer: "svg",
       loop: false,
       autoplay: false,
@@ -32,7 +32,7 @@ export default function DivingDeeper() {
 
     lottie.loadAnimation({
       container: governanceRef.current,
-      name: 'governance',
+      name: "governance",
       renderer: "svg",
       loop: false,
       autoplay: false,
@@ -71,9 +71,10 @@ export default function DivingDeeper() {
                 playReverse("yield");
               }}
             >
-              <div className={styles.lottie} ref={yieldRef} />
-
-              <div className={styles.featureTitle}>Yield Trading</div>
+              <Link className={styles.link} to="/docs/PendlePro/YieldTrading">
+                <div className={styles.lottie} ref={yieldRef} />
+                <div className={styles.featureTitle}>Yield Trading</div>
+              </Link>
             </div>
             <div
               className={styles.indivFeature}
@@ -84,8 +85,10 @@ export default function DivingDeeper() {
                 playReverse("governance");
               }}
             >
-              <div className={styles.lottie} ref={governanceRef} />
-              <div className={styles.featureTitle}>Governance</div>
+              <Link className={styles.link} to="/docs/$PENDLE/$PENDLEnomics">
+                <div className={styles.lottie} ref={governanceRef} />
+                <div className={styles.featureTitle}>Governance</div>
+              </Link>
             </div>
           </div>
         </div>
@@ -98,8 +101,10 @@ export default function DivingDeeper() {
             playReverse("sdk");
           }}
         >
-          SDK
-          <div className={styles.sdkLottie} ref={sdkRef} />
+          <Link className={styles.link} to="/docs">
+            SDK
+            <div className={styles.sdkLottie} ref={sdkRef} />
+          </Link>
         </div>
       </div>
     </div>

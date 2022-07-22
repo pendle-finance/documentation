@@ -1,50 +1,56 @@
-.featureCard{
-    display: flex;
-    width: 48%;
-    flex-direction: column;
-    align-items: center;
-    background-color: #1F2536;
-    color: white;
-    border-radius: 1rem;
-    padding: 3rem 2rem 2rem 2rem;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 700;
-  }
-.rightFeatureCard{
-    display: flex;
-    cursor: pointer;
-    width: 48%;
-    flex-direction: column;
-    align-items: center;
-    background-color: #1F2536;
-    color: white;
-    border-radius: 1rem;
-    padding: 3rem 2rem 2rem 2rem;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 700;
-  }
-.featureContainer{
-    display: flex;
-    justify-content: space-between;
+.featureCard {
+  display: flex;
+  width: 48%;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1F2536;
+  color: white;
+  border-radius: 1rem;
+  padding: 3rem 2rem 2rem 2rem;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
 }
-.featureTitle{
+
+.rightFeatureCard {
+  display: flex;
+  cursor: pointer;
+  width: 48%;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1F2536;
+  color: white;
+  border-radius: 1rem;
+  padding: 3rem 2rem 2rem 2rem;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.featureContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.featureTitle {
   margin-top: 1rem;
   height: 40px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
-.leftFeatures{
+
+.leftFeatures {
   display: flex;
   justify-content: space-between;
   width: 100%;
 }
-.indivFeature{
+
+.indivFeature {
   margin-top: 1rem;
   padding: 1rem;
   background: linear-gradient(#1F2536, #1F2536) padding-box,
-  linear-gradient(45deg, #4771B5, #7ED8C9) border-box;
+    linear-gradient(45deg, #4771B5, #7ED8C9) border-box;
   border: solid transparent;
   border-radius: 1rem;
   width: 48%;
@@ -54,21 +60,32 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  }
-.image{
+}
+
+.image {
   height: 100px;
   width: 100px;
   margin-top: 2rem;
 }
 
-  
-.root{
+
+.root {
   margin-top: 3rem;
 }
-.sdkLottie{
+
+.sdkLottie {
 
   margin-top: 3rem;
 }
-.lottie{
-  width: 50%;
+
+.lottie {
+  height: 5rem;
+}
+.link:hover {
+  text-decoration: none;
+  color: white;
+}
+
+.link {
+  color: white;
 }
