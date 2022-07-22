@@ -71,7 +71,7 @@ export default function DivingDeeper() {
                 playReverse("yield");
               }}
             >
-              <Link className={styles.link} to="/docs/PendlePro/YieldTrading">
+              <Link className={styles.link} to="/PendlePro/YieldTrading">
                 <div className={styles.lottie} ref={yieldRef} />
                 <div className={styles.featureTitle}>Yield Trading</div>
               </Link>
@@ -85,7 +85,7 @@ export default function DivingDeeper() {
                 playReverse("governance");
               }}
             >
-              <Link className={styles.link} to="/docs/$PENDLE/$PENDLEnomics">
+              <Link className={styles.link} to="/$PENDLE/$PENDLEnomics">
                 <div className={styles.lottie} ref={governanceRef} />
                 <div className={styles.featureTitle}>Governance</div>
               </Link>
@@ -101,7 +101,7 @@ export default function DivingDeeper() {
             playReverse("sdk");
           }}
         >
-          <Link className={styles.link} to="/docs">
+          <Link className={styles.link} to="/introduction">
             SDK
             <div className={styles.sdkLottie} ref={sdkRef} />
           </Link>

@@ -1,61 +1,58 @@
 .root {
-  margin: 3rem 0rem;
+    margin: 3rem 0rem;
 }
+
 .linkContainer {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
+
 .discordLink {
-  background: rgb(107, 122, 255);
-  color: white;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
-  border-radius: 1rem;
+    background: rgb(107, 122, 255);
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 1rem;
+    color: white !important;
+    text-decoration: none !important;
 }
-.discordLink:hover{
-  color: white;
-  text-decoration: none;
-}
-.twitterLink:hover{
-  color: white;
-  text-decoration: none;
-}
-.telegramLink:hover{
-  color: white;
-  text-decoration: none;
-}
+
 .filter {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(38px);
-  border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 1.5rem 7rem;
-  width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(38px);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem 7rem;
+    width: 100%;
 }
+
 .filter:hover {
-  backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px);
 }
+
 .twitterLink {
-  background-color: #48b2f4;
-  color: white;
-
-  border-radius: 1rem;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
+    background-color: #48b2f4;
+    color: white !important;
+    text-decoration: none !important;
+    border-radius: 1rem;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
 }
+
 .telegramLink {
-  background-color: #69aeff;
-  color: white;
+    background-color: #69aeff;
+    color: white !important;
+    text-decoration: none !important;
 
-  border-radius: 1rem;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
+    border-radius: 1rem;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
 }
+
 .logo {
-  margin-right: 1rem;
+    margin-right: 1rem;
 }
