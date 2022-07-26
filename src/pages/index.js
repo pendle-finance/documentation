@@ -9,7 +9,7 @@ function HomepageHeader() {
   return (
     <header className={styles.heroBanner}>
       <h1 className="hero__title">Welcome to the Pendle Docs</h1>
-      <p className="hero__subtitle">Learn more about Pendle, a decentralised finance protocol that allows users to tokenize and sell future yields.</p>
+      <p className={styles.subtitle}>Learn more about Pendle, a decentralised finance protocol that allows users to tokenize and sell future yields.</p>
     </header>
   );
 }

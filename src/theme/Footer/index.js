@@ -4,16 +4,16 @@
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React from 'react';
-import clsx from 'clsx';
-import Link from '@docusaurus/Link';
-import {useThemeConfig} from '@docusaurus/theme-common';
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import isInternalUrl from '@docusaurus/isInternalUrl';
-import styles from './styles.module.css';
-import ThemedImage from '@theme/ThemedImage';
+import React from "react";
+import clsx from "clsx";
+import Link from "@docusaurus/Link";
+import { useThemeConfig } from "@docusaurus/theme-common";
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import isInternalUrl from "@docusaurus/isInternalUrl";
+import styles from "./styles.module.css";
+import ThemedImage from "@theme/ThemedImage";
 
-function FooterLink({to, href, label, prependBaseUrlToHref, ...props}) {
+function FooterLink({ to, href, label, prependBaseUrlToHref, ...props }) {
   const toUrl = useBaseUrl(to);
   const normalizedHref = useBaseUrl(href, {
     forcePrependBaseUrl: true,
@@ -28,19 +28,14 @@ function FooterLink({to, href, label, prependBaseUrlToHref, ...props}) {
         : {
             to: toUrl,
           })}
-      {...props}>
-      {href && !isInternalUrl(href) ? (
-        <span>
-          {label}
-        </span>
-      ) : (
-        label
-      )}
+      {...props}
+    >
+      {href && !isInternalUrl(href) ? <span>{label}</span> : label}
     </Link>
   );
 }
 
-const FooterLogo = ({sources, alt, width, height}) => (
+const FooterLogo = ({ sources, alt, width, height }) => (
   <ThemedImage
     className="footer__logo"
     alt={alt}
@@ -51,93 +46,48 @@ const FooterLogo = ({sources, alt, width, height}) => (
 );
 
 function Footer() {
-  const {footer} = useThemeConfig();
-  const {copyright, links = [], logo = {}} = footer || {};
-  const sources = {
-    light: useBaseUrl(logo.src),
-    dark: useBaseUrl(logo.srcDark || logo.src),
-  };
-
-  if (!footer) {
-    return null;
-  }
-
   return (
-    <footer
-      className={clsx('footer', styles.footerPadding, {
-        'footer--dark': footer.style === 'dark',
-      })}>
-      <div className="container">
-        <div className={clsx('row', styles.footerRow)}>
-          <div className="col col--2 col--offset-1">
-            {(logo) && (
-              <div className="footer__bottom text--center">
-                {logo && (logo.src || logo.srcDark) && (
-                  <div className="margin-bottom--sm">
-                    {logo.href ? (
-                      <Link href={logo.href} className={styles.footerLogoLink}>
-                        <FooterLogo
-                          alt={logo.alt}
-                          sources={sources}
-                          width={logo.width}
-                          height={logo.height}
-                        />
-                      </Link>
-                    ) : (
-                      <FooterLogo alt={logo.alt} sources={sources} />
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-          <div className="col col--4 col--offset-3">
-            {links && links.length > 0 && (
-              <div className={clsx('row footer__links', styles.footerColumn)}>
-                {links.map((linkItem, i) => (
-                  <div key={i} className="col footer__col">
-                    {linkItem.title != null ? (
-                      <div className="footer__title">{linkItem.title}</div>
-                    ) : null}
-                    {linkItem.items != null &&
-                    Array.isArray(linkItem.items) &&
-                    linkItem.items.length > 0 ? (
-                      <ul className="footer__items">
-                        {linkItem.items.map((item, key) =>
-                          item.html ? (
-                            <li
-                              key={key}
-                              className="footer__item" // Developer provided the HTML, so assume it's safe.
-                              // eslint-disable-next-line react/no-danger
-                              dangerouslySetInnerHTML={{
-                                __html: item.html,
-                              }}
-                            />
-                          ) : (
-                            <li key={item.href || item.to} className="footer__item">
-                              <FooterLink {...item} />
-                            </li>
-                          ),
-                        )}
-                      </ul>
-                    ) : null}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-          {copyright ? (
-            <div
-              className="footer__copyright" // Developer provided the HTML, so assume it's safe.
-              // eslint-disable-next-line react/no-danger
-              dangerouslySetInnerHTML={{
-                __html: copyright,
-              }}
-            />
-          ) : null}
-        </div>
+    <div className={styles.root}>
+      <div className={styles.linkGroup}>
+        <div className={styles.linkGroupTitle}>Pages</div>
+        <a href="https://www.pendle.finance/" target="_blank">
+          Website
+        </a>
+        <a href="https://app.pendle.finance/market" target="_blank">
+          App
+        </a>
       </div>
-    </footer>
+      <div className={styles.linkGroup}>
+        <div className={styles.linkGroupTitle}>Socials</div>
+        <a href="https://discord.com/invite/EAujvncY2R" target="_blank">
+          Discord
+        </a>
+        <a href="https://twitter.com/pendle_fi/" target="_blank">
+          Twitter
+        </a>
+        <a href="https://t.me/pendlefinance/" target="_blank">
+          Telegram
+        </a>
+      </div>
+      <div className={styles.linkGroup}>
+        <div className={styles.linkGroupTitle}>About Us</div>
+        <a href="https://medium.com/pendle/" target="_blank">
+          Medium
+        </a>
+        <a href="https://angel.co/company/pendle_finance/" target="_blank">
+          Careers
+        </a>
+        <a href="https://pendle.finance/Pendle_Media_Kit.zip" target="_blank">
+          Media Kit
+        </a>
+        <a
+          href="https://github.com/pendle-finance/pendle-core/tree/master/docs/audits"
+          target="_blank"
+        >
+          Audits
+        </a>
+      </div>
+    </div>
   );
 }
 

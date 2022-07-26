@@ -17,7 +17,14 @@
 .logo{
   width: 80%;
   margin-bottom: 3rem;
+  /* margin-top: var(--ifm-navbar-height); */
+  
 }
 .menu{
   padding: 0rem 0.5rem 0rem 2rem;
 }
+@media screen and ( min-height: 900px ) { 
+  .logo{
+    margin-top: var(--ifm-navbar-height);
+  }
+ }

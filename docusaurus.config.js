@@ -28,7 +28,7 @@ module.exports = {
     },
     docs:{
       sidebar: {
-        hideable: true
+        hideable: false
       }
     },
     footer: {

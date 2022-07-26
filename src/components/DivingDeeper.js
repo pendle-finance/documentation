@@ -59,7 +59,7 @@ export default function DivingDeeper() {
     <div className={styles.root}>
       <h2>Diving Deeper</h2>
       <div className={styles.featureContainer}>
-        <div className={styles.featureCard}>
+        <Link to="/PendlePro/UsingPro" className={styles.featureCard}>
           Pendle Pro
           <div className={styles.leftFeatures}>
             <div
@@ -85,13 +85,13 @@ export default function DivingDeeper() {
                 playReverse("governance");
               }}
             >
-              <Link className={styles.link} to="/$PENDLE/$PENDLEnomics">
+              <Link className={styles.link} to="/Governance/$PENDLEnomics">
                 <div className={styles.lottie} ref={governanceRef} />
                 <div className={styles.featureTitle}>Governance</div>
               </Link>
             </div>
           </div>
-        </div>
+        </Link>
         <div
           className={styles.rightFeatureCard}
           onMouseEnter={() => {

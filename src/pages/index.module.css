@@ -9,7 +9,6 @@
   padding: 4rem 0 2rem 0;
   position: relative;
   overflow: hidden;
-  width: 70vw;
 }
 
 .buttons {
@@ -21,4 +20,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.subtitle{
+  color:red;
 }

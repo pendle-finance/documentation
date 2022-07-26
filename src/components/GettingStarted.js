@@ -54,6 +54,7 @@ export default function GettingStarted() {
     lottie.setSpeed(2);
     lottie.play(name);
   };
+
   return (
     <div>
       <h2>Getting Started</h2>
@@ -72,7 +73,7 @@ export default function GettingStarted() {
             <div className={styles.introLottie} ref={introRef} />
           </Link>
         </div>
-        <div className={styles.featureCard}>
+        <Link to="/simple" className={styles.featureCard}>
           Using Pendle
           <div className={styles.rightFeatures}>
             <div
@@ -84,7 +85,7 @@ export default function GettingStarted() {
                 playReverse("discount");
               }}
             >
-              <Link className={styles.link} to="/simple">
+              <Link className={styles.link} to="/simple/discount">
                 <div className={styles.lottie} ref={discountRef} />
                 <div className={styles.featureTitle}>
                   Purchase Assets <br /> at a Discount
@@ -100,13 +101,13 @@ export default function GettingStarted() {
                 playReverse("farm");
               }}
             >
-              <Link className={styles.link} to="/simple#farm">
+              <Link className={styles.link} to="/simple/farm">
                 <div className={styles.lottie} ref={farmRef} />
                 <div className={styles.featureTitle}>Farm</div>
               </Link>
             </div>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   );

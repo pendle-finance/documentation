@@ -4,12 +4,18 @@
   flex-direction: column;
   align-items: center;
   background-color: #1F2536;
-  color: white;
+  color: white !important;
+  text-decoration: none !important;
   border-radius: 1rem;
   padding: 2rem 2rem 2rem 2rem;
   text-align: center;
   font-size: 20px;
   font-weight: 700;
+}
+
+.featureCard:hover{
+  text-shadow: 0 0 20px #fff;
+  background-color: #191D27;
 }
 
 .rightFeatureCard {
@@ -26,6 +32,10 @@
   font-size: 20px;
   font-weight: 700;
 }
+.rightFeatureCard:hover{
+  text-shadow: 0 0 20px #fff;
+  background-color: #191D27;
+}
 
 .featureContainer {
   display: flex;
@@ -38,6 +48,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  text-shadow: none;
 }
 
 .leftFeatures {
@@ -60,6 +71,11 @@
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+
+}
+.indivFeature:hover{
+  background: linear-gradient(#191D27, #191D27) padding-box,
+    linear-gradient(45deg, #4771B5, #7ED8C9) border-box;
 }
 
 .image {
@@ -84,4 +100,33 @@
 .link {
   text-decoration: none !important;
   color: white !important;
+}
+
+@media only screen and (max-width: 1024px) {
+  .featureContainer {
+    flex-direction: column;
+  }
+
+  .rightFeatureCard {
+    width: 90vw;
+    margin-top: 1rem;
+    padding: 1rem
+  }
+
+  .featureCard {
+    width: 90vw;
+    padding: 1rem;
+  }
+  .lottie{
+    height: 3rem;
+  }
+  .sdkLottie{
+    margin-top: 1rem;
+  }
+  .indivFeature{
+    padding: 0.5rem;
+  }
+  .root {
+    margin-top: 3rem;
+  }
 }
