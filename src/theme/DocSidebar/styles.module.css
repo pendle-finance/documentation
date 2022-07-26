@@ -10,7 +10,7 @@
 }
 
 @media (min-width: 997px) {
-  .sidebar {
+  /* .sidebar {
     display: flex;
     flex-direction: column;
     max-height: 100vh;
@@ -22,6 +22,10 @@
     padding-right: 1rem;
     width: var(--doc-sidebar-width);
     transition: opacity 50ms ease;
+  } */
+
+  aside {
+    margin-top: 0 !important;
   }
 
   .sidebarWithHideableNavbar {
