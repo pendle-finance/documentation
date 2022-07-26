@@ -1,9 +1,9 @@
 import React from 'react';
 import Navbar from '@theme-original/Navbar';
-
+import styles from "./index.module.css"
 export default function NavbarWrapper(props) {
   return (
-    <div style={{display: 'none'}}>
+    <div className={styles.nav}>
       <Navbar {...props} />
     </div>
   );

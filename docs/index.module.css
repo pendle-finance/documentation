@@ -5,20 +5,35 @@
  * and scoped locally.
  */
 
- .heroBanner {
-    padding: 1rem 0 0rem 0;
-    position: relative;
-    overflow: hidden;
-    width: 70vw;
+.heroBanner {
+  padding: 0rem;
+  position: relative;
+  overflow: hidden;
+  width: 65vw;
+  max-width: 900px;
+
+}
+@media only screen and (max-width: 1024px) {
+  .heroBanner{
+    width: 90vw;
   }
-  
-  .buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .root{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: red; */
+  width: 100%;
+
+}
+
+.subtitle {
+  font-size: 16px;
+}
