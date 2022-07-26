@@ -25,16 +25,19 @@ module.exports = {
       collapsed: true,
       items: [
         {
+          type: "doc",
+          id: "PendlePro/UsingPro"
+        },
+        {
           type: "category",
-          label: "Using Pendle Pro",
+          label: "Guides",
           collapsed: true,
           items: [
-            { type: "doc", id: "PendlePro/UsingPro/UsingPro" },
-            { type: "doc", id: "PendlePro/UsingPro/Mint" },
-            { type: "doc", id: "PendlePro/UsingPro/Trade" },
-            { type: "doc", id: "PendlePro/UsingPro/LiquidityProvision" },
-            { type: "doc", id: "PendlePro/UsingPro/Claim" },
-            { type: "doc", id: "PendlePro/UsingPro/CreatingNewPools" },
+            { type: "doc", id: "PendlePro/Guides/Mint" },
+            { type: "doc", id: "PendlePro/Guides/Trade" },
+            { type: "doc", id: "PendlePro/Guides/LiquidityProvision" },
+            { type: "doc", id: "PendlePro/Guides/Claim" },
+            { type: "doc", id: "PendlePro/Guides/CreatingNewPools" },
           ],
         },
         {
@@ -53,7 +56,6 @@ module.exports = {
           label: "How it Works",
           collapsed: true,
           items: [
-            { type: "doc", id: "PendlePro/HowItWorks/HowItWorks" },
             { type: "doc", id: "PendlePro/HowItWorks/SCY" },
             { type: "doc", id: "PendlePro/HowItWorks/AMM" },
             { type: "doc", id: "Governance/vePENDLE" },
@@ -66,6 +68,7 @@ module.exports = {
       label: "Governance",
       collapsed: true,
       items: [
+        { type: "doc", id: "Governance/$PENDLE", label: "$PENDLE" },
         { type: "doc", id: "Governance/$PENDLEnomics", label: "$PENDLEnomics" },
         { type: "doc", id: "Governance/vePENDLE", label: "vePENDLE" },
         {
