@@ -102,6 +102,10 @@ figcaption {
   text-align: center;
 }
 
+p{
+  margin: 0;
+}
+
 .hero__title {
   text-align: left;
   font-size: 40px;
