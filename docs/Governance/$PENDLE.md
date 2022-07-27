@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # $PENDLE
 
 $PENDLE is the platform token of Pendle, and is the cornerstone of value accrual mechanics and management of the protocol.
@@ -22,7 +26,8 @@ It also functions as the governance token, by staking and locking into vePENDLE.
   <tr>
    <td>Address (Ethereum)
    </td>
-   <td>0x808507121b80c02388fad14726482e061b8da827
+   <td>
+    0x808507121b80c02388fad14726482e061b8da827
    </td>
   </tr>
   <tr>

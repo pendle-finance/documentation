@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # AMM
 
 Pendle’s V2 AMM is designed specifically for trading yield, and takes advantage of the behaviours of PT and YT.

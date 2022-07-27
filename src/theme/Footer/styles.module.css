@@ -1,17 +1,22 @@
-.root{
+.background{
   width: 100%;
   min-height: 30vh;
   background-image: url("../../../static/img/footer.png");
   background-size: cover;
+  padding: 4rem 12rem;
+  display: flex;
+  justify-content: center;
+}
+.root{
+  width: 1280px;
   display: flex;
   justify-content: flex-end;
-  padding: 4rem 12rem;
 }
 
 .linkGroup{
   display: flex;
   flex-direction: column;
-  margin-right: 6rem;
+  margin-left: 6rem;
   color: #374B6D;
 }
 .linkGroupTitle{
