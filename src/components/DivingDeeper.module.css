@@ -64,6 +64,7 @@
     linear-gradient(45deg, #4771B5, #7ED8C9) border-box;
   border: solid transparent;
   border-radius: 1rem;
+  border-width: thin;
   width: 48%;
   font-size: 14px;
   font-weight: 600;
@@ -86,7 +87,7 @@
 
 
 .root {
-  margin-top: 1rem;
+  margin-top: 3rem;
 }
 
 .sdkLottie {

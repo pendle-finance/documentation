@@ -63,15 +63,17 @@
 .rightFeatures {
   display: flex;
   justify-content: space-between;
+  margin-top: 1rem;
   width: 100%;
 }
 
 .indivFeature {
-  margin-top: 1rem;
+  z-index: 1;
   padding: 1rem;
   background: linear-gradient(#1F2536, #1F2536) padding-box,
     linear-gradient(45deg, #4771B5, #7ED8C9) border-box;
   border: solid transparent;
+  border-width: thin;
   border-radius: 1rem;
   width: 48%;
   font-size: 14px;

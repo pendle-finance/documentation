@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # vePENDLE
 
 Pendle’s governance is powered by Vote-escrowed PENDLE, or vePENDLE.

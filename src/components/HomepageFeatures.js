@@ -9,7 +9,7 @@ export default function HomepageFeatures() {
     <div className={styles.root}>
       <GettingStarted />
       <DivingDeeper />
-      <JoinTheConvo />
+      {/* <JoinTheConvo /> */}
     </div>
   );
 }

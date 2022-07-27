@@ -1,3 +1,7 @@
+---
+hide_table_of_contents: true
+---
+
 # Introduction to Pendle
 
 How much will you earn from lending 1,000 USDC on Aave? 1%? 3%? 5%?
