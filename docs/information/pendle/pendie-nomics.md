@@ -6,12 +6,12 @@ sidebar_position: 1
 
 $PENDLE is currently a pure utility token, with governance functions to come after the protocol has matured sufficiently. It will eventually be key to the value accrual mechanics and management of the protocol.
 
-|        Items        |                Descriptions                |
-| :-----------------: | :----------------------------------------: |
-|    Token Ticker     |                   PENDLE                   |
-|     Token Type      |                   ERC20                    |
-| Address (Ethereum)  | 0x808507121b80c02388fad14726482e061b8da827 |
-| Address (Avalanche) | 0xfB98B335551a418cD0737375a2ea0ded62Ea213b |
+|        Items        |                Descriptions                  |
+| :-----------------: | :----------------------------------------:   |
+|    Token Ticker     |                   PENDLE                     |
+|     Token Type      |                   ERC20                      |
+| Address (Ethereum)  | `0x808507121b80c02388fad14726482e061b8da827` |
+| Address (Avalanche) | `0xfB98B335551a418cD0737375a2ea0ded62Ea213b` |
 
 ## Emission Schedule and Allocation
 
