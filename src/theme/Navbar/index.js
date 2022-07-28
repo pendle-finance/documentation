@@ -1,10 +1,11 @@
-import React from 'react';
-import Navbar from '@theme-original/Navbar';
-import styles from "./index.module.css"
-export default function NavbarWrapper(props) {
+import React from "react";
+import NavbarLayout from "@theme/Navbar/Layout";
+import NavbarContent from "@theme/Navbar/Content";
+import styles from "./index.module.css";
+export default function Navbar() {
   return (
-    <div className={styles.nav}>
-      <Navbar {...props} />
-    </div>
+    <NavbarLayout>
+      <NavbarContent />
+    </NavbarLayout>
   );
 }
