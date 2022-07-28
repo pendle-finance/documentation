@@ -49,6 +49,7 @@ export default function GettingStarted() {
     lottie.setSpeed(2);
     lottie.play(name);
   };
+  
   const playReverse = (name) => {
     lottie.setDirection(-1);
     lottie.setSpeed(2);
