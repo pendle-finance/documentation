@@ -56,7 +56,7 @@ export default function GettingStarted() {
   };
 
   return (
-    <div>
+    <div className={styles.root}>
       <h2>Getting Started</h2>
       <div className={styles.featureContainer}>
         <div
@@ -73,41 +73,43 @@ export default function GettingStarted() {
             <div className={styles.introLottie} ref={introRef} />
           </Link>
         </div>
-        <Link to="/simple" className={styles.featureCard}>
-          Using Pendle
-          <div className={styles.rightFeatures}>
-            <div
-              className={styles.indivFeature}
-              onMouseEnter={() => {
-                play("discount");
-              }}
-              onMouseLeave={() => {
-                playReverse("discount");
-              }}
-            >
-              <Link className={styles.link} to="/simple/discount">
+        <div className={styles.rightFeatureCard}>
+          <Link to="/Simple" className={styles.sibling}>
+            Using Pendle
+          </Link>
+          <Link to="/Simple" className={styles.subFeatures}>
+            <Link to="/Simple/Discount" className={styles.indivFeature}>
+              <div
+                onMouseEnter={() => {
+                  play("discount");
+                }}
+                onMouseLeave={() => {
+                  playReverse("discount");
+                }}
+                className={styles.lottieWrapper}
+              >
                 <div className={styles.lottie} ref={discountRef} />
                 <div className={styles.featureTitle}>
                   Purchase Assets <br /> at a Discount
                 </div>
-              </Link>
-            </div>
-            <div
-              className={styles.indivFeature}
-              onMouseEnter={() => {
-                play("farm");
-              }}
-              onMouseLeave={() => {
-                playReverse("farm");
-              }}
-            >
-              <Link className={styles.link} to="/simple/farm">
+              </div>
+            </Link>
+            <Link to="/Simple/Farm" className={styles.indivFeature}>
+              <div
+                onMouseEnter={() => {
+                  play("farm");
+                }}
+                onMouseLeave={() => {
+                  playReverse("farm");
+                }}
+                className={styles.lottieWrapper}
+              >
                 <div className={styles.lottie} ref={farmRef} />
                 <div className={styles.featureTitle}>Farm</div>
-              </Link>
-            </div>
-          </div>
-        </Link>
+              </div>
+            </Link>
+          </Link>
+        </div>
       </div>
     </div>
   );

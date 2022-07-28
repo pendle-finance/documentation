@@ -1,22 +1,5 @@
-.featureCard {
-  display: flex;
-  width: 48%;
-  flex-direction: column;
-  align-items: center;
-  background-color: #1F2536;
-  color: white !important;
-  border-radius: 1rem;
-  padding: 2rem 2rem 2rem 2rem;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none !important;
-}
-
-.featureCard:hover {
-  background-color: #191D27;
-  text-shadow: 0 0 20px #fff;
+.root{
+  margin-top: 3rem;
 }
 
 .leftFeatureCard {
@@ -49,6 +32,70 @@
   justify-content: space-between;
 }
 
+.rightFeatureCard {
+  width: 48%;
+  cursor: pointer;
+}
+
+.introLottie {
+  margin-top: 3rem;
+  height: 6rem;
+}
+
+.sibling {
+  width: 100%;
+  height: 100%;
+  background-color: #1F2536;
+  border-radius: 1rem;
+  color: white !important;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none !important;
+
+}
+
+.sibling:hover {
+  background-color: #191D27;
+  text-shadow: 0 0 20px #fff;
+
+}
+
+.subFeatures {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin-left: 5%;
+  margin-bottom: 1rem;
+  position: relative;
+  color: white !important;
+  text-decoration: none !important;
+  top: -11rem;
+}
+
+.indivFeature {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(#1F2536, #1F2536) padding-box,
+    linear-gradient(45deg, #4771B5, #7ED8C9) border-box;
+  border: solid transparent;
+  border-width: thin;
+  border-radius: 1rem;
+  color: white !important;
+  text-decoration: none !important;
+  font-size: 14px;
+}
+
+.indivFeature:hover {
+  background: linear-gradient(#191D27, #191D27) padding-box,
+    linear-gradient(45deg, #4771B5, #7ED8C9) border-box;
+}
 .featureTitle {
   margin-top: 1rem;
   height: 40px;
@@ -58,78 +105,51 @@
   justify-content: center;
   text-shadow: none;
 }
-
-
-.rightFeatures {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-  width: 100%;
-}
-
-.indivFeature {
-  z-index: 1;
-  padding: 1rem;
-  background: linear-gradient(#1F2536, #1F2536) padding-box,
-    linear-gradient(45deg, #4771B5, #7ED8C9) border-box;
-  border: solid transparent;
-  border-width: thin;
-  border-radius: 1rem;
-  width: 48%;
-  font-size: 14px;
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.indivFeature:hover {
-  background: linear-gradient(#191D27, #191D27) padding-box,
-    linear-gradient(45deg, #4771B5, #7ED8C9) border-box;
-}
-
-
-.image {
-  height: 100px;
-  width: 100px;
-  margin-top: 2rem;
-}
-
-.introLottie {
-  margin-top: 3rem;
-  height: 6rem;
-}
-
 .lottie {
   height: 4rem;
 }
+.lottieWrapper{
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+
+}
+
+
 
 @media only screen and (max-width: 1024px) {
-  .featureContainer {
-    flex-direction: column;
-  }
 
   .leftFeatureCard {
     width: 90vw;
     padding: 1rem;
-
   }
 
-  .featureCard {
+  .featureContainer {
+    flex-direction: column;
+  }
+
+  .rightFeatureCard{
+    width: 100%;
     margin-top: 1rem;
-    width: 90vw;
+    height: 25vh;
+  }
+  .lottie {
+    height: 3rem;
+  }
+  .sibling{
     padding: 1rem;
+  }
+  .subFeatures{
+    margin-bottom: 0;
+    top: -9rem;
+  }
+  .featureTitle{
+    margin-top: 0.5rem;
   }
 
   .introLottie {
     margin-top: 1rem;
+    height: 5rem;
   }
 
-  .lottie {
-    height: 3rem;
-  }
-
-  .indivFeature{
-    padding: 0.5rem;
-  }
 }
