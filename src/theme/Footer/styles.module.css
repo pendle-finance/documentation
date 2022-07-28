@@ -29,10 +29,13 @@
   .root{
     padding: 0rem;
     background-image: none;
-    background-color: #E4EBF3;
+    background-color: #D6E1EF;
     justify-content: space-evenly;
   }
   .linkGroup{
-    margin: 2rem 0rem;
+    margin: 2rem 1rem;
+  }
+  .background{
+    background-image: none;
   }
 }
