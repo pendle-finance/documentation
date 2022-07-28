@@ -76,7 +76,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--ifm-font-family-headers);
+  font-family: "Inter";
 }
 
 h3 code {
@@ -102,13 +102,18 @@ figcaption {
   text-align: center;
 }
 
+p{
+  margin: 0;
+}
+
 .hero__title {
   text-align: left;
+  font-size: 40px;
 }
 
 .hero__subtitle {
-  text-align: justify;
-  width: 50%
+  text-align: left;
+  font-size: 14px;
 }
 
 .main--landing {

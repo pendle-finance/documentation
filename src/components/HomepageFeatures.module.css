@@ -1,23 +1,10 @@
-.features {
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
-  width: 100%;
+.root{
+  width: 65vw;
+  max-width: 900px;
 }
 
-.featureSvg {
-  float: left;
-  vertical-align: middle;
-  height: 50px;
-  width: 50px;
-  margin-top: 10px;
-}
-
-.featureText {
-  color: #152e51;
-  font-size: 1rem;
-}
-
-.featureRow {
-  justify-content: left;
+@media only screen and (max-width: 1024px) {
+  .root{
+    width: 90vw;
+  }
 }

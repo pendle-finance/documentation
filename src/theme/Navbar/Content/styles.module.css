@@ -1,0 +1,14 @@
+/*
+Hide color mode toggle in small viewports
+ */
+@media (max-width: 996px) {
+  .colorModeToggle {
+    display: none;
+  }
+}
+
+.root{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 0px;
+}
