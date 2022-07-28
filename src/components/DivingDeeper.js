@@ -59,39 +59,43 @@ export default function DivingDeeper() {
     <div className={styles.root}>
       <h2>Diving Deeper</h2>
       <div className={styles.featureContainer}>
-        <Link to="/PendlePro/UsingPro" className={styles.featureCard}>
-          Pendle Pro
-          <div className={styles.leftFeatures}>
-            <div
-              className={styles.indivFeature}
-              onMouseEnter={() => {
-                play("yield");
-              }}
-              onMouseLeave={() => {
-                playReverse("yield");
-              }}
-            >
-              <Link className={styles.link} to="/PendlePro/YieldTrading">
+        <div className={styles.leftFeatureCard}>
+          <Link to="/PendlePro/UsingPro" className={styles.sibling}>
+            Pendle Pro
+          </Link>
+          <Link to="/PendlePro/UsingPro" className={styles.subFeatures}>
+            <Link to="/PendlePro/YieldTrading" className={styles.indivFeature}>
+              <div
+                onMouseEnter={() => {
+                  play("yield");
+                }}
+                onMouseLeave={() => {
+                  playReverse("yield");
+                }}
+                className={styles.lottieWrapper}
+              >
                 <div className={styles.lottie} ref={yieldRef} />
-                <div className={styles.featureTitle}>Yield Trading</div>
-              </Link>
-            </div>
-            <div
-              className={styles.indivFeature}
-              onMouseEnter={() => {
-                play("governance");
-              }}
-              onMouseLeave={() => {
-                playReverse("governance");
-              }}
-            >
-              <Link className={styles.link} to="/Governance/$PENDLEnomics">
+                <div className={styles.featureTitle}>
+                  Yield Trading
+                </div>
+              </div>
+            </Link>
+            <Link to="/Governance/$PENDLE" className={styles.indivFeature}>
+              <div
+                onMouseEnter={() => {
+                  play("governance");
+                }}
+                onMouseLeave={() => {
+                  playReverse("governance");
+                }}
+                className={styles.lottieWrapper}
+              >
                 <div className={styles.lottie} ref={governanceRef} />
                 <div className={styles.featureTitle}>Governance</div>
-              </Link>
-            </div>
-          </div>
-        </Link>
+              </div>
+            </Link>
+          </Link>
+        </div>
         <div
           className={styles.rightFeatureCard}
           onMouseEnter={() => {
