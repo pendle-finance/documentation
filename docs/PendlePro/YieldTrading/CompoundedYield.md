@@ -10,11 +10,7 @@ One big risk here though - you're "leveraged to the tits", as it were. On the of
 
 With Pendle, you can leverage your exposure to the yield of a yield-bearing asset without any borrowing, meaning that there's **no liquidation risk** and you can multiply your profits without risking more than what you invest if you are **bullish** on yield.
 
-<!-- <p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image6.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-![alt_text](images/image6.png "image_tooltip") -->
-
-_Literally cannot go tits up_
+![Literally cannot go tits up](../../../static/img/pendlepro/literally_cannot_go_tits_up.png "Literally cannot go tits up")
 
 To leverage, you simply buy YT. YT is **capital efficient**, as you can buy more YT with the same amount of capital since it always costs less than the underlying asset. Holding more YT entitles you to more units of the asset yield, thus increasing your exposure to the yield.
 
@@ -22,11 +18,10 @@ To leverage, you simply buy YT. YT is **capital efficient**, as you can buy more
 
 Anton is a savvy trader. Anton looks at the 3% lending rates for USDC on Aave and thinks that it will increase to 5% by EOY as demand for stablecoins will increase with an overall bearish market.
 
-<!-- <p id="gdcalert7" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image7.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert8">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-![alt_text](images/image7.png "image_tooltip") -->
-
-_USDC on Aave_
+<figure>
+  <img src="/img/pendlepro/usdc_on_aave.png" alt="USDC on Aave" />
+  <figcaption>USDC on Aave</figcaption>
+</figure>
 
 Let's say Anton has 1,000 USDC. If Anton simply deposits his USDC into Aave, he will receive 1,000 aUSDC in return, and by EOY, if his predictions come true, he will have 1,050 aUSDC, a 5% yield.
 

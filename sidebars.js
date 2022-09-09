@@ -17,6 +17,7 @@ module.exports = {
         { type: "doc", id: "Simple/Simple" },
         { type: "doc", id: "Simple/Discount" },
         { type: "doc", id: "Simple/Farm" },
+        { type: "doc", id: "Simple/Dashboard" },
       ],
     },
     {
@@ -34,8 +35,8 @@ module.exports = {
           collapsed: true,
           items: [
             { type: "doc", id: "PendlePro/Guides/Mint" },
-            { type: "doc", id: "PendlePro/Guides/Trade" },
-            { type: "doc", id: "PendlePro/Guides/LiquidityProvision" },
+            { type: "doc", id: "PendlePro/Guides/Swap" },
+            { type: "doc", id: "PendlePro/Guides/Farm" },
             { type: "doc", id: "PendlePro/Guides/Claim" },
             { type: "doc", id: "PendlePro/Guides/CreatingNewPools" },
           ],
@@ -56,7 +57,7 @@ module.exports = {
           label: "How it Works",
           collapsed: true,
           items: [
-            { type: "doc", id: "PendlePro/HowItWorks/SCY" },
+            { type: "doc", id: "PendlePro/HowItWorks/EIP5115" },
             { type: "doc", id: "PendlePro/HowItWorks/AMM" },
             { type: "doc", id: "Governance/vePENDLE" },
           ],
@@ -93,7 +94,7 @@ module.exports = {
       collapsed: true,
       items: [
         { type: "doc", id: "FAQ/General", label: "General FAQ" },
-        { type: "doc", id: "FAQ/InAppFAQ", label: "In App FAQ" },
+        { type: "doc", id: "FAQ/InAppFAQ", label: "In-App FAQ" },
       ],
     },
   ],

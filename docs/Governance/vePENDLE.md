@@ -6,7 +6,7 @@ hide_table_of_contents: true
 
 Pendle’s governance is powered by Vote-escrowed PENDLE, or vePENDLE.
 
-vePENDLE enables Pendle to be further decentralised. With vePENDLE, an array of new features are unlocked for $PENDLE holders, increasing the utility of the token.
+vePENDLE enables Pendle to be further decentralized. With vePENDLE, an array of new features are unlocked for $PENDLE holders, increasing the utility of the token.
 
 As a result, it also creates another sink for the $PENDLE token, giving more stability to the price of the token and to the protocol.
 

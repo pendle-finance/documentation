@@ -14,7 +14,7 @@ In TradFi, what Pendle does is similar to bond stripping. The principal and inte
 
 To enable Pendle Pro, toggle the button in the top right corner of the app.
 
-&lt;insert UI screenshot>
+// TODO insert UI screenshot
 
 If you are new to Pendle or yield trading, we have a handy tutorial in this section to give you a tour of the Pro interface, and a simple guide in the next section for you to learn about the basics of yield trading.
 

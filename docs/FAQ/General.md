@@ -38,11 +38,12 @@ Pro UI gives users the full suite of functions on Pendle, allowing users to yiel
 
 You can switch between the two modes by toggling the UI at the top right corner of the app.
 
-&lt;screenshot>
+![Simple Toggle](/img/faq/simple_toggle.png "Simple Toggle")
+![Pro Toggle](/img/faq/pro_toggle.png "Pro Toggle")
 
 ### What is an epoch?
 
-For Pendle, an epoch is exactly one week. Each epoch starts and ends at &lt;DAY,TIME>.
+For Pendle, an epoch is exactly one week. Each epoch starts and ends at Thursday, 00:00 UTC.
 
 Snapshots of vePENDLE voting are taken every epoch, and non-yield rewards (e.g. $COMP, $QI tokens) are also distributed every epoch.
 
