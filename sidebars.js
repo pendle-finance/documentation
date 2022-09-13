@@ -14,10 +14,10 @@ module.exports = {
       type: "category",
       label: "Using Pendle",
       items: [
-        { type: "doc", id: "Simple/Simple" },
-        { type: "doc", id: "Simple/Discount" },
-        { type: "doc", id: "Simple/Farm" },
-        { type: "doc", id: "Simple/Dashboard" },
+        { type: "doc", id: "UsingPendle/Simple" },
+        { type: "doc", id: "UsingPendle/Discount" },
+        { type: "doc", id: "UsingPendle/Farm" },
+        { type: "doc", id: "UsingPendle/Dashboard" },
       ],
     },
     {
@@ -42,15 +42,8 @@ module.exports = {
           ],
         },
         {
-          type: "category",
-          label: "ELI15 Yield Trading",
-          collapsed: true,
-          items: [
-            { type: "doc", id: "PendlePro/YieldTrading/YieldTrading" },
-            { type: "doc", id: "PendlePro/YieldTrading/TheBasics" },
-            { type: "doc", id: "PendlePro/YieldTrading/FixedYield" },
-            { type: "doc", id: "PendlePro/YieldTrading/CompoundedYield" },
-          ],
+          type: "doc",
+          id: "PendlePro/YieldTrading"
         },
         {
           type: "category",

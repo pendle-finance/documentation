@@ -9,7 +9,7 @@ How much will you earn from lending 1,000 USDC on Aave? 1%? 3%? 5%?
 Truth is, you can't say for sure. Yield fluctuates just like token prices. It tends to go up in bull markets, and go down in bear markets, and there are further micro-factors that cause fluctuations within those general market trends.
 
 <figure>
-  <img src="/img/introduction/historical_yield.png" alt="Compound historical yield charts" />
+  <img src="/img/introduction/historical_yield.jpg" alt="Compound historical yield charts" />
   <figcaption>Compound historical yield charts from <a href="https://www.theblockcrypto.com/data/decentralized-finance/cryptocurrency-lending/compound-lending-rates">The Block Crypto</a></figcaption>
 </figure>
 

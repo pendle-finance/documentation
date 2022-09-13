@@ -16,7 +16,7 @@ Stake $PENDLE and receive vePENDLE. Your vePENDLE value is proportional to the a
 
 Your vePENDLE value will decay over time, and reaches zero once the stake duration is over. Your staked $PENDLE will then be released.
 
-&lt;graph of vePENDLE value over time>
+![vePendle Value Over Time](/img/governance/vependle_value.jpg "vePendle Value Over Time")
 
 To increase your vePENDLE value, you can choose to extend your staking duration and/or increase your staked amount.
 
@@ -30,21 +30,19 @@ A portion of yield from expired PTs will be distributed pro rata to vePENDLE hol
 
 For example, expired PT-aUSDC is equivalent to aUSDC. If left unredeemed, all of its yield will be converted to a stablecoin and collected by the protocol, and a portion of the yield will be distributed to vePENDLE holders.
 
-&lt;sankey diagram of protocol fees?>
+![Protocol Fees](/img/governance/protocol_fees.jpg "Protocol Fees")
 
-These rewards will be converted to USDC and distributed every epoch at &lt;DAY,TIME> via Ethereum, regardless of where your vePENDLE is being held.
+These rewards will be converted to USDC and distributed every epoch at Thursday, 00:00 UTC via Ethereum, regardless of where your vePENDLE is being held.
 
 ## Incentive Channelling
 
-vePENDLE powers the incentive channelling mechanism on Pendle. vePENDLE holders vote for and direct the flow of rewards to different pools, effectively incentivising liquidity in the pool they vote for.
+vePENDLE powers the incentive channelling mechanism on Pendle. vePENDLE holders vote for and direct the flow of rewards to different pools, effectively incentivizing liquidity in the pool they vote for.
 
 Intuitively, the higher your vePENDLE value, the more incentives you are entitled to channel.
 
-A snapshot of all votes is taken at the start of every epoch at &lt;DAY,TIME> and the incentive rates for each pool will be adjusted accordingly.
+A snapshot of all votes is taken at the start of every epoch at Thursday, 00:00 UTC and the incentive rates for each pool will be adjusted accordingly.
 
-<!-- <p id="gdcalert14" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image14.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert15">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-![alt_text](images/image14.png "image_tooltip") -->
+![Epoch Snapshots](/img/governance/epoch_snapshots.png "Epoch Snapshots")
 
 Voting for a pool also entitles vePENDLE holders to &lt;XX>% of the swap fees collected by the pool.
 
@@ -52,14 +50,10 @@ Voting for a pool also entitles vePENDLE holders to &lt;XX>% of the swap fees co
 
 If you LP in a pool while you are holding vePENDLE, your $PENDLE incentives and rewards for all of your LPs will be further boosted as well, by up to 250% based on your vePENDLE value.
 
-&lt;graph of how much boost received against vePENDLE value>
+![Boost received against vePendle](/img/governance/vependle_boost.jpg "Boost received against vePendle")
 
 Although your vePENDLE value decays over time, your LP boost rate is calculated at the time the boost is first applied. The boost rate will remain constant until you update your LP positions, in which case the rate will change based on your current vePENDLE value.
 
 To receive boosted rewards, you should lock your $PENDLE into vePENDLE first before LPing.
 
-If you are already LPing and want to boost your rewards with vePENDLE, you have to manually
-
-<!-- <p id="gdcalert15" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: undefined internal link (link text: "apply the boost"). Did you generate a TOC? </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert16">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p> -->
-
-[apply the boost](#heading=h.4iecmg3s2rw) after voting for the pool.
+If you are already LPing and want to boost your rewards with vePENDLE, you have to manually [apply the boost](// TODO link here) after voting for the pool.
