@@ -42,7 +42,7 @@ Intuitively, the higher your vePENDLE value, the more incentives you are entitle
 
 A snapshot of all votes is taken at the start of every epoch at Thursday, 00:00 UTC and the incentive rates for each pool will be adjusted accordingly.
 
-![Epoch Snapshots](/img/governance/epoch_snapshots.png "Epoch Snapshots")
+![Epoch Snapshots](/img/governance/epoch_snapshots.jpg "Epoch Snapshots")
 
 Voting for a pool also entitles vePENDLE holders to &lt;XX>% of the swap fees collected by the pool.
 
