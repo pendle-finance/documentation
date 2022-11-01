@@ -26,7 +26,11 @@ module.exports = {
       indexName: "pendle",
       appId: "BH4D9OD16A",
     },
-    hideableSidebar: true,
+    docs: {
+      sidebar: {
+        hideable: true,
+      },
+    },
     navbar: {
       hideOnScroll: false,
       logo: {
