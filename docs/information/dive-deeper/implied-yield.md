@@ -12,7 +12,7 @@ $$$
 \text{Implied Yield} = \left[\left(1 + \cfrac{\text{PriceOfYT}}{\text{ValueOfUnderlying} - \text{PriceOfYT}}\right)\right]^{\cfrac{365}{\text{Days to expiry}}} - 1
 $$$
 
-For example, if YT-aUSDC-0.5Year is trading at $0.05, the market is collectively saying that aUSDC annual yield for the next half a year is 9.75% per year.
+For example, if YT-aUSDC-0.5Year is trading at $0.05, the market is collectively saying that aUSDC annual yield for the next half a year is 10.80% per year.
 
 ## Pricing
 
