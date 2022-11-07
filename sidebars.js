@@ -57,7 +57,7 @@ module.exports = {
           collapsed: true,
           items: [
             {type: 'link', label: 'Twitter', href: 'https://twitter.com/pendle_fi'},
-            {type: 'link', label: 'Discord', href: 'http://discord.gg/uawbcnRMK9'},
+            {type: 'link', label: 'Discord', href: 'https://discord.gg/qshFxh6965'},
             {type: 'link', label: 'Telegram', href: 'https://t.co/c77ig0XhSC'},
             {type: 'link', label: 'Medium', href: 'https://pendle.medium.com/'}
           ]
