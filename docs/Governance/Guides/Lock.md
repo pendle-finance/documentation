@@ -2,7 +2,7 @@
 hide_table_of_contents: true
 ---
 
-# Lock $PENDLE
+# Lock PENDLE
 
 ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd 
 

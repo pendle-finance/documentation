@@ -2,7 +2,7 @@
 hide_table_of_contents: true
 ---
 
-# $PENDLEnomics
+# PENDLEnomics
 
 ## Emission
 
@@ -24,7 +24,7 @@ The maximum number of tokens in circulation by the end of year 2 is 251,061,124.
 
 We have allocated the highest percentage to liquidity incentives as the team places a high priority on creating deep and liquid yield markets. The Pendle team will decide on the incentive distribution at the beginning and this will evolve into community governance as the protocol matures.
 
-The token distribution was also planned such that everyone can have a reasonable chance of participating and owning a percentage of the $PENDLE ecosystem.
+The token distribution was also planned such that everyone can have a reasonable chance of participating and owning a percentage of the PENDLE ecosystem.
 
 Perpetual inflation will also help ensure that constant contribution to the protocol is required to maintain an ownership position.
 

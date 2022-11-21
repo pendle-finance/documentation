@@ -52,7 +52,6 @@ module.exports = {
           items: [
             { type: "doc", id: "PendlePro/HowItWorks/EIP5115" },
             { type: "doc", id: "PendlePro/HowItWorks/AMM" },
-            { type: "doc", id: "Governance/vePENDLE" },
           ],
         },
       ],
@@ -62,8 +61,8 @@ module.exports = {
       label: "Governance",
       collapsed: true,
       items: [
-        { type: "doc", id: "Governance/$PENDLE", label: "$PENDLE" },
-        { type: "doc", id: "Governance/$PENDLEnomics", label: "$PENDLEnomics" },
+        { type: "doc", id: "Governance/PENDLE", label: "PENDLE" },
+        { type: "doc", id: "Governance/PENDLEnomics", label: "PENDLEnomics" },
         { type: "doc", id: "Governance/vePENDLE", label: "vePENDLE" },
         {
           type: "category",

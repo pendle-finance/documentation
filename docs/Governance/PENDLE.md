@@ -2,9 +2,9 @@
 hide_table_of_contents: true
 ---
 
-# $PENDLE
+# PENDLE
 
-$PENDLE is the platform token of Pendle, and is the cornerstone of value accrual mechanics and management of the protocol.
+PENDLE is the platform token of Pendle, and is the cornerstone of value accrual mechanics and management of the protocol.
 
 It also functions as the governance token, by staking and locking into vePENDLE.
 

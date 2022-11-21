@@ -6,15 +6,15 @@ hide_table_of_contents: true
 
 Pendle’s governance is powered by Vote-escrowed PENDLE, or vePENDLE.
 
-vePENDLE enables Pendle to be further decentralized. With vePENDLE, an array of new features are unlocked for $PENDLE holders, increasing the utility of the token.
+vePENDLE enables Pendle to be further decentralized. With vePENDLE, an array of new features are unlocked for PENDLE holders, increasing the utility of the token.
 
-As a result, it also creates another sink for the $PENDLE token, giving more stability to the price of the token and to the protocol.
+As a result, it also creates another sink for the PENDLE token, giving more stability to the price of the token and to the protocol.
 
 ## Getting vePENDLE
 
-Stake $PENDLE and receive vePENDLE. Your vePENDLE value is proportional to the amount and duration staked (up to a maximum of 2 years). &lt;link tutorial>
+Lock PENDLE and receive vePENDLE. Your vePENDLE value is proportional to the amount and duration staked (up to a maximum of 2 years). &lt;link tutorial>
 
-Your vePENDLE value will decay over time, and reaches zero once the stake duration is over. Your staked $PENDLE will then be released.
+Your vePENDLE value will decay over time, and reaches zero once the lock duration is over. Your staked PENDLE will then be unlocked.
 
 ![vePendle Value Over Time](/img/governance/vependle_value.jpg "vePendle Value Over Time")
 
@@ -48,12 +48,12 @@ Voting for a pool also entitles vePENDLE holders to &lt;XX>% of the swap fees co
 
 ## LP Reward Boost
 
-If you LP in a pool while you are holding vePENDLE, your $PENDLE incentives and rewards for all of your LPs will be further boosted as well, by up to 250% based on your vePENDLE value.
+If you LP in a pool while you are holding vePENDLE, your PENDLE incentives and rewards for all of your LPs will be further boosted as well, by up to 250% based on your vePENDLE value.
 
 ![Boost received against vePendle](/img/governance/vependle_boost.jpg "Boost received against vePendle")
 
 Although your vePENDLE value decays over time, your LP boost rate is calculated at the time the boost is first applied. The boost rate will remain constant until you update your LP positions, in which case the rate will change based on your current vePENDLE value.
 
-To receive boosted rewards, you should lock your $PENDLE into vePENDLE first before LPing.
+To receive boosted rewards, you should lock your PENDLE into vePENDLE first before LPing.
 
 If you are already LPing and want to boost your rewards with vePENDLE, you have to manually [apply the boost](// TODO link here) after voting for the pool.
