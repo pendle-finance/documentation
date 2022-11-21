@@ -8,25 +8,25 @@ hide_table_of_contents: true
 
 ### Glossary
 
-**ibToken = Interest Bearing Token**
+**Yield-Bearing Token**
 
-ibToken is an umbrella term that refers to any token that generates yield. Examples include aUSDC, SLP tokens, and gOHM.
+Yield-bearing Token is an umbrella term that refers to any token that generates yield. Examples include aUSDC, SLP tokens, and gOHM.
 
 **SY = Standardized Yield**
 
-SY is a token standard written by the Pendle team that wraps any ibToken and provides a standardised interface for interacting with any ibToken’s yield generating mechanism. SY is a purely technical component, the user does not interact directly with SY.
+SY is a token standard written by the Pendle team that wraps any yield-bearing token and provides a standardized interface for interacting with any yield-bearing token’s yield generating mechanism. SY is a purely technical component, the user does not interact directly with SY.
 
 **PT = Principal Token**
 
-PT entitles you to the principal of the underlying ibToken, redeemable after maturity. If you own 100 PT-aUSDC with 1 year maturity, you will be able to redeem 100 aUSDC after 1 year.
+PT entitles you to the principal of the underlying yield-bearing token, redeemable after maturity. If you own 100 PT-aUSDC with 1 year maturity, you will be able to redeem 100 aUSDC after 1 year.
 
 **YT = Yield Token**
 
-YT entitles you to accrue the yield of the underlying ibToken in real-time, and the yield accrued can be manually claimed _at any time_. If you own 100 YT-aUSDC and aUSDC has an average yield of 5% through the year, you will have accrued 5 aUSDC by the end of the year.
+YT entitles you to accrue the yield of the underlying yield-bearing token in real-time, and the yield accrued can be manually claimed _at any time_. If you own 100 YT-aUSDC and aUSDC has an average yield of 5% through the year, you will have accrued 5 aUSDC by the end of the year.
 
 ### What does the maturity date mean?
 
-Each PT and YT has an maturity date. For PT, you can redeem the full underlying ibToken after this date. For YT, the yield of the ibToken is only accrued up until the maturity date, after which YT has no value.
+Each PT and YT has an maturity date. For PT, you can redeem the full underlying yield-bearing token after this date. For YT, the yield of the yield-bearing token is only accrued up until the maturity date, after which YT has no value.
 
 ### What is the difference between Simple UI and Pro UI?
 

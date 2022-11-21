@@ -6,7 +6,7 @@ hide_table_of_contents: true
 
 Pro gives users access to the full suite of Pendle’s functionality, allowing you to freely trade yield and execute any yield strategies.
 
-Users can deposit yield-generating assets into Pendle and mint Principal Tokens (**PT**) and Yield Tokens (**YT**). PT represents the principal of the underlying ibToken, while YT represents entitlement to **all** the yield of the asset. You can trade both PT and YT on Pendle.
+Users can deposit yield-generating assets into Pendle and mint Principal Tokens (**PT**) and Yield Tokens (**YT**). PT represents the principal of the underlying yield-bearing token, while YT represents entitlement to **all** the yield of the asset. You can trade both PT and YT on Pendle.
 
 In TradFi, what Pendle does is similar to bond stripping. The principal and interest of bonds are separated, so PTs are equivalent to[zero-coupon bonds](https://www.investopedia.com/terms/z/zero-couponbond.asp), while YTs are the detached[coupons](https://www.investopedia.com/terms/c/coupon.asp).
 

@@ -24,7 +24,7 @@ To increase your vePENDLE value, you can choose to extend your staking duration 
 
 A small percentage of all yield accrued is distributed to vePENDLE holders.
 
-Pendle collects a fee of &lt;XX>% from all yield accrued via YT. &lt;YY>% of these fees will go to Pendle as protocol revenue, while the remaining &lt;ZZ>% will be distributed pro rata amongst all vePENDLE holders.
+Pendle collects a fee of 3% from all yield accrued via YT. 0% (for now) of these fees will go to Pendle as protocol revenue, while the remaining 3% will be distributed pro rata amongst all vePENDLE holders.
 
 A portion of yield from expired PTs will be distributed pro rata to vePENDLE holders as well.
 
@@ -44,7 +44,7 @@ A snapshot of all votes is taken at the start of every epoch at Thursday, 00:00 
 
 ![Epoch Snapshots](/img/governance/epoch_snapshots.jpg "Epoch Snapshots")
 
-Voting for a pool also entitles vePENDLE holders to &lt;XX>% of the swap fees collected by the pool.
+Voting for a pool also entitles vePENDLE holders to 3% of the swap fees collected by the pool.
 
 ## LP Reward Boost
 

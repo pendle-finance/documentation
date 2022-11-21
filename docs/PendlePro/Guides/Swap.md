@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 # Swap
 
-## Trade between PT, YT and the underlying ibToken.
+## Trade between PT, YT and the underlying yield-bearing token.
 
 1. Go to [Markets](https://app.pendle.finance/pro/markets/)
 2. Select your desired asset and maturity 
