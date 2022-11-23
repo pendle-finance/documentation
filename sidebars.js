@@ -11,6 +11,16 @@ module.exports = {
       label: "Introduction",
     },
     {
+      type: "link",
+      label: "Learn",
+      href: 'https://app.pendle.finance/pro/learn',
+    },
+    {
+      type: "doc",
+      id: "FAQ/General",
+      label: "FAQ",
+    },
+    {
       type: "category",
       label: "Using Pendle",
       items: [
@@ -39,6 +49,7 @@ module.exports = {
             { type: "doc", id: "PendlePro/Guides/Farm" },
             { type: "doc", id: "PendlePro/Guides/Claim" },
             { type: "doc", id: "PendlePro/Guides/CreatingNewPools" },
+            { type: "doc", id: "PendlePro/Guides/UnwrappingSY" },
           ],
         },
         {
@@ -78,15 +89,6 @@ module.exports = {
             { type: "doc", id: "Governance/Guides/ApplyBoost" },
           ],
         },
-      ],
-    },
-    {
-      type: "category",
-      label: "FAQ",
-      collapsed: true,
-      items: [
-        { type: "doc", id: "FAQ/General", label: "General FAQ" },
-        { type: "doc", id: "FAQ/InAppFAQ", label: "In-App FAQ" },
       ],
     },
   ],

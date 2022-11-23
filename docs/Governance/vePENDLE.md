@@ -16,7 +16,7 @@ Lock PENDLE and receive vePENDLE. Your vePENDLE value is proportional to the amo
 
 Your vePENDLE value will decay over time, and reaches zero once the lock duration is over. Your staked PENDLE will then be unlocked.
 
-![vePendle Value Over Time](/img/governance/vependle_value.jpg "vePendle Value Over Time")
+![vePendle Value Over Time](/img/governance/vependle_value.png "vePendle Value Over Time")
 
 To increase your vePENDLE value, you can choose to extend your staking duration and/or increase your staked amount.
 
@@ -50,7 +50,7 @@ Voting for a pool also entitles vePENDLE holders to 3% of the swap fees collecte
 
 If you LP in a pool while you are holding vePENDLE, your PENDLE incentives and rewards for all of your LPs will be further boosted as well, by up to 250% based on your vePENDLE value.
 
-![Boost received against vePendle](/img/governance/vependle_boost.jpg "Boost received against vePendle")
+![Boost received against vePendle](/img/governance/vependle_boost.png "Boost received against vePendle")
 
 Although your vePENDLE value decays over time, your LP boost rate is calculated at the time the boost is first applied. The boost rate will remain constant until you update your LP positions, in which case the rate will change based on your current vePENDLE value.
 

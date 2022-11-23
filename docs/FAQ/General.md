@@ -59,19 +59,39 @@ Snapshots of vePENDLE voting are taken every epoch, and non-yield rewards (e.g. 
 
 No, you do not have to stake LP tokens. All LP token holders will receive their fair share of the rewards.
 
-## Governance
+## vePENDLE
 
-### How does Pendle governance work?
+### What is vePENDLE?
 
-### Blacklist if you kkb
+vePENDLE is Pendle’s governance system. 
 
-### Is governance different on Ethereum vs Avalanche?
+### How does vePENDLE work?
+
+Lock PENDLE for vePENDLE. The greater the lock duration, the greater your vePENDLE value. Your vePENDLE value decays over time, but your lock duration can be extended to negate the decay.
+
+Use vePENDLE to channel PENDLE incentives. Vote for your desired pool to incentivise liquidity. The more vePENDLE you have, the more voting power you hold.
+
+vePENDLE holders also receive a portion of protocol revenue, earned from swap fees and YT fees.
+
+### When does my PENDLE unlock?
+
+You can lock PENDLE for vePENDLE for up to 2 years. One wallet is associated with a single unlock date. If you extend your lock duration or lock more PENDLE, the unlock date will be changed for your entire vePENDLE balance.
+
+### Is there a difference between Ethereum and Avalanche?
+
+vePENDLE resides solely on the Ethereum blockchain, meaning you can only lock PENDLE and vote from Ethereum. 
+
+However, Avalanche pools can still be voted for, so incentives can be channelled to the Avalanche blockchain via voting. 
+
+
+
+
 
 ## Security
 
 ### Is Pendle audited?
 
-The Pendle codebase has been fully audited by reputable auditors and all flaws have been addressed. Read the audit reports &lt;here>. Nonetheless, users are advised to exercise caution and deploy funds prudently.
+The Pendle codebase has been fully audited by reputable auditors and all flaws have been addressed. Read the audit reports [here](https://drive.google.com/drive/folders/11WVNumH9tKfDz1271G7HJONXf6CgddI9). Nonetheless, users are advised to exercise caution and deploy funds prudently.
 
 ### What risks are there associated with using the protocol?
 

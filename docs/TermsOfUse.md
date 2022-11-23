@@ -1,6 +1,6 @@
 # Terms of Use
 
-## 1. Welcome to Pendle.Finance
+## Welcome to Pendle.Finance
 
 www.pendle.finance is brought to you by Pendle Finance (”Pendle”) and its affiliates (collectively, “we,” “us,” or “our”) committed to creating open-source software that empowers users' financial, social and cultural independence. 
 
@@ -18,7 +18,7 @@ To use the Services, you must legally be able to enter into the Agreement. By us
 
 We may update the Services, the Agreement, and any part of the Terms at any time, for any reason, at our sole discretion. Once any part of the Agreement is updated and in effect, you will be bound by the Terms if you continue to use the Services, including by accessing the Site. We may, at any time, and without liability to you, modify or discontinue all or part of the Services (including access to the Services via any third-party links). You may contact us with questions about your use of the Services via our social media. When you communicate with us electronically, you consent to receive communications from us electronically. You should review the Terms from time to time to ensure that you understand the terms and conditions that apply to you when you access or use the Site.
 
-## 2. Services
+## Services
 
 ### Pendle.Finance is provided as an informational resource
 
@@ -44,7 +44,7 @@ All transactions using blockchains require the payment of gas fees, which are es
 
 All community contributors to the ecosystem around the Protocol are independent of us, and we will not have and do not assume any liability or responsibility for their actions or omissions.
 
-## 3. Assumption of Risk
+## Assumption of Risk
 
 ### You assume the risks of engaging in transactions that rely on smart contracts and other experimental technology.
 
@@ -68,11 +68,11 @@ We are not responsible for the content or services of any third-party, including
 
 You acknowledge and agree that you will access and use the Services, including, without limitation, the Site at your own risk. You should not engage in blockchain-based transactions unless it is suitable given your circumstances and financial resources. By using the Services, you represent that you have been, are and will be solely responsible for conducting your own due diligence into the risks of a transaction and the underlying smart contracts and cryptoassets.
 
-## 4. Taxes
+## Taxes
 
 **You are responsible for your taxes and duties.** Users bear sole responsibility for paying any and all taxes, duties, and assessments now or hereafter claimed or imposed by any governmental authority associated with their use of the Services, and/or payable as the result of using and/or exploiting any cryptoassets and interacting with smart contracts. Blockchain-based transactions are novel, and their tax treatment is uncertain.
 
-## 5. The Services
+## The Services
 
 **We grant you a license to use our Services.** Contingent upon your ongoing compliance with the Agreement, we grant you a personal, worldwide, revocable, non-exclusive and non-assignable license to use the software provided to you as part of our Services. The only purpose of this license is to allow you to use and enjoy the Services solely as permitted by these Terms.
 
@@ -80,7 +80,7 @@ You acknowledge and agree that you will access and use the Services, including, 
 
 **We may use and share your feedback.** Any comments, bug reports, ideas, or other feedback that you may provide about our Services, including suggestions about how we might improve our Services, are entirely voluntary. You agree that we are free to use or not use any feedback that we receive from you as we see fit, including copying and sharing such feedback with third parties, without any obligation to you.
 
-## 6. Prohibited Content
+## Prohibited Content
 
 You may only use the Services if you comply with this Agreement (including, without limitation, these Terms), applicable third-party policies, and all applicable laws, rules, regulations and related guidance. The following conduct is prohibited:
 
@@ -103,7 +103,7 @@ You agree and acknowledge that if you use the Services to engage in conduct proh
 
 We reserve the right to investigate and prosecute any suspected breaches of this Agreement, including the Terms. We may disclose any information as necessary to satisfy any law, regulation, legal process, or governmental request.
 
-## 7. Disclaimers and Limitations of Liability
+## Disclaimers and Limitations of Liability
 
 **We make no representations or warranties.** THE SERVICES ARE PROVIDED ON AN “AS IS” AND “AS AVAILABLE” BASIS. WE AND OUR PARENTS, SUBSIDIARIES, AFFILIATES, RELATED COMPANIES, OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, REPRESENTATIVES, PARTNERS, AND LICENSORS (COLLECTIVELY, THE “PENDLE INDEMNIFIED PARTIES”) MAKE NO GUARANTEES OF ANY KIND IN CONNECTION WITH THE SERVICES. TO THE MAXIMUM EXTENT PERMITTED UNDER APPLICABLE LAW, PENDLE FINANCE INDEMNIFIED PARTIES DISCLAIM ALL WARRANTIES AND CONDITIONS, WHETHER EXPRESS OR IMPLIED, OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT AND DISCLAIM ALL RESPONSIBILITY AND LIABILITY FOR:
 
@@ -119,11 +119,11 @@ THIS LIMITATION OF LIABILITY IS INTENDED TO APPLY WITHOUT REGARD TO WHETHER OTHE
 
 Some jurisdictions do not allow the exclusion or limitation of certain warranties and liabilities provided in this section; accordingly, some of the above limitations and disclaimers may not apply to you. To the extent applicable law does not permit Pendle Finance Indemnified Parties to disclaim certain warranties or limit certain liabilities, the extent of Pendle Finance Indemnified Parties’ liability and the scope of any such warranties will be as permitted under applicable law.
 
-## 8. Indemnification
+## Indemnification
 
 You agree to indemnify, defend, and hold harmless the Pendle Indemnified Parties from any claim or demand, including reasonable attorneys’ fees, made by any third party due to or arising out of: (a) your breach or alleged breach of the Agreement (including, without limitation, these Terms); (b) anything you contribute to the Services; (c) your misuse of the Services, or any smart contract and/or script related thereto; (d) your violation of any laws, rules, regulations, codes, statutes, ordinances, or orders of any governmental or quasi-governmental authorities; (e) your violation of the rights of any third party, including any intellectual property right, publicity, confidentiality, property, or privacy right; (f) your use of a third-party product, service, and/or website; or (g) any misrepresentation made by you. We reserve the right to assume, at your expense, the exclusive defense and control of any matter subject to indemnification by you. You agree to cooperate with our defense of any claim. You will not in any event settle any claim without our prior written consent.
 
-## 9. Arbitration Agreement and Waiver of Rights, Including Class Actions.
+## Arbitration Agreement and Waiver of Rights, Including Class Actions.
 
 PLEASE READ THIS SECTION CAREFULLY: IT MAY SIGNIFICANTLY AFFECT YOUR LEGAL RIGHTS, INCLUDING YOUR RIGHT TO FILE A LAWSUIT IN COURT AND TO HAVE A JURY HEAR YOUR CLAIMS. IT CONTAINS PROCEDURES FOR MANDATORY BINDING ARBITRATION AND A CLASS ACTION WAIVER.
 
@@ -141,28 +141,28 @@ _Changes_
 
 By rejecting any changes to these Terms, you agree that you will arbitrate any Dispute between you and us in accordance with the provisions of this section as of the date you first accepted these Terms (or accepted any subsequent changes to these Terms).
 
-## 10. Waiver of Injunctive or Other Equitable Relief.
+## Waiver of Injunctive or Other Equitable Relief.
 
 TO THE MAXIMUM EXTENT PERMITTED BY LAW, YOU AGREE THAT YOU WILL NOT BE PERMITTED TO OBTAIN AN INJUNCTION OR OTHER EQUITABLE RELIEF OF ANY KIND, SUCH AS ANY COURT OR OTHER ACTION THAT MAY INTERFERE WITH OR PREVENT THE DEVELOPMENT OR EXPLOITATION OF THE SERVICES, OR ANY OTHER WEBSITE, APPLICATION, CONTENT, SUBMISSION, PRODUCT, SERVICE, OR INTELLECTUAL PROPERTY OWNED, LICENSED, USED OR CONTROLLED BY ANY PENDLE INDEMNIFIED PARTY.
 
-## 11. Termination; Cancellation
+## Termination; Cancellation
 
 This Agreement is effective unless and until terminated by either you or us. You may terminate your Agreement with us at any time by ceasing all access to the Site or the Services. If, in our sole judgment, you fail, or we suspect that you have failed, to comply with any term or provision of the Agreement (including without limitation any provision of these Terms), we reserve the right to terminate our Agreement with you and deny you access to the Services. We further reserve the right to restrict your access to the Site or to stop providing you with all or a part of the Services at any time and for no reason, including, without limitation, if we reasonably believe: (a) your use of the Services exposes us to risk or liability; (b) you are using the Services for unlawful purposes; or (c) it is not commercially viable to continue providing you with our Services. All of these are in addition to any other rights and remedies that may be available to us, whether in equity or at law, all of which we expressly reserve.
 
 WE RESERVE THE RIGHT TO MODIFY THE SERVICES AT ANY TIME, BUT WE HAVE NO OBLIGATION TO UPDATE THE SERVICES. YOU AGREE THAT IT IS YOUR RESPONSIBILITY TO MONITOR CHANGES TO THE SERVICES THAT MAY AFFECT YOU. YOU AGREE THAT WE MAY REMOVE THE SERVICES AND/OR ANY CONTENT THEREON FOR INDEFINITE PERIODS OF TIME OR CANCEL THE SERVICES AT ANY TIME, WITHOUT NOTICE TO YOU.
 
-## 12. Severability
+## Severability
 
 If any provision of the Agreement (including, without limitation, these Terms) is determined to be unlawful, void, or unenforceable, such provision shall nonetheless be enforceable to the fullest extent permitted by applicable law, and the unenforceable portion shall be deemed to be severed from the Agreement. Such determination shall not affect the validity and enforceability of any other remaining provisions.
 
-## 13. Assignment
+## Assignment
 
 The Agreement (including, without limitation, these Terms) may be assigned without your prior consent to any Pendle Indemnified Party, or to its successors in the interest of any business associated with the Services provided by us. You may not assign or transfer any rights or obligations under the Agreement without our prior written consent.
 
-## 14. Entire Agreement
+## Entire Agreement
 
 The Agreement (including, without limitation, these Terms, and the Pendle Privacy Policy) and any policies or operating rules posted by us on the Services constitute the entire agreement and understanding between you and us and govern your use of the Services, superseding any prior or contemporaneous agreements, communications, and proposals, whether oral or written, between you and us (including, but not limited to, any prior versions of these Terms). Any failure by us to exercise or enforce any right or provision of the Agreement (including, without limitation, these Terms) shall not constitute a waiver of such right or provision.
 
-## 15. Governing Law
+## Governing Law
 
 These Terms and any separate agreements whereby we provide you Services shall be governed by and construed in accordance with the laws of Singapore.

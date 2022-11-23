@@ -3,9 +3,7 @@ hide_table_of_contents: true
 ---
 
 
-# ELI15 Yield Trading
-
-_5 is a bit too young for this_
+# Yield Trading
 
 By separating the yield from the asset, Pendle enables users to trade yield, unlocking a wide variety of strategies that asset holders can choose from. This is the core functionality of Pendle.
 
