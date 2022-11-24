@@ -1,8 +1,8 @@
-
 ---
 hide_table_of_contents: true
 ---
-## Claim Rewards
+
+# Claim Rewards
 
 Claim the yield from locking PENDLE. 
 1. Go to [Dashboard](https://app.pendle.finance/pro/dashboard) 

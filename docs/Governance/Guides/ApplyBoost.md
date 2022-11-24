@@ -2,7 +2,7 @@
 hide_table_of_contents: true
 ---
 
-## Apply Boost
+# Apply Boost
 
 If you lock vePENDLE before LPing, your LP will be automatically boosted. If you lock vePENDLE after LPing, you will have to manually apply the boost by following the steps below.
 

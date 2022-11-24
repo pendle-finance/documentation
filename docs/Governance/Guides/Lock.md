@@ -2,7 +2,7 @@
 hide_table_of_contents: true
 ---
 
-## Lock PENDLE
+# Lock
 
 Lock your PENDLE for vePENDLE. You can also extend the duration of locked PENDLE.
 

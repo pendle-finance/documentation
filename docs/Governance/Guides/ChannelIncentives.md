@@ -2,7 +2,7 @@
 hide_table_of_contents: true
 ---
 
-## Channel Incentives
+# Channel Incentives
 
 Vote for the pools to receive more PENDLE incentives.
 
