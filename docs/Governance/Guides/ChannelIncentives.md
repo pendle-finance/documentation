@@ -2,10 +2,20 @@
 hide_table_of_contents: true
 ---
 
-# Channel Incentives
+## Channel Incentives
 
-ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd 
+Vote for the pools to receive more PENDLE incentives.
 
-## adljasdkljasda
+1. Go to [Vote](https://app.pendle.finance/vependle/vote)
 
-ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd 
+![Submit vote](/img/governance/submit_vote.png "Submit vote")
+
+2. Click ‘Add Pool’ and choose the pool to incentivize
+
+![Add pool](/img/governance/add_pool.png "Add pool")
+
+3. Enter the amount of your vePENDLE for voting
+
+![vePendle amount](/img/governance/vependle_amount.png "vePendle amount")
+
+4. Approve the transaction and Vote!

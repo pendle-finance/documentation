@@ -4,6 +4,8 @@ hide_table_of_contents: true
 
 # Dashboard
 
+![Pendle Dashboard](/img/using-pendle/dashboard_banner.png "Pendle Dashboard")
+
 The Dashboard gives you a holistic view of your entire portfolio. From the Dashboard, you can 
 * View your discounted assets
 * View liquidity provided
@@ -15,8 +17,15 @@ The Dashboard gives you a holistic view of your entire portfolio. From the Dashb
 
 Claim rewards
 1. Go to the [Dashboard page](https://app.pendle.finance/simple/dashboard/)
-2. Click “Claim Yield and Rewards”
+
+![My portfolio](/img/using-pendle/my_portfolio.png "My portfolio")
+
+2. Click "Claim Yield and Rewards"
+
+![Claim earnings](/img/using-pendle/claim_earnings.png "Claim earnings")
+
 3. Use the slider in the top right to filter for balance value
+
 4. Select which rewards you would like to claim
-5. Use the toggle in the top left to choose between USDC and raw token
-6. Check your gas and swap fees, and hit Claim! 
+
+5. Check your gas and swap fees, and hit Claim! 

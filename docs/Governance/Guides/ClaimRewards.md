@@ -2,10 +2,15 @@
 ---
 hide_table_of_contents: true
 ---
-# Claim Rewards
+## Claim Rewards
 
-ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd 
+Claim the yield from locking PENDLE. 
+1. Go to [Dashboard](https://app.pendle.finance/pro/dashboard) 
 
-## adljasdkljasda
+2. Check the amount of Claimable Rewards you have accrued
 
-ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd ajkdjakdhjkakdhajkhjakdhdjkadkahdadashddashdadasjkd 
+3. Click on 'Claim Rewards'
+
+![Claim rewards](/img/governance/dashboard_claim.png "Claim rewards")
+
+4. Approve the transaction and Redeem!

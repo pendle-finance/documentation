@@ -2,18 +2,9 @@
 hide_table_of_contents: true
 ---
 
+The Market page displays information about all yield markets on Pendle. The most popular assets will be displayed by default, while assets that are not whitelisted on the UI can be found by pasting the address in the search bar.
 
-# Yield Trading
-
-By separating the yield from the asset, Pendle enables users to trade yield, unlocking a wide variety of strategies that asset holders can choose from. This is the core functionality of Pendle.
-
-With the Pro UI and V2 architecture, your yield trading potential is further improved, with reduced slippage and impermanent loss thanks to the new AMM.
-
-## Market
-
-**The numbers, Mason, what do they mean?**
-
-The Market page displays all the important figures you need to make informed yield trading decisions. 
+Furthermore, you can toggle between Active and Matured assets. Active assets are those that have not matured and are still accruing yield, while Matured assets are those that are no longer accruing yield and can be redeemed for the underlying assets. 
 
 **Maturity** is the date at which PT becomes fully redeemable for the underlying asset and YT stops accruing yield. One asset can have multiple maturity dates, and there is an independent market for each maturity date, and as such the implied yield of an asset can differ across different maturities.
 
@@ -24,6 +15,10 @@ The Market page displays all the important figures you need to make informed yie
 $$$
 \text{Implied Yield} = \left[\left(1 + \cfrac{\text{YT Price}}{\text{Value of underlying amount YT represents} - \text{YT Price}}\right)^\cfrac{365}{\text{Days to expiry}}\right] - 1
 $$$
+
+**Floating APY** is the extrapolated APY of buying YT at the current price, assuming underlying APY remains constant. This value can be negative, meaning that the current underlying APY will be less than the cost of buying YT.
+
+**Fixed APY** is the guaranteed yield you will receive by holding PT. This value is numerically equivalent to the Implied APY.
 
 ### Strategies
 

@@ -26,7 +26,7 @@ module.exports = {
       items: [
         { type: "doc", id: "UsingPendle/Simple" },
         { type: "doc", id: "UsingPendle/Discount" },
-        { type: "doc", id: "UsingPendle/Farm" },
+        { type: "doc", id: "UsingPendle/Pools" },
         { type: "doc", id: "UsingPendle/Dashboard" },
       ],
     },
@@ -38,6 +38,10 @@ module.exports = {
         {
           type: "doc",
           id: "PendlePro/UsingPro"
+        },
+        {
+          type: "doc",
+          id: "PendlePro/Market"
         },
         {
           type: "category",
@@ -53,16 +57,13 @@ module.exports = {
           ],
         },
         {
-          type: "doc",
-          id: "PendlePro/YieldTrading"
-        },
-        {
           type: "category",
           label: "How it Works",
           collapsed: true,
           items: [
-            { type: "doc", id: "PendlePro/HowItWorks/EIP5115" },
+            { type: "doc", id: "PendlePro/HowItWorks/SY" },
             { type: "doc", id: "PendlePro/HowItWorks/AMM" },
+            { type: "doc", id: "PendlePro/HowItWorks/Fees" },
           ],
         },
       ],

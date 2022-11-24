@@ -9,14 +9,16 @@ Pendle’s V2 AMM is designed specifically for trading yield, and takes advantag
 The AMM curve changes to account for yield accrued over time and narrows PT’s price range as it approaches maturity. This results in increased capital efficiency to trade yield as the possible price range is narrowed down as PT approaches maturity, concentrating liquidity into a meaningful range.
 
 Furthermore, by implementing a pseudo-AMM inspired by Notional Finance, we are able to both facilitate PT and YT swaps using a single pool of liquidity. With a PT/SY pool, PT can be directly traded with SY, while YT trades are also possible via flash swaps.
-Swaps 
+
+## Swaps
+
 Both PT and YT are tradeable on Pendle through a single pool of liquidity. This is made possible by implementing a pseudo-AMM with flash swaps.  
 
 Liquidity pools in Pendle V2 are set up as PT/SY, e.g. PT-aUSDC / SY-aUSDC. Swapping PT is a straightforward process of swapping between the 2 assets in the pool, while swapping YT is enabled via flash swaps in the same pool.
 
 > Auto-routing is built in, allowing anyone to trade PTs and YTs with any major asset.
 
-#### Flash Swaps
+## Flash Swaps
 
 Flash swaps are possible due to the relationship between PT and YT. As PT and YT can be minted from and redeemed to its underlying SY, we can express the price relationship: 
 
@@ -44,9 +46,9 @@ Selling YT:
 
 ![Selling YT](/img/pendlepro/selling_yt.png "Selling YT")
 
-#### Key Features
+## Key Features
 
-##### Minimal Impermanent Loss (IL)
+### Minimal Impermanent Loss (IL)
 
 Pendle V2 design ensures that IL is a negligible concern. Pendle’s AMM accounts for PT’s natural price appreciation by shifting the AMM curve to push PT price towards its underlying value as time passes, mitigating time-dependent IL. 
 
@@ -54,7 +56,7 @@ On top of that, IL from swaps is also mitigated as both assets LP’ed are very 
 
 In most cases prior to maturity, PT trades within a yield range and does not fluctuate as much as an asset’s spot price. For example, it’s rational to assume that Aave’s USDC lending rate fluctuates between 0%-15% for a reasonable timeframe (and PT accordingly trades within that yield range). This premise ensures a low IL at any given time as PT price will not deviate too far from the time of liquidity provision.
 
-##### Customizable
+### Customizable
 
 ![Customizable AMM](/img/pendlepro/customizable_amm.png "Customizable AMM")
 
@@ -62,7 +64,7 @@ Pendle’s AMM curve can be customised to cater to tokens with varying yield vol
 
 For example, the annual yield of staked ETH is likely to fluctuate in a band of 0.5-7%. Knowing the rough yield range of an asset enables us to concentrate liquidity within that range, enabling much larger trade sizes at a lower slippage.
 
-##### Greater Capital Efficiency
+### Greater Capital Efficiency
 
 _For Liquidity Providers_
 Since YT trades are routed through the same PT/SY pool, LPs earn fees from both PT and YT swaps from a single liquidity provision, doubling the yield from LPing.
