@@ -42,4 +42,4 @@ If you believe that the yield of an asset will be unlikely to fluctuate signific
 
 There is no IL risk from fluctuations in the price of the underlying asset that most other yield protocols have, as the price of PT and YT are linked to the price of the underlying asset, in that PT + YT = underlying. The only IL risk comes from fluctuations in the demand for PT and YT, which are inherent in all liquidity pools. 
 
-This way, liquidity provision can also act as a hedge for any of your PT or YT positions. 
+IL is capped and minimized if liquidity is provided to maturity. This is possible as both assets provided have the exact same value at maturity. This way, liquidity provision can also act as a hedge for any of your PT or YT positions. 

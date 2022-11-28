@@ -28,7 +28,7 @@ A portion of yield from matured unredeemed PTs will be distributed pro rata to v
 
 For example, matured PT-aUSDC is equivalent to aUSDC. If left unredeemed, all of its yield will be converted to a stablecoin and collected by the protocol as protocol revenue, and distributed to vePENDLE holders. 
 
-All of these rewards will be converted to USDC and distributed every 2 epochs via Ethereum, regardless of where your vePENDLE is being held. Each epoch starts at Thursday, 00:00 UTC. 
+All of these rewards will be converted to USDC regardless of where your vePENDLE is being held and distributed periodically by a disbursement contract.
 
 ## Incentive Channelling
 
