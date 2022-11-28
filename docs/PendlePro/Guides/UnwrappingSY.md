@@ -22,7 +22,7 @@ For now, you can unwrap your SY to the underlying yield-bearing asset using Ethe
 
 For `spender,` enter the same SY contract address, e.g. `0xcbC72d92b2dc8187414F6734718563898740C0BC` if you are doing `SY-stETH`.
 
-For `amount`, enter a very large number such as `1000000000000000000000000000000000`, which is the allowance we allow for the SY contract to spend from your address.
+For `amount`, enter a very large number such as `1000000000000000000000000000000000`, which is the allowance you allow for the SY contract to spend from your address.
 
 3. On the **Write Contract** tab in Etherscan, navigate to Function #7, `redeem (0x769f8e5d)`.
 
@@ -33,11 +33,17 @@ Enter the required details for each parameter in the function:
 |            Function            |                                                             Description                                                              |                  Example                   |
 | :----------------------------: | :----------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------: |
 |       receiver (address)       |                                 The address receiving the unwrapped underlying (e.g. your address).                                  | 0x1FcCC097db89A86Bfc474A1028F93958295b1Fb7 |
-| amountSharesToRedeem (uint256) |                     The amount of SY tokens you'd want to redeem scaled to the decimals of the underlying token.                     |             91057522291602163              |
-|       tokenOut (address)       |               The exit token you'd want to get back. The supported tokens are found in the `getTokensOut()` function.                | 0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84 |
+| amountSharesToRedeem (uint256)** |                     The amount of SY tokens you'd want to redeem scaled to the decimals of the underlying token.                     |             91057522291602163              |
+|       tokenOut (address)***       |               *The exit token you'd want to get back. The supported tokens are found in the `getTokensOut()` function.                | 0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84 |
 |     minTokenOut (uint256)      | The minimum amount of token out you'd expect to receive back. This specifies the slippage. Input 0 if you don't care about slippage. |                     0                      |
 | burnFromInternalBalance (bool) |                                                         Set this to `false`.                                                         |                   false                    |
 
-Here's a [sample tx](https://etherscan.io/tx/0x19360b2571f45cd41619f28cf38ab018f575edd009332da1cd9eef7776c3f0ef)
+Here's a [sample tx](https://etherscan.io/tx/0x19360b2571f45cd41619f28cf38ab018f575edd009332da1cd9eef7776c3f0ef).
+
+NOTE: 
+
+** To get `amountSharesToRedeem`, you can visit the `Read Contract` tab of the SY contract, look for Function #5, `balanceOf`, and enter your address. The amount that it returns is the total SY balance you are holding. Enter this amount to `amountSharesToRedeem` in the write tab to redeem the entire SY balance.
+
+*** To find an eligible `tokenOut` address, visit the `Read Contract` tab of the SY contract, and look for Function #10, `getTokensOut`. The addresses that it returns in the list are the only valid addresses you can enter when redeeming. e.g. for SY-steETH, the valid `tokenOut` addresses are `0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84` (stETH), `0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0` (wstETH).
 
 4. Click the **Write** to submit a transaction to the blockchain!
