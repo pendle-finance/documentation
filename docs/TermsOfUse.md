@@ -166,3 +166,5 @@ The Agreement (including, without limitation, these Terms, and the Pendle Privac
 ## Governing Law
 
 These Terms and any separate agreements whereby we provide you Services shall be governed by and construed in accordance with the laws of Singapore.
+
+[Privacy Policy](PrivacyPolicy.md)

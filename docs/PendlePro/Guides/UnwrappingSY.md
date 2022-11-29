@@ -20,7 +20,7 @@ For now, you can unwrap your SY to the underlying yield-bearing asset using Ethe
 
 ![Approve](/img/pendlepro/etherscan_approve.png "Approve")
 
-For `spender,` enter the same SY contract address, e.g. `0xcbC72d92b2dc8187414F6734718563898740C0BC` if you are doing `SY-stETH`.
+For `spender`, enter the same SY contract address, e.g. `0xcbC72d92b2dc8187414F6734718563898740C0BC` if you are doing `SY-stETH`.
 
 For `amount`, enter a very large number such as `1000000000000000000000000000000000`, which is the allowance you allow for the SY contract to spend from your address.
 
