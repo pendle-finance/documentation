@@ -9,5 +9,5 @@ hide_table_of_contents: true
 1. Go to [Markets](https://app.pendle.finance/pro/markets/)
 2. Select your desired asset and maturity 
 3. Choose your input asset
-4. Enter the transaction volume
+4. Enter the transaction amount
 5. Approve the transaction and Mint! 

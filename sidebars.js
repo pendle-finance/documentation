@@ -40,10 +40,6 @@ module.exports = {
           id: "PendlePro/UsingPro"
         },
         {
-          type: "doc",
-          id: "PendlePro/Market"
-        },
-        {
           type: "category",
           label: "Guides",
           collapsed: true,
@@ -90,6 +86,20 @@ module.exports = {
             { type: "doc", id: "Governance/Guides/ApplyBoost" },
           ],
         },
+      ],
+    },
+    {
+      type: "category",
+      label: "Developers",
+      items: [
+        {
+          type: "category",
+          label: "Deployed Contracts",
+          items: [
+            { type: "doc", id: "Developers/DeployedContracts/Ethereum" },
+          ],
+        },
+        { type: "doc", id: "Developers/SDK" },
       ],
     },
   ],

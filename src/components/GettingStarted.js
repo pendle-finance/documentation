@@ -4,7 +4,7 @@ import styles from "./GettingStarted.module.css";
 import lottie from "lottie-web";
 import IntroAnimationData from "../lotties/Introduction.json";
 import DiscountAnimationData from "../lotties/Discount.json";
-import FarmAnimationData from "../lotties/Farm.json";
+import PoolsAnimationData from "../lotties/Pools.json";
 
 export default function GettingStarted() {
   const introRef = useRef(null);
@@ -32,11 +32,11 @@ export default function GettingStarted() {
 
     lottie.loadAnimation({
       container: farmRef.current,
-      name: "farm",
+      name: "pools",
       renderer: "svg",
       loop: false,
       autoplay: false,
-      animationData: FarmAnimationData,
+      animationData: PoolsAnimationData,
     });
 
     return () => {
@@ -75,11 +75,11 @@ export default function GettingStarted() {
           </Link>
         </div>
         <div className={styles.rightFeatureCard}>
-          <Link to="/Simple" className={styles.sibling}>
+          <Link to="/UsingPendle/Simple" className={styles.sibling}>
             Using Pendle
           </Link>
-          <Link to="/Simple" className={styles.subFeatures}>
-            <Link to="/Simple/Discount" className={styles.indivFeature}>
+          <Link to="/UsingPendle/Simple" className={styles.subFeatures}>
+            <Link to="/UsingPendle/Discount" className={styles.indivFeature}>
               <div
                 onMouseEnter={() => {
                   play("discount");
@@ -95,18 +95,18 @@ export default function GettingStarted() {
                 </div>
               </div>
             </Link>
-            <Link to="/Simple/Farm" className={styles.indivFeature}>
+            <Link to="/UsingPendle/Pools" className={styles.indivFeature}>
               <div
                 onMouseEnter={() => {
-                  play("farm");
+                  play("pools");
                 }}
                 onMouseLeave={() => {
-                  playReverse("farm");
+                  playReverse("pools");
                 }}
                 className={styles.lottieWrapper}
               >
                 <div className={styles.lottie} ref={farmRef} />
-                <div className={styles.featureTitle}>Farm</div>
+                <div className={styles.featureTitle}>Pools</div>
               </div>
             </Link>
           </Link>

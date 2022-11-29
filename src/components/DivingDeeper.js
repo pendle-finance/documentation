@@ -64,7 +64,7 @@ export default function DivingDeeper() {
             Pendle Pro
           </Link>
           <Link to="/PendlePro/UsingPro" className={styles.subFeatures}>
-            <Link to="/PendlePro/YieldTrading" className={styles.indivFeature}>
+            <Link to="/PendlePro/UsingPro" className={styles.indivFeature}>
               <div
                 onMouseEnter={() => {
                   play("yield");
@@ -80,7 +80,7 @@ export default function DivingDeeper() {
                 </div>
               </div>
             </Link>
-            <Link to="/Governance/$PENDLE" className={styles.indivFeature}>
+            <Link to="/Governance/PENDLE" className={styles.indivFeature}>
               <div
                 onMouseEnter={() => {
                   play("governance");
@@ -105,7 +105,7 @@ export default function DivingDeeper() {
             playReverse("sdk");
           }}
         >
-          <Link className={styles.link} to="/introduction">
+          <Link className={styles.link} to="/developers/sdk">
             SDK
             <div className={styles.sdkLottie} ref={sdkRef} />
           </Link>

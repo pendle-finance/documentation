@@ -46,4 +46,4 @@ NOTE:
 
 *** To find an eligible `tokenOut` address, visit the `Read Contract` tab of the SY contract, and look for Function #10, `getTokensOut`. The addresses that it returns in the list are the only valid addresses you can enter when redeeming. e.g. for SY-steETH, the valid `tokenOut` addresses are `0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84` (stETH), `0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0` (wstETH).
 
-4. Click the **Write** to submit a transaction to the blockchain!
+4. Click the **Write** button to submit a transaction to the blockchain!

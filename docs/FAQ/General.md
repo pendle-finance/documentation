@@ -24,6 +24,30 @@ PT entitles you to the principal of the underlying yield-bearing token, redeemab
 
 YT entitles you to accrue the yield of the underlying yield-bearing token in real-time, and the yield accrued can be manually claimed _at any time_. If you own 100 YT-aUSDC and aUSDC has an average yield of 5% through the year, you will have accrued 5 aUSDC by the end of the year.
 
+**Maturity**
+
+Maturity is the date at which PT becomes fully redeemable for the underlying asset and YT stops accruing yield. One asset can have multiple maturity dates, and there is an independent market for each maturity date, and as such the implied yield of an asset can differ across different maturities.
+
+**Underlying APY**
+
+Underlying APY is the prevailing yield rate of the underlying asset. This APY is determined by the protocol that created the asset. Underlying Value is the current market value of the asset in USD.
+
+**Implied APY**
+
+Implied APY is the market consensus of the future APY of an asset. This value is calculated based on the ratio of the price of YT to PT and the formula is shown below. This is the tool, when used in conjunction with the Underlying APY, that most traders use to determine their trading strategies.
+
+$$$
+\text{Implied Yield} = \left[\left(1 + \cfrac{\text{YT Price}}{\text{Value of underlying amount YT represents} - \text{YT Price}}\right)^\cfrac{365}{\text{Days to expiry}}\right] - 1
+$$$
+
+**Floating APY**
+
+Floating APY is the extrapolated APY of buying YT at the current price, assuming underlying APY remains constant. This value can be negative, meaning that the current underlying APY will be less than the cost of buying YT.
+
+**Fixed APY**
+
+Fixed APY is the guaranteed yield you will receive by holding PT. This value is numerically equivalent to the Implied APY.
+
 ### What does the maturity date mean?
 
 Each PT and YT has an maturity date. For PT, you can redeem the full underlying yield-bearing token after this date. For YT, the yield of the yield-bearing token is only accrued up until the maturity date, after which YT has no value.
