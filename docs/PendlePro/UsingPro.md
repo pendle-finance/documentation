@@ -10,7 +10,7 @@ Users can deposit yield-generating assets into Pendle and mint Principal Tokens 
 
 ![Yield splitting](/img/pendlepro/yield_splitting.png "Yield splitting")
 
-In TradFi, what Pendle does is similar to bond stripping. The principal and interest of bonds are separated, so PTs are equivalent to [zero-coupon bonds](https://www.investopedia.com/terms/z/zero-couponbond.asp), while YTs are the detached[coupons](https://www.investopedia.com/terms/c/coupon.asp).
+In TradFi, what Pendle does is similar to bond stripping. The principal and interest of bonds are separated, so PTs are equivalent to [zero-coupon bonds](https://www.investopedia.com/terms/z/zero-couponbond.asp), while YTs are the detached [coupons](https://www.investopedia.com/terms/c/coupon.asp).
 
 ## Using Pendle Pro
 

@@ -68,3 +68,5 @@ This Policy and our commitment to protecting the privacy of your personal data c
 ## Queries and Complaints
 
 Any comments or queries on this policy should be directed to us. If you believe that we have not complied with this policy or acted otherwise than in accordance with data protection law, then you should notify us.
+
+[Terms of Use](TermsOfUse.md)
