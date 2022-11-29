@@ -19,7 +19,7 @@ With Pendle, you can always maximise your yield: increase your yield exposure in
 
 We give users the reins to their yield.
 
-[Pendle](https://pendle.finance/) is a permissionless DeFi yield-trading protocol, currently built on the [Ethereum](https://ethereum.org/) and [Avalanche](https://www.avax.network/) blockchains, where users can execute various yield management strategies.
+[Pendle](https://pendle.finance/) is a permissionless DeFi yield-trading protocol, currently built on the [Ethereum](https://ethereum.org/) blockchain, where users can execute various yield management strategies.
 
 We first wrap **yield-bearing tokens** into **SY**(standardized yield tokens). Then, SY is split into their principal and yield components, **PT** (principal token) and **YT** (yield token) respectively, which allows them to be traded via the custom **V2 AMM**.
 

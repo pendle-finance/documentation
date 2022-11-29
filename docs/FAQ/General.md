@@ -101,11 +101,11 @@ vePENDLE holders also receive a portion of protocol revenue, earned from swap fe
 
 You can lock PENDLE for vePENDLE for up to 2 years. One wallet is associated with a single unlock date. If you extend your lock duration or lock more PENDLE, the unlock date will be changed for your entire vePENDLE balance.
 
-### Is there a difference between Ethereum and Avalanche?
+### Is there a difference between Ethereum and other chains?
 
 vePENDLE resides solely on the Ethereum blockchain, meaning you can only lock PENDLE and vote from Ethereum. 
 
-However, Avalanche pools can still be voted for, so incentives can be channelled to the Avalanche blockchain via voting. 
+However, pools on other chains (once deployed) can still be voted for, so incentives can be channelled to other blockchains via voting. 
 
 
 
@@ -115,7 +115,7 @@ However, Avalanche pools can still be voted for, so incentives can be channelled
 
 ### Is Pendle audited?
 
-The Pendle codebase has been fully audited by reputable auditors and all flaws have been addressed. Read the audit reports [here](https://drive.google.com/drive/folders/11WVNumH9tKfDz1271G7HJONXf6CgddI9). Nonetheless, users are advised to exercise caution and deploy funds prudently.
+The Pendle codebase has been fully audited by reputable auditors and all flaws have been addressed. Read the audit reports [here](https://github.com/pendle-finance/pendle-core-v2/tree/main/audits). Nonetheless, users are advised to exercise caution and deploy funds prudently.
 
 ### What risks are there associated with using the protocol?
 

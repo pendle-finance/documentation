@@ -31,7 +31,7 @@ Liquidity providers receive returns from multiple avenues:
 
 5. (Advanced) Control your slippage tolerance by clicking the Gear icon in the top right
 
-6. (Advanced) [Stake $vePENDLE](https://gov.pendle.finance/) to boost your APY
+6. (Advanced) [Stake vePENDLE](https://app.pendle.finance/vependle) to boost your APY
 
 7. Check the details of your LP
 

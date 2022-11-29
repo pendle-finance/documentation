@@ -81,7 +81,7 @@ module.exports = {
             },
             {
               label: 'Audits',
-              href: 'https://github.com/pendle-finance/pendle-core/tree/master/docs/audits'
+              href: 'https://github.com/pendle-finance/pendle-core-v2/tree/main/audits'
             }
           ],
         },
