@@ -80,7 +80,7 @@ export default function DivingDeeper() {
                 </div>
               </div>
             </Link>
-            <Link to="/Governance/PENDLE" className={styles.indivFeature}>
+            <Link to="/Governance/vePENDLE" className={styles.indivFeature}>
               <div
                 onMouseEnter={() => {
                   play("governance");
