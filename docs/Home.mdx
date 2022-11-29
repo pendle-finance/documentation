@@ -1,0 +1,30 @@
+---
+hide_title: true
+pagination_next: null
+---
+
+import clsx from "clsx";
+import Layout from "@theme/Layout";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import styles from "./index.module.css";
+import HomepageFeatures from "../src/components/HomepageFeatures";
+
+export default function Home() {
+  const { siteConfig } = useDocusaurusContext();
+  return (
+    <>
+      <main>
+        <div className={styles.root}>
+          <header className={styles.heroBanner}>
+            <h1>Welcome to the Pendle Docs</h1>
+            <p className={styles.subtitle}>
+              Learn more about Pendle, a decentralized finance protocol that
+              allows users to tokenize and sell future yields.
+            </p>
+          </header>
+          <HomepageFeatures />
+        </div>
+      </main>
+    </>
+  );
+}

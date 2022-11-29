@@ -1,27 +1,41 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
-.footerColumn {
-  column-gap: 0;
+.background{
+  width: 100%;
+  min-height: 30vh;
+  background-color: #D6E1EF;
+  padding: 4rem 12rem;
+  display: flex;
+  background-image: url("../../../static/img/footer.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  justify-content: center;
+}
+.root{
+  width: 1280px;
+  display: flex;
+  justify-content: flex-end;
 }
 
-.footerLogoLink {
-  opacity: 0.5;
-  transition: opacity var(--ifm-transition-fast) var(--ifm-transition-timing-default);
+.linkGroup{
+  display: flex;
+  flex-direction: column;
+  margin-left: 6rem;
+  color: #374B6D;
+}
+.linkGroupTitle{
+  font-weight: 600;
 }
 
-.footerLogoLink:hover {
-  opacity: 1;
-}
-
-.footerPadding {
-  padding-top: 100px;
-}
-
-.footerRow {
-  column-gap: 0;
+@media screen and (max-width: 1024px) {
+  .root{
+    padding: 0rem;
+    background-image: none;
+    background-color: #D6E1EF;
+    justify-content: space-evenly;
+  }
+  .linkGroup{
+    margin: 2rem 1rem;
+  }
+  .background{
+    background-image: none;
+  }
 }
