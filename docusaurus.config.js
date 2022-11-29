@@ -26,51 +26,10 @@ module.exports = {
       indexName: "pendle",
       appId: "BH4D9OD16A",
     },
-    hideableSidebar: true,
-    navbar: {
-      hideOnScroll: false,
-      logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo-title.png',
-      },
-      items: [
-        {
-          type: 'doc',
-          docId: 'information/intro',
-          position: 'left',
-          label: 'Information',
-        },
-        {
-          type: 'doc',
-          docId: 'guides/intro',
-          position: 'left',
-          label: 'Guides',
-        },
-        {
-          type: 'doc',
-          docId: 'addresses/avalanche',
-          position: 'left',
-          label: 'Addresses',
-        },
-        {
-          type: 'doc',
-          docId: 'reference/intro',
-          position: 'left',
-          label: 'References',
-        },
-        {
-          type: 'doc',
-          docId: 'information/about-the-project/litepaper',
-          position: 'right',
-          label: 'Litepaper',
-        },
-        {
-          href: 'https://github.com/pendle-finance/',
-          position: 'right',
-          className: 'header-github-link',
-          'aria-label': 'GitHub repository',
-        },
-      ],
+    docs:{
+      sidebar: {
+        hideable: false
+      }
     },
     footer: {
       style: 'light',
@@ -93,7 +52,7 @@ module.exports = {
           items: [
             {
               label: 'Discord',
-              href: 'https://discord.gg/EAujvncY2R/',
+              href: 'https://discord.gg/qshFxh6965/',
             },
             {
               label: 'Twitter',
@@ -140,6 +99,8 @@ module.exports = {
       '@docusaurus/preset-classic',
       {
         docs: {
+          breadcrumbs: false,
+          routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
           remarkPlugins: [math],
           rehypePlugins: [katex],
