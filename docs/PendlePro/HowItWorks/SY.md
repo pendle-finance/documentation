@@ -16,4 +16,4 @@ While this might seem daunting, Pendle automatically converts yield-bearing toke
  
 While this standard benefits Pendle, our vision for SY extends beyond just our own protocol. SY aims to create unprecedented composability across all of DeFi, enabling developers to seamlessly build on top of existing contracts without the need for manual integration. 
 
-Read more about SY and EIP-5115 [here](https://eips.ethereum.org/EIPS/eip-5115)
+Read more about SY and EIP-5115 [here](https://eips.ethereum.org/EIPS/eip-5115).
