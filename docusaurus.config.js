@@ -22,9 +22,9 @@ module.exports = {
       additionalLanguages: ["solidity"],
     },
     algolia: {
+      appId: "BH4D9OD16A",
       apiKey: "81e1c66e67990e589a57e783a401dbb3",
       indexName: "pendle",
-      appId: "BH4D9OD16A",
     },
     docs:{
       sidebar: {
@@ -104,6 +104,10 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           remarkPlugins: [math],
           rehypePlugins: [katex],
+        },
+        googleAnalytics: {
+          trackingID: 'GTM-NR4F5G9',
+          anonymizeIP: true,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
