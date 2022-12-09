@@ -105,7 +105,7 @@ module.exports = {
           remarkPlugins: [math],
           rehypePlugins: [katex],
         },
-        googleAnalytics: {
+        gtag: {
           trackingID: 'GTM-NR4F5G9',
           anonymizeIP: true,
         },
