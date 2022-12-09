@@ -106,7 +106,7 @@ module.exports = {
           rehypePlugins: [katex],
         },
         gtag: {
-          trackingID: 'GTM-NR4F5G9',
+          trackingID: 'G-6ZBS49V0YS',
           anonymizeIP: true,
         },
         theme: {
