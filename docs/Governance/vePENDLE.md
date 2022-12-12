@@ -32,11 +32,11 @@ All of these rewards will be converted to USDC regardless of where your vePENDLE
 
 ## Incentive Channelling
 
-vePENDLE powers the incentive channelling mechanism on Pendle. vePENDLE holders vote for and direct the flow of rewards to different pools, effectively incentivizing liquidity in the pool they vote for.
+vePENDLE powers the incentive channeling mechanism on Pendle. vePENDLE holders vote for and direct the flow of rewards to different pools, effectively incentivizing liquidity in the pool they vote for.
 
 Intuitively, the higher your vePENDLE value, the more incentives you are entitled to channel.
 
-A snapshot of all votes is taken at the start of every epoch at Thursday, 00:00 UTC and the incentive rates for each pool will be adjusted accordingly.
+A snapshot of all votes is taken at the start of every epoch on Thursday, 00:00 UTC and the incentive rates for each pool will be adjusted accordingly.
 
 ![Epoch Snapshots](/img/governance/epoch_snapshots.jpg "Epoch Snapshots")
 

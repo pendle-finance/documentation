@@ -21,6 +21,11 @@ module.exports = {
       label: "FAQ",
     },
     {
+      type: "link",
+      label: "Whitepapers",
+      href: 'https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers',
+    },
+    {
       type: "category",
       label: "Using Pendle",
       items: [
