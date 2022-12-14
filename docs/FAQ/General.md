@@ -40,9 +40,9 @@ $$$
 \text{Implied Yield} = \left[\left(1 + \cfrac{\text{YT Price}}{\text{Value of underlying amount YT represents} - \text{YT Price}}\right)^\cfrac{365}{\text{Days to expiry}}\right] - 1
 $$$
 
-**Floating APY**
+**Long Yield APY**
 
-Floating APY is the extrapolated APY of buying YT at the current price, assuming underlying APY remains constant. This value can be negative, meaning that the current underlying APY will be less than the cost of buying YT.
+Long Yield APY is the extrapolated APY of buying YT at the current price, assuming underlying APY remains constant. This value can be negative, meaning that the current underlying APY will be less than the cost of buying YT.
 
 **Fixed APY**
 
@@ -69,7 +69,7 @@ You can switch between the two modes by toggling the UI at the top right corner 
 
 For Pendle, an epoch is exactly one week. Each epoch starts and ends at Thursday, 00:00 UTC.
 
-Snapshots of vePENDLE voting are taken every epoch, and non-yield rewards (e.g. $COMP, $QI tokens) are also distributed every epoch.
+Snapshots of vePENDLE voting are taken every epoch, and non-yield rewards (e.g. $CRV, $CVX tokens) are also distributed every epoch.
 
 ## Liquidity Provision
 
