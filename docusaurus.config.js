@@ -22,8 +22,8 @@ module.exports = {
       additionalLanguages: ["solidity"],
     },
     algolia: {
-      appId: "BH4D9OD16A",
-      apiKey: "81e1c66e67990e589a57e783a401dbb3",
+      appId: "GFVY0GOMCR",
+      apiKey: "1e9c713dfca40c64b56217bb24d5c4cd",
       indexName: "pendle",
     },
     docs:{
@@ -81,7 +81,7 @@ module.exports = {
             },
             {
               label: 'Audits',
-              href: 'https://github.com/pendle-finance/pendle-core-v2/tree/main/audits'
+              href: 'https://github.com/pendle-finance/pendle-core-v2-public/tree/main/audits'
             }
           ],
         },
