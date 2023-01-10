@@ -107,15 +107,11 @@ vePENDLE resides solely on the Ethereum blockchain, meaning you can only lock PE
 
 However, pools on other chains (once deployed) can still be voted for, so incentives can be channelled to other blockchains via voting. 
 
-
-
-
-
 ## Security
 
 ### Is Pendle audited?
 
-The Pendle codebase has been fully audited by reputable auditors and all flaws have been addressed. Read the audit reports [here](https://github.com/pendle-finance/pendle-core-v2/tree/main/audits). Nonetheless, users are advised to exercise caution and deploy funds prudently.
+The Pendle codebase has been fully audited by reputable auditors and all flaws have been addressed. Read the audit reports [here](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/audits). Nonetheless, users are advised to exercise caution and deploy funds prudently.
 
 ### What risks are there associated with using the protocol?
 
