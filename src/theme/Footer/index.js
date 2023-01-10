@@ -44,7 +44,7 @@ function Footer() {
             Media Kit
           </a>
           <a
-            href="https://github.com/pendle-finance/pendle-core/tree/master/docs/audits"
+            href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/docs/audits"
             target="_blank"
           >
             Audits
