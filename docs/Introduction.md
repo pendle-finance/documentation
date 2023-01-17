@@ -23,7 +23,7 @@ We give users the reins to their yield.
 
 We first wrap **yield-bearing tokens** into **SY**(standardized yield tokens). Then, SY is split into their principal and yield components, **PT** (principal token) and **YT** (yield token) respectively, which allows them to be traded via the custom **V2 AMM**.
 
-This brings the TradFi interest derivative market ([worth over $400T in notional value](https://www.bis.org/publ/otc_hy2111/intgraphs/graphA3.htm)) into DeFi, making it accessible to all. PT is the equivalent of [zero-coupon bonds](https://www.investopedia.com/terms/z/zero-couponbond.asp) while YT is the equivalent of [coupon bonds](https://www.investopedia.com/terms/c/couponbond.asp).
+This brings the TradFi interest derivative market ([worth over $400T in notional value](https://www.bis.org/publ/otc_hy2111/intgraphs/graphA3.htm)) into DeFi, making it accessible to all. PT is the equivalent of [zero-coupon bonds](https://www.investopedia.com/terms/z/zero-couponbond.asp) while YT is the equivalent of [coupon payments](https://www.investopedia.com/terms/c/coupon.asp).
 
 By creating a yield market in DeFi, Pendle unlocks the full potential of yield. Pendle enables users to execute advanced yield strategies, such as:
 
