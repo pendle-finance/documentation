@@ -18,15 +18,7 @@ For now, you can unwrap your SY to the underlying yield-bearing asset using Ethe
 |           SY-sAPE            | [`0x47BA20283Be4d72D4AFB1862994F4203551539C5`](https://etherscan.io/address/0x47BA20283Be4d72D4AFB1862994F4203551539C5#writeContract#F6) |
 | SY-rETH-WETH BalancerLP Aura | [`0xdf7083f2A0F8a191ab5eEAFebE92ED21cD3Dd915`](https://etherscan.io/address/0xdf7083f2A0F8a191ab5eEAFebE92ED21cD3Dd915#writeContract#F8) |
 
-2. Make sure you have approved the SY token contract to burn the SY shares from your address. On the **Write Contract* tab in Etherscan, navigate to Function #1, `approve (0x095ea7b3)`.
-
-![Approve](/img/pendlepro/etherscan_approve.png "Approve")
-
-For `spender`, enter the same SY contract address, e.g. `0xcbC72d92b2dc8187414F6734718563898740C0BC` if you are doing `SY-stETH`.
-
-For `amount`, enter a very large number such as `1000000000000000000000000000000000`, which is the allowance you allow for the SY contract to spend from your address.
-
-3. On the **Write Contract** tab in Etherscan, navigate to Function #7, `redeem (0x769f8e5d)`.
+2. On the **Write Contract** tab in Etherscan, navigate to Function #7, `redeem (0x769f8e5d)`.
 
 ![Redeem](/img/pendlepro/etherscan_redeem.png "Redeem")
 
@@ -42,10 +34,10 @@ Enter the required details for each parameter in the function:
 
 Here's a [sample tx](https://etherscan.io/tx/0x19360b2571f45cd41619f28cf38ab018f575edd009332da1cd9eef7776c3f0ef).
 
-NOTE: 
+NOTE:
 
 ** To get `amountSharesToRedeem`, you can visit the `Read Contract` tab of the SY contract, look for Function #5, `balanceOf`, and enter your address. The amount that it returns is the total SY balance you are holding. Enter this amount to `amountSharesToRedeem` in the write tab to redeem the entire SY balance.
 
 *** To find an eligible `tokenOut` address, visit the `Read Contract` tab of the SY contract, and look for Function #10, `getTokensOut`. The addresses that it returns in the list are the only valid addresses you can enter when redeeming. e.g. for SY-steETH, the valid `tokenOut` addresses are `0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84` (stETH), `0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0` (wstETH).
 
-4. Click the **Write** button to submit a transaction to the blockchain!
+3. Click the **Write** button to submit a transaction to the blockchain!
