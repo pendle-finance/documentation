@@ -8,6 +8,10 @@ PENDLE is the platform token of Pendle, and is the cornerstone of value accrual 
 
 It also functions as the governance token, by staking and locking into vePENDLE.
 
+## Tokenomics Hub Report
+
+[https://www.tokenomicshub.xyz/posts/pendle](https://www.tokenomicshub.xyz/posts/pendle)
+
 ## Token Contracts
 
 |   Chain   |                                                         Address                                                          |
