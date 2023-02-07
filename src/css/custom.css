@@ -167,4 +167,8 @@ p{
   .hero__title {
     font-size: 2rem;
   }
+
+  .katex {
+    font-size: 0.8em;
+  }
 }
