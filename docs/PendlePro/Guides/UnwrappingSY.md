@@ -17,6 +17,7 @@ For now, you can unwrap your SY to the underlying yield-bearing asset using Ethe
 |       SY-LOOKS Staking       | [`0x35C16314D6Ee4753289E5cC15A5C5E1Dd4eaD345`](https://etherscan.io/address/0x35C16314D6Ee4753289E5cC15A5C5E1Dd4eaD345#writeContract#F7) |
 |           SY-sAPE            | [`0x47BA20283Be4d72D4AFB1862994F4203551539C5`](https://etherscan.io/address/0x47BA20283Be4d72D4AFB1862994F4203551539C5#writeContract#F6) |
 | SY-rETH-WETH BalancerLP Aura | [`0xdf7083f2A0F8a191ab5eEAFebE92ED21cD3Dd915`](https://etherscan.io/address/0xdf7083f2A0F8a191ab5eEAFebE92ED21cD3Dd915#writeContract#F8) |
+| SY-wstETH-WETH BalancerLP Aura | [`0x8267fdabd1b8C8645138f2dE5B0fe24988DC9820`](https://etherscan.io/address/0x8267fdabd1b8C8645138f2dE5B0fe24988DC9820#writeContract#F8) |
 
 2. On the **Write Contract** tab in Etherscan, navigate to Function #7, `redeem (0x769f8e5d)`.
 
