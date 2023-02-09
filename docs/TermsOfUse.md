@@ -2,11 +2,11 @@
 
 ## Welcome to Pendle.Finance
 
-www.pendle.finance is brought to you by Pendle Finance (”Pendle”) and its affiliates (collectively, “we,” “us,” or “our”) committed to creating open-source software that empowers users' financial, social and cultural independence. 
+www.pendle.finance is brought to you by Pendle Finance (”Pendle”) and its affiliates (collectively, "we,” "us,” or "our”) committed to creating open-source software that empowers users' financial, social and cultural independence. 
 
-ARBITRATION NOTICE: THESE TERMS (“TERMS”) CONTAIN AN ARBITRATION CLAUSE BELOW. EXCEPT FOR CERTAIN TYPES OF DISPUTES MENTIONED IN THAT ARBITRATION CLAUSE, YOU AND WE AGREE THAT ANY DISPUTES RELATING TO THE SERVICES (AS DEFINED BELOW) WILL BE RESOLVED BY MANDATORY BINDING ARBITRATION, AND YOU WAIVE ANY RIGHT TO A TRIAL BY JURY OR TO PARTICIPATE IN A CLASS-ACTION LAWSUIT OR CLASS-WIDE ARBITRATION. **You are entering into a binding Agreement.**
+ARBITRATION NOTICE: THESE TERMS ("TERMS”) CONTAIN AN ARBITRATION CLAUSE BELOW. EXCEPT FOR CERTAIN TYPES OF DISPUTES MENTIONED IN THAT ARBITRATION CLAUSE, YOU AND WE AGREE THAT ANY DISPUTES RELATING TO THE SERVICES (AS DEFINED BELOW) WILL BE RESOLVED BY MANDATORY BINDING ARBITRATION, AND YOU WAIVE ANY RIGHT TO A TRIAL BY JURY OR TO PARTICIPATE IN A CLASS-ACTION LAWSUIT OR CLASS-WIDE ARBITRATION. **You are entering into a binding Agreement.**
 
-BY ACCESSING OR USING OUR SERVICES, WHICH INCLUDE OUR VARIOUS WEBSITES, INCLUDING, WITHOUT LIMITATION, PENDLE.FINANCE (AND ANY RESPECTIVE SUBDOMAINS); APPLICATIONS (COLLECTIVELY WITH ANY MATERIALS AND SERVICES AVAILABLE THEREIN, AND SUCCESSOR WEBSITE(S) OR APPLICATION(S) THERETO, THE “SITE”), AND OTHER SERVICES THAT LINK TO THESE TERMS, AS WELL AS ANY INFORMATION, TEXT, LINKS, GRAPHICS, PHOTOS, AUDIO, VIDEO, OR OTHER MATERIALS STORED, RETRIEVED OR APPEARING THEREON, WHETHER ACCESSED THROUGH THE SITE OR OTHERWISE (COLLECTIVELY, THE “SERVICES”), YOU ARE ENTERING INTO A BINDING AGREEMENT WITH US THAT INCLUDES THESE TERMS, PENDLE.FINANCE - PRIVACY POLICY, AND OTHER POLICIES REFERENCED HEREIN (COLLECTIVELY, THE “AGREEMENT”).
+BY ACCESSING OR USING OUR SERVICES, WHICH INCLUDE OUR VARIOUS WEBSITES, INCLUDING, WITHOUT LIMITATION, PENDLE.FINANCE (AND ANY RESPECTIVE SUBDOMAINS); APPLICATIONS (COLLECTIVELY WITH ANY MATERIALS AND SERVICES AVAILABLE THEREIN, AND SUCCESSOR WEBSITE(S) OR APPLICATION(S) THERETO, THE "SITE”), AND OTHER SERVICES THAT LINK TO THESE TERMS, AS WELL AS ANY INFORMATION, TEXT, LINKS, GRAPHICS, PHOTOS, AUDIO, VIDEO, OR OTHER MATERIALS STORED, RETRIEVED OR APPEARING THEREON, WHETHER ACCESSED THROUGH THE SITE OR OTHERWISE (COLLECTIVELY, THE "SERVICES”), YOU ARE ENTERING INTO A BINDING AGREEMENT WITH US THAT INCLUDES THESE TERMS, PENDLE.FINANCE - PRIVACY POLICY, AND OTHER POLICIES REFERENCED HEREIN (COLLECTIVELY, THE "AGREEMENT”).
 
 To the extent that there is a conflict between these Terms and any applicable additional terms, these Terms will control unless expressly stated otherwise. If you don't agree with these Terms, you may not use the Services and should not visit the Site or otherwise engage with the Services.
 
@@ -30,7 +30,7 @@ It is important to understand that neither we nor any affiliated entity is a par
 
 ### The Pendle Protocol is deployed on multiple blockchain-based networks, and we are not responsible for the operation of such networks
 
-The software underlying blockchain networks on which the Protocol is deployed, including, for example, the Ethereum blockchain, is open source, which means that anyone can use, utilize, and build on top of it. By using the Services, you acknowledge and agree (i) that we are not responsible for the operation of the blockchain-based software and networks underlying the Protocol, (ii) that there exists no guarantee of the functionality, security, or availability of that software and networks, and (iii) that the underlying blockchain-based networks are subject to sudden changes in operating rules, such as those commonly referred to as “forks”.
+The software underlying blockchain networks on which the Protocol is deployed, including, for example, the Ethereum blockchain, is open source, which means that anyone can use, utilize, and build on top of it. By using the Services, you acknowledge and agree (i) that we are not responsible for the operation of the blockchain-based software and networks underlying the Protocol, (ii) that there exists no guarantee of the functionality, security, or availability of that software and networks, and (iii) that the underlying blockchain-based networks are subject to sudden changes in operating rules, such as those commonly referred to as "forks”.
 
 ### Transactions on the blockchain are not anonymous
 
@@ -82,7 +82,7 @@ You acknowledge and agree that you will access and use the Services, including, 
 
 ## Prohibited Content
 
-You may only use the Services if you comply with this Agreement (including, without limitation, these Terms), applicable third-party policies, and all applicable laws, rules, regulations and related guidance. The following conduct is prohibited:
+YYou may only use the Services if you comply with this Agreement (including, without limitation, these Terms), applicable third-party policies, and all applicable laws, rules, regulations and related guidance.The following conduct is prohibited:
 
 - using the Services for, or to promote or facilitate, illegal activity (including, without limitation, money laundering, financing terrorism, tax evasion, buying or selling illegal drugs, contraband, counterfeit goods, or illegal weapons);
 - exploiting the Services for any unauthorized commercial purpose;
@@ -92,8 +92,11 @@ You may only use the Services if you comply with this Agreement (including, with
 - using the Services under false or fraudulent pretenses or otherwise being deceitful;
 - interfering with other users’ access to or use of the Services;
 - interfering with or circumventing of the security features of the Services or any third party’s systems, networks or resources used in the provision of Services;
-- engaging in any attack, hack, denial-of-service attack, interference, or exploit of any smart contract in connection with use of the Service (and operations performed by a user that are technically permitted by a smart contract may nevertheless be a violation of our Agreement, including these Terms, and the law); or
+- engaging in any attack, hack, denial-of-service attack, interference, or exploit of any smart contract in connection with use of the Service (and operations performed by a user that are technically permitted by a smart contract may nevertheless be a violation of our Agreement, including these Terms, and the law);
 - engaging in any anticompetitive behavior or other misconduct.
+- use the service as target of any sanctions administered or enforced by the U.S. Department of the Treasury’s Office of Foreign Assets Control ("OFAC"), the United Nations Security Council, the European Union, Her Majesty’s Treasury, or any other legal or regulatory authority in any applicable jurisdiction;
+- you, as an individual or an entity, or your wallet address is listed on the Specially Designated Nationals and Blocked Persons List ("SDN List”), Consolidated Sanctions List ("Non-SDN Lists), or any other sanctions lists administered by OFAC; or
+- you are located, organized, or resident in a country or territory that is, or whose government is, the subject of sanctions, including but not limited to Côte d’Ivoire, Cuba, Belarus, Iran, Iraq, Liberia, North Korea, Singapore, Sudan, Syria, and the United States;
 
 ### Violating our rules may result in our intervention.
 
@@ -105,7 +108,7 @@ We reserve the right to investigate and prosecute any suspected breaches of this
 
 ## Disclaimers and Limitations of Liability
 
-**We make no representations or warranties.** THE SERVICES ARE PROVIDED ON AN “AS IS” AND “AS AVAILABLE” BASIS. WE AND OUR PARENTS, SUBSIDIARIES, AFFILIATES, RELATED COMPANIES, OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, REPRESENTATIVES, PARTNERS, AND LICENSORS (COLLECTIVELY, THE “PENDLE INDEMNIFIED PARTIES”) MAKE NO GUARANTEES OF ANY KIND IN CONNECTION WITH THE SERVICES. TO THE MAXIMUM EXTENT PERMITTED UNDER APPLICABLE LAW, PENDLE FINANCE INDEMNIFIED PARTIES DISCLAIM ALL WARRANTIES AND CONDITIONS, WHETHER EXPRESS OR IMPLIED, OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT AND DISCLAIM ALL RESPONSIBILITY AND LIABILITY FOR:
+**We make no representations or warranties.** THE SERVICES ARE PROVIDED ON AN "AS IS” AND "AS AVAILABLE” BASIS. WE AND OUR PARENTS, SUBSIDIARIES, AFFILIATES, RELATED COMPANIES, OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, REPRESENTATIVES, PARTNERS, AND LICENSORS (COLLECTIVELY, THE "PENDLE INDEMNIFIED PARTIES”) MAKE NO GUARANTEES OF ANY KIND IN CONNECTION WITH THE SERVICES. TO THE MAXIMUM EXTENT PERMITTED UNDER APPLICABLE LAW, PENDLE FINANCE INDEMNIFIED PARTIES DISCLAIM ALL WARRANTIES AND CONDITIONS, WHETHER EXPRESS OR IMPLIED, OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT AND DISCLAIM ALL RESPONSIBILITY AND LIABILITY FOR:
 
 - THE SERVICES BEING ACCURATE, COMPLETE, CURRENT, RELIABLE, UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE. INFORMATION (INCLUDING, WITHOUT LIMITATION, THE VALUE OR OUTCOME OF ANY TRANSACTION) AVAILABLE THROUGH THE SERVICE IS PROVIDED FOR GENERAL INFORMATION ONLY AND SHOULD NOT BE RELIED UPON OR USED AS THE SOLE BASIS FOR MAKING DECISIONS. ANY RELIANCE ON THE SERVICES IS AT YOUR OWN RISK.
 - INJURY OR DAMAGE RESULTING FROM THE SERVICES. FOR EXAMPLE, YOU EXPRESSLY ACKNOWLEDGE, UNDERSTAND, AND AGREE THAT THE SERVICES MAY CONTAIN AUDIO-VISUAL EFFECTS, STROBE LIGHTS OR OTHER MATERIALS THAT MAY AFFECT YOUR PHYSICAL SENSES AND/OR PHYSICAL CONDITION. FURTHER, YOU EXPRESSLY ACKNOWLEDGE THAT THE PENDLE FINANCE INDEMNIFIED PARTIES ARE NOT RESPONSIBLE FOR LOSS OR DAMAGE CAUSED BY ANOTHER USER’S CONDUCT, UNAUTHORIZED ACTORS, OR ANY UNAUTHORIZED ACCESS TO OR USE OF THE SERVICES.
@@ -129,11 +132,11 @@ PLEASE READ THIS SECTION CAREFULLY: IT MAY SIGNIFICANTLY AFFECT YOUR LEGAL RIGHT
 
 _Agreement to Attempt to Resolve Disputes Through Good Faith Negotiations_
 
-Prior to commencing any legal proceeding against us of any kind, including an arbitration as set forth below, you and we agree that we will attempt to resolve any dispute, claim, or controversy between us arising out of or relating to the agreement or the Services (each, a “Dispute” and, collectively, “Disputes”) by engaging in good faith negotiations. Such good faith negotiations require, at a minimum, that the aggrieved party provide a written notice to the other party specifying the nature and details of the Dispute. The party receiving such notice shall have thirty (30) days to respond to the notice. Within sixty (60) days after the aggrieved party sent the initial notice, the parties shall meet and confer in good faith by videoconference, or by telephone, to try to resolve the Dispute. If the parties are unable to resolve the Dispute within ninety (90) days after the aggrieved party sent the initial notice, the parties may agree to mediate their Dispute, or either party may submit the Dispute to arbitration as set forth below.
+Prior to commencing any legal proceeding against us of any kind, including an arbitration as set forth below, you and we agree that we will attempt to resolve any dispute, claim, or controversy between us arising out of or relating to the agreement or the Services (each, a "Dispute” and, collectively, "Disputes”) by engaging in good faith negotiations. Such good faith negotiations require, at a minimum, that the aggrieved party provide a written notice to the other party specifying the nature and details of the Dispute. The party receiving such notice shall have thirty (30) days to respond to the notice. Within sixty (60) days after the aggrieved party sent the initial notice, the parties shall meet and confer in good faith by videoconference, or by telephone, to try to resolve the Dispute. If the parties are unable to resolve the Dispute within ninety (90) days after the aggrieved party sent the initial notice, the parties may agree to mediate their Dispute, or either party may submit the Dispute to arbitration as set forth below.
 
 _Agreement to Arbitrate_
 
-You and we agree that any Dispute that cannot be resolved through the procedures set forth above will be resolved through binding arbitration in accordance with the International Arbitration Rules of the International Centre for Dispute Resolution. The place of arbitration shall be Singapore. The language of the arbitration shall be English. The arbitrator(s) shall have experience adjudicating matters involving Internet technology, software applications, financial transactions and, ideally, blockchain technology. The arbitrator’s award of damages must be consistent with the terms of the “Limitation of Liability” subsection of these Terms as to the types and amounts of damages for which a party may be held liable. The prevailing party will be entitled to an award of their reasonable attorney’s fees and costs. Except as may be required by law, neither a party nor its representatives may disclose the existence, content, or results of any arbitration hereunder without the prior written consent of (all/both) parties.
+You and we agree that any Dispute that cannot be resolved through the procedures set forth above will be resolved through binding arbitration in accordance with the International Arbitration Rules of the International Centre for Dispute Resolution. The place of arbitration shall be Singapore. The language of the arbitration shall be English. The arbitrator(s) shall have experience adjudicating matters involving Internet technology, software applications, financial transactions and, ideally, blockchain technology. The arbitrator’s award of damages must be consistent with the terms of the "Limitation of Liability” subsection of these Terms as to the types and amounts of damages for which a party may be held liable. The prevailing party will be entitled to an award of their reasonable attorney’s fees and costs. Except as may be required by law, neither a party nor its representatives may disclose the existence, content, or results of any arbitration hereunder without the prior written consent of (all/both) parties.
 
 UNLESS YOU TIMELY PROVIDE US WITH AN ARBITRATION OPT-OUT NOTICE, YOU ACKNOWLEDGE AND AGREE THAT YOU AND WE ARE EACH WAIVING THE RIGHT TO A TRIAL BY JURY OR TO PARTICIPATE AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS ACTION OR REPRESENTATIVE PROCEEDING. FURTHER, UNLESS BOTH YOU AND WE OTHERWISE AGREE IN WRITING, THE ARBITRATOR MAY NOT CONSOLIDATE MORE THAN ONE PERSON’S CLAIMS AND MAY NOT OTHERWISE PRESIDE OVER ANY FORM OF ANY CLASS OR REPRESENTATIVE PROCEEDING.
 
@@ -165,6 +168,6 @@ The Agreement (including, without limitation, these Terms, and the Pendle Privac
 
 ## Governing Law
 
-These Terms and any separate agreements whereby we provide you Services shall be governed by and construed in accordance with the laws of Singapore.
+These Terms and any separate agreements whereby we provide you Services shall be governed by and construed in accordance with the laws of BVI.
 
 [Privacy Policy](PrivacyPolicy.md)
