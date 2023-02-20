@@ -54,7 +54,6 @@ module.exports = {
             { type: "doc", id: "PendlePro/Guides/Farm" },
             { type: "doc", id: "PendlePro/Guides/Claim" },
             { type: "doc", id: "PendlePro/Guides/CreatingNewPools" },
-            { type: "doc", id: "PendlePro/Guides/UnwrappingSY" },
           ],
         },
         {
@@ -102,6 +101,7 @@ module.exports = {
           label: "Deployed Contracts",
           items: [
             { type: "doc", id: "Developers/DeployedContracts/Ethereum" },
+            { type: "doc", id: "Developers/DeployedContracts/Arbitrum" },
           ],
         },
         { type: "doc", id: "Developers/SDK" },

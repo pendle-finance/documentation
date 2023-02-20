@@ -29,5 +29,5 @@ By creating a yield market in DeFi, Pendle unlocks the full potential of yield. 
 
 * Long assets at a discount
 * Fixed yield for low-risk, stable growth
-* Leverage exposure to future yield streams without the need for collateral
+* Long yield
 * A mix of any of the above strategies

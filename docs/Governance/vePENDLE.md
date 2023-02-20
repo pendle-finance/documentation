@@ -22,7 +22,7 @@ To increase your vePENDLE value, you can choose to extend your staking duration 
 
 ## Earn Protocol Fees
 
-Pendle collects a 3% fee from all yield accrued by YT. Currently, 100% of this fee is distributed to vePENDLE holders, while the team collects no revenue. This is subject to change in the future.
+Pendle collects a 3% fee from all yield accrued by YT. Currently, 100% of this fee is distributed to vePENDLE holders, while the protocol collects no revenue. This is subject to change in the future.
 
 A portion of yield from matured unredeemed PTs will be distributed pro rata to vePENDLE holders as well. 
 

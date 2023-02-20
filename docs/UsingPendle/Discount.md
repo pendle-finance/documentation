@@ -10,8 +10,6 @@ hide_table_of_contents: true
 
 We enable users to purchase assets for less than market price by splitting yield-bearing tokens into principal and yield. The principal of the yield-bearing token is represented by PT until a fixed maturity date, while the entitlement to the yield during that period is represented by YT and is sold to other buyers. As such, the monetary value of YT then allows the principal asset to be sold at a better price.  
 
-Once the maturity date is reached, the PT can then be claimed for the underlying yield-bearing token. However, even though there is a fixed maturity, you can choose to exit your position and take profit at any time before maturity.
-
 ![Tokenization](/img/using-pendle/tokenization_graphic.jpg "Tokenization")
 
 Once the maturity date is reached, the PT can then be claimed for the underlying yield-bearing token. However, even though there is a fixed maturity, you can choose to exit your position and take profit at any time before maturity. By not paying for the yield, the asset can be obtained at less than market price.
