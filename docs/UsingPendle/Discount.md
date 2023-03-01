@@ -8,7 +8,9 @@ hide_table_of_contents: true
 
 ## How it works
 
-We enable users to purchase assets for less than market price by splitting yield-bearing tokens into principal and yield. The principal of the yield-bearing token is represented by PT until a fixed maturity date, while the entitlement to the yield during that period is represented by YT and is sold to other buyers. As such, the monetary value of YT then allows the principal asset to be sold at a better price.  
+We enable users to purchase assets for less than market price by splitting yield-bearing tokens into principal and yield. The principal of the yield-bearing token is represented by PT until a fixed maturity date, while the entitlement to the yield during that period is represented by YT and is sold to other buyers. With the monetary value of YT separated, the principal asset (i.e. PT) can then be sold at a lower price.
+
+Certain pools may also carry more discount if the underlying asset such as rETH appreciates in price overtime against its base asset like ETH. This results in an even higher discount for PT.
 
 ![Tokenization](/img/using-pendle/tokenization_graphic.jpg "Tokenization")
 
