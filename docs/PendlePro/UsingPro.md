@@ -25,7 +25,7 @@ If you are new to Pendle or yield trading, we have a handy tutorial in this sect
 
 ### Buying PT
 
-If you believe that the yield of the asset will fall, you would want to **hedge your yield**. You can achieve this by buying PT. Since you are guaranteed the underlying asset after maturity, you are effectively locking your APY at the current Implied Yield when you buy PT. Another way to look at it is that you are **fixing your yield** at the current Implied Yield. 
+If you believe that the yield of the asset will fall, you would want to **hedge your yield**. You can achieve this by buying PT. Since you are guaranteed the underlying asset after maturity, you are effectively locking your APY at the current Implied Yield when you buy PT. Another way to look at it is that you are **fixing your yield** at the current Implied Yield.
 
 For example, if you buy PT-aUSDC with a maturity period of 1 year at 5% implied yield, it means that for every USDC you spend on PT, you will get back 1.05 USDC upon maturity and redemption.
 

@@ -71,6 +71,10 @@ For Pendle, an epoch is exactly one week. Each epoch starts and ends at Thursday
 
 Snapshots of vePENDLE voting are taken every epoch, and non-yield rewards (e.g. $CRV, $CVX tokens) are also distributed every epoch.
 
+### Why is the Underlying APY shown on Pendle differ from the APY shown in the underlying protocol?
+
+The Underlying APY displayed on Pendle is the 7-day moving average of the actual accrued yield at the smart contract level in the last 7 days.
+
 ## Liquidity Provision
 
 ### What do I receive in return for providing liquidity?
