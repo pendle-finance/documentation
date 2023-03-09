@@ -16,6 +16,11 @@ module.exports = {
       href: 'https://app.pendle.finance/pro/learn',
     },
     {
+      type: "link",
+      label: "Handbook",
+      href: 'https://handbook.pendle.finance/',
+    },
+    {
       type: "doc",
       id: "FAQ/General",
       label: "FAQ",

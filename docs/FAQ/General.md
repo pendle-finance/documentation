@@ -37,7 +37,7 @@ Underlying APY is the prevailing yield rate of the underlying asset. This APY is
 Implied APY is the market consensus of the future APY of an asset. This value is calculated based on the ratio of the price of YT to PT and the formula is shown below. This is the tool, when used in conjunction with the Underlying APY, that most traders use to determine their trading strategies.
 
 $$$
-\text{Implied Yield} = \left[\left(1 + \cfrac{\text{YT Price}}{\text{PT Price} - \text{YT Price}}\right)^\cfrac{365}{\text{Days to expiry}}\right] - 1
+\text{Implied Yield} = \left[\left(1 + \cfrac{\text{YT Price}}{\text{PT Price}}\right)^\cfrac{365}{\text{Days to expiry}}\right] - 1
 $$$
 
 **Long Yield APY**
@@ -107,9 +107,7 @@ You can lock PENDLE for vePENDLE for up to 2 years. One wallet is associated wit
 
 ### Is there a difference between Ethereum and other chains?
 
-vePENDLE resides solely on the Ethereum blockchain, meaning you can only lock PENDLE and vote from Ethereum. 
-
-However, pools on other chains (once deployed) can still be voted for, so incentives can be channelled to other blockchains via voting. 
+vePENDLE resides solely on the Ethereum blockchain, meaning you can only lock PENDLE and vote from Ethereum, but you can vote for pools on other chains. So incentives can be channelled to other blockchains via voting, but again, voting is only done on Ethereum.
 
 ## Security
 
