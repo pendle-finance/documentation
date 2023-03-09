@@ -32,17 +32,17 @@ If Anton decides to exit before the PT matures, he can still sell the discounted
 
 ![Asset's maturity date](/img/using-pendle/assets_maturity_date.png "Asset's maturity date")
 
-5. Enter your transaction amount
+4. Enter your transaction amount
 
 ![Transaction amount](/img/using-pendle/transaction_amount.png "Transaction amount")
 
-6. (Advanced) Control your slippage tolerance by clicking the Gear icon in the top right
+5. (Advanced) Control your slippage tolerance by clicking the Gear icon in the top right
    
 ![Slippage tolerance](/img/using-pendle/slippage_tolerance.png "Slippage tolerance")
 
-7. Check the details of your transaction
+6. Check the details of your transaction
 
 ![Transaction details](/img/using-pendle/transaction_details_1.png "Transaction details")
 ![Transaction details](/img/using-pendle/transaction_details_2.png "Transaction details")
 
-8. Approve the transaction and Buy Now!
+7. Approve the transaction and Buy Now!
