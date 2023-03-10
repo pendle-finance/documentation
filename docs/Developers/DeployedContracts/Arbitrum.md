@@ -23,18 +23,21 @@ While interacting, please use the ABI of implementation contracts provided or ge
 | Contract | Address |  ABI  |
 | :------: | :-----: | :---: |
 |                                   SY-GLP                                   | [`0x2066a650AF4b6895f72E618587Aad5e8120B7790`](https://arbiscan.io/address/0x2066a650AF4b6895f72E618587Aad5e8120B7790) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x2066a650AF4b6895f72E618587Aad5e8120B7790&format=raw) |
+|                                   SY-gDAI                                   | [`0xAF699fb0D9F12Bf7B14474aE5c9Bea688888DF73`](https://arbiscan.io/address/0xAF699fb0D9F12Bf7B14474aE5c9Bea688888DF73) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xAF699fb0D9F12Bf7B14474aE5c9Bea688888DF73&format=raw) |
 
 ## Yield Tokens (YT)
 
 | Contract | Address |  ABI  |
 | :------: | :-----: | :---: |
 |                               YT-GLP-28MAR24                               | [`0x56051f8e46b67b4d286454995dbc6f5f3c433e34`](https://arbiscan.io/address/0x56051f8e46b67b4d286454995dbc6f5f3c433e34) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x56051f8e46b67b4d286454995dbc6f5f3c433e34&format=raw) |
+|                               YT-gDAI-28MAR24                               | [`0x4a8E64c3A66ce0830e3bf2ea7863b013Aa592114`](https://arbiscan.io/address/0x4a8E64c3A66ce0830e3bf2ea7863b013Aa592114) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x4a8E64c3A66ce0830e3bf2ea7863b013Aa592114&format=raw) |
 
 ## Principal Tokens (PT)
 
 | Contract | Address |  ABI  |
 | :------: | :-----: | :---: |
 |                               PT-GLP-28MAR24                              | [`0x96015d0fb97139567a9ba675951816a0bb719e3c`](https://arbiscan.io/address/0x96015d0fb97139567a9ba675951816a0bb719e3c) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x96015d0fb97139567a9ba675951816a0bb719e3c&format=raw) |
+|                               PT-gDAI-28MAR24                              | [`0x1684B747cd46858aE6312A7074353D2101154eF7`](https://arbiscan.io/address/0x1684B747cd46858aE6312A7074353D2101154eF7) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x1684B747cd46858aE6312A7074353D2101154eF7&format=raw) |
 
 
 ## Markets
@@ -42,3 +45,4 @@ While interacting, please use the ABI of implementation contracts provided or ge
 | Contract | Address |  ABI  |
 | :------: | :-----: | :---: |
 |                       PT-GLP-28MAR24/SY-GLP Market                       | [`0x7D49E5Adc0EAAD9C027857767638613253eF125f`](https://arbiscan.io/address/0x7D49E5Adc0EAAD9C027857767638613253eF125f) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x7D49E5Adc0EAAD9C027857767638613253eF125f&format=raw) |
+|                       PT-gDAI-28MAR24/SY-gDAI Market                       | [`0xa0192f6567f8f5DC38C53323235FD08b318D2dcA`](https://arbiscan.io/address/0xa0192f6567f8f5DC38C53323235FD08b318D2dcA) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xa0192f6567f8f5DC38C53323235FD08b318D2dcA&format=raw) |
