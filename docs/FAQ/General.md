@@ -37,7 +37,7 @@ Underlying APY is the prevailing yield rate of the underlying asset. This APY is
 Implied APY is the market consensus of the future APY of an asset. This value is calculated based on the ratio of the price of YT to PT and the formula is shown below. This is the tool, when used in conjunction with the Underlying APY, that most traders use to determine their trading strategies.
 
 $$$
-\text{Implied Yield} = \left[\left(1 + \cfrac{\text{YT Price}}{\text{PT Price}}\right)^\cfrac{365}{\text{Days to expiry}}\right] - 1
+\text{Implied APY} = \left[\left(1 + \cfrac{\text{YT Price}}{\text{PT Price}}\right)^\cfrac{365}{\text{Days to expiry}}\right] - 1
 $$$
 
 **Long Yield APY**
