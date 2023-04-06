@@ -11,90 +11,72 @@ module.exports = {
       label: "Introduction",
     },
     {
-      type: "link",
-      label: "Learn",
-      href: 'https://app.pendle.finance/pro/learn',
-    },
-    {
-      type: "link",
-      label: "Handbook",
-      href: 'https://handbook.pendle.finance/',
-    },
-    {
       type: "doc",
-      id: "FAQ/General",
+      id: "FAQ",
       label: "FAQ",
     },
     {
-      type: "link",
-      label: "Whitepapers",
-      href: 'https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers',
-    },
-    {
       type: "category",
-      label: "Using Pendle",
+      label: "Protocol Mechanics",
       items: [
-        { type: "doc", id: "UsingPendle/Simple" },
-        { type: "doc", id: "UsingPendle/Discount" },
-        { type: "doc", id: "UsingPendle/Pools" },
-        { type: "doc", id: "UsingPendle/Dashboard" },
-      ],
-    },
-    {
-      type: "category",
-      label: "Pendle Pro",
-      collapsed: true,
-      items: [
-        {
-          type: "doc",
-          id: "PendlePro/UsingPro"
+        { type: "doc", id: "ProtocolMechanics/Glossary" },
+        { type: "category",
+        label: "Yield Tokenization",
+        items: [
+          { type: "doc", id: "ProtocolMechanics/YieldTokenization/SY" },
+          { type: "doc", id: "ProtocolMechanics/YieldTokenization/Minting" },
+          { type: "doc", id: "ProtocolMechanics/YieldTokenization/PT" },
+          { type: "doc", id: "ProtocolMechanics/YieldTokenization/YT" },
+        ]
         },
+        { type: "doc", id: "ProtocolMechanics/AMM" },
         {
           type: "category",
-          label: "Guides",
-          collapsed: true,
+          label: "Tokenomics + vePENDLE",
           items: [
-            { type: "doc", id: "PendlePro/Guides/Mint" },
-            { type: "doc", id: "PendlePro/Guides/Swap" },
-            { type: "doc", id: "PendlePro/Guides/Farm" },
-            { type: "doc", id: "PendlePro/Guides/Claim" },
-            { type: "doc", id: "PendlePro/Guides/CreatingNewPools" },
-          ],
-        },
-        {
-          type: "category",
-          label: "How it Works",
-          collapsed: true,
-          items: [
-            { type: "doc", id: "PendlePro/HowItWorks/SY" },
-            { type: "doc", id: "PendlePro/HowItWorks/AMM" },
-            { type: "doc", id: "PendlePro/HowItWorks/Fees" },
-          ],
-        },
-      ],
-    },
-    {
-      type: "category",
-      label: "Governance",
-      collapsed: true,
-      items: [
-        { type: "doc", id: "Governance/PENDLE", label: "PENDLE" },
-        { type: "doc", id: "Governance/PENDLEnomics", label: "PENDLEnomics" },
-        { type: "doc", id: "Governance/vePENDLE", label: "vePENDLE" },
-        {
-          type: "category",
-          label: "Guides",
-          collapsed: true,
-          items: [
-            { type: "doc", id: "Governance/Guides/Lock" },
-            { type: "doc", id: "Governance/Guides/ClaimRewards" },
+            { type: "doc", id: "ProtocolMechanics/Tokenomics+vePENDLE/Tokenomics" },
+            { type: "doc", id: "ProtocolMechanics/Tokenomics+vePENDLE/vePENDLE" },
             {
-              type: "doc",
-              id: "Governance/Guides/ChannelIncentives",
+              type: "category",
+              label: "Guides",
+              items: [
+                { type: "doc", id: "ProtocolMechanics/Tokenomics+vePENDLE/Guides/Lock" },
+                { type: "doc", id: "ProtocolMechanics/Tokenomics+vePENDLE/Guides/ClaimRewards" },
+                { type: "doc", id: "ProtocolMechanics/Tokenomics+vePENDLE/Guides/ChannelIncentives" },
+                { type: "doc", id: "ProtocolMechanics/Tokenomics+vePENDLE/Guides/ApplyBoost" },
+              ],
             },
-            { type: "doc", id: "Governance/Guides/ApplyBoost" },
           ],
         },
+      ],
+    },
+    {
+      type: "category",
+      label: "App Guide",
+      items: [
+        { type: "doc", id: "AppGuide/Simple" },
+        {
+          type: "category",
+          label: "Pro UI",
+          collapsed: true,
+          items: [
+            {
+              type: "category",
+              label: "Guides",
+              collapsed: true,
+              items: [
+                { type: "doc", id: "AppGuide/Pro/Guides/UsingPro" },
+                { type: "doc", id: "AppGuide/Pro/Guides/Mint" },
+                { type: "doc", id: "AppGuide/Pro/Guides/Swap" },
+                { type: "doc", id: "AppGuide/Pro/Guides/Farm" },
+                { type: "doc", id: "AppGuide/Pro/Guides/Claim" },
+              ],
+            },
+            { type: "doc", id: "AppGuide/Pro/Calculator" },
+            { type: "doc", id: "AppGuide/Pro/Pools" },
+          ],
+        },
+        { type: "doc", id: "AppGuide/CreatingNewPools" },
       ],
     },
     {
@@ -111,6 +93,21 @@ module.exports = {
         },
         { type: "doc", id: "Developers/SDK" },
       ],
+    },
+    {
+      type: "link",
+      label: "Whitepapers",
+      href: 'https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers',
+    },
+    {
+      type: "link",
+      label: "Learn In-App",
+      href: 'https://app.pendle.finance/pro/learn',
+    },
+    {
+      type: "link",
+      label: "Yield Trading Handbook",
+      href: 'https://handbook.pendle.finance/',
     },
   ],
 };
