@@ -91,6 +91,8 @@ module.exports = {
             { type: "doc", id: "Developers/DeployedContracts/Arbitrum" },
           ],
         },
+        { type: "doc", id: "Developers/PTOracles" },
+
         { type: "doc", id: "Developers/SDK" },
       ],
     },
