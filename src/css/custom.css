@@ -37,6 +37,11 @@
   --ifm-link-color: #4b6999;
 }
 
+.DocSearch {
+  margin-bottom: 10vh !important;
+  width: 100%;
+}
+
 .markdown a {
   text-decoration: underline;
 }
