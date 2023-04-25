@@ -68,7 +68,7 @@ module.exports = {
                 { type: "doc", id: "AppGuide/Pro/Guides/UsingPro" },
                 { type: "doc", id: "AppGuide/Pro/Guides/Mint" },
                 { type: "doc", id: "AppGuide/Pro/Guides/Swap" },
-                { type: "doc", id: "AppGuide/Pro/Guides/Farm" },
+                { type: "doc", id: "AppGuide/Pro/Guides/Pool" },
                 { type: "doc", id: "AppGuide/Pro/Guides/Claim" },
               ],
             },

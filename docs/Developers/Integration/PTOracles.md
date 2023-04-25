@@ -11,7 +11,7 @@ In Pendle system, $PT$ can be freely traded from and to $SY$ (EIP-5115 token) ul
 
 ## About Our Oracles
 
-Pendle oracles implementation is inspired from the idea of UniswapV3 Oracle (see [here](https://docs.uniswap.org/concepts/protocol/oracle)) with a slight difference in how we define the cumulative rate. In short, our oracle stores the cumulative logarithm of implied APY (the interest rate implied by $PT/asset$ pricing). From the cumulative logarithm of Implied APY, we can calculate the geometric mean of Implied APY, which will used to derive the mean $PT$ price.
+Pendle's oracle implementation is inspired from the idea of UniswapV3 Oracle (see [here](https://docs.uniswap.org/concepts/protocol/oracle)) with a slight difference in how we define the cumulative rate. In short, our oracle stores the cumulative logarithm of implied APY (the interest rate implied by $PT/asset$ pricing). From the cumulative logarithm of Implied APY, we can calculate the geometric mean of Implied APY, which will used to derive the mean $PT$ price.
 
 In a way, the Pendle AMM contract has a built-in oracle of interest rate, which can used to derive $PT$ prices.
 
@@ -61,7 +61,7 @@ ptToAssetPrice = 1 / assetToPtPrice
 $$$
 
 
-## Using PT as collateral in a money market
+## Using PT as Collateral in a Money Market
 
 ### Oracle Preparation
 

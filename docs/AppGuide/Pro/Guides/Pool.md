@@ -2,7 +2,7 @@
 hide_table_of_contents: true
 ---
 
-# Farm
+# Pool
 
 Pendle's liquidity pools can be found [here](https://app.pendle.finance/pro/pools). You can see the **Pools**, their **Maturity** date, the total **Liquidity** in the pool, and the current APY of liquidity provision. This **APY** is the base value, and can be boosted with vePENDLE. 
 
