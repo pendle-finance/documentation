@@ -7,15 +7,18 @@ hide_table_of_contents: true
 
 The **Principal Token (PT)** is an ERC20 token bearing the value of a certain amount of asset which can be redeemed at maturity. For example, `100 PT-stETH-25DEC2025` can be redeemed for `100 stETH` on the 25th of December 2025.
 
-In Pendle system, $PT$ can be freely traded from and to $SY$ (EIP-5115 token) ultilizing our AMM. With the built-in TWAP oracle library, the geometric mean price of $PT$ can be derived from our `PendleMarket` contracts fully on-chain.
+In Pendle system, $PT$ can be freely traded from and to $SY$ (EIP-5115 token) ultilizing our AMM. With the built-in TWAP oracle library, the geometric mean price of $PT$ in terms of asset (please refer to the definition of asset [here](https://eips.ethereum.org/EIPS/eip-5115)) can be derived from our `PendleMarket` contracts fully on-chain.
 
 ## About Our Oracles
 
-Pendle's oracle implementation is inspired from the idea of UniswapV3 Oracle (see [here](https://docs.uniswap.org/concepts/protocol/oracle)) with a slight difference on how we define the cumulative rate. In short, our oracle stores the cumulative logarithm exchange rate between $PT$ and $Asset$ (please refer to the definition of assets [here](https://eips.ethereum.org/EIPS/eip-5115)).
+Pendle oracles implementation is inspired from the idea of UniswapV3 Oracle (see [here](https://docs.uniswap.org/concepts/protocol/oracle)) with a slight difference in how we define the cumulative rate. In short, our oracle stores the cumulative logarithm of implied APY (the interest rate implied by $PT/asset$ pricing). From the cumulative logarithm of Implied APY, we can calculate the geometric mean of Implied APY, which will used to derive the mean $PT$ price.
 
-### EIP-5115 Asset
+In a way, the Pendle AMM contract has a built-in oracle of interest rate, which can used to derive $PT$ prices.
 
-Although the AMMs hold their positions and execute trades in $PT$ and $SY$, their underlying logic assumes all their $SY$ balances are converted to assets. As a result, the exchange rate stored in our oracles are between $PT$ and $Asset$, which should make pricing $PT$ more straightforward.
+
+### EIP5115 Asset
+
+Although the AMMs hold their positions and execute trades in $PT$ and $SY$, their underlying logics assume all their $SY$ balances are converted to assets. As a result, the exchange rate returned by our oracles are between $PT$ and $Asset$, which should make pricing $PT$ more straightforward.
 
 Let's take `PT-stETH-25DEC2025` as an example. We have:
 1. $Asset$ in this case is `stETH`
@@ -32,7 +35,7 @@ Our oracle storage is in the following form:
 struct Observation {
     // the block timestamp of the observation
     uint32 blockTimestamp;
-    // the tick logarithm accumulator, i.e., ln(exchangeRate) * time elapsed since the pool was first initialized
+    // the tick logarithm accumulator, i.e., ln(impliedRate) * time elapsed since the pool was first initialized
     uint216 lnImpliedRateCumulative;
     // whether or not the observation is initialized
     bool initialized;
@@ -42,13 +45,23 @@ struct Observation {
 The geometric mean price of $PT$ for the time interval of $[t_0, t_1]$ is:
 
 $$$
-lnPrice = \frac{lnImpliedRateCumulative_1 - lnImpliedRateCumulative_0}{t_1 - t_0}
-$$$
-$$$
-price = e^{lnPrice}
+lnImpliedRate = \frac{lnImpliedRateCumulative_1 - lnImpliedRateCumulative_0}{t_1 - t_0}
 $$$
 
-## Using PT as Collateral
+$$$
+impliedRate = e^{lnImpliedRate}
+$$$
+
+$$$
+assetToPtPrice = impliedRate^{\frac{timeToMaturity}{oneYear}}
+$$$
+
+$$$
+ptToAssetPrice = 1 / assetToPtPrice
+$$$
+
+
+## Using PT as collateral in a money market
 
 ### Oracle Preparation
 
@@ -80,7 +93,7 @@ To sum up, please make sure you have `increaseCardinalityRequired = False` and `
 
 ### Fetch price
 
-First of all, the rate returned from Pendle PT oracles is the exchange rate between $PT$ and $Asset$. This implies your oracle implementation should take care of the conversion between $Asset$ and the quote asset of your oracle system. 
+First of all, the rate returned from Pendle $PT$ oracles is the exchange rate between $PT$ and $Asset$. This implies your oracle implementation should take care of the conversion between $Asset$ and the quote asset of your oracle system. 
 
 There are two ways to achieve the exchange rate between $PT$ and $Asset$ from our oracle:
 1. Calling `getPtToAssetRate(address market, uint32 duration)` function from our `PendlePtOracle` contract
@@ -92,11 +105,11 @@ For reference, please check out our sample contracts for `GLP` and `ChainlinkAss
 
 ### Liquidation
 
-When a liquidation with PT as collateral occurs, commonly, the liquidator will have to sell $PT$ into common asset to pay their debt from flashloan. 
+When a liquidation with $PT$ as collateral occurs, commonly, the liquidator will have to sell $PT$ into common asset to pay their debt. 
 
 In Pendle's system, we support converting $PT$ back to $SY$ by selling $PT$ on our AMM (before maturity) or redeeming directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output token of $SY$ (see [EIP-5115](https://eips.ethereum.org/EIPS/eip-5115)).
 
-For reference, we have written the [`BoringPtSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/offchain-helpers/BoringPtSeller.sol) contract to sell PT into one of the output token.
+For reference, we have written the [`BoringPtSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/offchain-helpers/BoringPtSeller.sol) contract to sell $PT$ into one of the output token.
 
 ## PT Oracle Addresses
 
