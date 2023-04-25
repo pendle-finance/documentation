@@ -44,21 +44,23 @@ struct Observation {
 
 The geometric mean price of $PT$ for the time interval of $[t_0, t_1]$ is:
 
-$$$
+$$
+
 lnImpliedRate = \frac{lnImpliedRateCumulative_1 - lnImpliedRateCumulative_0}{t_1 - t_0}
-$$$
 
-$$$
+$$
+
+$$
 impliedRate = e^{lnImpliedRate}
-$$$
+$$
 
-$$$
+$$
 assetToPtPrice = impliedRate^{\frac{timeToMaturity}{oneYear}}
-$$$
+$$
 
-$$$
+$$
 ptToAssetPrice = 1 / assetToPtPrice
-$$$
+$$
 
 
 ## Using PT as collateral in a money market
@@ -95,13 +97,24 @@ To sum up, please make sure you have `increaseCardinalityRequired = False` and `
 
 First of all, the rate returned from Pendle $PT$ oracles is the exchange rate between $PT$ and $Asset$. This implies your oracle implementation should take care of the conversion between $Asset$ and the quote asset of your oracle system. 
 
-There are two ways to achieve the exchange rate between $PT$ and $Asset$ from our oracle:
+There are two ways to derive the exchange rate between $PT$ and $Asset$ from our oracle:
 1. Calling `getPtToAssetRate(address market, uint32 duration)` function from our `PendlePtOracle` contract
 2. Using our [contract library](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/oracles/PendlePtOracleLib.sol) in your own contract
 
 Compared to the first method, using a library reduce one external call from your contract to `PendlePtOracle`, making the implementation more gas saving.
 
-For reference, please check out our sample contracts for `GLP` and `ChainlinkAsset` oracles [here](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/contracts/oracles/samples). 
+As an example, here's how we calculate `PT-GLP` price in US dollar:
+```sol
+function getPtPrice() external view virtual returns (uint256) {
+    uint256 ptRate = IPMarket(market).getPtToAssetRate(twapDuration);
+    uint256 assetPrice = IGlpManager(glpManager).getPrice(true);
+    return (assetPrice * ptRate) / (10 ** 30);
+}
+```
+
+For implementation details, please refer to our sample contracts for `GLP` and `ChainlinkAsset` oracles [here](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/contracts/oracles/samples). 
+
+
 
 ### Liquidation
 
@@ -117,3 +130,6 @@ For reference, we have written the [`BoringPtSeller`](https://github.com/pendle-
 | :------: | :----------------------------------------------------------------------------------------------------------------------------------: |
 | Ethereum | [`0x414d3C8A26157085f286abE3BC6E1bb010733602`](https://etherscan.io/address/0x414d3C8A26157085f286abE3BC6E1bb010733602#readContract) |
 | Arbitrum | [`0x428f2f93afAc3F96B0DE59854038c585e06165C8`](https://arbiscan.io/address/0x428f2f93afAc3F96B0DE59854038c585e06165C8#readContract)  |
+
+
+We have also deployed the [PT-GLP oracle](https://arbiscan.io/address/0x43D03031FAb845065e9CEfE89Dd122d63F72011F#readContract#F2) as an example. 
