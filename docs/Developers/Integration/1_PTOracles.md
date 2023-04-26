@@ -63,8 +63,6 @@ ptToAssetPrice = 1 / assetToPtPrice
 $$
 
 
-## Using PT as collateral in a money market
-
 ### Oracle Preparation
 
 Since our AMMs use TWAP oracles, firstly, we must define a $duration$ for the pricing interval. Same as UniswapV3 oracles, each $PT$ oracle has its own limitation on how far in the past the pricing data can be accessed. To check the validity of a duration for each a market, please query the following function from our `PendlePtOracle` contract:
@@ -115,14 +113,6 @@ function getPtPrice() external view virtual returns (uint256) {
 For implementation details, please refer to our sample contracts for `GLP` and `ChainlinkAsset` oracles [here](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/contracts/oracles/samples). 
 
 
-
-### Liquidation
-
-When a liquidation with $PT$ as collateral occurs, commonly, the liquidator will have to sell $PT$ into common asset to pay their debt. 
-
-In Pendle's system, we support converting $PT$ back to $SY$ by selling $PT$ on our AMM (before maturity) or redeeming directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output token of $SY$ (see [EIP-5115](https://eips.ethereum.org/EIPS/eip-5115)).
-
-For reference, we have written the [`BoringPtSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/offchain-helpers/BoringPtSeller.sol) contract to sell $PT$ into one of the output token.
 
 ## PT Oracle Addresses
 
