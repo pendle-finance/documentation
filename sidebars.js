@@ -95,7 +95,8 @@ module.exports = {
           type: "category",
           label: "Integration",
           items: [
-            { type: "doc", id: "Developers/Integration/PTOracles" },
+            { type: "doc", id: "Developers/Integration/PTOracle" },
+            { type: "doc", id: "Developers/Integration/PTAsCollateral" },
           ],
         },
         { type: "doc", id: "Developers/SDK" },
