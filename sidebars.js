@@ -68,7 +68,7 @@ module.exports = {
                 { type: "doc", id: "AppGuide/Pro/Guides/UsingPro" },
                 { type: "doc", id: "AppGuide/Pro/Guides/Mint" },
                 { type: "doc", id: "AppGuide/Pro/Guides/Swap" },
-                { type: "doc", id: "AppGuide/Pro/Guides/Farm" },
+                { type: "doc", id: "AppGuide/Pro/Guides/Pool" },
                 { type: "doc", id: "AppGuide/Pro/Guides/Claim" },
               ],
             },
@@ -89,6 +89,14 @@ module.exports = {
           items: [
             { type: "doc", id: "Developers/DeployedContracts/Ethereum" },
             { type: "doc", id: "Developers/DeployedContracts/Arbitrum" },
+          ],
+        },
+        {
+          type: "category",
+          label: "Integration",
+          items: [
+            { type: "doc", id: "Developers/Integration/PTOracle" },
+            { type: "doc", id: "Developers/Integration/PTAsCollateral" },
           ],
         },
         { type: "doc", id: "Developers/SDK" },

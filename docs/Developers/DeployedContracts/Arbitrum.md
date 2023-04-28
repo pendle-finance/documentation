@@ -18,6 +18,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |           Router           | [`0x0000000001E4ef00d069e71d6bA041b0A16F7eA0`](https://arbiscan.io/address/0x0000000001E4ef00d069e71d6bA041b0A16F7eA0) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x0000000001E4ef00d069e71d6bA041b0A16F7eA0&format=raw) |  |
 | PendleYieldContractFactory | [`0x28dE02Ac3c3F5ef427e55c321F73fDc7F192e8E4`](https://arbiscan.io/address/0x28dE02Ac3c3F5ef427e55c321F73fDc7F192e8E4) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x28dE02Ac3c3F5ef427e55c321F73fDc7F192e8E4&format=raw) |
 |       MarketFactory        | [`0xf5a7De2D276dbda3EEf1b62A9E718EFf4d29dDC8`](https://arbiscan.io/address/0xf5a7De2D276dbda3EEf1b62A9E718EFf4d29dDC8) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xf5a7De2D276dbda3EEf1b62A9E718EFf4d29dDC8&format=raw) |
+|       PT Oracle        | [`0x428f2f93afAc3F96B0DE59854038c585e06165C8`](https://arbiscan.io/address/0x428f2f93afAc3F96B0DE59854038c585e06165C8) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x428f2f93afAc3F96B0DE59854038c585e06165C8&format=raw) |
 
 ## SY Tokens
 |     Contract     |                                                        Address                                                         |                                                              ABI                                                              |

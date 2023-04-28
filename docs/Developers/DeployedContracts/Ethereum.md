@@ -19,6 +19,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 | PendleYieldContractFactory | [`0x70ee0A6DB4F5a2Dc4d9c0b57bE97B9987e75BAFD`](https://etherscan.io/address/0x70ee0A6DB4F5a2Dc4d9c0b57bE97B9987e75BAFD) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x70ee0A6DB4F5a2Dc4d9c0b57bE97B9987e75BAFD&format=raw) |
 |       MarketFactory        | [`0x27b1dAcd74688aF24a64BD3C9C1B143118740784`](https://etherscan.io/address/0x27b1dAcd74688aF24a64BD3C9C1B143118740784) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x27b1dAcd74688aF24a64BD3C9C1B143118740784&format=raw) |
 |          vePendle          | [`0x4f30A9D41B80ecC5B94306AB4364951AE3170210`](https://etherscan.io/address/0x4f30A9D41B80ecC5B94306AB4364951AE3170210) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x4f30A9D41B80ecC5B94306AB4364951AE3170210&format=raw) |
+|          PT Oracle          | [`0x414d3C8A26157085f286abE3BC6E1bb010733602`](https://etherscan.io/address/0x414d3C8A26157085f286abE3BC6E1bb010733602) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x414d3C8A26157085f286abE3BC6E1bb010733602&format=raw) |
 
 ## SY Tokens
 |            Contract            |                                                         Address                                                         |                                                               ABI                                                               |
