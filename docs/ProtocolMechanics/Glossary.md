@@ -28,7 +28,7 @@ YT is tradeable anytime, even before maturity.
 
 **Maturity**
 
-Underlying APY represents the 7-day moving average yield rate of the underlying asset. This approach allows a more accurate indication of the underlying yield over a period of time, which can help traders to better estimate the Future Average Underlying APY.
+Maturity is the date at which PT becomes fully redeemable for the underlying asset and YT stops accruing yield. One asset can have multiple maturity dates, with an independent market for each maturity date. As such, the implied yield of an asset can also differ across different maturities.
 
 **Underlying APY**
 

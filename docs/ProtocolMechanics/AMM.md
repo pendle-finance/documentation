@@ -40,8 +40,8 @@ Selling YT:
 1. Seller sends YT into the swap contract
 2. Contract borrows an equivalent amount of PT from the pool
 3. The YTs and PTs are used to redeem SY
-4. A portion of the SY is swapped to PT to return the amount from step 2
-5. SY is sent to the seller (or routed to any major tokens, e.g. ETH, USDC, wBTC, etc)
+4. SY is sent to the seller (or routed to any major tokens, e.g. ETH, USDC, wBTC, etc)
+5. A portion of the SY is sold to the pool for PT to return the amount from step 2
 
 ![Selling YT](/img/ProtocolMechanics/selling_yt.png "Selling YT")
 
