@@ -83,6 +83,26 @@ module.exports = {
       type: "category",
       label: "Developers",
       items: [
+        { type: "doc", id: "Developers/ContractOverview" },
+        {
+          type: "category",
+          label: "Core Contracts",
+          items: [
+            { type: "doc", id: "Developers/CoreContracts/StandardisedYield" },
+            { type: "doc", id: "Developers/CoreContracts/YieldTokenisation" },
+            { type: "doc", id: "Developers/CoreContracts/PendleMarket" },
+            { type: "doc", id: "Developers/CoreContracts/vePENDLE" },
+          ],
+        },
+        {
+          type: "category",
+          label: "Peripheral Contracts",
+          items: [
+            { type: "doc", id: "Developers/PeripheryContracts/Routers" },
+            { type: "doc", id: "Developers/PeripheryContracts/OffchainHelpers" },
+            { type: "doc", id: "Developers/PeripheryContracts/BulkSeller" },
+          ],
+        },
         {
           type: "category",
           label: "Deployed Contracts",
@@ -99,7 +119,16 @@ module.exports = {
             { type: "doc", id: "Developers/Integration/PTAsCollateral" },
           ],
         },
-        { type: "doc", id: "Developers/SDK" },
+        {
+          type: "category",
+          label: "Pendle SDK",
+          items: [
+            { type: "doc", id: "Developers/PendleSDK/GettingStarted" },
+            { type: "doc", id: "Developers/PendleSDK/Example-Pricing" },
+            { type: "doc", id: "Developers/PendleSDK/Example-YieldTrading" },
+            { type: "doc", id: "Developers/PendleSDK/OtherPages" },
+          ],
+        },
       ],
     },
     {
