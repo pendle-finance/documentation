@@ -83,24 +83,26 @@ module.exports = {
       type: "category",
       label: "Developers",
       items: [
-        { type: "doc", id: "Developers/ContractOverview" },
+        { type: "doc", id: "Developers/Overview" },
         {
           type: "category",
           label: "Core Contracts",
           items: [
-            { type: "doc", id: "Developers/CoreContracts/StandardisedYield" },
-            { type: "doc", id: "Developers/CoreContracts/YieldTokenisation" },
-            { type: "doc", id: "Developers/CoreContracts/PendleMarket" },
-            { type: "doc", id: "Developers/CoreContracts/vePENDLE" },
+            { type: "doc", id: "Developers/ComingSoon" },
+            // { type: "doc", id: "Developers/CoreContracts/StandardisedYield" },
+            // { type: "doc", id: "Developers/CoreContracts/YieldTokenisation" },
+            // { type: "doc", id: "Developers/CoreContracts/PendleMarket" },
+            // { type: "doc", id: "Developers/CoreContracts/vePENDLE" },
           ],
         },
         {
           type: "category",
           label: "Peripheral Contracts",
           items: [
-            { type: "doc", id: "Developers/PeripheryContracts/Routers" },
-            { type: "doc", id: "Developers/PeripheryContracts/OffchainHelpers" },
-            { type: "doc", id: "Developers/PeripheryContracts/BulkSeller" },
+            { type: "doc", id: "Developers/ComingSoon" },
+            // { type: "doc", id: "Developers/PeripheryContracts/Routers" },
+            // { type: "doc", id: "Developers/PeripheryContracts/OffchainHelpers" },
+            // { type: "doc", id: "Developers/PeripheryContracts/BulkSeller" },
           ],
         },
         {
@@ -121,12 +123,13 @@ module.exports = {
         },
         {
           type: "category",
-          label: "Pendle SDK",
+          label: "SDK",
           items: [
-            { type: "doc", id: "Developers/PendleSDK/GettingStarted" },
-            { type: "doc", id: "Developers/PendleSDK/Example-Pricing" },
-            { type: "doc", id: "Developers/PendleSDK/Example-YieldTrading" },
-            { type: "doc", id: "Developers/PendleSDK/OtherPages" },
+            { type: "doc", id: "Developers/ComingSoon" },
+            // { type: "doc", id: "Developers/SDK/GettingStarted" },
+            // { type: "doc", id: "Developers/SDK/Example-Pricing" },
+            // { type: "doc", id: "Developers/SDK/Example-YieldTrading" },
+            // { type: "doc", id: "Developers/SDK/OtherPages" },
           ],
         },
       ],
