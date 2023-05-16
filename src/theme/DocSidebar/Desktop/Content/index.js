@@ -6,6 +6,7 @@ import {
   useScrollPosition,
 } from "@docusaurus/theme-common/internal";
 import SearchBar from "@theme/SearchBar";
+import LocaleDropdownNavbarItem from '@theme/NavbarItem/LocaleDropdownNavbarItem';
 import Link from "@docusaurus/Link";
 import DocSidebarItems from "@theme/DocSidebarItems";
 import pendleLogo from "../../../../../static/img/logo-title.png";
@@ -38,7 +39,8 @@ export default function DocSidebarDesktopContent({ path, sidebar, className }) {
         <img src={pendleLogo} className={styles.logo} />
       </Link>
       <SearchBar />
-      <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, "menu__list")}>
+      <LocaleDropdownNavbarItem className={clsx(styles.LocalDropdown)} />
+      <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, styles.menu__margin, "menu__list")}>
         <DocSidebarItems items={sidebar} activePath={path} level={1} />
       </ul>
     </nav>

@@ -46,88 +46,117 @@ const config = {
   ],
 
   themeConfig:
-    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
-      colorMode: {
-        defaultMode: 'light',
-        disableSwitch: true,
-      },
-      algolia: {
-        appId: "GFVY0GOMCR",
-        apiKey: "1e9c713dfca40c64b56217bb24d5c4cd",
-        indexName: "pendle",
-      },
-      docs:{
-        sidebar: {
-          hideable: false
+  /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+  ({
+    algolia: {
+      appId: "GFVY0GOMCR",
+      apiKey: "1e9c713dfca40c64b56217bb24d5c4cd",
+      indexName: "pendle",
+    },
+    colorMode: {
+      defaultMode: 'light',
+      disableSwitch: true,
+    },
+    docs:{
+      sidebar: {
+        hideable: false
+      }
+    },
+    navbar: {
+      items: [
+        {
+          type: 'localeDropdown',
+          position: 'right',
         }
-      },
-      footer: {
-        style: 'light',
-        links: [
-          {
-            title: 'Pages',
-            items: [
-              {
-                label: 'Website',
-                href: 'https://pendle.finance',
-              },
-              {
-                label: 'App',
-                href: 'https://app.pendle.finance',
-              },
-            ],
-          },
-          {
-            title: 'Socials',
-            items: [
-              {
-                label: 'Discord',
-                href: 'https://discord.gg/qshFxh6965/',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/pendle_fi/',
-              },
-              {
-                label: 'Telegram',
-                href: 'https://t.me/pendlefinance/',
-              },
-            ],
-          },
-          {
-            title: 'About Us',
-            items: [
-              {
-                label: 'Medium',
-                href: 'https://medium.com/pendle/',
-              },
-              {
-                label: 'Careers',
-                href: 'https://angel.co/company/pendle_finance/',
-              },
-              {
-                label: 'Media Kit',
-                href: 'https://pendle.finance/Pendle_Media_Kit.zip',
-              },
-              {
-                label: 'Audits',
-                href: 'https://github.com/pendle-finance/pendle-core-v2-public/tree/main/audits'
-              }
-            ],
-          },
-        ],
-        logo: {
-          alt: 'Pendle Finance Logo',
-          src: 'img/logo.svg',
-          href: 'https://pendle.finance',
+      ],
+    },
+    footer: {
+      style: 'light',
+      links: [
+        {
+          title: 'Pages',
+          items: [
+            {
+              label: 'Website',
+              href: 'https://pendle.finance',
+            },
+            {
+              label: 'App',
+              href: 'https://app.pendle.finance',
+            },
+          ],
         },
-        copyright: `Copyright © ${new Date().getFullYear()} Pendle Finance`,
+        {
+          title: 'Socials',
+          items: [
+            {
+              label: 'Discord',
+              href: 'https://discord.gg/qshFxh6965/',
+            },
+            {
+              label: 'Twitter',
+              href: 'https://twitter.com/pendle_fi/',
+            },
+            {
+              label: 'Telegram',
+              href: 'https://t.me/pendlefinance/',
+            },
+          ],
+        },
+        {
+          title: 'About Us',
+          items: [
+            {
+              label: 'Medium',
+              href: 'https://medium.com/pendle/',
+            },
+            {
+              label: 'Careers',
+              href: 'https://angel.co/company/pendle_finance/',
+            },
+            {
+              label: 'Media Kit',
+              href: 'https://pendle.finance/Pendle_Media_Kit.zip',
+            },
+            {
+              label: 'Audits',
+              href: 'https://github.com/pendle-finance/pendle-core-v2-public/tree/main/audits'
+            }
+          ],
+        },
+      ],
+      logo: {
+        alt: 'Pendle Finance Logo',
+        src: 'img/logo.svg',
+        href: 'https://pendle.finance',
       },
-      prism: {
-        additionalLanguages: ["solidity"],
+      copyright: `Copyright © ${new Date().getFullYear()} Pendle Finance`,
+    },
+    prism: {
+      additionalLanguages: ["solidity"],
+    },
+  }),
+
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'cn'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+        direction: 'ltr',
+        htmlLang: 'en-US',
+        calendar: 'gregory',
+        path: 'en',
       },
-    }),
+      cn: {
+        label: '中文（中国)',
+        direction: 'ltr',
+        htmlLang: 'zh-Hans',
+        calendar: 'gregory',
+        path: 'cn',
+      },
+    },
+  },
 };
 
 module.exports = config;
