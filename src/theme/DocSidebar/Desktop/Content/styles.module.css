@@ -14,13 +14,18 @@
     margin-bottom: var(--docusaurus-announcement-bar-height);
   }
 }
+
 .logo{
   width: 80%;
   margin-bottom: 3rem;
   /* margin-top: var(--ifm-navbar-height); */
   
 }
+
 .menu{
   padding: 0rem 0.5rem 0rem 2rem;
 }
 
+.menu__margin {
+  margin-top: 8vh !important;
+}

@@ -11,7 +11,6 @@ import NavbarMobileSidebarToggle from "@theme/Navbar/MobileSidebar/Toggle";
 import NavbarLogo from "@theme/Navbar/Logo";
 import NavbarSearch from "@theme/Navbar/Search";
 import styles from "./styles.module.css";
-import PendleLogo from "../../../../static/img/logo-title.png";
 import Link from "@docusaurus/Link";
 
 function useNavbarItems() {
@@ -42,17 +41,6 @@ export default function NavbarContent() {
   const searchBarItem = items.find((item) => item.type === "search");
   return (
     <NavbarContentLayout
-      left={
-        // TODO stop hardcoding items?
-        <div className={styles.root}>
-          {!mobileSidebar.disabled && <NavbarMobileSidebarToggle />}
-          {/* <NavbarLogo /> */}
-          {/* <NavbarItems items={leftItems} /> */}
-          <Link to="/home">
-            <img src={PendleLogo} className={styles.logo} />
-          </Link>
-        </div>
-      }
       right={
         // TODO stop hardcoding items?
         // Ask the user to add the respective navbar items => more flexible

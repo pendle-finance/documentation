@@ -38,7 +38,6 @@
 }
 
 .DocSearch {
-  margin-bottom: 5vh !important;
   width: 100%;
 }
 
@@ -149,6 +148,10 @@ p{
   background-color: #f2f6fa;
   border-radius: 30px;
   padding: 30px 30px 10px 30px;
+}
+
+.navbar__item {
+  float: right;
 }
 
 @media screen and (max-width: 800px) {

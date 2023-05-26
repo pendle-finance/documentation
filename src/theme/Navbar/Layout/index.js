@@ -29,7 +29,6 @@ export default function NavbarLayout({ children }) {
         "navbar",
         "navbar--fixed-top",
         styles.navbarHidden,
-
         {
           "navbar--dark": style === "dark",
           "navbar--primary": style === "primary",
