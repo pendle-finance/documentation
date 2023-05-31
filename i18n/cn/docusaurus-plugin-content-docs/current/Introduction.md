@@ -2,7 +2,7 @@
 hide_table_of_contents: true
 ---
 
-# Introduction to Pendle
+# Pendle简介
 
 你在 Aave 上借出 1,000 USDC 能获得多少收益？1%？3%？5%？
 
@@ -17,18 +17,28 @@ hide_table_of_contents: true
 
 ## Pendle 的用途是什么?
 
-我们让用户掌握他们的收益
+我们将收益的掌控权交回到用户手上。
 
-[Pendle](https://pendle.finance/) 是一个无需许可（permissionless）的 DeFi 收益率交易协议，目前建立在 [以太坊](https://ethereum.org/) 区块链上，用户可以执行各种收益管理策略。
+[Pendle](https://pendle.finance/)是一个无需许可(permissionless)的收益率交易协议，用户可以执行各种收益率管理策略。
 
-我们首先将**生息代币**(yield-bearing tokens) 包装成 **SY**（标准化生息代币)。然后，我们可把 SY 拆分为它们的本金和收益组成部分， **PT** (本金代币) 和 **YT** (收益代币), 从而可以通过我们自定义的 **V2 AMM** 进行交易。
+要了解Pendle，主要可以分为3个部份：
+
+1. 收益代币化
+   
+首先，Pendle将「**生息代币**」(yield-bearing token) 包装成 **SY**（标准化收益代币）－ 经过封装后（例如stETH → SY-stETH），其底层的生息代币将能与Pendle AMM兼容。然后，SY再被拆分为本金和收益两个组成部分，分别是 **PT**（本金代币）和 **YT**（收益代币）。这个过程被称为收益代币化，即将收益拆分为独立的代币。
+
+2. Pendle AMM
+
+**PT**和**YT**都可以通过Pendle的**AMM**进行交易。尽管这是Pendle的核心引擎，但用户无需理解AMM也能交易PT和YT。
+
+3. vePENDLE
 
 
-这将 TradFi 利率衍生品市场 ([名义价值超过 400兆 美元](https://www.bis.org/publ/otc_hy2111/intgraphs/graphA3.htm)) 引入 DeFi，使其为大众所用。PT 相当于[零息债券](https://www.investopedia.com/terms/z/zero-couponbond.asp) 而 YT 则相当于 [利息票据](https://www.investopedia.com/terms/c/coupon.asp).
+作为一个利率衍生品协议，我们将传统金融的利率衍生品市场（名义价值超过400万亿美元）引入到DeFi中，使其能为大众所用。
 
-通过在 DeFi 中创建收益率市场，Pendle 释放了收益率的全部潜力。Pendle 使用户能够执行高级收益率策略，例如：
+通过在DeFi中创建收益率交易市场，Pendle释放了收益率的全部潜力，使用户能够执行高级收益率策略，例如：
 
-* 以折扣价购入资产
-* 固定收益率以获得低风险、稳定的增长
-* 建立看多收益率的长仓
-* 任何上述策略的混合策略
+- 固定收益（例如通过stETH获得固定收益）
+- 建立看多收益率的长仓（例如通过购买更多的收益代币来押注stETH的收益率上升）
+- 在不增加风险的情况下获得更多收益（例如使用您的stETH来提供流动性）
+- 任何上述的混合策略，在我们的[收益率交易手册](https://handbook.pendle.finance/)中了解如何执行这些策略

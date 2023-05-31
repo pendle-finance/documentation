@@ -19,15 +19,27 @@ With Pendle, you can always maximise your yield: increase your yield exposure in
 
 We give users the reins to their yield.
 
-[Pendle](https://pendle.finance/) is a permissionless DeFi yield-trading protocol, currently built on the [Ethereum](https://ethereum.org/) blockchain, where users can execute various yield management strategies.
+[Pendle](https://pendle.finance/) is a permissionless yield-trading protocol where users can execute various yield-management strategies.
 
-We first wrap **yield-bearing tokens** into **SY**(standardized yield tokens). Then, SY is split into their principal and yield components, **PT** (principal token) and **YT** (yield token) respectively, which allows them to be traded via the custom **V2 AMM**.
+There are 3 main parts to fully understand Pendle:
 
-This brings the TradFi interest derivative market ([worth over $400T in notional value](https://www.bis.org/publ/otc_hy2111/intgraphs/graphA3.htm)) into DeFi, making it accessible to all. PT is the equivalent of [zero-coupon bonds](https://www.investopedia.com/terms/z/zero-couponbond.asp) while YT is the equivalent of [coupon payments](https://www.investopedia.com/terms/c/coupon.asp).
+1. Yield Tokenization
+    
+    First, Pendle wrap **yield-bearing tokens** into **SY**(standardized yield tokens), which is a wrapped version of the underlying yield-bearing token that is compatible with the Pendle AMM (e.g. stETH → SY-stETH). 
+    SY is then split into its principal and yield components, **PT** (principal token) and **YT** (yield token) respectively, this process is termed as yield-tokenization, where the yield is tokenized into a separate token. 
+    
+2. Pendle AMM
+    
+    Both **PT** and **YT** can be traded via Pendle’s **AMM**. Even though this is the core engine of Pendle, understanding of the AMM is not required to trade PT and YT.
+    
+3. vePENDLE
 
-By creating a yield market in DeFi, Pendle unlocks the full potential of yield. Pendle enables users to execute advanced yield strategies, such as:
 
-* Long assets at a discount
-* Fixed yield for low-risk, stable growth
-* Long yield
-* A mix of any of the above strategies
+As a yield derivative protocol, we are bringing the TradFi interest derivative market ([worth over $400T in notional value](https://www.bis.org/publ/otc_hy2111/intgraphs/graphA3.htm)) into DeFi, making it accessible to all. 
+
+By creating a yield market in DeFi, Pendle unlocks the full potential of yield, enabling users to execute advanced yield strategies, such as:
+
+- Fixed yield (e.g. earn fixed yield on stETH)
+- Long yield (e.g. bet on stETH yield going up by purchasing more yield)
+- Earn more yield without additional risks (e.g. provide liquidity with your stETH)
+- A mix of any of the above strategies, learn more on how to execute these strategies at our [Yield-Trading Handbook](https://handbook.pendle.finance/)

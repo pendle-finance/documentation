@@ -105,7 +105,7 @@ export default function AboutTheProtocol() {
             playReverse("governance");
           }}
         >
-          <Link className={styles.link} to="/ProtocolMechanics/Tokenomics+vePENDLE/vePENDLE">
+          <Link className={styles.link} to="/ProtocolMechanics/Mechanisms/vePENDLE">
             Governance
             <div className={styles.governanceLottie} ref={governanceRef} />
           </Link>
