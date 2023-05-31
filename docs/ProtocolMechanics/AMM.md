@@ -55,7 +55,7 @@ On top of that, IL from swaps is also mitigated as both assets LP’ed are very 
 
 In most cases prior to maturity, PT trades within a yield range and does not fluctuate as much as an asset’s spot price. For example, it’s rational to assume that Aave’s USDC lending rate fluctuates between 0%-15% for a reasonable timeframe (and PT accordingly trades within that yield range). This premise ensures a low IL at any given time as PT price will not deviate too far from the time of liquidity provision.
 
-### Customizable
+### Customizable AMM
 
 ![Customizable AMM](/img/ProtocolMechanics/customizable_amm.png "Customizable AMM")
 

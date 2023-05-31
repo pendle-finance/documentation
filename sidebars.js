@@ -32,18 +32,19 @@ module.exports = {
         { type: "doc", id: "ProtocolMechanics/AMM" },
         {
           type: "category",
-          label: "Tokenomics + vePENDLE",
+          label: "Tokenomics, vePENDLE, Fees",
           items: [
-            { type: "doc", id: "ProtocolMechanics/Tokenomics+vePENDLE/Tokenomics" },
-            { type: "doc", id: "ProtocolMechanics/Tokenomics+vePENDLE/vePENDLE" },
+            { type: "doc", id: "ProtocolMechanics/Mechanisms/Tokenomics" },
+            { type: "doc", id: "ProtocolMechanics/Mechanisms/vePENDLE" },
+            { type: "doc", id: "ProtocolMechanics/Mechanisms/Fees" },
             {
               type: "category",
               label: "Guides",
               items: [
-                { type: "doc", id: "ProtocolMechanics/Tokenomics+vePENDLE/Guides/Lock" },
-                { type: "doc", id: "ProtocolMechanics/Tokenomics+vePENDLE/Guides/ClaimRewards" },
-                { type: "doc", id: "ProtocolMechanics/Tokenomics+vePENDLE/Guides/ChannelIncentives" },
-                { type: "doc", id: "ProtocolMechanics/Tokenomics+vePENDLE/Guides/ApplyBoost" },
+                { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/Lock" },
+                { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/ClaimRewards" },
+                { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/ChannelIncentives" },
+                { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/ApplyBoost" },
               ],
             },
           ],
