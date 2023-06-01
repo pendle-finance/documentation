@@ -119,6 +119,7 @@ module.exports = {
           label: "Integration",
           items: [
             { type: "doc", id: "Developers/Integration/PTOracle" },
+            { type: "doc", id: "Developers/Integration/LPOracle" },
             { type: "doc", id: "Developers/Integration/PTAsCollateral" },
           ],
         },
