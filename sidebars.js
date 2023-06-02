@@ -121,6 +121,8 @@ module.exports = {
             { type: "doc", id: "Developers/Integration/PTOracle" },
             { type: "doc", id: "Developers/Integration/LPOracle" },
             { type: "doc", id: "Developers/Integration/PTAsCollateral" },
+            { type: "doc", id: "Developers/Integration/LPAsCollateral" },
+            { type: "doc", id: "Developers/Integration/PriceImpactCalculation" },
           ],
         },
         {
