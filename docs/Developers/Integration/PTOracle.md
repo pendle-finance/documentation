@@ -114,4 +114,4 @@ For implementation details, please refer to our sample contracts for `GLP` and `
 | Ethereum | [`0x414d3C8A26157085f286abE3BC6E1bb010733602`](https://etherscan.io/address/0x414d3C8A26157085f286abE3BC6E1bb010733602#readContract) |
 | Arbitrum | [`0x428f2f93afAc3F96B0DE59854038c585e06165C8`](https://arbiscan.io/address/0x428f2f93afAc3F96B0DE59854038c585e06165C8#readContract)  |
 
-We have also deployed the [PT-GLP oracle](https://arbiscan.io/address/0x43D03031FAb845065e9CEfE89Dd122d63F72011F#readContract#F2) as an example.
+The PT-GLP oracle has also been deployed [here](https://arbiscan.io/address/0x43D03031FAb845065e9CEfE89Dd122d63F72011F#code).
