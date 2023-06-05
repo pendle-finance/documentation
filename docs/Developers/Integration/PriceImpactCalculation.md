@@ -2,14 +2,15 @@
 hide_table_of_contents: true
 ---
 
-# Price impact calculation for liquidating PT and LP
+# Price Impact Calculation for Liquidating PT and LP
 
-The best way to calculate price impact for selling a hypothetical amount of PT or LP is to use the Pendle SDK
+The best way to calculate price impact for selling a hypothetical amount of PT or LP is to use the Pendle SDK.
 
+:::info
 You can install the Pendle SDK at `@pendle/sdk-v2`, version `2.3.4`
+:::
 
 To calculate the price impact for selling an amount of PT: use the `swapExactPtForSy` function.
-
 To calculate the price impact for selling an amount of LP: use the `removeLiquiditySingleSy` function.
 
 It can be done as follows:

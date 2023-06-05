@@ -19,6 +19,8 @@ While interacting, please use the ABI of implementation contracts provided or ge
 | PendleYieldContractFactory | [`0x28dE02Ac3c3F5ef427e55c321F73fDc7F192e8E4`](https://arbiscan.io/address/0x28dE02Ac3c3F5ef427e55c321F73fDc7F192e8E4) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x28dE02Ac3c3F5ef427e55c321F73fDc7F192e8E4&format=raw) |
 |       MarketFactory        | [`0xf5a7De2D276dbda3EEf1b62A9E718EFf4d29dDC8`](https://arbiscan.io/address/0xf5a7De2D276dbda3EEf1b62A9E718EFf4d29dDC8) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xf5a7De2D276dbda3EEf1b62A9E718EFf4d29dDC8&format=raw) |
 |       PT Oracle        | [`0x428f2f93afAc3F96B0DE59854038c585e06165C8`](https://arbiscan.io/address/0x428f2f93afAc3F96B0DE59854038c585e06165C8) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x428f2f93afAc3F96B0DE59854038c585e06165C8&format=raw) |
+|       PT-GLP Oracle        | [`0x43D03031FAb845065e9CEfE89Dd122d63F72011F`](https://arbiscan.io/address/0x43D03031FAb845065e9CEfE89Dd122d63F72011F) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x43D03031FAb845065e9CEfE89Dd122d63F72011F&format=raw) |
+|       LP-GLP Oracle        | [`0x67E64AF30E04A7277ab2D4f09ACE3F77a15801F9`](https://arbiscan.io/address/0x67E64AF30E04A7277ab2D4f09ACE3F77a15801F9) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x67E64AF30E04A7277ab2D4f09ACE3F77a15801F9&format=raw) |
 
 ## SY Tokens
 |     Contract     |                                                        Address                                                         |                                                              ABI                                                              |
