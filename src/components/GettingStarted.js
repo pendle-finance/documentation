@@ -60,7 +60,7 @@ export default function GettingStarted() {
             playReverse("intro");
           }}
         >
-          <Link className={styles.link} to="/introduction">
+          <Link className={styles.link} to="/Introduction">
             Introduction to Pendle
             <div className={styles.introLottie} ref={introRef} />
           </Link>
