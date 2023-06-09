@@ -82,7 +82,7 @@ You acknowledge and agree that you will access and use the Services, including, 
 
 ## Prohibited Content
 
-YYou may only use the Services if you comply with this Agreement (including, without limitation, these Terms), applicable third-party policies, and all applicable laws, rules, regulations and related guidance.The following conduct is prohibited:
+You may only use the Services if you comply with this Agreement (including, without limitation, these Terms), applicable third-party policies, and all applicable laws, rules, regulations and related guidance.The following conduct is prohibited:
 
 - using the Services for, or to promote or facilitate, illegal activity (including, without limitation, money laundering, financing terrorism, tax evasion, buying or selling illegal drugs, contraband, counterfeit goods, or illegal weapons);
 - exploiting the Services for any unauthorized commercial purpose;
