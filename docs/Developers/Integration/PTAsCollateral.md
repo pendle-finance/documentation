@@ -47,7 +47,7 @@ There are two main prerequisites to integrate PTs as a collateral in a money mar
 ### 1. Smart contract vulnerability in Pendle contracts:
   * If Pendle contracts malfunctions or gets exploited, PT could lose value significantly in a short duration, leading to bad debt for the money market protocol.
   * Assessment:
-    * Pendle V2 contracts have been audited by 6 auditors, with 3 of the top 4 C4 auditors. [Links to audit reports](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/audits)
+    * Pendle V2 contracts have been audited by 6 auditors, with 3 of the top 4 C4 auditors. Find the audit reports [here](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/audits).
     * Pendle V2 contract system's components (SY, YT-PT, Market, vePENDLE) are decoupled from each other, only interacting with the other components via interfaces, decreasing the chance for bugs due to complexity and interwoven logic.
     * Lindy-ness: There have been no incidents so far in Pendle contracts since June 2021
       * Pendle V2 contracts have been live since November 2022 (peak TVL of $93M)
@@ -66,7 +66,8 @@ There are two main prerequisites to integrate PTs as a collateral in a money mar
 
 ### 4. Insufficient PT liquidity for liquidation in a short duration
 When PT price drops significantly vs the borrowAsset (say for 20%) and doesn't bounce back, there might not be enough liquidity to liquidate PT collaterals for liquidatable loans, which might lead to bad debt.
-##### Assessment - Study 1: we want to make sure if PT/borrowAsset price drops siginificantly in one go, liquidators can liquidate the maximum possible liquidatable PT collaterals in profit
+
+#### Assessment - Study 1: we want to make sure if PT/borrowAsset price drops siginificantly in one go, liquidators can liquidate the maximum possible liquidatable PT collaterals in profit
 * Assume the following parameters in the money market:
   * Collateral factor for PT: `cRatio`
   * Deposit limit for PT collateral: `dCap` (in dollars)
@@ -88,7 +89,8 @@ When PT price drops significantly vs the borrowAsset (say for 20%) and doesn't b
 * This could be used as a framework to gauge how reasonable certain numbers for `dCap`, `cRatio` could be for certain PT collateral.
 * **Important note**: There is a cascading effect, where PT price dropping due to the collateral sell could lead to more liquidation. Ideally, the factor `k` should already take this into account (basically, after all the cascading effect from PT price dropping due to liquidations, what's the proportion of PT-collateralised loans that will become liquidatable). In the most extreme assumption, we could assume `k=1` for the strictest analysis.
 
-##### Assessment - On collateral factor for PT
+#### Assessment - On collateral factor for PT
+
 * Study 1 is already the strictest analysis, where all the liquidatble PT collaterals can be liquidated in one go.
 * Due to the nature of Pendle AMM which is specialised for trading PTs (it concentrates liquidity, taking into account how PT will converge to the underlying asset), price impact for selling an amount of PT is much smaller than a normal pool of the same liquidity can provide.
 * When setting collateral factor for PT, the bottom line is to protect the money market from bad debt, in case PT/borrowAsset price drops so fast that liquidations can't happen fast enough to liquidate the liquidatable accounts.
@@ -100,8 +102,9 @@ When PT price drops significantly vs the borrowAsset (say for 20%) and doesn't b
 * In another approach for thinking about setting collateral factor for PT: it could be similar to the collateral factor for PT's asset in the money market, since PT price will fluctuate along the asset's price.
 * Since it's generally troublesome to decrease collateral factor and much easier to increase it, it's generally a good approach to start with more conservative collateral factors
 
-##### How to check price impact for selling PT
-* You can follow the instructions [here](./PriceImpactCalculation.md) to check the price impact for selling a certain amount of PT
+#### How to check price impact for selling PT
+
+You can follow the instructions [here](./PriceImpactCalculation.md) to check the price impact for selling a certain amount of PT
 
 ### 5. Highly volatile PT price could liquidate users unnessarily
   * If PT prices are too volatile, a temporary dip in PT price could liquidate certain users unnessarily
