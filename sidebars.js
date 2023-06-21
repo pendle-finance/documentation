@@ -154,7 +154,7 @@ module.exports = {
             {
               label: "Documentation playground",
               type: "doc", 
-              id: "Developers/SDK/playground.mts",
+              id: "Developers/SDK/sdk-doc-playground.mts",
             },
           ],
         },
