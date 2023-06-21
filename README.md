@@ -2,6 +2,7 @@
 
 ```console
 yarn install
+git submodule update --init --recursive
 ```
 
 ## Local Development
