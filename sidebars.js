@@ -120,11 +120,42 @@ module.exports = {
           type: "category",
           label: "SDK",
           items: [
-            { type: "doc", id: "Developers/ComingSoon" },
-            // { type: "doc", id: "Developers/SDK/GettingStarted" },
-            // { type: "doc", id: "Developers/SDK/Example-Pricing" },
-            // { type: "doc", id: "Developers/SDK/Example-YieldTrading" },
-            // { type: "doc", id: "Developers/SDK/OtherPages" },
+            { type: "doc", id: "Developers/SDK/GettingStarted" },
+            {
+              label: "Add and remove liquidity",
+              type: "doc",
+              id: "Developers/SDK/add-remove-liquidity.mts",
+            },
+            {
+              label: "PT and YT trading",
+              type: "doc",
+              id: "Developers/SDK/buy-pt-yt.mts",
+            },
+            { 
+              label: "Doing more things with Pendle SDK Router",
+              type: "doc",
+              id: "Developers/SDK/doing-more-thing-with-router.mts",
+            },
+            {
+              label: "Using Multicall",
+              type: "doc",
+              id: "Developers/SDK/Multicall.mts",
+            },
+            {
+              label: "Error handling",
+              type: "doc",
+              id: "Developers/SDK/error-handling.mts",
+            },
+            {
+              label: "Utility types and functions",
+              type: "doc",
+              id: "Developers/SDK/utilities-types-and-functions.mts",
+            },
+            {
+              label: "Documentation playground",
+              type: "doc", 
+              id: "Developers/SDK/playground.mts",
+            },
           ],
         },
       ],
