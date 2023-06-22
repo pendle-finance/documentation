@@ -28,7 +28,11 @@ Snapshots of vePENDLE voting are taken every epoch, and non-yield rewards (e.g. 
 
 ### Why is the Underlying APY shown on Pendle differ from the APY shown in the underlying protocol?
 
+<<<<<<< HEAD
 The Underlying APY displayed on Pendle is a 7-day average of the underlying protocol (with some assets like GLP as exceptions) to smoothen out short-term fluctuations of the underlying protocol's APY.
+=======
+The Underlying APY displayed on Pendle is the 7-day moving average of the actual accrued yield at the smart contract level in the last 7 days.
+>>>>>>> Small typo fixes
 
 ## Liquidity Provision
 
