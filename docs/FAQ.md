@@ -73,3 +73,7 @@ The Pendle codebase has been fully audited by reputable auditors and all flaws h
 ### What risks are there associated with using the protocol?
 
 Since Pendle interacts with third-party protocols and contracts, there is inherent risk associated with the smart contracts and systems deployed by the third-party protocols. Pendle is not responsible for any funds lost due to exploits in third-party contracts.
+<<<<<<< HEAD
+=======
+
+>>>>>>> FAQ typo fix and adding TokenLogo.png for external use
