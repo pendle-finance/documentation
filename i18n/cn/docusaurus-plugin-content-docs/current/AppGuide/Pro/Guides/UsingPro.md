@@ -10,7 +10,7 @@ Pro 为用户提供完整的 Pendle 功能，让您自由交易收益率并执�
 
 ![Yield splitting](/img/AppGuide/yield_splitting.png "Yield splitting")
 
-在传统金融中，Pendle 所做的类似于债券分离。债券的本金和利息被分离，因此 PT 等效于[零息债券](https://www.investopedia.com/terms/z/zero-couponbond.asp)，而 YT 则是已分离的[息票]((https://www.investopedia.com/terms/c/coupon.asp)) (coupon)。
+在传统金融中，Pendle 所做的类似于债券分离。债券的本金和利息被分离，因此 PT 等效于[零息债券](https://www.investopedia.com/terms/z/zero-couponbond.asp)，而 YT 则是已分离的[息票](https://www.investopedia.com/terms/c/coupon.asp) (coupon)。
 
 ## 启用 Pendle Pro
 
