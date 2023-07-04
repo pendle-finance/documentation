@@ -112,6 +112,7 @@ module.exports = {
           items: [
             { type: "doc", id: "Developers/DeployedContracts/Ethereum" },
             { type: "doc", id: "Developers/DeployedContracts/Arbitrum" },
+            { type: "doc", id: "Developers/DeployedContracts/BNBChain" },
           ],
         },
         {
