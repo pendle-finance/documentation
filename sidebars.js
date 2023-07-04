@@ -3,7 +3,6 @@ module.exports = {
     {
       type: "doc",
       id: "Home",
-      label: "Home",
     },
     {
       type: "doc",
@@ -13,7 +12,6 @@ module.exports = {
     {
       type: "doc",
       id: "FAQ",
-      label: "FAQ",
     },
     {
       type: "category",
@@ -121,44 +119,32 @@ module.exports = {
           label: "SDK",
           items: [
             { type: "doc", id: "Developers/SDK/GettingStarted" },
-            {
-              label: "Add and remove liquidity",
-              type: "doc",
-              id: "Developers/SDK/add-remove-liquidity.mts",
-            },
-            {
-              label: "PT and YT trading",
-              type: "doc",
-              id: "Developers/SDK/buy-pt-yt.mts",
-            },
-            { 
-              label: "Doing more things with Pendle SDK Router",
-              type: "doc",
-              id: "Developers/SDK/doing-more-thing-with-router.mts",
-            },
-            {
-              label: "Using Multicall",
-              type: "doc",
-              id: "Developers/SDK/Multicall.mts",
-            },
-            {
-              label: "Error handling",
-              type: "doc",
-              id: "Developers/SDK/error-handling.mts",
-            },
-            {
-              label: "Utility types and functions",
-              type: "doc",
-              id: "Developers/SDK/utilities-types-and-functions.mts",
-            },
-            {
-              label: "Documentation playground",
-              type: "doc", 
-              id: "Developers/SDK/sdk-doc-playground.mts",
-            },
+            { type: "doc", id: "Developers/SDK/Playground" },
+            { type: "doc", id: "Developers/SDK/ERC20Interaction" },
+            { type: "doc", id: "Developers/SDK/WrappedContract" },
+            { type: "doc", id: "Developers/SDK/MarketEntity" },
+            { type: "doc", id: "Developers/SDK/Router" },
+            { type: "doc", id: "Developers/SDK/AddingAndRemovingLiquidity" },
+            { type: "doc", id: "Developers/SDK/PTAndYTTrading" },
+            { type: "doc", id: "Developers/SDK/AdvancedSDKOps" },
+            { type: "doc", id: "Developers/SDK/Multicall" },
+            { type: "doc", id: "Developers/SDK/ErrorHandling" },
+            { type: "doc", id: "Developers/SDK/TypesAndFunctions" },
+            { type: "doc", id: "Developers/SDK/ArbitraryTokens" },
+          ],
+        },
+        {
+          type: "category",
+          label: "API",
+          items: [
+            { type: "doc", id: "Developers/API/RESTfulAPI" },
           ],
         },
       ],
+    },
+    {
+      type: "doc",
+      id: "Security",
     },
     {
       type: "link",

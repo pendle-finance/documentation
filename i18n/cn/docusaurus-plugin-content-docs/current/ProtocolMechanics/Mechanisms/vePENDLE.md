@@ -10,7 +10,7 @@ vePENDLE也减少了PENDLE代币的供应，从而增加代币的稳定性和协
 
 ## 获取vePENDLE
 
-锁定PENDLE即可获得vePENDLE。您的vePENDLE价值与锁定时间和数量成正比（最长锁定时间为2年）。在[此处](./Guides/Lock)可以找到教程。每个钱包只能绑定一个vePENDLE的到期日。
+锁定PENDLE即可获得vePENDLE。您的vePENDLE价值与锁定时间和数量成正比（最长锁定时间为2年）。在[此处](./Guides/Lock.md)可以找到教程。每个钱包只能绑定一个vePENDLE的到期日。
 
 随着时间的推移，您的vePENDLE数值会逐渐降低，并且一旦锁定时间结束，您锁定的PENDLE将被解锁。
 
@@ -67,7 +67,7 @@ _Base APY + 「最高可能的Voter's APY」_－ 就是您可以从vePENDLE获�
 
 您应该先将PENDLE锁定到vePENDLE中，然后再提供流动性，以获得加速奖励(Boost)。
 
-如果您已经提供了流动性，并希望使用vePENDLE提高您的奖励，您需要[手动套用加速](./Guides/ApplyBoost)。
+如果您已经提供了流动性，并希望使用vePENDLE提高您的奖励，您需要[手动套用加速](./Guides/ApplyBoost.md)。
 
 对于跨链奖励加速（例如，在Arbitrum上加速LP持仓），您需要首先从以太坊同步您的vePENDLE余额，然后才能套用加速。
 

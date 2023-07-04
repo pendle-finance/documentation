@@ -10,7 +10,7 @@ vePENDLE also serves as an additional sink for reducing the supply of PENDLE tok
 
 ## Getting vePENDLE
 
-Lock PENDLE and receive vePENDLE. Your vePENDLE value is proportional to the amount and duration staked (up to a maximum of 2 years). Tutorial [here](./Guides/Lock). Each wallet is associated with a single vePENDLE expiry date.
+Lock PENDLE and receive vePENDLE. Your vePENDLE value is proportional to the amount and duration staked (up to a maximum of 2 years). Tutorial [here](./Guides/Lock.md). Each wallet is associated with a single vePENDLE expiry date.
 
 Your vePENDLE value will decay over time, and reaches zero once the lock duration is over. Your staked PENDLE will then be unlocked.
 
@@ -66,7 +66,7 @@ Although your vePENDLE value decays over time, your LP boost rate is calculated 
 
 To receive boosted rewards, you should lock your PENDLE into vePENDLE first before LPing.
 
-If you are already LPing and want to boost your rewards with vePENDLE, you have to manually [apply the boost](./Guides/ApplyBoost) after voting for the pool.
+If you are already LPing and want to boost your rewards with vePENDLE, you have to manually [apply the boost](./Guides/ApplyBoost.md) after voting for the pool.
 
 For cross-chain reward boosts (e.g. boosting LP positions on Arbitrum), you will first need to to synchronize your vePENDLE balance from Ethereum before the boost can be applied.
 

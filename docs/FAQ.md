@@ -28,11 +28,7 @@ Snapshots of vePENDLE voting are taken every epoch, and non-yield rewards (e.g. 
 
 ### Why is the Underlying APY shown on Pendle differ from the APY shown in the underlying protocol?
 
-<<<<<<< HEAD
 The Underlying APY displayed on Pendle is a 7-day average of the underlying protocol (with some assets like GLP as exceptions) to smoothen out short-term fluctuations of the underlying protocol's APY.
-=======
-The Underlying APY displayed on Pendle is the 7-day moving average of the actual accrued yield at the smart contract level in the last 7 days.
->>>>>>> Small typo fixes
 
 ## Liquidity Provision
 
@@ -56,7 +52,7 @@ vePENDLE is Pendle’s governance system.
 
 Lock PENDLE for vePENDLE. The greater the lock duration, the greater your vePENDLE value. Your vePENDLE value decays over time, but your lock duration can be extended to negate the decay.
 
-Use vePENDLE to channel PENDLE incentives. Vote for your desired pool to incentivise liquidity. The more vePENDLE you have, the more voting power you hold. Voting for a pool entitles the you to 80% of the swap fees collected by the pool. This APY is shown in the "Voter APY" prior to casting your vote.
+Use vePENDLE to channel PENDLE incentives. Vote for your desired pool to incentivize liquidity. The more vePENDLE you have, the more voting power you hold. Voting for a pool entitles the you to 80% of the swap fees collected by the pool. This APY is shown in the "Voter APY" prior to casting your vote.
 
 vePENDLE holders also receive a portion of protocol revenue, earned from swap fees and YT fees.
 
@@ -77,7 +73,3 @@ The Pendle codebase has been fully audited by reputable auditors and all flaws h
 ### What risks are there associated with using the protocol?
 
 Since Pendle interacts with third-party protocols and contracts, there is inherent risk associated with the smart contracts and systems deployed by the third-party protocols. Pendle is not responsible for any funds lost due to exploits in third-party contracts.
-<<<<<<< HEAD
-=======
-
->>>>>>> FAQ typo fix and adding TokenLogo.png for external use
