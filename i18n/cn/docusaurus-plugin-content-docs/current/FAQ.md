@@ -10,18 +10,15 @@ hide_table_of_contents: true
 
 每个PT和YT都有一个到期日。如您持有 PT，您可以在到期日之后赎回全部底层生息代币。至于YT，底层生息代币的收益仅在到期日之前累积和派发，到期日之后YT将不再有价值。
 
-### 简易UI界面和专业UI界面之间有什么区别？
+### Pendle 赚币（Pendle Earn）和 Pendle 交易（Pendle Trade）有什么区别？
 
-简易UI界面和专业UI界面运行在同一组合约上，并使用相同的代币。
+「Pendle 赚币」和「Pendle 交易」运行在同一组合约上，并使用相同的代币。
 
-简易ui将Pendle包装成两个主要功能。大多数用户都能理解并使用。
+「Pendle 赚币」把 Pendle 简化为两个主要功能 — (1) 固定利率 (2) 提供流动性。预计这些功能将有最高的使用量，为大多数用户提供更好的用户体验。
 
-专业UI提供了Pendle的全部功能套件，允许用户通过购买和出售PT和YT来进行收益率交易。
+「Pendle 交易」为用户提供了 Pendle 的全部功能套件，允许用户通过购买和出售PT和YT来进行收益率交易。
 
-您可以通过在应用程序的右上角切换UI来在这两种模式之间切换。
-
-![Simple Toggle](/img/faq/simple_toggle.png "Simple Toggle")
-![Pro Toggle](/img/faq/pro_toggle.png "Pro Toggle")
+您可以通过在应用程序右上角切换界面来在两种模式之间进行切换。
 
 ### 什么是epoch？
 
@@ -31,7 +28,7 @@ hide_table_of_contents: true
 
 ### 为什么Pendle上显示的底层APY与底层协议中显示的APY不同？
 
-Pendle上显示的底层APY（Underlying APY）是在过去7天的智能合约层面上实际累积收益的7天移动平均数。
+Pendle 上显示的底层APY (Underlying APY) 是基于底层协议的7天收益平均值（除了某些资产如 GLP 外），以平滑底层协议的APY的短期波动。
 
 ## 提供流动性
 
@@ -53,7 +50,7 @@ vePENDLE 是 Pendle 的治理系统。
 
 ### vePENDLE 如何运作？
 
-锁定 PENDLE 以获得 vePENDLE。锁定期限越长，您的 vePENDLE ‘数量’好像更合适越大。您的 vePENDLE 数值会随时间衰减，但您可以延长锁定期限以抵消衰减。
+锁定 PENDLE 以获得 vePENDLE。锁定期限越长，您的 vePENDLE 数量越大。您的 vePENDLE 数值会随时间衰减，但您可以延长锁定期限以抵消衰减。
 
 我们使用 vePENDLE 来控制 PENDLE 代币奖励。投票支持您想要激励流动性的池子。您拥有的 vePENDLE 越多，您持有的投票权就越大。
 
@@ -67,7 +64,7 @@ vePENDLE 持有者还将获得一部分协议收益，这些收益来自交易�
 
 ### 以太坊和其他链之间有什么区别吗？
 
-vePENDLE 只存在于以太坊区块链上，这意味着您只能在以太坊上锁定 PENDLE 和投票，但您仍可为其他链上的池子投票。因此通过投票，PENDLE奖励仍可引导到其他区块链上，但投票这一动作则只能在以太坊上进行。
+vePENDLE 只存在于以太坊区块链上，这意味着您只能在以太坊上锁定 PENDLE 和投票，但您仍可为其他链上的池子投票。虽然投票这一动作则只能在以太坊上进行，但通过投票，您仍然可以在把PENDLE奖励引导到其他区块链上。
 
 ## 安全性
 

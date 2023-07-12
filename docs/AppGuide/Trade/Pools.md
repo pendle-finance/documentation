@@ -18,4 +18,4 @@ However, you will be exposed to price impact when input assets are swapped into 
 
 !["Redeem Rewards Bundle"](/img/AppGuide/redeem-rewards-bundle.png "Redeem Rewards Bundle")
 
-By toggling “Claim All Pool Rewards” on the Zap Out page, Pendle Pro users can save on gas by claiming rewards AND removing liquidity/zapping out at the same time - in just one single transaction.
+By toggling “Claim All Pool Rewards” on the Zap Out page, Pendle Trade users can save on gas by claiming rewards AND removing liquidity/zapping out at the same time - in just one single transaction.

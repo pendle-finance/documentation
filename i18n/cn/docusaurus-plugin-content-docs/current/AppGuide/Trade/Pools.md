@@ -19,4 +19,4 @@ hide_table_of_contents: true
 
 !["Redeem Rewards Bundle"](/img/AppGuide/redeem-rewards-bundle.png "Redeem Rewards Bundle")
 
-在“Zap Out”页面，激活「提领全部池子奖励」选项 (Claim All Pool Rewards)，Pendle Pro用户可以退出流动性时一并在同一次交易中领取奖励，以省去燃料费用。
+在“Zap Out”页面，激活「提领全部池子奖励」选项 (Claim All Pool Rewards)，「Pendle 交易」用户可以退出流动性时一并在同一次交易中领取奖励，以省去燃料费用。
