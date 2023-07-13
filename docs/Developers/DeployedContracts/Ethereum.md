@@ -34,6 +34,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 | SY-swETH-bbaWETH BalancerLP Aura | [`0xCb611D0BD02a74C491B75d51D6EA5558f1887Da3`](https://etherscan.io/address/0xCb611D0BD02a74C491B75d51D6EA5558f1887Da3) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xCb611D0BD02a74C491B75d51D6EA5558f1887Da3&format=raw) |
 |        SY-Stargate-USDT        | [`0x3025680925349c9C01c0F01cf300EC963832ec64`](https://etherscan.io/address/0x3025680925349c9C01c0F01cf300EC963832ec64) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x3025680925349c9C01c0F01cf300EC963832ec64&format=raw) |
 |        SY-sfrxETH        | [`0xeb83006b0aADdD15AD8AFbebE2f4e0937f210673`](https://etherscan.io/address/0xeb83006b0aADdD15AD8AFbebE2f4e0937f210673) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xeb83006b0aADdD15AD8AFbebE2f4e0937f210673&format=raw) |
+|        SY-ankrETH-wstETH        | [`0xb5Cd090010D4735f18306EB680D898eF9F36F044`](https://etherscan.io/address/0xb5Cd090010D4735f18306EB680D898eF9F36F044) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xb5Cd090010D4735f18306EB680D898eF9F36F044&format=raw) |
 
 ## Yield Tokens (YT)
 
@@ -52,6 +53,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 | YT-swETH-bbaWETH BalancerLP Aura-26SEP24 | [`0x9ddc69eB24329365e96Cdca508e37dDf1CD4478d`](https://etherscan.io/address/0x9ddc69eB24329365e96Cdca508e37dDf1CD4478d) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x9ddc69eB24329365e96Cdca508e37dDf1CD4478d&format=raw) |
 |        YT-Stargate-USDT-27JUN24        | [`0x9Ba9D392bE8b4CA159b1934E531D13Ad66dA023C`](https://etherscan.io/address/0x9Ba9D392bE8b4CA159b1934E531D13Ad66dA023C) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x9Ba9D392bE8b4CA159b1934E531D13Ad66dA023C&format=raw) |
 |        YT-sfrxETH-26DEC24        | [`0x22E250EcaF9090AB3E31916b0411d7c19e085fDE`](https://etherscan.io/address/0x22E250EcaF9090AB3E31916b0411d7c19e085fDE) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x22E250EcaF9090AB3E31916b0411d7c19e085fDE&format=raw) |
+|        YT-ankrETH-wstETH-27JUN24        | [`0xcE0BD0De35A39508916e1f63fBdaf15221c66d18`](https://etherscan.io/address/0xcE0BD0De35A39508916e1f63fBdaf15221c66d18) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xcE0BD0De35A39508916e1f63fBdaf15221c66d18&format=raw) |
 
 ## Principle Tokens (PT)
 
@@ -70,6 +72,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 | PT-swETH-bbaWETH BalancerLP Aura-26SEP24 | [`0xe82db015E01E93381991d14b5bAA30fE73bb3240`](https://etherscan.io/address/0xe82db015E01E93381991d14b5bAA30fE73bb3240) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xe82db015E01E93381991d14b5bAA30fE73bb3240&format=raw) |
 |        PT-Stargate-USDT-27JUN24        | [`0x9014F29610E904c8269726c74ebc79f5d512DAfD`](https://etherscan.io/address/0x9014F29610E904c8269726c74ebc79f5d512DAfD) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x9014F29610E904c8269726c74ebc79f5d512DAfD&format=raw) |
 |        PT-sfrxETH-26DEC24        | [`0x6e99277F5349614AE653B8AC9C5e2F105943E8D9`](https://etherscan.io/address/0x6e99277F5349614AE653B8AC9C5e2F105943E8D9) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x6e99277F5349614AE653B8AC9C5e2F105943E8D9&format=raw) |
+|        PT-ankrETH-wstETH-27JUN24        | [`0x86a0ADF389Ba99006633978dDd43c5aa711DDF3E`](https://etherscan.io/address/0x86a0ADF389Ba99006633978dDd43c5aa711DDF3E) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x86a0ADF389Ba99006633978dDd43c5aa711DDF3E&format=raw) |
 
 
 ## Markets
@@ -89,3 +92,4 @@ While interacting, please use the ABI of implementation contracts provided or ge
 | PT-swETH-bbaWETH BalancerLP Aura-26SEP24/SY-swETH-bbaWETH BalancerLP Aura Market | [`0x8225dD26DdFaaa321E5388e0F4C090Ba16217c21`](https://etherscan.io/address/0x8225dD26DdFaaa321E5388e0F4C090Ba16217c21) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x8225dD26DdFaaa321E5388e0F4C090Ba16217c21&format=raw) |
 |               PT-Stargate-USDT-27JUN24/SY-Stargate-USDT Market               | [`0x30e0dC9a1D33EAc83211a1113de238b3Ce826950`](https://etherscan.io/address/0x30e0dC9a1D33EAc83211a1113de238b3Ce826950) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x30e0dC9a1D33EAc83211a1113de238b3Ce826950&format=raw) |
 |               PT-sfrxETH-26DEC24/SY-sfrxETH Market               | [`0xfb8f489df4e04609F4f4e54F586f960818B70041`](https://etherscan.io/address/0xfb8f489df4e04609F4f4e54F586f960818B70041) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xfb8f489df4e04609F4f4e54F586f960818B70041&format=raw) |
+|               PT-ankrETH-wstETH-27JUN24/SY-ankrETH-wstETH Market               | [`0xD547d9C74314F787aFFc587d101146e1663d046e`](https://etherscan.io/address/0xD547d9C74314F787aFFc587d101146e1663d046e) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xD547d9C74314F787aFFc587d101146e1663d046e&format=raw) |

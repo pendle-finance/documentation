@@ -31,9 +31,7 @@ Snapshots of vePENDLE voting are taken every epoch, and non-yield rewards (e.g. 
 
 ### Why is the Underlying APY shown on Pendle differ from the APY shown in the underlying protocol?
 
-The Underlying APY displayed on Pendle is t### What does the maturity date mean?
-
-Each PT and YT has an maturity date. For PT, you can redeem the full underlying yield-bearing token after this date. For YT, the yield of the yield-bearing token is only accrued up until the maturity date, after which YT has no value.
+The Underlying APY displayed on Pendle is a 7-day average of the underlying protocol (with some assets like GLP as exceptions) to smoothen out short-term fluctuations of the underlying protocol's APY.
 
 ## Liquidity Provision
 
@@ -77,4 +75,4 @@ The Pendle codebase has been fully audited by reputable auditors and all flaws h
 
 ### What risks are there associated with using the protocol?
 
-Since Pendle interacts with third-party protocols and contracts, there is inherent risk associated with the smart contracts and systems deployed by the third-party protocols. Pendle is not responsible for any funds lost due to exploits in third-party contracts. The 7-day moving average of the actual accrued yield at the smart contract level in the last 7 days.
+Since Pendle interacts with third-party protocols and contracts, there is inherent risk associated with the smart contracts and systems deployed by the third-party protocols. Pendle is not responsible for any funds lost due to exploits in third-party contracts.
