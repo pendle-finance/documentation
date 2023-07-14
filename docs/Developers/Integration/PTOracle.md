@@ -96,12 +96,19 @@ There are two ways to derive the exchange rate between $PT$ and $Asset$ from our
 
 Compared to the first method, using a library reduce one external call from your contract to `PendlePtOracle`, making the implementation more gas saving.
 
+**Note**: We recommend using the contract library to get the PT price to save on gas, especially on Ethereum
+
 As an example, here's how we calculate `PT-GLP` price in US dollar:
 ```sol
-function getPtPrice() external view virtual returns (uint256) {
-    uint256 ptRate = IPMarket(market).getPtToAssetRate(twapDuration);
-    uint256 assetPrice = IGlpManager(glpManager).getPrice(true);
-    return (assetPrice * ptRate) / (10 ** 30);
+// You can install npm package @pendle/core-v2 to directly import Pendle V2 contracts
+import "@pendle/core-v2/contracts/oracles/PendlePtOracleLib.sol";
+contract PendlePtGlpOracle {
+    //...
+    function getPtPrice() external view virtual returns (uint256) {
+        uint256 ptRate = IPMarket(market).getPtToAssetRate(twapDuration);
+        uint256 assetPrice = IGlpManager(glpManager).getPrice(true);
+        return (assetPrice * ptRate) / (10 ** 30);
+    }
 }
 ```
 
