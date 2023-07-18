@@ -10,18 +10,15 @@ hide_table_of_contents: true
 
 Each PT and YT has an maturity date. For PT, you can redeem the full underlying yield-bearing token after this date. For YT, the yield of the yield-bearing token is only accrued up until the maturity date, after which YT has no value.
 
-### What is the difference between Simple UI and Pro UI?
+### What is the difference between Pendle Earn and Pendle Trade?
 
-Simple UI and Pro UI run on the same set of contracts and use the same tokens.
+Pendle Earn and Trade run on the same set of contracts and use the same tokens.
 
-Simple UI is streamlined to perform the 2 main functions that are predicted to have the highest traffic in order to create a better UX for the majority of users.
+Pendle Earn is streamlined to perform the two main functions that are predicted to have the highest traffic (Fixed Yield and Liquidity Provision) in order to create a better UX for the majority of users.
 
-Pro UI gives users the full suite of functions on Pendle, allowing users to yield trade by buying and selling PT and YT.
+Pendle Trade gives users the full suite of functions on Pendle allowing users to trade yield by buying and selling PT and YT.
 
-You can switch between the two modes by toggling the UI at the top right corner of the app.
-
-![Simple Toggle](/img/faq/simple_toggle.png "Simple Toggle")
-![Pro Toggle](/img/faq/pro_toggle.png "Pro Toggle")
+You can switch between the two modes using the toggle at the top right corner of the app.
 
 ### What is an epoch?
 

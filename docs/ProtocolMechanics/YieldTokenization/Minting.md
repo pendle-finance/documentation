@@ -16,6 +16,6 @@ What Pendle does is similar to bond stripping in traditional finance, where the 
 
 Users can mint PT and YT by depositing the yield-bearing asset (e.g. stETH) into Pendle. Base assets (e.g. ETH) will be auto-converted into the yield-bearing asset before PT and YT are minted.
 
-e.g. ETH → stETH → SY-stETH → PT-stETH + YT-stETH. This function can be found in the Pro UI after selecting one of the assets.
+e.g. ETH → stETH → SY-stETH → PT-stETH + YT-stETH. This function can be found in the Pendle Trade after selecting one of the assets.
 
 ![Yield Splitting UI](/img/ProtocolMechanics/yield-splitting-ui.png "Yield Splitting UI")

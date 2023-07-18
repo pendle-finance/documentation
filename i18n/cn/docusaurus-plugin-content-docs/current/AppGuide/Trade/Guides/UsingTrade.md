@@ -2,9 +2,9 @@
 hide_table_of_contents: true
 ---
 
-# 使用 Pendle Pro
+# Pendle 赚币
 
-Pro 为用户提供完整的 Pendle 功能，让您自由交易收益率并执行任何收益率策略。
+Pendle 交易」为用户提供完整的 Pendle 功能，让您自由交易收益率并执行任何收益率策略。
 
 用户可以将生息资产存入 Pendle 并铸造 Principal Token (**PT**) 和 Yield Token (**YT**)。PT 代表底层收益代币的本金部份，而 YT 则代表资产直至到期日前产生的**所有**收益的权益。您可以在 Pendle 上交易 PT 和 YT
 
@@ -12,14 +12,11 @@ Pro 为用户提供完整的 Pendle 功能，让您自由交易收益率并执�
 
 在传统金融中，Pendle 所做的类似于债券分离。债券的本金和利息被分离，因此 PT 等效于[零息债券](https://www.investopedia.com/terms/z/zero-couponbond.asp)，而 YT 则是已分离的[息票](https://www.investopedia.com/terms/c/coupon.asp) (coupon)。
 
-## 启用 Pendle Pro
+## Pendle 赚币
 
-要启用 Pendle Pro，请在应用程序右上角按钮切换。
+要启用「Pendle 交易」，请在应用程序右上角按钮切换。
 
-![Simple toggle](/img/AppGuide/simple_toggle.png "Simple toggle")
-![Pro toggle](/img/AppGuide/pro_toggle.png "Pro toggle")
-
-如果您是 Pendle 或收益率交易的新手，我们在本节中提供了一个方便的教程，以带您浏览 Pro 界面，并在下一节中为您提供一个简单的指南，让您了解有关收益率交易的基础知识。
+如果您是 Pendle 或收益率交易的新手，我们在本节中提供了一个方便的教程，以带您浏览 交易界面，并在下一节中为您提供一个简单的指南，让您了解有关收益率交易的基础知识。
 
 ## 策略
 

@@ -55,10 +55,10 @@ module.exports = {
       type: "category",
       label: "App Guide",
       items: [
-        { type: "doc", id: "AppGuide/Simple" },
+        { type: "doc", id: "AppGuide/Earn" },
         {
           type: "category",
-          label: "Pro UI",
+          label: "Pendle Trade",
           collapsed: true,
           items: [
             {
@@ -66,15 +66,15 @@ module.exports = {
               label: "Guides",
               collapsed: true,
               items: [
-                { type: "doc", id: "AppGuide/Pro/Guides/UsingPro" },
-                { type: "doc", id: "AppGuide/Pro/Guides/Mint" },
-                { type: "doc", id: "AppGuide/Pro/Guides/Swap" },
-                { type: "doc", id: "AppGuide/Pro/Guides/Pool" },
-                { type: "doc", id: "AppGuide/Pro/Guides/Claim" },
+                { type: "doc", id: "AppGuide/Trade/Guides/UsingTrade" },
+                { type: "doc", id: "AppGuide/Trade/Guides/Mint" },
+                { type: "doc", id: "AppGuide/Trade/Guides/Swap" },
+                { type: "doc", id: "AppGuide/Trade/Guides/Pool" },
+                { type: "doc", id: "AppGuide/Trade/Guides/Claim" },
               ],
             },
-            { type: "doc", id: "AppGuide/Pro/Calculator" },
-            { type: "doc", id: "AppGuide/Pro/Pools" },
+            { type: "doc", id: "AppGuide/Trade/Calculator" },
+            { type: "doc", id: "AppGuide/Trade/Pools" },
           ],
         },
         { type: "doc", id: "AppGuide/CreatingNewPools" },
@@ -147,7 +147,7 @@ module.exports = {
     {
       type: "link",
       label: "Learn In-App",
-      href: 'https://app.pendle.finance/pro/learn',
+      href: 'https://app.pendle.finance/pro/education/learn',
     },
     {
       type: "link",
