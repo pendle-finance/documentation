@@ -85,34 +85,24 @@ module.exports = {
       label: "Developers",
       items: [
         { type: "doc", id: "Developers/Overview" },
+        { type: "doc", id: "Developers/DeveloperFAQ" },
+        { type: "doc", id: "Developers/HighLevelArchitecture" },
         {
           type: "category",
-          label: "Core Contracts",
+          label: "Contracts",
           items: [
-            { type: "doc", id: "Developers/ComingSoon" },
-            // { type: "doc", id: "Developers/CoreContracts/StandardisedYield" },
-            // { type: "doc", id: "Developers/CoreContracts/YieldTokenisation" },
-            // { type: "doc", id: "Developers/CoreContracts/PendleMarket" },
-            // { type: "doc", id: "Developers/CoreContracts/vePENDLE" },
+            { type: "doc", id: "Developers/Contracts/PendleRouter" },
+            { type: "doc", id: "Developers/Contracts/PendleRouterStatic" },
+            { type: "doc", id: "Developers/Contracts/vePENDLE" },
           ],
         },
         {
           type: "category",
-          label: "Peripheral Contracts",
+          label: "Deployments",
           items: [
-            { type: "doc", id: "Developers/ComingSoon" },
-            // { type: "doc", id: "Developers/PeripheryContracts/Routers" },
-            // { type: "doc", id: "Developers/PeripheryContracts/OffchainHelpers" },
-            // { type: "doc", id: "Developers/PeripheryContracts/BulkSeller" },
-          ],
-        },
-        {
-          type: "category",
-          label: "Deployed Contracts",
-          items: [
-            { type: "doc", id: "Developers/DeployedContracts/Ethereum" },
-            { type: "doc", id: "Developers/DeployedContracts/Arbitrum" },
-            { type: "doc", id: "Developers/DeployedContracts/BNBChain" },
+            { type: "doc", id: "Developers/Deployments/Ethereum" },
+            { type: "doc", id: "Developers/Deployments/Arbitrum" },
+            { type: "doc", id: "Developers/Deployments/BNBChain" },
           ],
         },
         {

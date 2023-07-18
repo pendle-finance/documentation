@@ -38,7 +38,7 @@
   cursor: pointer;
 }
 
-.governanceLottie {
+.deploymentsLottie {
   margin-top: 3rem;
   height: 6rem;
 }
@@ -147,7 +147,7 @@
     margin-top: 0.5rem;
   }
 
-  .sdkLottie {
+  .deploymentsLottie {
     margin-top: 1rem;
     height: 5rem;
   }

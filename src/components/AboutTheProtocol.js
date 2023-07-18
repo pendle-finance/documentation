@@ -2,41 +2,41 @@ import React, { useEffect, useRef } from "react";
 import styles from "./AboutTheProtocol.module.css";
 import Link from "@docusaurus/Link";
 import lottie from "lottie-web";
-import AMMAnimationData from "../lotties/AMM.json";
-import GovernanceAnimationData from "../lotties/Governance.json";
-import YieldTokenizationAnimationData from "../lotties/YieldTokenization.json";
+import ArchitectureAnimationData from "../lotties/YieldTrading.json";
+import IntegrationAnimationData from "../lotties/Developers.json";
+import DeploymentsAnimationData from "../lotties/Pools.json";
 
 export default function AboutTheProtocol() {
-  const governanceRef = useRef(null);
-  const yieldRef = useRef(null);
-  const ammRef = useRef(null);
+  const architectureRef = useRef(null);
+  const integrationRef = useRef(null);
+  const deploymentsRef = useRef(null);
 
   useEffect(() => {
     lottie.loadAnimation({
-      container: governanceRef.current,
-      name: "governance",
+      container: architectureRef.current,
+      name: "architecture",
       renderer: "svg",
       loop: false,
       autoplay: false,
-      animationData: GovernanceAnimationData,
+      animationData: ArchitectureAnimationData,
     });
 
     lottie.loadAnimation({
-      container: yieldRef.current,
-      name: "yield",
+      container: integrationRef.current,
+      name: "integration",
       renderer: "svg",
       loop: false,
       autoplay: false,
-      animationData: YieldTokenizationAnimationData,
+      animationData: IntegrationAnimationData,
     });
 
     lottie.loadAnimation({
-      container: ammRef.current,
-      name: "amm",
+      container: deploymentsRef.current,
+      name: "deployments",
       renderer: "svg",
       loop: false,
       autoplay: false,
-      animationData: AMMAnimationData,
+      animationData: DeploymentsAnimationData,
     });
 
     return () => {
@@ -57,41 +57,41 @@ export default function AboutTheProtocol() {
 
   return (
     <div className={styles.root}>
-      <h2>About the Protocol</h2>
+      <h2>For the Developers</h2>
       <div className={styles.featureContainer}>
         <div className={styles.leftFeatureCard}>
-          <Link to="/ProtocolMechanics/YieldTokenization/SY" className={styles.sibling}>
-            Protocol Mechanics
+          <Link to="/Developers/HighLevelArchitecture" className={styles.sibling}>
+            Integration
           </Link>
-          <Link to="/ProtocolMechanics/YieldTokenization/SY" className={styles.subFeatures}>
-            <Link to="/ProtocolMechanics/YieldTokenization/SY" className={styles.indivFeature}>
+          <Link to="/Developers/HighLevelArchitecture" className={styles.subFeatures}>
+            <Link to="/Developers/HighLevelArchitecture" className={styles.indivFeature}>
               <div
                 onMouseEnter={() => {
-                  play("yield");
+                  play("architecture");
                 }}
                 onMouseLeave={() => {
-                  playReverse("yield");
+                  playReverse("architecture");
                 }}
                 className={styles.lottieWrapper}
               >
-                <div className={styles.lottie} ref={yieldRef} />
+                <div className={styles.lottie} ref={architectureRef} />
                 <div className={styles.featureTitle}>
-                  Yield Tokenization
+                  High Level Architecture
                 </div>
               </div>
             </Link>
-            <Link to="/ProtocolMechanics/AMM" className={styles.indivFeature}>
+            <Link to="/Developers/Integration/PTOracle" className={styles.indivFeature}>
               <div
                 onMouseEnter={() => {
-                  play("amm");
+                  play("integration");
                 }}
                 onMouseLeave={() => {
-                  playReverse("amm");
+                  playReverse("integration");
                 }}
                 className={styles.lottieWrapper}
               >
-                <div className={styles.lottie} ref={ammRef} />
-                <div className={styles.featureTitle}>Pendle AMM</div>
+                <div className={styles.lottie} ref={integrationRef} />
+                <div className={styles.featureTitle}>Using PT</div>
               </div>
             </Link>
           </Link>
@@ -99,15 +99,15 @@ export default function AboutTheProtocol() {
         <div
           className={styles.rightFeatureCard}
           onMouseEnter={() => {
-            play("governance");
+            play("deployments");
           }}
           onMouseLeave={() => {
-            playReverse("governance");
+            playReverse("deployments");
           }}
         >
-          <Link className={styles.link} to="/ProtocolMechanics/Mechanisms/vePENDLE">
-            Governance
-            <div className={styles.governanceLottie} ref={governanceRef} />
+          <Link className={styles.link} to="/Developers/Deployments/Ethereum">
+            Deployed Contracts
+            <div className={styles.deploymentsLottie} ref={deploymentsRef} />
           </Link>
         </div>
       </div>
