@@ -3,13 +3,15 @@ import Link from "@docusaurus/Link";
 import styles from "./GettingStarted.module.css";
 import lottie from "lottie-web";
 import IntroAnimationData from "../lotties/Introduction.json";
-import HandbookAnimationData from "../lotties/Handbook.json";
+import GovernanceAnimationData from "../lotties/Governance.json";
+import AMMAnimationData from "../lotties/AMM.json";
+import YieldTokenizationAnimationData from "../lotties/YieldTokenization.json";
 
 export default function GettingStarted() {
   const introRef = useRef(null);
-  const handbookRef = useRef(null);
-  const discountRef = useRef(null);
-  const farmRef = useRef(null);
+  const governanceRef = useRef(null);
+  const yieldRef = useRef(null);
+  const ammRef = useRef(null);
 
   useEffect(() => {
     lottie.loadAnimation({
@@ -22,12 +24,30 @@ export default function GettingStarted() {
     });
 
     lottie.loadAnimation({
-      container: handbookRef.current,
-      name: "handbook",
+      container: governanceRef.current,
+      name: "governance",
       renderer: "svg",
       loop: false,
       autoplay: false,
-      animationData: HandbookAnimationData,
+      animationData: GovernanceAnimationData,
+    });
+
+    lottie.loadAnimation({
+      container: yieldRef.current,
+      name: "yield",
+      renderer: "svg",
+      loop: false,
+      autoplay: false,
+      animationData: YieldTokenizationAnimationData,
+    });
+
+    lottie.loadAnimation({
+      container: ammRef.current,
+      name: "amm",
+      renderer: "svg",
+      loop: false,
+      autoplay: false,
+      animationData: AMMAnimationData,
     });
 
     return () => {
@@ -49,34 +69,80 @@ export default function GettingStarted() {
 
   return (
     <div className={styles.root}>
-      <h2>Getting Started</h2>
+      <h2>Getting Started with the Protocol</h2>
       <div className={styles.featureContainer}>
-        <div
-          className={styles.leftFeatureCard}
-          onMouseEnter={() => {
-            play("intro");
-          }}
-          onMouseLeave={() => {
-            playReverse("intro");
-          }}
-        >
-          <Link className={styles.link} to="/Introduction">
-            Introduction to Pendle
-            <div className={styles.introLottie} ref={introRef} />
+      <div className={styles.leftFeatureCard}>
+          <Link to="/Introduction" className={styles.sibling}>
+            Overview
+          </Link>
+          <Link to="/Introduction" className={styles.subFeatures}>
+            <Link to="/Introduction" className={styles.indivFeature}>
+              <div
+                onMouseEnter={() => {
+                  play("intro");
+                }}
+                onMouseLeave={() => {
+                  playReverse("intro");
+                }}
+                className={styles.lottieWrapper}
+              >
+                <div className={styles.lottie} ref={introRef} />
+                <div className={styles.featureTitle}>
+                  Introduction
+                </div>
+              </div>
+            </Link>
+            <Link to="/ProtocolMechanics/Mechanisms/vePENDLE" className={styles.indivFeature}>
+              <div
+                onMouseEnter={() => {
+                  play("governance");
+                }}
+                onMouseLeave={() => {
+                  playReverse("governance");
+                }}
+                className={styles.lottieWrapper}
+              >
+                <div className={styles.lottie} ref={governanceRef} />
+                <div className={styles.featureTitle}>vePENDLE</div>
+              </div>
+            </Link>
           </Link>
         </div>
-        <div
-          className={styles.rightFeatureCard}
-          onMouseEnter={() => {
-            play("handbook");
-          }}
-          onMouseLeave={() => {
-            playReverse("handbook");
-          }}
-        >
-          <Link className={styles.link} to="https://handbook.pendle.finance/">
-            Yield Trading Handbook
-            <div className={styles.handbookLottie} ref={handbookRef} />
+        <div className={styles.rightFeatureCard}>
+          <Link to="/ProtocolMechanics/YieldTokenization/SY" className={styles.sibling}>
+            Protocol Mechanics
+          </Link>
+          <Link to="/ProtocolMechanics/YieldTokenization/SY" className={styles.subFeatures}>
+            <Link to="/ProtocolMechanics/YieldTokenization/SY" className={styles.indivFeature}>
+              <div
+                onMouseEnter={() => {
+                  play("yield");
+                }}
+                onMouseLeave={() => {
+                  playReverse("yield");
+                }}
+                className={styles.lottieWrapper}
+              >
+                <div className={styles.lottie} ref={yieldRef} />
+                <div className={styles.featureTitle}>
+                  Yield Tokenization
+                </div>
+              </div>
+            </Link>
+            <Link to="/ProtocolMechanics/AMM" className={styles.indivFeature}>
+              <div
+                onMouseEnter={() => {
+                  play("amm");
+                }}
+                onMouseLeave={() => {
+                  playReverse("amm");
+                }}
+                className={styles.lottieWrapper}
+              >
+                <div className={styles.lottie} ref={ammRef} />
+                <div className={styles.featureTitle}>Pendle AMM</div>
+              </div>
+            </Link>
           </Link>
         </div>
       </div>

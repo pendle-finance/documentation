@@ -16,7 +16,13 @@ Below is a high-level diagram of the vePENDLE system:
 
 ### VotingEscrowPendleBase
 
+This interface is common for all chains.
+
 ```sol
+// SPDX-License-Identifier: GPL-3.0-or-later
+pragma solidity 0.8.17;
+
+
 interface IPVeToken {
     // ============= USER INFO =============
 
@@ -51,8 +57,12 @@ interface IPVeToken {
 ### VotingEscrowPendleMainchain
 
 ```sol
+// SPDX-License-Identifier: GPL-3.0-or-later
+pragma solidity 0.8.17;
+
 import "./IPVeToken.sol";
 import "../LiquidityMining/libraries/VeHistoryLib.sol";
+
 
 interface IPVotingEscrowMainchain is IPVeToken {
     /// @notice Emit when a user's vePENDLE position changes, with `amount` and `expiry` representing
@@ -144,8 +154,12 @@ interface IPVotingEscrowMainchain is IPVeToken {
 ### VotingEscrowPendleSidechain
 
 ```sol
+// SPDX-License-Identifier: GPL-3.0-or-later
+pragma solidity 0.8.17;
+
 import "./IPVeToken.sol";
 import "../LiquidityMining/libraries/VeBalanceLib.sol";
+
 
 interface IPVotingEscrowSidechain is IPVeToken {
     /// @notice Emit when a new delegator is set for a user by governance.
@@ -172,7 +186,11 @@ interface IPVotingEscrowSidechain is IPVeToken {
 The VotingController only exists on Ethereum and broadcast results to the `GaugeControllers` on both Ethereum and other chains.
 
 ```sol
+// SPDX-License-Identifier: GPL-3.0-or-later
+pragma solidity 0.8.17;
+
 import "../LiquidityMining/libraries/VeBalanceLib.sol";
+
 
 interface IPVotingController {
     // ============= STRUCTS =============
@@ -335,10 +353,14 @@ The GaugeController doesn't offer write functions to regular users (except for a
 
 ### GaugeControllerBase
 
-This interface is applicable to both Mainchain and Sidechain.
+This interface is applicable to both the main deployment on Ethereum (which we simply term Mainchain) and the other protocol deployments on other chains (which we simply term Sidechain).
 
 ```sol
+// SPDX-License-Identifier: GPL-3.0-or-later
+pragma solidity 0.8.17;
+
 import "./IPMarketFactory.sol";
+
 
 interface IPGaugeController {
     // ============= EVENTS =============
@@ -405,7 +427,11 @@ interface IPGaugeController {
 ### GaugeControllerMainchain
 
 ```sol
+// SPDX-License-Identifier: GPL-3.0-or-later
+pragma solidity 0.8.17;
+
 import "./IPGaugeController.sol";
+
 
 interface IPGaugeControllerMainchain is IPGaugeController {
     function votingController() external view returns (address);
@@ -434,9 +460,13 @@ Sidechain updates reward data when it receives a cross-chain message from `Votin
 
 ## FeeDistributorV2
 
-The FeeDistributorV2 only exists on Ethereum, and all accrued fees from pools on other chains are bridged and distributed here.
+The FeeDistributorV2 exists only on Ethereum and all accrued fees from pools on other chains are bridged and distributed here.
 
 ```sol
+// SPDX-License-Identifier: GPL-3.0-or-later
+pragma solidity 0.8.17;
+
+
 interface IPFeeDistributorV2 {
     // ========================= STRUCT =========================
     struct UpdateProtocolStruct {
@@ -494,11 +524,11 @@ interface IPFeeDistributorV2 {
 
 ### Overview
 
-PendleGauge is where LPs stake their tokens and receive PENDLE rewards distributed by the GaugeController. To streamline the process and avoid unnecessary fees and system fragmentation, the PendleGauge is integrated into each PendleMarket, which means that all LPs are automatically staked and receive PENDLE rewards.
+PendleGauge is how LPs receive PENDLE rewards distributed by the GaugeController. To streamline the process and avoid unnecessary fees and system fragmentation, the PendleGauge is integrated into each PendleMarket, which means that all LPs automatically receive PENDLE rewards.
 
-### Rewards distribution
+### Rewards Distribution
 
-Please note that PendleMarket is paired between PrincipalToken (PT) and its corresponding StandardizedYieldToken (SY). PT does not generate any rewards, while SY generates rewards that must be distributed to LP holders (such as BAL/AURA of Aura pools and ETH of GLP pools). These rewards will be distributed together with PENDLE rewards from GaugeController.
+Please note that PendleMarket is paired between PrincipalToken (PT) and its corresponding StandardizedYieldToken (SY). PT does not generate any rewards, while SY generates rewards that must be distributed to LP holders (such as AURA/BAL of Aura pools and ETH of GLP pools). These rewards will be distributed together with PENDLE rewards from the GaugeController.
 
 Each user will have an `activeBalance` that indicates how many `shares` of rewards they will receive, with the `totalActiveBalance` being the total number of `shares`. A simple mental model is that every time some rewards accrue, they will be distributed to all outstanding shares. Over time, shareholders will be able to claim more rewards.
 
@@ -513,7 +543,8 @@ $$$
 $$$
 boostedBalance_u = 0.4lpBalance_u + 0.6totalLP \cdot \cfrac{vePendleValue^Y_u}{veTotalSupply^Y}
 $$$
-The `activeBalance` of an user will be updated whenever there is a transaction related to LP that affects the user. Examples of such transactions include minting, burning, transferring LP, or redeeming rewards from the LP. This has several implications: 
+
+The `activeBalance` of a user will be updated whenever there is a transaction related to LP that affects the user. Examples of such transactions include minting, burning, transferring LP, or redeeming rewards from the LP. This has several implications: 
 
 1. Boost transaction after providing liquidity: If a user increases their vePENDLE balance after providing liquidity, they will need to perform LP-related transactions for the Gauge to update their `activeBalance` if it has not already reached the maximum boost.. The most gas-efficient way to do this is for the user to call `LP.transfer(market.address, 0)`.
   
