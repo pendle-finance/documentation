@@ -5,16 +5,14 @@ hide_table_of_contents: true
 # BNB Chain
 
 :::info
-
 While interacting, please use the ABI of implementation contracts provided or generate ABI from the smart contract code in GitHub.
-
 :::
 
 ## Core Contracts
 
 |          Contract          |                                                        Address                                                         |                                                              ABI                                                              |
 | :------------------------: | :--------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------: |
-|           PENDLE           |  [`0xb3Ed0A426155B79B898849803E3B36552f7ED507`](https://bscscan.com/token/0xb3Ed0A426155B79B898849803E3B36552f7ED507)  | [ABI](http://api.bscscan.com/api?module=contract&action=getabi&address=0xb3Ed0A426155B79B898849803E3B36552f7ED507&format=raw) |
+|     PENDLE (Wormhole)      |  [`0xb3Ed0A426155B79B898849803E3B36552f7ED507`](https://bscscan.com/token/0xb3Ed0A426155B79B898849803E3B36552f7ED507)  | [ABI](http://api.bscscan.com/api?module=contract&action=getabi&address=0xb3Ed0A426155B79B898849803E3B36552f7ED507&format=raw) |
 |           Router           | [`0x00000000025EFaDc0b8d17d3d87aB5056e3D2510`](https://bscscan.com/address/0x00000000025EFaDc0b8d17d3d87aB5056e3D2510) | [ABI](http://api.bscscan.com/api?module=contract&action=getabi&address=0x00000000025EFaDc0b8d17d3d87aB5056e3D2510&format=raw) |  |
 |        RouterStatic        | [`0x2700ADB035F82a11899ce1D3f1BF8451c296eABb`](https://bscscan.com/address/0x2700ADB035F82a11899ce1D3f1BF8451c296eABb) | [ABI](http://api.bscscan.com/api?module=contract&action=getabi&address=0x2700ADB035F82a11899ce1D3f1BF8451c296eABb&format=raw) |  |
 | PendleYieldContractFactory | [`0xa2530b4cfBF271e2B409A05C2CE520e4cB5fCc88`](https://bscscan.com/address/0xa2530b4cfBF271e2B409A05C2CE520e4cB5fCc88) | [ABI](http://api.bscscan.com/api?module=contract&action=getabi&address=0xa2530b4cfBF271e2B409A05C2CE520e4cB5fCc88&format=raw) |

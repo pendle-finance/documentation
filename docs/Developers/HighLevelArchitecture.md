@@ -40,7 +40,7 @@ The following are true:
 | PT rETH-WETH_BalancerLP Aura | 1 liquidity of rETH-WETH pool  |
 |    PT PENDLE-ETH_Camelot     | 1 liquidity of PENDLE-ETH pool |
 
-At redemption, 1 PT = X SY, where $X$ satisfies the condition that $X$ SY = 1 Asset.
+At redemption, `1 PT = X SY`, where $X$ satisfies the condition that `X SY = 1 Asset`.
 
 ### Yield Token (YT)
 
