@@ -6,7 +6,9 @@ hide_table_of_contents: true
 
 ## Overview
 
-**Please note that this RouterStatic should not be used for fund-sensitive/on-chain transactions. If you or your team needs to use any functions on-chain, please let us know.** 
+:::info
+Please note that this RouterStatic should not be used for fund-sensitive/on-chain transactions. If you or your team needs to use any functions on-chain, please let us know.
+:::
 
 This docs assume you have read Pendle's [High Level Architecture](../HighLevelArchitecture.md).
 

@@ -96,12 +96,22 @@ There are two ways to derive the exchange rate between $PT$ and $Asset$ from our
 
 Compared to the first method, using a library reduce one external call from your contract to `PendlePtOracle`, making the implementation more gas saving.
 
+:::note
+We recommend using the contract library to get the PT price to save on gas, especially on Ethereum.
+:::
+
 As an example, here's how we calculate `PT-GLP` price in US dollar:
+
 ```sol
-function getPtPrice() external view virtual returns (uint256) {
-    uint256 ptRate = IPMarket(market).getPtToAssetRate(twapDuration);
-    uint256 assetPrice = IGlpManager(glpManager).getPrice(true);
-    return (assetPrice * ptRate) / (10 ** 30);
+// You can install npm package @pendle/core-v2 to directly import Pendle V2 contracts
+import "@pendle/core-v2/contracts/oracles/PendlePtOracleLib.sol";
+contract PendlePtGlpOracle {
+    //...
+    function getPtPrice() external view virtual returns (uint256) {
+        uint256 ptRate = IPMarket(market).getPtToAssetRate(twapDuration);
+        uint256 assetPrice = IGlpManager(glpManager).getPrice(true);
+        return (assetPrice * ptRate) / (10 ** 30);
+    }
 }
 ```
 
@@ -111,7 +121,8 @@ For implementation details, please refer to our sample contracts for `GLP` and `
 
 | Network  |                                                               Address                                                                |
 | :------: | :----------------------------------------------------------------------------------------------------------------------------------: |
-| Ethereum | [`0x414d3C8A26157085f286abE3BC6E1bb010733602`](https://etherscan.io/address/0x414d3C8A26157085f286abE3BC6E1bb010733602#readContract) |
-| Arbitrum | [`0x428f2f93afAc3F96B0DE59854038c585e06165C8`](https://arbiscan.io/address/0x428f2f93afAc3F96B0DE59854038c585e06165C8#readContract)  |
+| Ethereum | [`0x14030836AEc15B2ad48bB097bd57032559339c92`](https://etherscan.io/address/0x14030836AEc15B2ad48bB097bd57032559339c92#readContract) |
+| Arbitrum | [`0x1f6Cee6740e1492C279532348137FF40E0f23D05`](https://arbiscan.io/address/0x1f6Cee6740e1492C279532348137FF40E0f23D05#readContract)  |
+| BNBChain | [`0xA48A88EbF6683324bAf17aEB51A6d89294D4bedc`](https://bscscan.com/address/0xA48A88EbF6683324bAf17aEB51A6d89294D4bedc#readContract)  |
 
 The PT-GLP oracle has also been deployed [here](https://arbiscan.io/address/0x43D03031FAb845065e9CEfE89Dd122d63F72011F#code).

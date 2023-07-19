@@ -34,11 +34,16 @@ We have implemented the library for fetching oracle exchange rate of LP/underlyi
 
 We have also prepared a sample LP oracle for the GLP market in Pendle, in which the LP pricing to USD is as simple as:
 ```sol
+// You can install npm package @pendle/core-v2 to directly import Pendle V2 contracts
+import "@pendle/core-v2/contracts/oracles/PendleLpOracleLib.sol";
+contract PendleLpGlpOracle {
+    //...
     function getLpPrice() external view virtual returns (uint256) {
         uint256 lpRate = IPMarket(market).getLpToAssetRate(twapDuration);
         uint256 assetPrice = IGlpManager(glpManager).getPrice(true);
         return (assetPrice * lpRate) / (10 ** 30);
     }
+}
 ```
 
 The full implementation of this LP-GLP oracle has been deployed [here](https://arbiscan.io/address/0x67E64AF30E04A7277ab2D4f09ACE3F77a15801F9#code).
