@@ -19,7 +19,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |        RouterStatic        | [`0x2700ADB035F82a11899ce1D3f1BF8451c296eABb`](https://bscscan.com/address/0x2700ADB035F82a11899ce1D3f1BF8451c296eABb) | [ABI](http://api.bscscan.com/api?module=contract&action=getabi&address=0x2700ADB035F82a11899ce1D3f1BF8451c296eABb&format=raw) |  |
 | PendleYieldContractFactory | [`0xa2530b4cfBF271e2B409A05C2CE520e4cB5fCc88`](https://bscscan.com/address/0xa2530b4cfBF271e2B409A05C2CE520e4cB5fCc88) | [ABI](http://api.bscscan.com/api?module=contract&action=getabi&address=0xa2530b4cfBF271e2B409A05C2CE520e4cB5fCc88&format=raw) |
 |       MarketFactory        | [`0x2bEa6BfD8fbFF45aA2a893EB3B6d85D10EFcC70E`](https://bscscan.com/address/0x2bEa6BfD8fbFF45aA2a893EB3B6d85D10EFcC70E) | [ABI](http://api.bscscan.com/api?module=contract&action=getabi&address=0x2bEa6BfD8fbFF45aA2a893EB3B6d85D10EFcC70E&format=raw) |
-|         PT Oracle          | [`0x4d717868F4Bd14ac8B29Bb6361901e30Ae05e340`](https://bscscan.com/address/0x4d717868F4Bd14ac8B29Bb6361901e30Ae05e340) | [ABI](http://api.bscscan.com/api?module=contract&action=getabi&address=0x4d717868F4Bd14ac8B29Bb6361901e30Ae05e340&format=raw) |
+|         PT Oracle          | [`0xA48A88EbF6683324bAf17aEB51A6d89294D4bedc`](https://bscscan.com/address/0xA48A88EbF6683324bAf17aEB51A6d89294D4bedc) | [ABI](http://api.bscscan.com/api?module=contract&action=getabi&address=0xA48A88EbF6683324bAf17aEB51A6d89294D4bedc&format=raw) |
 
 ## SY Tokens
 |      Contract       |                                                        Address                                                         |                                                              ABI                                                              |
