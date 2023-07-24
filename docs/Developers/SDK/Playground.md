@@ -62,7 +62,7 @@ import { providers } from 'ethers';
 export const provider = new providers.StaticJsonRpcProvider();
 ```
 
-## Test a=Accounts
+## Test Accounts
 
 Default mnemonics used by Hardhat to generate accounts with 1000 ETH.
 
