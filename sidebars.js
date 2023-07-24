@@ -119,10 +119,7 @@ module.exports = {
           label: "SDK",
           items: [
             { type: "doc", id: "Developers/SDK/GettingStarted" },
-            { type: "doc", id: "Developers/SDK/Playground" },
-            { type: "doc", id: "Developers/SDK/ERC20Interaction" },
             { type: "doc", id: "Developers/SDK/WrappedContract" },
-            { type: "doc", id: "Developers/SDK/MarketEntity" },
             { type: "doc", id: "Developers/SDK/Router" },
             { type: "doc", id: "Developers/SDK/AddingAndRemovingLiquidity" },
             { type: "doc", id: "Developers/SDK/PTAndYTTrading" },
