@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 # PT as Collateral in a Money Market
 
-PT tokens are good collaterals in a money market since it is a fixed rate position (or a zero coupon bond) on an asset. This document discusses the use cases for PT as a collateral, as well as considerations for a money market when integrating PT as a collateral.
+PTs are good collaterals in a money market since it is a fixed rate position (or a zero coupon bond) on an asset. This document discusses the use cases for PT as a collateral, as well as considerations for a money market when integrating PT as a collateral.
 
 ## Main Use Cases
 

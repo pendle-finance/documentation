@@ -52,7 +52,7 @@ vePENDLE is Pendle’s governance system.
 
 Lock PENDLE for vePENDLE. The greater the lock duration, the greater your vePENDLE value. Your vePENDLE value decays over time, but your lock duration can be extended to negate the decay.
 
-Use vePENDLE to channel PENDLE incentives. Vote for your desired pool to incentivise liquidity. The more vePENDLE you have, the more voting power you hold. Voting for a pool entitles the you to 80% of the swap fees collected by the pool. This APY is shown in the "Voter APY" prior to casting your vote.
+Use vePENDLE to channel PENDLE incentives. Vote for your desired pool to incentivize liquidity. The more vePENDLE you have, the more voting power you hold. Voting for a pool entitles the you to 80% of the swap fees collected by the pool. This APY is shown in the "Voter APY" prior to casting your vote.
 
 vePENDLE holders also receive a portion of protocol revenue, earned from swap fees and YT fees.
 

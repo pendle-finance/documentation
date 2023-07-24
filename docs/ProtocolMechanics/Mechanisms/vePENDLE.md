@@ -10,7 +10,7 @@ vePENDLE also serves as an additional sink for reducing the supply of PENDLE tok
 
 ## Getting vePENDLE
 
-Lock PENDLE and receive vePENDLE. Your vePENDLE value is proportional to the amount and duration staked (up to a maximum of 2 years). Tutorial [here](./Guides/Lock). Each wallet is associated with a single vePENDLE expiry date.
+Lock PENDLE and receive vePENDLE. Your vePENDLE value is proportional to the amount and duration staked (up to a maximum of 2 years). Tutorial [here](./Guides/Lock.md). Each wallet is associated with a single vePENDLE expiry date.
 
 Your vePENDLE value will decay over time, and reaches zero once the lock duration is over. Your staked PENDLE will then be unlocked.
 
@@ -38,7 +38,7 @@ A portion of yield from matured unredeemed PTs will be distributed pro rata to v
 
 For example, matured PT-aUSDC is equivalent to aUSDC. If left unredeemed, all of its yield will be converted to a stablecoin and collected by the protocol as protocol revenue, and distributed to vePENDLE holders. 
 
-All of these rewards will be converted to USDC regardless of where your vePENDLE is being held and distributed periodically by a disbursement contract.
+All of these rewards will be converted to ETH regardless of where your vePENDLE is being held and distributed periodically by a disbursement contract.
 
 ## vePENDLE APY
 
@@ -66,7 +66,7 @@ Although your vePENDLE value decays over time, your LP boost rate is calculated 
 
 To receive boosted rewards, you should lock your PENDLE into vePENDLE first before LPing.
 
-If you are already LPing and want to boost your rewards with vePENDLE, you have to manually [apply the boost](./Guides/ApplyBoost) after voting for the pool.
+If you are already LPing and want to boost your rewards with vePENDLE, you have to manually [apply the boost](./Guides/ApplyBoost.md) after voting for the pool.
 
 For cross-chain reward boosts (e.g. boosting LP positions on Arbitrum), you will first need to to synchronize your vePENDLE balance from Ethereum before the boost can be applied.
 

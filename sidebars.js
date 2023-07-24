@@ -3,7 +3,6 @@ module.exports = {
     {
       type: "doc",
       id: "Home",
-      label: "Home",
     },
     {
       type: "doc",
@@ -13,7 +12,6 @@ module.exports = {
     {
       type: "doc",
       id: "FAQ",
-      label: "FAQ",
     },
     {
       type: "category",
@@ -120,14 +118,33 @@ module.exports = {
           type: "category",
           label: "SDK",
           items: [
-            { type: "doc", id: "Developers/ComingSoon" },
-            // { type: "doc", id: "Developers/SDK/GettingStarted" },
-            // { type: "doc", id: "Developers/SDK/Example-Pricing" },
-            // { type: "doc", id: "Developers/SDK/Example-YieldTrading" },
-            // { type: "doc", id: "Developers/SDK/OtherPages" },
+            { type: "doc", id: "Developers/SDK/GettingStarted" },
+            { type: "doc", id: "Developers/SDK/Playground" },
+            { type: "doc", id: "Developers/SDK/ERC20Interaction" },
+            { type: "doc", id: "Developers/SDK/WrappedContract" },
+            { type: "doc", id: "Developers/SDK/MarketEntity" },
+            { type: "doc", id: "Developers/SDK/Router" },
+            { type: "doc", id: "Developers/SDK/AddingAndRemovingLiquidity" },
+            { type: "doc", id: "Developers/SDK/PTAndYTTrading" },
+            { type: "doc", id: "Developers/SDK/AdvancedSDKOps" },
+            { type: "doc", id: "Developers/SDK/Multicall" },
+            { type: "doc", id: "Developers/SDK/ErrorHandling" },
+            { type: "doc", id: "Developers/SDK/TypesAndFunctions" },
+            { type: "doc", id: "Developers/SDK/ArbitraryTokens" },
+          ],
+        },
+        {
+          type: "category",
+          label: "API",
+          items: [
+            { type: "doc", id: "Developers/API/RESTfulAPI" },
           ],
         },
       ],
+    },
+    {
+      type: "doc",
+      id: "Security",
     },
     {
       type: "link",
