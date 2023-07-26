@@ -6,11 +6,77 @@ hide_table_of_contents: true
 
 ## Overview
 
-You can run a playground to play with the Pendle SDK by forking the [pendle-sdk-core-v2-docs](https://github.com/pendle-finance/pendle-sdk-core-v2-docs) repo. It is written in TypeScript and can be executed to get the output! But running in the real network is not cheap. To generate the outputs, we ran the examples in this documentation in a local fork.
+You can run a playground to play with the Pendle SDK by forking and cloning the [pendle-sdk-core-v2-public](https://github.com/pendle-finance/pendle-sdk-core-v2-public) repo.
 
-This module provides the environment for the SDK, including the network provider of the local fork, the test accounts with prefilled balance of some tokens, and some other functionalities.
+## Dependencies Installation
 
-## Readable `BigNumber` value when printing
+After cloning to your local machine, to install the dependencies, do:
+
+```console
+npm install
+```
+
+## Configuration
+
+### `.env` file
+
+This file can be used to specify:
+- The chain ID
+- Block number to fork from (for deterministic result)
+
+The `.env` values are also type checked. Check `./load-env.ts` to see the schema.
+
+### `rpc-url.ts`
+
+The RPC URL of the the supported chains by Pendle SDK can be specified here. By default, this file contains the public RPCs.
+
+### `hardhat.config.ts`
+
+The configuration for `hardhat`. Please refer to https://hardhat.org/hardhat-runner/docs/config.
+
+## Usage
+
+Code should be written in `src/index.ts` only to test things out.
+
+## Running
+
+Please start **2 terminals**.
+
+The first one will run a local fork of a network with the chain ID specified in `.env`.:
+
+```console
+npm run local-fork
+```
+
+The second console can be used to run the script with the following command:
+
+```console
+npm start
+```
+
+The script will save a snapshot of the fork and it will automatically restore after the script is done.
+
+## Features
+
+Please refer to `booststrap.ts` for full list of useful functions. In this file, you are able to find:
+- `impersonateAccount` for account impersonation;
+- Human-readable ethers.js `BigNumber` when printing to console;
+- Automatically revert after running;
+- Test accounts with filled balances;
+
+## Other things to note
+
+### Bug Reporting
+
+For bug reports, Please indicate the exact SDK version for easier debugging.
+
+### Block number and aggregator helper
+
+When using Pendle SDK router, please do not fix the block number. This is because the aggregator works independently from the local forked network.
+
+It is recommended to use `Router.getRouter` if an aggregator (KyberSwap) is not required in the event that you need to affix a specific block number such that operations everything can be deterministic.
+
+### Readable `BigNumber` value when printing
 
 Pendle SDK is built on top of `Ethers.js` v5 library, and it uses `BigNumber` to do calculation with high precision integers. But its output is not readable for us.
 
