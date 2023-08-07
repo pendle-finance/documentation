@@ -8,7 +8,7 @@ hide_table_of_contents: true
 To understand how Pendle works on the contract level, you can:
 - Start with Pendle's [High Level Architecture](./HighLevelArchitecture.md) for an overview of the components in Pendle protocol.
 - Refer to [this](./Contracts/vePENDLE.md) to understand the components and cross-chain mechanisms of vePENDLE
-- Refer to the docs about [PendleRouter](./Contracts/PendleRouter.md) and [PendleRouterStatic](./Contracts/PendleRouterStatic.md) to understand how to interact with the protocol on the contract level.
+- Refer to the docs about [PendleRouter](./Contracts/PendleRouter.md) and [PendleRouterStatic](./Contracts/PendleRouterStatic.md) to understand how to perform actions on the protocol on the contract level.
 - Refer to the repository for Pendle V2 contracts: [GitHub link](https://github.com/pendle-finance/pendle-core-v2-public/)
 
 To understand the deeper mechanics and formulas involved in the Pendle protocol, you can refer to the 4 whitepapers at [this link](https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers):
