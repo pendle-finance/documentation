@@ -1,0 +1,14 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.2
+
+jobs:
+  deploy:
+    executor: gh-pages/default
+    steps:
+      - checkout
+      - node/install-packages:
+        pkg-manager: yarn
+      - run: |
+          yarn build

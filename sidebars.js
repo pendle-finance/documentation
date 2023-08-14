@@ -100,6 +100,7 @@ module.exports = {
           items: [
             { type: "doc", id: "Developers/Deployments/Ethereum" },
             { type: "doc", id: "Developers/Deployments/Arbitrum" },
+            { type: "doc", id: "Developers/Deployments/Optimism" },
             { type: "doc", id: "Developers/Deployments/BNBChain" },
           ],
         },
