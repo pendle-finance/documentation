@@ -60,11 +60,11 @@ export default function AboutTheProtocol() {
       <h2>For the Developers</h2>
       <div className={styles.featureContainer}>
         <div className={styles.leftFeatureCard}>
-          <Link to="/Developers/HighLevelArchitecture" className={styles.sibling}>
+          <Link to="/Developers/Overview" className={styles.sibling}>
             Integration
           </Link>
-          <Link to="/Developers/HighLevelArchitecture" className={styles.subFeatures}>
-            <Link to="/Developers/HighLevelArchitecture" className={styles.indivFeature}>
+          <Link to="/Developers/Overview" className={styles.subFeatures}>
+            <Link to="/Developers/Overview" className={styles.indivFeature}>
               <div
                 onMouseEnter={() => {
                   play("architecture");
@@ -76,7 +76,7 @@ export default function AboutTheProtocol() {
               >
                 <div className={styles.lottie} ref={architectureRef} />
                 <div className={styles.featureTitle}>
-                  High Level Architecture
+                  Developer Overview
                 </div>
               </div>
             </Link>

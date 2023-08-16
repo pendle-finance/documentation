@@ -12,7 +12,8 @@ const config = {
   onBrokenMarkdownLinks: 'ignore',
   favicon: 'img/favicon.ico',
   organizationName: 'pendle-finance', // Usually your GitHub org/user name.
-  projectName: 'pendle-core', // Usually your repo name.
+  projectName: 'documentation', // Usually your repo name.
+  deploymentBranch: 'gh-pages',
 
   presets: [
     [
