@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.2
+  gh-pages: sugarshin/gh-pages@1.0.1
 
 jobs:
   deploy:
@@ -9,6 +10,13 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-        pkg-manager: yarn
+          pkg-manager: yarn
       - run: |
           yarn build
+      - gh-pages/deploy:
+          build-dir: ./build
+
+workflows:
+  Publish to Github Pages:
+      jobs:
+        - deploy
