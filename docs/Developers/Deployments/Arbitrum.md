@@ -33,6 +33,8 @@ While interacting, please use the ABI of implementation contracts provided or ge
 | SY-Camelot-GRAIL-ARB  | [`0xdd4C7313Fe4C92e043B9B7dFE433e239BcD05A0D`](https://arbiscan.io/address/0xdd4C7313Fe4C92e043B9B7dFE433e239BcD05A0D) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xdd4C7313Fe4C92e043B9B7dFE433e239BcD05A0D&format=raw) |
 |       SY-wstETH       | [`0x80c12D5b6Cc494632Bf11b03F09436c8B61Cc5Df`](https://arbiscan.io/address/0x80c12D5b6Cc494632Bf11b03F09436c8B61Cc5Df) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x80c12D5b6Cc494632Bf11b03F09436c8B61Cc5Df&format=raw) |
 |        SY-rETH        | [`0xc0Cf4b266bE5B3229C49590B59E67A09c15b22f4`](https://arbiscan.io/address/0xc0Cf4b266bE5B3229C49590B59E67A09c15b22f4) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xc0Cf4b266bE5B3229C49590B59E67A09c15b22f4&format=raw) |
+|        SY-HLP        | [`0xF18011766Cf11D905e93ed5626838d44c7FA14B7`](https://arbiscan.io/address/0xF18011766Cf11D905e93ed5626838d44c7FA14B7) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xF18011766Cf11D905e93ed5626838d44c7FA14B7&format=raw) |
+|        SY-mPENDLE        | [`0x5C4110eD760470f79E469a901Bd6fb45a65BE0F4`](https://arbiscan.io/address/0x5C4110eD760470f79E469a901Bd6fb45a65BE0F4) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x5C4110eD760470f79E469a901Bd6fb45a65BE0F4&format=raw) |
 
 ## Yield Tokens (YT)
 
@@ -48,6 +50,8 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |       YT-wstETH-27JUN24       | [`0x0052B6096f8c1DCBEfB9ba381EB6b67479b5c56b`](https://arbiscan.io/address/0x0052B6096f8c1DCBEfB9ba381EB6b67479b5c56b) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x0052B6096f8c1DCBEfB9ba381EB6b67479b5c56b&format=raw) |
 |       YT-wstETH-28DEC23       | [`0x722a6031d5976fc61fA952A02160406960969927`](https://arbiscan.io/address/0x722a6031d5976fc61fA952A02160406960969927) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x722a6031d5976fc61fA952A02160406960969927&format=raw) |
 |        YT-rETH-26JUN25        | [`0xe822AE44EB2466B4E263b1cbC94b4833dDEf9700`](https://arbiscan.io/address/0xe822AE44EB2466B4E263b1cbC94b4833dDEf9700) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xe822AE44EB2466B4E263b1cbC94b4833dDEf9700&format=raw) |
+|        YT-HLP-27JUN24        | [`0x9D090Ef4Aafd0ACB821113a7689d5794e50bD047`](https://arbiscan.io/address/0x9D090Ef4Aafd0ACB821113a7689d5794e50bD047) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x9D090Ef4Aafd0ACB821113a7689d5794e50bD047&format=raw) |
+|        YT-mPENDLE-26SEP24        | [`0x9DbD1fC6D2731ebD42a5E5B8e268bFA7C68980Ae`](https://arbiscan.io/address/0x9DbD1fC6D2731ebD42a5E5B8e268bFA7C68980Ae) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x9DbD1fC6D2731ebD42a5E5B8e268bFA7C68980Ae&format=raw) |
 
 ## Principal Tokens (PT)
 
@@ -63,6 +67,8 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |       PT-wstETH-27JUN24       | [`0x9741CAc1a22Ff3615FA074fD0B439975a5E137e9`](https://arbiscan.io/address/0x9741CAc1a22Ff3615FA074fD0B439975a5E137e9) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x9741CAc1a22Ff3615FA074fD0B439975a5E137e9&format=raw) |
 |       PT-wstETH-28DEC23       | [`0xBB33e51bdC598D710FF59FdF523E80ab7c882C83`](https://arbiscan.io/address/0xBB33e51bdC598D710FF59FdF523E80ab7c882C83) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xBB33e51bdC598D710FF59FdF523E80ab7c882C83&format=raw) |
 |        PT-rETH-26JUN25        | [`0x685155D3BD593508Fe32Be39729810A591ED9c87`](https://arbiscan.io/address/0x685155D3BD593508Fe32Be39729810A591ED9c87) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x685155D3BD593508Fe32Be39729810A591ED9c87&format=raw) |
+|        PT-HLP-27JUN25        | [`0xC595c9c28D78bb347C8177dFbB820484e2D99A66`](https://arbiscan.io/address/0xC595c9c28D78bb347C8177dFbB820484e2D99A66) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xC595c9c28D78bb347C8177dFbB820484e2D99A66&format=raw) |
+|        PT-mPENDLE-26SEP24        | [`0xaD22fCA714559Da1Eb25FB24443B0446B54246Fc`](https://arbiscan.io/address/0xaD22fCA714559Da1Eb25FB24443B0446B54246Fc) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xaD22fCA714559Da1Eb25FB24443B0446B54246Fc&format=raw) |
 
 
 ## Markets
@@ -79,3 +85,5 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |             PT-wstETH-27JUN24/SY-wstETH Market             | [`0xFd8AeE8FCC10aac1897F8D5271d112810C79e022`](https://arbiscan.io/address/0xFd8AeE8FCC10aac1897F8D5271d112810C79e022) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xFd8AeE8FCC10aac1897F8D5271d112810C79e022&format=raw) |
 |             PT-wstETH-28DEC23/SY-wstETH Market             | [`0xC8fD1F1E059d97ec71AE566DD6ca788DC92f36AF`](https://arbiscan.io/address/0xC8fD1F1E059d97ec71AE566DD6ca788DC92f36AF) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xC8fD1F1E059d97ec71AE566DD6ca788DC92f36AF&format=raw) |
 |               PT-rETH-26JUN25/SY-rETH Market               | [`0x14FbC760eFaF36781cB0eb3Cb255aD976117B9Bd`](https://arbiscan.io/address/0x14FbC760eFaF36781cB0eb3Cb255aD976117B9Bd) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x14FbC760eFaF36781cB0eb3Cb255aD976117B9Bd&format=raw) |
+|               PT-HLP-27JUN25/SY-HLP Market               | [`0x0F249f735647992572eEa231fc24b35F7B6b34e1`](https://arbiscan.io/address/0x0F249f735647992572eEa231fc24b35F7B6b34e1) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x0F249f735647992572eEa231fc24b35F7B6b34e1&format=raw) |
+|               PT-mPENDLE-26SEP24/SY-mPENDLE Market               | [`0xf617792eA9Dceb2208F4C440258B21d2f3FdB9A3`](https://arbiscan.io/address/0xf617792eA9Dceb2208F4C440258B21d2f3FdB9A3) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xf617792eA9Dceb2208F4C440258B21d2f3FdB9A3&format=raw) |
