@@ -1,11 +1,13 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@5.0.2
+  node: circleci/node@5.1.0
   gh-pages: sugarshin/gh-pages@1.0.1
 
 jobs:
   deploy:
+    docker:
+      - image: circleci/node:20.7.0
     executor: gh-pages/default
     steps:
       - checkout
