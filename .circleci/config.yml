@@ -17,6 +17,7 @@ jobs:
           yarn build
       - gh-pages/deploy:
           build-dir: ./build
+          ssh-fingerprints: SHA256:D5Ow89cm4P2uuwSd2+PTFjkvKYLdsm5deVH32FHllhw anton@pendle.finance
 
 workflows:
   Publish to Github Pages:
