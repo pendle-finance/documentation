@@ -1,0 +1,22 @@
+language: node_js
+
+dist: focal
+
+node_js:
+  - "lts/*"
+
+cache:
+  directories:
+  - node_modules
+
+script:
+  - yarn build
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  local_dir: build
+  target_branch: gh-pages
+  on:
+    branch: master
