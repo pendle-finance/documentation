@@ -7,7 +7,7 @@ orbs:
 jobs:
   deploy:
     docker:
-      - image: circleci/node:20.7.0
+      - image: cimg/node:20.7.0
     executor: gh-pages/default
     steps:
       - checkout
