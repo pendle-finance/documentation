@@ -69,6 +69,8 @@ module.exports = {
                 { type: "doc", id: "AppGuide/Trade/Guides/Swap" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Pool" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Claim" },
+                { type: "doc", id: "AppGuide/Trade/Guides/Dashboard" },
+                { type: "doc", id: "AppGuide/Trade/Guides/Leaderboard" },
               ],
             },
             { type: "doc", id: "AppGuide/Trade/Calculator" },
