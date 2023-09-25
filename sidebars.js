@@ -77,6 +77,7 @@ module.exports = {
             { type: "doc", id: "AppGuide/Trade/Pools" },
           ],
         },
+        { type: "doc", id: "AppGuide/Campaigns" },
         { type: "doc", id: "AppGuide/CreatingNewPools" },
       ],
     },

@@ -22,6 +22,17 @@ Provide liquidity in our trading pools and earn yield in return.
 5. Control your slippage tolerance with the Gear icon in the top right
 6. Approve the transaction and Zap In! 
 
+## Zapping In to LP
+
+When liquidity is zapped in, a portion of the underlying asset is used to purchase PT from the PT/SY pool, and the rest is wrapped into SY:
+
+1. Your assets are converted to the required assets and wrapped into SY
+2. Some of the SY are minted into PT and YT
+3. Minted YTs are sold into PT
+4. PTs are paired with SY to provide liquidity
+
+The selling of YT in the 3rd step above can cause a price impact. But, this can be avoided by toggling **Zero Price Impact Mode** (see below).
+
 ### Zero Price Impact Zap
 
 On Pendle, users have the option to activate **Zero Price Impact Mode**, which allows them to provide liquidity to the PT/SY pool without affecting the price. Normally, when liquidity is added, a portion of the underlying asset is used to purchase PT from the PT/SY pool, and the rest is wrapped into SY. However, this purchase of PT can cause a price impact.
