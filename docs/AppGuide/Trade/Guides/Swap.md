@@ -4,12 +4,57 @@ hide_table_of_contents: true
 
 # Swap
 
-## Trade between PT, YT and the underlying yield-bearing token.
+## Getting Fixed Yield with PT
 
-1. Go to [Markets](https://app.pendle.finance/pro/markets/)
-2. Select your desired asset and maturity 
-3. Switch to the swap tab 
-4. Choose your input asset and output asset
-5. Enter the transaction volume
-6. Control your slippage tolerance with the Gear icon in the top right
-7. Approve the transaction and Swap! 
+1. Go to [Markets](https://app.pendle.finance/pro/markets/).
+
+!["PT Swaps 1"](/img/AppGuide/pt-swaps-1.png)
+
+2. Select your desired asset by clicking on the PT bar.
+
+!["PT Swaps 2"](/img/AppGuide/pt-swaps-2.png)
+
+3. Make sure you’re on the “Swap” tab, then choose your input asset.
+
+!["PT Swaps 3"](/img/AppGuide/pt-swaps-3.png)
+
+4. Enter the transaction volume. You can control your slippage tolerance with the gear icon in the top right corner.
+
+!["PT Swaps 4"](/img/AppGuide/pt-swaps-4.png)
+
+5. Review the output information.
+  * Rate: The exchange rate between the input and output token
+  * Min. Received: The minimum amount of tokens that the user will received
+  * Effective Fixed APY: The fixed APY that you are effectively getting from this trade, after taking into account price impact and swap fees. This is equivalent to the final execution price/average price of acquisition for PT.
+
+!["PT Swaps 5"](/img/AppGuide/pt-swaps-5.png)
+
+6. Once you’re ready, approve the transaction and Swap!
+
+## Boosting your yield exposure with YT
+
+1. Go to [Markets](https://app.pendle.finance/pro/markets/).
+
+!["YT Swaps 1"](/img/AppGuide/yt-swaps-1.png)
+
+2. Select your desired asset by clicking on the YT bar.
+
+!["YT Swaps 2"](/img/AppGuide/yt-swaps-2.png)
+
+3. Make sure you’re on the “Swap” tab, then choose your input asset.
+
+!["YT Swaps 3"](/img/AppGuide/yt-swaps-3.png)
+
+4. Enter the transaction volume. You can control your slippage tolerance with the gear icon in the top right corner.
+
+!["YT Swaps 4"](/img/AppGuide/yt-swaps-4.png)
+
+5. Review the output information.
+  * Rate: The exchange rate between the input and output token
+  * Notional value traded: The amount of underlying asset needed to generate the trade. This can also be treated as the amount of yield exposure (i.e. YT generates yield from $122,366 worth of DAI deposit).
+  * Min. Received: The minimum amount of tokens that the user will received
+  * Effective Fixed APY: The fixed APY that you are effectively getting from this trade, after taking into account price impact and swap fees. This is equivalent to the final execution price/average price of acquisition for YT.
+
+!["YT Swaps 5"](/img/AppGuide/yt-swaps-5.png)
+
+6. Once you’re ready, approve the transaction and Swap!

@@ -22,4 +22,7 @@ jobs:
 workflows:
   Publish to Github Pages:
       jobs:
-        - deploy
+        - deploy:
+            filters:
+              branches:
+                only: master
