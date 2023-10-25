@@ -43,6 +43,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |              SY-eUSD              | [`0x7e16e4253CE4a1C96422a9567B23b4b5Ebc207F1`](https://etherscan.io/address/0x7e16e4253CE4a1C96422a9567B23b4b5Ebc207F1) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x7e16e4253CE4a1C96422a9567B23b4b5Ebc207F1&format=raw) |
 |              SY-ETHx              | [`0xcb166f0148Ae815313039d735E28FCeC617B21Fe`](https://etherscan.io/address/0xcb166f0148Ae815313039d735E28FCeC617B21Fe) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xcb166f0148Ae815313039d735E28FCeC617B21Fe&format=raw) |
 |          SY-Silo-crvUSD           | [`0xE05082B184a34668CD8A904D85FA815802BBb04c`](https://etherscan.io/address/0xE05082B184a34668CD8A904D85FA815802BBb04c) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xE05082B184a34668CD8A904D85FA815802BBb04c&format=raw) |
+|          SY-sFRAX           | [`0xb359F0A97Ca269Ae5574dc75be48b0e81eFD1dA2`](https://etherscan.io/address/0xb359F0A97Ca269Ae5574dc75be48b0e81eFD1dA2) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xb359F0A97Ca269Ae5574dc75be48b0e81eFD1dA2&format=raw) |
 
 ## Yield Tokens (YT)
 
@@ -72,6 +73,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |              YT-eUSD-26DEC24              | [`0x82cC3DA7D315C47557147f44984C3E805C34789c`](https://etherscan.io/address/0x82cC3DA7D315C47557147f44984C3E805C34789c) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x82cC3DA7D315C47557147f44984C3E805C34789c&format=raw) |
 |              YT-ETHx-26DEC24              | [`0x025417aF44EBe9521b80187514e92F6093dE78bE`](https://etherscan.io/address/0x025417aF44EBe9521b80187514e92F6093dE78bE) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x025417aF44EBe9521b80187514e92F6093dE78bE&format=raw) |
 |          YT-Silo-crvUSD-28MAR24           | [`0xED97f94dd94255637A054098604E0201C442a3FD`](https://etherscan.io/address/0xED97f94dd94255637A054098604E0201C442a3FD) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xED97f94dd94255637A054098604E0201C442a3FD&format=raw) |
+|          YT-sFRAX-28MAR24           | [`0xDe364a895D4EC08c05A34F6883A8E41C15619Ed8`](https://etherscan.io/address/0xDe364a895D4EC08c05A34F6883A8E41C15619Ed8) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xDe364a895D4EC08c05A34F6883A8E41C15619Ed8&format=raw) |
 
 ## Principle Tokens (PT)
 
@@ -101,6 +103,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |              PT-eUSD-26DEC24              | [`0x6B44fC15953fb65be99b1d32E25cFAA9362c8173`](https://etherscan.io/address/0x6B44fC15953fb65be99b1d32E25cFAA9362c8173) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x6B44fC15953fb65be99b1d32E25cFAA9362c8173&format=raw) |
 |              PT-ETHx-26DEC24              | [`0x0F44751f3555133eFd972e2B580941c3e5577b6b`](https://etherscan.io/address/0x0F44751f3555133eFd972e2B580941c3e5577b6b) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x0F44751f3555133eFd972e2B580941c3e5577b6b&format=raw) |
 |          PT-Silo-crvUSD-28MAR24           | [`0xB87511364014C088e30f872EfC4a00D7efB843AC`](https://etherscan.io/address/0xB87511364014C088e30f872EfC4a00D7efB843AC) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xB87511364014C088e30f872EfC4a00D7efB843AC&format=raw) |
+|          PT-sFRAX-28MAR24           | [`0xBF44fbCc181e297E1532B72c6ca500fe150C5b9E`](https://etherscan.io/address/0xBF44fbCc181e297E1532B72c6ca500fe150C5b9E) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xBF44fbCc181e297E1532B72c6ca500fe150C5b9E&format=raw) |
 
 
 ## Markets
@@ -130,3 +133,4 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |                           PT-OETH-26DEC24/SY-OETH Market                           | [`0x62187066FD9C24559ffB54B0495a304ADe26d50B`](https://etherscan.io/address/0x62187066FD9C24559ffB54B0495a304ADe26d50B) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x62187066FD9C24559ffB54B0495a304ADe26d50B&format=raw) |
 |                           PT-ETHx-26DEC24/SY-ETHx Market                           | [`0xFf262396f2A35Cd7Aa24b7255E7d3f45f057Cdba`](https://etherscan.io/address/0xFf262396f2A35Cd7Aa24b7255E7d3f45f057Cdba) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xFf262396f2A35Cd7Aa24b7255E7d3f45f057Cdba&format=raw) |
 |                    PT-Silo-crvUSD-28MAR24/SY-Silo-crvUSD Market                    | [`0xC9beCdbC62efb867cB52222b34c187fB170379C6`](https://etherscan.io/address/0xC9beCdbC62efb867cB52222b34c187fB170379C6) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xC9beCdbC62efb867cB52222b34c187fB170379C6&format=raw) |
+|                    PT-sFRAX-28MAR24/SY-sFRAX Market                    | [`0x1806855b73881eD4E435c97C6Da58b01Be5D7390`](https://etherscan.io/address/0x1806855b73881eD4E435c97C6Da58b01Be5D7390) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x1806855b73881eD4E435c97C6Da58b01Be5D7390&format=raw) |
