@@ -36,6 +36,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |              SY-HLP               | [`0xF18011766Cf11D905e93ed5626838d44c7FA14B7`](https://arbiscan.io/address/0xF18011766Cf11D905e93ed5626838d44c7FA14B7) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xF18011766Cf11D905e93ed5626838d44c7FA14B7&format=raw) |
 |            SY-mPENDLE             | [`0x5C4110eD760470f79E469a901Bd6fb45a65BE0F4`](https://arbiscan.io/address/0x5C4110eD760470f79E469a901Bd6fb45a65BE0F4) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x5C4110eD760470f79E469a901Bd6fb45a65BE0F4&format=raw) |
 | SY-Kyber Elastic axlWstEth-wstETH | [`0x6f14d3cD37a0647a3eE60eb2214486f8A1CDdccc`](https://arbiscan.io/address/0x6f14d3cD37a0647a3eE60eb2214486f8A1CDdccc) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x6f14d3cD37a0647a3eE60eb2214486f8A1CDdccc&format=raw) |
+|             SY-MUXLP              | [`0x4B3f79Ce3D5d752064288FD2Be968A1c21b3ba37`](https://arbiscan.io/address/0x4B3f79Ce3D5d752064288FD2Be968A1c21b3ba37) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x4B3f79Ce3D5d752064288FD2Be968A1c21b3ba37&format=raw) |
 
 ## Yield Tokens (YT)
 
@@ -54,6 +55,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |              YT-HLP-27JUN24               | [`0x9D090Ef4Aafd0ACB821113a7689d5794e50bD047`](https://arbiscan.io/address/0x9D090Ef4Aafd0ACB821113a7689d5794e50bD047) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x9D090Ef4Aafd0ACB821113a7689d5794e50bD047&format=raw) |
 |            YT-mPENDLE-26SEP24             | [`0x9DbD1fC6D2731ebD42a5E5B8e268bFA7C68980Ae`](https://arbiscan.io/address/0x9DbD1fC6D2731ebD42a5E5B8e268bFA7C68980Ae) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x9DbD1fC6D2731ebD42a5E5B8e268bFA7C68980Ae&format=raw) |
 | YT-Kyber Elastic axlWstEth-wstETH-28MAR24 | [`0xFafA2b178cB40Ac28E034548D9ba6085bcc5CA28`](https://arbiscan.io/address/0xFafA2b178cB40Ac28E034548D9ba6085bcc5CA28) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xFafA2b178cB40Ac28E034548D9ba6085bcc5CA28&format=raw) |
+|             YT-MUXLP-28MAR24              | [`0xf31B528d724354575c0c65Ab17D6dEcde29d2900`](https://arbiscan.io/address/0xf31B528d724354575c0c65Ab17D6dEcde29d2900) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xf31B528d724354575c0c65Ab17D6dEcde29d2900&format=raw) |
 
 ## Principal Tokens (PT)
 
@@ -72,6 +74,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |              PT-HLP-27JUN25               | [`0xC595c9c28D78bb347C8177dFbB820484e2D99A66`](https://arbiscan.io/address/0xC595c9c28D78bb347C8177dFbB820484e2D99A66) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xC595c9c28D78bb347C8177dFbB820484e2D99A66&format=raw) |
 |            PT-mPENDLE-26SEP24             | [`0xaD22fCA714559Da1Eb25FB24443B0446B54246Fc`](https://arbiscan.io/address/0xaD22fCA714559Da1Eb25FB24443B0446B54246Fc) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xaD22fCA714559Da1Eb25FB24443B0446B54246Fc&format=raw) |
 | PT-Kyber Elastic axlWstEth-wstETH-28MAR24 | [`0x8491F9a5Ba93ab2def499d956fd7CaAf1e9f6040`](https://arbiscan.io/address/0x8491F9a5Ba93ab2def499d956fd7CaAf1e9f6040) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x8491F9a5Ba93ab2def499d956fd7CaAf1e9f6040&format=raw) |
+|             PT-MUXLP-28MAR24              | [`0xF0A219e14D4c058022A828b16Af9888b143ab5aD`](https://arbiscan.io/address/0xF0A219e14D4c058022A828b16Af9888b143ab5aD) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xF0A219e14D4c058022A828b16Af9888b143ab5aD&format=raw) |
 
 
 ## Markets
@@ -91,3 +94,4 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |                            PT-HLP-27JUN25/SY-HLP Market                            | [`0x0F249f735647992572eEa231fc24b35F7B6b34e1`](https://arbiscan.io/address/0x0F249f735647992572eEa231fc24b35F7B6b34e1) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x0F249f735647992572eEa231fc24b35F7B6b34e1&format=raw) |
 |                        PT-mPENDLE-26SEP24/SY-mPENDLE Market                        | [`0xf617792eA9Dceb2208F4C440258B21d2f3FdB9A3`](https://arbiscan.io/address/0xf617792eA9Dceb2208F4C440258B21d2f3FdB9A3) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xf617792eA9Dceb2208F4C440258B21d2f3FdB9A3&format=raw) |
 | PT-Kyber Elastic axlWstEth-wstETH-28MAR24/SY-Kyber Elastic axlWstEth-wstETH Market | [`0xb7ffe52EA584d2169Ae66e7F0423574A5E15056F`](https://arbiscan.io/address/0xb7ffe52EA584d2169Ae66e7F0423574A5E15056F) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0xb7ffe52EA584d2169Ae66e7F0423574A5E15056F&format=raw) |
+|                          PT-MUXLP-28MAR24/SY-MUXLP Market                          | [`0x65819E4Ee91923499934c86e93357f633033CB0b`](https://arbiscan.io/address/0x65819E4Ee91923499934c86e93357f633033CB0b) | [ABI](http://api.arbiscan.io/api?module=contract&action=getabi&address=0x65819E4Ee91923499934c86e93357f633033CB0b&format=raw) |
