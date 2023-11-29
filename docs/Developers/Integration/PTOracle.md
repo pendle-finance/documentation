@@ -119,10 +119,10 @@ For implementation details, please refer to our sample contracts for `GLP` and `
 
 ## PT Oracle Addresses
 
-| Network  |                                                               Address                                                                |
-| :------: | :----------------------------------------------------------------------------------------------------------------------------------: |
-| Ethereum | [`0x14030836AEc15B2ad48bB097bd57032559339c92`](https://etherscan.io/address/0x14030836AEc15B2ad48bB097bd57032559339c92#readContract) |
-| Arbitrum | [`0x1f6Cee6740e1492C279532348137FF40E0f23D05`](https://arbiscan.io/address/0x1f6Cee6740e1492C279532348137FF40E0f23D05#readContract)  |
-| BNBChain | [`0xA48A88EbF6683324bAf17aEB51A6d89294D4bedc`](https://bscscan.com/address/0xA48A88EbF6683324bAf17aEB51A6d89294D4bedc#readContract)  |
+| Network  |                                                               Address                                                                            |
+| :------: | :----------------------------------------------------------------------------------------------------------------------------------:             |
+| Ethereum | [`0xbbd487268A295531d299c125F3e5f749884A3e30`](https://etherscan.io/address/0xbbd487268A295531d299c125F3e5f749884A3e30#readContract)             |
+| Arbitrum | [`0x7e16e4253CE4a1C96422a9567B23b4b5Ebc207F1`](https://arbiscan.io/address/0x7e16e4253CE4a1C96422a9567B23b4b5Ebc207F1#readContract)              |
+| BNBChain | [`0x70ee0A6DB4F5a2Dc4d9c0b57bE97B9987e75BAFD`](https://bscscan.com/address/0x70ee0A6DB4F5a2Dc4d9c0b57bE97B9987e75BAFD#readContract)              |
+| Optimism | [`0x0b692f06CA82e3075dC537224450885Fd138e655`](https://optimistic.etherscan.io/address/0x0b692f06CA82e3075dC537224450885Fd138e655#readContract)  |
 
-The PT-GLP oracle has also been deployed [here](https://arbiscan.io/address/0x43D03031FAb845065e9CEfE89Dd122d63F72011F#code).
