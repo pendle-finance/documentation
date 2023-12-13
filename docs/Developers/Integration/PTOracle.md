@@ -21,7 +21,7 @@ Although the AMMs hold their positions and execute trades in $PT$ and $SY$, thei
 Let's take `PT-stETH-25DEC2025` as an example. We have:
 1. $Asset$ in this case is `stETH`
 2. $oraclePtToAssetRate = 0.9$
-3. $stETHPrice = \$2000$ 
+3. $stETHPrice = \$2000$
 
 Thus, the price of `PT-stETH-25DEC2025` should be $0.9 \times 2000 = \$1800$
 
@@ -88,7 +88,7 @@ To sum up, please make sure you have `increaseCardinalityRequired = False` and `
 
 ### Fetch price
 
-First of all, the rate returned from Pendle $PT$ oracles is the exchange rate between $PT$ and $Asset$. This implies your oracle implementation should take care of the conversion between $Asset$ and the quote asset of your oracle system. 
+First of all, the rate returned from Pendle $PT$ oracles is the exchange rate between $PT$ and $Asset$. This implies your oracle implementation should take care of the conversion between $Asset$ and the quote asset of your oracle system.
 
 There are two ways to derive the exchange rate between $PT$ and $Asset$ from our oracle:
 1. Calling `getPtToAssetRate(address market, uint32 duration)` function from our `PendlePtOracle` contract
@@ -115,14 +115,9 @@ contract PendlePtGlpOracle {
 }
 ```
 
-For implementation details, please refer to our sample contracts for `GLP` and `ChainlinkAsset` oracles [here](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/contracts/oracles/samples). 
+For implementation details, please refer to our sample contracts for `GLP` and `ChainlinkAsset` oracles [here](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/contracts/oracles/samples).
 
-## PT Oracle Addresses
+## PT Oracle Deployments
 
-| Network  |                                                               Address                                                                            |
-| :------: | :----------------------------------------------------------------------------------------------------------------------------------:             |
-| Ethereum | [`0xbbd487268A295531d299c125F3e5f749884A3e30`](https://etherscan.io/address/0xbbd487268A295531d299c125F3e5f749884A3e30#readContract)             |
-| Arbitrum | [`0x7e16e4253CE4a1C96422a9567B23b4b5Ebc207F1`](https://arbiscan.io/address/0x7e16e4253CE4a1C96422a9567B23b4b5Ebc207F1#readContract)              |
-| BNBChain | [`0x70ee0A6DB4F5a2Dc4d9c0b57bE97B9987e75BAFD`](https://bscscan.com/address/0x70ee0A6DB4F5a2Dc4d9c0b57bE97B9987e75BAFD#readContract)              |
-| Optimism | [`0x0b692f06CA82e3075dC537224450885Fd138e655`](https://optimistic.etherscan.io/address/0x0b692f06CA82e3075dC537224450885Fd138e655#readContract)  |
+Please refer to the respective deployment pages for the addresses of our PT oracles.
 
