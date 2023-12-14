@@ -70,7 +70,6 @@ module.exports = {
                 { type: "doc", id: "AppGuide/Trade/Guides/Pool" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Claim" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Dashboard" },
-                { type: "doc", id: "AppGuide/Trade/Guides/Leaderboard" },
                 { type: "doc", id: "AppGuide/Trade/Guides/ExitingKyberPool" },
               ],
             },
@@ -88,6 +87,7 @@ module.exports = {
       items: [
         { type: "doc", id: "Developers/Overview" },
         { type: "doc", id: "Developers/DeveloperFAQ" },
+        // { type: "doc", id: "Developers/DeveloperUpdates" },
         { type: "doc", id: "Developers/HighLevelArchitecture" },
         {
           type: "category",
