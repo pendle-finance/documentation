@@ -27,7 +27,10 @@ All of the accrued yield and rewards from YT and LP that can be [claimed](https:
 
 Shows your P&L ranking compared to other yield traders on the Seasonal Leaderboard. Note that only rankings ≥1000 will be shown. You can access the Leaderboard by clicking the button [here](https://app.pendle.finance/trade/dashboard/leaderboard/valuation).
 
-All of the figures shown are applicable to the selected chain only. You can switch the display by simply connecting to a different network (e.g. switching from Ethereum → Arbitrum) on the app.
+#### Transfer Events
+
+Asset Transfers to and from external parties or wallets, including deposit to liquid staking and money markets, are not synced in real time; instead, a global sync takes place periodically. 
+You can manually trigger a sync event on your own wallet using the `Sync Transfers` button, with usage limited to once every hour. 
 
 ## All My Positions
 
