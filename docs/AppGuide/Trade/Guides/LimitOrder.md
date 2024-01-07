@@ -40,7 +40,7 @@ Fees collected will be distributed in $ETH to vePENDLE voters of its respective 
 ## Guides
 
 ![Limit Order Interface](/img/AppGuide/limit_order.png "Limit Order Interface")
-1. Select your desired asset and navigate to the “Limit” tab
+1. Select your desired asset and navigate to the **Limit** tab
 2. Input the amount to set aside for limit-order. (Note: for orders to remain valid, your balance should not fall below the amount set here)
 3. Input your desired Implied APY and Order Expiry (Note: Order will not execute after the order expiry)
 4. Approve and submit your signature
