@@ -17,8 +17,8 @@ A limit-order will be executed if the implied APY of the AMM moves towards the o
 Swaps can be partially allocated to the AMM and limit orders (if any) to optimize for price-impact. That amount is determined at the most optimal amount, taking the AMM price impact and gas fees into account.
 
 Orders can be:
-- Executed (Order is filled)
-- Expired (Order is not filled by its expired)
+- Executed (Order is fully filled)
+- Expired (Order is not fully filled by its expiry date)
 - Invalid
 
 ## Order Validity
