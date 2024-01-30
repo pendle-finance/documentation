@@ -60,7 +60,7 @@ The “Transactions” tab shows all the transactions related to the asset, incl
     - The theoretical maximum capital used on Pendle (Exiting a position reduces the capital and entering a position increases the capital). The highest capital amount throughout the duration is taken as the total capital.
     - Capital is tracked in accounting asset terms for each pool and consolidated as $ amount displayed on top of the dashboard
 - **Calculation Methodology:**
-    - P&L is calculated by individual pools in accounting asset terms (ETH in wstETH pool, DAI in sDAI pool, etc).
+    - P&L is calculated by individual pools in accounting asset terms (stETH in wstETH pool, DAI in sDAI pool, etc).
     - P&L numbers obtained above are then converted to $ using the latest accounting asset price and displayed on the UI
     - P&L from each pool is then aggregated to show overall P&L on top of the main dashboard
     - This means that P&L will be positive as long as you are up in terms of accounting asset even though you have less in $ amount due to accounting asset price going down
