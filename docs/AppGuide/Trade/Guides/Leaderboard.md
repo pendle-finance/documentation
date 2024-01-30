@@ -2,7 +2,8 @@
 hide_table_of_contents: true
 ---
 
-# Leaderboard (Beta)
+# Season 2 Coming Soon
+<!-- # Leaderboard (Beta)
 
 ![Leaderboard](/img/AppGuide/leaderboard.png "Leaderboard")
 
@@ -18,4 +19,4 @@ Rankings are finalized by the end of every Season (which will only be introduced
 
 Click on each user on the Leaderboard to view their positions, which will bring up a page identical to your own Dashboard.
 
-Do note however that the figures shown on the others’ dashboards will only be updated daily at 0000 UTC, similar to the Leaderboard.
+Do note however that the figures shown on the others’ dashboards will only be updated daily at 0000 UTC, similar to the Leaderboard. -->
