@@ -62,7 +62,7 @@ Test account info: {
 
 ## Create Pendle SDK Router
 
-Pendle SDK Router is an object that interacts with [PendleRouter contract](https://etherscan.io/address/0x0000000001e4ef00d069e71d6ba041b0a16f7ea0). It can be created as follows:
+Pendle SDK Router is an object that interacts with [PendleRouter contract](https://etherscan.io/address/0x00000000005BBB0EF59571E58418F9a4357b68A0). It can be created as follows:
 
 ```ts
 import { Router } from '@pendle/sdk-v2';
@@ -78,7 +78,7 @@ console.log('Router address:', router.address);
 
 Output:
 ```ts
-Router address: 0x0000000001e4ef00d069e71d6ba041b0a16f7ea0
+Router address: 0x00000000005BBB0EF59571E58418F9a4357b68A0
 ```
 
 ## Usage
