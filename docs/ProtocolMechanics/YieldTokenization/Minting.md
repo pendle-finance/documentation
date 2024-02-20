@@ -19,3 +19,7 @@ Users can mint PT and YT by depositing the yield-bearing asset (e.g. stETH) into
 e.g. ETH → stETH → SY-stETH → PT-stETH + YT-stETH. This function can be found in the Pendle Trade after selecting one of the assets.
 
 ![Yield Splitting UI](/img/ProtocolMechanics/yield-splitting-ui.png "Yield Splitting UI")
+
+## Usage of External Oracles
+
+On L2s, external oracles are needed for sourcing the contract ratio of the accepted yield-bearing assets from Ethereum Mainnet. For that purpose, Pendle uses [RedStone Oracles](https://docs.redstone.finance/docs/smart-contract-devs/price-feeds) on Arbitrum to source the contract ratio of weETH/eETH. 
