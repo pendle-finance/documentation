@@ -22,4 +22,4 @@ e.g. ETH → stETH → SY-stETH → PT-stETH + YT-stETH. This function can be fo
 
 ## Usage of External Oracles
 
-On L2s, external oracles are needed for sourcing the contract ratio of the accepted yield-bearing assets from Ethereum Mainnet. For that purpose, Pendle uses [RedStone Oracles](https://docs.redstone.finance/docs/smart-contract-devs/price-feeds) on Arbitrum to source the contract ratio of weETH/eETH. 
+On L2s, external oracles are needed for sourcing the contract ratio of the accepted yield-bearing assets from Ethereum Mainnet. For that purpose, Pendle uses [RedStone Oracles](https://docs.redstone.finance/docs/smart-contract-devs/price-feeds) on Arbitrum to source the contract ratio of several markets. 
