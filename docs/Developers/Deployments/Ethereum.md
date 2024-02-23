@@ -87,7 +87,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |             YT-rsETH-27JUN24              | [`0x0ED3A1D45DfdCf85BCc6C7BAFDC0170A357B974C`](https://etherscan.io/address/0x0ED3A1D45DfdCf85BCc6C7BAFDC0170A357B974C) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x0ED3A1D45DfdCf85BCc6C7BAFDC0170A357B974C&format=raw) |
 |             YT-ezETH-25APR24              | [`0x256Fb830945141f7927785c06b65dAbc3744213c`](https://etherscan.io/address/0x256Fb830945141f7927785c06b65dAbc3744213c) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x256Fb830945141f7927785c06b65dAbc3744213c&format=raw) |
 
-## Principle Tokens (PT)
+## Principal Tokens (PT)
 
 |                 Contract                  |                                                         Address                                                         |                                                               ABI                                                               |
 | :---------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
