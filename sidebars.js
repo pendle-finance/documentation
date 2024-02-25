@@ -18,14 +18,15 @@ module.exports = {
       label: "Protocol Mechanics",
       items: [
         { type: "doc", id: "ProtocolMechanics/Glossary" },
-        { type: "category",
-        label: "Yield Tokenization",
-        items: [
-          { type: "doc", id: "ProtocolMechanics/YieldTokenization/SY" },
-          { type: "doc", id: "ProtocolMechanics/YieldTokenization/Minting" },
-          { type: "doc", id: "ProtocolMechanics/YieldTokenization/PT" },
-          { type: "doc", id: "ProtocolMechanics/YieldTokenization/YT" },
-        ]
+        {
+          type: "category",
+          label: "Yield Tokenization",
+          items: [
+            { type: "doc", id: "ProtocolMechanics/YieldTokenization/SY" },
+            { type: "doc", id: "ProtocolMechanics/YieldTokenization/Minting" },
+            { type: "doc", id: "ProtocolMechanics/YieldTokenization/PT" },
+            { type: "doc", id: "ProtocolMechanics/YieldTokenization/YT" },
+          ]
         },
         { type: "doc", id: "ProtocolMechanics/AMM" },
         {
@@ -67,7 +68,7 @@ module.exports = {
                 { type: "doc", id: "AppGuide/Trade/Guides/UsingTrade" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Mint" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Swap" },
-                { type: "doc", id: "AppGuide/Trade/Guides/LimitOrder"},
+                { type: "doc", id: "AppGuide/Trade/Guides/LimitOrder" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Pool" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Claim" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Dashboard" }
@@ -94,7 +95,6 @@ module.exports = {
           label: "Contracts",
           items: [
             { type: "doc", id: "Developers/Contracts/PendleRouter" },
-            { type: "doc", id: "Developers/Contracts/PendleRouterStatic" },
             { type: "doc", id: "Developers/Contracts/vePENDLE" },
           ],
         },
@@ -121,25 +121,11 @@ module.exports = {
         },
         {
           type: "category",
-          label: "SDK",
+          label: "Helpers",
           items: [
-            { type: "doc", id: "Developers/SDK/GettingStarted" },
-            { type: "doc", id: "Developers/SDK/WrappedContract" },
-            { type: "doc", id: "Developers/SDK/Router" },
-            { type: "doc", id: "Developers/SDK/AddingAndRemovingLiquidity" },
-            { type: "doc", id: "Developers/SDK/PTAndYTTrading" },
-            { type: "doc", id: "Developers/SDK/AdvancedSDKOps" },
-            { type: "doc", id: "Developers/SDK/Multicall" },
-            { type: "doc", id: "Developers/SDK/ErrorHandling" },
-            { type: "doc", id: "Developers/SDK/TypesAndFunctions" },
-            { type: "doc", id: "Developers/SDK/ArbitraryTokens" },
-          ],
-        },
-        {
-          type: "category",
-          label: "API",
-          items: [
-            { type: "doc", id: "Developers/API/RESTfulAPI" },
+            { type: "doc", id: "Developers/Helpers/Backend" },
+            { type: "doc", id: "Developers/Helpers/HostedSDK" },
+            { type: "doc", id: "Developers/Helpers/PendleRouterStatic" },
           ],
         },
       ],

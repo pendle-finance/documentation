@@ -2,7 +2,7 @@
 hide_table_of_contents: true
 ---
 
-# PendleRouterStatic
+# Pendle RouterStatic
 
 ## Overview
 

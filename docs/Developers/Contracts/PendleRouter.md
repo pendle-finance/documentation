@@ -10,9 +10,9 @@ PendleRouter is a contract that aggregates callers' actions with various differe
 
 The Router is also a **static** Diamond-Proxy (ERC2535) contract without any upgrade functions as described in this [tweet](https://twitter.com/mudgen/status/1630229952523272195/). A summary for ERC2535 is that there can be multiple implementation contracts for a single proxy, with each function (or set of functions) delegatecall to its own implementation.
 
-To interact easily with the PendleRouter, please refer to: https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllAction.sol
+To interact easily with the PendleRouter, please refer to: https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol
 
-For a list of all the functions that can be called on the Router, users can use the `IPAllAction ABI` and call it on the Router address, which will resolve the call accordingly.
+For a list of all the functions that can be called on the Router, users can use the `IPAllActionV3 ABI` and call it on the Router address, which will resolve the call accordingly.
 
 ## Off-chain helpers
 
@@ -23,9 +23,9 @@ PendleRouter heavily relies on off-chain data to address two main issues:
 
 ## Common Functions
 
-Please see [IPAllAction](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllAction.sol) for a complete list of features.
+Please see [IPAllActionV3](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol) for a complete list of features.
 
-### Add/Remove Liquidity 
+### Add/Remove Liquidity
 
 `addLiquiditySingleToken`: Add liquidity to a market with any ERC20 tokens.
 
@@ -67,11 +67,11 @@ The easiest way to generate this struct is to use Pendle's SDK. If you want to u
 
 ```solidity
 struct ApproxParams {
-    uint256 guessMin; 
-    uint256 guessMax; 
-    uint256 guessOffchain; 
-    uint256 maxIteration; 
-    uint256 eps; 
+    uint256 guessMin;
+    uint256 guessMax;
+    uint256 guessOffchain;
+    uint256 maxIteration;
+    uint256 eps;
 }
 ```
 

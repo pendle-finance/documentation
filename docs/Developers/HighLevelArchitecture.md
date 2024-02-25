@@ -65,7 +65,7 @@ PT and YT are minted and redeemed using the YT contract. To mint PT and YT, SY i
 
 PendleMarket (or simply Market) is a contract that enables users to trade between PT and its corresponding SY, while still allowing liquidity provision as usual. Swap fees are directly compounded into the LP. Each Market also has its own built-in geometric-mean oracle, similar to UniswapV3.
 
-Currently, there is no market to trade YT, but it is always tradable by the following algorithms: 
+Currently, there is no market to trade YT, but it is always tradable by the following algorithms:
 
 - `SY ➝ YT` = flashswap SY, mint PT & YT, payback PT, send YT to users.
 - `YT ➝ SY` = flashswap PT, use PT & YT, redeem SY, pay back, send excess to users.
@@ -99,8 +99,8 @@ PendleRouter is a contract that aggregates callers' actions with various differe
 
 The Router is also a **static** Diamond-Proxy (ERC2535) contract without any upgrade functions as described in this [tweet](https://twitter.com/mudgen/status/1630229952523272195/). A summary for ERC2535 is that there can be multiple implementation contracts for a single proxy, with each function (or set of functions) delegatecall to its own implementation.
 
-To interact easily with the PendleRouter, please refer to: https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllAction.sol
+To interact easily with the PendleRouter, please refer to: https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol
 
-For a list of all the functions that can be called on the Router, users can use the `IPAllAction ABI` and call it on the Router address, which will resolve the call accordingly.
+For a list of all the functions that can be called on the Router, users can use the `IPAllActionV3 ABI` and call it on the Router address, which will resolve the call accordingly.
 
 You can read more about the PendleRouter [here](./Contracts/PendleRouter.md).
