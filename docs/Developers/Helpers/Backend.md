@@ -2,11 +2,11 @@
 hide_table_of_contents: true
 ---
 
-# RESTful API
+# Pendle Backend
 
 ## Introduction
 
-The RESTful API can be used to query Asset, Market, Price, vePENDLE, and other information from the Pendle protocol across the different chain deployments.
+The Pendle Backend can be used to query Asset, Market, Price, vePENDLE, and other information from the Pendle protocol across the different chain deployments.
 
 ## Network URL
 

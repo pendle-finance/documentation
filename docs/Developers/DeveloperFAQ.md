@@ -32,6 +32,4 @@ function redeemRewards(address user) external returns (uint256[] memory);
 
 These calls can be batched through Multicall if necessary.
 
-### How to calculate various parameters using on-chain methods
 
-Pendle's RouterStatic, which includes a variety of useful functions for supporting parameter calculations. You can read more on it [here](./Contracts/PendleRouterStatic.md).
