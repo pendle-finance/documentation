@@ -38,7 +38,7 @@ Your input asset will be automatically routed to the required asset for the fixe
 
 ### Additional Info
 
-Fixed yield position on Pendle Earn is actually a [PT (Principal Token)](./ProtocolMechanics/YieldTokenization/PT.md) position on Pendle Trade. The Earn interface routes your transaction to purchase PT from the Pendle AMM, which is equivalent to purchasing PT directly on Pendle Trade.
+Fixed yield position on Pendle Earn is actually a [PT (Principal Token)](../ProtocolMechanics/YieldTokenization/PT.md) position on Pendle Trade. The Earn interface routes your transaction to purchase PT from the Pendle AMM, which is equivalent to purchasing PT directly on Pendle Trade.
 
 Exiting your Fixed Yield position on Pendle Earn before maturity is equivalent to selling PT to the Pendle AMM. While PT price should trend upwards as time passes, there is no guarantee for its price, hence fixed yield is not guaranteed you exit your fixed yield position prior to maturity.
 

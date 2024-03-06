@@ -96,6 +96,7 @@ module.exports = {
           items: [
             { type: "doc", id: "Developers/Contracts/PendleRouter" },
             { type: "doc", id: "Developers/Contracts/vePENDLE" },
+            { type: "doc", id: "Developers/Contracts/TechnicalDetails" },
           ],
         },
         {

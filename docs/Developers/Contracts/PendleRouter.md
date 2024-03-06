@@ -50,7 +50,7 @@ Please see [IPAllActionV3](https://github.com/pendle-finance/pendle-core-v2-publ
 `redeemDueInterestAndRewards`: Redeem the accrued interest and rewards from both the LP position and YT.
 
 :::tip
-We highly recommend using Pendle's SDK to generate calldata. The guide to use Pendle’s SDK can be found [here](../SDK/GettingStarted).
+We highly recommend using Pendle's SDK to generate calldata. The guide to use Pendle’s SDK can be found [here](../Helpers/HostedSDK.md).
 :::
 
 However, if you prefer to generate the data without using the Pendle SDK, the below sections should be relevant.
