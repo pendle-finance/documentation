@@ -13,11 +13,12 @@ hide_table_of_contents: true
 
 PendleRouter is a contract that aggregates callers' actions with various different SYs, PTs, YTs, and Markets. It is not owned, immutable, and does not have any special permissions or whitelists on any contracts it interacts with. For this reason, any third-party protocols can freely embed the router's logic into their code for better gas efficiency.
 
-The Router is also a **static** Diamond-Proxy (ERC2535) contract without any upgrade functions as described in this [tweet](https://twitter.com/mudgen/status/1630229952523272195/). A summary for ERC2535 is that there can be multiple implementation contracts for a single proxy, with each function (or set of functions) delegatecall to its own implementation.
+Please note that new versions of PendleRouter are released a couple of times per year. While older versions will continue to operate correctly, they will not receive new features. The current version of PendleRouter is V3.
 
 To interact easily with the PendleRouter, please refer to: https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol
 
-For a list of all the functions that can be called on the Router, users can use the `IPAllActionV3 ABI` and call it on the Router address, which will resolve the call accordingly.
+The Router is also a **static** Diamond-Proxy (ERC2535) contract without any upgrade functions as described in this [tweet](https://twitter.com/mudgen/status/1630229952523272195/). A summary for ERC2535 is that there can be multiple implementation contracts for a single proxy, with each function (or set of functions) delegatecall to its own implementation.
+
 ## Common Functions
 
 ### Add/Remove Liquidity
@@ -46,7 +47,7 @@ For a list of all the functions that can be called on the Router, users can use 
 
 We highly recommend using Pendle's SDK to generate calldata to take full advantage of the swap aggregator, limit order system & off-chain data preparation, which will provide not only better price impacts for users but also a lower gas cost (~ 200k).
 
-However, if you prefer to do things fully onchain, the below sections should be relevant. Our [Example repo](https://github.com/pendle-finance/pendle-examples) contains useful helpers function & examples for this purpose. 
+However, if you prefer to do things fully onchain, the below sections should be relevant. Our [Example repo](https://github.com/pendle-finance/pendle-examples) contains useful helpers function & examples for this purpose.
 
 ## Off-chain helpers
 
@@ -54,7 +55,7 @@ PendleRouter heavily relies on off-chain data to address three main issues:
 
 - Currently, Pendle's AMM only supports the built-in `swapExactPtForSy` and `swapSyForExactPt`. To execute a `swapExactTokenForPt` (which is essentially the same as `swapExactSyForPt`), the router will conduct a binary search to determine the amount of PT to swap. This number will then be used to perform a `swapSyForExactPt` instead. While the binary search can be done entirely on-chain, limiting the search range off-chain will result in significantly less gas consumption for this function.
 - Liquidity is currently fragmented across a large number of pools across various DEXes, leading to fragmentation of DEXes. Integrating only Uniswap or Balancer has proven to be insufficient. As a result, PendleRouter has natively integrated [KyberSwap](https://kyberswap.com/) to swap from any ERC20 token to another. For Kyberswap to work, the routing algorithm must be called off-chain then pass the routing results to the Router to execute.
-- Limit Order system of Pendle only exists off-chain, and including these limit orders into on-chain swaps will bring significantly better price impact for users, especially in large size swaps. 
+- The limit order system of Pendle exists solely off-chain. Including these limit orders in on-chain swaps can significantly improve the price impact for users, particularly during large size swaps.
 
 ## Important Structs in PendleRouter
 
@@ -92,8 +93,8 @@ eps: 1e14 // max 0.01% unused, adjust as desired
 Please note that in this situation, the parameters can be fine-tuned to narrow the search range for optimal gas usage or to reduce the number of unused inputs.
 
 
-## TokenInput & TokenOutput 
-```solidity 
+## TokenInput & TokenOutput
+```solidity
 struct TokenInput {
 	// TOKEN DATA
 	address tokenIn;
@@ -120,13 +121,13 @@ struct TokenOutput {
 * For `TokenInput`, users start with `netTokenIn` of `tokenIn`, using a swap aggregator to convert those tokens to `tokenMintSy`, and those `tokenMintSy` is used to mint SY.
 * For TokenOutput, users receive SY & redeem the SY to `tokenRedeeemSy`. These tokens are swapped through an aggregator to `tokenOut`
 
-### TokenInput 
+### TokenInput
 * `tokenIn` & `netTokenIn`: Token & amount that the user starts with
 * `tokenMintSy`: The token used to mint SY. Must be in `SY.getTokensIn()`. If `tokenMintSy != tokenIn`, aggregator data must be populated
 * `pendleSwap`: Address of swap helper, do not hardcode
 * `swapData`: Data for swap, generated by Pendle's SDK
 * Aggregator data can be generated by Pendle's SDK. If no aggregator is used, `tokenIn = tokenMintSy`, `pendleSwap = address(0)` & `swapData` is empty
-### TokenOutput 
+### TokenOutput
 * `tokenOut` & `minTokenOut`: Token & minimal amount that the user finally receives
 * `tokenRedeemSy`: The token used to redeem SY. Must be in `SY.getTokensOut()`. If `tokenRedeemSy != tokenOut`, aggregator data must be populated
 * `pendleSwap`: Address of swap helper, do not hardcode
@@ -138,7 +139,7 @@ struct TokenOutput {
 ```
 struct LimitOrderData {
 	address limitRouter;
-	uint256 epsSkipMarket; 
+	uint256 epsSkipMarket;
 	FillOrderParams[] normalFills;
 	FillOrderParams[] flashFills;
 	bytes optData;
