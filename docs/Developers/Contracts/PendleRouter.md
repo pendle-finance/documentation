@@ -4,6 +4,11 @@ hide_table_of_contents: true
 
 # PendleRouter
 
+## Quick Start
+
+* To see examples on how to call various functions, check our [Example repo here!](https://github.com/pendle-finance/pendle-examples)
+* To generate calldata for any functions, it's highly recommended to use [Pendle's Hosted SDK](https://api-v2.pendle.finance/sdk/). More about it under Helpers folder.
+
 ## Overview
 
 PendleRouter is a contract that aggregates callers' actions with various different SYs, PTs, YTs, and Markets. It is not owned, immutable, and does not have any special permissions or whitelists on any contracts it interacts with. For this reason, any third-party protocols can freely embed the router's logic into their code for better gas efficiency.
@@ -13,17 +18,7 @@ The Router is also a **static** Diamond-Proxy (ERC2535) contract without any upg
 To interact easily with the PendleRouter, please refer to: https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol
 
 For a list of all the functions that can be called on the Router, users can use the `IPAllActionV3 ABI` and call it on the Router address, which will resolve the call accordingly.
-
-## Off-chain helpers
-
-PendleRouter heavily relies on off-chain data to address two main issues:
-
-- Currently, Pendle's AMM only supports the built-in `swapExactPtForSy` and `swapSyForExactPt`. To execute a `swapExactTokenForPt` (which is essentially the same as `swapExactSyForPt`), the router will conduct a binary search to determine the amount of PT to swap. This number will then be used to perform a `swapSyForExactPt` instead. While the binary search can be done entirely on-chain, limiting the search range off-chain will result in significantly less gas consumption for this function.
-- Liquidity is currently fragmented across a large number of pools across various DEXes, leading to fragmentation of DEXes. Integrating only Uniswap or Balancer has proven to be insufficient. As a result, PendleRouter has natively integrated [KyberSwap](https://kyberswap.com/) to swap from any ERC20 token to another. For Kyberswap to work, the routing algorithm must be called off-chain then pass the routing results to the Router to execute.
-
 ## Common Functions
-
-Please see [IPAllActionV3](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol) for a complete list of features.
 
 ### Add/Remove Liquidity
 
@@ -49,21 +44,23 @@ Please see [IPAllActionV3](https://github.com/pendle-finance/pendle-core-v2-publ
 
 `redeemDueInterestAndRewards`: Redeem the accrued interest and rewards from both the LP position and YT.
 
-:::tip
-We highly recommend using Pendle's SDK to generate calldata. The guide to use Pendle’s SDK can be found [here](../Helpers/HostedSDK.md).
-:::
+We highly recommend using Pendle's SDK to generate calldata to take full advantage of the swap aggregator, limit order system & off-chain data preparation, which will provide not only better price impacts for users but also a lower gas cost (~ 200k).
 
-However, if you prefer to generate the data without using the Pendle SDK, the below sections should be relevant.
+However, if you prefer to do things fully onchain, the below sections should be relevant. Our [Example repo](https://github.com/pendle-finance/pendle-examples) contains useful helpers function & examples for this purpose. 
 
-## Important Structures in PendleRouter
+## Off-chain helpers
+
+PendleRouter heavily relies on off-chain data to address three main issues:
+
+- Currently, Pendle's AMM only supports the built-in `swapExactPtForSy` and `swapSyForExactPt`. To execute a `swapExactTokenForPt` (which is essentially the same as `swapExactSyForPt`), the router will conduct a binary search to determine the amount of PT to swap. This number will then be used to perform a `swapSyForExactPt` instead. While the binary search can be done entirely on-chain, limiting the search range off-chain will result in significantly less gas consumption for this function.
+- Liquidity is currently fragmented across a large number of pools across various DEXes, leading to fragmentation of DEXes. Integrating only Uniswap or Balancer has proven to be insufficient. As a result, PendleRouter has natively integrated [KyberSwap](https://kyberswap.com/) to swap from any ERC20 token to another. For Kyberswap to work, the routing algorithm must be called off-chain then pass the routing results to the Router to execute.
+- Limit Order system of Pendle only exists off-chain, and including these limit orders into on-chain swaps will bring significantly better price impact for users, especially in large size swaps. 
+
+## Important Structs in PendleRouter
 
 While most function arguments should be straightforward, using structs can be less intuitive. PendleRouter is a sophisticated contract that supports various powerful features and relies on off-chain pre-computed data to help save gas. Below are the important structs and instructions on how to fill them:
 
 ### ApproxParams
-
-:::info
-The easiest way to generate this struct is to use Pendle's SDK. If you want to understand more, keep reading!
-:::
 
 ```solidity
 struct ApproxParams {
@@ -89,58 +86,63 @@ guessMin: 0, // adjust as desired
 guessMax: type(uint256).max, // adjust as desired
 guessOffchain: 0, // strictly 0
 maxIteration: 256, // adjust as desired
-eps: 1e15 // max 0.1% unused, adjust as desired
+eps: 1e14 // max 0.01% unused, adjust as desired
 ```
 
 Please note that in this situation, the parameters can be fine-tuned to narrow the search range for optimal gas usage or to reduce the number of unused inputs.
 
-## TokenInput
 
-```solidity
+## TokenInput & TokenOutput 
+```solidity 
 struct TokenInput {
-    // token/Sy data
-    address tokenIn;
-    uint256 netTokenIn;
-    address tokenMintSy;
-    address bulk;
-    // aggregator data
-    address pendleSwap;
-    SwapData swapData;
+	// TOKEN DATA
+	address tokenIn;
+	uint256 netTokenIn;
+	address tokenMintSy;
+	// AGGREGATOR DATA
+	address pendleSwap;
+	SwapData swapData;
 }
 
-struct SwapData {
-    SwapType swapType;
-    address extRouter;
-    bytes extCalldata;
-    bool needScale;
-}
-
-enum SwapType {
-    NONE,
-    KYBERSWAP,
-    ONE_INCH,
-    // ETH_WETH not used in Aggregator
-    ETH_WETH
+struct TokenOutput {
+	// TOKEN DATA
+	address tokenOut;
+	uint256 minTokenOut;
+	address tokenRedeemSy;
+	// AGGREGATOR DATA
+	address pendleSwap;
+	SwapData swapData;
 }
 ```
 
-`tokenIn` and `netTokenIn` refer to the token used for swapping or adding liquidity.
+### Overview
+* Pendle system doesn't interact with the underlying token. Swaps happen between SY <-> PT, SY <-> YT ... . Hence, `TokenInput` & `TokenOutput` are data about the conversion between the underlying token and the corresponding SY.
+* For `TokenInput`, users start with `netTokenIn` of `tokenIn`, using a swap aggregator to convert those tokens to `tokenMintSy`, and those `tokenMintSy` is used to mint SY.
+* For TokenOutput, users receive SY & redeem the SY to `tokenRedeeemSy`. These tokens are swapped through an aggregator to `tokenOut`
 
-`tokenMintSy` is the token that `tokenIn` will be swapped to in order to mint SY. For example, if `tokenIn` is `USDC` but users are adding liquidity to the stETH market, then `tokenMintSy` must be ETH, and `pendleSwap` and `swapData` must be populated.
+### TokenInput 
+* `tokenIn` & `netTokenIn`: Token & amount that the user starts with
+* `tokenMintSy`: The token used to mint SY. Must be in `SY.getTokensIn()`. If `tokenMintSy != tokenIn`, aggregator data must be populated
+* `pendleSwap`: Address of swap helper, do not hardcode
+* `swapData`: Data for swap, generated by Pendle's SDK
+* Aggregator data can be generated by Pendle's SDK. If no aggregator is used, `tokenIn = tokenMintSy`, `pendleSwap = address(0)` & `swapData` is empty
+### TokenOutput 
+* `tokenOut` & `minTokenOut`: Token & minimal amount that the user finally receives
+* `tokenRedeemSy`: The token used to redeem SY. Must be in `SY.getTokensOut()`. If `tokenRedeemSy != tokenOut`, aggregator data must be populated
+* `pendleSwap`: Address of swap helper, do not hardcode
+* `swapData`: Data for swap, generated by Pendle's SDK
+* If no aggregator is used, `tokenOut = tokenRedeemSy`, `pendleSwap = address(0)` & `swapData` is empty
 
-`bulk` should be passed as `address(0)`.
+## LimitOrderData
 
-For `pendleSwap` and `swapData`, by default, all values will be zero unless `tokenIn` and `tokenMintSy` are different from each other. In this case, the following should be passed:
+```
+struct LimitOrderData {
+	address limitRouter;
+	uint256 epsSkipMarket; 
+	FillOrderParams[] normalFills;
+	FillOrderParams[] flashFills;
+	bytes optData;
+}
+```
 
-- `pendleSwap`: Address of the `pendleSwap` deployment on that chain. This was not hardcoded to allow for easy upgrade of `pendleSwap`.
-- `swapData`:
-    - `swapType`: Usually `KYBERSWAP`, unless it's a simple ETH wrap-unwrap, in which case `ETH_WETH` should be used.
-    - `extRouter`: If `KYBERSWAP` is chosen, this will be passed as their router address.
-    - `extCalldata`: If `KYBERSWAP` is chosen, this will be passed as the calldata returned by their routing API.
-    - `needScale`: If `KYBERSWAP` is chosen, we will pass false if the `amountIn` used to generate calldata and `netTokenIn` are the same. Otherwise, pass true.
-
-Please note that all of KyberSwap's related API can be obtained from [Kyberswap's own API](https://docs.kyberswap.com/).
-
-### TokenOutput
-
-Same as TokenOutput.
+* LimitOrderData is generated using Pendle's SDK. If not using limit order, all fields can be set to address(0) or empty
