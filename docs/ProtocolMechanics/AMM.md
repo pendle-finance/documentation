@@ -6,9 +6,9 @@ hide_table_of_contents: true
 
 Pendle’s V2 AMM is designed specifically for trading yield, and takes advantage of the behaviours of PT and YT.
 
-The AMM curve changes to account for yield accrued over time and narrows PT’s price range as it approaches maturity. By concentrating liquidity into a narrow, meaningful range, the capital efficiency to trade yield is increased as PT approaches maturity
+**The AMM model was adapted from Notional Finance's AMM.** The AMM curve changes to account for yield accrued over time and narrows PT’s price range as it approaches maturity. By concentrating liquidity into a narrow, meaningful range, the capital efficiency to trade yield is increased as PT approaches maturity
 
-Furthermore, by implementing a pseudo-AMM inspired by Notional Finance, we are able to both facilitate PT and YT swaps using just a single pool of liquidity. With a PT/SY pool, PT can be directly traded with SY, while YT trades are also possible via flash swaps.
+Furthermore, we managed to create a pseudo-AMM that allows us to both facilitate PT and YT swaps using just a single pool of liquidity. With a PT/SY pool, PT can be directly traded with SY, while YT trades are also possible via flash swaps
 
 ## Swaps
 
