@@ -3,6 +3,8 @@ hide_table_of_contents: true
 ---
 # How to Integrate PT and LP Oracle
 
+Integrating PT and LP oracles into your system can be accomplished in six easy steps. This document provides detailed instructions along with runnable examples. If you need personalized assistance, don't hesitate to contact us via our Developers channel on [Discord](https://pendle.finance/discord).
+
 ## First, Understand SY, PT, LP
 
 You can read High Level Architecture & StandardizedYield to understand the Pendle system.
@@ -15,13 +17,13 @@ We recommend choosing a market with high trading activities & deep liquidity. Fo
 
 The recommended duration is 15 mins (900 secs) or 30 mins (1800 secs), but it can vary depending on the market.
 
-For a detailed guide on assessing the risk, depth of liquidity & twap duration, refer to the corresponding risk assessment docs. You can also contact the Pendle team for individual support.
+For a detailed guide on assessing the risk, depth of liquidity & twap duration, refer to the corresponding risk assessment docs.
 
 ## Third, Initialize the Oracle
 
 By default, markets' oracles are un-initialized. You can check the oracle's status & initialize it if necessary using `getOracleState` on the `PtAndLpOracle` contract.
 
-![[Pasted image 20240319215123.png]]
+![/img/Developers/Pasted_image_20240319215123.png](/img/Developers/Pasted_image_20240319215123.png)
 
 ## Fourth, Get the Price
 
@@ -37,20 +39,22 @@ Refer to [StandardizedYield docs](../Contracts/StandardizedYield.md) to choose t
 
 Below is an example of how to call the functions.
 
-![[Pasted image 20240319221744.png]]
+![/img/Developers/Pasted_image_20240319221744.png](/img/Developers/Pasted_image_20240319221744.png)
 
-![[Pasted image 20240319221801.png]]
+![/img/Developers/Pasted_image_20240319221801.png](/img/Developers/Pasted_image_20240319221801.png)
 
 If you don't want to use the library, you can call the `PendlePtLpOracle` directly though it will take around ~4k additional gas.
 
-![[Pasted image 20240319230732.png]]
+![/img/Developers/Pasted_image_20240319230732.png](/img/Developers/Pasted_image_20240319230732.png)
 ## (Optional) Fifth, Multiply the Price with a 3rd Price
 
 You can multiply the `PT-weETH` to `weETH` price by `weETH/ETH` price to get the `PT-weETH/ETH` price, which is more applicable for money markets.
 
 For example:
 
-![[Pasted image 20240319230333.png]] ![[Pasted image 20240319230350.png]]
+![/img/Developers/Pasted_image_20240319230333.png](/img/Developers/Pasted_image_20240319230333.png)
+
+![/img/Developers/Pasted_image_20240319230350.png](/img/Developers/Pasted_image_20240319230350.png)
 
 ## Lastly, Handle liquidation & LP's rewards
 

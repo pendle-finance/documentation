@@ -2,7 +2,7 @@
 hide_table_of_contents: true
 ---
 
-# Introduction of PT Oracle 
+# Introduction of PT Oracle
 
 In Pendle system, $PT$ can be freely traded from and to $SY$ ultilizing our AMM. With the built-in TWAP oracle library, the geometric mean price of $PT$ in terms of SY or asset can be derived from our `PendleMarket` contracts fully on-chain. Please refer to the [StandardizedYield doc](../Contracts/StandardizedYield) for more details of SY & asset
 ## Oracle design
@@ -42,80 +42,3 @@ $$
 $$
 ptToAssetPrice = 1 / assetToPtPrice
 $$
-
-
-
-### SY Asset
-
-Although the AMMs hold their positions and execute trades in $PT$ and $SY$, their underlying logics assume all their $SY$ balances are converted to assets. As a result, the exchange rate returned by our oracles are between $PT$ and $Asset$, which should make pricing $PT$ more straightforward.
-
-Let's take `PT-stETH-25DEC2025` as an example. We have:
-1. $Asset$ in this case is `stETH`
-2. $oraclePtToAssetRate = 0.9$
-3. $stETHPrice = \$2000$
-
-Thus, the price of `PT-stETH-25DEC2025` should be $0.9 \times 2000 = \$1800$
-
-### Oracle Preparation
-
-Since our AMMs use TWAP oracles, firstly, we must define a $duration$ for the pricing interval. Same as UniswapV3 oracles, each $PT$ oracle has its own limitation on how far in the past the pricing data can be accessed. To check the validity of a duration for each a market, please query the following function from our `PendlePtOracle` contract:
-
-```sol
-function getOracleState(
-    address market,
-    uint32 duration
-)
-    external
-    view
-    returns (
-        bool increaseCardinalityRequired,
-        uint16 cardinalityRequired,
-        bool oldestObservationSatisfied
-    );
-```
-
-If `increaseCardinalityRequired` is returned `True`, it means the oracle's size of tracked observations must be expanded to `cardinalityRequired` before any price usage.
-
-If `oldestObservationSatisfied` is returned `False`, it means the oldest observations was recorded less than $duration$ seconds ago. In this case, the oracle needs more time to fill its observations to satisfy this specific $duration$.
-
-:::info
-
-To sum up, please make sure you have `increaseCardinalityRequired = False` and `oldestObservationSatisfied = True` before using our oracle on production.
-
-:::
-
-### Fetch price
-
-First of all, the rate returned from Pendle $PT$ oracles is the exchange rate between $PT$ and $Asset$. This implies your oracle implementation should take care of the conversion between $Asset$ and the quote asset of your oracle system.
-
-There are two ways to derive the exchange rate between $PT$ and $Asset$ from our oracle:
-1. Calling `getPtToAssetRate(address market, uint32 duration)` function from our `PendlePtOracle` contract
-2. Using our [contract library](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/oracles/PendlePtOracleLib.sol) in your own contract
-
-Compared to the first method, using a library reduce one external call from your contract to `PendlePtOracle`, making the implementation more gas saving.
-
-:::note
-We recommend using the contract library to get the PT price to save on gas, especially on Ethereum.
-:::
-
-As an example, here's how we calculate `PT-GLP` price in US dollar:
-
-```sol
-// You can install npm package @pendle/core-v2 to directly import Pendle V2 contracts
-import "@pendle/core-v2/contracts/oracles/PendlePtOracleLib.sol";
-contract PendlePtGlpOracle {
-    //...
-    function getPtPrice() external view virtual returns (uint256) {
-        uint256 ptRate = IPMarket(market).getPtToAssetRate(twapDuration);
-        uint256 assetPrice = IGlpManager(glpManager).getPrice(true);
-        return (assetPrice * ptRate) / (10 ** 30);
-    }
-}
-```
-
-For implementation details, please refer to our sample contracts for `GLP` and `ChainlinkAsset` oracles [here](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/contracts/oracles/samples).
-
-## PT Oracle Deployments
-
-Please refer to the respective deployment pages for the addresses of our PT oracles.
-
