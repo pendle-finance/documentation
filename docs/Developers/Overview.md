@@ -23,7 +23,7 @@ To understand the deeper mechanics and formulas involved in the Pendle protocol,
 ### For on-chain contract systems building on top of Pendle
 - For money markets or CDP-like stablecoins looking to accepts PT as collateral: refer to [PT as Collateral doc](./Integration/PTAsCollateral.md)
 - For money markets or CDP-like stablecoins looking to accepts Pendle's LP token as collateral: refer to [LP as Collateral doc](./Integration/LPAsCollateral.md)
-- For systems that need an oracle for PT or LP prices: refer to [this for the PT Oracle](./Integration/PTOracle.md) and [this for the LP Oracle](./Integration/LPOracle.md)
+- For systems that need an oracle for PT or LP prices: refer to [Introduction of PT Oracle](./Integration/IntroductionOfPtOracle.md), [Introduction of LP Oracle](./Integration/IntroductionOfLpOracle.md) and [How To Integrate Pt And Lp Oracle](./Integration/HowToIntegratePtAndLpOracle.md)
 
 ### For off-chain systems building on top of Pendle:
 Pendle provides three key services to support developers in leveraging the Pendle protocol.

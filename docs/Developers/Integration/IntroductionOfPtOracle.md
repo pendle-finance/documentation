@@ -2,29 +2,14 @@
 hide_table_of_contents: true
 ---
 
-# PT Oracle
+# Introduction of PT Oracle 
 
-The **Principal Token (PT)** is an ERC20 token bearing the value of a certain amount of asset which can be redeemed at maturity. For example, `100 PT-stETH-25DEC2025` can be redeemed for `100 stETH` on the 25th of December 2025.
-
-In Pendle system, $PT$ can be freely traded from and to $SY$ (EIP-5115 token) ultilizing our AMM. With the built-in TWAP oracle library, the geometric mean price of $PT$ in terms of asset (please refer to the definition of asset [here](https://eips.ethereum.org/EIPS/eip-5115)) can be derived from our `PendleMarket` contracts fully on-chain.
-
-## About Our Oracles
+In Pendle system, $PT$ can be freely traded from and to $SY$ ultilizing our AMM. With the built-in TWAP oracle library, the geometric mean price of $PT$ in terms of SY or asset can be derived from our `PendleMarket` contracts fully on-chain. Please refer to the [StandardizedYield doc](../Contracts/StandardizedYield) for more details of SY & asset
+## Oracle design
 
 Pendle's oracle implementation is inspired from the idea of UniswapV3 Oracle (see [here](https://docs.uniswap.org/concepts/protocol/oracle)) with a slight difference in how we define the cumulative rate. In short, our oracle stores the cumulative logarithm of implied APY (the interest rate implied by $PT/asset$ pricing). From the cumulative logarithm of Implied APY, we can calculate the geometric mean of Implied APY, which will used to derive the mean $PT$ price.
 
 In a way, the Pendle AMM contract has a built-in oracle of interest rate, which can used to derive $PT$ prices.
-
-### EIP5115 Asset
-
-Although the AMMs hold their positions and execute trades in $PT$ and $SY$, their underlying logics assume all their $SY$ balances are converted to assets. As a result, the exchange rate returned by our oracles are between $PT$ and $Asset$, which should make pricing $PT$ more straightforward.
-
-Let's take `PT-stETH-25DEC2025` as an example. We have:
-1. $Asset$ in this case is `stETH`
-2. $oraclePtToAssetRate = 0.9$
-3. $stETHPrice = \$2000$
-
-Thus, the price of `PT-stETH-25DEC2025` should be $0.9 \times 2000 = \$1800$
-
 ### Formulas
 
 Our oracle storage is in the following form:
@@ -57,6 +42,19 @@ $$
 $$
 ptToAssetPrice = 1 / assetToPtPrice
 $$
+
+
+
+### SY Asset
+
+Although the AMMs hold their positions and execute trades in $PT$ and $SY$, their underlying logics assume all their $SY$ balances are converted to assets. As a result, the exchange rate returned by our oracles are between $PT$ and $Asset$, which should make pricing $PT$ more straightforward.
+
+Let's take `PT-stETH-25DEC2025` as an example. We have:
+1. $Asset$ in this case is `stETH`
+2. $oraclePtToAssetRate = 0.9$
+3. $stETHPrice = \$2000$
+
+Thus, the price of `PT-stETH-25DEC2025` should be $0.9 \times 2000 = \$1800$
 
 ### Oracle Preparation
 

@@ -87,8 +87,7 @@ module.exports = {
       label: "Developers",
       items: [
         { type: "doc", id: "Developers/Overview" },
-        { type: "doc", id: "Developers/DeveloperFAQ" },
-        // { type: "doc", id: "Developers/DeveloperUpdates" },
+        { type: "doc", id: "Developers/DeveloperUpdates" },
         { type: "doc", id: "Developers/HighLevelArchitecture" },
         {
           type: "category",
@@ -96,7 +95,7 @@ module.exports = {
           items: [
             { type: "doc", id: "Developers/Contracts/PendleRouter" },
             { type: "doc", id: "Developers/Contracts/vePENDLE" },
-            { type: "doc", id: "Developers/Contracts/TechnicalDetails" },
+            { type: "doc", id: "Developers/Contracts/UncategorisedQuestions" },
           ],
         },
         {
@@ -113,11 +112,11 @@ module.exports = {
           type: "category",
           label: "Integration",
           items: [
-            { type: "doc", id: "Developers/Integration/PTOracle" },
-            { type: "doc", id: "Developers/Integration/LPOracle" },
-            { type: "doc", id: "Developers/Integration/PTAsCollateral" },
+            { type: "doc", id: "Developers/Integration/HowToIntegratePtAndLpOracle" },
+            { type: "doc", id: "Developers/Integration/IntroductionOfLpOracle" },
+            { type: "doc", id: "Developers/Integration/IntroductionOfPtOracle" },
             { type: "doc", id: "Developers/Integration/LPAsCollateral" },
-            { type: "doc", id: "Developers/Integration/PriceImpactCalculation" },
+            { type: "doc", id: "Developers/Integration/PTAsCollateral" },
           ],
         },
         {

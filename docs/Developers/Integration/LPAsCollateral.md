@@ -22,25 +22,6 @@ This use case is similar to depositing a yield bearing asset like wstETH and bor
   * For example, a long term ETH holder can use LP-stETH as collateral to borrow USDC to buy more LP-stETH
   * Essentially, the user will be getting a good returns from the Pendle LP position on top of their leveraged long position on ETH.
 
-## Integrating LP as a collateral in a money market
-
-There are three considerations when integrating Pendle LPs as a collateral in a money market:
-
-#### 1. Reliable oracle for LP price:
-  * There is a permission-less oracle system for Pendle LPs that allows for querying TWAP prices for customised durations.
-  * Please refer to [this page](LPOracle.md) for the oracle documentations.
-
-#### 2. Liquidation of Pendle LP:
-  * When a liquidation with $LP$ as collateral occurs, commonly, the liquidator will have to sell $LP$ into common asset to pay their debt.
-  * In Pendle's system, we support converting $LP$ back to $SY$ by removing liquidity single-sided into $SY$ on our AMM (before maturity) or redeeming $PT$ + $SY$ and redeeming $PT$ to $SY$ directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output token of $SY$ (see [EIP-5115](https://eips.ethereum.org/EIPS/eip-5115)).
-  * For reference, we have written the [`BoringLpSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/offchain-helpers/BoringLpSeller.sol) contract to sell $LP$ into one of SY's output tokens.
-  * You can extend this abstract contract to use in a liquidation system.
-
-#### 3. Handling of Pendle LP's rewards:
-  * Holding Pendle LP tokens will generate PENDLE incentives and potential reward tokens (like WETH for LP for GLP pool)
-  * The money market contracts will need to redeem these rewards by calling the `redeemRewards` function and implement logic to distribute these rewards to their users
-
-
 ## Risk analysis for LP as a collateral
 
 ### 1. Smart contract vulnerability in Pendle contracts:
@@ -62,9 +43,6 @@ There are three considerations when integrating Pendle LPs as a collateral in a 
 The considerations for this part is the same as the ones for integrating PT as collateral [here](./PTAsCollateral.md#4-insufficient-pt-liquidity-for-liquidation-in-a-short-duration).
 
 The difference between LP and PT is just that LP prices fluctuate less than PT prices (because LP = PT + SY). Therefore, with the same pool, the parameters for supporting LP as a collateral could more more aggressive than that for supporting PT as a collateral.
-
-##### How to check price impact for selling LP
-* You can follow the instructions [here](./PriceImpactCalculation.md) to check the price impact for selling a certain amount of LP
 
 ### 5. Highly volatile LP price could liquidate users unnessarily
 * This is similar to the analysis in the [risk analysis for PT as a collateral](./PTAsCollateral.md#5-highly-volatile-pt-price-could-liquidate-users-unnessarily)

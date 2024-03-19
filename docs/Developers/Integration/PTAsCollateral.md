@@ -27,19 +27,6 @@ This use case is similar to depositing a yield bearing asset (like wstETH) and b
   * For example, a long term ETH holder can use PT-stETH as collateral to borrow USDC to buy more PT-stETH
   * Essentially, the user will be getting a fixed APY (from PT) on top of their leveraged long position on ETH.
 
-## Integrating PT as a collateral in a money market
-
-There are two main prerequisites to integrate PTs as a collateral in a money market:
-
-#### Reliable oracle for PT price:
-  * There is a permission-less oracle system for PTs that allows for querying TWAP prices for customised durations.
-  * Please refer to [this page](PTOracle.md) for the oracle documentations.
-
-#### Liquidation of PTs
-  * When a liquidation with $PT$ as collateral occurs, commonly, the liquidator will have to sell $PT$ into common asset to pay their debt.
-  * In Pendle's system, we support converting $PT$ back to $SY$ by selling $PT$ on our AMM (before maturity) or redeeming directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output token of $SY$ (see [EIP-5115](https://eips.ethereum.org/EIPS/eip-5115)).
-  * For reference, we have written the [`BoringPtSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/offchain-helpers/BoringPtSeller.sol) contract to sell $PT$ into one of the output token.
-  * You can extend this abstract contract to use in a liquidation system.
 
 ## Risk analysis for PT as a collateral
 
@@ -101,10 +88,6 @@ When PT price drops significantly vs the borrowAsset (say for 20%) and doesn't b
 * For ii: it depends on how mature and decentralised the liquidation ecosystem for the money market is. If the liquidators are highly active/efficient, collateral factors could be set higher
 * In another approach for thinking about setting collateral factor for PT: it could be similar to the collateral factor for PT's asset in the money market, since PT price will fluctuate along the asset's price.
 * Since it's generally troublesome to decrease collateral factor and much easier to increase it, it's generally a good approach to start with more conservative collateral factors
-
-#### How to check price impact for selling PT
-
-You can follow the instructions [here](./PriceImpactCalculation.md) to check the price impact for selling a certain amount of PT
 
 ### 5. Highly volatile PT price could liquidate users unnessarily
   * If PT prices are too volatile, a temporary dip in PT price could liquidate certain users unnessarily

@@ -80,7 +80,7 @@ export default function AboutTheProtocol() {
                 </div>
               </div>
             </Link>
-            <Link to="/Developers/Integration/PTOracle" className={styles.indivFeature}>
+            <Link to="/Developers/Integration/IntroductionOfPtOracle" className={styles.indivFeature}>
               <div
                 onMouseEnter={() => {
                   play("integration");
