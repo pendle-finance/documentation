@@ -94,6 +94,7 @@ module.exports = {
           label: "Contracts",
           items: [
             { type: "doc", id: "Developers/Contracts/PendleRouter" },
+            { type: "doc", id: "Developers/Contracts/StandardizedYield" },
             { type: "doc", id: "Developers/Contracts/vePENDLE" },
             { type: "doc", id: "Developers/Contracts/UncategorisedQuestions" },
           ],
