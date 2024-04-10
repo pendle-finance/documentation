@@ -54,5 +54,5 @@ Fixed APY is the guaranteed yield you will receive by holding PT. This value is 
 
 Long Yield APY is the approximated return (annualized) from buying YT at the current price, assuming underlying APY remains constant at its current value. 
 
-This value can be negative, meaning that the total value of all the future yield baed on the Underlying APY will be less than the cost of buying YT.
+This value can be negative, meaning that the total value of all the future yield based on the Underlying APY will be less than the cost of buying YT.
 
