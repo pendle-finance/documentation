@@ -4,11 +4,20 @@ hide_table_of_contents: true
 
 # AMM
 
-Pendle’s V2 AMM is designed specifically for trading yield, and takes advantage of the behaviours of PT and YT.
+Pendle’s V2 AMM is designed specifically for trading yield, and takes advantage of the behaviors of PT and YT.
 
 The AMM model was adapted from Notional Finance's AMM. The AMM curve changes to account for yield accrued over time and narrows PT’s price range as it approaches maturity. By concentrating liquidity into a narrow, meaningful range, the capital efficiency to trade yield is increased as PT approaches maturity
 
-Furthermore, we managed to create a pseudo-AMM that allows us to both facilitate PT and YT swaps using just a single pool of liquidity. With a PT/SY pool, PT can be directly traded with SY, while YT trades are also possible via flash swaps
+Furthermore, we managed to create a pseudo-AMM that allows us to both facilitate PT and YT swaps using just a single pool of liquidity. With a PT/SY pool, PT can be directly traded with SY, while YT trades are also possible via flash swaps.
+
+## Liquidity Providers (LP)
+
+Liquidity on Pendle V2 comprises of PT/SY (where SY is simply a wrapped version of the underlying yield bearing asset). This means that LPs earn yields from:
+
+1. PT fixed yield
+2. Underlying yield (SY yield)
+3. Swap fees (from PT and YT swaps)
+4. $PENDLE incentives
 
 ## Swaps
 
@@ -18,7 +27,7 @@ Liquidity pools in Pendle V2 are set up as PT/SY, e.g. PT-aUSDC / SY-aUSDC. Swap
 
 > Auto-routing is built in, allowing anyone to trade PTs and YTs with any major asset.
 
-## Flash Swaps
+### Flash Swaps
 
 Flash swaps are possible due to the relationship between PT and YT. As PT and YT can be minted from and redeemed to its underlying SY, we can express the price relationship:
 $$$
@@ -45,11 +54,20 @@ Selling YT:
 
 ![Selling YT](/img/ProtocolMechanics/selling_yt.png "Selling YT")
 
+## Matured LP
+
+Upon maturity, LPs are able to Zap Out + Redeem PT for Underlying + Claim Rewards in a single transaction:
+
+1. Visit [Pendle Trade](https://app.pendle.finance/trade/pools) and toggle to the “Inactive” pool list
+2. Select a pool
+3. Toggle “Claim All Pool Rewards”
+4. Select an output asset. Pendle will automatically Redeem PT for Underlying > Unwrap SY > Perform Swaps (if needed) here
+
 ## Key Features
 
 ### Minimal Impermanent Loss (IL)
 
-Pendle V2 design ensures that IL is a negligible concern. Pendle’s AMM accounts for PT’s natural price appreciation by shifting the AMM curve to push PT price towards its underlying value as time passes, mitigating time-dependent IL.
+Pendle V2 design ensures that IL is a negligible concern. Pendle’s AMM accounts for PT’s natural price appreciation by shifting the AMM curve to push PT price towards its underlying value as time passes, mitigating time-dependent IL (No IL at maturity).
 
 On top of that, IL from swaps is also mitigated as both assets LP’ed are very highly correlated against one another (e.g. PT-stETH / SY-stETH). If liquidity is provided until maturity, an LP’s position will be equivalent to fully holding the underlying asset since PT essentially appreciates towards the underlying asset.
 
@@ -62,6 +80,12 @@ In most cases prior to maturity, PT trades within a yield range and does not flu
 Pendle’s AMM curve can be customised to cater to tokens with varying yield volatilities. Yields are often cyclical in nature and typically swing between highs and lows. Typically, the floor and ceiling for the yield of a liquid asset are much easier to predict than its price.
 
 For example, the annual yield of staked ETH is likely to fluctuate in a band of 0.5-7%. Knowing the rough yield range of an asset enables us to concentrate liquidity within that range, enabling much larger trade sizes at a lower slippage.
+
+However, if the implied yield of the pool trades out of its set range, liquidity will be too thin to further push it in said direction. Using the above example, if the implied yield of the stETH pool goes beyond 7%, buying YT (or selling PT) might no longer be possible.
+
+To check the set yield range of the pool, click on the sign as shown in the screenshot below.
+
+![Market Info](/img/ProtocolMechanics/market_info.png "Market Info")
 
 ### Greater Capital Efficiency
 

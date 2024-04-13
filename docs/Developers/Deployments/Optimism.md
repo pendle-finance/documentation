@@ -22,30 +22,12 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |       MarketFactoryV3        | [`0x4A2B38b9cBd83c86F261a4d64c243795D4d44aBC`](https://optimistic.etherscan.io/address/0x4A2B38b9cBd83c86F261a4d64c243795D4d44aBC) | [ABI](http://api-optimistic.etherscan.io/api?module=contract&action=getabi&address=0x4A2B38b9cBd83c86F261a4d64c243795D4d44aBC&format=raw) |
 |          PT Oracle           | [`0x15Aab5C1ab800A9e457d9f4335e8A2Dc9f6Ad707`](https://optimistic.etherscan.io/address/0x15Aab5C1ab800A9e457d9f4335e8A2Dc9f6Ad707) | [ABI](http://api-optimistic.etherscan.io/api?module=contract&action=getabi&address=0x15Aab5C1ab800A9e457d9f4335e8A2Dc9f6Ad707&format=raw) |
 
-## SY Tokens
-| Contract  |                                                              Address                                                               |                                                                    ABI                                                                    |
-| :-------: | :--------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------: |
-| SY-wstETH | [`0x96A528f4414aC3CcD21342996c93f2EcdEc24286`](https://optimistic.etherscan.io/address/0x96A528f4414aC3CcD21342996c93f2EcdEc24286) | [ABI](http://api-optimistic.etherscan.io/api?module=contract&action=getabi&address=0x96A528f4414aC3CcD21342996c93f2EcdEc24286&format=raw) |
-|  SY-rETH  | [`0x9D6d509C0354ACA187aAC6beA7d063D3Ef68e2A0`](https://optimistic.etherscan.io/address/0x9D6d509C0354ACA187aAC6beA7d063D3Ef68e2A0) | [ABI](http://api-optimistic.etherscan.io/api?module=contract&action=getabi&address=0x9D6d509C0354ACA187aAC6beA7d063D3Ef68e2A0&format=raw) |
+## SY / Market / PT / YT Addresses
 
-## Yield Tokens (YT)
+To find the relevant addresses and details of a specific market:
 
-|     Contract      |                                                              Address                                                               |                                                                    ABI                                                                    |
-| :---------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------: |
-| YT-wstETH-26SEP24 | [`0x1DFe41cc7F7860BA7f1076ca6d0fedD707c87A00`](https://optimistic.etherscan.io/address/0x1DFe41cc7F7860BA7f1076ca6d0fedD707c87A00) | [ABI](http://api-optimistic.etherscan.io/api?module=contract&action=getabi&address=0x1DFe41cc7F7860BA7f1076ca6d0fedD707c87A00&format=raw) |
-|  YT-rETH-27JUN24  | [`0xE8F0cf61598E0d7D20f99b978BdeFF4D4222FeB8`](https://optimistic.etherscan.io/address/0xE8F0cf61598E0d7D20f99b978BdeFF4D4222FeB8) | [ABI](http://api-optimistic.etherscan.io/api?module=contract&action=getabi&address=0xE8F0cf61598E0d7D20f99b978BdeFF4D4222FeB8&format=raw) |
-
-## Principal Tokens (PT)
-
-|     Contract      |                                                              Address                                                               |                                                                    ABI                                                                    |
-| :---------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------: |
-| PT-wstETH-26SEP24 | [`0xF4225F061E5E01aA59DE5E615729A9180301EB07`](https://optimistic.etherscan.io/address/0xF4225F061E5E01aA59DE5E615729A9180301EB07) | [ABI](http://api-optimistic.etherscan.io/api?module=contract&action=getabi&address=0xF4225F061E5E01aA59DE5E615729A9180301EB07&format=raw) |
-|  PT-rETH-27JUN24  | [`0xAA92Ea52612fA5ee5aba5510682485c19750CB82`](https://optimistic.etherscan.io/address/0xAA92Ea52612fA5ee5aba5510682485c19750CB82) | [ABI](http://api-optimistic.etherscan.io/api?module=contract&action=getabi&address=0xAA92Ea52612fA5ee5aba5510682485c19750CB82&format=raw) |
-
-
-## Markets
-
-|              Contract              |                                                              Address                                                               |                                                                    ABI                                                                    |
-| :--------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------: |
-| PT-wstETH-26SEP24/SY-wstETH Market | [`0x24fB77c8C776C75F869BC65e6856AF56f57d919F`](https://optimistic.etherscan.io/address/0x24fB77c8C776C75F869BC65e6856AF56f57d919F) | [ABI](http://api-optimistic.etherscan.io/api?module=contract&action=getabi&address=0x24fB77c8C776C75F869BC65e6856AF56f57d919F&format=raw) |
-|   PT-rETH-27JUN24/SY-rETH Market   | [`0x0C485Feb9E6fee816652Ea8f3beD2A8f59296E40`](https://optimistic.etherscan.io/address/0x0C485Feb9E6fee816652Ea8f3beD2A8f59296E40) | [ABI](http://api-optimistic.etherscan.io/api?module=contract&action=getabi&address=0x0C485Feb9E6fee816652Ea8f3beD2A8f59296E40&format=raw) |
+1. Go to the market page
+2. Select the desired chain and click into an asset
+3. Click into the button as shown in the image below
+    
+![Market Info](/img/ProtocolMechanics/market_info.png "Market Info")
