@@ -23,7 +23,6 @@
 }
 
 .leftFeatureCard:hover {
-  background-color: #191D27;
   text-shadow: 0 0 20px #fff;
 }
 
@@ -43,7 +42,6 @@
 }
 
 .rightFeatureCard:hover {
-  background-color: #191D27;
   text-shadow: 0 0 20px #fff;
 }
 
@@ -144,10 +142,11 @@
   }
 
   .rightFeatureCard{
-    width: 90vw;
-    padding: 1rem;
-    margin-top: 1rem;
+    width: 100%;
+    height: 25vh;
+    margin-top: 2rem;
   }
+
   .lottie {
     height: 3rem;
   }

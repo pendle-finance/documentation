@@ -71,7 +71,7 @@ export default function GettingStarted() {
     <div className={styles.root}>
       <h2>Getting Started with the Protocol</h2>
       <div className={styles.featureContainer}>
-      <div className={styles.leftFeatureCard}>
+        <div className={styles.leftFeatureCard}>
           <Link to="/Introduction" className={styles.sibling}>
             Overview
           </Link>
@@ -129,7 +129,7 @@ export default function GettingStarted() {
                 </div>
               </div>
             </Link>
-            <Link to="/ProtocolMechanics/AMM" className={styles.indivFeature}>
+            <Link to="/ProtocolMechanics/LiquidityEngines/AMM" className={styles.indivFeature}>
               <div
                 onMouseEnter={() => {
                   play("amm");
@@ -140,7 +140,7 @@ export default function GettingStarted() {
                 className={styles.lottieWrapper}
               >
                 <div className={styles.lottie} ref={ammRef} />
-                <div className={styles.featureTitle}>Pendle AMM</div>
+                <div className={styles.featureTitle}>Liquidity Engines</div>
               </div>
             </Link>
           </Link>

@@ -28,7 +28,13 @@ module.exports = {
             { type: "doc", id: "ProtocolMechanics/YieldTokenization/YT" },
           ]
         },
-        { type: "doc", id: "ProtocolMechanics/AMM" },
+        { type: "category", 
+          label: "Liquidity Engines",
+          items: [
+            {type: "doc", id: "ProtocolMechanics/LiquidityEngines/AMM"},
+            {type: "doc", id: "ProtocolMechanics/LiquidityEngines/OrderBook"},
+          ]
+        },
         {
           type: "category",
           label: "Tokenomics, vePENDLE, Fees",
@@ -146,8 +152,8 @@ module.exports = {
     },
     {
       type: "link",
-      label: "Yield Trading Handbook",
-      href: 'https://handbook.pendle.finance/',
+      label: "Pendle Academy",
+      href: 'https://pendle.gitbook.io/pendle-academy',
     },
   ],
 };
