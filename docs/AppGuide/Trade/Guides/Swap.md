@@ -23,8 +23,7 @@ hide_table_of_contents: true
 !["PT Swaps 4"](/img/AppGuide/pt-swaps-4.png)
 
 5. Review the output information.
-  * Rate: The exchange rate between the input and output token
-  * Min. Received: The minimum amount of tokens that the user will received
+  * Max. Slippage: The maximum slippage to be tolerated. Transaction reverts if slippage is beyond the tolerance number.
   * Effective Fixed APY: The fixed APY that you are effectively getting from this trade, after taking into account price impact and swap fees. This is equivalent to the final execution price/average price of acquisition for PT.
 
 !["PT Swaps 5"](/img/AppGuide/pt-swaps-5.png)
@@ -50,10 +49,9 @@ hide_table_of_contents: true
 !["YT Swaps 4"](/img/AppGuide/yt-swaps-4.png)
 
 5. Review the output information.
-  * Rate: The exchange rate between the input and output token
-  * Notional value traded: The amount of underlying asset needed to generate the trade. This can also be treated as the amount of yield exposure (i.e. YT generates yield from $122,366 worth of DAI deposit).
-  * Min. Received: The minimum amount of tokens that the user will received
+  * Max. Slippage: The maximum slippage to be tolerated. Transaction reverts if slippage is beyond the tolerance number.
   * Effective Fixed APY: The fixed APY that you are effectively getting from this trade, after taking into account price impact and swap fees. This is equivalent to the final execution price/average price of acquisition for YT.
+  * Notional value traded: The amount of underlying asset needed to generate the trade. This can also be treated as the amount of yield exposure (i.e. YT generates yield from $122,366 worth of DAI deposit).
 
 !["YT Swaps 5"](/img/AppGuide/yt-swaps-5.png)
 
