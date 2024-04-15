@@ -19,3 +19,8 @@ Pendle所做的与传统金融中的债券剥离类似 － 债券的本金和利
 例如，ETH → stETH → SY-stETH → (PT-stETH + YT-stETH)。在选择其中一种资产后，此功能可以在Pro UI中找到。
 
 ![Yield Splitting UI](/img/ProtocolMechanics/yield-splitting-ui.png "Yield Splitting UI")
+
+## 使用外部预言机
+
+在二层网络上，需要外部预言机来从以太坊主网获取接受的产生收益资产的合约比率。为此，Pendle 在 Arbitrum 上使用 [RedStone Oracles](https://docs.redstone.finance/docs/smart-contract-devs/price-feeds) 来获取几个市场的合约比率。 
+

@@ -42,3 +42,4 @@ hide_table_of_contents: true
 - 建立看多收益率的长仓（例如通过购买更多的收益代币来押注stETH的收益率上升）
 - 在不增加风险的情况下获得更多收益（例如使用您的stETH来提供流动性）
 - 任何上述的混合策略，在我们的[收益率交易手册](https://handbook.pendle.finance/)中了解如何执行这些策略
+- A mix of any of the above strategies, learn more on how to execute these strategies at our [Pendle Academy](https://handbook.pendle.finance/)

@@ -6,7 +6,7 @@ hide_table_of_contents: true
 
 把PENDLE锁仓为vePENDLE。你也可以延长锁定期。
 
-1. 前往 [Lock（锁定）](https://app.pendle.finance/vependle/lock)
+1. 前往  [Lock（锁定](https://app.pendle.finance/vependle/lock)
 
 ![Lock PENDLE](/img/ProtocolMechanics/lock_pendle.png "Lock PENDLE")
 
