@@ -22,7 +22,7 @@ export default function NavbarMobileSidebarSecondaryMenu() {
   const secondaryMenu = useNavbarSecondaryMenu();
   return (
     <>
-      <SearchBar/>
+      {/* <SearchBar/> */}
       {/* edge-case: prevent returning to the primaryMenu when it's empty */}
       {!isPrimaryMenuEmpty && (
         <SecondaryMenuBackButton onClick={() => secondaryMenu.hide()} />

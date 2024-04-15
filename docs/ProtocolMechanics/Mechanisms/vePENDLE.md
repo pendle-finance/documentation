@@ -8,6 +8,13 @@ Pendle's governance relies on Vote-escrowed PENDLE, also known as vePENDLE, whic
 
 vePENDLE also serves as an additional sink for reducing the supply of PENDLE tokens, thereby increasing the token's stability and the overall robustness of the protocol. In this way, vePENDLE serves as an important tool for maintaining the long-term health and success of the Pendle ecosystem.
 
+Holding vePENDLE entitles you to:
+
+1. Vote to channel $PENDLE incentives into a pool
+2. Vote to receive Voter’s APY (80% of the swap fees of the voted pool)
+3. Receive base APY 
+4. Boost LP rewards (up to 250%)
+
 ## Getting vePENDLE
 
 Lock PENDLE and receive vePENDLE. Your vePENDLE value is proportional to the amount and duration staked (up to a maximum of 2 years). Tutorial [here](./Guides/Lock.md). Each wallet is associated with a single vePENDLE expiry date.
@@ -58,7 +65,7 @@ For more information and stats about vePENDLE, visit our in-app [Community Dashb
 
 ## LP Reward Boost
 
-If you LP in a pool while you are holding vePENDLE, your PENDLE incentives and rewards for all of your LPs will be further boosted as well, by up to 250% based on your vePENDLE value.
+If you LP in a pool while you are holding vePENDLE, your PENDLE incentives and rewards for all of your LPs will be further boosted as well, by up to 250% based on your vePENDLE value. To obtain the maximum boost, you have to own an equivalent % supply of vePENDLE as your ownership % of LP in the pool.
 
 ![Boost received against vePendle](/img/ProtocolMechanics/vependle_boost.jpg "Boost received against vePendle")
 

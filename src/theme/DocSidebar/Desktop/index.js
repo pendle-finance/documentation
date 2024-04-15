@@ -12,6 +12,7 @@ function DocSidebarDesktop({path, sidebar, onCollapse, isHidden}) {
       sidebar: {hideable},
     },
   } = useThemeConfig();
+
   return (
     <div
       className={clsx(

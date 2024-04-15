@@ -14,7 +14,6 @@ hide_table_of_contents: true
 
 请注意，如果您的输入资产需要被交易转换为池子的底层代币，则仍然会造成价格影响。
 
-
 ## 提领奖励包
 
 !["Redeem Rewards Bundle"](/img/AppGuide/redeem-rewards-bundle.png "Redeem Rewards Bundle")

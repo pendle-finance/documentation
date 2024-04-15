@@ -9,7 +9,7 @@
   --collapse-button-bg-color-dark: #2e333a;
 }
 
-@media (min-width: 997px) {
+@media (min-width: 1024px) {
   /* .sidebar {
     display: flex;
     flex-direction: column;
