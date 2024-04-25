@@ -31,8 +31,11 @@ interface IPLimitRouterCallback {
 ##### Parameters:
 
 `actualMaking`: The amount of tokens received by the taker's contract from the fill operation. This amount is in SY if the orderType is `SY_FOR_PT` or `SY_FOR_YT`, in PT if it's `PT_FOR_SY`, and in YT if it's `YT_FOR_SY`.
+
 `actualTaking`: The amount of tokens the taker's contract must send to the limit order router to complete the fill. This amount is in SY if `PT_FOR_SY` or `YT_FOR_SY`, in PT if it's `SY_FOR_PT`, and in YT if it's `SY_FOR_YT`.
+
 `totalFee`: The total fee for the operation.
+
 `data`: Additional data provided during the `fill` operation. This corresponds to the callback parameter in the `fill` function.
 
 ##### Returns:
@@ -41,13 +44,18 @@ interface IPLimitRouterCallback {
 
 ### Callback Flow and Arbitrage Use Cases
 
-The callback mechanism enables complex interactions and arbitrage opportunities. Here's a typical flow for using the callback feature:
+The callback mechanism enables complex interactions and arbitrage opportunities. Here's a simplified flow for using the callback feature:
 
 1. Taker Contract Calls `fill`: The `fill` function is called with the specified parameters and the callback data.
 2. Tokens Are Transferred: The `actualMaking` amount is transferred to the receiver (typically the taker's contract). 
 3. Callback Function Is Invoked: the callback function (`limitRouterCallback`) is called with the actualMaking, actualTaking, and totalFee values, along with the callback parameter in fill.
 4. Callback Logic Executes: The taker's contract can perform additional operations during the callback, such as arbitrage with Pendle's AMM or other limit orders. The goal is to use the actualMaking amount to generate more value than the actualTaking amount, creating a profit.
 5. Send Tokens to Complete: The taker's contract must send back the actualTaking amount to ensure the fill operation completes successfully.
+6. Limit Order Contract Sends Output: Once the taker's contract sends the required tokens, the limit order contract transfers the agreed output to the limit order receivers.
+
+![Limit Order Callback Flow](/img/Developers/limit_order_callback_flow.png "Limit Order Callback Flow")
+
+
   
 This flow allows for flexible and creative use of the fill function, providing opportunities for arbitrage and custom contract logic. Arbitrageurs can take advantage of this mechanism to execute strategies that generate profit by finding discrepancies in token values or other market inefficiencies.
 
