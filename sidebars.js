@@ -26,14 +26,15 @@ module.exports = {
             { type: "doc", id: "ProtocolMechanics/YieldTokenization/Minting" },
             { type: "doc", id: "ProtocolMechanics/YieldTokenization/PT" },
             { type: "doc", id: "ProtocolMechanics/YieldTokenization/YT" },
-          ]
+          ],
         },
-        { type: "category", 
+        {
+          type: "category",
           label: "Liquidity Engines",
           items: [
-            {type: "doc", id: "ProtocolMechanics/LiquidityEngines/AMM"},
-            {type: "doc", id: "ProtocolMechanics/LiquidityEngines/OrderBook"},
-          ]
+            { type: "doc", id: "ProtocolMechanics/LiquidityEngines/AMM" },
+            { type: "doc", id: "ProtocolMechanics/LiquidityEngines/OrderBook" },
+          ],
         },
         {
           type: "category",
@@ -47,9 +48,18 @@ module.exports = {
               label: "Guides",
               items: [
                 { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/Lock" },
-                { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/ClaimRewards" },
-                { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/ChannelIncentives" },
-                { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/ApplyBoost" },
+                {
+                  type: "doc",
+                  id: "ProtocolMechanics/Mechanisms/Guides/ClaimRewards",
+                },
+                {
+                  type: "doc",
+                  id: "ProtocolMechanics/Mechanisms/Guides/ChannelIncentives",
+                },
+                {
+                  type: "doc",
+                  id: "ProtocolMechanics/Mechanisms/Guides/ApplyBoost",
+                },
               ],
             },
           ],
@@ -77,7 +87,7 @@ module.exports = {
                 { type: "doc", id: "AppGuide/Trade/Guides/LimitOrder" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Pool" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Claim" },
-                { type: "doc", id: "AppGuide/Trade/Guides/Dashboard" }
+                { type: "doc", id: "AppGuide/Trade/Guides/Dashboard" },
               ],
             },
             { type: "doc", id: "AppGuide/Trade/Calculator" },
@@ -118,9 +128,18 @@ module.exports = {
           type: "category",
           label: "Integration",
           items: [
-            { type: "doc", id: "Developers/Integration/HowToIntegratePtAndLpOracle" },
-            { type: "doc", id: "Developers/Integration/IntroductionOfLpOracle" },
-            { type: "doc", id: "Developers/Integration/IntroductionOfPtOracle" },
+            {
+              type: "doc",
+              id: "Developers/Integration/HowToIntegratePtAndLpOracle",
+            },
+            {
+              type: "doc",
+              id: "Developers/Integration/IntroductionOfLpOracle",
+            },
+            {
+              type: "doc",
+              id: "Developers/Integration/IntroductionOfPtOracle",
+            },
             { type: "doc", id: "Developers/Integration/LPAsCollateral" },
             { type: "doc", id: "Developers/Integration/PTAsCollateral" },
           ],
@@ -134,6 +153,35 @@ module.exports = {
             { type: "doc", id: "Developers/Helpers/PendleRouterStatic" },
           ],
         },
+        {
+          type: "category",
+          label: "Limit Order",
+          items: [
+            { type: "doc", id: "Developers/LimitOrder/LimitOrderContract" },
+            { type: "doc", id: "Developers/LimitOrder/LimitOrderCallback" },
+            {
+              type: "category",
+              label: "Maker",
+              items: [
+                {
+                  type: "doc",
+                  id: "Developers/LimitOrder/Maker/CreateALimitOrder",
+                },
+                { type: "doc", id: "Developers/LimitOrder/Maker/CancelOrders" },
+              ],
+            },
+            {
+              type: "category",
+              label: "Taker",
+              items: [
+                {
+                  type: "doc",
+                  id: "Developers/LimitOrder/Taker/FillALimitOrder",
+                },
+              ],
+            },
+          ],
+        },
       ],
     },
     {
@@ -143,17 +191,17 @@ module.exports = {
     {
       type: "link",
       label: "Whitepapers",
-      href: 'https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers',
+      href: "https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers",
     },
     {
       type: "link",
       label: "Learn In-App",
-      href: 'https://app.pendle.finance/pro/education/learn',
+      href: "https://app.pendle.finance/pro/education/learn",
     },
     {
       type: "link",
       label: "Pendle Academy",
-      href: 'https://pendle.gitbook.io/pendle-academy',
+      href: "https://pendle.gitbook.io/pendle-academy",
     },
   ],
 };
