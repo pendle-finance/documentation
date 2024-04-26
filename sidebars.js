@@ -123,6 +123,7 @@ module.exports = {
             { type: "doc", id: "Developers/Integration/IntroductionOfPtOracle" },
             { type: "doc", id: "Developers/Integration/LPAsCollateral" },
             { type: "doc", id: "Developers/Integration/PTAsCollateral" },
+            { type: "doc", id: "Developers/Integration/PTSanityChecks" },
           ],
         },
         {
