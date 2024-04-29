@@ -33,7 +33,7 @@ The Router is also a **static** Diamond-Proxy (ERC2535) contract without any upg
 
 `swapExactPtForToken`: Swap an exact amount of PT for a supported ERC20 token.
 
-`swapExactTokenForYt`: Swap an exact amount of a supported ERC20 token for TT.
+`swapExactTokenForYt`: Swap an exact amount of a supported ERC20 token for YT.
 
 `swapExactYtForToken`: Swap an exact amount of YT for a supported ERC20 token.
 
