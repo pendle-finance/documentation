@@ -1,48 +1,57 @@
 ---
+
 hide_table_of_contents: true
+
 ---
 
 # Overview
 
-## How Pendle Works
+Welcome to the Pendle Documentation. This overview provides key information and resources to help you understand and integrate with the Pendle protocol.
 
-To understand how Pendle works on the contract level, you can:
-- Start with Pendle's [High Level Architecture](./HighLevelArchitecture.md) for an overview of the components in Pendle protocol.
-- Refer to the developer docs on [vePENDLE](./Contracts/vePENDLE.md) to understand the components and cross-chain mechanisms of vePENDLE.
+## Understanding Pendle's Architecture
 
-- Refer to the repository for Pendle V2 contracts: [GitHub link](https://github.com/pendle-finance/pendle-core-v2-public/)
-
-To understand the deeper mechanics and formulas involved in the Pendle protocol, you can refer to the 4 whitepapers at [this link](https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers):
-- SY: explains EIP-5115 Standardized Yield, a token standard to generalize yield generating mechanisms;
-- SYS: explains how Pendle split any Standardized Yield token into Principal Tokens and Yield Tokens;
-- V2_AMM: explains how the AMM works in Pendle V2;
-- vePENDLE: explains how vePENDLE works;
-
-## How to Integrate Pendle
-
-### For on-chain contract systems building on top of Pendle
-- For money markets or CDP-like stablecoins looking to accepts PT as collateral: refer to [PT as Collateral doc](./Integration/PTAsCollateral.md)
-- For money markets or CDP-like stablecoins looking to accepts Pendle's LP token as collateral: refer to [LP as Collateral doc](./Integration/LPAsCollateral.md)
-- For systems that need an oracle for PT or LP prices: refer to [Introduction of PT Oracle](./Integration/IntroductionOfPtOracle.md), [Introduction of LP Oracle](./Integration/IntroductionOfLpOracle.md) and [How To Integrate Pt And Lp Oracle](./Integration/HowToIntegratePtAndLpOracle.md)
-
-### For off-chain systems building on top of Pendle:
-Pendle provides three key services to support developers in leveraging the Pendle protocol.
-* **Pendle's RouterStatic:** This is a low-level system built in Solidity, consisting of on-chain computational and data aggregation functions. You can find additional details [here](./Helpers/PendleRouterStatic.md).
-* **Pendle's Hosted SDK:** This is a collection of APIs designed to generate calldata for on-chain operations, such as buying PT, zapping into a market, or redeeming yield. More information is available [here](./Helpers/HostedSDK.md).
-* **Pendle's Backend:** This comprises a set of APIs designed to integrate on-chain and off-chain data, covering aspects like spot and historical prices of various assets, APYs of different markets, and a list of transactions for a market. Further details can be found [here](./Helpers/Backend.md).
+- Start with Pendle's [High Level Architecture](./HighLevelArchitecture.md) for an overview of the components in the Pendle protocol.
+- Pendle's Standardized Yield (SY) have quite a number of nuances to it, refer to the [StandardizedYield](./Contracts/StandardizedYield.md) documentation to understand the different types of SY and how they work.
+- Explore the developer documentation on [vePENDLE](./Contracts/vePENDLE.md) to understand the components and cross-chain mechanisms of vePENDLE.
+- Also check out [Uncategorised Questions](./UncategorisedQuestions.md) for answers to common questions.
+- To see the latest Pendle's contracts, refer to [Pendle Contract Repo](https://github.com/pendle-finance/pendle-core-v2-public/)
+- To see examples of various contract interactions, refer to [Pendle Examples Repo](https://github.com/pendle-finance/pendle-examples-public)
 
 
-### For mobile wallets who want to feature Pendle Earn in your app:
-- Pendle Earn is already optimized for mobile usage
-- You just need to add a link or shortcut for users to navigate to the Pendle Earn app at https://app.pendle.finance/earn
-- If your wallet is not supported on Pendle yet, please reach out to us by creating a ticket at the #collab-ticket channel in our Discord at https://pendle.finance/discord
 
-### Deployed contract addresses:
-* [Ethereum](./Deployments/Ethereum.md)
-* [Arbitrum](./Deployments/Arbitrum.md)
-* [BNB Chain](./Deployments/BNBChain.md)
+## On-chain Integration
 
-Other relevant sections can be found in the navigation sidebar on the left.
+### Interact with Pendle Router
+- To learn more about the Router and its functions, refer to [PendleRouter](./Contracts/PendleRouter.md).
+- To generate calldata for on-chain operations such as buying PT, adding liquidity into a market, or redeeming yield, refer to [Pendle's Hosted SDK](./Backend/HostedSDK.md).
 
-### Support
-Should you need additional assistance, feel free to reach out to us via our [Developers channel in Discord](https://pendle.finance/discord). Pendle's developers are always at hand and you can anticipate a response to your inquiries within 12 hours.
+### Interact with Pendle Oracles
+- To get the price of PT, YT, and LP, refer to [How To Integrate Oracles](./Oracles/HowToIntegratePtAndLpOracle.md).
+- To learn more about using PT and LP as collateral, refer to [PT as Collateral](./Oracles/PTAsCollateral.md) & [LP as Collateral](./Oracles/LPAsCollateral.md).
+
+## Off-chain Integration
+
+- To query data on prices of PT, YT, LP, APY of pools, and other data, refer to [Pendle's Backend](./Backend/Backend.md). The Backend has a high rate limit and is also the source of data for Pendle DApp.
+- To perform various on-chain calculations without using the Backend, refer to [Pendle's RouterStatic](./Backend/RouterStatic.md). This is a low-level system built in Solidity, consisting of on-chain computational and data aggregation functions. Note that this is not to be used for on-chain integration since the contracts are not audited.
+
+## Deployed Contract Addresses
+
+All deployed contracts and markets can be found here: [GitHub link](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments)
+
+To find the relevant addresses and details of a specific market:
+1. Go to the market page.
+2. Select the desired chain and click on an asset.
+3. Click the button as shown in the image below.
+
+![Market Info](/img/ProtocolMechanics/market_info.png "Market Info")
+
+## Whitepaper
+For a deeper dive into the mechanics and formulas involved in the Pendle protocol, refer to the four whitepapers at [this link](https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers):
+- **SY**: Explains EIP-5115 Standardized Yield, a token standard to generalize yield-generating mechanisms.
+- **SYS**: Explains how Pendle splits any Standardized Yield token into Principal Tokens and Yield Tokens.
+- **V2_AMM**: Explains how the AMM works in Pendle V2.
+- **vePENDLE**: Explains how vePENDLE works.
+
+## Support
+
+For additional assistance, reach out to us via our [Developers channel in Discord](https://pendle.finance/discord). Pendle's developers are always available, and you can expect a response to your inquiries within 12 hours.

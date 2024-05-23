@@ -21,7 +21,7 @@ For a detailed guide on assessing the risk, depth of liquidity & twap duration, 
 
 ## Third, Initialize the Oracle
 
-By default, markets' oracles are un-initialized. You can check the oracle's status & initialize it if necessary using `getOracleState` on the `PtAndLpOracle` contract.
+By default, markets' oracles are un-initialized. You can check the oracle's status & initialize it if necessary using `getOracleState` on the `PendlePYLpOracle` contract.
 
 ![/img/Developers/Pasted_image_20240319215123.png](/img/Developers/Pasted_image_20240319215123.png)
 
@@ -29,13 +29,7 @@ By default, markets' oracles are un-initialized. You can check the oracle's stat
 
 There are 2 units PT / LP can be denominated in, in SY or in Asset. To get the price in SY, call `getPtToSyRate()`, else call `getPtToAssetRate()`. Ensure to use the appropriate function as SY price is well defined for some markets, but Asset price is not & vice-versa.
 
-For example:
-
-- 1 SY-rsETH equals 1 rsETH, so the SY price is well-defined since rsETH is a tradable asset. The asset of SY-rsETH is ETH staked in Kelp, which is not a tradable asset. Therefore, `getPtToSyRate` is recommended.
-- 1 SY-cUSDC (Compound) equals 1 cUSDC, but cUSDC is not a tradable asset. The asset of SY-cUSDC is USDC staked in Compound. Assuming Compound is always solvent, SY-cUSDC can be valued on USDC instead. For this, `getPtToAssetRate` is recommended.
-- 1 SY-weETH ([Ether.fi](http://ether.fi/)) equals 1 weETH, so the SY price is well-defined since weETH is a tradable asset. The asset of SY-weETH is eETH, which is also a tradable asset. In this case, both functions can be used.
-
-Refer to [StandardizedYield docs](../Contracts/StandardizedYield.md) to choose the denomination correctly.
+Refer to [StandardizedYield docs](../Contracts/StandardizedYield.md) to call the correct function.
 
 Below is an example of how to call the functions.
 

@@ -8,6 +8,12 @@ hide_table_of_contents: true
 
 ## Functions of Contracts
 
+### PendleRouter
+
+PendleRouter is a contract that aggregates callers' actions with various different SYs, PTs, YTs, and Markets. It does not have any special permissions or whitelists on any contracts it interacts with. Therefore, any third-party protocols can freely embed the router's logic into their code for better gas efficiency.
+
+You can read more about the PendleRouter [here](./Contracts/PendleRouter.md).
+
 ### Standardized Yield (SY)
 
 SY is a wrapped version of the interest-bearing token (ibToken) that can also be staked into other protocols to earn even more interest. In the Pendle system, SY is used instead of the ibToken for all operations, including trading on PendleMarket or minting Principal Token & Yield Token.
@@ -90,14 +96,3 @@ The GaugeController is a contract that receives the voting results from the Voti
 
 The vePENDLE contract allows users to lock their PENDLE in order to receive vePENDLE. Each user's position is represented by a pair of values: `(amount, expiry)`. After the `expiry`, the user can withdraw their `amount` of PENDLE from the contract. The balance of a user's vePENDLE will decay weekly until it becomes zero at expiry.
 
-### PendleRouter
-
-PendleRouter is a contract that aggregates callers' actions with various different SYs, PTs, YTs, and Markets. It is not owned, immutable, and does not have any special permissions or whitelists on any contracts it interacts with. For this reason, any third-party protocols can freely embed the router's logic into their code for better gas efficiency.
-
-The Router is also a **static** Diamond-Proxy (ERC2535) contract without any upgrade functions as described in this [tweet](https://twitter.com/mudgen/status/1630229952523272195/). A summary for ERC2535 is that there can be multiple implementation contracts for a single proxy, with each function (or set of functions) delegatecall to its own implementation.
-
-To interact easily with the PendleRouter, please refer to: https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol
-
-For a list of all the functions that can be called on the Router, users can use the `IPAllActionV3 ABI` and call it on the Router address, which will resolve the call accordingly.
-
-You can read more about the PendleRouter [here](./Contracts/PendleRouter.md).

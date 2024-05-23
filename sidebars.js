@@ -28,11 +28,12 @@ module.exports = {
             { type: "doc", id: "ProtocolMechanics/YieldTokenization/YT" },
           ]
         },
-        { type: "category", 
+        {
+          type: "category",
           label: "Liquidity Engines",
           items: [
-            {type: "doc", id: "ProtocolMechanics/LiquidityEngines/AMM"},
-            {type: "doc", id: "ProtocolMechanics/LiquidityEngines/OrderBook"},
+            { type: "doc", id: "ProtocolMechanics/LiquidityEngines/AMM" },
+            { type: "doc", id: "ProtocolMechanics/LiquidityEngines/OrderBook" },
           ]
         },
         {
@@ -94,14 +95,35 @@ module.exports = {
         { type: "doc", id: "Developers/Overview" },
         { type: "doc", id: "Developers/DeveloperUpdates" },
         { type: "doc", id: "Developers/HighLevelArchitecture" },
+        { type: "doc", id: "Developers/UncategorisedQuestions" },
         {
           type: "category",
           label: "Contracts",
           items: [
-            { type: "doc", id: "Developers/Contracts/PendleRouter" },
             { type: "doc", id: "Developers/Contracts/StandardizedYield" },
+            { type: "doc", id: "Developers/Contracts/PendleRouter" },
             { type: "doc", id: "Developers/Contracts/vePENDLE" },
-            { type: "doc", id: "Developers/Contracts/UncategorisedQuestions" },
+          ],
+        },
+        {
+          type: "category",
+          label: "Oracles",
+          items: [
+            { type: "doc", id: "Developers/Oracles/HowToIntegratePtAndLpOracle" },
+            { type: "doc", id: "Developers/Oracles/IntroductionOfLpOracle" },
+            { type: "doc", id: "Developers/Oracles/IntroductionOfPtOracle" },
+            { type: "doc", id: "Developers/Oracles/LPAsCollateral" },
+            { type: "doc", id: "Developers/Oracles/PTAsCollateral" },
+            { type: "doc", id: "Developers/Oracles/PTSanityChecks" },
+          ],
+        },
+        {
+          type: "category",
+          label: "Off-chain helpers",
+          items: [
+            { type: "doc", id: "Developers/Backend/Backend" },
+            { type: "doc", id: "Developers/Backend/HostedSDK" },
+            { type: "doc", id: "Developers/Backend/RouterStatic" },
           ],
         },
         {
@@ -110,31 +132,12 @@ module.exports = {
           items: [
             { type: "doc", id: "Developers/Deployments/Ethereum" },
             { type: "doc", id: "Developers/Deployments/Arbitrum" },
+            { type: "doc", id: "Developers/Deployments/Mantle" },
             { type: "doc", id: "Developers/Deployments/Optimism" },
             { type: "doc", id: "Developers/Deployments/BNBChain" },
           ],
         },
-        {
-          type: "category",
-          label: "Integration",
-          items: [
-            { type: "doc", id: "Developers/Integration/HowToIntegratePtAndLpOracle" },
-            { type: "doc", id: "Developers/Integration/IntroductionOfLpOracle" },
-            { type: "doc", id: "Developers/Integration/IntroductionOfPtOracle" },
-            { type: "doc", id: "Developers/Integration/LPAsCollateral" },
-            { type: "doc", id: "Developers/Integration/PTAsCollateral" },
-            { type: "doc", id: "Developers/Integration/PTSanityChecks" },
-          ],
-        },
-        {
-          type: "category",
-          label: "Helpers",
-          items: [
-            { type: "doc", id: "Developers/Helpers/Backend" },
-            { type: "doc", id: "Developers/Helpers/HostedSDK" },
-            { type: "doc", id: "Developers/Helpers/PendleRouterStatic" },
-          ],
-        },
+
       ],
     },
     {
