@@ -116,6 +116,16 @@ module.exports = {
         },
         {
           type: "category",
+          label: "Limit Orders",
+          items: [
+            { type: "doc", id: "Developers/LimitOrder/LimitOrderContract" },
+            { type: "doc", id: "Developers/LimitOrder/CreateALimitOrder" },
+            { type: "doc", id: "Developers/LimitOrder/CancelOrders" },
+            { type: "doc", id: "Developers/LimitOrder/FillALimitOrder" },
+          ],
+        },
+        {
+          type: "category",
           label: "Oracles",
           items: [
             { type: "doc", id: "Developers/Oracles/HowToIntegratePtAndLpOracle" },

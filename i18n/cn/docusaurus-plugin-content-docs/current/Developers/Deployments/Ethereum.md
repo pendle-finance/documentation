@@ -10,18 +10,22 @@ While interacting, please use the ABI of implementation contracts provided or ge
 
 ## Core Contracts
 
-|           Contract           |                                                         Address                                                         |                                                               ABI                                                               |
-| :--------------------------: | :---------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------: |
-|            PENDLE            |  [`0x808507121B80c02388fAd14726482e061B8da827`](https://etherscan.io/token/0x808507121B80c02388fAd14726482e061B8da827)  | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x808507121B80c02388fAd14726482e061B8da827&format=raw) |
-|           vePENDLE           |  [`0x4f30A9D41B80ecC5B94306AB4364951AE3170210`](https://etherscan.io/token/0x4f30A9D41B80ecC5B94306AB4364951AE3170210)  | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x4f30A9D41B80ecC5B94306AB4364951AE3170210&format=raw) |
-|            Router            | [`0x888888888889758F76e7103c6CbF23ABbF58F946`](https://etherscan.io/address/0x888888888889758F76e7103c6CbF23ABbF58F946) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x888888888889758F76e7103c6CbF23ABbF58F946&format=raw) |
-|         RouterStatic         | [`0x263833d47eA3fA4a30f269323aba6a107f9eB14C`](https://etherscan.io/address/0x263833d47eA3fA4a30f269323aba6a107f9eB14C) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x263833d47eA3fA4a30f269323aba6a107f9eB14C&format=raw) |
-|  PendleYieldContractFactory  | [`0x70ee0A6DB4F5a2Dc4d9c0b57bE97B9987e75BAFD`](https://etherscan.io/address/0x70ee0A6DB4F5a2Dc4d9c0b57bE97B9987e75BAFD) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x70ee0A6DB4F5a2Dc4d9c0b57bE97B9987e75BAFD&format=raw) |
-| PendleYieldContractFactoryV3 | [`0xdF3601014686674e53d1Fa52F7602525483F9122`](https://etherscan.io/address/0xdF3601014686674e53d1Fa52F7602525483F9122) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0xdF3601014686674e53d1Fa52F7602525483F9122&format=raw) |
-|        MarketFactory         | [`0x27b1dAcd74688aF24a64BD3C9C1B143118740784`](https://etherscan.io/address/0x27b1dAcd74688aF24a64BD3C9C1B143118740784) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x27b1dAcd74688aF24a64BD3C9C1B143118740784&format=raw) |
-|       MarketFactoryV3        | [`0x1A6fCc85557BC4fB7B534ed835a03EF056552D52`](https://etherscan.io/address/0x1A6fCc85557BC4fB7B534ed835a03EF056552D52) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x1A6fCc85557BC4fB7B534ed835a03EF056552D52&format=raw) |
-|           vePendle           | [`0x4f30A9D41B80ecC5B94306AB4364951AE3170210`](https://etherscan.io/address/0x4f30A9D41B80ecC5B94306AB4364951AE3170210) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x4f30A9D41B80ecC5B94306AB4364951AE3170210&format=raw) |
-|          PT Oracle           | [`0x66a1096C6366b2529274dF4f5D8247827fe4CEA8`](https://etherscan.io/address/0x66a1096C6366b2529274dF4f5D8247827fe4CEA8) | [ABI](http://api.etherscan.com/api?module=contract&action=getabi&address=0x66a1096C6366b2529274dF4f5D8247827fe4CEA8&format=raw) |
+|        Contract        |                                                         Address                                                         |
+| :--------------------: | :---------------------------------------------------------------------------------------------------------------------: |
+|         PENDLE         | [`0x808507121b80c02388fad14726482e061b8da827`](https://etherscan.io/address/0x808507121b80c02388fad14726482e061b8da827) |
+|         router         | [`0x888888888889758F76e7103c6CbF23ABbF58F946`](https://etherscan.io/address/0x888888888889758F76e7103c6CbF23ABbF58F946) |
+|      routerStatic      | [`0x263833d47eA3fA4a30f269323aba6a107f9eB14C`](https://etherscan.io/address/0x263833d47eA3fA4a30f269323aba6a107f9eB14C) |
+|       pendleSwap       | [`0x1e8b6Ac39f8A33f46a6Eb2D1aCD1047B99180AD1`](https://etherscan.io/address/0x1e8b6Ac39f8A33f46a6Eb2D1aCD1047B99180AD1) |
+|     ptAndLpOracle      | [`0x66a1096C6366b2529274dF4f5D8247827fe4CEA8`](https://etherscan.io/address/0x66a1096C6366b2529274dF4f5D8247827fe4CEA8) |
+| yieldContractFactoryV3 | [`0xdF3601014686674e53d1Fa52F7602525483F9122`](https://etherscan.io/address/0xdF3601014686674e53d1Fa52F7602525483F9122) |
+|    marketFactoryV3     | [`0x1A6fCc85557BC4fB7B534ed835a03EF056552D52`](https://etherscan.io/address/0x1A6fCc85557BC4fB7B534ed835a03EF056552D52) |
+|      limitRouter       | [`0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321`](https://etherscan.io/address/0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321) |
+|       proxyAdmin       | [`0xA28c08f165116587D4F3E708743B4dEe155c5E64`](https://etherscan.io/address/0xA28c08f165116587D4F3E708743B4dEe155c5E64) |
+|        vePendle        | [`0x4f30A9D41B80ecC5B94306AB4364951AE3170210`](https://etherscan.io/address/0x4f30A9D41B80ecC5B94306AB4364951AE3170210) |
+|     senderEndpoint     | [`0x07b1014c88f14C9E910092526db57A20052E989F`](https://etherscan.io/address/0x07b1014c88f14C9E910092526db57A20052E989F) |
+|    votingController    | [`0x44087E105137a5095c008AaB6a6530182821F2F0`](https://etherscan.io/address/0x44087E105137a5095c008AaB6a6530182821F2F0) |
+|    gaugeController     | [`0x47D74516B33eD5D70ddE7119A40839f6Fcc24e57`](https://etherscan.io/address/0x47D74516B33eD5D70ddE7119A40839f6Fcc24e57) |
+|    feeDistributorV2    | [`0x8C237520a8E14D658170A633D96F8e80764433b9`](https://etherscan.io/address/0x8C237520a8E14D658170A633D96F8e80764433b9) |
 
 ## SY / Market / PT / YT Addresses
 

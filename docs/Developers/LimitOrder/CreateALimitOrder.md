@@ -20,7 +20,7 @@ Pendle expose 2 APIs to support maker create order easier
 
 ### Step 1: Generate limit order data
 
-[Order data definition](../LimitOrderContract.md#order-struct-definition)
+[Order data definition](./LimitOrderContract.md#order-struct-definition)
 
 To place a limit order, maker need to generate this Order struct, which requires several details. Pendle provides a backend API that helps generate this data more easily. By providing the necessary information (`orderType`, `token`, `maker`, `impliedAPY`), the API returns the full limit order data for the maker.
 
@@ -30,7 +30,7 @@ const requestBody: GenerateLimitOrderDataRequest = {
   chainId: ChainId.ARBITRUM,
   YT: aUSDC_MARKET.yt,
   maker: signerAddress,
-  orderType: LimitOrderType.TOKEN_FOR_PT, 
+  orderType: LimitOrderType.TOKEN_FOR_PT,
   token: aUSDC_MARKET.tokenIn.usdc, // Use USDC as token in to swap to PT
   makingAmount: '10000000', // 10 USDC
   impliedApy: 0.1, // 10% implied APY
