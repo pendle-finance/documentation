@@ -19,7 +19,7 @@ Please note that new versions of PendleRouter are released a couple of times per
 - **RouterV1**, deployed on 23/11/2022 at `0x41FAD93F225b5C1C95f2445A5d7fcB85bA46713f`
 - **RouterV2**, deployed on 21/02/2023 at `0x0000000001e4ef00d069e71d6ba041b0a16f7ea0`, 15% to 20% more gas-optimized
 - **RouterV3**, deployed on 18/12/2023 at `0x00000000005BBB0EF59571E58418F9a4357b68A0`, supporting limit orders
-- **RouterV4**, deployed on 29/04/2023 at `0x888888888889758F76e7103c6CbF23ABbF58F946`, upgradable router to support new features and optimize the algorithm more easily without requiring partners to migrate. This is likely the last version of the Router with features being added gradually.
+- **RouterV4**, deployed on 29/04/2024 at `0x888888888889758F76e7103c6CbF23ABbF58F946`, upgradable router to support new features and optimize the algorithm more easily without requiring partners to migrate. This is likely the last version of the Router with features being added gradually.
 
 Since PendleRouter is a proxy to multiple implementations, the caller can call the desired functions, and the Router will resolve to the correct implementation. Please refer to the [list of callable functions](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol).
 
