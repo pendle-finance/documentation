@@ -55,13 +55,13 @@ For example:
 ### For PT liquidation
 * When a liquidation with $PT$ as collateral occurs, commonly, the liquidator will have to sell $PT$ into common asset to pay their debt.
 * In Pendle's system, we support converting $PT$ back to $SY$ by selling $PT$ on our AMM (before maturity) or redeeming directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output token of $SY$ (see [EIP-5115](https://eips.ethereum.org/EIPS/eip-5115)).
-* For reference, we have written the [`BoringPtSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/offchain-helpers/BoringPtSeller.sol) contract to sell $PT$ into one of the output token.
+* For reference, we have written the [`BoringPtSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/oracles/samples/BoringPtSeller.sol) contract to sell $PT$ into one of the output token.
 * You can extend this abstract contract to use in a liquidation system.
 
 ### For LP liquidation
 * When a liquidation with $LP$ as collateral occurs, commonly, the liquidator will have to sell $LP$ into common asset to pay their debt.
 * In Pendle's system, we support converting $LP$ back to $SY$ by removing liquidity single-sided into $SY$ on our AMM (before maturity) or redeeming $PT$ + $SY$ and redeeming $PT$ to $SY$ directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output token of $SY$ (see [EIP-5115](https://eips.ethereum.org/EIPS/eip-5115)).
-* For reference, we have written the [`BoringLpSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/offchain-helpers/BoringLpSeller.sol) contract to sell $LP$ into one of SY's output tokens.
+* For reference, we have written the [`BoringLpSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/oracles/samples/BoringLpSeller.sol) contract to sell $LP$ into one of SY's output tokens.
 * You can extend this abstract contract to use in a liquidation system.
 
 ### Handling of Pendle LP's rewards:
