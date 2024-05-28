@@ -16,7 +16,7 @@ Pendle expose 2 APIs to support maker create order easier
 
 **Note:**: The code examples in the guide below are taken from our demo GitHub repository, which demonstrates the complete end-to-end Limit Order processes in a TypeScript environment.
 
-[Repo](https://github.com/pendle-finance/limit-order-api-demo)
+[Repo](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
 
 ### Step 1: Generate limit order data
 
@@ -48,7 +48,7 @@ Note that you need to ensure you have sufficient balance and allowance to create
 const signature = await signer.signTypedData(limitOrderDomainArbitrum, typesLimitOrder, data);
 ```
 
-You can find the full example of signing a limit order using ethersjs library on our [API demo repository](https://github.com/pendle-finance/limit-order-api-demo)
+You can find the full example of signing a limit order using ethersjs library on our [API demo repository](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
 
 ### Step 3: Post the limit order
 
@@ -63,5 +63,5 @@ const requestBody: CreateLimitOrderRequest = {
 };
 ```
 
-All the implementation details can be found in the [API demo repository](https://github.com/pendle-finance/limit-order-api-demo)
+All the implementation details can be found in the [API demo repository](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
 

@@ -14,7 +14,7 @@ Pendle provides an API to help makers find their active orders, allowing them to
 
 **Note:**: The code examples in the guide below are taken from our demo GitHub repository, which demonstrates the complete end-to-end Limit Order processes in a TypeScript environment.
 
-[Repo](https://github.com/pendle-finance/limit-order-api-demo)
+[Repo](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
 
 ## Cancel specific order
 
@@ -33,7 +33,7 @@ To cancel specific orders, you need the data for those orders. Makers can use th
 
 ```
 
-You can find a complete example of how to get a maker's active orders in our [API demo repository](https://github.com/pendle-finance/limit-order-api-demo)
+You can find a complete example of how to get a maker's active orders in our [API demo repository](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
 
 ### Step 2: Cancel the orders
 
@@ -44,7 +44,7 @@ const tx = await contract.cancelSingle(order);
 ```
 
 
-You can find a complete example of how to cancel an order in our [API demo repository](https://github.com/pendle-finance/limit-order-api-demo)
+You can find a complete example of how to cancel an order in our [API demo repository](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
 
 ## Increase nonce
 
@@ -56,4 +56,4 @@ All orders with a nonce lower than the current maker's nonce become invalid. Mak
 const tx = await contract.increaseNonces();
 ```
 
-You can find a complete example of how to increase the nonce in our [API demo repository](https://github.com/pendle-finance/limit-order-api-demo)
+You can find a complete example of how to increase the nonce in our [API demo repository](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
