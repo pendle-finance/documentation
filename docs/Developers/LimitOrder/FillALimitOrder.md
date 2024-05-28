@@ -10,7 +10,7 @@ Pendle exposes 1 API for takers to view active orders to fill them on-chain
 
 **Note:**: The code examples in the guide below are taken from our demo GitHub repository, which demonstrates the complete end-to-end Limit Order processes in a TypeScript environment.
 
-[Repo](https://github.com/pendle-finance/limit-order-api-demo)
+[Repo](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
 
 ### Step 1: Fetch the limit orders
 
@@ -66,4 +66,4 @@ The maxTaking value indicates the maximum amount the limit order contract can ta
 
 Because the `netFromTaker` data received from Pendle's backend can be change over time, it's recommended to buffer the maxTaking by 1% of the sumNetFromTaker.
 
-You can find more implementation details in our [demo repository](https://github.com/pendle-finance/limit-order-api-demo)
+You can find more implementation details in our [demo repository](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
