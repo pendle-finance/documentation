@@ -26,7 +26,7 @@ module.exports = {
             { type: "doc", id: "ProtocolMechanics/YieldTokenization/Minting" },
             { type: "doc", id: "ProtocolMechanics/YieldTokenization/PT" },
             { type: "doc", id: "ProtocolMechanics/YieldTokenization/YT" },
-          ]
+          ],
         },
         {
           type: "category",
@@ -34,7 +34,7 @@ module.exports = {
           items: [
             { type: "doc", id: "ProtocolMechanics/LiquidityEngines/AMM" },
             { type: "doc", id: "ProtocolMechanics/LiquidityEngines/OrderBook" },
-          ]
+          ],
         },
         {
           type: "category",
@@ -48,9 +48,18 @@ module.exports = {
               label: "Guides",
               items: [
                 { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/Lock" },
-                { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/ClaimRewards" },
-                { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/ChannelIncentives" },
-                { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/ApplyBoost" },
+                {
+                  type: "doc",
+                  id: "ProtocolMechanics/Mechanisms/Guides/ClaimRewards",
+                },
+                {
+                  type: "doc",
+                  id: "ProtocolMechanics/Mechanisms/Guides/ChannelIncentives",
+                },
+                {
+                  type: "doc",
+                  id: "ProtocolMechanics/Mechanisms/Guides/ApplyBoost",
+                },
               ],
             },
           ],
@@ -78,7 +87,7 @@ module.exports = {
                 { type: "doc", id: "AppGuide/Trade/Guides/LimitOrder" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Pool" },
                 { type: "doc", id: "AppGuide/Trade/Guides/Claim" },
-                { type: "doc", id: "AppGuide/Trade/Guides/Dashboard" }
+                { type: "doc", id: "AppGuide/Trade/Guides/Dashboard" },
               ],
             },
             { type: "doc", id: "AppGuide/Trade/Calculator" },
@@ -103,6 +112,16 @@ module.exports = {
             { type: "doc", id: "Developers/Contracts/StandardizedYield" },
             { type: "doc", id: "Developers/Contracts/PendleRouter" },
             { type: "doc", id: "Developers/Contracts/vePENDLE" },
+          ],
+        },
+        {
+          type: "category",
+          label: "Limit Orders",
+          items: [
+            { type: "doc", id: "Developers/LimitOrder/LimitOrderContract" },
+            { type: "doc", id: "Developers/LimitOrder/CreateALimitOrder" },
+            { type: "doc", id: "Developers/LimitOrder/CancelOrders" },
+            { type: "doc", id: "Developers/LimitOrder/FillALimitOrder" },
           ],
         },
         {
@@ -137,7 +156,6 @@ module.exports = {
             { type: "doc", id: "Developers/Deployments/BNBChain" },
           ],
         },
-
       ],
     },
     {
@@ -147,17 +165,17 @@ module.exports = {
     {
       type: "link",
       label: "Whitepapers",
-      href: 'https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers',
+      href: "https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers",
     },
     {
       type: "link",
       label: "Learn In-App",
-      href: 'https://app.pendle.finance/pro/education/learn',
+      href: "https://app.pendle.finance/pro/education/learn",
     },
     {
       type: "link",
       label: "Pendle Academy",
-      href: 'https://pendle.gitbook.io/pendle-academy',
+      href: "https://pendle.gitbook.io/pendle-academy",
     },
   ],
 };
