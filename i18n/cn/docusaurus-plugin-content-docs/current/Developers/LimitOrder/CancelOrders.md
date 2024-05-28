@@ -6,7 +6,7 @@ There are two methods for makers to cancel their orders:
 
 1. Cancel specific orders: Target individual orders for cancellation.
 2. Increase nonce: Cancel all orders with a nonce less than the current maker's nonce.
-3. 
+3.
 Pendle provides an API to help makers find their active orders, allowing them to cancel orders more easily.
 [Get maker's active orders](https://api-v2.pendle.finance/limit-order/docs#/Maker/MakersController_getMakerLimitOrder)
 
@@ -14,7 +14,7 @@ Pendle provides an API to help makers find their active orders, allowing them to
 
 **Note:**: The code examples in the guide below are taken from our demo GitHub repository, which demonstrates the complete end-to-end Limit Order processes in a TypeScript environment.
 
-[Repo](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
+[GitHub repository](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
 
 ## Cancel specific order
 

@@ -27,7 +27,7 @@ hide_table_of_contents: true
   ![Click Conncect Wallet](/img/AppGuide/limit-order-multisig/1.click-connect-wallet.png "Click Conncect Wallet")
 
 2. Choose “WalletConnect”.
-  
+
   ![Choose WalletConnect](/img/AppGuide/limit-order-multisig/2.click-walletconnect.png "Choose WalletConnect")
 
 3. Copy the pairing code from the pop-up.
@@ -38,7 +38,7 @@ hide_table_of_contents: true
 
   ![Click use WalletConnect](/img/AppGuide/limit-order-multisig/4.click-use-walletconnect.png "Click use WalletConnect")
 
-5. Paste the copied pairing code from step 3 in the pop-up form. 
+5. Paste the copied pairing code from step 3 in the pop-up form.
 
   After completing this step, your Pendle app is connected to the Safe Wallet.
 
@@ -54,7 +54,7 @@ hide_table_of_contents: true
 
 8. After you click “Place Order” in step 7, a pop-up will appear on the Safe Wallet tab, requesting you to sign the order message and collect other signatures. Click the “Sign” button to sign the message and collect the required signatures from other signers.
 
-  After you collect enough signatures, the orders will be submitted to Pendle’s Limit Order system in a couple of seconds. 
+  After you collect enough signatures, the orders will be submitted to Pendle’s Limit Order system in a couple of seconds.
 
   ![Signed message pop up](/img/AppGuide/limit-order-multisig/8.signed-message-pop-up.png "Signed message pop up")
 
