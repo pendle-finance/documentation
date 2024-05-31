@@ -8,6 +8,13 @@ hide_table_of_contents: true
 
 Yield-bearing Token is an umbrella term that refers to any token that generates yield. Examples include stETH, GLP, gDAI or even liquidity tokens such as Aura rETH-WETH.
 
+**Accounting Asset**
+
+The asset yield bearing token appreciates in value against. While some tokens have a clear accounting asset, others do not. Here are some examples:
+
+1. For tokens like stETH and GLP, stETH and GLP themselves serve as the accounting asset. In the case of stETH, its value remains fixed, but holders receive more stETH over time due to rebasing. Similarly, GLP distributes ETH rewards, but its own value does not increase.
+2. Tokens like cDAI and ezETH have DAI deposits in Compound Finance and ETH deposits in Renzo Protocol as their accounting assets, respectively. These tokens accrue yield by increasing in value relative to the DAI and ETH in their respective pools. Therefore, the accounting asset for these tokens is the base asset (e.g. DAI for cDAI, ETH for ezETH) deposited in the protocol.
+
 **SY = Standardized Yield**
 
 SY is a token standard ([EIP-5115](https://eips.ethereum.org/EIPS/eip-5115)) written by the Pendle team that wraps any yield-bearing token and provides a standardized interface for interacting with any yield-bearing token’s yield generating mechanism. SY is a purely technical component, the user does not interact directly with SY.

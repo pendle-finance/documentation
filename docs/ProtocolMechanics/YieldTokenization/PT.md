@@ -15,11 +15,12 @@ This appreciation in value is what establishes its Fixed Yield APY.
 # Redemption Value
 In general, yield bearing assets can be broadly categorized as:
 1. Rebasing assets - tokens that increase in count/number overtime as yield is accrued
+   
+   *Examples: stETH, aUSDC* 
 
-*Examples: stETH, aUSDC* 
-2. Reward-bearing assets - tokens that increase in value overtime as yield is accrued
-
-*Examples: ezETH, wstETH*
+2. Interest-bearing assets - tokens that increase in value overtime as yield is accrued
+    
+   *Examples: ezETH, wstETH*
 
 ![Redemption Value](/img/ProtocolMechanics/redemption-value.png "Redemption Value")
 

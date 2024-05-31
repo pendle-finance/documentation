@@ -23,7 +23,7 @@ A limit order will be executed if the implied APY of the AMM moves towards the o
 Swaps can be partially allocated to the AMM and limit orders (if any) to optimize for price-impact. That amount is determined at the most optimal amount, taking the AMM price impact and gas fees into account. Consequently, smaller orders face a lower likelihood of being filled due to the increased number of transactions required, leading to higher gas fees, particularly on chains with costly gas fees.
 
 Orders can be:
-- Active (Partially filled and still valid)
+- Active (Partially or fully fillable)
 - Executed (Order is fully filled)
 - Expired (Order is not fully filled by its expiry date)
 - Cancelled 
@@ -35,9 +35,13 @@ Orders can be:
 
 Only the underlying yield-bearing asset can be used to place a limit order.
 
-Invalid orders will be highlighted in a yellow warning. Limit orders will be invalid when:
-1. The balance of asset in your wallet falls below the order amount
-2. The allowance set from your address is less than the order amount
+Partially Fillable order will be highlighted in a yellow warning. Orders will only be partially fillable when: 
+1. The balance of asset in your wallet falls below the order amount but not 0
+2. The allowance set from your address is less than the order amount but not 0
+
+Invalid orders will be highlighted in a red warning. Limit orders will be invalid when:
+1. The balance of asset in your wallet falls to 0
+2. The allowance set from your address is 0
 
 Setting a limit order requires signature from your address while revoking the order involves a transaction to revoke the signature.
 
