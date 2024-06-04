@@ -16,7 +16,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |         router         | [`0x888888888889758F76e7103c6CbF23ABbF58F946`](https://etherscan.io/address/0x888888888889758F76e7103c6CbF23ABbF58F946) |
 |      routerStatic      | [`0x263833d47eA3fA4a30f269323aba6a107f9eB14C`](https://etherscan.io/address/0x263833d47eA3fA4a30f269323aba6a107f9eB14C) |
 |       pendleSwap       | [`0x1e8b6Ac39f8A33f46a6Eb2D1aCD1047B99180AD1`](https://etherscan.io/address/0x1e8b6Ac39f8A33f46a6Eb2D1aCD1047B99180AD1) |
-|     ptAndLpOracle      | [`0x66a1096C6366b2529274dF4f5D8247827fe4CEA8`](https://etherscan.io/address/0x66a1096C6366b2529274dF4f5D8247827fe4CEA8) |
+|      pyYtLpOracle      | [`0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2`](https://etherscan.io/address/0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2) |
 | yieldContractFactoryV3 | [`0xdF3601014686674e53d1Fa52F7602525483F9122`](https://etherscan.io/address/0xdF3601014686674e53d1Fa52F7602525483F9122) |
 |    marketFactoryV3     | [`0x1A6fCc85557BC4fB7B534ed835a03EF056552D52`](https://etherscan.io/address/0x1A6fCc85557BC4fB7B534ed835a03EF056552D52) |
 |      limitRouter       | [`0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321`](https://etherscan.io/address/0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321) |

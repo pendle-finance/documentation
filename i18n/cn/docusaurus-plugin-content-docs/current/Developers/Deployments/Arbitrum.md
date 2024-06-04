@@ -16,7 +16,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |         router         | [`0x888888888889758F76e7103c6CbF23ABbF58F946`](https://arbiscan.io/address/0x888888888889758F76e7103c6CbF23ABbF58F946) |
 |      routerStatic      | [`0xAdB09F65bd90d19e3148D9ccb693F3161C6DB3E8`](https://arbiscan.io/address/0xAdB09F65bd90d19e3148D9ccb693F3161C6DB3E8) |
 |       pendleSwap       | [`0x63a45E0B2686F7be77Bb85735c35704D1046459a`](https://arbiscan.io/address/0x63a45E0B2686F7be77Bb85735c35704D1046459a) |
-|     ptAndLpOracle      | [`0x1Fd95db7B7C0067De8D45C0cb35D59796adfD187`](https://arbiscan.io/address/0x1Fd95db7B7C0067De8D45C0cb35D59796adfD187) |
+|      pyYtLpOracle      | [`0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2`](https://arbiscan.io/address/0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2) |
 | yieldContractFactoryV3 | [`0xEb38531db128EcA928aea1B1CE9E5609B15ba146`](https://arbiscan.io/address/0xEb38531db128EcA928aea1B1CE9E5609B15ba146) |
 |    marketFactoryV3     | [`0x2FCb47B58350cD377f94d3821e7373Df60bD9Ced`](https://arbiscan.io/address/0x2FCb47B58350cD377f94d3821e7373Df60bD9Ced) |
 |      limitRouter       | [`0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321`](https://arbiscan.io/address/0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321) |

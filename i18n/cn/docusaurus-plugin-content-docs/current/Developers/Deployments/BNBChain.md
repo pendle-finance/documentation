@@ -15,7 +15,7 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |         router         | [`0x888888888889758F76e7103c6CbF23ABbF58F946`](https://bscscan.com/address/0x888888888889758F76e7103c6CbF23ABbF58F946) |
 |      routerStatic      | [`0x2700ADB035F82a11899ce1D3f1BF8451c296eABb`](https://bscscan.com/address/0x2700ADB035F82a11899ce1D3f1BF8451c296eABb) |
 |       pendleSwap       | [`0x439B4d66255eFf74e621FBacb00D7162b588Ff4b`](https://bscscan.com/address/0x439B4d66255eFf74e621FBacb00D7162b588Ff4b) |
-|     ptAndLpOracle      | [`0x30c6d4e892871220B5Ab66c10db577da96Fb974b`](https://bscscan.com/address/0x30c6d4e892871220B5Ab66c10db577da96Fb974b) |
+|      pyYtLpOracle      | [`0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2`](https://bscscan.com/address/0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2) |
 | yieldContractFactoryV3 | [`0x40Ae6da2d92aa3DCb7f8d7a7209FD12BDfcb7C85`](https://bscscan.com/address/0x40Ae6da2d92aa3DCb7f8d7a7209FD12BDfcb7C85) |
 |    marketFactoryV3     | [`0xC40fEbF5A33b8C92B187d9be0fD3fe0ac2E4B07c`](https://bscscan.com/address/0xC40fEbF5A33b8C92B187d9be0fD3fe0ac2E4B07c) |
 |      limitRouter       | [`0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321`](https://bscscan.com/address/0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321) |
