@@ -117,7 +117,7 @@ const config = {
             },
             {
               label: 'Media Kit',
-              href: 'https://pendle.finance/Pendle_Media_Kit.zip',
+              href: 'https://www.pendle.finance/brandguide',
             },
             {
               label: 'Audits',

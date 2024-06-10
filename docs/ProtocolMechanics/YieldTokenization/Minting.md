@@ -4,6 +4,8 @@ hide_table_of_contents: true
 
 # Minting
 
+<iframe width="860" height="615" src="https://www.youtube.com/embed/oDZ3JAkcFeM" title="Chapter 3: What is Yield Tokenization" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 Users receive yield-bearing assets when they deposit funds into a yield-source. For example, DAI staked in Compound is represented as *cDAI*. ETH staked in Lido is represented as *stETH*. 
 
 *cDAI* and *stETH* are examples of **yield-bearing assets**.

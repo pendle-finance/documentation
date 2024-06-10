@@ -4,6 +4,8 @@ hide_table_of_contents: true
 
 # PT
 
+<iframe width="860" height="615" src="https://www.youtube.com/embed/kOErP_ZUncs" title="Chapter 4: What is Principle Token (PT)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 Principal Token (PT) represents the principal portion of an underlying yield-bearing asset. Upon maturity, PT can be redeemed at 1:1 for the accounting asset.  This is the base, principal asset deployed in the underlying protocol such as Lido, Renzo, and Aave (e.g. ETH in stETH, ETH in ezETH, USDC in aUSDC). 
 
 ![PT Mechanics](/img/ProtocolMechanics/pt-mechanics.png "PT Mechanics")

@@ -12,9 +12,9 @@ Pendle collects a 3% fee from all yield accrued by all YT in existence, and all 
 
 - **Swap Fees**
     
-Pendle collects a % swap fee from the "implied yield" of all PT swaps. Each fee tier will be displayed in the dApp and is decided by the pool deployer (currently only the Pendle team deploys pools on Pendle).
+Pendle collects a percentage-based swap fee, scaled with maturity, from all PT swaps. Each fee tier will be displayed in the dApp and is decided by the pool deployer (currently only the Pendle team deploys pools on Pendle). 
 
-In essence, Pendle taxes the yield-receivables of PT when swaps occur. This creates a fair fee for all pools and maturities as it is scaled to a pool’s maturity (less time to maturity -> less yield-receivables -> lower fees in $ terms). Since YT swaps are also routed through the PT AMM, its fees are calculated based on the PT swapped.
+Pendle taxes the yield-receivables of PT when swaps occur. This creates a fair fee for all pools and maturities as it is scaled to a pool’s maturity (less time to maturity -> less yield-receivables -> lower fees in $ terms). Since YT swaps are also routed through the PT AMM, its fees are calculated based on the PT swapped.
 
 - **Fee Distribution**
 
