@@ -14,6 +14,8 @@ To enable Pendle Earn, toggle the button in the top right corner of the app.
 
 ## About Pendle Earn
 
+<iframe width="860" height="615" src="https://www.youtube.com/embed/Z98N4pluLOo" title="Chapter 2: Simple Yield Farming (Pendle Earn Guide)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 There are two main sections in Pendle Earn:
 
 1. Fixed Yield

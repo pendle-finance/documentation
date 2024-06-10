@@ -38,3 +38,40 @@ The selling of YT in the 3rd step above can cause a price impact. But, this can 
 On Pendle, users have the option to activate **Zero Price Impact Mode**, which allows them to provide liquidity to the PT/SY pool without affecting the price. Normally, when liquidity is added, a portion of the underlying asset is used to purchase PT from the PT/SY pool, and the rest is wrapped into SY. However, this purchase of PT can cause a price impact.
 
 With **Zero Price Impact Mode** enabled, the underlying asset is fully wrapped into SY, a portion of which is used to mint PT and YT. The PT and remaining SY are then used for liquidity provision, with the YT returned to the user's wallet. This eliminates the step of purchasing PT, thereby avoiding any potential price impact.
+
+## Transfer Liquidity
+
+Pendle allows users to directly transfer liquidity from one LP pool to another in a single transaction. This feature simplifies the process of exiting and entering different liquidity pools, ensuring optimal transitions and minimizing complexities.
+
+### Key Features
+
+1. Seamless LP Pool Transfers
+
+    Swap LP tokens from one pool to another effortlessly with automated processes.
+
+2. Optimal Path Optimization
+
+    Pendle calculates the most efficient route, maximizing returns and minimizing price impact.
+
+3. Flexible Transfer Options
+
+    - LP Only: Transfers only your LP tokens.
+    - All Positions: Includes LP, PT, and YT positions. Pendle handles the redemption of dual liquidity and the combination of PT and YT for you.
+
+### How to use
+
+1. Navigate to the Transfer Liquidity Page
+
+    Access the feature from the Transfer Liquidity tab in the Pools Action page
+
+2. Select Your Transfer Mode
+
+    Choose between LP Only and All Positions based on your needs.
+    - LP Only: Transfers only LP tokens.
+    - All Positions: Transfers all positions (LP, PT, YT).
+
+3. Approve and Execute
+
+    Approve the transaction and let Pendle handle the rest. The system will automatically execute the optimal path for your transfer.
+    
+   

@@ -4,6 +4,8 @@ hide_table_of_contents: true
 
 # YT
 
+<iframe width="860" height="615" src="https://www.youtube.com/embed/RHuqNScvrnw" title="Chapter 5: What is Yield Token (YT)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 Yield Token (YT) represents the yield component of an underlying yield-bearing asset.
 
 By holding YT, yield from the underlying asset will be streamed to the users, up until maturity. This rate of yield production is represented as “[Underlying APY](https://docs.pendle.finance/ProtocolMechanics/Glossary)” in the Pendle app.
