@@ -41,6 +41,8 @@ With **Zero Price Impact Mode** enabled, the underlying asset is fully wrapped i
 
 ## Transfer Liquidity
 
+![Transfer Liqudiity](/img/AppGuide/transfer-liquidity.png "Transfer Liquidity")
+
 Pendle allows users to directly transfer liquidity from one LP pool to another in a single transaction. This feature simplifies the process of exiting and entering different liquidity pools, ensuring optimal transitions and minimizing complexities.
 
 ### Key Features
@@ -58,11 +60,15 @@ Pendle allows users to directly transfer liquidity from one LP pool to another i
     - LP Only: Transfers only your LP tokens.
     - All Positions: Includes LP, PT, and YT positions. Pendle handles the redemption of dual liquidity and the combination of PT and YT for you.
 
+4. Target Pool information display
+    
+    You can check out Pool and APY information of the target Pool at the **Target Pool Info** segment at the top right part of the page 
+    
 ### How to use
 
 1. Navigate to the Transfer Liquidity Page
 
-    Access the feature from the Transfer Liquidity tab in the Pools Action page
+    Access the feature from the Transfer Liquidity tab in the Pools Action page of an asset
 
 2. Select Your Transfer Mode
 
@@ -70,7 +76,11 @@ Pendle allows users to directly transfer liquidity from one LP pool to another i
     - LP Only: Transfers only LP tokens.
     - All Positions: Transfers all positions (LP, PT, YT).
 
-3. Approve and Execute
+3. Choose your Params
+
+    Enable Zero Price Impact Mode to avoid any price impact but you will receive some YT as a result. Or disable the mode to purely receive LP tokens but at the risk of some price impact from swapping. Refer to the docs for Zero Price Impact mode above.
+
+4. Approve and Execute
 
     Approve the transaction and let Pendle handle the rest. The system will automatically execute the optimal path for your transfer.
     
