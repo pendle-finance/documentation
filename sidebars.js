@@ -64,6 +64,7 @@ module.exports = {
             },
           ],
         },
+        { type: "doc", id: "ProtocolMechanics/PendleMarketAPYCalculation", label: "APY Calculation" },
       ],
     },
     {
