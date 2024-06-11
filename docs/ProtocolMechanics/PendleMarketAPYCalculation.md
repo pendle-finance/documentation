@@ -21,7 +21,7 @@ In this document, we takes the market `0x107a2e3cd2bb9a32b9ee2e4d51143149f8367eb
 | $\text{totalVotedLastEpoch}$ | total of vePendle voted for the pool in the last epoch                                                                                                                                      |
 | $\text{duration}$            | the interval that we use to calculate the APY. For example, $\text{duration}=7$ means we calculate the APY based on data of the last 7 days. In our system, we use 7 days as the default duration! |
 | $\text{syIndex}$             | the current index of the SY token, can be taken from [exchangeRate function](https://etherscan.io/address/0xC4ed348c56223C5953939e932E315F9d72Cd83fF#readContract#F9) of the sy contract    |
-| $\text{prevSyIndex}$         | the $\text{syIndex}$ at $duration$ days ago.                                                                                                                                                       |
+| $\text{prevSyIndex}$         | the $\text{syIndex}$ at $\text{duration}$ days ago.                                                                                                                                                       |
 | $\text{yearsToExpiry}$       | the number of years until the expiry of the market.                                                                                                                                         |
 
 
@@ -62,9 +62,9 @@ $\text{underlyingInterestApy} = \text{interestMultiple}^{\frac{365}{\text{days}}
 
 
 ## **impliedAPY:**
-$apy = e^{\text{lnImpliedYield}} - 1$
+$\text{apy} = e^{\text{lnImpliedYield}} - 1$
 
-- $lnImpliedYield$ can be read from [readState](https://etherscan.io/address/0x107a2e3cd2bb9a32b9ee2e4d51143149f8367eba#readContract#F18) function of the market contract. Do remember to scale it by 1e18.
+- $\text{lnImpliedYield}$ can be read from [readState](https://etherscan.io/address/0x107a2e3cd2bb9a32b9ee2e4d51143149f8367eba#readContract#F18) function of the market contract. Do remember to scale it by 1e18.
 
 
 ## **SwapFeeApy & voterApr**
@@ -89,7 +89,7 @@ $\text{swapFeeApy} = (1 + \text{swapFeeRateForLpHolder})^\frac{{365}}{\text{dura
 
 - Explanation:
     - LP Holder will received 20% from explicit swap fee, and 100% from the implicit swap fee
-    - $swapFeeRateForLpHolder$ is the rate of swap fee that LP holder will get in terms of USD, then we interpolate it to get the $swapFeeApy$
+    - $\text{swapFeeRateForLpHolder}$ is the rate of swap fee that LP holder will get in terms of USD, then we interpolate it to get the $swapFeeApy$
 
 ### VoterApr
 $\text{VoterApr}$ is the APR that vePendle voters will get from voting for the pool.
