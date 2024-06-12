@@ -33,7 +33,7 @@ $\text{underlyingApy}$ comes in two part, below are how to calculate each of the
 
 
 ### **UnderlyingInterestApy**
-$\text{interestMultiple} = \frac{\text{syIndex}}{\text{prevSyIndex}}$
+$\text{interestMultiple} = \dfrac{\text{syIndex}}{\text{prevSyIndex}}$
 
 $\text{underlyingInterestApy} = \text{interestMultiple}^{\frac{365}{\text{days}}} - 1$
 
@@ -46,9 +46,9 @@ $\text{underlyingInterestApy} = \text{interestMultiple}^{\frac{365}{\text{days}}
 - For each reward token:
 
     - $\text{prevRewardIndex} =$  $\text{rewardIndex}$ at $\text{duration}$ days ago
-    - $\text{dailyRewardPerSy} = \frac{\text{rewardIndex} - \text{prevRewardIndex}}{\text{days}}$
+    - $\text{dailyRewardPerSy} = \dfrac{\text{rewardIndex} - \text{prevRewardIndex}}{\text{days}}$
 
-    - $\text{dailyRewardYield} = \text{dailyRewardPerSy} * \frac{\text{rewardPrice}}{\text{syPrice}}$
+    - $\text{dailyRewardYield} = \text{dailyRewardPerSy} * \dfrac{\text{rewardPrice}}{\text{syPrice}}$
 
     - $\text{tokenRewardApr} = \text{dailyRewardYield} \times 365$
 
@@ -82,7 +82,7 @@ $\text{swapFeeForLpHolder} = \text{explicitSwapFee} * 20\% + \text{implicitSwapF
 
 
 
-$\text{swapFeeRateForLpHolder} = \frac{\text{swapFeeForLpHolder} * \text{syPriceUsd}}{\text{poolValue}}$
+$\text{swapFeeRateForLpHolder} = \dfrac{\text{swapFeeForLpHolder} * \text{syPriceUsd}}{\text{poolValue}}$
 
 $\text{swapFeeApy} = (1 + \text{swapFeeRateForLpHolder})^\frac{{365}}{\text{durations}} - 1$
 
@@ -96,9 +96,9 @@ $\text{VoterApr}$ is the APR that vePendle voters will get from voting for the p
 
 $\text{swapFeeForVoter} = \text{explicitSwapFee} * 80\%$
 
-$\text{swapFeeRateForVoter} = \frac{\text{swapFeeForVoter} \ \times \  \text{syPriceUsd}}{\text{PendlePriceUSD} \ \times \ \text{totalVotedLastEpoch}}$
+$\text{swapFeeRateForVoter} = \dfrac{\text{swapFeeForVoter} \ \times \  \text{syPriceUsd}}{\text{PendlePriceUSD} \ \times \ \text{totalVotedLastEpoch}}$
 
-$\text{voterApr} =  \text{swapFeeRateForVoter} \times \frac{365}{\text{durationInDays}}$
+$\text{voterApr} =  \text{swapFeeRateForVoter} \times \dfrac{365}{\text{durationInDays}}$
 
 
 - Explanation:
@@ -114,7 +114,7 @@ $\text{rewardsReturns} = \text{underlyingRewardApy} * \text{yearsToExpiry}$
 $\text{ytReturns} = \text{interestReturns} + \text{rewardsReturns}$
 $\text{ytReturnsAfterFee} = \text{holdYtReturns} \times 97\%$
 
-$\text{longYieldApy}=\frac{\text{ytReturnsAfterFee}}{\text{ytPriceInAsset}}^{\frac{1}{\text{yearsToExpiry}}}-1$
+$\text{longYieldApy}=\dfrac{\text{ytReturnsAfterFee}}{\text{ytPriceInAsset}}^{\frac{1}{\text{yearsToExpiry}}}-1$
 
 - Explanation:
     - $\text{interestReturns}$:
@@ -127,3 +127,36 @@ $\text{longYieldApy}=\frac{\text{ytReturnsAfterFee}}{\text{ytPriceInAsset}}^{\fr
         - This is the APY if we buy YT today, and hold it all the way to expiry, assuming the underlying APY will stay the same. This can be negative (if the returns from YT is less than YT price)
         - Starting with $\text{ytPriceInAsset}$, we got back $\text{ytReturnsWithFee}$ after $\text{yearsToExpiry}$.Then we just need to scale it to one year to get the APY
 
+## $\text{effectiveImpliedApy}$
+Effective Implied APY is the APY based on the actual rate that the user used to swap.
+
+To calculate $\text{effectiveImpliedApy}$, we need to get the $\text{ptExchangeRate}$:  how much PT you can get from 1 underlying.
+
+
+There are 3 type of swaps:
+- PT <-> any token except YT
+- YT <-> any token except PT
+- PT <-> YT
+
+Each of them has different way to calculate the $ptExchangeRate$
+
+
+### PT <-> any token
+- $\text{underlying}$: input/output token amount in terms of the underlying token
+- $\text{ptAmount}$: PT input/output amount 
+
+$$\text{ptExchangeRate} = \dfrac{\text{ptAmount}}{\text{underlying}}$$
+
+### YT <-> any token
+- $\text{ytAmount}$: YT intput/output amount
+
+$$\text{ptExchangeRate} = \dfrac{1}{1 - \dfrac{\text{underlying}}{\text{ytAmount}}}$$
+
+
+### PT <-> YT 
+$$\text{ptExchangeRate} = 1 + \dfrac{\text{ptAmount}}{\text{ytAmount}}$$
+
+
+From $\text{ptExchangeRate}$ you can calculate the effectiveImpliedApy as follow:
+
+$$\text{effectiveImpliedApy} = \text{ptExchangeRate}^{\frac{365}{\text{daysToExpiry}}} - 1$$
