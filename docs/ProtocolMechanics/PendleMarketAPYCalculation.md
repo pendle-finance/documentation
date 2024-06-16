@@ -11,18 +11,18 @@ In this document, we takes the market `0x107a2e3cd2bb9a32b9ee2e4d51143149f8367eb
 
 ## **Variables**
 
-| name                  | Description                                                                                                                                                                                 |
-|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|        $\text{market}$       |                                    [0x107a2e3cd2bb9a32b9ee2e4d51143149f8367eba](https://etherscan.io/address/0x107a2e3cd2bb9a32b9ee2e4d51143149f8367eba)                                    |
-|          $\text{sy}$         |                                    [0xC4ed348c56223C5953939e932E315F9d72Cd83fF](https://etherscan.io/address/0xC4ed348c56223C5953939e932E315F9d72Cd83fF)                                    |
-| $\text{lpPriceUsd}$          | price of the lp token in terms of USD                                                                                                                                                       |
-| $\text{syPriceUsd}$          | price of the sy token in terms of USD                                                                                                                                                       |
-| $\text{pendlePriceUSD}$      | price of the Pendle token in terms of USD                                                                                                                                                   |
-| $\text{totalVotedLastEpoch}$ | total of vePendle voted for the pool in the last epoch                                                                                                                                      |
+| name                         | Description                                                                                                                                                                                        |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| $\text{market}$              | [0x107a2e3cd2bb9a32b9ee2e4d51143149f8367eba](https://etherscan.io/address/0x107a2e3cd2bb9a32b9ee2e4d51143149f8367eba)                                                                              |
+| $\text{sy}$                  | [0xC4ed348c56223C5953939e932E315F9d72Cd83fF](https://etherscan.io/address/0xC4ed348c56223C5953939e932E315F9d72Cd83fF)                                                                              |
+| $\text{lpPriceUsd}$          | price of the lp token in terms of USD                                                                                                                                                              |
+| $\text{syPriceUsd}$          | price of the sy token in terms of USD                                                                                                                                                              |
+| $\text{pendlePriceUSD}$      | price of the Pendle token in terms of USD                                                                                                                                                          |
+| $\text{totalVotedLastEpoch}$ | total of vePendle voted for the pool in the last epoch                                                                                                                                             |
 | $\text{duration}$            | the interval that we use to calculate the APY. For example, $\text{duration}=7$ means we calculate the APY based on data of the last 7 days. In our system, we use 7 days as the default duration! |
-| $\text{syIndex}$             | the current index of the SY token, can be taken from [exchangeRate function](https://etherscan.io/address/0xC4ed348c56223C5953939e932E315F9d72Cd83fF#readContract#F9) of the sy contract    |
-| $\text{prevSyIndex}$         | the $\text{syIndex}$ at $\text{duration}$ days ago.                                                                                                                                                       |
-| $\text{yearsToExpiry}$       | the number of years until the expiry of the market.                                                                                                                                         |
+| $\text{syIndex}$             | the current index of the SY token, can be taken from [exchangeRate function](https://etherscan.io/address/0xC4ed348c56223C5953939e932E315F9d72Cd83fF#readContract#F9) of the sy contract           |
+| $\text{prevSyIndex}$         | the $\text{syIndex}$ at $\text{duration}$ days ago.                                                                                                                                                |
+| $\text{yearsToExpiry}$       | the number of years until the expiry of the market.                                                                                                                                                |
 
 
 ## Underlying APY
@@ -68,10 +68,6 @@ $\text{apy} = e^{\text{lnImpliedYield}} - 1$
 
 
 ## **SwapFeeApy & voterApr**
-Define:
-
-- `explicitSwapFee` is total explicit swap fee (in terms of SY) gotten from the last `durations` days
-- `implicitSwapFee` is total implicit swap fee (in terms of SY) gotten from the last `duration` days
 
 ### SwapFeeApy
 $\text{swapFeeApy}$ is the APY that LP holders will get from the swap fees of the pool.
@@ -143,7 +139,7 @@ Each of them has different way to calculate the $ptExchangeRate$
 
 ### PT <-> any token
 - $\text{underlying}$: input/output token amount in terms of the underlying token
-- $\text{ptAmount}$: PT input/output amount 
+- $\text{ptAmount}$: PT input/output amount
 
 $$\text{ptExchangeRate} = \dfrac{\text{ptAmount}}{\text{underlying}}$$
 
@@ -153,7 +149,7 @@ $$\text{ptExchangeRate} = \dfrac{\text{ptAmount}}{\text{underlying}}$$
 $$\text{ptExchangeRate} = \dfrac{1}{1 - \dfrac{\text{underlying}}{\text{ytAmount}}}$$
 
 
-### PT <-> YT 
+### PT <-> YT
 $$\text{ptExchangeRate} = 1 + \dfrac{\text{ptAmount}}{\text{ytAmount}}$$
 
 

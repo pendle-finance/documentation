@@ -6,7 +6,7 @@ hide_table_of_contents: true
 
 <iframe width="860" height="615" src="https://www.youtube.com/embed/oDZ3JAkcFeM" title="Chapter 3: What is Yield Tokenization" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-Users receive yield-bearing assets when they deposit funds into a yield-source. For example, DAI staked in Compound is represented as *cDAI*. ETH staked in Lido is represented as *stETH*. 
+Users receive yield-bearing assets when they deposit funds into a yield-source. For example, DAI staked in Compound is represented as *cDAI*. ETH staked in Lido is represented as *stETH*.
 
 *cDAI* and *stETH* are examples of **yield-bearing assets**.
 
@@ -22,6 +22,4 @@ e.g. ETH → stETH → SY-stETH → PT-stETH + YT-stETH. This function can be fo
 
 ![Yield Splitting UI](/img/ProtocolMechanics/yield-splitting-ui.png "Yield Splitting UI")
 
-## Usage of External Oracles
 
-On L2s, external oracles are needed for sourcing the contract ratio of the accepted yield-bearing assets from Ethereum Mainnet. For that purpose, Pendle uses [RedStone Oracles](https://docs.redstone.finance/docs/smart-contract-devs/price-feeds) on Arbitrum to source the contract ratio of several markets. 
