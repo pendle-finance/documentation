@@ -4,6 +4,8 @@ hide_table_of_contents: true
 
 ---
 
+Follow our [Pendle Developer Updates on telegram](https://t.me/pendledevelopers) for important updates and announcements regarding the [Pendle Backend API](https://api-v2.pendle.finance/core/docs)
+
 # Overview
 
 Welcome to the Pendle Documentation. This overview provides key information and resources to help you understand and integrate with the Pendle protocol.
