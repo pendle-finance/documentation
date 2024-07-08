@@ -6,7 +6,7 @@ hide_table_of_contents: true
 
 This document contains the formulas used to calculate the APY for Pendle markets.
 
-In this document, we takes the market `0x107a2e3cd2bb9a32b9ee2e4d51143149f8367eba` on mainnet as an example.
+In this document, we take the market `0x107a2e3cd2bb9a32b9ee2e4d51143149f8367eba` on mainnet as an example.
 
 
 ## **Variables**

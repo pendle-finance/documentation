@@ -27,11 +27,6 @@ All of the accrued yield and rewards from YT and LP that can be [claimed](https:
 
 Shows your P&L ranking compared to other yield traders on the Seasonal Leaderboard. Note that only rankings ≥1000 will be shown. You can access the Leaderboard by clicking the button [here](https://app.pendle.finance/trade/dashboard/leaderboard/valuation).
 
-#### Transfer Events
-
-Asset Transfers to and from external parties or wallets, including deposit to liquid staking and money markets, are not synced in real time; instead, a global sync takes place periodically. 
-You can manually trigger a sync event on your own wallet using the `Sync Transfers` button, with usage limited to once every hour. 
-
 ## All My Positions
 
 The lower part of the Dashboard breaks down your Pendle positions by Assets, including which active positions you hold for that particular asset (i.e. PT, YT or LP), its Total Position Value as well as P&L.

@@ -28,11 +28,11 @@ hide_table_of_contents: true
 
 例如，Renzo 的 ezETH 的价值随着时间的推移相对于 ETH 增加，因为累积了质押和重新质押奖励。每拥有 1 个 PT-ezETH，您将能够在到期时兑换价值为 1 ETH 的 ezETH，*而不是具有更高价值的 1 ezETH**。
 
-您可以在[Pendle Trade](https://app.pendle.finance/trade/markets)的个别资产页面上再次检查 PT 的兑换价值。
+您可以在[Pendle App](https://app.pendle.finance/trade/markets)的个别资产页面上再次检查 PT 的兑换价值。
 
 # 如何兑换 PT
 
 在到期时兑换您的 PT：
-1. 访问[Pendle Trade Markets](https://app.pendle.finance/trade/markets)，切换到“Inactive”市场页面
+1. 访问[Pendle App Markets](https://app.pendle.finance/trade/markets)，切换到“Inactive”市场页面
 2. 选择一个市场
 3. 选择一个输出资产。Pendle 将自动为您执行兑换 > 交换（如果需要）

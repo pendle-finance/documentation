@@ -35,6 +35,8 @@ The selling of YT in the 3rd step above can cause a price impact. But, this can 
 
 ### Zero Price Impact Zap
 
+!["Zero Price Impact Mode"](/img/AppGuide/zero-price-impact-mode.png "Zero Price Impact Mode")
+
 On Pendle, users have the option to activate **Zero Price Impact Mode**, which allows them to provide liquidity to the PT/SY pool without affecting the price. Normally, when liquidity is added, a portion of the underlying asset is used to purchase PT from the PT/SY pool, and the rest is wrapped into SY. However, this purchase of PT can cause a price impact.
 
 With **Zero Price Impact Mode** enabled, the underlying asset is fully wrapped into SY, a portion of which is used to mint PT and YT. The PT and remaining SY are then used for liquidity provision, with the YT returned to the user's wallet. This eliminates the step of purchasing PT, thereby avoiding any potential price impact.
@@ -44,6 +46,12 @@ With **Zero Price Impact Mode** enabled, the underlying asset is fully wrapped i
 ![Transfer Liqudiity](/img/AppGuide/transfer-liquidity.png "Transfer Liquidity")
 
 Pendle allows users to directly transfer liquidity from one LP pool to another in a single transaction. This feature simplifies the process of exiting and entering different liquidity pools, ensuring optimal transitions and minimizing complexities.
+
+## Redeem Rewards Bundle
+
+!["Redeem Rewards Bundle"](/img/AppGuide/redeem-rewards-bundle.png "Redeem Rewards Bundle")
+
+By toggling “Claim All Pool Rewards” on the Zap Out page, Pendle App users can save on gas by claiming rewards AND removing liquidity/zapping out at the same time - in just one single transaction.
 
 ### Key Features
 
@@ -83,5 +91,3 @@ Pendle allows users to directly transfer liquidity from one LP pool to another i
 4. Approve and Execute
 
     Approve the transaction and let Pendle handle the rest. The system will automatically execute the optimal path for your transfer.
-    
-   

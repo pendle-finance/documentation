@@ -58,7 +58,7 @@ $$$
 
 在到期时，LP 可以在单个交易中执行 Zap Out + 兑换 PT 为底层资产 + 索取奖励：
 
-1. 访问 [Pendle Trade](https://app.pendle.finance/trade/pools)，切换到“Inactive”池列表
+1. 访问 [Pendle App](https://app.pendle.finance/trade/pools)，切换到“Inactive”池列表
 2. 选择一个池
 3. 切换到“Claim All Pool Rewards”
 4. 选择一个输出资产。Pendle 将自动为您执行兑换 PT 为底层 > 解包 SY > 执行交换（如果需要）
