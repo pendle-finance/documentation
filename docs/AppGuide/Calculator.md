@@ -8,7 +8,7 @@ The Pendle Yield Calculator helps you to predict the potential returns from vari
 
 ## Tutorial
 
-1. Go to Pendle Trade and click on "Calculator".
+1. Go to Pendle App and click on "Calculator".
 
 !["Tutorial 1"](/img/AppGuide/calculator-tutorial-1.png)
    

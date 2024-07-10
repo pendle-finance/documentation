@@ -30,11 +30,11 @@ In the case of reward-bearing assets, it’s particularly important to note that
 
 For example, the value of Renzo ezETH increases overtime relative to ETH as staking and restaking rewards are accrued. For every 1 PT-ezETH you own, you’ll be able to redeem 1 ETH worth of ezETH upon maturity, *NOT* 1 ezETH which has a higher value**.**
 
-You can double-check the redemption value of PT on [Pendle Trade](https://app.pendle.finance/trade/markets)'s individual asset pages.
+You can double-check the redemption value of PT on [Pendle App](https://app.pendle.finance/trade/markets)'s individual asset pages.
 
 # How to Redeem PT
 
 To redeem your PT on maturity:
-1. Visit [Pendle Trade Markets](https://app.pendle.finance/trade/markets) and toggle to the “Inactive” markets page
+1. Visit [Pendle Markets](https://app.pendle.finance/trade/markets) and toggle to the “Inactive” markets page
 2. Select a market
 3. Select an output asset. Pendle will automatically perform Redemption > Swap (if needed) for you

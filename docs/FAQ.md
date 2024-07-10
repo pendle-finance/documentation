@@ -10,16 +10,6 @@ hide_table_of_contents: true
 
 Each PT and YT has an maturity date. For PT, you can redeem the full underlying yield-bearing token after this date. For YT, the yield of the yield-bearing token is only accrued up until the maturity date, after which YT has no value.
 
-### What is the difference between Pendle Earn and Pendle Trade?
-
-Pendle Earn and Trade run on the same set of contracts and use the same tokens.
-
-Pendle Earn is streamlined to perform the two main functions that are predicted to have the highest traffic (Fixed Yield and Liquidity Provision) in order to create a better UX for the majority of users.
-
-Pendle Trade gives users the full suite of functions on Pendle allowing users to trade yield by buying and selling PT and YT.
-
-You can switch between the two modes using the toggle at the top right corner of the app.
-
 ### What is an epoch?
 
 For Pendle, an epoch is exactly one week. Each epoch starts and ends at Thursday, 00:00 UTC.
