@@ -4,6 +4,19 @@ hide_table_of_contents: true
 
 # Developer Updates
 
+Follow: @pendledevelopers on Telegram for the latest updates
+
+## July. 17, 2024
+
+The new YieldContractFactory and MarketFactory V4 have just been deployed. The only change in these new factories is that Permit has been completely removed from PT, YT, and Markets. In other words, all Pendle PT YT & LP from today onwards will no longer have Permit.
+
+You can find the new addresses here: https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments
+
+Or package @pendle/core-v2@5.0.0
+
+Please reach out if you have any questions!
+
+
 ## Nov. 28, 2023
 
 * New `PendleYieldContractFactoryV3` and `PendleMarketFactoryV3` deployed on all chains will solely be used moving forward. Please refer to the Deployments page to find the contracts addresses of the new factories on each chain.

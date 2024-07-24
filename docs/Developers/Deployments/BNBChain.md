@@ -18,6 +18,8 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |      pyYtLpOracle      | [`0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2`](https://bscscan.com/address/0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2) |
 | yieldContractFactoryV3 | [`0x40Ae6da2d92aa3DCb7f8d7a7209FD12BDfcb7C85`](https://bscscan.com/address/0x40Ae6da2d92aa3DCb7f8d7a7209FD12BDfcb7C85) |
 |    marketFactoryV3     | [`0xC40fEbF5A33b8C92B187d9be0fD3fe0ac2E4B07c`](https://bscscan.com/address/0xC40fEbF5A33b8C92B187d9be0fD3fe0ac2E4B07c) |
+| yieldContractFactoryV4 | [`0xdb6380041441A94050199b4A46771D8d93553509`](https://bscscan.com/address/0xdb6380041441A94050199b4A46771D8d93553509) |
+|    marketFactoryV4     | [`0x7D20e644D2A9e149e5be9bE9aD2aB243a7835d37`](https://bscscan.com/address/0x7D20e644D2A9e149e5be9bE9aD2aB243a7835d37) |
 |      limitRouter       | [`0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321`](https://bscscan.com/address/0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321) |
 |       proxyAdmin       | [`0xA28c08f165116587D4F3E708743B4dEe155c5E64`](https://bscscan.com/address/0xA28c08f165116587D4F3E708743B4dEe155c5E64) |
 |    receiverEndpoint    | [`0x998CF52b2585e05494BF9F2bF502351a9C7FdA8f`](https://bscscan.com/address/0x998CF52b2585e05494BF9F2bF502351a9C7FdA8f) |

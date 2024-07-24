@@ -19,6 +19,8 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |      pyYtLpOracle      | [`0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2`](https://arbiscan.io/address/0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2) |
 | yieldContractFactoryV3 | [`0xEb38531db128EcA928aea1B1CE9E5609B15ba146`](https://arbiscan.io/address/0xEb38531db128EcA928aea1B1CE9E5609B15ba146) |
 |    marketFactoryV3     | [`0x2FCb47B58350cD377f94d3821e7373Df60bD9Ced`](https://arbiscan.io/address/0x2FCb47B58350cD377f94d3821e7373Df60bD9Ced) |
+| yieldContractFactoryV4 | [`0xc7F8F9F1DdE1104664b6fC8F33E49b169C12F41E`](https://arbiscan.io/address/0xc7F8F9F1DdE1104664b6fC8F33E49b169C12F41E) |
+|    marketFactoryV4     | [`0xd9f5e9589016da862D2aBcE980A5A5B99A94f3E8`](https://arbiscan.io/address/0xd9f5e9589016da862D2aBcE980A5A5B99A94f3E8) |
 |      limitRouter       | [`0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321`](https://arbiscan.io/address/0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321) |
 |       proxyAdmin       | [`0xA28c08f165116587D4F3E708743B4dEe155c5E64`](https://arbiscan.io/address/0xA28c08f165116587D4F3E708743B4dEe155c5E64) |
 |    receiverEndpoint    | [`0xC9215ae9EC67385F38C755D862C8eE3702B5793A`](https://arbiscan.io/address/0xC9215ae9EC67385F38C755D862C8eE3702B5793A) |

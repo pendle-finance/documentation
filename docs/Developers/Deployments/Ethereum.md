@@ -19,6 +19,8 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |      pyYtLpOracle      | [`0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2`](https://etherscan.io/address/0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2) |
 | yieldContractFactoryV3 | [`0xdF3601014686674e53d1Fa52F7602525483F9122`](https://etherscan.io/address/0xdF3601014686674e53d1Fa52F7602525483F9122) |
 |    marketFactoryV3     | [`0x1A6fCc85557BC4fB7B534ed835a03EF056552D52`](https://etherscan.io/address/0x1A6fCc85557BC4fB7B534ed835a03EF056552D52) |
+| yieldContractFactoryV4 | [`0x273b4bFA3Bb30fe8F32c467b5f0046834557F072`](https://etherscan.io/address/0x273b4bFA3Bb30fe8F32c467b5f0046834557F072) |
+|    marketFactoryV4     | [`0x3d75Bd20C983edb5fD218A1b7e0024F1056c7A2F`](https://etherscan.io/address/0x3d75Bd20C983edb5fD218A1b7e0024F1056c7A2F) |
 |      limitRouter       | [`0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321`](https://etherscan.io/address/0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321) |
 |       proxyAdmin       | [`0xA28c08f165116587D4F3E708743B4dEe155c5E64`](https://etherscan.io/address/0xA28c08f165116587D4F3E708743B4dEe155c5E64) |
 |        vePendle        | [`0x4f30A9D41B80ecC5B94306AB4364951AE3170210`](https://etherscan.io/address/0x4f30A9D41B80ecC5B94306AB4364951AE3170210) |

@@ -19,6 +19,8 @@ While interacting, please use the ABI of implementation contracts provided or ge
 |      pyYtLpOracle      | [`0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2`](https://optimistic.etherscan.io/address/0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2) |
 | yieldContractFactoryV3 | [`0xfa6B22FC4c3Ad88B68c16b3061a16b1714F6Bd57`](https://optimistic.etherscan.io/address/0xfa6B22FC4c3Ad88B68c16b3061a16b1714F6Bd57) |
 |    marketFactoryV3     | [`0x4A2B38b9cBd83c86F261a4d64c243795D4d44aBC`](https://optimistic.etherscan.io/address/0x4A2B38b9cBd83c86F261a4d64c243795D4d44aBC) |
+| yieldContractFactoryV4 | [`0xf799E4c029d14f41Dc1918C9A4C67242F565710e`](https://optimistic.etherscan.io/address/0xf799E4c029d14f41Dc1918C9A4C67242F565710e) |
+|    marketFactoryV4     | [`0x73Be47237F12F36203823BAc9A4d80dC798B7015`](https://optimistic.etherscan.io/address/0x73Be47237F12F36203823BAc9A4d80dC798B7015) |
 |      limitRouter       | [`0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321`](https://optimistic.etherscan.io/address/0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321) |
 |       proxyAdmin       | [`0xA28c08f165116587D4F3E708743B4dEe155c5E64`](https://optimistic.etherscan.io/address/0xA28c08f165116587D4F3E708743B4dEe155c5E64) |
 |    receiverEndpoint    | [`0xED18de5442297a4Ec1ce59C7c7d9427Adc2A012b`](https://optimistic.etherscan.io/address/0xED18de5442297a4Ec1ce59C7c7d9427Adc2A012b) |
