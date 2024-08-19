@@ -33,7 +33,7 @@ Welcome to the Pendle Documentation. This overview provides key information and 
 
 ## Off-chain Integration
 
-- To query data on prices of PT, YT, LP, APY of pools, and other data, refer to [Pendle's Backend](./Backend/Backend.md). The Backend has a high rate limit and is also the source of data for Pendle DApp.
+- To query data on prices of PT, YT, LP, APY of pools, and other data, refer to [Pendle's Backend](Backend.md). The Backend has a high rate limit and is also the source of data for Pendle DApp.
 - To perform various on-chain calculations without using the Backend, refer to [Pendle's RouterStatic](./Backend/RouterStatic.md). This is a low-level system built in Solidity, consisting of on-chain computational and data aggregation functions. Note that this is not to be used for on-chain integration since the contracts are not audited.
 
 ## Limit Order System
