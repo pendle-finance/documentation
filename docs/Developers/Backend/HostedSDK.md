@@ -31,7 +31,9 @@ This SDK is hosted at [https://api-v2.pendle.finance/external/docs#/SDK](https:/
 
 To swap **1 USDC** to **PT eETH** in **eETH (0x7d372819240d14fb477f17b964f95f33beb4c704)** with 1% slippage:
 
-`GET https://api-v2.pendle.finance/external/v1/sdk/1/markets/0x7d372819240d14fb477f17b964f95f33beb4c704/swap?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&tokenIn=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&tokenOut=0x6ee2b5e19ecba773a352e5b21415dc419a700d1d&amountIn=1000000`
+```
+GET https://api-v2.pendle.finance/api/external/v1/sdk/1/markets/0x7d372819240d14fb477f17b964f95f33beb4c704/swap?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&tokenIn=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&tokenOut=0x6ee2b5e19ecba773a352e5b21415dc419a700d1d&amountIn=1000000
+```
 
 
 Please visit to our [github](https://github.com/pendle-finance/pendle-examples-public/tree/main/hosted-sdk-demo/src) to see more example
