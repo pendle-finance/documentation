@@ -14,7 +14,7 @@ To address this, Pendle has introduced a hosted version of our SDK. It ensures t
 
 # Hosted SDK (external)
 
-This SDK is hosted at [https://api-v2.pendle.finance/external/docs#/SDK](https://api-v2.pendle.finance/external/docs#/SDK).
+This SDK is hosted at [https://api-v2.pendle.finance/api/external/docs#/](https://api-v2.pendle.finance/api/external/docs#/).
 
 ## Supported functions
 - Swap
@@ -48,3 +48,5 @@ To take advantage of the routing feature, users need to set the `enableAggregato
 When an endpoint has an `additionalData` field, users can pass in some fields to receive more data, but it will cost more computing units.
 
 For example, our **swap** endpoint has `additionalData` with two available fields: `impliedApy` and `effectiveApy`. If the query parameters have `additionalData=impliedApy`, the response will have the implied APY before and after the swap action.
+
+For additional usage, please refer to our external swagger to explore more.
