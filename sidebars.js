@@ -89,7 +89,7 @@ module.exports = {
         { type: "doc", id: "Developers/DeveloperUpdates" },
         { type: "doc", id: "Developers/HighLevelArchitecture" },
         { type: "doc", id: "Developers/UncategorisedQuestions" },
-        { type: "doc", id: "Developers/Backend" },
+        { type: "doc", id: "Developers/Backend/Backend" },
         {
           type: "category",
           label: "Contracts",
