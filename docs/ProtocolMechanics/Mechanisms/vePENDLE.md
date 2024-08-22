@@ -39,13 +39,26 @@ Voting for a pool also entitles vePENDLE holders to 80% of the swap fees collect
 
 ## Fees and Rewards
 
-Pendle collects a 3% fee from all yield accrued by YT. Currently, 100% of this fee is distributed to vePENDLE holders, while the protocol collects no revenue. This is subject to change in the future.
+Pendle collects a 3% fee from all yield (including points) accrued by YT. Currently, 100% of this fee is distributed to vePENDLE holders, while the protocol collects no revenue. This is subject to change in the future.
 
 A portion of yield from matured unredeemed PTs will be distributed pro rata to vePENDLE holders as well. 
 
 For example, matured PT-aUSDC is equivalent to aUSDC. If left unredeemed, all of its yield will be converted to a stablecoin and collected by the protocol as protocol revenue, and distributed to vePENDLE holders. 
 
 All of these rewards will be converted to ETH regardless of where your vePENDLE is being held and distributed periodically by a disbursement contract.
+
+### Fees on Points
+
+Fees on points are applied similarly as Pendle treats points as a form of yield. Since points are tracked off-chain, partner protocols deduct the fees when allocating points to user wallets. The deducted points from fees are then re-allocated to the following Pendle-controlled wallets:
+
+|   Chain   |              Fee Wallet Address              |
+| :-------: | :------------------------------------------: |
+| Ethereum  | `0x8270400d528c34e1596EF367eeDEc99080A1b592` |
+| Arbitrum  | `0xCbcb48e22622a3778b6F14C2f5d258Ba026b05e6` |
+|  Mantle   | `0x5C30d3578A4D07a340650a76B9Ae5dF20D5bdF55` |
+| BNB Chain | `0xd77E9062c6DF3F2d1CB5Bf45855fa1E7712A059e` |
+
+Once the token rewards are claimable, the fee wallets will claim the rewards which will later be forwarded to vePENDLE holders.
 
 ## vePENDLE APY
 
