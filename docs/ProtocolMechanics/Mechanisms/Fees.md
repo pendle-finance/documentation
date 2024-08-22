@@ -8,7 +8,20 @@ Pendle protocol has 2 revenue sources:
 
 - **YT Fees**
     
-Pendle collects a 3% fee from all yield accrued by all YT in existence, and all yields from the SYs of matured unredeemed PTs.
+Pendle collects a 3% fee from all yield accrued (including points) by all YT in existence, and all yields from the SYs of matured unredeemed PTs.
+
+- **YT Fees on Points**
+
+Fees on points are applied similarly as Pendle treats points as a form of yield. Since points are tracked off-chain, partner protocols deduct the 3% fee when allocating points to user wallets. The deducted points from fees are then re-allocated to the following Pendle-controlled wallets:
+
+|   Chain   |              Fee Wallet Address              |
+| :-------: | :------------------------------------------: |
+| Ethereum  | `0x8270400d528c34e1596EF367eeDEc99080A1b592` |
+| Arbitrum  | `0xCbcb48e22622a3778b6F14C2f5d258Ba026b05e6` |
+|  Mantle   | `0x5C30d3578A4D07a340650a76B9Ae5dF20D5bdF55` |
+| BNB Chain | `0xd77E9062c6DF3F2d1CB5Bf45855fa1E7712A059e` |
+
+Once the token rewards are claimable, the fee wallets will claim the rewards which will later be forwarded to vePENDLE holders.
 
 - **Swap Fees**
     
