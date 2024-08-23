@@ -9,7 +9,7 @@ hide_table_of_contents: true
 ## Quick Start
 
 - To see examples of how to call various functions, check our [Example repository](https://github.com/pendle-finance/pendle-examples).
-- To generate calldata for any functions, it's highly recommended to use [Pendle's Hosted SDK](https://api-v2.pendle.finance/api/external/docs#/). Using the SDK provides significant advantages in terms of gas efficiency, accurate price impacts, and ease of integration.
+- To generate calldata for any functions, it's highly recommended to use [Pendle's Hosted SDK](https://api-v2.pendle.finance/sdk/). Using the SDK provides significant advantages in terms of gas efficiency, accurate price impacts, and ease of integration.
 
 ## Overview
 
