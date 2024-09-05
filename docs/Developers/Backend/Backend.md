@@ -6,22 +6,21 @@ hide_table_of_contents: true
 
 Pendle Backend offers developers accurate and up-to-date data, empowering them to build and innovate with the latest protocol information.
 
-Pendle backend is hosted at [https://api-v2.pendle.finance/api/external/docs](https://api-v2.pendle.finance/api/external/docs)
+Pendle backend is hosted at [https://api-v2.pendle.finance/api/core/docs](https://api-v2.pendle.finance/api/core/docs)
 
 ## Supported functions
 
-- Get list of Pendle assets
-- Get list of Pendle active and inactive markets
-- Get Pendle asset's spot price
-- Get Pendle asset's historical prices
-- Get Pendle market's swapping prices
-- Get Pendle market's historical data
+- Get Pendle asset's information
+- Get Pendle market's information
+- Get vePendle's information
+- Get spot prices, historical prices of Pendle assets
+- Get historical data of Pendle markets
 
 Besides the above functions, we also provide endpoints for Pendle SDK, which can be found in the [Hosted SDK](/Developers/Backend/HostedSDK)
 
 **Example**
 
-To get the spot price of all Pendle assets on Ethereum, you can use [the following endpoint.](https://api-v2.pendle.finance/api/external/v1/1/assets/prices)
+To get list of whitelisted and not-expired markets, you can use [the following endpoint.](https://api-v2.pendle.finance/core/v1/1/markets?order_by=name%3A1&skip=0&limit=10&is_expired=false&select=pro)
 
 Please visit to our [github public example repository](https://github.com/pendle-finance/pendle-examples-public/blob/main/backend-api-demo/src/index.ts) to see more examples of how to use our backend API.
 
