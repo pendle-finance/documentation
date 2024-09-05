@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 # Hosted SDK
 
-The SDK is hosted at [https://api-v2.pendle.finance/api/external/docs#/](https://api-v2.pendle.finance/api/external/docs#/).
+The SDK is hosted at [https://api-v2.pendle.finance/core/docs](https://api-v2.pendle.finance/core/docs).
 
 Pendle accommodates a vast array of assets, each characterized by its unique nuances and complexities. While the Pendle protocol remains immutable, the underlying assets don't share this feature, requiring our app and SDK to be updated frequently to align with changes in these assets.
 
