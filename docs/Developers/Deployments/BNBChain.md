@@ -9,22 +9,27 @@ While interacting, please use the ABI of implementation contracts provided or ge
 :::
 
 ## Core Contracts
-|        Contract        |                                                        Address                                                         |
-| :--------------------: | :--------------------------------------------------------------------------------------------------------------------: |
-|         PENDLE         | [`0xb3Ed0A426155B79B898849803E3B36552f7ED507`](https://bscscan.com/address/0xb3Ed0A426155B79B898849803E3B36552f7ED507) |
-|         router         | [`0x888888888889758F76e7103c6CbF23ABbF58F946`](https://bscscan.com/address/0x888888888889758F76e7103c6CbF23ABbF58F946) |
-|      routerStatic      | [`0x2700ADB035F82a11899ce1D3f1BF8451c296eABb`](https://bscscan.com/address/0x2700ADB035F82a11899ce1D3f1BF8451c296eABb) |
-|       pendleSwap       | [`0x439B4d66255eFf74e621FBacb00D7162b588Ff4b`](https://bscscan.com/address/0x439B4d66255eFf74e621FBacb00D7162b588Ff4b) |
-|      pyYtLpOracle      | [`0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2`](https://bscscan.com/address/0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2) |
-| yieldContractFactoryV3 | [`0x40Ae6da2d92aa3DCb7f8d7a7209FD12BDfcb7C85`](https://bscscan.com/address/0x40Ae6da2d92aa3DCb7f8d7a7209FD12BDfcb7C85) |
-|    marketFactoryV3     | [`0xC40fEbF5A33b8C92B187d9be0fD3fe0ac2E4B07c`](https://bscscan.com/address/0xC40fEbF5A33b8C92B187d9be0fD3fe0ac2E4B07c) |
-| yieldContractFactoryV4 | [`0xdb6380041441A94050199b4A46771D8d93553509`](https://bscscan.com/address/0xdb6380041441A94050199b4A46771D8d93553509) |
-|    marketFactoryV4     | [`0x7D20e644D2A9e149e5be9bE9aD2aB243a7835d37`](https://bscscan.com/address/0x7D20e644D2A9e149e5be9bE9aD2aB243a7835d37) |
-|      limitRouter       | [`0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321`](https://bscscan.com/address/0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321) |
-|       proxyAdmin       | [`0xA28c08f165116587D4F3E708743B4dEe155c5E64`](https://bscscan.com/address/0xA28c08f165116587D4F3E708743B4dEe155c5E64) |
-|    receiverEndpoint    | [`0x998CF52b2585e05494BF9F2bF502351a9C7FdA8f`](https://bscscan.com/address/0x998CF52b2585e05494BF9F2bF502351a9C7FdA8f) |
-|        vePendle        | [`0x8A09574b0401A856d89d1b583eE22E8cb0C5530B`](https://bscscan.com/address/0x8A09574b0401A856d89d1b583eE22E8cb0C5530B) |
-|    gaugeController     | [`0x704478Dd72FD7F9B83d1F1e0fc18C14B54F034d0`](https://bscscan.com/address/0x704478Dd72FD7F9B83d1F1e0fc18C14B54F034d0) |
+
+The latest contract addresses are available in the file [`/deployments/56-core.json`] within the
+[Pendle contract repository] Key contract addresses include the following:
+
+[Pendle contract repository]: https://github.com/pendle-finance/pendle-core-v2-public
+[`/deployments/56-core.json`]: https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/56-core.json
+
+- `PENDLE`
+- `router`
+- `routerStatic`
+- `pendleSwap`
+- `pyYtLpOracle`
+- `yieldContractFactoryV3`
+- `marketFactoryV3`
+- `yieldContractFactoryV4`
+- `marketFactoryV4`
+- `limitRouter`
+- `proxyAdmin`
+- `receiverEndpoint`
+- `vePendle`
+- `gaugeController`
 
 ## SY / Market / PT / YT Addresses
 
