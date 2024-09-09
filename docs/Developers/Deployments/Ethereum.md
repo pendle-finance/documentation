@@ -10,24 +10,28 @@ While interacting, please use the ABI of implementation contracts provided or ge
 
 ## Core Contracts
 
-|        Contract        |                                                         Address                                                         |
-| :--------------------: | :---------------------------------------------------------------------------------------------------------------------: |
-|         PENDLE         | [`0x808507121b80c02388fad14726482e061b8da827`](https://etherscan.io/address/0x808507121b80c02388fad14726482e061b8da827) |
-|         router         | [`0x888888888889758F76e7103c6CbF23ABbF58F946`](https://etherscan.io/address/0x888888888889758F76e7103c6CbF23ABbF58F946) |
-|      routerStatic      | [`0x263833d47eA3fA4a30f269323aba6a107f9eB14C`](https://etherscan.io/address/0x263833d47eA3fA4a30f269323aba6a107f9eB14C) |
-|       pendleSwap       | [`0x1e8b6Ac39f8A33f46a6Eb2D1aCD1047B99180AD1`](https://etherscan.io/address/0x1e8b6Ac39f8A33f46a6Eb2D1aCD1047B99180AD1) |
-|      pyYtLpOracle      | [`0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2`](https://etherscan.io/address/0x9a9fa8338dd5e5b2188006f1cd2ef26d921650c2) |
-| yieldContractFactoryV3 | [`0xdF3601014686674e53d1Fa52F7602525483F9122`](https://etherscan.io/address/0xdF3601014686674e53d1Fa52F7602525483F9122) |
-|    marketFactoryV3     | [`0x1A6fCc85557BC4fB7B534ed835a03EF056552D52`](https://etherscan.io/address/0x1A6fCc85557BC4fB7B534ed835a03EF056552D52) |
-| yieldContractFactoryV4 | [`0x273b4bFA3Bb30fe8F32c467b5f0046834557F072`](https://etherscan.io/address/0x273b4bFA3Bb30fe8F32c467b5f0046834557F072) |
-|    marketFactoryV4     | [`0x3d75Bd20C983edb5fD218A1b7e0024F1056c7A2F`](https://etherscan.io/address/0x3d75Bd20C983edb5fD218A1b7e0024F1056c7A2F) |
-|      limitRouter       | [`0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321`](https://etherscan.io/address/0x000000000000c9B3E2C3Ec88B1B4c0cD853f4321) |
-|       proxyAdmin       | [`0xA28c08f165116587D4F3E708743B4dEe155c5E64`](https://etherscan.io/address/0xA28c08f165116587D4F3E708743B4dEe155c5E64) |
-|        vePendle        | [`0x4f30A9D41B80ecC5B94306AB4364951AE3170210`](https://etherscan.io/address/0x4f30A9D41B80ecC5B94306AB4364951AE3170210) |
-|     senderEndpoint     | [`0x07b1014c88f14C9E910092526db57A20052E989F`](https://etherscan.io/address/0x07b1014c88f14C9E910092526db57A20052E989F) |
-|    votingController    | [`0x44087E105137a5095c008AaB6a6530182821F2F0`](https://etherscan.io/address/0x44087E105137a5095c008AaB6a6530182821F2F0) |
-|    gaugeController     | [`0x47D74516B33eD5D70ddE7119A40839f6Fcc24e57`](https://etherscan.io/address/0x47D74516B33eD5D70ddE7119A40839f6Fcc24e57) |
-|    feeDistributorV2    | [`0x8C237520a8E14D658170A633D96F8e80764433b9`](https://etherscan.io/address/0x8C237520a8E14D658170A633D96F8e80764433b9) |
+The latest contract addresses are available in the file [`/deployments/1-core.json`] within the
+[Pendle contract repository] Key contract addresses include the following:
+
+[Pendle contract repository]: https://github.com/pendle-finance/pendle-core-v2-public
+[`/deployments/1-core.json`]: https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/1-core.json
+
+- `PENDLE`
+- `router`
+- `routerStatic`
+- `pendleSwap`
+- `pyYtLpOracle`
+- `yieldContractFactoryV3`
+- `marketFactoryV3`
+- `yieldContractFactoryV4`
+- `marketFactoryV4`
+- `limitRouter`
+- `proxyAdmin`
+- `vePendle`
+- `senderEndpoint`
+- `votingController`
+- `gaugeController`
+- `feeDistributorV2`
 
 ## SY / Market / PT / YT Addresses
 
