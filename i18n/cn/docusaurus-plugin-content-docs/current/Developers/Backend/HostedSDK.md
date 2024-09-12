@@ -51,3 +51,7 @@ For additional usage, please refer to our external swagger to explore more.
 ## Rate limiting
 
 Refer to the [Rate Limiting](/Developers/Backend#rate-limiting) section in the Pendle Backend documentation for more information on rate limiting.
+
+## Migrations
+
+If you are using the old Hosted SDK, please take a look at [our example](https://github.com/pendle-finance/pendle-examples-public/tree/main/hosted-sdk-demo/src/migrations) to migrate to the new system.
