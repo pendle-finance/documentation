@@ -33,13 +33,13 @@ When liquidity is zapped in, a portion of the underlying asset is used to purcha
 
 The selling of YT in the 3rd step above can cause a price impact. But, this can be avoided by toggling **Zero Price Impact Mode** (see below).
 
-### Zero Price Impact Zap
+### Mint YT Mode
 
-!["Zero Price Impact Mode"](/img/AppGuide/zero-price-impact-mode.png "Zero Price Impact Mode")
+!["Mint YT Mode"](/img/AppGuide/mint_yt_mode.png "Mint YT Mode")
 
-On Pendle, users have the option to activate **Zero Price Impact Mode**, which allows them to provide liquidity to the PT/SY pool without affecting the price. Normally, when liquidity is added, a portion of the underlying asset is used to purchase PT from the PT/SY pool, and the rest is wrapped into SY. However, this purchase of PT can cause a price impact.
+On Pendle, users have the option to activate **Mint YT Mode**, which allows them to provide liquidity to the PT/SY pool without affecting the price. Normally, when liquidity is added, a portion of the underlying asset is used to purchase PT from the pool (causing price impact), and the rest is wrapped into SY.
 
-With **Zero Price Impact Mode** enabled, the underlying asset is fully wrapped into SY, a portion of which is used to mint PT and YT. The PT and remaining SY are then used for liquidity provision, with the YT returned to the user's wallet. This eliminates the step of purchasing PT, thereby avoiding any potential price impact.
+With **Mint YT Mode** enabled, the underlying asset is fully wrapped into SY, a portion of which is used to **mint PT and YT**. The PT and remaining SY are then used for liquidity provision, with the YT returned to the user's wallet. While this method prevents price impact, it results in a portion of the user's capital becoming YT, which doesn't earn LP yield. YT value goes to 0 at maturity but entitles holders to the underlying yield or points. This approach offers a trade-off between **avoiding price impact in the initial zap** in and having a **separate YT component** with different earning potential
 
 ## Transfer Liquidity
 

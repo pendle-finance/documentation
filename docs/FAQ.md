@@ -12,9 +12,9 @@ Each PT and YT has an maturity date. For PT, you can redeem the full underlying 
 
 ### What is an epoch?
 
-For Pendle, an epoch is exactly one week. Each epoch starts and ends at Thursday, 00:00 UTC.
+For Pendle, an epoch is exactly one week. Each epoch starts at Thursday, 00:00 UTC and ends at Wednesday, 23:59 UTC.
 
-Snapshots of vePENDLE voting are taken every epoch, and non-yield rewards (e.g. $CRV, $CVX tokens) are also distributed every epoch.
+Snapshots of vePENDLE voting are taken every epoch.
 
 ### Why is the Underlying APY shown on Pendle differ from the APY shown in the underlying protocol?
 
