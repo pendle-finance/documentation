@@ -44,6 +44,6 @@ The considerations for this part is the same as the ones for integrating PT as c
 
 The difference between LP and PT is just that LP prices fluctuate less than PT prices (because LP = PT + SY). Therefore, with the same pool, the parameters for supporting LP as a collateral could more more aggressive than that for supporting PT as a collateral.
 
-### 5. Highly volatile LP price could liquidate users unnessarily
-* This is similar to the analysis in the [risk analysis for PT as a collateral](./PTAsCollateral.md#5-highly-volatile-pt-price-could-liquidate-users-unnessarily)
+### 5. Highly volatile LP price could liquidate users unnecessarily
+* This is similar to the analysis in the [risk analysis for PT as a collateral](./PTAsCollateral.md#5-highly-volatile-pt-price-could-liquidate-users-unnecessarily)
 
