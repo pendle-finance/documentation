@@ -89,8 +89,8 @@ When PT price drops significantly vs the borrowAsset (say for 20%) and doesn't b
 * In another approach for thinking about setting collateral factor for PT: it could be similar to the collateral factor for PT's asset in the money market, since PT price will fluctuate along the asset's price.
 * Since it's generally troublesome to decrease collateral factor and much easier to increase it, it's generally a good approach to start with more conservative collateral factors
 
-### 5. Highly volatile PT price could liquidate users unnessarily
-  * If PT prices are too volatile, a temporary dip in PT price could liquidate certain users unnessarily
+### 5. Highly volatile PT price could liquidate users unnecessarily
+  * If PT prices are too volatile, a temporary dip in PT price could liquidate certain users unnecessarily
   * Assessment:
     * In normal circumstances, PT price in terms of asset should not fluctuate as wildly as normal asset prices since it's based on people trading interest rates (which don't change too often).
     * Depending on the nature of the PT collateral (nature of the interest rate, and liquidity of the pool), an appropriate TWAP duration could be used in the oracle, to minimise liquidations due to temporary dips in PT prices.
