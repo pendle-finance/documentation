@@ -86,7 +86,6 @@ module.exports = {
       label: "Developers",
       items: [
         { type: "doc", id: "Developers/Overview" },
-        { type: "doc", id: "Developers/DeveloperUpdates" },
         { type: "doc", id: "Developers/HighLevelArchitecture" },
         { type: "doc", id: "Developers/UncategorisedQuestions" },
         { type: "doc", id: "Developers/Backend/HowToIntegratePendleRouterToBuyAndSellPTsAndYTs" },
@@ -132,8 +131,8 @@ module.exports = {
           type: "category",
           label: "Off-chain helpers",
           items: [
+            { type: "doc", id: "Developers/Backend/BackendAndHostedSDK" },
             { type: "doc", id: "Developers/Backend/RouterStatic" },
-            { type: "doc", id: "Developers/Backend/Backend" },
           ],
         },
         {
