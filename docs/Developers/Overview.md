@@ -2,43 +2,30 @@
 hide_table_of_contents: true
 ---
 
-Follow our [Pendle Developer Updates on telegram](https://t.me/pendledevelopers) for important updates and announcements regarding the [Pendle Backend API](https://api-v2.pendle.finance/core/docs)
+Follow our [Pendle Developer Updates](https://t.me/pendledevelopers) for important updates about the [Pendle Backend API](https://api-v2.pendle.finance/core/docs)
 
 # Overview
 
-Welcome to the Pendle Documentation. This overview provides key information and resources to help you understand and integrate with the Pendle protocol.
+## Core Documentation
+- [High Level Architecture](./HighLevelArchitecture.md)
+- [StandardizedYield (SY)](./Contracts/StandardizedYield.md)
+- [vePENDLE](./Contracts/vePENDLE.md)
+- [Common Questions](./UncategorisedQuestions.md)
 
-## Understanding Pendle's Architecture
+## Integration Guides
 
-- Start with Pendle's [High Level Architecture](./HighLevelArchitecture.md) for an overview of the components in the Pendle protocol.
-- Pendle's Standardized Yield (SY) have quite a number of nuances to it, refer to the [StandardizedYield](./Contracts/StandardizedYield.md) documentation to understand the different types of SY and how they work.
-- Explore the developer documentation on [vePENDLE](./Contracts/vePENDLE.md) to understand the components and cross-chain mechanisms of vePENDLE.
-- Also check out [Uncategorised Questions](./UncategorisedQuestions.md) for answers to common questions.
-- To see the latest Pendle's contracts, refer to [Pendle Contract Repo](https://github.com/pendle-finance/pendle-core-v2-public/)
-- To see examples of various contract interactions, refer to [Pendle Examples Repo](https://github.com/pendle-finance/pendle-examples-public)
+### On-chain Integration
+- **Router**: [Documentation](./Contracts/PendleRouter.md) | [Integration Guide](./Backend/HowToIntegratePendleRouterToBuyAndSellPTsAndYTs.md)
+- **Oracles**: [Integration Guide](./Oracles/HowToIntegratePtAndLpOracle.md) | [PT as Collateral](./Oracles/PTAsCollateral.md) | [LP as Collateral](./Oracles/LPAsCollateral.md)
+- [Example Repository](https://github.com/pendle-finance/pendle-examples-public) - Various contract interaction examples
 
-## On-chain Integration
+### Off-chain Integration
+- [Backend RESTful API](./Backend/BackendAndHostedSDK#pendle-restful-api)
+- [RouterStatic](./Backend/RouterStatic.md) - Extensively tested contract for off-chain calculations. Not audited; should not be used for on-chain fund-related operations.
 
-### Interact with Pendle Router
+### Limit Orders
+- [Contract](./LimitOrder/LimitOrderContract.md) | [Create](./LimitOrder/CreateALimitOrder.md) | [Cancel](./LimitOrder/CancelOrders.md) | [Fill](./LimitOrder/FillALimitOrder.md)
 
-- To learn more about the Router and its functions, refer to [PendleRouter](./Contracts/PendleRouter.md).
-- For on-chain operations with the Pendle Router, such as buying PT, adding liquidity, or redeeming yield, refer to [How to buy and sell PTs/YTs](./Backend/HowToIntegratePendleRouterToBuyAndSellPTsAndYTs.md). This guide provides a step-by-step process for interacting with the Pendle Router, with examples using the [Pendle Hosted SDK](./Backend/BackendAndHostedSDK#pendle-hosted-sdk) and direct interaction with the Router.
-
-### Interact with Pendle Oracles
-
-- To get the price of PT, YT, and LP, refer to [How To Integrate Oracles](./Oracles/HowToIntegratePtAndLpOracle.md).
-- To learn more about using PT and LP as collateral, refer to [PT as Collateral](./Oracles/PTAsCollateral.md) & [LP as Collateral](./Oracles/LPAsCollateral.md).
-
-## Off-chain Integration
-
-- To query data on pool listings, historical prices of PT, YT, LP, and APYs, and more, refer to [Pendle's Backend RESTful API](./Backend/BackendAndHostedSDK#pendle-restful-api). The Backend has a high rate limit and is also the source of data for Pendle DApp.
-
-- To perform various on-chain calculations without using the Backend, refer to [Pendle's RouterStatic](./Backend/RouterStatic.md). This is a low-level system built in Solidity, consisting of on-chain computational and data aggregation functions. Note that this is not to be used for on-chain integration since the contracts are not audited.
-
-## Limit Order System
-
-- To learn more about Pendle's Limit Order System contract, refer to [LimitOrderContract](./LimitOrder/LimitOrderContract.md).
-- To learn how to [Create](./LimitOrder/CreateALimitOrder.md), [Cancel](./LimitOrder/CancelOrders.md), [Fill Limit Orders](./LimitOrder/FillALimitOrder.md), refer to the respective files.
 
 ## Deployed Contract Addresses
 
@@ -52,15 +39,10 @@ To find the relevant addresses and details of a specific market:
 
 ![Market Info](/img/ProtocolMechanics/market_info.png "Market Info")
 
-## Whitepaper
-
-For a deeper dive into the mechanics and formulas involved in the Pendle protocol, refer to the four whitepapers at [this link](https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers):
-
-- **SY**: Explains EIP-5115 Standardized Yield, a token standard to generalize yield-generating mechanisms.
-- **SYS**: Explains how Pendle splits any Standardized Yield token into Principal Tokens and Yield Tokens.
-- **V2_AMM**: Explains how the AMM works in Pendle V2.
-- **vePENDLE**: Explains how vePENDLE works.
+## Resources
+- [Contract Addresses](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments)
+- [Example Repository](https://github.com/pendle-finance/pendle-examples-public)
+- [Whitepapers](https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers)
 
 ## Support
-
-For additional assistance, reach out to us via our [Developers channel in Discord](https://pendle.finance/discord). Pendle's developers are always available, and you can expect a response to your inquiries within 12 hours.
+Join our [Discord Developer Channel](https://pendle.finance/discord) for support (response within 12 hours).
