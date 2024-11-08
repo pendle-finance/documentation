@@ -88,7 +88,6 @@ module.exports = {
         { type: "doc", id: "Developers/Overview" },
         { type: "doc", id: "Developers/HighLevelArchitecture" },
         { type: "doc", id: "Developers/UncategorisedQuestions" },
-        { type: "doc", id: "Developers/Backend/HowToIntegratePendleRouterToBuyAndSellPTsAndYTs" },
         {
           type: "category",
           label: "Contracts",
