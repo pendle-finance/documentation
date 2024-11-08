@@ -23,36 +23,6 @@ Since PendleRouter is a proxy to multiple implementations, the caller can call t
 
 For a comprehensive understanding of the Pendle ecosystem, including key concepts and terminology, please refer to the [Overview document](../Overview.md).
 
-## Common Functions
-
-### Add/Remove Liquidity
-
-- **`addLiquiditySingleToken`**: Add liquidity to a market with any ERC20 tokens.
-- **`removeLiquiditySingleToken`**: Remove liquidity from a market with ERC20 tokens.
-
-### Buy/Sell PT, YT
-
-- **`swapExactTokenForPt`**: Swap an exact amount of a supported ERC20 token for PT.
-- **`swapExactPtForToken`**: Swap an exact amount of PT for a supported ERC20 token.
-- **`swapExactTokenForYt`**: Swap an exact amount of a supported ERC20 token for YT.
-- **`swapExactYtForToken`**: Swap an exact amount of YT for a supported ERC20 token.
-
-### Redeeming PT post-expiry for the underlying
-
-- **`RedeemPyToToken`**: PY stands for PT and YT. Post-expiry, you no longer need YT to redeem.
-
-### Redeeming LP, YT yield
-
-- **`redeemDueInterestAndRewards`**: Redeem the accrued interest and rewards from both the LP position and YT.
-
-## Off-chain Helpers
-
-PendleRouter heavily relies on off-chain data to address three main issues:
-
-1. **Swap Execution**: Currently, Pendle's AMM only supports the built-in `swapExactPtForSy` and `swapSyForExactPt`. To execute a `swapExactTokenForPt` (which is essentially the same as `swapExactSyForPt`), the router will conduct a binary search to determine the amount of PT to swap. While the binary search can be done entirely on-chain, limiting the search range off-chain will result in significantly less gas consumption for this function.
-2. **Liquidity Fragmentation**: Liquidity is currently fragmented across a large number of pools across various DEXes. Integrating only Uniswap or Balancer has proven to be insufficient. As a result, PendleRouter has natively integrated [KyberSwap](https://kyberswap.com/) to swap from any ERC20 token to another. For KyberSwap to work, the routing algorithm must be called off-chain and then pass the routing results to the Router to execute.
-3. **Limit Order System**: The limit order system of Pendle exists solely off-chain. Including these limit orders in on-chain swaps can significantly improve the price impact for users, particularly during large-size swaps.
-
 ## Integration Guide
 
 This section covers how to interact with the Pendle Router to buy and sell Principal Tokens (PTs) and Yield Tokens (YTs) using two methods:
@@ -62,10 +32,11 @@ This section covers how to interact with the Pendle Router to buy and sell Princ
 
 We highly recommend using Pendle's SDK to generate calldata for several reasons:
 
-1. **Gas Efficiency**: The SDK leverages off-chain data to optimize gas usage, potentially reducing gas costs significantly.
+1. **Gas Efficiency**: Currently, Pendle's AMM only supports the built-in `swapExactPtForSy` and `swapSyForExactPt`. To execute a `swapExactTokenForPt` (which is essentially the same as `swapExactSyForPt`), the router will conduct a binary search to determine the amount of PT to swap. While the binary search can be done entirely on-chain, limiting the search range off-chain will result in significantly less gas consumption for this function. The SDK leverages off-chain data to optimize gas usage, potentially reducing gas costs significantly.
 2. **Accurate Price Impacts**: The SDK provides precise calculations for swaps, ensuring better price impacts for users.
-3. **Ease of Integration**: By using the SDK, developers can seamlessly integrate Pendle's functionality into their applications, leveraging the full power of the swap aggregator, limit order system, and off-chain data preparation.
-4. **Convenient zapping with any ERC20 token**: The SDK supports aggregator, making it easy to swap any ERC20 token for PT or YT and vice versa.
+3. **Limit Order System**: The limit order system of Pendle exists solely off-chain. Including these limit orders in on-chain swaps can significantly improve the price impact for users, particularly during large-size swaps.
+4. **Ease of Integration**: By using the SDK, developers can seamlessly integrate Pendle's functionality into their applications, leveraging the full power of the swap aggregator, limit order system, and off-chain data preparation.
+5. **Convenient zapping with any ERC20 token**: Liquidity is currently fragmented across a large number of pools across various DEXes. Integrating only Uniswap or Balancer has proven to be insufficient. As a result, PendleRouter has natively integrated [KyberSwap](https://kyberswap.com/) to swap from any ERC20 token to another. For KyberSwap to work, the routing algorithm must be called off-chain and then pass the routing results to the Router to execute.
 
 We'll explore both methods, including example code, for each approach.
 
@@ -253,9 +224,7 @@ swapExactTokenForPt(
 
 In addition to swapping tokens, you can also **add**, **remove liquidity**, **mint PT YT**, **redeem PT YT**, **transfer liquidity**, **roll over pt** in Pendle markets using either the **Pendle Hosted SDK** or by directly interacting with the **Pendle Router**.
 
-#### Adding and Removing Liquidity
-
-##### Using the Pendle Hosted SDK
+#### Using the Pendle Hosted SDK
 
 We have provided examples for each action using the Pendle Hosted SDK:
 
@@ -268,22 +237,24 @@ We have provided examples for each action using the Pendle Hosted SDK:
 - [Mint PT YT](https://github.com/pendle-finance/pendle-examples-public/blob/main/hosted-sdk-demo/src/mint-py.ts)
 - [Redeem PT YT](https://github.com/pendle-finance/pendle-examples-public/blob/main/hosted-sdk-demo/src/redeem-py.ts)
 
-##### Direct Interaction with the Pendle Router
+#### Direct Interaction with the Pendle Router
 
-Here's an example of adding liquidity with a single token (zap in) via the Pendle Router:
+Here is the list of common functions and their actions in the Pendle Router:
 
-```solidity
-addLiquiditySingleToken(
-    msg.sender,
-    MARKET_ADDRESS,
-    minLpOut,
-    createDefaultApproxParams(),
-    createTokenInputSimple(USDC_ADDRESS, 1000e6),
-    createEmptyLimitOrderData()
-);
-```
+- Add/Remove Liquidity
+  - **`addLiquiditySingleToken`**: Add liquidity to a market with any ERC20 tokens.
+  - **`removeLiquiditySingleToken`**: Remove liquidity from a market with ERC20 tokens.
+- Buy/Sell PT, YT
+  - **`swapExactTokenForPt`**: Swap an exact amount of a supported ERC20 token for PT.
+  - **`swapExactPtForToken`**: Swap an exact amount of PT for a supported ERC20 token.
+  - **`swapExactTokenForYt`**: Swap an exact amount of a supported ERC20 token for YT.
+  - **`swapExactYtForToken`**: Swap an exact amount of YT for a supported ERC20 token.
+- Redeeming PT post-expiry for the underlying
+  - **`RedeemPyToToken`**: PY stands for PT and YT. Post-expiry, you no longer need YT to redeem.
+- Redeeming LP, YT yield
+  - **`redeemDueInterestAndRewards`**: Redeem the accrued interest and rewards from both the LP position and YT.
 
-More actions and example code available at [Example Repository/RouterSample.sol](https://github.com/pendle-finance/pendle-examples-public/blob/main/test/RouterSample.sol)
+You can find example code on how to use those functions at [Example Repository/RouterSample.sol](https://github.com/pendle-finance/pendle-examples-public/blob/main/test/RouterSample.sol)
 
 ## Important Structs in PendleRouter
 
