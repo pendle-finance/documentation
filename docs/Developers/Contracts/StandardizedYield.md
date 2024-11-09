@@ -42,12 +42,18 @@ Most SYs in Pendle are standard, 1-1 wrap of yieldToken. It's best to value PT/Y
 
 | Market          | Recommended way to get price | Unit of price | yieldToken of SY (1-1 wrap) | Note                             | Asset of SY                      |
 | --------------- | ---------------------------- | ------------- | --------------------------- | -------------------------------- | -------------------------------- |
+| LBTC            | getPtToSy                    | LBTC          | LBTC                        | -                                | BTC staked on  Lombard           |
+| sUSDe           | getPtToSy                    | sUSDe         | sUSDe                       | -                                | USDe                             |
+| USDe            | getPtToSy                    | USDe          | USDe                        | -                                | USDe                             |
+| eBTC            | getPtToSy                    | eBTC          | eBTC                        | -                                | eBTC (constant exchange rate)    |
+| USD0++          | getPtToSy                    | USD0++        | USD0++                      | -                                | USD0++ (constant exchange rate)  |
+| sENA            | getPtToSy                    | sENA          | sENA                        | -                                | ENA staked on Ethena             |
+| SolvBTC.BBN     | getPtToSy                    | SolvBTC.BBN   | SolvBTC.BBN                 | -                                | BTC staked on Solv               |
+| PumpBTC         | getPtToSy                    | PumpBTC       | PumpBTC                     | -                                | BTC staked on Pump               |
 | weETH           | getPtToSy                    | weETH         | weETH                       | -                                | eETH                             |
 | weETHs          | getPtToSy                    | weETHs        | weETHs                      | limited liquidity to market sell | weETHs (constant exchange rate)  |
 | weETHk          | getPtToSy                    | weETHk        | weETHk                      | limited liquidity to market sell | weETHk (constant exchange rate)  |
 | weETH (Karak)   | getPtToSy                    | weETH (Karak) | weETHk (Karak)              | can't market sell                | eETH                             |
-| USDe            | getPtToSy                    | USDe          | USDe                        | -                                | USDe                             |
-| sUSDe           | getPtToSy                    | sUSDe         | sUSDe                       | -                                | USDe                             |
 | pufETH          | getPtToSy                    | pufETH        | pufETH                      | -                                | ETH staked on Puffer             |
 | pzETH           | getPtToSy                    | pzETH         | pzETH                       | limited liquidity to market sell | pzETH (constant exchange rate)   |
 | wstETH          | getPtToSy                    | wstETH        | wstETH                      | -                                | stETH                            |
