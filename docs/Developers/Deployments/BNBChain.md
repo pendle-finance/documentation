@@ -11,25 +11,11 @@ While interacting, please use the ABI of implementation contracts provided or ge
 ## Core Contracts
 
 The latest contract addresses are available in the file [`/deployments/56-core.json`] within the
-[Pendle contract repository] Key contract addresses include the following:
+[Pendle contract repository]
 
 [Pendle contract repository]: https://github.com/pendle-finance/pendle-core-v2-public
 [`/deployments/56-core.json`]: https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/56-core.json
 
-- `PENDLE`
-- `router`
-- `routerStatic`
-- `pendleSwap`
-- `pyYtLpOracle`
-- `yieldContractFactoryV3`
-- `marketFactoryV3`
-- `yieldContractFactoryV4`
-- `marketFactoryV4`
-- `limitRouter`
-- `proxyAdmin`
-- `receiverEndpoint`
-- `vePendle`
-- `gaugeController`
 
 ## SY / Market / PT / YT Addresses
 

@@ -2,7 +2,7 @@
 hide_table_of_contents: true
 ---
 
-# Arbitrum
+# Base
 
 :::info
 While interacting, please use the ABI of implementation contracts provided or generate ABI from the smart contract code in GitHub.
@@ -10,11 +10,11 @@ While interacting, please use the ABI of implementation contracts provided or ge
 
 ## Core Contracts
 
-The latest contract addresses are available in the file [`/deployments/42161-core.json`] within the
+The latest contract addresses are available in the file [`/deployments/8453-core.json`] within the
 [Pendle contract repository]
 
 [Pendle contract repository]: https://github.com/pendle-finance/pendle-core-v2-public
-[`/deployments/42161-core.json`]: https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/42161-core.json
+[`/deployments/8453-core.json`]: https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/8453-core.json
 
 
 ## SY / Market / PT / YT Addresses
