@@ -8,7 +8,7 @@ Pendle protocol has 2 revenue sources:
 
 - **YT Fees**
     
-Pendle collects a 3% fee from all yield accrued (including points) by all YT in existence, and all yields from the SYs of matured unredeemed PTs.
+Pendle collects a 3% fee from all yield accrued (including points) by all YT in existence, and all yields (including all points negotiated) from the SYs of matured unredeemed PTs.
 
 - **YT Fees on Points**
 
