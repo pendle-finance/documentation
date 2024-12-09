@@ -141,6 +141,7 @@ module.exports = {
             { type: "doc", id: "Developers/Deployments/Ethereum" },
             { type: "doc", id: "Developers/Deployments/Arbitrum" },
             { type: "doc", id: "Developers/Deployments/Mantle" },
+            { type: "doc", id: "Developers/Deployments/Base" },
             { type: "doc", id: "Developers/Deployments/Optimism" },
             { type: "doc", id: "Developers/Deployments/BNBChain" },
           ],
