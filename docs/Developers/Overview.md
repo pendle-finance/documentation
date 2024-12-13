@@ -32,19 +32,14 @@ Follow our [Pendle Developer Updates](https://t.me/pendledevelopers) for importa
 
 ## Deployed Contract Addresses
 
-All deployed contracts and markets can be found here: [GitHub link](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments)
+All deployed contracts can be found here: [GitHub link](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments)
 
-To find the relevant addresses and details of a specific market:
-
-1. Go to the market page.
-2. Select the desired chain and click on an asset.
-3. Click the button as shown in the image below.
-
-![Market Info](/img/ProtocolMechanics/market_info.png "Market Info")
+All deployed Markets can be found here: [GitHub link](https://github.com/pendle-finance/Pendle-SY-Public)
 
 ## Resources
 
-- [Contract Addresses](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments)
+- [Core Contract Repository](https://github.com/pendle-finance/pendle-core-v2-public) & [Core Contract Addresses](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments)
+- [SY Contract Repository](https://github.com/pendle-finance/Pendle-SY-Public) & [SY Contract Addresses](https://github.com/pendle-finance/Pendle-SY-Public/tree/main/deployments)
 - [Example Repository](https://github.com/pendle-finance/pendle-examples-public)
 - [Whitepapers](https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers)
 
