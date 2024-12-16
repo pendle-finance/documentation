@@ -23,9 +23,43 @@ We support:
 - Get spot prices, historical prices of Pendle assets
 - Get historical data of Pendle markets
 
-**Example**
+### Get List of Active Markets
 
-To get list of whitelisted and not-expired markets, you can use [the following endpoint.](https://api-v2.pendle.finance/core/v1/1/markets?order_by=name%3A1&skip=0&limit=10&is_expired=false&select=pro)
+Retrieve all whitelisted and non-expired markets: [https://api-v2.pendle.finance/core/docs#/Markets/MarketsSimplifiedController_getActiveMarkets](https://api-v2.pendle.finance/core/docs#/Markets/MarketsSimplifiedController_getActiveMarkets)
+
+Example: [https://api-v2.pendle.finance/core/v1/1/markets/active](https://api-v2.pendle.finance/core/v1/1/markets/active) returns all active markets on Ethereum mainnet.
+
+### Get Latest Market Data
+
+Retrieve the latest data for a specific market, including liquidity, trading volume, and APY metrics: [https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketData_v2](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketData_v2)
+
+Example: [https://api-v2.pendle.finance/core/v2/1/markets/0xe6d4986cd935529fc4505d48e926bcd36a58a0f0/data](https://api-v2.pendle.finance/core/v2/1/markets/0xe6d4986cd935529fc4505d48e926bcd36a58a0f0/data) returns the latest data for the market with the address `0xe6d4986cd935529fc4505d48e926bcd36a58a0f0` on Ethereum mainnet.
+
+### Fetch Historical Market Data
+
+Retrieve historical data for a market in a time-series format:[https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketApyHistory_v3](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketApyHistory_v3). The API includes historical max apy, base apy, underlying apy, implied apy and tvl of a market.
+
+To reduce payload side, the API returns the response using table format. You can read more about [response as a table concept](https://github.com/ylabio/trandingview-wiki/blob/master/UDF.md#response-as-a-table-concept) to understand the response.
+
+Example: [https://api-v2.pendle.finance/core/v1/1/markets/0xe6d4986cd935529fc4505d48e926bcd36a58a0f0/historical-data?time_frame=week](https://api-v2.pendle.finance/core/v1/1/markets/0xe6d4986cd935529fc4505d48e926bcd36a58a0f0/historical-data?time_frame=week) returns the historical data for the market with the address `0xe6d4986cd935529fc4505d48e926bcd36a58a0f0` on Ethereum mainnet. Market data is aggregated by week.
+
+### Get Metadata for All Assets
+
+Retrieve metadata (name, expiry, decimals, address) of all LP, YT, and PT assets: [https://api-v2.pendle.finance/core/docs#/Asset%20Simple%20APIs/AssetsSimplifiedController_getAllAssets](https://api-v2.pendle.finance/core/docs#/Asset%20Simple%20APIs/AssetsSimplifiedController_getAllAssets)
+
+Example: [https://api-v2.pendle.finance/core/v3/42161/assets/all](https://api-v2.pendle.finance/core/v3/1/assets/all) returns metadata for all assets on Arbitrum.
+
+### Get Voter APR and Fee Data
+
+Retrieve the voter APR and swap fees for all markets: [https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_getPoolVoterAprAndSwapFee](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_getPoolVoterAprAndSwapFee)
+
+Example: [https://api-v2.pendle.finance/core/v1/ve-pendle/pool-voter-apr-swap-fee](https://api-v2.pendle.finance/core/v1/ve-pendle/pool-voter-apr-swap-fee) returns voterApr of the last epoch, swap fee of the last epoch, and the projected (expected) voter apr of the current epoch for all markets.
+
+### Get Vote Snapshot
+
+Retrieve the vote snapshot for specific weeks: [https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_voteSnapshot](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_voteSnapshot)
+
+Example: [https://api-v2.pendle.finance/core/v1/ve-pendle/vote-snapshot?epoch=2024-12-12T00%3A00%3A00.000Z](https://api-v2.pendle.finance/core/v1/ve-pendle/vote-snapshot?epoch=2024-12-12T00%3A00%3A00.000Z) returns the vote result for the epoch `2024-12-12T00:00:00.000Z`.
 
 Please visit to our [github public example repository](https://github.com/pendle-finance/pendle-examples-public/blob/main/backend-api-demo/src/index.ts) to see more examples of how to use our backend API.
 
