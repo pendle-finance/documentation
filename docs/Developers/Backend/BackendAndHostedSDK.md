@@ -82,6 +82,8 @@ To address this, Pendle has introduced a hosted version of our SDK. It ensures t
 - Remove liquidity dual
 - Mint SY
 - Redeem SY
+- Cancel single limit order
+- Cancel all limit orders
 
 **Example**
 
