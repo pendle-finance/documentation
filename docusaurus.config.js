@@ -95,8 +95,8 @@ const config = {
               href: 'https://discord.gg/qshFxh6965/',
             },
             {
-              label: 'Twitter',
-              href: 'https://twitter.com/pendle_fi/',
+              label: 'X',
+              href: 'https://x.com/pendle_fi/',
             },
             {
               label: 'Telegram',

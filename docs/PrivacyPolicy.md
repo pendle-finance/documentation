@@ -55,7 +55,7 @@ Most of the services available on this platform are aimed at people aged 18 and 
 
 ## Social Media
 
-We maintain online presences on [Twitter](https://twitter.com/en/privacy), [Medium](https://policy.medium.com/medium-privacy-policy-f03bf92035c9), [Discord](https://discord.com/privacy), [Telegram](https://telegram.org/privacy)  in order to be able to communicate with users active there and to inform them about our services there. When calling up the respective networks and platforms, the terms and conditions and data processing policies of their respective operators apply.
+We maintain online presences on [X](https://x.com/en/privacy), [Medium](https://policy.medium.com/medium-privacy-policy-f03bf92035c9), [Discord](https://discord.com/privacy), [Telegram](https://telegram.org/privacy)  in order to be able to communicate with users active there and to inform them about our services there. When calling up the respective networks and platforms, the terms and conditions and data processing policies of their respective operators apply.
 
 ## Obligation to provide data
 
