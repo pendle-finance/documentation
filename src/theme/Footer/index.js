@@ -26,7 +26,7 @@ function Footer() {
             Discord
           </a>
           <a href="https://x.com/pendle_fi/" target="_blank">
-            X
+            X (ex-Twitter)
           </a>
           <a href="https://t.me/pendlefinance/" target="_blank">
             Telegram
