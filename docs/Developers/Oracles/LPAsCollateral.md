@@ -33,7 +33,7 @@ This use case is similar to depositing a yield bearing asset like wstETH and bor
 ### 3. Oracle exploit:
   * If the oracle for LP price is easily manipulated or exploited, LP price could inflate unnaturally (leading to an attack of using over-priced LP to borrow, and get away with free money leading to bad protocol debt after LP price drops sharply after), or drops sharply (leading to bad debt for the protocol)
   * Assessment:
-    * Pendle's oracle for LP/asset builds on top of the PT/asset oracle. The PT/asset oracle is permissionless and built into the contract (no maintanance needed), hence liveness and correctness is not a concern.
+    * Pendle's oracle for LP/asset builds on top of the PT/asset oracle. The PT/asset oracle is permissionless and built into the contract (no maintenance needed), hence liveness and correctness is not a concern.
     * The LP/asset oracle returns TWAP prices for any customisable duration (within 65536 blocks, which is ~9 days for Ethereum), hence is not susceptible to short term or within-a-block manipulation of prices if the TWAP duration used is sufficient.
     * **Important note**:
       * You should only use the current LP oracle is the `SY` contract doesn't have a callback function. If the `SY` contract has a callback function, it is technically possible for the oracle to return an incorrect LP price, if it's called inside a SY's callback function. 

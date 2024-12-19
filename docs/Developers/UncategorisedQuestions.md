@@ -1,7 +1,7 @@
 ---
 hide_table_of_contents: true
 ---
-# Uncategorised questions
+# Uncategorized questions
 
 **This document is being iterated on rapidly due to incoming questions from partner protocols.** 
 ## Router
