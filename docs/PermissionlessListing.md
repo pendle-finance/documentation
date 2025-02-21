@@ -8,7 +8,7 @@ YT holders and part of LP (SY portion) receive yield, rewards, and points.
 Learn more [here](https://docs.pendle.finance/ProtocolMechanics/YieldTokenization/SY).
 
 
-# 1. SY Deployment
+# Step 1. SY Deployment
 
 - Write the SY contract for underlying asset. Some examples below as reference 
     - [sUSDe (Ethena)](https://github.com/pendle-finance/Pendle-SY-Public/blob/main/contracts/core/StandardizedYield/implementations/Ethena/PendleSUSDESY.sol)
@@ -25,7 +25,7 @@ Learn more [here](https://docs.pendle.finance/ProtocolMechanics/YieldTokenizatio
 - Deploy SY once the checklist is cleared.
 
 
-# 2. Market Deployment
+# Step 2. Market Deployment
 
 - Deploy Market using Pendle’s market deployer contract
     - Detailed guide [here](https://github.com/pendle-finance/Pendle-Common-Pool-Deploy)
@@ -61,7 +61,7 @@ Learn more [here](https://docs.pendle.finance/ProtocolMechanics/YieldTokenizatio
 - A small amount of liquidity (~$10) has to be seeded for deployment
 
 
-# 3. Token Pricing
+# Step 3. Token Pricing Setup
 
 - All SY’s related tokens must have a way to get price, including: ***Input tokens***, ***output tokens***, ***yield token***, ***underlying asset token***, ***reward tokens*** (if any).
 
@@ -81,7 +81,7 @@ Learn more [here](https://docs.pendle.finance/ProtocolMechanics/YieldTokenizatio
 - One-time setup per SY
 
 
-# 4. Metadata Setup
+# Step 4. Metadata Setup
 
 - Submit this [form](https://docs.google.com/forms/d/e/1FAIpQLSfuOkE0nRMcKPvzTVdsjrkpbR7f1p24IJHvpoEyIW7W8RQESw/viewform?usp=header ) using team's official account (sUSDe (Bera Concrete) market used as an example in the form)
 
@@ -95,7 +95,7 @@ Learn more [here](https://docs.pendle.finance/ProtocolMechanics/YieldTokenizatio
 - Each new market/maturity requires a new form submission.
 
 
-# 5. Post deployment
+# Step 5. Post deployment
 
 - **Bootstrap Liquidity**: Seed $150k+ in the pool with Keep YT Mode enabled.
     - This reduces price impact for zaps (<1%) which helps to further build the liquidity.
