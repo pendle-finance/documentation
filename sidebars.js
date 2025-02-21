@@ -82,6 +82,11 @@ module.exports = {
       ],
     },
     {
+      type: "doc",
+      id: "PermissionlessListing",
+      label: "Permissionless Listing"
+    },
+    {
       type: "category",
       label: "Developers",
       items: [
