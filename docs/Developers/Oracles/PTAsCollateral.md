@@ -48,13 +48,13 @@ This use case is similar to depositing a yield bearing asset (like wstETH) and b
 ### 3. Oracle exploit:
   * If the oracle for PT price is easily manipulated or exploited, PT price could inflate unnaturally (leading to an attack of using over-priced PT to borrow, and get away with free money leading to bad protocol debt after PT price drops sharply after), or drops sharply (leading to bad debt for the protocol)
   * Assessment:
-    * Pendle's oracle for PT/asset is permissionless and built into the contract (no maintanance needed), hence liveness and correctness is not a concern.
+    * Pendle's oracle for PT/asset is permissionless and built into the contract (no maintenance needed), hence liveness and correctness is not a concern.
     * The PT/asset oracle can return TWAP prices for customisable durations (within 65536 blocks, which is ~9 days for Ethereum), hence is not susceptible to short term or within-a-block manipulation of prices if the TWAP duration used is sufficient.
 
 ### 4. Insufficient PT liquidity for liquidation in a short duration
 When PT price drops significantly vs the borrowAsset (say for 20%) and doesn't bounce back, there might not be enough liquidity to liquidate PT collaterals for liquidatable loans, which might lead to bad debt.
 
-#### Assessment - Study 1: we want to make sure if PT/borrowAsset price drops siginificantly in one go, liquidators can liquidate the maximum possible liquidatable PT collaterals in profit
+#### Assessment - Study 1: we want to make sure if PT/borrowAsset price drops significantly in one go, liquidators can liquidate the maximum possible liquidatable PT collaterals in profit
 * Assume the following parameters in the money market:
   * Collateral factor for PT: `cRatio`
   * Deposit limit for PT collateral: `dCap` (in dollars)
