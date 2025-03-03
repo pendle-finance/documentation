@@ -39,7 +39,7 @@ If an API swap endpoint is deprecated, follow these steps:
 - Use updated SDK methods for compatibility
 - Follow official announcements for migration guidance
 
-For the latest API versions, visit Pendle API v2 Docs.
+For the latest API versions, visit [Pendle API v2 Docs](https://api-v2.pendle.finance/core/docs).
 
 ## Others
 
