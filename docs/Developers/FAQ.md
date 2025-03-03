@@ -25,13 +25,12 @@ To preview the amount you'll receive before submitting transactions, you can use
 ### How do I fetch the PT exchange rate?
 You can get the PT (Principal Token) exchange rate via:
 - Pendle API method (recommended): [Pendle price API](https://api-v2.pendle.finance/core/docs#/Assets/AssetsSimplifiedController_getAllAssetPricesByAddresses)
-- On-chain method: [https://docs.pendle.finance/Developers/Backend/RouterStatic](https://docs.pendle.finance/Developers/Backend/RouterStatic)
+- On-chain method: `getPtToAssetRate` of RouterStatic [https://docs.pendle.finance/Developers/Backend/RouterStatic](https://docs.pendle.finance/Developers/Backend/RouterStatic)
 
 ### How can I retrieve historical PT and YT prices?
 You can track historical PT/YT prices using:
 
-- Pendle API method (recommended): [Pendle ohlcv API](https://api-v2.pendle.finance/core/docs#/Prices/PricesController_ohlcv_v4). Note that shorter timeframes (e.g., minute-by-minute updates) are not yet available.
-- Pendle API for market history
+- Pendle API method: [Pendle ohlcv API](https://api-v2.pendle.finance/core/docs#/Prices/PricesController_ohlcv_v4). Note that shorter timeframes (e.g., minute-by-minute updates) are not yet available.
 
 ### What should I do if swap endpoints are deprecated?
 If an API swap endpoint is deprecated, follow these steps:

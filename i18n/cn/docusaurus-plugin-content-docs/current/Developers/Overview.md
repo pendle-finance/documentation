@@ -13,7 +13,7 @@ Welcome to the Pendle Documentation. This overview provides key information and 
 - Start with Pendle's [High Level Architecture](./HighLevelArchitecture.md) for an overview of the components in the Pendle protocol.
 - Pendle's Standardized Yield (SY) have quite a number of nuances to it, refer to the [StandardizedYield](./Contracts/StandardizedYield.md) documentation to understand the different types of SY and how they work.
 - Explore the developer documentation on [vePENDLE](./Contracts/vePENDLE.md) to understand the components and cross-chain mechanisms of vePENDLE.
-- Also check out [Uncategorised Questions](./UncategorisedQuestions.md) for answers to common questions.
+- Also check out [FAQ Questions](./FAQ.md) for answers to common questions.
 - To see the latest Pendle's contracts, refer to [Pendle Contract Repo](https://github.com/pendle-finance/pendle-core-v2-public/)
 - To see examples of various contract interactions, refer to [Pendle Examples Repo](https://github.com/pendle-finance/pendle-examples-public)
 
