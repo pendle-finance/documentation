@@ -24,8 +24,8 @@
     "description": "The label of footer link with label=Discord linking to https://discord.gg/qshFxh6965/"
   },
   "link.item.label.Twitter": {
-    "message": "Twitter",
-    "description": "The label of footer link with label=Twitter linking to https://twitter.com/pendle_fi/"
+    "message": "X",
+    "description": "The label of footer link with label=X linking to https://x.com/pendle_fi/"
   },
   "link.item.label.Telegram": {
     "message": "Telegram",
