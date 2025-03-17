@@ -11,7 +11,7 @@ Follow our [Pendle Developer Updates](https://t.me/pendledevelopers) for importa
 - [High Level Architecture](./HighLevelArchitecture.md)
 - [StandardizedYield (SY)](./Contracts/StandardizedYield.md)
 - [vePENDLE](./Contracts/vePENDLE.md)
-- [Common Questions](./UncategorisedQuestions.md)
+- [Common Questions](./FAQ.md)
 
 ## Integration Guides
 

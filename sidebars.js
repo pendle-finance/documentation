@@ -87,7 +87,7 @@ module.exports = {
       items: [
         { type: "doc", id: "Developers/Overview" },
         { type: "doc", id: "Developers/HighLevelArchitecture" },
-        { type: "doc", id: "Developers/UncategorisedQuestions" },
+        { type: "doc", id: "Developers/FAQ" },
         {
           type: "category",
           label: "Contracts",
