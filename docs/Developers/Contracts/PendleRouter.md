@@ -59,7 +59,7 @@ async function swapTokenToPt() {
     slippage: 0.01,
     tokenIn: wstETH,
     tokenOut: PT_ADDRESS,
-    amountIn: "1000000000000000000",
+    amounting, amount in: "1000000000000000000",
   });
 
   console.log("Amount PT Out: ", res.data.amountOut);
@@ -81,7 +81,7 @@ export async function swapYtToToken() {
     slippage: 0.01,
     tokenIn: YT_ADDRESS,
     tokenOut: wstETH,
-    amountIn: "1000000000000000000",
+    amounting, amount in: "1000000000000000000",
   });
 
   console.log("Amount wstETH Out: ", res.data.amountOut);
@@ -111,7 +111,7 @@ export async function swapTokenToPtUsingAggregation() {
     tokenIn: USDC,
     tokenOut: PT_ADDRESS,
     // USDC has 6 decimals
-    amountIn: (1000n * 10n ** 6n).toString(),
+    amounting, amount in: (1000n * 10n ** 6n).toString(),
     // enable aggregator, else it will throw an error because USDC could not be directly swapped to PT
     enableAggregator: true,
   });
@@ -134,7 +134,7 @@ export async function swapPtToTokenUsingAggregation() {
     slippage: 0.01,
     tokenIn: PT_ADDRESS,
     tokenOut: USDC,
-    amountIn: "1000000000000000000",
+    amounting, amount in: "1000000000000000000",
     // enable aggregator
     enableAggregator: true,
   });

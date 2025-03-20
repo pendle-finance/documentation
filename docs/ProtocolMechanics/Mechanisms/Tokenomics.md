@@ -29,7 +29,7 @@ As the industry matures, governance may propose changes based on the evolution o
 3. Pendle in [Governance Multi-signature address](https://etherscan.io/address/0x8119ec16f0573b7dac7c0cb94eb504fb32456ee1).
 4. Pendle in [Team Multi-signature address](https://etherscan.io/address/0x918cf6b16d1426b5aa0edf0492ced1aa89f9659a).
 
-The total supply of Pendle tokens at any point in time is the **Circulating Supply** plus Pendle in the 4 addressses above.
+The total supply of Pendle tokens at any point in time is the **Circulating Supply** plus Pendle in the 4 addresses above.
 
 <figure>
   <img src="/img/ProtocolMechanics/pendle_supply.png" alt="PENDLE supply" />

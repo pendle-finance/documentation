@@ -17,8 +17,8 @@ In the next sections, we explain when and how we process personal data about you
 The above legal bases are set out as follows:
 
 - *Consent Art. 6 (1) a) and Art. 7 GDPR*
-- Processing for the fulfilment of our services and implementation of contractual measures *Art. 6 (1) b) GDPR*
-- Processing for the fulfilment of our legal obligations *Art. 6 (1) c) GDPR*
+- Processing for the fulfillment of our services and implementation of contractual measures *Art. 6 (1) b) GDPR*
+- Processing for the fulfillment of our legal obligations *Art. 6 (1) c) GDPR*
 - Processing to protect our legitimate interests *Art. 6 (1) f) GDPR*
 
 ## Purposes of use of personal data and legal basis

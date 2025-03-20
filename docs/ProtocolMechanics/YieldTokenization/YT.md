@@ -27,6 +27,6 @@ Note: YT yields are distributed as SY, which can be unwrapped back into the unde
 
 ![Claiming YT Yield](/img/ProtocolMechanics/claiming-yt-yield.png "Claiming YT Yield")
 
-You can claim any earned YT (and LP) yield and rewards from the [Pendle Dashboard](https://app.pendle.finance/trade/dashboard/overview?timeframe=allTime&inUsd=false) anytime, even before maturity.
+You can claim any earned YT (and LP) yield and rewards from the [Pendle Dashboard](https://app.pendle.finance/trade/dashboard/overview?timeframe=all-time, all time&inUsd=false) anytime, even before maturity.
 
 Since YT = $0 upon maturity, no further action (aside from claiming yield) is required.
