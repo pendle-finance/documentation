@@ -10,9 +10,9 @@ hide_table_of_contents: true
 
 ## Overview
 
-PendleRouter is a contract that aggregates callers' actions with various different SYs, PTs, YTs, and Markets. It does not have any special permissions or whitelists on any contracts it interacts with. Therefore, any third-party protocols can freely embed the router's logic into their code for better gas efficiency.
+PendleRouter is a contract that aggregates callers' actions with various different SYs, PTs, YTs, and markets. It does not have any special permissions or whitelists on any contracts it interacts with. However, it is recommended that third parties use the Router to enjoy the fee discount while trading with the pool, as opposed to directly interacting with the pools themselves. The lnFeeRateRoot in the pool will be reduced when the Router is used to trade.
 
-Please note that new versions of PendleRouter are released a couple of times per year. While older versions will continue to operate correctly, they will not receive new features. Up until now, the Router has had four versions:
+Up until now, the Router has had four versions:
 
 - **RouterV1**, deployed on 23/11/2022 at `0x41FAD93F225b5C1C95f2445A5d7fcB85bA46713f`
 - **RouterV2**, deployed on 21/02/2023 at `0x0000000001e4ef00d069e71d6ba041b0a16f7ea0`, 15% to 20% more gas-optimized
