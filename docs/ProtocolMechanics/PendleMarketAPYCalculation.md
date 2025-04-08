@@ -144,7 +144,7 @@ Each of them has different way to calculate the $ptExchangeRate$
 $$\text{ptExchangeRate} = \dfrac{\text{ptAmount}}{\text{underlying}}$$
 
 ### YT <-> any token
-- $\text{ytAmount}$: YT intput/output amount
+- $\text{ytAmount}$: YT input/output amount
 
 $$\text{ptExchangeRate} = \dfrac{1}{1 - \dfrac{\text{underlying}}{\text{ytAmount}}}$$
 
