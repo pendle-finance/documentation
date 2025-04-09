@@ -5,7 +5,7 @@ hide_table_of_contents: true
 # Mantle
 
 :::info
-While interacting, please use the ABI of implementation contracts provided or generate ABI from the smart contract code in GitHub.
+While interacting, please use the ABI of implementation contracts on a block explorer or generate ABI from the smart contract code in GitHub.
 :::
 
 ## Core Contracts
