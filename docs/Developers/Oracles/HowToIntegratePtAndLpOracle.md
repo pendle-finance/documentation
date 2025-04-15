@@ -11,7 +11,12 @@ You can read High Level Architecture & StandardizedYield to understand the Pendl
 
 Refer to the examples [here](https://github.com/pendle-finance/pendle-examples/tree/main/test) & [here](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/contracts/oracles) for further understanding.
 
-## Second, Choose a Market & Duration
+
+## Second, Read the following security advisories
+
+As Pendle becomes more permissionless, certain security assumptions of SY will change in the future, and the Pendle team will verify for all teams currently integrating the LP Oracle that their integration meets the new security assumptions of SY. Please reach out to us on [Discord](https://discord.gg/EZYrVqjA) if you have any questions.
+
+## Third, Choose a Market & Duration
 
 We recommend choosing a market with high trading activities & deep liquidity. For instance, we'll choose EtherFi's weETH market on Arbitrum, which has 70M USD liquidity at block 192_001_277.
 
@@ -19,13 +24,13 @@ The recommended duration is 15 mins (900 secs) or 30 mins (1800 secs), but it ca
 
 For a detailed guide on assessing the risk, depth of liquidity & twap duration, refer to the corresponding risk assessment docs.
 
-## Third, Initialize the Oracle
+## Fourth, Initialize the Oracle
 
 By default, markets' oracles are un-initialized. You can check the oracle's status & initialize it if necessary using `getOracleState` on the `PendlePYLpOracle` contract.
 
 ![/img/Developers/Pasted_image_20240319215123.png](/img/Developers/Pasted_image_20240319215123.png)
 
-## Fourth, Get the Price
+## Fifth, Get the Price
 
 There are 2 units PT / LP can be denominated in, in SY or in Asset. To get the price in SY, call `getPtToSyRate()`, else call `getPtToAssetRate()`. Ensure to use the appropriate function as SY price is well defined for some markets, but Asset price is not & vice-versa.
 
@@ -40,7 +45,7 @@ Below is an example of how to call the functions.
 If you don't want to use the library, you can call the `PendlePtLpOracle` directly though it will take around ~4k additional gas.
 
 ![/img/Developers/Pasted_image_20240319230732.png](/img/Developers/Pasted_image_20240319230732.png)
-## (Optional) Fifth, Multiply the Price with a 3rd Price
+## (Optional) Sixth, Multiply the Price with a 3rd Price
 
 You can multiply the `PT-weETH` to `weETH` price by `weETH/ETH` price to get the `PT-weETH/ETH` price, which is more applicable for money markets.
 
