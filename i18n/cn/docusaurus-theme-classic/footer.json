@@ -41,7 +41,7 @@
   },
   "link.item.label.Media Kit": {
     "message": "Media Kit",
-    "description": "The label of footer link with label=Media Kit linking to https://pendle.finance/Pendle_Media_Kit.zip"
+    "description": "The label of footer link with label=Media Kit linking to https://pendle.finance/brandguide"
   },
   "link.item.label.Audits": {
     "message": "Audits",
