@@ -277,6 +277,15 @@ function test_get_price_LRT_with_external_oracle_with_lib() external view {
 
 </Tabs>
 
+:::warning We recommend pricing PT to <u>SY</u> instead of asset.
+
+For SY to any other units, the integrator can choose an appropriate method
+based on whether the asset can be directly redeemed from the SY or if there is
+a slashing risk, etc. Pendle can’t provide a perfect PT to Asset price because
+Asset price is not well defined.
+
+:::
+
 ## Handle liquidation & LP's rewards
 
 ### For PT liquidation
