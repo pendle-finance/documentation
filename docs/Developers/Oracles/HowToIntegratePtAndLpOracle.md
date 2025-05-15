@@ -109,7 +109,8 @@ Now you can call functions to get the observed price!
 
 ## Price Retrieval
 
-We have provided a few ways to obtain the price. Use the one that best suits your needs.
+We have provided a few ways to obtain the price. Select one of the following
+tab to choose the one that best suits your needs.
 
 <Tabs>
 
