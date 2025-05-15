@@ -314,7 +314,10 @@ $$
 Y = \mathtt{rawY} / 10^{\mathtt{SY}.\mathtt{decimals}}
 $$
 
-As Pendle support multiple assets, each with a different `decimals`, this fact is important to remember.
+Conversion between PT/YT and SY is done similarly.
+
+As Pendle support a wide variety of assets, each with a different `decimals`,
+this fact is important to remember.
 
 :::
 
