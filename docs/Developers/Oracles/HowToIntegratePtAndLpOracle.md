@@ -297,7 +297,7 @@ Let's say you want to know how much $X$ LP is worth in SY.
 First, we convert $X$ into the **raw** format so that the contract can understand.
 
 $$
-\mathtt{rawX} = X / 10^{\mathtt{LP}.\mathtt{decimals}}
+\mathtt{rawX} = X \times 10^{\mathtt{LP}.\mathtt{decimals}}
 $$
 
 After obtaining the `lpToSyRate`, we convert `rawX` to the **raw** form of SY as follows:
@@ -306,10 +306,12 @@ $$
 \mathtt{rawY} = \mathtt{rawX} \times \mathtt{lpToSyRate} / 10^{18}
 $$
 
+> Note that $10^{18}$ is a fixed number in the formula, and does not depend on any `decimals` data.
+
 Finally, we can convert `rawY` to the human-readable format:
 
 $$
-Y = \mathtt{rawY} \times 10^{\mathtt{SY}.\mathtt{decimals}}
+Y = \mathtt{rawY} / 10^{\mathtt{SY}.\mathtt{decimals}}
 $$
 
 As Pendle support multiple assets, each with a different `decimals`, this fact is important to remember.
