@@ -8,11 +8,11 @@ Pendle protocol has 2 revenue sources:
 
 - **YT Fees**
     
-Pendle collects a 3% fee from all yield accrued (including points) by all YT in existence, and all yields (including all points negotiated) from the SYs of matured unredeemed PTs.
+Pendle collects a 5% fee from all yield accrued (including points) by all YT in existence, and all yields (including all points negotiated) from the SYs of matured unredeemed PTs.
 
 - **YT Fees on Points**
 
-Fees on points are applied similarly as Pendle treats points as a form of yield. Since points are tracked off-chain, partner protocols deduct the 3% fee when allocating points to user wallets. The deducted points from fees are then re-allocated to the following Pendle-controlled wallets:
+Fees on points are applied similarly as Pendle treats points as a form of yield. Since points are tracked off-chain, partner protocols deduct the 5% fee when allocating points to user wallets. The deducted points from fees are then re-allocated to the following Pendle-controlled wallets:
 
 :::info
 Fee wallets for pools launched BEFORE 8th October 2024
