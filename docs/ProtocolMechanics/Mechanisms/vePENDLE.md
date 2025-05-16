@@ -39,7 +39,7 @@ Voting for a pool also entitles vePENDLE holders to 80% of the swap fees collect
 
 ## Fees and Rewards
 
-Pendle collects a 3% fee from all yield (including points) accrued by YT. Currently, 100% of this fee is distributed to vePENDLE holders, while the protocol collects no revenue. This is subject to change in the future.
+Pendle collects a 5% fee from all yield (including points) accrued by YT. Currently, 100% of this fee is distributed to vePENDLE holders, while the protocol collects no revenue. This is subject to change in the future.
 
 A portion of yield from matured unredeemed PTs will be distributed pro rata to vePENDLE holders as well. 
 

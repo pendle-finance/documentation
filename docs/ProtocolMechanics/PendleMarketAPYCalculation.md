@@ -108,7 +108,7 @@ $\text{rewardsReturns} = \text{underlyingRewardApy} * \text{yearsToExpiry}$
 
 
 $\text{ytReturns} = \text{interestReturns} + \text{rewardsReturns}$
-$\text{ytReturnsAfterFee} = \text{holdYtReturns} \times 97\%$
+$\text{ytReturnsAfterFee} = \text{holdYtReturns} \times 95\%$
 
 $\text{longYieldApy}=\dfrac{\text{ytReturnsAfterFee}}{\text{ytPriceInAsset}}^{\frac{1}{\text{yearsToExpiry}}}-1$
 
@@ -118,7 +118,7 @@ $\text{longYieldApy}=\dfrac{\text{ytReturnsAfterFee}}{\text{ytPriceInAsset}}^{\f
     - $\text{rewardsReturns}$:
         - rewards returns, in terms of accounting asset, for holding 1 YT from now until expiry
     - $\text{ytReturnsAfterFee}$:
-        - we charge 3% on YT yield, so we need to scale it down by 97%
+        - we charge 5% on YT yield, so we need to scale it down by 97%
     - $\text{longYieldApy}$:
         - This is the APY if we buy YT today, and hold it all the way to expiry, assuming the underlying APY will stay the same. This can be negative (if the returns from YT is less than YT price)
         - Starting with $\text{ytPriceInAsset}$, we got back $\text{ytReturnsWithFee}$ after $\text{yearsToExpiry}$.Then we just need to scale it to one year to get the APY
