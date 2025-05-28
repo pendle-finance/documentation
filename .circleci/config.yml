@@ -12,7 +12,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          pkg-manager: yarn
+          pkg-manager: yarn-berry
       - run: |
           yarn build
       - gh-pages/deploy:
