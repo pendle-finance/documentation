@@ -91,3 +91,30 @@ Other SYs that are not 1-1 wrap of yieldToken:
 
 For aUSDT and aUSDC, similar considerations apply as for sDAI, scrvUSD, and gDAI. Value them directly in their underlying asset.
 
+## Extended StandardizedYield
+
+The following are _optional_ methods that a SY can have. They are not the standard methods, but they can help with calculation for better accuracy.
+
+<!-- We might need to do documentation generation. -->
+<!-- Though this is an exception so it can be fine to include it here. -->
+
+### `pricingInfo()`
+
+```solidity
+function pricingInfo() external view returns (address refToken, bool refStrictlyEqual);
+```
+
+This function contains information to describe recommended pricing method for this SY
+- `refToken` the token should be referred to when pricing this SY
+- `refStrictlyEqual` whether the price of SY is strictly equal to refToken
+
+For pricing PT & YT of this SY, it's recommended that:
+- `refStrictlyEqual` = `true` : (1 natural unit of SY = 1 natural unit of refToken). `Use PYLpOracle.get{Token}ToSyRate()` and multiply with `refToken`'s according price.
+- `refStrictlyEqual` = `false`: use `PYLpOracle.get{Token}ToAssetRate()` and multiply with `refToken`'s according price.
+
+Please see documentation about [unit and decimals](./UnitAndDecimals.md) on notes about decimals differences between PT/YT and the assets.
+
+:::tip
+It is also highly recommended to contact us for discussion on this type of token.
+:::
+
