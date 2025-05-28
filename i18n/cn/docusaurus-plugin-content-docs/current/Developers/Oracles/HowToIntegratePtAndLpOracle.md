@@ -1,1 +1,0 @@
-../../../../../../docs/Developers/Oracles/HowToIntegratePtAndLpOracle.md
