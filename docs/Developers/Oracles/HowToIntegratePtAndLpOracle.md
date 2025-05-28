@@ -282,8 +282,22 @@ function test_get_price_LRT_with_external_oracle_with_lib() external view {
 
 For SY to any other units, the integrator can choose an appropriate method
 based on whether the asset can be directly redeemed from the SY or if there is
-a slashing risk, etc. Pendle can’t provide a perfect PT to Asset price because
+a slashing risk, etc. Pendle can not provide a perfect PT to Asset price because
 Asset price is not well defined.
+
+<details>
+<summary>Pendle can not provide a perfect PT to asset price</summary>
+
+Let's take a look at the example of PT-sUSDe/SY-sUSDe with asset being USDe.
+
+Pendle can guarantee 1 PT-sUSDe can be traded to $X$ SY-sUSDe = $X$ sUSDe. PT to SY price **exists natively**.
+
+On the other hand, Pendle **can not** guarantee sUSDe is redeemable to some amount of USDe. Which now traced back to: SY-sUSDe’s asset is not USDe, but USDe staked in Ethena, hence the price of this is not **well defined**.
+
+---
+
+Because of this, in case when sUSDe depegged from USDe, the conversion rate between PT-sUSDe to sUSDe is still correct, because the conversion rate is based on `SY.exchangeRate()`, which is provided by the underlying contract.
+</details>
 
 :::
 
