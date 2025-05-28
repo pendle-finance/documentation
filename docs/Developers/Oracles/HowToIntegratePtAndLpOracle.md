@@ -290,7 +290,7 @@ Asset price is not well defined.
 :::info About unit and decimals
 
 As the `decimals` is a token metadata, and only be used to show the amount to
-the users, Pendle contract does **not** operate with decimals.
+the users, Pendle contract does **not** operate with decimals. See the documentation about [unit and decimals](../Contracts/UnitAndDecimals.md) for more info.
 
 Let's say you want to know how much $X$ LP is worth in SY.
 
