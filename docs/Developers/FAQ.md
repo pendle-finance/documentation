@@ -73,5 +73,33 @@ function redeemRewards(address user) external returns (uint256[] memory);
 
 These calls can be batched through Multicall if necessary.
 
-This FAQ section is regularly updated with new questions and answers as they arise.
+### How can I generate all the params for the Router on-chain
+Please refer to the following 3 links:
 
+- [PendleRouter](https://docs.pendle.finance/Developers/Contracts/PendleRouter#generating-required-parameters-on-chain)
+- [IPAllActionTypeV3.sol](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionTypeV3.sol)
+- [Pendle Examples](https://github.com/pendle-finance/pendle-examples-public)
+
+
+### Why shouldn't I use getPtToAssetRate
+
+Please read the following:
+
+**Question:**
+I am trying to better understand why Pendle recommends the pricing of PT to SY instead of Assets. From my understanding, pricing of the PT to the SY does not expose the PT price feed the YT to Asset risk. How is the exchange rate from SY to Asset calculated and would that possibly impact the price feed if there was a scenario where there was not withdraw liquidity from SY to Asset?
+
+**Answer:**
+Actually, that might be misunderstood. Pendle recommends pricing PT to SY. For SY to any other units, the integrator can choose an appropriate method based on whether the asset can be directly redeemed from the SY or if there is a slashing risk, etc.
+
+Pendle can’t provide a perfect PT to Asset price because Asset price is not well defined. Take a simple example:
+PT-sUSDe / SY-sUSDe with asset being USDe
+Pendle can guarantee 1 PT-sUSDe can be traded to X SY-sUSDe == X sUSDe . So PT to SY price exists natively
+Pendle can’t guarantee sUSDe is redeemable to some amount of USDe
+
+Which now traced back to: SY-sUSDe’s asset is not USDe, but USDe staked in Ethena, and the price of this is not well defined
+
+**Question:**
+Thanks! That makes sense utilizing the SY and letting integrators choose the approriate method. What would happen in essence if there was a depeg in USDe from PT to Asset, would there possibly be any impact on the PT to Asset oracle feed relative to a PT to SY?
+
+**Answer:**
+for sUSDe depeg from USDe, PT price is not impacted even when PT-Asset is used because Pendle base the SY-Asset conversion rate on the underlying contract, not the market rate (this rate is SY.exchangeRate() and it will always read a rate provided by the underlying contract)
