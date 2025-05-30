@@ -31,7 +31,7 @@ When liquidity is zapped in, a portion of the underlying asset is used to purcha
 3. Minted YTs are sold into PT
 4. PTs are paired with SY to provide liquidity
 
-The selling of YT in the 3rd step above can cause a price impact. But, this can be avoided by toggling **Zero Price Impact Mode** (see below).
+The selling of YT in the 3rd step above can cause a price impact. But, this can be avoided by toggling **Keep YT Mode** (see below).
 
 ### Keep YT Mode
 
