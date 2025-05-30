@@ -86,7 +86,7 @@ By toggling “Claim All Pool Rewards” on the Zap Out page, Pendle App users c
 
 3. Choose your Params
 
-    Enable Zero Price Impact Mode to avoid any price impact but you will receive some YT as a result. Or disable the mode to purely receive LP tokens but at the risk of some price impact from swapping. Refer to the docs for Zero Price Impact mode above.
+    Enable Keep YT Mode to avoid any price impact but you will receive some YT as a result. Or disable the mode to purely receive LP tokens but at the risk of some price impact from swapping. Refer to the docs for Keep YT mode above.
 
 4. Approve and Execute
 
