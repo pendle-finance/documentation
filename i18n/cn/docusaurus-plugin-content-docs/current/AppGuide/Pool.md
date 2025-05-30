@@ -22,7 +22,7 @@ hide_table_of_contents: true
 5. （进阶）通过点击网页最右上角的齿轮图标，控制您的滑点容忍度
 6. 批准交易并完成 “Zap” 存款！
 
-### 零价格影响 Zap
+## Zap 入池
 
 当流动性通过 Zap 方式加入时，部分底层资产会用于从 PT/SY 池中购买 PT，剩余部分则会被包装成 SY：
 
@@ -33,7 +33,7 @@ hide_table_of_contents: true
 
 第 3 步中出售 YT 的操作可能会产生价格冲击。但你可以通过切换「**保留 YT**」模式（见下文）来避免这种情况
 
-## 保留 YT 模式
+### 保留 YT 模式
 
 !["Keep YT Mode"](/img/AppGuide/keep_yt_mode.png "Keep YT Mode")
 
