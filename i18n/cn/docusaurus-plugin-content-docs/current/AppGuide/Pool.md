@@ -33,7 +33,7 @@ hide_table_of_contents: true
 
 第 3 步中出售 YT 的操作可能会产生价格冲击。但你可以通过切换「**保留 YT**」模式（见下文）来避免这种情况
 
-## 零价格影响 Zap 模式
+## 保留 YT 模式
 
 !["Keep YT Mode"](/img/AppGuide/keep_yt_mode.png "Keep YT Mode")
 
