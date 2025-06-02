@@ -30,7 +30,7 @@ In the case of reward-bearing assets, it’s particularly important to note that
 
 For example, the value of Renzo ezETH increases overtime relative to ETH as staking and restaking rewards are accrued. For every 1 PT-ezETH you own, you’ll be able to redeem 1 ETH worth of ezETH upon maturity, *NOT* 1 ezETH which has a higher value**.**
 
-You can refer to the asset in brackets in the market name to identify the accounting asset (e.g. PT-ezETH (ETH) means 1 PT redeems to 1 ETH).
+You can refer to the asset in brackets in the market name to identify the accounting asset (e.g. PT-ezETH (ETH) means 1 PT redeems to 1 ETH worth of ezETH).
 
 You can also double-check the redemption value of PT on [Pendle App](https://app.pendle.finance/trade/markets)'s individual asset pages.
 
