@@ -10,7 +10,7 @@ Yield Token (YT) represents the yield component of an underlying yield-bearing a
 
 By holding YT, yield from the underlying asset will be streamed to the users, up until maturity. This rate of yield production is represented as “[Underlying APY](https://docs.pendle.finance/ProtocolMechanics/Glossary)” in the Pendle app.
 
-For example, buying 10 YT-stETH and holding them for 5 days lets you receive all of the yield equivalent to a 10 ETH deposit on Lido within the same period of time.
+For example, buying 10 YT-wstETH (stETH) and holding them for 5 days lets you receive all of the yield equivalent to a 10 stETH within the same period of time.
 
 The value of YT trends towards $0 as it approaches maturity (*ceteris paribus*), becoming $0 upon maturity. Users profit when the total yield collected up to that point ends up being higher than the cost of YT acquisition.
 
