@@ -96,7 +96,7 @@ You may only use the Services if you comply with this Agreement (including, with
 - engaging in any anticompetitive behavior or other misconduct.
 - use the service as target of any sanctions administered or enforced by the U.S. Department of the Treasury’s Office of Foreign Assets Control ("OFAC"), the United Nations Security Council, the European Union, Her Majesty’s Treasury, or any other legal or regulatory authority in any applicable jurisdiction;
 - you, as an individual or an entity, or your wallet address is listed on the Specially Designated Nationals and Blocked Persons List ("SDN List”), Consolidated Sanctions List ("Non-SDN Lists), or any other sanctions lists administered by OFAC; or
-- you are located, organized, or resident in a country or territory that is, or whose government is, the subject of sanctions, including but not limited to Côte d’Ivoire, Cuba, Belarus, Iran, Iraq, Liberia, North Korea, Singapore, Sudan, Syria, and the United States;
+- you are located, organized, or resident in a country or territory that is, or whose government is, the subject of sanctions, including but not limited to Côte d’Ivoire, Cuba, Belarus, Iran, Iraq, Liberia, North Korea, Singapore, Sudan, and Syria;
 
 ### Violating our rules may result in our intervention.
 
