@@ -96,15 +96,18 @@ module.exports = {
             { type: "doc", id: "Developers/Contracts/PendleRouter" },
             { type: "doc", id: "Developers/Contracts/vePENDLE" },
             { type: "doc", id: "Developers/Contracts/UnitAndDecimals" },
+            { type: "doc", id: "Developers/Contracts/RouterStatic" },
           ],
         },
-        // {
-        //   type: "category",
-        //   label: "Backend",
-        //   items: [
-        //     { type: "doc", id: "Developers/Backend/Backend" },
-        //   ],
-        // },
+        {
+          type: "category",
+          label: "Backend",
+          items: [
+            { type: "doc", id: "Developers/Backend/Backend" },
+            { type: "doc", id: "Developers/Backend/HostedSDK" },
+            { type: "doc", id: "Developers/Backend/RateLimiter" },
+          ],
+        },
         {
           type: "category",
           label: "Limit Orders",
@@ -125,14 +128,6 @@ module.exports = {
             { type: "doc", id: "Developers/Oracles/LPAsCollateral" },
             { type: "doc", id: "Developers/Oracles/PTAsCollateral" },
             { type: "doc", id: "Developers/Oracles/PTSanityChecks" },
-          ],
-        },
-        {
-          type: "category",
-          label: "Off-chain helpers",
-          items: [
-            { type: "doc", id: "Developers/Backend/BackendAndHostedSDK" },
-            { type: "doc", id: "Developers/Backend/RouterStatic" },
           ],
         },
         {

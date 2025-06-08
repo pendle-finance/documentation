@@ -23,7 +23,7 @@ Follow our [Pendle Developer Updates](https://t.me/pendledevelopers) for importa
 
 ### Off-chain Integration
 
-- [Backend RESTful API](./Backend/BackendAndHostedSDK#pendle-restful-api)
+- [Backend RESTful API](./Backend/Backend#pendle-restful-api)
 - [RouterStatic](./Backend/RouterStatic.md) - Extensively tested contract for off-chain calculations. Not audited; should not be used for on-chain fund-related operations.
 
 ### Limit Orders
