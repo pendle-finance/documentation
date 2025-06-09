@@ -12,3 +12,9 @@ Hide color mode toggle in small viewports
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 0px;
 }
+
+
+code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

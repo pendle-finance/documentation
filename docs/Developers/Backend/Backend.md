@@ -1,7 +1,3 @@
----
-hide_table_of_contents: false 
----
-
 Pendle Backend offers developers accurate and up-to-date data, empowering them to build and innovate with the latest protocol information.
 
 Pendle backend is hosted at [https://api-v2.pendle.finance/core/docs](https://api-v2.pendle.finance/core/docs)
@@ -9,6 +5,7 @@ Pendle backend is hosted at [https://api-v2.pendle.finance/core/docs](https://ap
 We support:
 
 - Get Pendle market's information
+- Get Pendle asset prices
 - Get Pendle asset's information
 - Get positions of a user in all pendle markets
 - Get vePendle's information
@@ -16,7 +13,7 @@ We support:
 - Get historical data of Pendle markets
 
 ### Get List of User Positions in Pendle
-[https://api-v2.pendle.finance/core/docs#/Dashboard/DashboardController_getUserPositions](https://api-v2.pendle.finance/core/docs#/Dashboard/DashboardController_getUserPositions)
+[API Documentation](https://api-v2.pendle.finance/core/docs#/Dashboard/DashboardController_getUserPositions)
 ![User Postions](/img/Developers/user_positions.png "User Postions")
 
 Example:
@@ -26,11 +23,22 @@ GET https://api-v2.pendle.finance/core/v1/dashboard/positions/database/${userAdd
 
 Return the list of positions for user `userAddress`
 
+### Get Pendle asset prices
+
+[API Documentation](https://api-v2.pendle.finance/core/docs#/Assets/AssetsSimplifiedController_getAllAssetPricesByAddresses)
+
+Example:
+```
+GET https://api-v2.pendle.finance/core/v1/1/assets/prices?addresses=0xb253eff1104802b97ac7e3ac9fdd73aece295a2c%2C0x34280882267ffa6383b363e278b027be083bbe3b
+```
+
+returns the prices of the assets with the addresses `0xb253eff1104802b97ac7e3ac9fdd73aece295a2c` (PT-stETH-30DEC2027) and `0x34280882267ffa6383b363e278b027be083bbe3b` (LP-stETH-30DEC2027) on Ethereum mainnet.
+
 ### Get List of Active Markets
 
 Retrieve all active markets on Pendle: 
 
-[https://api-v2.pendle.finance/core/docs#/Markets/MarketsSimplifiedController_getActiveMarkets](https://api-v2.pendle.finance/core/docs#/Markets/MarketsSimplifiedController_getActiveMarkets)
+[API Documentation](https://api-v2.pendle.finance/core/docs#/Markets/MarketsSimplifiedController_getActiveMarkets)
 
 ![Active Markets List](/img/Developers/list_active_markets.png "Active Markets List")
 
@@ -42,7 +50,7 @@ returns all active markets on Ethereum mainnet.
 
 ### Get Latest Market Data
 
-Retrieve the latest data for a specific market, including liquidity, trading volume, and APY metrics: [https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketData_v2](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketData_v2)
+Retrieve the latest data for a specific market, including liquidity, trading volume, and APY metrics: [API Documentation](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketData_v2)
 
 ![Market Latest Data](/img/Developers/market_latest_data.png "Market Latest Data")
 
@@ -56,7 +64,7 @@ returns the latest data for the market with the address `0xe6d4986cd935529fc4505
 
 Retrieve historical data for a market in a time-series format:
 
-[https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketApyHistory_v3](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketApyHistory_v3). 
+[API Documentation](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketApyHistory_v3)
 
 The API includes chart data of historical max apy, base apy, underlying apy, implied apy and tvl of a market.
 
@@ -74,7 +82,7 @@ returns the historical data for the market with the address `0xe6d4986cd935529fc
 
 Retrieve metadata (name, expiry, decimals, address) of all Pendle's assets (includes LP, YT, PT, SY): 
 
-[https://api-v2.pendle.finance/core/docs#/Asset%20Simple%20APIs/AssetsSimplifiedController_getAllAssets](https://api-v2.pendle.finance/core/docs#/Asset%20Simple%20APIs/AssetsSimplifiedController_getAllAssets)
+[API Documentation](https://api-v2.pendle.finance/core/docs#/Assets/AssetsSimplifiedController_getAllAssets)
 
 ![Assets List](/img/Developers/pt_asset_list.png "Assets List")
 
@@ -88,7 +96,7 @@ returns metadata for all assets on Arbitrum.
 
 Retrieve the voter APR and swap fees for all markets: 
 
-[https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_getPoolVoterAprAndSwapFee](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_getPoolVoterAprAndSwapFee)
+[API Documentation](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_getPoolVoterAprAndSwapFee)
 
 ![Voter APR and swap fees](/img/Developers/voter_fee_apr.png "Voter APR and swap fees")
 
@@ -100,7 +108,7 @@ returns voterApr of the last epoch, swap fee of the last epoch, and the projecte
 
 ### Get Vote Snapshot
 
-Retrieve the vote snapshot for specific weeks: [https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_voteSnapshot](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_voteSnapshot)
+Retrieve the vote snapshot for specific weeks: [API Documentation](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_voteSnapshot)
 
 ![Vote snapshot](/img/Developers/vote_snapshot.png "Vote snapshot")
 
