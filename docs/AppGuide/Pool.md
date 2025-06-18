@@ -91,3 +91,34 @@ By toggling “Claim All Pool Rewards” on the Zap Out page, Pendle App users c
 4. Approve and Execute
 
     Approve the transaction and let Pendle handle the rest. The system will automatically execute the optimal path for your transfer.
+
+
+## LP as collateral
+
+Some money markets support LPs as collateral to borrow other assets. For LP to be used as collateral, it will first need to be wrapped. 
+
+!["Wrap LP"](/img/AppGuide/wrap-lp.png "Wrap LP")
+
+### How to wrap LP
+
+1. Navigate to Pool which LP you want to wrap
+
+2. Click on LP Wrapper
+
+    Click on tools tab to see **LP Wrapper** as one of the dropdown options. Click on it to open LP Wrapper form
+
+3. Input Amount
+
+    Input amount of LP you want to wrap. Wrapping is 1 to 1 with no slippage or price impact and no fee. 
+
+4. Form is still accessible after market has matured 
+
+### What happens when you wrap LP
+
+LP needs to be wrapped to ensure Pendle rewards are still properly distributed when LPs are being used as collateral. 
+
+Wrapped LPs have the following properties: 
+
+- Wrapped LP rewards are claimable on dashboard in Merkle Rewards Tab every few weeks.
+- Wrapped LPs do not receive boost from your vePENDLE.
+- Wrapped LPs are not trackable on the dashboard
