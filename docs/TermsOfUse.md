@@ -2,7 +2,7 @@
 
 ## Welcome to Pendle.Finance
 
-www.pendle.finance is brought to you by Pendle Finance (”Pendle”) and its affiliates (collectively, "we,” "us,” or "our”) committed to creating open-source software that empowers users' financial, social and cultural independence. 
+www.pendle.finance is brought to you by Univerum Innovations Inc, Torre Advanced Building, first floor, Ricardo Arias Street, Panama, Republic of Panama (”Univerum”) and its affiliates (collectively, "we,” "us,” or "our”) committed to creating open-source software that empowers users' financial, social and cultural independence.
 
 ARBITRATION NOTICE: THESE TERMS ("TERMS”) CONTAIN AN ARBITRATION CLAUSE BELOW. EXCEPT FOR CERTAIN TYPES OF DISPUTES MENTIONED IN THAT ARBITRATION CLAUSE, YOU AND WE AGREE THAT ANY DISPUTES RELATING TO THE SERVICES (AS DEFINED BELOW) WILL BE RESOLVED BY MANDATORY BINDING ARBITRATION, AND YOU WAIVE ANY RIGHT TO A TRIAL BY JURY OR TO PARTICIPATE IN A CLASS-ACTION LAWSUIT OR CLASS-WIDE ARBITRATION. **You are entering into a binding Agreement.**
 
