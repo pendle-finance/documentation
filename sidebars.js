@@ -80,6 +80,7 @@ module.exports = {
         { type: "doc", id: "AppGuide/Claim" },
         { type: "doc", id: "AppGuide/Dashboard" },
         { type: "doc", id: "AppGuide/Calculator" },
+        { type: "doc", id: "AppGuide/BridgePendle", label: "Bridge PENDLE"}
       ],
     },
     {
