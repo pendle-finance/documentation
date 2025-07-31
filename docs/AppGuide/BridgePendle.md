@@ -5,10 +5,9 @@
 ### 1. Arbitrun
 - Bridge URL: https://bridge.arbitrum.io
 - Steps:
-    1. Connect your wallet.
-    2. Select Ethereum as the source and Arbitrum as the destination.
-    3. Choose PENDLE as the token and specify the amount.
-    4. Approve and confirm the bridge transaction.
+    1. Select Ethereum as the source and Arbitrum as the destination.
+    2. Choose PENDLE as the token and specify the amount.
+    3. Approve and confirm the bridge transaction.
 
 
 ### 2. BNB Chain
