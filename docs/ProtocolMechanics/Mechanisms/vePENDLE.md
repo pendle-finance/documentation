@@ -37,6 +37,31 @@ A snapshot of all votes is taken at the start of every epoch on Thursday, 00:00 
 
 Voting for a pool also entitles vePENDLE holders to 80% of the swap fees collected by the pool, distributed pro rata between all voters of the pool.
 
+
+### Incentive Cap
+
+The Incentive Cap limits the maximum amount of PENDLE incentives a pool can receive in an epoch.
+
+The cap applies **only to incentives**, not votes. A pool’s vote share can exceed its cap, and any votes beyond the cap will still earn swap fees and other rewards accordingly. However, they will not increase the amount of PENDLE incentives directed to that pool.
+
+If a pool’s vote share results in incentives above its cap, only the capped amount will be distributed for that epoch. The remainder will be retained by the protocol.
+
+##### Cap Adjustment
+
+Caps are recalculated every epoch based on the two key metrics below:
+1. Current Cap (C) – the present maximum incentive allocation for the pool.
+2. Fee Share % (F) – the pool’s share of total swap fees on Pendle.
+
+All new pools start with a base 5% cap on their first epoch. Each pool's performance on a given epoch affects the cap for the next epoch. As each epoch begins on Thursday, 00:00 UTC, the measurement period ends Wednesday, 00:00 UTC, giving voters 24 hours to adjust their votes.
+
+##### Adjustment rules:
+- If C > 4 * F → `New cap = max(C − 20% * C, 4 * F)`.
+- If C < 4 * F → `New cap = min(C + 20% * (4 * F), 4 * F)`.
+
+This mechanism gives smaller protocols without strong bribing power a fair chance, while preventing large protocols from dominating incentives through excessive bribes.
+The current cap for this epoch and the tentative projected cap for the next epoch are publicly available on [vePendle’s vote page](https://app.pendle.finance/vependle/vote).
+
+
 ## Fees and Rewards
 
 Pendle collects a 5% fee from all yield (including points) accrued by YT. Currently, 100% of this fee is distributed to vePENDLE holders, while the protocol collects no revenue. This is subject to change in the future.
