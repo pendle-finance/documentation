@@ -46,19 +46,20 @@ The cap applies **only to incentives**, not votes. A pool’s vote share can exc
 
 If a pool’s vote share results in incentives above its cap, only the capped amount will be distributed for that epoch. The remainder will be retained by the protocol.
 
-##### Cap Adjustment
+#### Cap Adjustment
 
 Caps are recalculated every epoch based on the two key metrics below:
 1. Current Cap (C) – the present maximum incentive allocation for the pool.
 2. Fee Share % (F) – the pool’s share of total swap fees on Pendle.
 
-All new pools start with a base 5% cap on their first epoch. Each pool's performance on a given epoch affects the cap for the next epoch. As each epoch begins on Thursday, 00:00 UTC, the measurement period ends Wednesday, 00:00 UTC, giving voters 24 hours to adjust their votes.
+All new pools start with a **base 5% cap** on their first epoch. Each pool's performance on a given epoch affects the cap for the next epoch. As each epoch begins on Thursday, 00:00 UTC, the measurement period ends Wednesday, 00:00 UTC, giving voters 24 hours to adjust their votes.
 
-##### Adjustment rules:
-- If C > 4 * F → `New cap = max(C − 20% * C, 4 * F)`.
-- If C < 4 * F → `New cap = min(C + 20% * (4 * F), 4 * F)`.
+#### Adjustment rules:
+- If C > 4 \* F → `New cap = max(C − 20% * C, 4 * F)`.
+- If C < 4 \* F → `New cap = min(C + 20% * (4 * F), 4 * F)`.
 
 This mechanism gives smaller protocols without strong bribing power a fair chance, while preventing large protocols from dominating incentives through excessive bribes.
+
 The current cap for this epoch and the tentative projected cap for the next epoch are publicly available on [vePendle’s vote page](https://app.pendle.finance/vependle/vote).
 
 

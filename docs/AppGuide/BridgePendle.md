@@ -2,7 +2,7 @@
 
 ## Bridging from Ethereum
 
-### 1. Arbitrun
+### 1. Arbitrum
 - Bridge URL: https://bridge.arbitrum.io
 - Steps:
     1. Select Ethereum as the source and Arbitrum as the destination.
