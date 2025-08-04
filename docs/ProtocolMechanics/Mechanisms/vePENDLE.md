@@ -62,7 +62,7 @@ This buffer gives vePENDLE holders 24 hours to adjust their votes before incenti
 
 The imposed cap adjustments are asymmetrical by design: they rise quickly with strong performance but decline more gradually, providing stability and encouraging growth without penalizing short-term dips.
 
-This mechanism prevents pools that are consistent laggards from receiving excessive liquidity incentives, ensuring that they only qualify for additional incentives when they demonstrate sustained traction.
+This mechanism prevents pools that are consistent laggards from receiving excessive liquidity incentives, ensuring that they only qualify for additional incentives when they demonstrate traction.
 
 Walking through a simplified example of how a pool’s cap might adjust based on its fee share, assume a pool currently has a cap of 10%. Based on its performance in the current epoch, here’s how its cap may change in the next:
 
