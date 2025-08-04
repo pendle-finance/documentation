@@ -72,7 +72,7 @@ Walking through a simplified example of how a pool’s cap might adjust based on
 | 2.5%                 | 10%                      | Fee share meets the threshold to maintain the current cap. |
 | 10%                  | 18%                      | High fee contribution enables a significant cap increase.|
 
-The current cap for this epoch and the tentative projected cap for the next epoch are publicly available on [vePendle’s vote page](https://app.pendle.finance/vependle/vote).
+The current cap for this epoch and the tentative projected cap for the next epoch will be publicly available on [vePendle’s vote page](https://app.pendle.finance/vependle/vote) when it’s live.
 
 
 ## Fees and Rewards
