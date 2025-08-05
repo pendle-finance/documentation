@@ -127,6 +127,13 @@ module.exports = {
             { type: "doc", id: "Developers/Oracles/LPAsCollateral" },
             { type: "doc", id: "Developers/Oracles/PTAsCollateral" },
             { type: "doc", id: "Developers/Oracles/PTSanityChecks" },
+            {
+              type: "category",
+              label: "Deterministic Oracles",
+              items: [
+                { type: "doc", id: "Developers/Oracles/DeterministicOracles/LinearDiscountOracle" },
+              ]
+            }
           ],
         },
         {
