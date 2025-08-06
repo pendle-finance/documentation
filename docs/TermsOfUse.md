@@ -1,8 +1,8 @@
-# Terms of Use
+# Terms of Use (updated on 30 June 2025)
 
 ## Welcome to Pendle.Finance
 
-www.pendle.finance is brought to you by Univerum Innovations Inc, Torre Advanced Building, first floor, Ricardo Arias Street, Panama, Republic of Panama (”Univerum”) and its affiliates (collectively, "we,” "us,” or "our”) committed to creating open-source software that empowers users' financial, social and cultural independence.
+www.pendle.finance is brought to you by Univerum Innovations Inc  (”Pendle”), Torre Advanced Building, first floor, Ricardo Arias Street, Panama, Republic of Panama (”Univerum”) and its affiliates (collectively, "we,” "us,” or "our”) committed to creating open-source software that empowers users' financial, social and cultural independence.
 
 ARBITRATION NOTICE: THESE TERMS ("TERMS”) CONTAIN AN ARBITRATION CLAUSE BELOW. EXCEPT FOR CERTAIN TYPES OF DISPUTES MENTIONED IN THAT ARBITRATION CLAUSE, YOU AND WE AGREE THAT ANY DISPUTES RELATING TO THE SERVICES (AS DEFINED BELOW) WILL BE RESOLVED BY MANDATORY BINDING ARBITRATION, AND YOU WAIVE ANY RIGHT TO A TRIAL BY JURY OR TO PARTICIPATE IN A CLASS-ACTION LAWSUIT OR CLASS-WIDE ARBITRATION. **You are entering into a binding Agreement.**
 
@@ -171,3 +171,65 @@ The Agreement (including, without limitation, these Terms, and the Pendle Privac
 These Terms and any separate agreements whereby we provide you Services shall be governed by and construed in accordance with the laws of BVI.
 
 [Privacy Policy](PrivacyPolicy.md)
+
+
+## Addendum to Terms of Use
+
+### Pendle Boros 
+Pendle Boros is an application in the Protocol that enables eligible users to trade funding rates linked to cryptoassets positions. This functionality is governed by smart contracts and system settings managed by the Pendle Boros administrator.  By accessing this feature, you acknowledge and agree to comply with the provisions of this Pendle Boros section in addition to the Terms of Use.
+
+Before you use Pendle Boros, it is strongly recommended that you read and understand the mechanics of Pendle Boros as set out in the [documentation](https://pendle.gitbook.io/boros/boros-docs) 
+
+### Eligibility
+You may use the funding rate trading feature only if you:
+1. are not restricted by the laws of your jurisdiction from participating in such activity;
+2. meet the relevant onboarding, verification, and funding requirements; and
+3. maintain sufficient collateral and account health per system settings.
+
+### System Controls and Administrative Rights
+You acknowledge and accept that your trading activity is subject to various dynamic global and user-specific settings managed by the Pendle Boros administrator and/or us, including but not limited to:
+
+Global Parameters:
+1. Maximum open orders per account;
+2. Hard Open Interest Cap (beyond which no new positions may be opened);
+3. “Close-only” mode restrictions;
+4. Adjustable fees (e.g., taker, settlement, OTC, liquidation);
+5. Margin configurations impacting leverage, liquidation thresholds, and order validity;
+6. Limit and market order price bounds based on mark rate;
+7. Minimum account balance and entrance fees per market; and
+8. Withdrawal cooldown durations.
+
+User-Specific Parameters:
+1. Custom margin configurations;
+2. Personalized fee discounts;
+3. Close-only mode exemptions (e.g., market makers); and
+4. Custom withdrawal cooldowns.
+
+System-Level Actions:
+1. Emergency pause of collateral zones or the platform;
+2. Forced deleveraging of unhealthy accounts;
+3. Administrative order cancellations; and
+4. Account suspension or bans for security, risk, or compliance reasons.
+
+**You understand that these parameters are subject to change without prior notice and may directly impact your ability to open, maintain, or close positions.**
+
+
+### Risk Acknowledgement
+You understand and agree that trading funding rates carries inherent risks, including but not limited to:
+1. liquidation due to price movements or admin-configured margin settings;
+2. order rejections or cancellations due to system-configured bounds;
+3. delays or denials of withdrawals during cooldowns or system pauses;
+4. loss of value due to forced deleveraging or partial fills at adverse rates; and
+5. temporary or permanent trading restrictions imposed by the Pendel Boros administrator.
+
+### Smart Contract-Based Trading
+All funding rate transactions are facilitated by smart contracts. You bear the full risk of using such contracts, including technical failures, bugs, or exploits.  We do not guarantee performance or uptime and disclaims liability for smart contract risks to the maximum extent permitted by law.
+
+### User Responsibilities
+You are solely responsible for monitoring your account’s health, margin levels, and applicable limits. You must not attempt to circumvent system controls or engage in behaviour deemed harmful to the protocol’s integrity.
+
+### No Fiduciary Relationship
+We are not your broker, fiduciary, or custodian. No advisory relationship is created by your use of the funding rate trading feature.
+
+### Amendments and Termination of Pendle Boros 
+We may update this Pendle Boros section or disable the feature entirely at any time. Your continued use after changes take effect constitutes your acceptance of the modified terms.
