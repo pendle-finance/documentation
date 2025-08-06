@@ -182,45 +182,45 @@ Before you use Pendle Boros, it is strongly recommended that you read and unders
 
 ### Eligibility
 You may use the funding rate trading feature only if you:
-(a) are not restricted by the laws of your jurisdiction from participating in such activity;
-(b) meet the relevant onboarding, verification, and funding requirements; and
-(c) maintain sufficient collateral and account health per system settings.
+1. are not restricted by the laws of your jurisdiction from participating in such activity;
+2. meet the relevant onboarding, verification, and funding requirements; and
+3. maintain sufficient collateral and account health per system settings.
 
 ### System Controls and Administrative Rights
 You acknowledge and accept that your trading activity is subject to various dynamic global and user-specific settings managed by the Pendle Boros administrator and/or us, including but not limited to:
 
 Global Parameters:
-(i) Maximum open orders per account;
-(ii) Hard Open Interest Cap (beyond which no new positions may be opened);
-(iii) “Close-only” mode restrictions;
-(iv) Adjustable fees (e.g., taker, settlement, OTC, liquidation);
-(v) Margin configurations impacting leverage, liquidation thresholds, and order validity;
-(vi) Limit and market order price bounds based on mark rate;
-(vii) Minimum account balance and entrance fees per market; and
-(viii) Withdrawal cooldown durations.
+1. Maximum open orders per account;
+2. Hard Open Interest Cap (beyond which no new positions may be opened);
+3. “Close-only” mode restrictions;
+4. Adjustable fees (e.g., taker, settlement, OTC, liquidation);
+5. Margin configurations impacting leverage, liquidation thresholds, and order validity;
+6. Limit and market order price bounds based on mark rate;
+7. Minimum account balance and entrance fees per market; and
+8. Withdrawal cooldown durations.
 
 User-Specific Parameters:
-(i) Custom margin configurations;
-(ii) Personalized fee discounts;
-(iii) Close-only mode exemptions (e.g., market makers); and
-(iv) Custom withdrawal cooldowns.
+1. Custom margin configurations;
+2. Personalized fee discounts;
+3. Close-only mode exemptions (e.g., market makers); and
+4. Custom withdrawal cooldowns.
 
 System-Level Actions:
-(i) Emergency pause of collateral zones or the platform;
-(ii) Forced deleveraging of unhealthy accounts;
-(iii) Administrative order cancellations; and
-(iv) Account suspension or bans for security, risk, or compliance reasons.
+1. Emergency pause of collateral zones or the platform;
+2. Forced deleveraging of unhealthy accounts;
+3. Administrative order cancellations; and
+4. Account suspension or bans for security, risk, or compliance reasons.
 
 **You understand that these parameters are subject to change without prior notice and may directly impact your ability to open, maintain, or close positions.**
 
 
 ### Risk Acknowledgement
 You understand and agree that trading funding rates carries inherent risks, including but not limited to:
-(a) liquidation due to price movements or admin-configured margin settings;
-(b) order rejections or cancellations due to system-configured bounds;
-(c) delays or denials of withdrawals during cooldowns or system pauses;
-(d) loss of value due to forced deleveraging or partial fills at adverse rates; and
-(e) temporary or permanent trading restrictions imposed by the Pendel Boros administrator.
+1. liquidation due to price movements or admin-configured margin settings;
+2. order rejections or cancellations due to system-configured bounds;
+3. delays or denials of withdrawals during cooldowns or system pauses;
+4. loss of value due to forced deleveraging or partial fills at adverse rates; and
+5. temporary or permanent trading restrictions imposed by the Pendel Boros administrator.
 
 ### Smart Contract-Based Trading
 All funding rate transactions are facilitated by smart contracts. You bear the full risk of using such contracts, including technical failures, bugs, or exploits.  We do not guarantee performance or uptime and disclaims liability for smart contract risks to the maximum extent permitted by law.
