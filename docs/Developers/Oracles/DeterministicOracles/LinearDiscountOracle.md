@@ -62,7 +62,7 @@ $$
 \text{answer} =
     \min\left(
         10^{18},
-        10^{18} - \frac{(t - \text{maturity})}{365 \cdot 24 \cdot 60 \cdot 60} \cdot 10^{18}
+        10^{18} - \frac{(\text{maturity} - t) \cdot \text{baseDiscountPerYear}}{365 \cdot 24 \cdot 60 \cdot 60} 
     \right)
 $$
 
