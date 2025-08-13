@@ -28,5 +28,6 @@ You can track the Watermark Rate and current Exchange Rate by switching to the *
 All markets on Pendle carry some risk of yields turning negative. The most common risks include:
 - Insolvency Risk:  If the underlying protocol becomes insolvent, the underlying asset may depeg, causing PTs to lose value.
 - Operational Risk: The underlying protocol may experience operational or security mishaps, resulting in misdistribution of yield and/or capital loss
+- Vault Risk: Yields from vault assets depend on the underlying protocol’s performance. Extreme market conditions may reduce yields or turn them negative.
 
 In addition to these general risks, certain protocols may present higher risks due to their design or yield-bearing mechanics. Any protocol-specific risks will be detailed in the Market Info section of each market.
