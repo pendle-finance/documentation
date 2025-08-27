@@ -29,7 +29,7 @@ When using our services, no personal data is collected. However, you must connec
 
 ## b) Cookies and similar technologies
 
-Pendle Finance also uses session-related so-called cookies. Cookies are small text files that are stored on your computer or device. Cookies make it easier for you to use our platform and enable us to make our platform attractive and effective.  We process the data collected from our technologies to improve the user experience of the platform.
+Pendle Finance also uses session-related so-called cookies. Cookies are small text files that are stored on your computer or device. Cookies make it easier for you to use our platform and enable us to make our platform attractive and effective.  We process the data collected from our technologies to improve the user experience of the platform.
 
 ## Analytics
 

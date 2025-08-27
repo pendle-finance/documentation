@@ -1,8 +1,8 @@
-# Terms of Use
+# Terms of Use (updated on 30 June 2025)
 
 ## Welcome to Pendle.Finance
 
-www.pendle.finance is brought to you by Univerum Innovations Inc, Torre Advanced Building, first floor, Ricardo Arias Street, Panama, Republic of Panama (”Univerum”) and its affiliates (collectively, "we,” "us,” or "our”) committed to creating open-source software that empowers users' financial, social and cultural independence.
+www.pendle.finance is brought to you by Univerum Innovations Inc  (”Pendle”), Torre Advanced Building, first floor, Ricardo Arias Street, Panama, Republic of Panama (”Univerum”) and its affiliates (collectively, "we,” "us,” or "our”) committed to creating open-source software that empowers users' financial, social and cultural independence.
 
 ARBITRATION NOTICE: THESE TERMS ("TERMS”) CONTAIN AN ARBITRATION CLAUSE BELOW. EXCEPT FOR CERTAIN TYPES OF DISPUTES MENTIONED IN THAT ARBITRATION CLAUSE, YOU AND WE AGREE THAT ANY DISPUTES RELATING TO THE SERVICES (AS DEFINED BELOW) WILL BE RESOLVED BY MANDATORY BINDING ARBITRATION, AND YOU WAIVE ANY RIGHT TO A TRIAL BY JURY OR TO PARTICIPATE IN A CLASS-ACTION LAWSUIT OR CLASS-WIDE ARBITRATION. **You are entering into a binding Agreement.**
 
@@ -70,15 +70,15 @@ You acknowledge and agree that you will access and use the Services, including, 
 
 ## Taxes
 
-**You are responsible for your taxes and duties.** Users bear sole responsibility for paying any and all taxes, duties, and assessments now or hereafter claimed or imposed by any governmental authority associated with their use of the Services, and/or payable as the result of using and/or exploiting any cryptoassets and interacting with smart contracts. Blockchain-based transactions are novel, and their tax treatment is uncertain.
+**You are responsible for your taxes and duties.** Users bear sole responsibility for paying any and all taxes, duties, and assessments now or hereafter claimed or imposed by any governmental authority associated with their use of the Services, and/or payable as the result of using and/or exploiting any cryptoassets and interacting with smart contracts. Blockchain-based transactions are novel, and their tax treatment is uncertain.
 
 ## The Services
 
-**We grant you a license to use our Services.** Contingent upon your ongoing compliance with the Agreement, we grant you a personal, worldwide, revocable, non-exclusive and non-assignable license to use the software provided to you as part of our Services. The only purpose of this license is to allow you to use and enjoy the Services solely as permitted by these Terms.
+**We grant you a license to use our Services.** Contingent upon your ongoing compliance with the Agreement, we grant you a personal, worldwide, revocable, non-exclusive and non-assignable license to use the software provided to you as part of our Services. The only purpose of this license is to allow you to use and enjoy the Services solely as permitted by these Terms.
 
-**We own all rights in the Services.** We own any and all right, title, and interest in and to the Services including, without limitation, any and all copyrights in and to any content, code, data, or other materials that you may access or use on or through the Services; however, the code for the Protocol and the front-end interface (app.pendle.finance) is open-sourced. Except as expressly set forth herein, your use of or access to the Services does not grant you any ownership or other rights therein.
+**We own all rights in the Services.** We own any and all right, title, and interest in and to the Services including, without limitation, any and all copyrights in and to any content, code, data, or other materials that you may access or use on or through the Services; however, the code for the Protocol and the front-end interface (app.pendle.finance) is open-sourced. Except as expressly set forth herein, your use of or access to the Services does not grant you any ownership or other rights therein.
 
-**We may use and share your feedback.** Any comments, bug reports, ideas, or other feedback that you may provide about our Services, including suggestions about how we might improve our Services, are entirely voluntary. You agree that we are free to use or not use any feedback that we receive from you as we see fit, including copying and sharing such feedback with third parties, without any obligation to you.
+**We may use and share your feedback.** Any comments, bug reports, ideas, or other feedback that you may provide about our Services, including suggestions about how we might improve our Services, are entirely voluntary. You agree that we are free to use or not use any feedback that we receive from you as we see fit, including copying and sharing such feedback with third parties, without any obligation to you.
 
 ## Prohibited Content
 
@@ -108,13 +108,13 @@ We reserve the right to investigate and prosecute any suspected breaches of this
 
 ## Disclaimers and Limitations of Liability
 
-**We make no representations or warranties.** THE SERVICES ARE PROVIDED ON AN "AS IS” AND "AS AVAILABLE” BASIS. WE AND OUR PARENTS, SUBSIDIARIES, AFFILIATES, RELATED COMPANIES, OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, REPRESENTATIVES, PARTNERS, AND LICENSORS (COLLECTIVELY, THE "PENDLE INDEMNIFIED PARTIES”) MAKE NO GUARANTEES OF ANY KIND IN CONNECTION WITH THE SERVICES. TO THE MAXIMUM EXTENT PERMITTED UNDER APPLICABLE LAW, PENDLE FINANCE INDEMNIFIED PARTIES DISCLAIM ALL WARRANTIES AND CONDITIONS, WHETHER EXPRESS OR IMPLIED, OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT AND DISCLAIM ALL RESPONSIBILITY AND LIABILITY FOR:
+**We make no representations or warranties.** THE SERVICES ARE PROVIDED ON AN "AS IS” AND "AS AVAILABLE” BASIS. WE AND OUR PARENTS, SUBSIDIARIES, AFFILIATES, RELATED COMPANIES, OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, REPRESENTATIVES, PARTNERS, AND LICENSORS (COLLECTIVELY, THE "PENDLE INDEMNIFIED PARTIES”) MAKE NO GUARANTEES OF ANY KIND IN CONNECTION WITH THE SERVICES. TO THE MAXIMUM EXTENT PERMITTED UNDER APPLICABLE LAW, PENDLE FINANCE INDEMNIFIED PARTIES DISCLAIM ALL WARRANTIES AND CONDITIONS, WHETHER EXPRESS OR IMPLIED, OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT AND DISCLAIM ALL RESPONSIBILITY AND LIABILITY FOR:
 
 - THE SERVICES BEING ACCURATE, COMPLETE, CURRENT, RELIABLE, UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE. INFORMATION (INCLUDING, WITHOUT LIMITATION, THE VALUE OR OUTCOME OF ANY TRANSACTION) AVAILABLE THROUGH THE SERVICE IS PROVIDED FOR GENERAL INFORMATION ONLY AND SHOULD NOT BE RELIED UPON OR USED AS THE SOLE BASIS FOR MAKING DECISIONS. ANY RELIANCE ON THE SERVICES IS AT YOUR OWN RISK.
 - INJURY OR DAMAGE RESULTING FROM THE SERVICES. FOR EXAMPLE, YOU EXPRESSLY ACKNOWLEDGE, UNDERSTAND, AND AGREE THAT THE SERVICES MAY CONTAIN AUDIO-VISUAL EFFECTS, STROBE LIGHTS OR OTHER MATERIALS THAT MAY AFFECT YOUR PHYSICAL SENSES AND/OR PHYSICAL CONDITION. FURTHER, YOU EXPRESSLY ACKNOWLEDGE THAT THE PENDLE FINANCE INDEMNIFIED PARTIES ARE NOT RESPONSIBLE FOR LOSS OR DAMAGE CAUSED BY ANOTHER USER’S CONDUCT, UNAUTHORIZED ACTORS, OR ANY UNAUTHORIZED ACCESS TO OR USE OF THE SERVICES.
 - VIRUSES, WORMS, TROJAN HORSES, TIME BOMBS, CANCEL BOTS, SPIDERS, MALWARE OR OTHER TYPE OF MALICIOUS CODE THAT MAY BE USED IN ANY WAY TO AFFECT THE FUNCTIONALITY OR OPERATION OF THE SERVICES.
 
-**Limitation of Liability.** TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL PENDLE INDEMNIFIED PARTY BE LIABLE TO YOU FOR ANY LOSS, DAMAGE, OR INJURY OF ANY KIND INCLUDING ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, EXEMPLARY, CONSEQUENTIAL, OR PUNITIVE LOSSES OR DAMAGES, OR DAMAGES FOR SYSTEM FAILURE OR MALFUNCTION OR LOSS OF PROFITS, DATA, USE, BUSINESS OR GOOD-WILL OR OTHER INTANGIBLE LOSSES, ARISING OUT OF OR IN CONNECTION WITH: (A) THE SERVICES OR YOUR INABILITY TO USE OR ACCESS THE SERVICES; (B) MISUSE OF THE SERVICES (INCLUDING WITHOUT LIMITATION, UNAUTHORIZED ACCESS OF THE SERVICES); (C) ANY USER CONDUCT ON THE SERVICES; OR (D) TERMINATION, SUSPENSION OR RESTRICTION OF ACCESS TO ANY THE SERVICES.
+**Limitation of Liability.** TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL PENDLE INDEMNIFIED PARTY BE LIABLE TO YOU FOR ANY LOSS, DAMAGE, OR INJURY OF ANY KIND INCLUDING ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, EXEMPLARY, CONSEQUENTIAL, OR PUNITIVE LOSSES OR DAMAGES, OR DAMAGES FOR SYSTEM FAILURE OR MALFUNCTION OR LOSS OF PROFITS, DATA, USE, BUSINESS OR GOOD-WILL OR OTHER INTANGIBLE LOSSES, ARISING OUT OF OR IN CONNECTION WITH: (A) THE SERVICES OR YOUR INABILITY TO USE OR ACCESS THE SERVICES; (B) MISUSE OF THE SERVICES (INCLUDING WITHOUT LIMITATION, UNAUTHORIZED ACCESS OF THE SERVICES); (C) ANY USER CONDUCT ON THE SERVICES; OR (D) TERMINATION, SUSPENSION OR RESTRICTION OF ACCESS TO ANY THE SERVICES.
 
 IN ADDITION TO THE FOREGOING, NO PENDLE INDEMNIFIED PARTY SHALL BE LIABLE FOR ANY DAMAGES CAUSED IN WHOLE OR IN PART BY: (A) USER ERROR, SUCH AS FORGOTTEN PASSWORDS OR INCORRECTLY CONSTRUCTED SMART CONTRACTS OR OTHER TRANSACTIONS; (B) SERVER FAILURE OR DATA LOSS; (C) THE MALFUNCTION, UNEXPECTED FUNCTION OR UNINTENDED FUNCTION OF THE BLOCKCHAIN, ANY COMPUTER OR CRYPTOASSET NETWORK (INCLUDING ANY WALLET PROVIDER), INCLUDING WITHOUT LIMITATION LOSSES ASSOCIATED WITH NETWORK FORKS, REPLAY ATTACKS, DOUBLE-SPEND ATTACKS, SYBIL ATTACKS, 51% ATTACKS, GOVERNANCE DISPUTES, MINING DIFFICULTY, CHANGES IN CRYPTOGRAPHY OR CONSENSUS RULES, HACKING, OR CYBERSECURITY BREACHES; (D) ANY CHANGE IN VALUE OF ANY CRYPTOASSET; (E) ANY CHANGE IN LAW, REGULATION, OR POLICY; (VI) EVENTS OF FORCE MAJEURE; OR (F) ANY THIRD PARTY.
 
@@ -171,3 +171,65 @@ The Agreement (including, without limitation, these Terms, and the Pendle Privac
 These Terms and any separate agreements whereby we provide you Services shall be governed by and construed in accordance with the laws of BVI.
 
 [Privacy Policy](PrivacyPolicy.md)
+
+
+## Addendum to Terms of Use
+
+### Pendle Boros 
+Pendle Boros is an application in the Protocol that enables eligible users to trade funding rates linked to cryptoassets positions. This functionality is governed by smart contracts and system settings managed by the Pendle Boros administrator.  By accessing this feature, you acknowledge and agree to comply with the provisions of this Pendle Boros section in addition to the Terms of Use.
+
+Before you use Pendle Boros, it is strongly recommended that you read and understand the mechanics of Pendle Boros as set out in the [documentation](https://pendle.gitbook.io/boros/boros-docs) 
+
+### Eligibility
+You may use the funding rate trading feature only if you:
+1. are not restricted by the laws of your jurisdiction from participating in such activity;
+2. meet the relevant onboarding, verification, and funding requirements; and
+3. maintain sufficient collateral and account health per system settings.
+
+### System Controls and Administrative Rights
+You acknowledge and accept that your trading activity is subject to various dynamic global and user-specific settings managed by the Pendle Boros administrator and/or us, including but not limited to:
+
+Global Parameters:
+1. Maximum open orders per account;
+2. Hard Open Interest Cap (beyond which no new positions may be opened);
+3. “Close-only” mode restrictions;
+4. Adjustable fees (e.g., taker, settlement, OTC, liquidation);
+5. Margin configurations impacting leverage, liquidation thresholds, and order validity;
+6. Limit and market order price bounds based on mark rate;
+7. Minimum account balance and entrance fees per market; and
+8. Withdrawal cooldown durations.
+
+User-Specific Parameters:
+1. Custom margin configurations;
+2. Personalized fee discounts;
+3. Close-only mode exemptions (e.g., market makers); and
+4. Custom withdrawal cooldowns.
+
+System-Level Actions:
+1. Emergency pause of collateral zones or the platform;
+2. Forced deleveraging of unhealthy accounts;
+3. Administrative order cancellations; and
+4. Account suspension or bans for security, risk, or compliance reasons.
+
+**You understand that these parameters are subject to change without prior notice and may directly impact your ability to open, maintain, or close positions.**
+
+
+### Risk Acknowledgement
+You understand and agree that trading funding rates carries inherent risks, including but not limited to:
+1. liquidation due to price movements or admin-configured margin settings;
+2. order rejections or cancellations due to system-configured bounds;
+3. delays or denials of withdrawals during cooldowns or system pauses;
+4. loss of value due to forced deleveraging or partial fills at adverse rates; and
+5. temporary or permanent trading restrictions imposed by the Pendel Boros administrator.
+
+### Smart Contract-Based Trading
+All funding rate transactions are facilitated by smart contracts. You bear the full risk of using such contracts, including technical failures, bugs, or exploits.  We do not guarantee performance or uptime and disclaims liability for smart contract risks to the maximum extent permitted by law.
+
+### User Responsibilities
+You are solely responsible for monitoring your account’s health, margin levels, and applicable limits. You must not attempt to circumvent system controls or engage in behaviour deemed harmful to the protocol’s integrity.
+
+### No Fiduciary Relationship
+We are not your broker, fiduciary, or custodian. No advisory relationship is created by your use of the funding rate trading feature.
+
+### Amendments and Termination of Pendle Boros 
+We may update this Pendle Boros section or disable the feature entirely at any time. Your continued use after changes take effect constitutes your acceptance of the modified Terms.
