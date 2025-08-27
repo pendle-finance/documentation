@@ -1,0 +1,221 @@
+.root{
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+.leftFeatureCard {
+  display: flex;
+  cursor: pointer;
+  width: 48%;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1F2536;
+  color: white;
+  border-radius: 1rem;
+  padding: 2rem 2rem 2rem 2rem;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.leftFeatureCard:hover {
+  background-color: #191D27;
+  text-shadow: 0 0 20px #fff;
+}
+
+.rightFeatureCard {
+  display: flex;
+  cursor: pointer;
+  width: 48%;
+  flex-direction: column;
+  align-items: center;
+  background-color: #1F2536;
+  color: white;
+  border-radius: 1rem;
+  padding: 2rem 2rem 2rem 2rem;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.rightFeatureCard:hover {
+  background-color: #191D27;
+  text-shadow: 0 0 20px #fff;
+}
+
+.description {
+  text-wrap: balance;
+  font-size: 0.8rem;
+  display: flex;
+}
+
+.leftTitle {
+  font-family: "Aboreto";
+}
+
+.v2Title {
+  color: #1be3c2;
+  font-weight: 400;
+}
+
+.v2RightTitle {
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin-left: 1em;
+  border: 1px solid #1be3c2;
+  border-radius: 30%;
+  text-align: center;
+  line-height: 1;
+  font-size: 0.4em;
+  vertical-align: middle;
+  color: white;
+}
+
+.borosTitle {
+  color: #6079ff;
+  font-weight: 400;
+}
+
+.borosRightTitle {
+  display: inline-block;
+  padding: 0.5em 1em;
+  margin-left: 1em;
+  border: 1px solid #6079ff;
+  border-radius: 30%;
+  text-align: center;
+  line-height: 1;
+  font-size: 0.4em;
+  vertical-align: middle;
+  color: white;
+}
+
+.link {
+  text-decoration: none !important;
+  color: white !important;
+}
+
+.featureContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.deploymentsLottie {
+  margin-top: 3rem;
+  height: 6rem;
+}
+
+.sibling {
+  width: 100%;
+  height: 100%;
+  background-color: #1F2536;
+  border-radius: 1rem;
+  color: white !important;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none !important;
+
+}
+
+.sibling:hover {
+  background-color: #191D27;
+  text-shadow: 0 0 20px #fff;
+}
+
+.subFeatures {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin-left: 5%;
+  margin-bottom: 1rem;
+  position: relative;
+  color: white !important;
+  text-decoration: none !important;
+  top: -11rem;
+}
+
+.indivFeature {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: linear-gradient(#1F2536, #1F2536) padding-box,
+    linear-gradient(45deg, #4771B5, #7ED8C9) border-box;
+  border: solid transparent;
+  border-width: thin;
+  border-radius: 1rem;
+  color: white !important;
+  text-decoration: none !important;
+  font-size: 14px;
+}
+
+.indivFeature:hover {
+  background: linear-gradient(#191D27, #191D27) padding-box,
+    linear-gradient(45deg, #4771B5, #7ED8C9) border-box;
+}
+.featureTitle {
+  margin-top: 1rem;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  text-shadow: none;
+}
+.lottie {
+  height: 4rem;
+}
+.lottieWrapper{
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+
+}
+
+@media only screen and (max-width: 1024px) {
+  .root{
+    /* margin-top: 3rem;
+    margin-bottom: 2rem; */
+  }
+
+  .leftFeatureCard{
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .rightFeatureCard {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .featureContainer {
+    flex-direction: column;
+  }
+
+  .lottie {
+    height: 3rem;
+  }
+
+  .sibling{
+    padding: 1rem;
+  }
+
+  .subFeatures{
+    margin-bottom: 0;
+    top: -9rem;
+  }
+
+  .featureTitle{
+    margin-top: 0.5rem;
+  }
+
+  .deploymentsLottie {
+    margin-top: 1rem;
+    height: 5rem;
+  }
+
+}

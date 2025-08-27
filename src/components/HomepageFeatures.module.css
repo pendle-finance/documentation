@@ -1,10 +1,15 @@
 .root{
   width: 65vw;
   max-width: 900px;
+  min-height: 56.9vh;
+  display: flex;
+  flex-direction: column;
 }
 
 @media only screen and (max-width: 1024px) {
   .root{
-    width: 90vw;
+    width: 100%;
+    max-width: 80vw;
+    display: flex;
   }
 }
