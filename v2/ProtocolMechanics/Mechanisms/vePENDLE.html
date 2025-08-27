@@ -8,7 +8,7 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css" integrity="sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM" crossorigin="anonymous"><link rel="stylesheet" href="/assets/css/styles.4effd50b.css">
-<script src="/assets/js/runtime~main.5b91e3cb.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.873e70fe.js" defer="defer"></script>
 <script src="/assets/js/main.950ea2a6.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -26,7 +26,7 @@
 <li>Boost LP rewards (up to 250%)</li>
 </ol>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="getting-vependle">Getting vePENDLE<a href="#getting-vependle" class="hash-link" aria-label="Direct link to Getting vePENDLE" title="Direct link to Getting vePENDLE">​</a></h2>
-<p>Lock PENDLE and receive vePENDLE. Your vePENDLE value is proportional to the amount and duration staked (up to a maximum of 2 years). Tutorial <a href="/v2/ProtocolMechanics/Mechanisms/Guides/Lock">here</a>. Each wallet is associated with a single vePENDLE expiry date.</p>
+<p>Lock PENDLE and receive vePENDLE. Your vePENDLE value is proportional to the amount and duration staked (up to a maximum of 2 years). Tutorial <a href="/v2/ProtocolMechanics/Mechanisms/Guides/Lock">here</a>. Each wallet is associated with a single vePENDLE expiry date.</p>
 <p>Your vePENDLE value will decay over time, and reaches zero once the lock duration is over. Your staked PENDLE will then be unlocked.</p>
 <p><img decoding="async" loading="lazy" alt="vePENDLE Value Over Time" src="/assets/images/vependle_value-5d17de6b1df07fd7fe79bbfc3baaf742.jpg" title="vePENDLE Value Over Time" width="1999" height="808" class="img_ev3q"></p>
 <p>To increase your vePENDLE value, you can choose to extend your staking duration and/or increase your staked amount.</p>
@@ -36,11 +36,33 @@
 <p>A snapshot of all votes is taken at the start of every epoch on Thursday, 00:00 UTC and the incentive rates for each pool will be adjusted accordingly.</p>
 <p><img decoding="async" loading="lazy" alt="Epoch Snapshots" src="/assets/images/epoch_snapshots-33b9dcd785ec7f13fa42698c8b5dd5ed.jpg" title="Epoch Snapshots" width="4000" height="2404" class="img_ev3q"></p>
 <p>Voting for a pool also entitles vePENDLE holders to 80% of the swap fees collected by the pool, distributed pro rata between all voters of the pool.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="incentive-cap">Incentive Cap<a href="#incentive-cap" class="hash-link" aria-label="Direct link to Incentive Cap" title="Direct link to Incentive Cap">​</a></h3>
+<p><strong>The Incentive Cap limits the maximum amount of PENDLE incentives a pool can receive in an epoch, based on its swap fee performance.</strong></p>
+<p>The incentive cap applies <strong>only to incentives</strong>, not votes. If a pool’s vote share results in incentives above its cap, only the capped amount will be distributed for that epoch (any excess will be retained by the protocol). All votes will continue to earn swap fees and other vePENDLE yield sources.</p>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="cap-adjustment">Cap Adjustment<a href="#cap-adjustment" class="hash-link" aria-label="Direct link to Cap Adjustment" title="Direct link to Cap Adjustment">​</a></h4>
+<p>Pool caps are finalized on Wednesday 00:00 UTC based on two variables:</p>
+<ol>
+<li>Current Cap (C) – the maximum incentive currently set for the pool.</li>
+<li>Fee Share % (F) – the pool’s proportion of total swap fees generated across Pendle over the last 7 days.</li>
+</ol>
+<p>Pools launched on Pendle will begin with a <strong>default 5% cap</strong> in their first epoch. After that, a pool’s cap adjusts dynamically each week based on its performance, with a maximum cap of 20%. The cap adjusts based on the following formula:</p>
+<ul>
+<li>If C &gt; 4 * F → <code>New cap = max(C − 20% * C, 4 * F)</code>.</li>
+<li>If C &lt; 4 * F → <code>New cap = min(C + 20% * (4 * F), 4 * F)</code>.</li>
+</ul>
+<p>The fee share (F) is calculated based on a Wednesday-to-Wednesday measurement period and finalized at 00:00 UTC on Wednesday. This creates a 24-hour lag before the new epoch begins on Thu 00:00 UTC.</p>
+<p><img decoding="async" loading="lazy" alt="Caps Timeline" src="/assets/images/caps_timeline-f3e964e181666f02e678afe34e3fa0da.png" title="Caps Timeline" width="4624" height="2604" class="img_ev3q"></p>
+<p>This buffer gives vePENDLE holders 24 hours to adjust their votes before incentives are distributed—especially useful if the updated caps impact voting decisions.</p>
+<p>The imposed cap adjustments are asymmetrical by design: they rise quickly with strong performance but decline more gradually, providing stability and encouraging growth without penalizing short-term dips.</p>
+<p>This mechanism prevents pools that are consistent laggards from receiving excessive liquidity incentives, ensuring that they only qualify for additional incentives when they demonstrate traction.</p>
+<p>Walking through a simplified example of how a pool’s cap might adjust based on its fee share, assume a pool currently has a cap of 10%. Based on its performance in the current epoch, here’s how its cap may change in the next:</p>
+<table><thead><tr><th>Fee Share This Epoch</th><th>Resulting Cap Next Epoch</th><th>Explanation</th></tr></thead><tbody><tr><td>1%</td><td>8%</td><td>Low fee contribution leads to a reduction in cap.</td></tr><tr><td>2.5%</td><td>10%</td><td>Fee share meets the threshold to maintain the current cap.</td></tr><tr><td>10%</td><td>18%</td><td>High fee contribution enables a significant cap increase.</td></tr></tbody></table>
+<p>The current cap for this epoch and the tentative projected cap for the next epoch will be publicly available on <a href="https://app.pendle.finance/vependle/vote" target="_blank" rel="noopener noreferrer">vePendle’s vote page</a> when it’s live.</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="fees-and-rewards">Fees and Rewards<a href="#fees-and-rewards" class="hash-link" aria-label="Direct link to Fees and Rewards" title="Direct link to Fees and Rewards">​</a></h2>
 <p>Pendle collects a 5% fee from all yield (including points) accrued by YT. Currently, 100% of this fee is distributed to vePENDLE holders, while the protocol collects no revenue. This is subject to change in the future.</p>
 <p>A portion of yield from matured unredeemed PTs will be distributed pro rata to vePENDLE holders as well.</p>
 <p>For example, matured PT-aUSDC is equivalent to aUSDC. If left unredeemed, all of its yield will be converted to a stablecoin and collected by the protocol as protocol revenue, and distributed to vePENDLE holders.</p>
-<p>All of these rewards will be converted to ETH regardless of where your vePENDLE is being held and distributed periodically by a disbursement contract.</p>
+<p>All of these rewards will be converted to USDT regardless of where your vePENDLE is being held and distributed periodically by a disbursement contract.</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="fees-on-points">Fees on Points<a href="#fees-on-points" class="hash-link" aria-label="Direct link to Fees on Points" title="Direct link to Fees on Points">​</a></h3>
 <p>Fees on points are applied similarly as Pendle treats points as a form of yield. Since points are tracked off-chain, partner protocols deduct the fees when allocating points to user wallets. Once the token rewards are claimable, the fee wallets will claim the rewards which will later be forwarded to vePENDLE holders.</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="vependle-apy">vePENDLE APY<a href="#vependle-apy" class="hash-link" aria-label="Direct link to vePENDLE APY" title="Direct link to vePENDLE APY">​</a></h2>
@@ -56,7 +78,7 @@
 <p><img decoding="async" loading="lazy" alt="Boost received against vePendle" src="/assets/images/vependle_boost-149eaa1385d92ef54903cf848283eab6.jpg" title="Boost received against vePendle" width="1999" height="806" class="img_ev3q"></p>
 <p>Although your vePENDLE value decays over time, your LP boost rate is calculated at the time the boost is first applied. The boost rate will remain constant until you update your LP positions, in which case the rate will change based on your current vePENDLE value.</p>
 <p>To receive boosted rewards, you should lock your PENDLE into vePENDLE first before LPing.</p>
-<p>If you are already LPing and want to boost your rewards with vePENDLE, you have to manually <a href="/v2/ProtocolMechanics/Mechanisms/Guides/ApplyBoost">apply the boost</a> after voting for the pool.</p>
+<p>If you are already LPing and want to boost your rewards with vePENDLE, you have to manually <a href="/v2/ProtocolMechanics/Mechanisms/Guides/ApplyBoost">apply the boost</a> after voting for the pool.</p>
 <p>For cross-chain reward boosts (e.g. boosting LP positions on Arbitrum), you will first need to to synchronize your vePENDLE balance from Ethereum before the boost can be applied.</p>
 <p><img decoding="async" loading="lazy" alt="vePENDLE Cross-chain Reward Boosts" src="/assets/images/vependle_crosschain-039f915aa660c870da7fd1d41f0ddaad.png" title="vePENDLE Cross-chain Reward Boosts" width="1920" height="1080" class="img_ev3q"></p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/v2/ProtocolMechanics/Mechanisms/Tokenomics"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Tokenomics</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/v2/ProtocolMechanics/Mechanisms/Fees"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Fees</div></a></nav></div></div></div></div></main></div></div></div><footer class="theme-layout-footer background_jo3k footer"><div class="root_ngte"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Pages</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://pendle.finance" target="_blank" rel="noopener noreferrer" class="linkGroup_OWBm">Website</a></li><li class="footer__item"><a href="https://app.pendle.finance" target="_blank" rel="noopener noreferrer" class="linkGroup_OWBm">V2</a></li><li class="footer__item"><a href="https://boros.pendle.finance" target="_blank" rel="noopener noreferrer" class="linkGroup_OWBm">Boros</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Socials</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://discord.gg/qshFxh6965/" target="_blank" rel="noopener noreferrer" class="linkGroup_OWBm">Discord</a></li><li class="footer__item"><a href="https://twitter.com/pendle_fi/" target="_blank" rel="noopener noreferrer" class="linkGroup_OWBm">Twitter</a></li><li class="footer__item"><a href="https://t.me/pendlefinance/" target="_blank" rel="noopener noreferrer" class="linkGroup_OWBm">Telegram</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">About Us</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://medium.com/pendle/" target="_blank" rel="noopener noreferrer" class="linkGroup_OWBm">Medium</a></li><li class="footer__item"><a href="https://angel.co/company/pendle_finance/" target="_blank" rel="noopener noreferrer" class="linkGroup_OWBm">Careers</a></li><li class="footer__item"><a href="https://www.pendle.finance/brandguide" target="_blank" rel="noopener noreferrer" class="linkGroup_OWBm">Media Kit</a></li><li class="footer__item"><a href="https://github.com/pendle-finance/boros-core-public/tree/main/audits/" target="_blank" rel="noopener noreferrer" class="linkGroup_OWBm">V2 Audits</a></li><li class="footer__item"><a href="https://github.com/pendle-finance/boros-core-public/tree/main/audits/" target="_blank" rel="noopener noreferrer" class="linkGroup_OWBm">Boros Audits</a></li></ul></div></div></div></div></footer></div>
 </body>
