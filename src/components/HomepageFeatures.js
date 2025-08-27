@@ -1,13 +1,11 @@
 import React from "react";
-import GettingStarted from "./GettingStarted";
-import AboutTheProtocol from "./AboutTheProtocol";
+import Directory from "./Directory";
 import styles from "./HomepageFeatures.module.css";
 
 export default function HomepageFeatures() {
   return (
     <div className={styles.root}>
-      <GettingStarted />
-      <AboutTheProtocol />
+      <Directory />
     </div>
   );
 }
