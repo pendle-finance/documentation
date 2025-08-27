@@ -227,6 +227,13 @@ const sidebars: SidebarsConfig = {
 							type: "doc",
 							id: "Developers/Oracles/PTSanityChecks"
 						},
+						{
+              type: "category",
+              label: "Deterministic Oracles",
+              items: [
+                { type: "doc", id: "Developers/Oracles/DeterministicOracles/LinearDiscountOracle" },
+              ]
+            }
 					],
 				},
 				{
@@ -276,6 +283,10 @@ const sidebars: SidebarsConfig = {
 						{
 							type: "doc",
 							id: "Developers/Deployments/Berachain"
+						},
+						{
+							type: "doc",
+							id: "Developers/Deployments/HyperEVM"
 						},
 					],
 				},
