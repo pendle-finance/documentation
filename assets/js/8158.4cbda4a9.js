@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpendle_documentation=self.webpackChunkpendle_documentation||[]).push([[8158],{48158:(e,a,n)=>{n.r(a),n.d(a,{DocSearchModal:()=>c.a1});var c=n(55600)}}]);

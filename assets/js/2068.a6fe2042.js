@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpendle_documentation=self.webpackChunkpendle_documentation||[]).push([[2068],{32068:(e,n,c)=>{c.d(n,{createInfoServices:()=>t.v});var t=c(41366);c(58198)}}]);
