@@ -10,6 +10,8 @@ hide_table_of_contents: true
 
 The contract exposes familiar read functions (`latestRoundData`, `decimals`) so money markets can plug it in like a Chainlink-compatible feed. The returned value is a **multiplier in 18 decimals**, not a USD price.
 
+Please see the [Choosing Linear Discount Parameters](./ChoosingLinearDiscountParams.md) documentation for guidance on selecting appropriate linear discount parameters.
+
 ## Use cases
 
 For money markets listing PTs as collateral or borrowable assets, the oracle provides a stable, predictable valuation path. Integrators read the factor, multiply it by their PT redemption preview (and then by the underlying'S USD price feed if needed). Because the factor converges linearly to 1.0 at expiry, LTVs and liquidation thresholds behave smoothly instead of whipsawing with AMM volatility.

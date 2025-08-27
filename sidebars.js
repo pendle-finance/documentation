@@ -133,6 +133,7 @@ module.exports = {
               items: [
                 { type: "doc", id: "Developers/Oracles/DeterministicOracles/LinearDiscountOracle" },
                 { type: "doc", id: "Developers/Oracles/DeterministicOracles/LPLinearDiscountOracle" },
+                { type: "doc", id: "Developers/Oracles/DeterministicOracles/ChoosingLinearDiscountParams" },
               ]
             }
           ],
