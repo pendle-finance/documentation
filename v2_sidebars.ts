@@ -1,10 +1,7 @@
-import type {
-	SidebarsConfig
-} from '@docusaurus/plugin-content-docs';
+import type { SidebarsConfig } from '@docusaurus/plugin-content-docs';
 
 const sidebars: SidebarsConfig = {
-	v2Sidebar: [
-    {
+	v2Sidebar: [{
 			type: "doc",
 			id: "Introduction",
 			label: "Introduction",
@@ -94,6 +91,11 @@ const sidebars: SidebarsConfig = {
 				},
 				{
 					type: "doc",
+					id: "ProtocolMechanics/NegativeYield",
+					label: "Negative Yield"
+				},
+				{
+					type: "doc",
 					id: "ProtocolMechanics/PendleMarketAPYCalculation",
 					label: "APY Calculation"
 				},
@@ -134,6 +136,11 @@ const sidebars: SidebarsConfig = {
 					type: "doc",
 					id: "AppGuide/Calculator"
 				},
+				{
+					type: "doc",
+					id: "AppGuide/BridgePendle",
+					label: "Bridge PENDLE"
+				}
 			],
 		},
 		{
@@ -228,12 +235,13 @@ const sidebars: SidebarsConfig = {
 							id: "Developers/Oracles/PTSanityChecks"
 						},
 						{
-              type: "category",
-              label: "Deterministic Oracles",
-              items: [
-                { type: "doc", id: "Developers/Oracles/DeterministicOracles/LinearDiscountOracle" },
-              ]
-            }
+							type: "category",
+							label: "Deterministic Oracles",
+							items: [{
+								type: "doc",
+								id: "Developers/Oracles/DeterministicOracles/LinearDiscountOracle"
+							}, ]
+						}
 					],
 				},
 				{
