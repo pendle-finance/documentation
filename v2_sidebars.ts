@@ -166,8 +166,38 @@ const sidebars: SidebarsConfig = {
 							id: "Developers/Contracts/StandardizedYield"
 						},
 						{
-							type: "doc",
-							id: "Developers/Contracts/PendleRouter"
+							type: "category",
+							label: "PendleRouter",
+							items: [
+								{
+									type: "doc",
+									id: "Developers/Contracts/PendleRouter/PendleRouterOverview"
+								},
+								{
+									type: "doc",
+									id: "Developers/Contracts/PendleRouter/types"
+								},
+								{
+									type: "doc",
+									id: "Developers/Contracts/PendleRouter/PtFunctions"
+								},
+								{
+									type: "doc",
+									id: "Developers/Contracts/PendleRouter/YtFunctions"
+								},
+								{
+									type: "doc",
+									id: "Developers/Contracts/PendleRouter/LiquidityFunctions"
+								},
+								{
+									type: "doc",
+									id: "Developers/Contracts/PendleRouter/MiscFunctions"
+								},
+								{
+									type: "doc",
+									id: "Developers/Contracts/PendleRouter/SimpleFunctions"
+								},
+							],
 						},
 						{
 							type: "doc",
