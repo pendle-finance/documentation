@@ -73,8 +73,8 @@ function swapExactSyForYt(
 | market | `address` | Pendle market address |
 | exactSyIn | `uint256` | Exact amount of SY tokens to swap |
 | minYtOut | `uint256` | Minimum YT tokens to receive |
-| guessYtOut | `ApproxParams` | Approximation parameters |
-| limit | `LimitOrderData` | Limit order configuration |
+| guessYtOut | [`ApproxParams`](/v2/Developers/Contracts/PendleRouter/types#approxparams) | Approximation parameters |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -112,8 +112,8 @@ function swapExactYtForToken(
 | receiver | `address` | Address to receive tokens |
 | market | `address` | Pendle market address |
 | exactYtIn | `uint256` | Exact amount of YT tokens to swap |
-| output | `TokenOutput` | Token output configuration |
-| limit | `LimitOrderData` | Limit order configuration |
+| output | [`TokenOutput`](/v2/Developers/Contracts/PendleRouter/types#tokenoutput) | Token output configuration |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -148,7 +148,7 @@ function swapExactYtForSy(
 | market | `address` | Pendle market address |
 | exactYtIn | `uint256` | Exact amount of YT tokens to swap |
 | minSyOut | `uint256` | Minimum SY tokens to receive |
-| limit | `LimitOrderData` | Limit order configuration |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -162,27 +162,27 @@ Direct and efficient method for selling YT tokens to receive SY tokens.
 
 ## Integration Examples
 
-### Buying YT with USDC
+### Buying YT-sUSDe with USDe
 ```solidity
-// Swap 1000 USDC for YT tokens
+// Swap 1000 USDe for YT-sUSDe tokens
 router.swapExactTokenForYt(
     msg.sender,
-    MARKET_ADDRESS,
+    PT_SUSDE_MARKET_ADDRESS,
     minYtOut,
     createDefaultApproxParams(),
-    createTokenInputSimple(USDC_ADDRESS, 1000e6),
+    createTokenInputSimple(USDE_ADDRESS, 1000e18),
     createEmptyLimitOrderData()
 );
 ```
 
-### Selling YT for USDC
+### Selling YT-sUSDe for USDe
 ```solidity
-// Swap YT tokens for USDC
+// Swap YT-sUSDe tokens for USDe
 router.swapExactYtForToken(
     msg.sender,
-    MARKET_ADDRESS,
+    PT_SUSDE_MARKET_ADDRESS,
     ytAmount,
-    createTokenOutputSimple(USDC_ADDRESS, minUsdcOut),
+    createTokenOutputSimple(USDE_ADDRESS, minUsdeOut),
     createEmptyLimitOrderData()
 );
 ```

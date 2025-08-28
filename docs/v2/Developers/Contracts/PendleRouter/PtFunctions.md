@@ -32,9 +32,9 @@ function swapExactTokenForPt(
 | receiver | `address` | Address to receive PT tokens |
 | market | `address` | Pendle market address |
 | minPtOut | `uint256` | Minimum PT tokens to receive |
-| guessPtOut | `ApproxParams` | Approximation parameters |
-| input | `TokenInput` | Token input configuration |
-| limit | `LimitOrderData` | Limit order configuration |
+| guessPtOut | [`ApproxParams`](/v2/Developers/Contracts/PendleRouter/types#approxparams) | Approximation parameters |
+| input | [`TokenInput`](/v2/Developers/Contracts/PendleRouter/types#tokeninput) | Token input configuration |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -74,8 +74,8 @@ function swapExactSyForPt(
 | market | `address` | Pendle market address |
 | exactSyIn | `uint256` | Exact amount of SY tokens to swap |
 | minPtOut | `uint256` | Minimum PT tokens to receive |
-| guessPtOut | `ApproxParams` | Approximation parameters |
-| limit | `LimitOrderData` | Limit order configuration |
+| guessPtOut | [`ApproxParams`](/v2/Developers/Contracts/PendleRouter/types#approxparams) | Approximation parameters |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -113,8 +113,8 @@ function swapExactPtForToken(
 | receiver | `address` | Address to receive tokens |
 | market | `address` | Pendle market address |
 | exactPtIn | `uint256` | Exact amount of PT tokens to swap |
-| output | `TokenOutput` | Token output configuration |
-| limit | `LimitOrderData` | Limit order configuration |
+| output | [`TokenOutput`](/v2/Developers/Contracts/PendleRouter/types#tokenoutput) | Token output configuration |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -149,7 +149,7 @@ function swapExactPtForSy(
 | market | `address` | Pendle market address |
 | exactPtIn | `uint256` | Exact amount of PT tokens to swap |
 | minSyOut | `uint256` | Minimum SY tokens to receive |
-| limit | `LimitOrderData` | Limit order configuration |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -163,27 +163,27 @@ Direct and efficient method for selling PT tokens to receive SY tokens.
 
 ## Integration Examples
 
-### Buying PT with USDC
+### Buying PT-sUSDe with USDe
 ```solidity
-// Swap 1000 USDC for PT tokens
+// Swap 1000 USDe for PT-sUSDe tokens
 router.swapExactTokenForPt(
     msg.sender,
-    MARKET_ADDRESS,
+    PT_SUSDE_MARKET_ADDRESS,
     minPtOut,
     createDefaultApproxParams(),
-    createTokenInputSimple(USDC_ADDRESS, 1000e6),
+    createTokenInputSimple(USDE_ADDRESS, 1000e18),
     createEmptyLimitOrderData()
 );
 ```
 
-### Selling PT for USDC
+### Selling PT-sUSDe for USDe
 ```solidity
-// Swap PT tokens for USDC
+// Swap PT-sUSDe tokens for USDe
 router.swapExactPtForToken(
     msg.sender,
-    MARKET_ADDRESS,
+    PT_SUSDE_MARKET_ADDRESS,
     ptAmount,
-    createTokenOutputSimple(USDC_ADDRESS, minUsdcOut),
+    createTokenOutputSimple(USDE_ADDRESS, minUsdeOut),
     createEmptyLimitOrderData()
 );
 ```

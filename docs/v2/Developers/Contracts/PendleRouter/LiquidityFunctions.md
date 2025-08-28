@@ -10,7 +10,7 @@ This document covers all functions for managing liquidity positions in Pendle ma
 
 ### addLiquidityDualTokenAndPt
 
-Adds liquidity using both a token and PT tokens in exact amounts.
+Adds liquidity using a token and PT token in exact amounts.
 
 ```solidity
 function addLiquidityDualTokenAndPt(
@@ -28,7 +28,7 @@ function addLiquidityDualTokenAndPt(
 |------|------|-------------|
 | receiver | `address` | Address to receive LP tokens |
 | market | `address` | Pendle market address |
-| input | `TokenInput` | Token input configuration |
+| input | [`TokenInput`](/v2/Developers/Contracts/PendleRouter/types#tokeninput) | Token input configuration |
 | netPtDesired | `uint256` | Desired amount of PT tokens to use |
 | minLpOut | `uint256` | Minimum LP tokens to receive |
 
@@ -101,8 +101,8 @@ function addLiquiditySinglePt(
 | market | `address` | Pendle market address |
 | netPtIn | `uint256` | Amount of PT tokens to use |
 | minLpOut | `uint256` | Minimum LP tokens to receive |
-| guessPtSwapToSy | `ApproxParams` | Approximation parameters |
-| limit | `LimitOrderData` | Limit order configuration |
+| guessPtSwapToSy | [`ApproxParams`](/v2/Developers/Contracts/PendleRouter/types#approxparams) | Approximation parameters |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -139,9 +139,9 @@ function addLiquiditySingleToken(
 | receiver | `address` | Address to receive LP tokens |
 | market | `address` | Pendle market address |
 | minLpOut | `uint256` | Minimum LP tokens to receive |
-| guessPtReceivedFromSy | `ApproxParams` | Approximation parameters |
-| input | `TokenInput` | Token input configuration |
-| limit | `LimitOrderData` | Limit order configuration |
+| guessPtReceivedFromSy | [`ApproxParams`](/v2/Developers/Contracts/PendleRouter/types#approxparams) | Approximation parameters |
+| input | [`TokenInput`](/v2/Developers/Contracts/PendleRouter/types#tokeninput) | Token input configuration |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -180,8 +180,8 @@ function addLiquiditySingleSy(
 | market | `address` | Pendle market address |
 | netSyIn | `uint256` | Amount of SY tokens to use |
 | minLpOut | `uint256` | Minimum LP tokens to receive |
-| guessPtReceivedFromSy | `ApproxParams` | Approximation parameters |
-| limit | `LimitOrderData` | Limit order configuration |
+| guessPtReceivedFromSy | [`ApproxParams`](/v2/Developers/Contracts/PendleRouter/types#approxparams) | Approximation parameters |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -218,7 +218,7 @@ function addLiquiditySingleTokenKeepYt(
 | market | `address` | Pendle market address |
 | minLpOut | `uint256` | Minimum LP tokens to receive |
 | minYtOut | `uint256` | Minimum YT tokens to receive |
-| input | `TokenInput` | Token input configuration |
+| input | [`TokenInput`](/v2/Developers/Contracts/PendleRouter/types#tokeninput) | Token input configuration |
 
 **Return Values**
 
@@ -290,7 +290,7 @@ function removeLiquidityDualTokenAndPt(
 | receiver | `address` | Address to receive tokens |
 | market | `address` | Pendle market address |
 | netLpToRemove | `uint256` | Amount of LP tokens to burn |
-| output | `TokenOutput` | Token output configuration |
+| output | [`TokenOutput`](/v2/Developers/Contracts/PendleRouter/types#tokenoutput) | Token output configuration |
 | minPtOut | `uint256` | Minimum PT tokens to receive |
 
 **Return Values**
@@ -361,8 +361,8 @@ function removeLiquiditySinglePt(
 | market | `address` | Pendle market address |
 | netLpToRemove | `uint256` | Amount of LP tokens to burn |
 | minPtOut | `uint256` | Minimum PT tokens to receive |
-| guessPtReceivedFromSy | `ApproxParams` | Approximation parameters |
-| limit | `LimitOrderData` | Limit order configuration |
+| guessPtReceivedFromSy | [`ApproxParams`](/v2/Developers/Contracts/PendleRouter/types#approxparams) | Approximation parameters |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -398,8 +398,8 @@ function removeLiquiditySingleToken(
 | receiver | `address` | Address to receive tokens |
 | market | `address` | Pendle market address |
 | netLpToRemove | `uint256` | Amount of LP tokens to burn |
-| output | `TokenOutput` | Token output configuration |
-| limit | `LimitOrderData` | Limit order configuration |
+| output | [`TokenOutput`](/v2/Developers/Contracts/PendleRouter/types#tokenoutput) | Token output configuration |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -434,7 +434,7 @@ function removeLiquiditySingleSy(
 | market | `address` | Pendle market address |
 | netLpToRemove | `uint256` | Amount of LP tokens to burn |
 | minSyOut | `uint256` | Minimum SY tokens to receive |
-| limit | `LimitOrderData` | Limit order configuration |
+| limit | [`LimitOrderData`](/v2/Developers/Contracts/PendleRouter/types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -450,27 +450,25 @@ When you want to exit liquidity and hold SY tokens, useful for further operation
 
 ### Basic Liquidity Addition
 ```solidity
-// Add liquidity with USDC
+// Add liquidity with USDe
 router.addLiquiditySingleToken(
     msg.sender,
-    MARKET_ADDRESS,
+    PT_USDE_MARKET_ADDRESS,
     minLpOut,
     createDefaultApproxParams(),
-    createTokenInputSimple(USDC_ADDRESS, 1000e6),
+    createTokenInputSimple(USDE_ADDRESS, 1000e18),
     createEmptyLimitOrderData()
 );
 ```
 
 ### Basic Liquidity Removal
 ```solidity
-// Remove liquidity to USDC
+// Remove liquidity to USDe
 router.removeLiquiditySingleToken(
     msg.sender,
-    MARKET_ADDRESS,
+    PT_USDE_MARKET_ADDRESS,
     lpAmount,
-    createTokenOutputSimple(USDC_ADDRESS, minUsdcOut),
+    createTokenOutputSimple(USDE_ADDRESS, minUsdeOut),
     createEmptyLimitOrderData()
 );
 ```
-
-For operations that don't require complex parameters, the router automatically uses simplified versions with on-chain approximation when possible.
