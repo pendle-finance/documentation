@@ -63,11 +63,11 @@ Where:
 For an open position during settlement:
 
 - Position size: 50 ETH (long)
-- Settlement fee rate: 0.01% (0.0001)
+- Settlement fee rate: 0.2% (0.002)
 - Settlement period: 8 hours = 0.000913 years
 
 ```
-Settlement Fee = 50 ETH × 0.0001 × 0.000913 = 0.00000457 ETH
+Settlement Fee = 50 ETH × 0.002 × 0.000913 = 0.0000913 ETH
 ```
 
 This fee is charged every 8 hours (or the configured settlement period) for as long as the position remains open.
