@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkpendle_documentation=self.webpackChunkpendle_documentation||[]).push([[8716],{98716:(e,c,n)=>{n.d(c,{createPacketServices:()=>t.$});var t=n(59811);n(58198)}}]);

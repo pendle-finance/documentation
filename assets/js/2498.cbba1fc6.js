@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkpendle_documentation=self.webpackChunkpendle_documentation||[]).push([[2498],{92498:(e,c,t)=>{t.d(c,{createArchitectureServices:()=>n.S});var n=t(73009);t(58198)}}]);

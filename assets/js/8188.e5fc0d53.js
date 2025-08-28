@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkpendle_documentation=self.webpackChunkpendle_documentation||[]).push([[8188],{38188:(e,n,c)=>{c.d(n,{createPieServices:()=>t.f});var t=c(19786);c(58198)}}]);
