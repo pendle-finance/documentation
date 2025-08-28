@@ -237,10 +237,20 @@ const sidebars: SidebarsConfig = {
 						{
 							type: "category",
 							label: "Deterministic Oracles",
-							items: [{
-								type: "doc",
-								id: "Developers/Oracles/DeterministicOracles/LinearDiscountOracle"
-							}, ]
+							items: [
+                                {
+                                    type: "doc",
+                                    id: "Developers/Oracles/DeterministicOracles/LinearDiscountOracle"
+                                },
+                                {
+                                    type: "doc",
+                                    id: "Developers/Oracles/DeterministicOracles/LPLinearDiscountOracle"
+                                },
+                                {
+                                    type: "doc",
+                                    id: "Developers/Oracles/DeterministicOracles/ChoosingLinearDiscountParams"
+                                },
+                            ]
 						}
 					],
 				},
