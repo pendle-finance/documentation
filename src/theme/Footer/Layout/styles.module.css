@@ -1,0 +1,45 @@
+.background {
+  width: 100%;
+  background-color: #D6E1EF;
+  padding: 4rem 12rem 0rem;
+  display: flex;
+  background-image: url("../../../../static/img/footer.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  justify-content: flex-end;
+}
+
+.root {
+  width: 40%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.linkGroup {
+  display: flex;
+  flex-direction: column;
+  margin-left: 6rem;
+  color: #374B6D;
+}
+.linkGroupTitle {
+  font-weight: 600;
+}
+
+@media screen and (max-width: 1024px) {
+  .root {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    justify-content: space-evenly;
+  }
+
+  .linkGroup {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .background {
+    background-image: none;
+    padding: 0;
+  }
+}

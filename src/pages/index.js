@@ -8,8 +8,11 @@ import HomepageFeatures from '../components/HomepageFeatures';
 function HomepageHeader() {
   return (
     <header className={styles.heroBanner}>
-      <h1 className="hero__title">Welcome to the Pendle Docs</h1>
-      <p className={styles.subtitle}>Learn more about Pendle, a decentralized finance protocol that allows users to tokenize and sell future yields.</p>
+      <h1 className="hero__title">Welcome to the Pendle Documentation</h1>
+      <p className={styles.subtitle}>Learn more about Pendle, a DeFi protocol that features two unique products: <br/>
+        <b>V2</b>, which allows users to tokenize and trade future yields. <br/>
+        <b>Boros</b>, an on-chain platform for trading interest rate swaps.
+      </p>
     </header>
   );
 }

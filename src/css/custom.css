@@ -21,6 +21,11 @@
   src: url('/static/Consolas-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: "Aboreto";
+  src: url('/static/Aboreto-Regular.ttf') format('truetype');
+}
+
 :root {
   --ifm-color-primary: #1e4480;
   --ifm-color-primary-dark: #1b3d73;
