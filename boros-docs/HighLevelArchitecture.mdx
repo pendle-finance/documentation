@@ -6,7 +6,7 @@ hide_table_of_contents: true
 
 ## Core Contracts
 
-```mermaid
+```text
 graph TD
     Router --> MarketHub
     MarketHub --> Market-1
@@ -29,7 +29,7 @@ Router is the gateway to the Boros protocol. Its main functionality is authentic
 - Direct call where `msg.sender` is used as user address
 - Agent call where user signs messages of desired operations
   - Only available to Pendle's permissioned relayers
-  - Accessed through [Boros SDK](./Backend/SDK.md)
+  - Accessed through [Boros SDK](./Backend/SDK.mdx)
 
 ### MarketHub
 
@@ -46,7 +46,7 @@ MarketHub is the market coordinator and risk manager of Boros. MarketHub holds u
 
 An account can enter a single market, if it is isolated, or multiple markets, if it is _CROSS_. Every market represents a different interest rate swap type: different token, different maturity, different reference rate. However, every market entered by a given account must share the same collateral token.
 
-After each user operation, MarketHub checks that accounts fulfill the [margin requirements](./Mechanics/Margin.md).
+After each user operation, MarketHub checks that accounts fulfill the [margin requirements](./Mechanics/Margin.mdx).
 
 ### Market
 
@@ -62,7 +62,7 @@ Boros markets is deployed as separate contracts. Markets are differentiated by t
 - uint32 latestFTime
 ```
 
-Market provides an on-chain [central limit order book](./Mechanics/OrderBook.md), as well as over-the-counter (OTC) trading. For each user, market keeps track of position size and list of orders. When an order is filled, or an OTC trade is made, the position size is updated accordingly, and the fixed interest is paid upfront. Variable interest payments are paid on a fixed time period; the payment amount is determined by the accrual of the variable interest since last update, which is reported on-chain via an oracle.
+Market provides an on-chain [central limit order book](./Mechanics/OrderBook.mdx), as well as over-the-counter (OTC) trading. For each user, market keeps track of position size and list of orders. When an order is filled, or an OTC trade is made, the position size is updated accordingly, and the fixed interest is paid upfront. Variable interest payments are paid on a fixed time period; the payment amount is determined by the accrual of the variable interest since last update, which is reported on-chain via an oracle.
 
 ### AMM
 

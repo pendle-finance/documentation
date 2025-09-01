@@ -9,6 +9,7 @@
   padding: 4rem 0 2rem 0;
   position: relative;
   overflow: hidden;
+  text-align: center;
 }
 
 .buttons {
@@ -16,12 +17,93 @@
   align-items: center;
   justify-content: center;
 }
+
 .root{
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: calc(100vh - 60px);
 }
 
 .subtitle{
   color: #1e4480;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+}
+
+.docCardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
+  width: 100%;
+  padding: 3rem 1rem;
+  margin: 0 auto;
+}
+
+.docCard {
+  display: block;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 2px;
+  text-decoration: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+}
+
+.docCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(30, 68, 128, 0.2);
+  text-decoration: none;
+}
+
+.docCardContent {
+  background: white;
+  border-radius: 10px;
+  padding: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.docCardIcon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.docCardTitle {
+  color: #1e4480;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.docCardDescription {
+  color: #4B6999;
+  font-size: 1rem;
+  line-height: 1.6;
+  flex-grow: 1;
+  margin-bottom: 1.5rem;
+}
+
+.docCardAction {
+  color: #1e4480;
+  font-weight: 600;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.docCard:hover .docCardAction {
+  transform: translateX(5px);
+}
+
+@media (max-width: 768px) {
+  .docCardsContainer {
+    grid-template-columns: 1fr;
+    padding: 2rem 1rem;
+  }
 }

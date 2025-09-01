@@ -1,6 +1,6 @@
 # Central Limit Order Book
 
-Boros implements a gas-optimized central limit order book (CLOB) specifically designed for the EVM. The order book architecture minimizes gas costs through [lazy settlement](./Settlement.md) and efficient data structures while maintaining the functionality expected from professional trading platforms.
+Boros implements a gas-optimized central limit order book (CLOB) specifically designed for the EVM. The order book architecture minimizes gas costs through [lazy settlement](./Settlement.mdx) and efficient data structures while maintaining the functionality expected from professional trading platforms.
 
 ## Order Book Structure
 
@@ -32,7 +32,7 @@ $$
 
 The TickMath library provides conversion between tick indices and interest rates:
 
-```solidity
+```text
 // Convert tick to interest rate
 int128 rate = TickMath.getRateAtTick(tick, tickStep);
 
@@ -63,7 +63,7 @@ Boros order book follows the standard **rate-time priority** matching:
 
 Each order in Boros has a unique order Id, which a 64-bit packed value containing order metadata:
 
-```solidity
+```text
 OrderId structure (64 bits):
 ┌─────────┬──────────┬─────────────┬──────────────┐
 │ Init(1) │ Side(1)  │ Tick(16)    │ Index(40)    │
@@ -79,7 +79,7 @@ This encoding has a nice ordering property: orders with **lower OrderId values**
 
 ### Parsing OrderId
 
-```solidity
+```text
 // Parsing an OrderId
 (Side side, int16 tickIndex, uint40 orderIndex) = OrderIdLib.unpack(orderId);
 
@@ -95,7 +95,7 @@ uint40 index = orderId.orderIndex();
 
 Time In Force (TIF) parameters control how orders behave during matching and placement. Boros supports five TIF types to accommodate different trading strategies:
 
-```solidity
+```text
 enum TimeInForce {
     GTC,       // Good Till Cancel - Standard limit order, remains on book until filled/cancelled
     IOC,       // Immediate or Cancel - Executes against available liquidity, cancels unfilled portion

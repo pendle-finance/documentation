@@ -42,13 +42,13 @@ Retrieve a list of all available markets with filtering and pagination support.
 
 **Example Request**:
 
-```bash
+```text
 curl -X GET "https://api.boros.finance/core/v1/markets?skip=0&limit=5&isWhitelisted=true"
 ```
 
 **Example Response**:
 
-```json
+```text
 {
   "results": [
     {
@@ -97,7 +97,7 @@ curl -X GET "https://api.boros.finance/core/v1/markets?skip=0&limit=5&isWhitelis
 
 ### Get Market Information
 
-**Endpoint**: `GET /v1/markets/{marketId}`
+**Endpoint**: `GET /v1/markets/\{marketId\}`
 
 Retrieve detailed information about a specific market including configuration, metadata, and current data.
 
@@ -107,14 +107,14 @@ Retrieve detailed information about a specific market including configuration, m
 
 **Example Request**:
 
-```bash
+```text
 # Get details for Binance BTCUSDT market
 curl -X GET "https://api.boros.finance/core/v1/markets/2"
 ```
 
 **Response Schema** (Real API Response):
 
-```json
+```text
 {
   "marketId": 2,
   "address": "0xd490dd635051d609887883d364368b223631653d",
@@ -198,14 +198,14 @@ Retrieve recent trading activity for specific markets.
 
 **Example Request**:
 
-```bash
+```text
 # Get recent trades for Binance BTCUSDT market
 curl -X GET "https://api.boros.finance/core/v1/markets/market-trades?marketId=2&skip=0&limit=3"
 ```
 
 **Example Response**:
 
-```json
+```text
 {
   "results": [
     {
@@ -247,7 +247,7 @@ Retrieve OHLCV chart data for market analysis.
 
 **Example Request**:
 
-```bash
+```text
 # Get 1-hour chart data for Binance BTCUSDT market
 curl -X GET "https://api.boros.finance/core/v1/markets/chart?marketId=2&timeFrame=1h&startTimestamp=1755500000&endTimestamp=1755510000"
 ```
@@ -256,7 +256,7 @@ curl -X GET "https://api.boros.finance/core/v1/markets/chart?marketId=2&timeFram
 
 ### Get Order Book Data
 
-**Endpoint**: `GET /v1/order-books/{marketId}`
+**Endpoint**: `GET /v1/order-books/\{marketId\}`
 
 Retrieve current order book depth for a market with specified tick aggregation.
 
@@ -275,14 +275,14 @@ Retrieve current order book depth for a market with specified tick aggregation.
 
 **Example Request**:
 
-```bash
+```text
 # Get order book for Binance BTCUSDT market with 0.0001 tick size
 curl -X GET "https://api.boros.finance/core/v1/order-books/2?tickSize=0.0001"
 ```
 
 **Response Schema**:
 
-```json
+```text
 {
   "long": {
     "ia": [6950, 6900, 6850],
@@ -316,7 +316,7 @@ Retrieve comprehensive AMM vault data across all markets.
 
 **Example Request**:
 
-```bash
+```text
 # Get all AMM vault states
 curl -X GET "https://api.boros.finance/core/v1/amm/summary"
 
@@ -340,14 +340,14 @@ Retrieve AMM APY chart data for vault analysis.
 
 **Example Request**:
 
-```bash
+```text
 # Get AMM chart data for a specific vault
 curl -X GET "https://api.boros.finance/core/v2/amm/chart?marketId=2&ammId=1&timeFrame=1h"
 ```
 
 ### Get AMM Info by ID
 
-**Endpoint**: `GET /v2/amm/{ammId}`
+**Endpoint**: `GET /v2/amm/\{ammId\}`
 
 Retrieve detailed AMM information for a specific AMM ID.
 
@@ -357,7 +357,7 @@ Retrieve detailed AMM information for a specific AMM ID.
 
 **Example Request**:
 
-```bash
+```text
 # Get AMM info for AMM ID 1
 curl -X GET "https://api.boros.finance/core/v2/amm/1"
 ```
@@ -380,7 +380,7 @@ Simulate the effects of depositing collateral to isolated/cross margin account.
 
 **Example Request**:
 
-```bash
+```text
 # Simulate depositing 1000 tokens to cross margin for BTCUSDT
 curl -X GET "https://api.boros.finance/core/v2/simulations/deposit?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903&tokenId=1&amount=1000000000000000000000&accountId=0&marketId=2"
 ```
@@ -399,7 +399,7 @@ Simulate the effects of withdrawing collateral.
 
 **Example Request**:
 
-```bash
+```text
 # Simulate withdrawing 500 tokens
 curl -X GET "https://api.boros.finance/core/v1/simulations/withdraw?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903&tokenId=1&amount=500000000000000000000"
 ```
@@ -422,7 +422,7 @@ Simulate the effects of placing a limit order.
 
 **Example Request**:
 
-```bash
+```text
 # Simulate placing a LONG order on Binance BTCUSDT market
 curl -X GET "https://api.boros.finance/core/v2/simulations/place-order?marketId=2&side=0&size=1000000000000000000&limitTick=7000&tif=0&slippage=0.05"
 ```
@@ -442,7 +442,7 @@ Simulate transfers between cross-margin and isolated margin accounts.
 
 **Example Request**:
 
-```bash
+```text
 # Simulate transferring tokens from cross to isolated margin for BTCUSDT market
 curl -X GET "https://api.boros.finance/core/v1/simulations/cash-transfer?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903&marketId=2&isDeposit=true&amount=1000000000000000000"
 ```
@@ -462,7 +462,7 @@ Simulate the effects of cancelling orders.
 
 **Example Request**:
 
-```bash
+```text
 # Simulate cancelling specific orders
 curl -X GET "https://api.boros.finance/core/v1/simulations/cancel-order?marketAcc=0x1eca053af93a7afaefcd2133a352f422c3c04903000002ffffff&marketId=2&cancelAll=false&orderIds=123456789,987654321"
 ```
@@ -484,7 +484,7 @@ Simulate closing an active market position.
 
 **Example Request**:
 
-```bash
+```text
 # Simulate closing a LONG position
 curl -X GET "https://api.boros.finance/core/v2/simulations/close-active-position?marketId=2&side=0&size=1000000000000000000&limitTick=6950&tif=0&slippage=0.05"
 ```
@@ -504,7 +504,7 @@ Simulate adding liquidity to AMM with single cash input.
 
 **Example Request**:
 
-```bash
+```text
 # Simulate adding liquidity to AMM
 curl -X GET "https://api.boros.finance/core/v1/simulations/add-liquidity-single-cash?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903&accountId=0&marketId=2&netCashIn=1000000000000000000"
 ```
@@ -524,7 +524,7 @@ Simulate removing liquidity from AMM for single cash output.
 
 **Example Request**:
 
-```bash
+```text
 # Simulate removing liquidity from AMM
 curl -X GET "https://api.boros.finance/core/v1/simulations/remove-liquidity-single-cash?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903&accountId=0&marketId=2&lpToRemove=500000000000000000"
 ```
@@ -547,7 +547,7 @@ Generate transaction calldata for depositing from wallet to margin account.
 
 **Example Request**:
 
-```bash
+```text
 # Generate calldata for depositing 1000 tokens to cross margin
 curl -X GET "https://api.boros.finance/core/v2/calldata/deposit?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903&tokenId=1&amount=1000000000000000000000&accountId=0&marketId=2"
 ```
@@ -566,7 +566,7 @@ Generate transaction calldata for requesting withdrawal.
 
 **Example Request**:
 
-```bash
+```text
 # Generate calldata for withdraw request
 curl -X GET "https://api.boros.finance/core/v1/calldata/withdraw/request?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903&tokenId=1&amount=500000000000000000000"
 ```
@@ -586,7 +586,7 @@ Generate transaction calldata for cash transfers between accounts.
 
 **Example Request**:
 
-```bash
+```text
 # Generate calldata for cash transfer
 curl -X GET "https://api.boros.finance/core/v3/calldata/cash-transfer?marketId=2&isDeposit=true&amount=1000000000000000000"
 ```
@@ -609,7 +609,7 @@ Generate transaction calldata for placing a single limit order.
 
 **Example Request**:
 
-```bash
+```text
 # Generate calldata for placing a LONG order
 curl -X GET "https://api.boros.finance/core/v4/calldata/place-order?marketId=2&side=0&size=1000000000000000000&limitTick=7000&tif=0&slippage=0.05"
 ```
@@ -624,7 +624,7 @@ Generate transaction calldata for placing multiple orders in a single transactio
 
 **Request Body** (varies by version, v7 shown):
 
-```json
+```text
 {
   "orders": [
     {
@@ -642,7 +642,7 @@ Generate transaction calldata for placing multiple orders in a single transactio
 
 **Example Request**:
 
-```bash
+```text
 # Generate calldata for placing multiple orders (v7)
 curl -X POST "https://api.boros.finance/core/v7/calldata/place-orders" \
   -H "Content-Type: application/json" \
@@ -665,7 +665,7 @@ Generate transaction calldata for cancelling orders.
 
 **Example Request**:
 
-```bash
+```text
 # Generate calldata for cancelling specific orders
 curl -X GET "https://api.boros.finance/core/v3/calldata/cancel-order?marketAcc=0x1eca053af93a7afaefcd2133a352f422c3c04903000002ffffff&marketId=2&cancelAll=false&orderIds=123456789,987654321"
 ```
@@ -688,7 +688,7 @@ Generate transaction calldata for closing active positions.
 
 **Example Request**:
 
-```bash
+```text
 # Generate calldata for closing a position
 curl -X GET "https://api.boros.finance/core/v4/calldata/close-active-position?marketId=2&side=0&size=1000000000000000000&limitTick=6950&tif=0&slippage=0.05"
 ```
@@ -710,7 +710,7 @@ Generate transaction calldata for adding liquidity to AMM.
 
 **Example Request**:
 
-```bash
+```text
 # Generate calldata for adding liquidity
 curl -X GET "https://api.boros.finance/core/v4/calldata/add-liquidity-single-cash-to-amm?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903&accountId=0&marketId=2&netCashIn=1000000000000000000&minLpOut=950000000000000000"
 ```
@@ -730,14 +730,14 @@ Generate transaction calldata for removing liquidity from AMM.
 
 **Example Request**:
 
-```bash
+```text
 # Generate calldata for removing liquidity
 curl -X GET "https://api.boros.finance/core/v4/calldata/remove-liquidity-single-cash-from-amm?marketId=2&lpToRemove=500000000000000000&minCashOut=480000000000000000"
 ```
 
 **Response Schema** (All calldata endpoints):
 
-```json
+```text
 {
   "data": "0x4af92423000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000003e8",
   "from": "0x1eca053af93a7afaefcd2133a352f422c3c04903",
@@ -760,7 +760,7 @@ Retrieve account configuration and settings.
 
 **Example Request**:
 
-```bash
+```text
 curl -X GET "https://api.boros.finance/core/v1/accounts/settings?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903"
 ```
 
@@ -776,7 +776,7 @@ Check the gas balance for transaction execution.
 
 **Example Request**:
 
-```bash
+```text
 curl -X GET "https://api.boros.finance/core/v1/accounts/gas-balance?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903"
 ```
 
@@ -788,7 +788,7 @@ Configure an agent session for automated trading.
 
 **Request Body**:
 
-```json
+```text
 {
   "userAddress": "0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903",
   "agentAddress": "0xc11305458070b1cf122C9fc64C33f6c8f85e9639",
@@ -801,7 +801,7 @@ Configure an agent session for automated trading.
 
 **Example Request**:
 
-```bash
+```text
 curl -X POST "https://api.boros.finance/core/v1/accounts/set-agent-session" \
   -H "Content-Type: application/json" \
   -d '{"userAddress":"0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903","agentAddress":"0xc11305458070b1cf122C9fc64C33f6c8f85e9639"}'
@@ -822,7 +822,7 @@ Retrieve all active positions for a user account.
 
 **Example Request**:
 
-```bash
+```text
 curl -X GET "https://api.boros.finance/core/v1/pnl/positions/active?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903&accountId=0"
 ```
 
@@ -842,7 +842,7 @@ Retrieve historical closed positions with PnL data.
 
 **Example Request**:
 
-```bash
+```text
 curl -X GET "https://api.boros.finance/core/v1/pnl/positions/closed?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903&accountId=0&limit=10&orderBy=timeClosed:-1"
 ```
 
@@ -862,7 +862,7 @@ Retrieve active and historical limit orders with PnL tracking.
 
 **Example Request**:
 
-```bash
+```text
 curl -X GET "https://api.boros.finance/core/v1/pnl/limit-orders?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903&accountId=0&limit=10"
 ```
 
@@ -892,13 +892,13 @@ Retrieve comprehensive collateral and position summary for a user.
 
 **Example Request**:
 
-```bash
+```text
 curl -X GET "https://api.boros.finance/core/v1/collaterals/summary?userAddress=0x1eCa053Af93A7AFaeFCD2133A352f422c3C04903&accountId=0"
 ```
 
 **Response Schema**:
 
-```json
+```text
 {
   "collaterals": [
     {
@@ -969,7 +969,7 @@ Execute a single transaction through an authorized agent.
 
 **Request Body**:
 
-```json
+```text
 {
   "agent": "0xc11305458070b1cf122C9fc64C33f6c8f85e9639",
   "message": {
@@ -984,7 +984,7 @@ Execute a single transaction through an authorized agent.
 
 **Response Schema**:
 
-```json
+```text
 {
   "status": "success",
   "txHash": "0xfcaf03ba9c04aa881937136eb943c1e4bd569c084adabc23761474ae287670c5",
@@ -994,7 +994,7 @@ Execute a single transaction through an authorized agent.
 
 **Example Request**:
 
-```bash
+```text
 # Execute a transaction through an authorized agent
 curl -X POST "https://api.boros.finance/send-txs-bot/v2/agent/direct-call" \
   -H "Content-Type: application/json" \
@@ -1009,7 +1009,7 @@ Execute multiple transactions through an authorized agent in a single batch.
 
 **Request Body**:
 
-```json
+```text
 {
   "datas": [
     {
@@ -1035,7 +1035,7 @@ Execute multiple transactions through an authorized agent in a single batch.
 
 **Example Request**:
 
-```bash
+```text
 # Execute multiple transactions through an authorized agent
 curl -X POST "https://api.boros.finance/send-txs-bot/v3/agent/bulk-direct-call" \
   -H "Content-Type: application/json" \
@@ -1050,7 +1050,7 @@ Approve an agent for transaction execution on behalf of a user.
 
 **Request Body**:
 
-```json
+```text
 {
   "approveAgentCalldata": "0x2b6e83631eca053af93a7afaefcd2133a352f422c3c04903000000000000000000000000000000000000000000000000c11305458070b1cf122c9fc64c33f6c8f85e963900000000000000000000000000000000000000000000000000000002540be4000000000000000000000000000000000000000000000000000000019623040eab00000000000000000000000000000000000000000000000000000000000000a0000000000000000000000000000000000000000000000000000000000000004121d777e303c7e27a101f44f9a4d5a8eb416933ffb260db2eb14ec4db9af8a2ec5660ffaf95cc516890d195ea1e0d10a09edd9dad6c6f992d19ceae5d32ada2131b00000000000000000000000000000000000000000000000000000000000000",
   "skipReceipt": false
@@ -1059,7 +1059,7 @@ Approve an agent for transaction execution on behalf of a user.
 
 **Response Schema**:
 
-```json
+```text
 {
   "approveAgentResult": {
     "status": "success",
@@ -1071,7 +1071,7 @@ Approve an agent for transaction execution on behalf of a user.
 
 **Example Request**:
 
-```bash
+```text
 # Approve an agent for transaction execution
 curl -X POST "https://api.boros.finance/send-txs-bot/v1/agent/approve" \
   -H "Content-Type: application/json" \
@@ -1086,7 +1086,7 @@ curl -X POST "https://api.boros.finance/send-txs-bot/v1/agent/approve" \
 
 ### Market Response
 
-```typescript
+```text
 interface MarketResponse {
   marketId: number;
   address: string;
@@ -1138,7 +1138,7 @@ interface LiqSettingsResponse {
 
 ### Position Response
 
-```typescript
+```text
 interface PositionResponse {
   id: string;
   marketId: number;
@@ -1167,7 +1167,7 @@ interface PositionResponse {
 
 ### Agent Execute DTO
 
-```typescript
+```text
 interface AgentExecuteDto {
   agent: string;
   message: PendleSignTxDto;
@@ -1191,7 +1191,7 @@ interface TxResponse {
 
 ### Bulk Agent Execute DTO
 
-```typescript
+```text
 interface BulkAgentExecuteV2Dto {
   datas: AgentExecuteDto[];
   agentSession: AgentSessionQueryDto;
@@ -1250,7 +1250,7 @@ interface AgentSessionQueryDto {
 
 ### Error Response Schema
 
-```json
+```text
 {
   "error": {
     "code": "INVALID_MARKET_ID",

@@ -60,7 +60,7 @@ Consider a perpetual futures funding rate scenario:
 - A short position of 100 units would receive: `-100 × 0.0001 = -0.01` units (negative payment means paying)
 
 **Fees:**
-Floating payments are subject to settlement fees. For detailed fee structure, see [Fees](./Fees.md).
+Floating payments are subject to settlement fees. For detailed fee structure, see [Fees](./Fees.mdx).
 
 ## Algorithm
 
@@ -122,11 +122,11 @@ Due to lazy settlement, on-chain state may not reflect the latest position value
 
 To retrieve current, accurate position information, you must first trigger settlement:
 
-```solidity
+```text
 IMarketHub(marketHub).settleAllAndGet(acc, GetRequest.ZERO, MarketId.ZERO);
 ```
 
-You can also use the [REST API](../Backend/REST%20API.md), which provides accurate, up-to-date data without requiring manual settlement triggers.
+You can also use the [REST API](../Backend/REST%20API.mdx), which provides accurate, up-to-date data without requiring manual settlement triggers.
 
 **Strategic Position Management:**
 

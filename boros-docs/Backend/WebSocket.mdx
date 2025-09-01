@@ -6,7 +6,7 @@ This guide explains how to directly connect to Boros's WebSocket service using S
 
 Here's a complete example of how to connect to and use the WebSocket:
 
-```typescript
+```text
 import { io } from 'socket.io-client';
 
 // Initialize the socket connection
@@ -21,7 +21,7 @@ const socket = io('wss://secrettune.io/pendle-dapp-v3', {
 
 ### Handling Connection
 
-```typescript
+```text
 socket.on('connect', () => {
   console.log('Connected to WebSocket server');
 });
@@ -42,7 +42,7 @@ To receive updates, you need to:
 1. Subscribe to a channel
 2. Listen for updates on that channel
 
-```typescript
+```text
 // Subscribe to a channel
 socket.emit('subscribe', 'orderbook:MARKET_ID:full');
 
@@ -56,7 +56,7 @@ socket.on('orderbook:MARKET_ID:full:update', (data) => {
 
 Always clean up your WebSocket connections when they're no longer needed:
 
-```typescript
+```text
 function cleanup() {
   // Unsubscribe from channels
   socket.emit('unsubscribe', 'orderbook:MARKET_ID:full');
@@ -103,7 +103,7 @@ Replace `MARKET_ID` with your specific market identifier.
 
 Here's a complete example putting it all together:
 
-```typescript
+```text
 import { io } from 'socket.io-client';
 
 class PendleWebSocket {
@@ -134,16 +134,16 @@ class PendleWebSocket {
   }
 
   public subscribeToMarket(marketId: string) {
-    const channel = `orderbook:${marketId}:full`;
+    const channel = `orderbook:$\{marketId\}:full`;
     this.socket.emit('subscribe', channel);
 
     this.socket.on(`${channel}:update`, (data) => {
-      console.log(`Received update for ${marketId}:`, data);
+      console.log(`Received update for $\{marketId\}:`, data);
     });
   }
 
   public unsubscribeFromMarket(marketId: string) {
-    const channel = `orderbook:${marketId}:full`;
+    const channel = `orderbook:$\{marketId\}:full`;
     this.socket.emit('unsubscribe', channel);
     this.socket.off(`${channel}:update`);
   }
@@ -166,7 +166,7 @@ ws.subscribeToMarket('YOUR_MARKET_ID');
 
 Always implement proper error handling:
 
-```typescript
+```text
 socket.on('connect_error', (error) => {
   console.error('Connection failed:', error);
   // Implement your error handling logic

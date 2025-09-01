@@ -4,13 +4,13 @@ The `Exchange` class provides an interface for interacting with the Boros tradin
 
 ## Installation
 
-```bash
+```text
 yarn add @pendle/sdk-boros
 ```
 
 ## Initialization
 
-```typescript
+```text
 constructor(walletClient: WalletClient, root: Address, accountId: number)
 ```
 
@@ -22,7 +22,7 @@ The Exchange class requires three parameters for initialization:
 
 Example:
 
-```typescript
+```text
 import { createWalletClient, http } from 'viem';
 import { Exchange } from 'pendle-sdk-boros';
 
@@ -44,7 +44,7 @@ const exchange = new Exchange(
 
 Below is a complete example showing how to pay gas to treasury, create an agent, approve it, and place an order:
 
-```typescript
+```text
 import { createWalletClient, http } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import {
@@ -143,7 +143,7 @@ This example demonstrates the complete flow from initializing the Exchange class
 
 ### Get Tick at Interest
 
-```typescript
+```text
 estimateTickForRate(rate: FixedX18, step: bigint, roundDown: boolean): bigint;
 ```
 
@@ -156,7 +156,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 const tick = estimateTickForRate(
   FixedX18.fromNumber(interestRate),
   BigInt(market.imData.tickStep),
@@ -167,7 +167,7 @@ console.log('Tick:', tick);
 
 ### Pay gas to treasury
 
-```typescript
+```text
 const gasBalance = await exchange.getGasBalance();
 console.log('gasBalance', gasBalance);
 
@@ -183,7 +183,7 @@ Pay to treasury to increase gas balance so that we can send transaction for you
 
 ### Place Order
 
-```typescript
+```text
 async placeOrder(params: PlaceOrderParams): Promise<{
   executeResponse: any;
   result: { order: any };
@@ -203,7 +203,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 const result = await exchange.placeOrder({
   marketAcc: '0xMarketAccHex',
   marketId: 0,
@@ -216,7 +216,7 @@ const result = await exchange.placeOrder({
 
 ### Bulk Place Orders
 
-```typescript
+```text
 async bulkPlaceOrders(orderRequests: PlaceOrderParams[]): Promise<Array<{
   executeResponse: any;
   result: { order: any };
@@ -231,7 +231,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 const bulkOrderParams: BulkPlaceOrderParams = {
   marketAcc,
   marketId,
@@ -249,7 +249,7 @@ const results = await exchange.bulkPlaceOrders(bulkOrderParams);
 
 ### Modify Order
 
-```typescript
+```text
 async modifyOrder(params: ModifyOrderParams): Promise<{
   executeResponse: any;
   result: { order: any };
@@ -269,7 +269,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 const result = await exchange.modifyOrder({
   orderId: '123456789',
   marketAcc: '0xMarketAccHex',
@@ -282,7 +282,7 @@ const result = await exchange.modifyOrder({
 
 ### Bulk Modify Orders
 
-```typescript
+```text
 async bulkModifyOrder(orderRequests: ModifyOrderParams[]): Promise<Array<{
   executeResponse: any;
   result: { order: any };
@@ -297,7 +297,7 @@ Parameters:
 
 ### Cancel Orders
 
-```typescript
+```text
 async cancelOrders(params: CancelOrdersParams): Promise<{
   executeResponse: any;
   result: { cancelledOrders: any };
@@ -315,7 +315,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 // Cancel specific orders
 const result = await exchange.cancelOrders({
   marketAcc: '0xMarketAccHex',
@@ -335,7 +335,7 @@ const result = await exchange.cancelOrders({
 
 ### Bulk Cancel Orders
 
-```typescript
+```text
 async bulkCancelOrders(cancelOrderRequests: CancelOrdersParams[]): Promise<Array<{
   executeResponse: any;
   result: { cancelledOrders: any };
@@ -352,7 +352,7 @@ Parameters:
 
 ### Approve Agent
 
-```typescript
+```text
 async approveAgent(agent?: Agent): Promise<any>
 ```
 
@@ -364,7 +364,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 // Approve a new agent
 const agentApproval = await exchange.approveAgent();
 
@@ -378,7 +378,7 @@ const agentApproval = await exchange.approveAgent(customAgent.agent);
 
 ### Deposit
 
-```typescript
+```text
 async deposit(params: DepositParams): Promise<any>
 ```
 
@@ -392,7 +392,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 const receipt = await exchange.deposit({
   userAddress: '0xYourWalletAddress',
   collateralAddress: '0xTokenAddress',
@@ -402,7 +402,7 @@ const receipt = await exchange.deposit({
 
 ### Withdraw
 
-```typescript
+```text
 async withdraw(params: WithdrawParams): Promise<any>
 ```
 
@@ -416,7 +416,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 const receipt = await exchange.withdraw({
   userAddress: '0xYourWalletAddress',
   collateralAddress: '0xTokenAddress',
@@ -426,7 +426,7 @@ const receipt = await exchange.withdraw({
 
 ### Cash Transfer
 
-```typescript
+```text
 async cashTransfer(params: CashTransferParams): Promise<any>
 ```
 
@@ -440,7 +440,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 const response = await exchange.cashTransfer({
   marketId: 1,
   isDeposit: true,
@@ -452,7 +452,7 @@ const response = await exchange.cashTransfer({
 
 ### Close Active Positions
 
-```typescript
+```text
 async closeActivePositions(params: CloseActivePositionsParams): Promise<any>
 ```
 
@@ -468,7 +468,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 // Close with market order
 const response = await exchange.closeActivePositions({
   marketAcc: '0xMarketAccHex',
@@ -491,7 +491,7 @@ const response = await exchange.closeActivePositions({
 
 ### Update Settings
 
-```typescript
+```text
 async updateSettings(params: UpdateSettingsParams): Promise<any>
 ```
 
@@ -508,7 +508,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 const response = await exchange.updateSettings({
   marketAcc: '0xMarketAccHex',
   marketId: 0,
@@ -523,7 +523,7 @@ const response = await exchange.updateSettings({
 
 ### Get Markets
 
-```typescript
+```text
 async getMarkets(params: GetMarketsParams): Promise<any>
 ```
 
@@ -537,7 +537,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 const markets = await exchange.getMarkets({
   skip: 0,
   limit: 10,
@@ -547,7 +547,7 @@ const markets = await exchange.getMarkets({
 
 ### Get Order Book
 
-```typescript
+```text
 async getOrderBook(params: GetOrderBookParams): Promise<any>
 ```
 
@@ -560,7 +560,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 const orderBook = await exchange.getOrderBook({
   marketId: 0,
   tickSize: 0.001
@@ -569,7 +569,7 @@ const orderBook = await exchange.getOrderBook({
 
 ### Get PnL Limit Orders
 
-```typescript
+```text
 async getPnlLimitOrders(params: GetPnlLimitOrdersParams): Promise<any>
 ```
 
@@ -585,7 +585,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 const pnlOrders = await exchange.getPnlLimitOrders({
   skip: 0,
   limit: 10,
@@ -597,7 +597,7 @@ const pnlOrders = await exchange.getPnlLimitOrders({
 
 ### Get Collaterals
 
-```typescript
+```text
 async getCollaterals(): Promise<any>
 ```
 
@@ -605,13 +605,13 @@ Retrieves collateral information for the current user and account.
 
 Example:
 
-```typescript
+```text
 const collaterals = await exchange.getCollaterals();
 ```
 
 ### Get Active Positions
 
-```typescript
+```text
 async getActivePositions(params: GetActivePositionsParams): Promise<any>
 ```
 
@@ -623,7 +623,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 // Get all active positions
 const allPositions = await exchange.getActivePositions({});
 
@@ -635,7 +635,7 @@ const marketPositions = await exchange.getActivePositions({
 
 ### Get Closed Positions
 
-```typescript
+```text
 async getClosedPositions(params: GetClosedPositionsParams): Promise<any>
 ```
 
@@ -650,7 +650,7 @@ Parameters:
 
 Example:
 
-```typescript
+```text
 const closedPositions = await exchange.getClosedPositions({
   marketId: 0,
   skip: 0,

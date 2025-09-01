@@ -10,7 +10,7 @@ Boros heavily uses Solidity user-defined value types for gas optimization and ty
 
 **Bit Packing**: `signedSize(128) | signedCost(128)`
 
-```solidity
+```text
 // Creating trades
 Trade memory trade = TradeLib.from(signedSize, signedCost);
 
@@ -27,7 +27,7 @@ int128 cost = trade.signedCost();
 
 **Bit Packing**: `address(160) | accountId(8)`
 
-```solidity
+```text
 // Creating accounts
 Account mainAcc = AccountLib.from(userAddress, 0);  // Main account
 Account subAcc = AccountLib.from(userAddress, 1);   // Sub-account 1
@@ -48,7 +48,7 @@ bool isAMM = account.isAMM();         // accountId == 255
 
 **Bit Packing**: `address(160) | accountId(8) | tokenId(16) | marketId(24)`
 
-```solidity
+```text
 // Creating market accounts
 MarketAcc crossAcc = account.toCross(tokenId);                 // Cross-margin
 MarketAcc isolatedAcc = account.toIsolated(tokenId, marketId); // Isolated
@@ -72,7 +72,7 @@ MarketAcc crossAcc = isolatedAcc.toCross();
 
 **Bit Packing**: `initialized(1) | reserved(6) | side(1) | encodedTick(16) | orderIndex(40)`
 
-```solidity
+```text
 // Creating order IDs (done internally by order book)
 OrderId orderId = OrderIdLib.from(Side.LONG, tickIndex, orderIndex);
 
@@ -89,7 +89,7 @@ bool higherPriority = orderId1 < orderId2;
 
 **Definition**: `enum Side { LONG, SHORT }`
 
-```solidity
+```text
 Side opposite = side.opposite();          // LONG ↔ SHORT
 bool topDown = side.sweepTickTopDown();   // LONG: true, SHORT: false
 int16 endTick = side.endTick();          // Boundary tick values
@@ -129,7 +129,7 @@ Unique identifier for collateral tokens supported by the protocol.
 
 **Special Value**: The value `type(uint24).max` (16,777,215) is reserved as `MarketIdLib.CROSS` to indicate cross-margin mode, where collateral is shared across all markets within the same collateral zone.
 
-```solidity
+```text
 // Cross-margin constant
 MarketId crossMargin = MarketIdLib.CROSS;  // type(uint24).max
 
@@ -153,7 +153,7 @@ bool isCross = marketId.isCross();         // true if marketId == CROSS
 
 **Bit Packing**: `fTime(32) | floatingIndex(112) | feeIndex(64)`
 
-```solidity
+```text
 FIndex fIndex = FIndexLib.from(fTime, floatingIndex, feeIndex);
 
 // Parsing components
@@ -172,7 +172,7 @@ bool same = fIndex1 == fIndex2;
 
 **Bit Packing**: `value(128) | margin(128)`
 
-```solidity
+```text
 VMResult result = VMResultLib.from(positionValue, marginRequired);
 
 (int128 value, uint128 margin) = result.unpack();

@@ -20,7 +20,7 @@ Most Router functions require two key parameters:
 
 These parameters construct the `MarketAcc` (Market Account) identifier:
 
-```solidity
+```text
 // Cross-margin account (can trade multiple markets)
 bool cross = true;
 MarketId marketId = MarketIdLib.CROSS;  // Special cross-margin value
@@ -36,7 +36,7 @@ Vault operations manage the underlying collateral tokens.
 
 ### Deposit cash
 
-```solidity
+```text
 router.vaultDeposit(
     0,          // accountId (0 = main account)
     tokenId,    // TokenId of collateral token
@@ -51,7 +51,7 @@ Withdrawals follow a two-step process: request → cooldown period → finalize.
 
 **Checking Withdrawal Status**: You can monitor your withdrawal request status and cooldown period through MarketHub's [getUserWithdrawalStatus](./MarketHub.md#getuserwithdrawalstatus) function. This returns detailed information including the pending amount and exact timestamp when withdrawal becomes available.
 
-```solidity
+```text
 // Step 1: Request withdrawal
 router.requestVaultWithdrawal(tokenId, 1 ether);
 
@@ -69,7 +69,7 @@ router.cancelVaultWithdrawal(tokenId);
 
 Transfer cash between cross-margin and isolated-margin accounts using the same collateral token.
 
-```solidity
+```text
 // Transfer from cross-margin to isolated-margin account
 CashTransferReq memory req = CashTransferReq({
     marketId: marketId,        // Target isolated market
@@ -88,7 +88,7 @@ router.cashTransfer(req);
 
 Users must enter markets before trading.
 
-```solidity
+```text
 MarketId[] memory marketIds = new MarketId[](2);
 marketIds[0] = marketId0;
 marketIds[1] = marketId1;
@@ -121,7 +121,7 @@ router.enterExitMarkets(req);
 
 **Market Maturity**: When markets reach maturity, you should exit them to free up market slots.
 
-```solidity
+```text
 MarketId[] memory marketIds = new MarketId[](2);
 marketIds[0] = marketId0;
 marketIds[1] = marketId1;
@@ -149,7 +149,7 @@ router.enterExitMarkets(req);
 
 This reduces the number of transactions needed for complex operations.
 
-```solidity
+```text
 // Basic limit order
 SingleOrderReq memory req = SingleOrderReq({
     order: OrderReq({
@@ -188,7 +188,7 @@ router.placeSingleOrder(req);
 - `isStrict: true` - Transaction reverts if any specified order ID doesn't exist
 - `isStrict: false` - Silently skip non-existent order IDs without reverting
 
-```solidity
+```text
 // Place multiple orders across different markets
 BulkOrder[] memory bulks = new BulkOrder[](2);
 
@@ -249,7 +249,7 @@ BulkOrderResult[] memory results = router.bulkOrders(req);
 
 ### Cancel Orders
 
-```solidity
+```text
 OrderId[] memory orderIds = new OrderId[](2);
 orderIds[0] = orderId1;
 orderIds[1] = orderId2;
@@ -275,7 +275,7 @@ router.bulkCancels(cancels);
 
 Adding liquidity requires providing both cash and position sizes in proportion to the AMM's current state. The AMM automatically calculates the required ratio based on its current cash-to-position balance.
 
-```solidity
+```text
 AddLiquidityDualToAmmReq memory req = AddLiquidityDualToAmmReq({
     cross: true,
     ammId: ammId,
@@ -294,7 +294,7 @@ This function simplifies liquidity provision by:
 1. Using part of your cash to trade for the required position size
 2. Adding the remaining cash + acquired position as dual liquidity
 
-```solidity
+```text
 AddLiquiditySingleCashToAmmReq memory req = AddLiquiditySingleCashToAmmReq({
     cross: true,
     ammId: ammId,
@@ -311,7 +311,7 @@ AddLiquiditySingleCashToAmmReq memory req = AddLiquiditySingleCashToAmmReq({
 
 Removes liquidity and receives both cash and position sizes proportionally. You specify the LP tokens to burn and receive the underlying assets based on the AMM's current composition.
 
-```solidity
+```text
 // Remove liquidity and receive both cash and size
 RemoveLiquidityDualFromAmmReq memory req = RemoveLiquidityDualFromAmmReq({
     cross: true,
@@ -333,7 +333,7 @@ Removes liquidity and converts everything to cash by:
 2. Trading the position sizes back to cash
 3. Returning the total cash amount to you
 
-```solidity
+```text
 RemoveLiquiditySingleCashFromAmmReq memory req = RemoveLiquiditySingleCashFromAmmReq({
     cross: true,
     ammId: ammId,
@@ -349,7 +349,7 @@ RemoveLiquiditySingleCashFromAmmReq memory req = RemoveLiquiditySingleCashFromAm
 
 The MiscModule provides simulation capabilities.
 
-```solidity
+```text
 // Simulate multiple operations
 SimulateData[] memory simulations = new SimulateData[](2);
 

@@ -11,16 +11,16 @@ Boros is deployed on Arbitrum and the addresses can be found [here](https://gith
 
 ## Core Documentation
 
-- [Lite Paper](./LitePaper.md)
-- [High Level Architecture](./HighLevelArchitecture.md)
-- [Frequently Asked Questions](./FAQ.md)
+- [Lite Paper](./LitePaper.mdx)
+- [High Level Architecture](./HighLevelArchitecture.mdx)
+- [Frequently Asked Questions](./FAQ.mdx)
 
 ## Protocol Mechanics
 
-- [Order Book](./Mechanics/OrderBook.md)
-- [Settlement](./Mechanics/Settlement.md)
-- [Fees](./Mechanics/Fees.md)
-- [Margin](./Mechanics/Margin.md)
+- [Order Book](./Mechanics/OrderBook.mdx)
+- [Settlement](./Mechanics/Settlement.mdx)
+- [Fees](./Mechanics/Fees.mdx)
+- [Margin](./Mechanics/Margin.mdx)
 
 ## Integration Guides
 
@@ -28,22 +28,22 @@ External parties can integrate with Boros through two primary methods:
 
 - **Direct Contract Integration** - Make direct calls to Boros smart contracts for maximum control and customization. This approach is ideal for sophisticated traders who want to implement custom trading logic on-chain.
 
-  - **Entry point**: [Router](./Contracts/Router.md)
-  - **Data query**: [MarketHub](./Contracts/MarketHub.md) | [Market](./Contracts/Market.md)
+  - **Entry point**: [Router](./Contracts/Router.mdx)
+  - **Data query**: [MarketHub](./Contracts/MarketHub.mdx) | [Market](./Contracts/Market.mdx)
   - **NPM package**: [@pendle/boros-core](https://www.npmjs.com/package/@pendle/boros-core)
 
 - **SDK Integration** - Use the Boros SDK for simplified integration through agent-based calls. The SDK handles transaction management, signature generation, and provides a high-level API for common trading operations.
-  - [SDK Integration Guide](./Backend/SDK.md)
+  - [SDK Integration Guide](./Backend/SDK.mdx)
   - **NPM package**: [@pendle/sdk-boros](https://www.npmjs.com/package/@pendle/sdk-boros)
 
 Additionally, Boros provides comprehensive data access through:
 
 - **REST API** - Query market data, order book snapshots, historical trades, and account information
 
-  - [REST API Documentation](./Backend/REST%20API.md)
+  - [REST API Documentation](./Backend/REST%20API.mdx)
 
 - **WebSocket** - Real-time data streaming for order book updates, trades, and market events
-  - [WebSocket Documentation](./Backend/WebSocket.md)
+  - [WebSocket Documentation](./Backend/WebSocket.mdx)
 
 ## Resources
 

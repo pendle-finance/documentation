@@ -21,11 +21,14 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          id: 'default',
+          path: 'docs',
           breadcrumbs: false,
-          routeBasePath: '/',
+          routeBasePath: 'docs',
           sidebarPath: './sidebars.js',
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
+          exclude: ['**/Boros/**'],
         },
         gtag: {
           trackingID: 'G-6ZBS49V0YS',
@@ -35,6 +38,21 @@ const config = {
           customCss: './src/css/custom.css',
         },
       }),
+    ],
+  ],
+  
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'boros',
+        path: 'boros-docs',
+        routeBasePath: 'boros',
+        sidebarPath: './sidebars-boros.js',
+        breadcrumbs: false,
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+      },
     ],
   ],
 
@@ -65,6 +83,16 @@ const config = {
     },
     navbar: {
       items: [
+        {
+          to: '/docs/Home',
+          label: 'Protocol Docs',
+          position: 'left',
+        },
+        {
+          to: '/boros',
+          label: 'Boros Docs',
+          position: 'left',
+        },
         {
           type: 'localeDropdown',
           position: 'right',
