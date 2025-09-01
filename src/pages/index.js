@@ -22,7 +22,7 @@ function DocCard({ title, description, link, icon }) {
         <div className={styles.docCardIcon}>{icon}</div>
         <h2 className={styles.docCardTitle}>{title}</h2>
         <p className={styles.docCardDescription}>{description}</p>
-        <span className={styles.docCardAction}>Get Started →</span>
+        <span className={styles.docCardAction}>Get Started</span>
       </div>
     </Link>
   );

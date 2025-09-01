@@ -1,0 +1,40 @@
+.docItemContainer header + *,
+.docItemContainer article > *:first-child {
+  margin-top: -0.75rem !important;
+}
+
+.docItemRow {
+  justify-content: center;
+  margin: 0 auto;
+  width: 100%;
+  padding-top: 0 !important;
+}
+
+.docItemCol {
+  max-width: 100% !important;
+  width: 100%;
+}
+
+.docItemContainer {
+  padding: 0 3rem 2rem 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 997px) {
+  .docItemCol {
+    max-width: 100% !important;
+  }
+  .docItemContainer {
+    padding: 0 4rem 2rem 4rem;
+  }
+}
+
+@media (max-width: 996px) {
+  .docItemRow > .col {
+    --ifm-col-width: 100%;
+  }
+  .docItemContainer {
+    padding: 0 1.5rem 1rem 1.5rem;
+  }
+}

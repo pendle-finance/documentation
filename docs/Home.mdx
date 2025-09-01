@@ -1,30 +1,44 @@
 ---
 hide_title: true
 pagination_next: null
+sidebar_label: Home
 ---
 
-import clsx from "clsx";
-import Layout from "@theme/Layout";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import styles from "./index.module.css";
-import HomepageFeatures from "../src/components/HomepageFeatures";
+# Welcome to Pendle Documentation
 
-export default function Home() {
-  const { siteConfig } = useDocusaurusContext();
-  return (
-    <>
-      <main>
-        <div className={styles.root}>
-          <header className={styles.heroBanner}>
-            <h1>Welcome to the Pendle Docs</h1>
-            <p className={styles.subtitle}>
-              Learn more about Pendle, a decentralized finance protocol that
-              allows users to tokenize and sell future yields.
-            </p>
-          </header>
-          <HomepageFeatures />
-        </div>
-      </main>
-    </>
-  );
-}
+Learn more about Pendle, a decentralized finance protocol that allows users to tokenize and sell future yields.
+
+## Getting Started
+
+<div className="home-cards">
+  <div className="card-section">
+    <h3>📚 Introduction</h3>
+    <p>Learn the basics of Pendle protocol and how it works.</p>
+    <a href="/docs/Introduction">Get Started →</a>
+  </div>
+  
+  <div className="card-section">
+    <h3>⚙️ Protocol Mechanics</h3>
+    <p>Understand yield tokenization, AMM, and vePENDLE system.</p>
+    <a href="/docs/ProtocolMechanics/Glossary">Explore →</a>
+  </div>
+  
+  <div className="card-section">
+    <h3>📱 App Guide</h3>
+    <p>Step-by-step guides for using the Pendle application.</p>
+    <a href="/docs/AppGuide/UsingPendle">Learn More →</a>
+  </div>
+  
+  <div className="card-section">
+    <h3>👨‍💻 Developers</h3>
+    <p>Integration guides, contracts, and technical documentation.</p>
+    <a href="/docs/Developers/Overview">Build →</a>
+  </div>
+</div>
+
+## Quick Links
+
+- [FAQ](/docs/FAQ) - Frequently asked questions
+- [Security](/docs/Security) - Audits and security information
+- [Whitepapers](https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers) - Technical papers
+- [Pendle Academy](https://pendle.gitbook.io/pendle-academy) - Educational resources

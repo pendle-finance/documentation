@@ -82,16 +82,33 @@ const config = {
       }
     },
     navbar: {
+      logo: {
+        alt: 'Pendle Logo',
+        src: 'img/logo.svg',
+        srcDark: 'img/logo.svg',
+      },
+      title: 'Documentation',
       items: [
         {
           to: '/docs/Home',
-          label: 'Protocol Docs',
+          label: 'Products',
           position: 'left',
         },
         {
           to: '/boros',
-          label: 'Boros Docs',
+          label: 'Resources',
           position: 'left',
+        },
+        {
+          to: '/docs/Developers/Overview',
+          label: 'Developers',
+          position: 'left',
+        },
+        {
+          href: 'https://app.pendle.finance',
+          label: 'Open App',
+          position: 'right',
+          className: 'navbar-app-button',
         },
         {
           type: 'localeDropdown',

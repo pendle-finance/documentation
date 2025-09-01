@@ -1,109 +1,154 @@
 /* stylelint-disable docusaurus/copyright-header */
 
 /**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
+ * Minimal and sophisticated landing page styles
  */
 
-.heroBanner {
-  padding: 4rem 0 2rem 0;
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-}
-
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.root{
+.root {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-height: calc(100vh - 60px);
+  justify-content: center;
+  min-height: calc(100vh - 64px);
+  background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
 }
 
-.subtitle{
-  color: #1e4480;
-  font-size: 1.2rem;
-  margin-top: 1rem;
+.heroBanner {
+  padding: 0 0 4rem 0;
+  position: relative;
+  text-align: center;
+  max-width: 1200px;
+  width: 100%;
+}
+
+.heroBanner h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: #666666;
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-top: 0;
+  line-height: 1.5;
 }
 
 .docCardsContainer {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 2rem;
-  max-width: 900px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  max-width: 800px;
   width: 100%;
-  padding: 3rem 1rem;
+  padding: 0 1.5rem;
   margin: 0 auto;
 }
 
 .docCard {
   display: block;
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
   border-radius: 12px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  padding: 2px;
+  padding: 0;
   text-decoration: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  height: 100%;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  position: relative;
 }
 
 .docCard:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(30, 68, 128, 0.2);
+  border-color: #000000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   text-decoration: none;
+  transform: translateY(-2px);
 }
 
 .docCardContent {
-  background: white;
-  border-radius: 10px;
   padding: 2rem;
   height: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .docCardIcon {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.docCard:hover .docCardIcon {
+  background: #eeeeee;
 }
 
 .docCardTitle {
-  color: #1e4480;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+  color: #000000;
+  font-size: 1.25rem;
   font-weight: 600;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
 }
 
 .docCardDescription {
-  color: #4B6999;
-  font-size: 1rem;
+  color: #666666;
+  font-size: 0.9375rem;
   line-height: 1.6;
   flex-grow: 1;
   margin-bottom: 1.5rem;
 }
 
 .docCardAction {
-  color: #1e4480;
-  font-weight: 600;
-  font-size: 1rem;
+  color: #000000;
+  font-weight: 500;
+  font-size: 0.9375rem;
   display: inline-flex;
   align-items: center;
+  gap: 0.5rem;
+  transition: gap 0.2s ease;
+}
+
+.docCardAction::after {
+  content: '→';
   transition: transform 0.2s ease;
 }
 
 .docCard:hover .docCardAction {
-  transform: translateX(5px);
+  gap: 0.75rem;
 }
 
+.docCard:hover .docCardAction::after {
+  transform: translateX(2px);
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
+  .heroBanner h1 {
+    font-size: 2.25rem;
+  }
+  
+  .subtitle {
+    font-size: 1.125rem;
+  }
+  
   .docCardsContainer {
     grid-template-columns: 1fr;
-    padding: 2rem 1rem;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .docCardContent {
+    padding: 1.5rem;
   }
 }
