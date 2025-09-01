@@ -315,7 +315,7 @@ struct TokenOutput {
 
 #### Overview
 
-Pendle system doesn't interact with the underlying token. Swaps happen between SY <-> PT, SY <-> YT, etc. Hence, `TokenInput` & `TokenOutput` are data about the conversion between the underlying token and the corresponding SY.
+Pendle system doesn't interact with the underlying token. Swaps happen between SY ↔ PT, SY ↔ YT, etc. Hence, `TokenInput` & `TokenOutput` are data about the conversion between the underlying token and the corresponding SY.
 
 - **TokenInput**: Users start with `netTokenIn` of `tokenIn`, using a swap aggregator to convert those tokens to `tokenMintSy`, and those `tokenMintSy` is used to mint SY.
 - **TokenOutput**: Users receive SY & redeem the SY to `tokenRedeemSy`. These tokens are swapped through an aggregator to `tokenOut`.

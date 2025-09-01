@@ -84,7 +84,8 @@ IPMarket(market).increaseObservationsCardinalityNext(cardinalityRequired)
 
 So on Ethereum, for `duration` of 900 seconds, `cardinalityRequired` can be 85.
 
-<details><summary>Calculate <code>cardinalityRequired</code></summary>
+<details>
+<summary>Calculate <code>cardinalityRequired</code></summary>
 
 In general, it can calculated like this
 
@@ -136,7 +137,8 @@ PT_USD_oracle = PendleChainlinkOracleWithQuote(
 );
 ```
 
-<details><summary>Parameters summary</summary>
+<details>
+<summary>Parameters summary</summary>
 
 - `market` is the market address you want to observe the price.
 - `twapDuration` is the TWAP duration you want to use, chosen in the previous section.

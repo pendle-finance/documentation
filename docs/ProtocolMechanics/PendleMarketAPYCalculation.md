@@ -130,26 +130,26 @@ To calculate $\text{effectiveImpliedApy}$, we need to get the $\text{ptExchangeR
 
 
 There are 3 type of swaps:
-- PT <-> any token except YT
-- YT <-> any token except PT
-- PT <-> YT
+- PT ↔ any token except YT
+- YT ↔ any token except PT
+- PT ↔ YT
 
 Each of them has different way to calculate the $ptExchangeRate$
 
 
-### PT <-> any token
+### PT ↔ any token
 - $\text{underlying}$: input/output token amount in terms of the underlying token
 - $\text{ptAmount}$: PT input/output amount
 
 $$\text{ptExchangeRate} = \dfrac{\text{ptAmount}}{\text{underlying}}$$
 
-### YT <-> any token
+### YT ↔ any token
 - $\text{ytAmount}$: YT input/output amount
 
 $$\text{ptExchangeRate} = \dfrac{1}{1 - \dfrac{\text{underlying}}{\text{ytAmount}}}$$
 
 
-### PT <-> YT
+### PT ↔ YT
 $$\text{ptExchangeRate} = 1 + \dfrac{\text{ptAmount}}{\text{ytAmount}}$$
 
 

@@ -42,7 +42,7 @@ To get calldata and info of swapping **1000 USDC** to **PT stETH** in **stETH (0
 ![SDK swap](/img/Developers/sdk_swap_usdc.png "SDK swap")
 
 ```
-GET https://api-v2.pendle.finance/core/v2/sdk/1/markets/0x34280882267ffa6383b363e278b027be083bbe3b/swap?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&aggregators=kyberswap&tokenIn=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&tokenOut=0xb253eff1104802b97ac7e3ac9fdd73aece295a2c&amountIn=1000000000&additionalData=impliedApy
+GET https://api-v2.pendle.finance/core/v2/sdk/1/markets/0x34280882267ffa6383b363e278b027be083bbe3b/swap?receiver={RECEIVER_ADDRESS}&slippage=0.01&enableAggregator=true&aggregators=kyberswap&tokenIn=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&tokenOut=0xb253eff1104802b97ac7e3ac9fdd73aece295a2c&amountIn=1000000000&additionalData=impliedApy
 ```
 
 In code:
@@ -73,7 +73,7 @@ To add liquidity of 1 ETH to **stETH (0x34280882267ffa6383b363e278b027be083bbe3b
 ![SDK add liquidity](/img/Developers/sdk_add_liquidity.png "SDK add liquidity")
 
 ```
-GET https://api-v2.pendle.finance/core/v2/sdk/1/markets/0x34280882267ffa6383b363e278b027be083bbe3b/add-liquidity?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&aggregators=kyberswap&tokenIn=0x0000000000000000000000000000000000000000&amountIn=1000000000000000000&zpi=false&additionalData=impliedApy
+GET https://api-v2.pendle.finance/core/v2/sdk/1/markets/0x34280882267ffa6383b363e278b027be083bbe3b/add-liquidity?receiver={RECEIVER_ADDRESS}&slippage=0.01&enableAggregator=true&aggregators=kyberswap&tokenIn=0x0000000000000000000000000000000000000000&amountIn=1000000000000000000&zpi=false&additionalData=impliedApy
 ```
 
 In code:

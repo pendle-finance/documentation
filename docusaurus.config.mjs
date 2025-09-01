@@ -1,5 +1,5 @@
-const math = require('remark-math');
-const katex = require('rehype-katex');
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 const config = {
@@ -23,16 +23,16 @@ const config = {
         docs: {
           breadcrumbs: false,
           routeBasePath: '/',
-          sidebarPath: require.resolve('./sidebars.js'),
-          remarkPlugins: [math],
-          rehypePlugins: [katex],
+          sidebarPath: './sidebars.js',
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
         },
         gtag: {
           trackingID: 'G-6ZBS49V0YS',
           anonymizeIP: true,
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: './src/css/custom.css',
         },
       }),
     ],
@@ -160,4 +160,4 @@ const config = {
   },
 };
 
-module.exports = config;
+export default config;
