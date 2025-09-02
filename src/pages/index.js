@@ -40,13 +40,13 @@ export default function Home() {
           <HomepageHeader />
           <div className={styles.docCardsContainer}>
             <DocCard
-              title="Pendle Protocol"
+              title="Pendle V2 Docs"
               description="Learn about Pendle's yield tokenization protocol, AMM mechanics, vePENDLE system, and integration guides for developers."
               link="/docs/Home"
               icon="📚"
             />
             <DocCard
-              title="Boros Documentation"
+              title="Boros Dev Docs"
               description="Explore Boros, Pendle's interest rate swaps platform with order book mechanics, margin trading, and advanced settlement features."
               link="/boros"
               icon="📊"
