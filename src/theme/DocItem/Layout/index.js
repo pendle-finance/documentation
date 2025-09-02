@@ -6,6 +6,8 @@ import DocVersionBadge from '@theme/DocVersionBadge';
 import DocItemFooter from '@theme/DocItem/Footer';
 import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
+import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
+import DocItemTOCMobile from '@theme/DocItem/TOC/Mobile';
 import Link from '@docusaurus/Link';
 import SearchBar from '@theme/SearchBar';
 import styles from './styles.module.css';
@@ -139,11 +141,15 @@ export default function DocItemLayout({children}) {
             <article>
               <DocBreadcrumbs />
               <DocVersionBadge />
+              <DocItemTOCMobile />
               <DocItemContent>{children}</DocItemContent>
               <DocItemFooter />
             </article>
             <DocItemPaginator />
           </div>
+        </div>
+        <div className="col col--3">
+          <DocItemTOCDesktop />
         </div>
       </div>
     </>

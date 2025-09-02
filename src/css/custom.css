@@ -56,7 +56,7 @@
   
   /* Layout */
   --ifm-container-width-xl: 1280px;
-  --doc-sidebar-width: 260px;
+  --doc-sidebar-width: 240px;
   --ifm-navbar-height: 48px; /* 5. PREMIUM TOP BAR - Reduced to 48px for better proportions */
   
   /* Borders - Subtle and refined */
@@ -748,14 +748,15 @@ li code:hover {
 /* Main docs layout with flexbox */
 .docs-wrapper {
   display: flex !important;
-  min-height: calc(100vh - 44px);
+  min-height: calc(100vh - 48px);
 }
 
 /* Adjust main content to work with sticky sidebar */
-.docMainContainer_TBSr {
+[class*="docMainContainer"] {
   flex: 1;
-  min-height: calc(100vh - 44px);
+  min-height: calc(100vh - 48px);
   margin-left: 0;
+  width: 100%;
 }
 
 /* Hide sidebar toggle button since sidebar is always visible */
@@ -779,7 +780,7 @@ li code:hover {
     display: none;
   }
   
-  .docMainContainer_TBSr {
+  [class*="docMainContainer"] {
     margin-left: 0;
     width: 100%;
   }
@@ -1013,7 +1014,7 @@ li code:hover {
 
 /* 8. PAGE TRANSITIONS - Fade-in animations with staggered content */
 article {
-  padding: 3rem 4rem;
+  padding: 1.5rem 2rem;
   max-width: 100%;
   position: relative;
   animation: fadeInUp 0.6s var(--cubic-bezier-smooth);
@@ -1054,29 +1055,211 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
   }
 }
 
-/* Hide the right TOC sidebar */
+/* Right TOC sidebar - Prominent and well-defined */
 .theme-doc-toc-desktop {
-  display: none !important;
+  position: fixed !important;
+  right: 8px !important;
+  top: 56px !important;
+  width: 190px !important;
+  height: calc(100vh - 70px);
+  overflow-y: auto;
+  max-height: calc(100vh - 70px);
+  padding: 0 !important;
+  background: transparent;
+  z-index: 15;
 }
 
+.table-of-contents {
+  font-size: 0.6875rem;
+  padding: 0.5rem 0.125rem 0.5rem 0.5rem;
+  position: relative;
+  background: rgba(248, 250, 252, 0.2);
+  border-radius: 4px 0 0 4px;
+  border-left: 1.5px solid rgba(15, 23, 42, 0.06);
+  margin-right: 0;
+}
+
+.table-of-contents__title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748B;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.table-of-contents__link {
+  color: #64748B;
+  text-decoration: none;
+  display: block;
+  padding: 0.625rem 0.75rem;
+  margin: 0.125rem 0;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+  line-height: 1.4;
+  font-weight: 450;
+  font-size: 0.875rem;
+  position: relative;
+}
+
+.table-of-contents__link:hover {
+  color: #1e293b;
+  background: rgba(15, 23, 42, 0.04);
+  text-decoration: none;
+}
+
+.table-of-contents__link--active {
+  color: #0066FF;
+  font-weight: 600;
+  background: rgba(0, 102, 255, 0.08);
+}
+
+.table-of-contents__link--active:hover {
+  background: rgba(0, 102, 255, 0.12);
+}
+
+/* TOC List Structure */
+.table-of-contents ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.table-of-contents li {
+  margin: 0;
+}
+
+/* H1 level - Top level items */
+.table-of-contents > ul > li > .table-of-contents__link {
+  font-weight: 500;
+  font-size: 0.6875rem;
+  color: #475569;
+  margin-bottom: 0.0625rem;
+  padding: 0.25rem 0.375rem;
+}
+
+/* H2 level - Second level items */
+.table-of-contents > ul > li > ul {
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid rgba(15, 23, 42, 0.06);
+  margin-top: 0.125rem;
+  margin-bottom: 0.25rem;
+}
+
+.table-of-contents > ul > li > ul > li > .table-of-contents__link {
+  font-size: 0.75rem;
+  padding: 0.375rem 0.5rem;
+  color: #64748B;
+  font-weight: 400;
+}
+
+/* H3 level - Third level items */
+.table-of-contents > ul > li > ul > li > ul {
+  margin-left: 0.5rem;
+  padding-left: 0.5rem;
+  margin-top: 0.0625rem;
+}
+
+.table-of-contents > ul > li > ul > li > ul > li > .table-of-contents__link {
+  font-size: 0.6875rem;
+  padding: 0.25rem 0.375rem;
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+/* Active state adjustments for different levels */
+.table-of-contents > ul > li > .table-of-contents__link--active {
+  color: #0066FF;
+  font-weight: 600;
+  background: rgba(0, 102, 255, 0.08);
+}
+
+.table-of-contents > ul > li > ul > li > .table-of-contents__link--active {
+  color: #0066FF;
+  font-weight: 500;
+  background: rgba(0, 102, 255, 0.06);
+}
+
+.table-of-contents > ul > li > ul > li > ul > li > .table-of-contents__link--active {
+  color: #0066FF;
+  font-weight: 450;
+  background: rgba(0, 102, 255, 0.04);
+}
+
+/* Hide scrollbar for cleaner look */
+.theme-doc-toc-desktop::-webkit-scrollbar {
+  display: none;
+}
+
+.theme-doc-toc-desktop {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* TOC column - pushed to right edge */
 .col.col--3 {
-  display: none !important;
+  position: fixed !important;
+  right: 0;
+  top: 44px;
+  width: 200px;
+  height: calc(100vh - 44px);
+  padding: 0;
+  margin: 0;
+  z-index: 10;
+  overflow-y: auto;
 }
 
-/* Extend content to full width */
-.docItemCol_z5aJ {
+/* Ensure consistent layout for all doc pages */
+[class*="docItemRow"] {
+  display: block;
+  margin: 0;
+  margin-top: 44px;
+  width: 100%;
+  max-width: 100%;
+  padding: 1rem 220px 1rem 1.5rem !important;
+}
+
+/* Fix main content column width for all pages */
+[class*="docItemCol"] {
+  width: 100% !important;
   max-width: 100% !important;
-  flex: 0 0 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-.docItemContainer_c0TR {
-  max-width: 1200px;
-  margin: 0 auto;
+/* Main content container - optimized width */
+[class*="docItemContainer"] {
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
+
+@media (max-width: 996px) {
+  .theme-doc-toc-desktop {
+    display: none;
+  }
+  
+  .col.col--3 {
+    display: none;
+  }
+  
+  [class*="docItemCol"] {
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+  
+  [class*="docItemRow"] {
+    padding: 0.75rem 0 0.75rem 0.75rem !important;
+    margin-top: 44px;
+  }
+}
+
 
 /* Ensure good readability with max line length */
 .markdown {
-  max-width: 900px;
+  max-width: 100%;
 }
 
 .markdown h1:first-child {
@@ -1093,10 +1276,6 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
   margin-top: 0 !important;
 }
 
-.row.docItemRow_qf89 {
-  margin: 0;
-  justify-content: center;
-}
 
 /* Remove any padding from main wrapper */
 main > .container {
@@ -1277,21 +1456,22 @@ table tbody tr:hover {
 table th {
   font-weight: 600;
   text-align: left;
-  padding: 0.875rem 1.5rem;
+  padding: 0.625rem 1rem;
   color: #0F172A;
-  font-size: 0.875rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 2px solid #e5e7eb;
-  white-space: nowrap; /* Prevent header text from wrapping */
+  font-size: 0.8125rem;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  border-bottom: 1.5px solid #e5e7eb;
+  white-space: nowrap;
 }
 
 table td {
-  padding: 0.875rem 1.5rem;
+  padding: 0.625rem 1rem;
   color: #475569;
-  font-size: 0.9375rem;
-  line-height: 1.6;
+  font-size: 0.8125rem;
+  line-height: 1.5;
   border-bottom: 1px solid #f3f4f6;
+  vertical-align: top;
 }
 
 /* Remove bottom border from last row */

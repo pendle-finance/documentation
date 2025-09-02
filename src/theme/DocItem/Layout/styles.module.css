@@ -1,40 +1,48 @@
 .docItemContainer header + *,
 .docItemContainer article > *:first-child {
-  margin-top: -0.75rem !important;
+  margin-top: 0 !important;
 }
 
 .docItemRow {
-  justify-content: center;
-  margin: 0 auto;
+  display: block;
+  margin: 0;
   width: 100%;
-  padding-top: 0 !important;
+  max-width: 100%;
+  padding: 1rem 200px 1rem 1.5rem !important;
 }
 
 .docItemCol {
+  width: 100% !important;
   max-width: 100% !important;
-  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .docItemContainer {
-  padding: 0 3rem 2rem 3rem;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
 }
 
 @media (min-width: 997px) {
-  .docItemCol {
-    max-width: 100% !important;
-  }
   .docItemContainer {
-    padding: 0 4rem 2rem 4rem;
+    padding: 0;
+    max-width: 100%;
   }
 }
 
 @media (max-width: 996px) {
+  .docItemRow {
+    padding: 0.75rem !important;
+  }
   .docItemRow > .col {
     --ifm-col-width: 100%;
   }
+  .docItemCol {
+    max-width: 100% !important;
+  }
   .docItemContainer {
-    padding: 0 1.5rem 1rem 1.5rem;
+    padding: 0;
+    max-width: 100%;
   }
 }
