@@ -71,6 +71,7 @@ const config = {
       appId: "GFVY0GOMCR",
       apiKey: "1e9c713dfca40c64b56217bb24d5c4cd",
       indexName: "pendle",
+      contextualSearch: true,
     },
     colorMode: {
       defaultMode: 'light',

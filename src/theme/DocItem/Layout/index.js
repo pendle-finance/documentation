@@ -7,6 +7,7 @@ import DocItemFooter from '@theme/DocItem/Footer';
 import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import Link from '@docusaurus/Link';
+import SearchBar from '@theme/SearchBar';
 import styles from './styles.module.css';
 
 // Thin top bar component with reading progress
@@ -38,18 +39,7 @@ function ThinTopBar() {
           <span className="thin-top-bar-logo-text">PENDLE</span>
         </Link>
         <div className="thin-top-bar-search">
-          <button type="button" className="DocSearch DocSearch-Button" aria-label="Search">
-            <span className="DocSearch-Button-Container">
-              <svg width="20" height="20" className="DocSearch-Search-Icon" viewBox="0 0 20 20" aria-hidden="true">
-                <path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fillRule="evenodd" strokeLinecap="round" strokeLinejoin="round"></path>
-              </svg>
-              <span className="DocSearch-Button-Placeholder">Search</span>
-            </span>
-            <span className="DocSearch-Button-Keys">
-              <kbd className="DocSearch-Button-Key">⌘</kbd>
-              <kbd className="DocSearch-Button-Key">K</kbd>
-            </span>
-          </button>
+          <SearchBar />
         </div>
       </div>
     </div>
@@ -57,6 +47,88 @@ function ThinTopBar() {
 }
 
 export default function DocItemLayout({children}) {
+  // Handle hash navigation on page load
+  React.useEffect(() => {
+    // Check if there's a hash in the URL on page load
+    if (window.location.hash) {
+      const hash = window.location.hash.substring(1); // Remove the #
+      
+      // Wait for the page to fully render
+      setTimeout(() => {
+        const targetElement = document.getElementById(hash);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 500); // Wait for page to render
+    }
+  }, []); // Run once on mount
+  
+  // Fix search result URLs by adding /docs prefix where needed
+  React.useEffect(() => {
+    const fixDocLinks = (e) => {
+      // Only intercept clicks within the search modal
+      const searchModal = document.querySelector('.DocSearch-Modal');
+      if (!searchModal || !searchModal.contains(e.target)) {
+        return; // Not a search result click
+      }
+      
+      const link = e.target.closest('a');
+      if (!link) return;
+      
+      const href = link.getAttribute('href');
+      if (!href || !href.startsWith('/')) return;
+      
+      // Parse the URL to separate path and hash
+      const hashIndex = href.indexOf('#');
+      const pathname = hashIndex > -1 ? href.substring(0, hashIndex) : href;
+      const hash = hashIndex > -1 ? href.substring(hashIndex + 1) : '';
+      const currentPath = window.location.pathname;
+      
+      // Check if we need to add /docs prefix
+      if (!pathname.startsWith('/docs/') && !pathname.startsWith('/boros/')) {
+        const docPaths = [
+          '/Developers/', '/ProtocolMechanics/', '/AppGuide/',
+          '/Introduction', '/FAQ', '/LitePaper', '/HighLevelArchitecture',
+          '/Contracts/', '/Guides/', '/Pool/', '/User/'
+        ];
+        
+        const needsDocsPrefix = docPaths.some(path => pathname.startsWith(path));
+        
+        if (needsDocsPrefix) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const correctedPath = '/docs' + pathname;
+          
+          // Check if we're already on the right page
+          if (correctedPath === currentPath && hash) {
+            // Same page, just scroll to section
+            const closeButton = document.querySelector('.DocSearch-Cancel');
+            if (closeButton) closeButton.click();
+            
+            setTimeout(() => {
+              const targetElement = document.getElementById(hash);
+              if (targetElement) {
+                targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                window.history.pushState(null, '', '#' + hash);
+              }
+            }, 200);
+          } else {
+            // Different page, navigate with hash
+            window.location.href = correctedPath + (hash ? '#' + hash : '');
+          }
+        }
+      }
+    };
+    
+    // Add listener in capture phase to intercept before other handlers
+    document.addEventListener('click', fixDocLinks, true);
+    
+    return () => {
+      document.removeEventListener('click', fixDocLinks, true);
+    };
+  }, []);
+  
   return (
     <>
       <ThinTopBar />
