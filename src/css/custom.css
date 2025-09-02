@@ -1243,121 +1243,60 @@ li:has(> a.menu__link[href^="/docs/Home"]) {
   opacity: 1;
 }
 
-/* 9. PREMIUM TABLES - Rounded corners, hover states, elevated with shadows */
+/* 9. PREMIUM TABLES - Clean and properly aligned */
 table {
-  border-collapse: separate;
-  border-spacing: 0;
-  display: block;
-  margin: 2.5rem 0;
-  overflow-x: auto;
-  width: 100%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 100%);
-  border-radius: 16px;
-  box-shadow: var(--shadow-glass);
+  border-collapse: collapse;
+  margin: 2.5rem auto; /* Center the table */
+  background: white;
   border: 1px solid rgba(15, 23, 42, 0.1);
-  transition: all 0.3s var(--cubic-bezier-smooth);
-  position: relative;
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.06);
+  table-layout: auto; /* Let content determine width */
+  width: auto; /* Don't force 100% width */
+  min-width: 50%; /* But ensure minimum width */
+  max-width: 100%; /* And don't exceed container */
 }
 
-table::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-  z-index: 1;
-}
-
-table:hover {
-  box-shadow: 
-    0 1px 3px rgba(0, 0, 0, 0.04),
-    0 8px 16px rgba(0, 102, 255, 0.06),
-    0 16px 32px rgba(0, 102, 255, 0.04);
-  transform: translateY(-2px);
+/* For tables inside markdown, allow them to size naturally */
+.markdown table {
+  display: table;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 table thead tr {
-  background: linear-gradient(180deg, #FAFBFC 0%, #F1F5F9 100%);
-  position: relative;
-}
-
-table thead tr::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent 10%, rgba(0, 102, 255, 0.1) 50%, transparent 90%);
-}
-
-table thead tr th:first-child {
-  border-top-left-radius: 16px;
-}
-
-table thead tr th:last-child {
-  border-top-right-radius: 16px;
-}
-
-table tbody tr {
-  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-  transition: all 0.2s var(--cubic-bezier-smooth);
-  position: relative;
-}
-
-table tbody tr::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 0;
-  background: linear-gradient(90deg, rgba(0, 102, 255, 0.08), transparent);
-  transition: width 0.3s var(--cubic-bezier-smooth);
+  background: #f8f9fa;
 }
 
 table tbody tr:hover {
-  background: linear-gradient(90deg, rgba(0, 102, 255, 0.04) 0%, rgba(51, 133, 255, 0.02) 100%);
-  transform: translateX(4px);
-  box-shadow: -4px 0 8px rgba(0, 102, 255, 0.06);
-}
-
-table tbody tr:hover::before {
-  width: 4px;
-}
-
-table tbody tr:last-child {
-  border-bottom: none;
-}
-
-table tbody tr:last-child td:first-child {
-  border-bottom-left-radius: 16px;
-}
-
-table tbody tr:last-child td:last-child {
-  border-bottom-right-radius: 16px;
+  background: #f8f9fa;
 }
 
 table th {
   font-weight: 600;
   text-align: left;
-  padding: 1.25rem 1.5rem;
+  padding: 0.875rem 1.5rem;
   color: #0F172A;
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-bottom: 2px solid rgba(15, 23, 42, 0.1);
-  position: relative;
+  border-bottom: 2px solid #e5e7eb;
+  white-space: nowrap; /* Prevent header text from wrapping */
 }
 
 table td {
-  padding: 1.25rem 1.5rem;
+  padding: 0.875rem 1.5rem;
   color: #475569;
   font-size: 0.9375rem;
   line-height: 1.6;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+/* Remove bottom border from last row */
+table tbody tr:last-child td {
+  border-bottom: none;
 }
 
 /* 10. GRADIENT BUTTONS - Linear gradients, shine effect on hover, better shadows */
