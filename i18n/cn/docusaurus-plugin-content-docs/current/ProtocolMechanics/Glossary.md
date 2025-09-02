@@ -43,9 +43,9 @@ YT可以在到期之前随时交易。
 隐含收益率的数值与「固定收益APY」数值相等。
 
 
-$$$
+```math
 \text{Implied APY} = \left[\left(1 + \cfrac{\text{YT Price}}{\text{PT Price}}\right)^\cfrac{365}{\text{Days to expiry}}\right] - 1
-$$$
+```
 
 **固定收益APY (Fixed APY)**
 
