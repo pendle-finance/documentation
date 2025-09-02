@@ -27,8 +27,8 @@ There are 3 main parts to fully understand Pendle:
 
 1. Yield Tokenization
     
-    First, Pendle wrap **yield-bearing tokens** into **SY**(standardized yield tokens), which is a wrapped version of the underlying yield-bearing token that is compatible with the Pendle AMM (e.g. stETH → SY-stETH). 
-    SY is then split into its principal and yield components, **PT** (principal token) and **YT** (yield token) respectively, this process is termed as yield-tokenization, where the yield is tokenized into a separate token. 
+    First, Pendle wrap **yield-bearing tokens** into **SY**(standardized yield tokens), which is a wrapped version of the underlying yield-bearing token that is compatible with the Pendle AMM (e.g. stETH → SY-stETH). 
+    SY is then split into its principal and yield components, **PT** (principal token) and **YT** (yield token) respectively, this process is termed as yield-tokenization, where the yield is tokenized into a separate token. 
     
 2. Pendle AMM
     

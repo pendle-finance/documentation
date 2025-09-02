@@ -18,9 +18,9 @@ You can think of [Implied APY](https://docs.pendle.finance/ProtocolMechanics/Glo
 
 As such, buying YT can be treated as “longing the yield” of an asset.
 
-You can learn more about yield trading on Pendle [here](https://app.pendle.finance/trade/education/learn).
+You can learn more about yield trading on Pendle [here](https://app.pendle.finance/trade/education/learn).
 
-Note: YT yields are distributed as SY, which can be unwrapped back into the underlying asset using [SY Unwrapper](https://docs.pendle.finance/ProtocolMechanics/YieldTokenization/SY).
+Note: YT yields are distributed as SY, which can be unwrapped back into the underlying asset using [SY Unwrapper](https://docs.pendle.finance/ProtocolMechanics/YieldTokenization/SY).
 
 
 # Claiming YT Yield

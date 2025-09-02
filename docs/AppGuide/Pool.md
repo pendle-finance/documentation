@@ -35,7 +35,7 @@ The selling of YT in the 3rd step above can cause a price impact. But, this can 
 
 ### Keep YT Mode
 
-!["Keep YT Mode"](/img/AppGuide/keep_yt_mode.png "Keep YT Mode")
+![Keep YT Mode](/img/AppGuide/keep_yt_mode.png "Keep YT Mode")
 
 On Pendle, users have the option to activate **Keep YT Mode**, which allows them to provide liquidity to the PT/SY pool without affecting the price. Normally, when liquidity is added, a portion of the underlying asset is used to purchase PT from the pool (causing price impact), and the rest is wrapped into SY.
 
@@ -49,7 +49,7 @@ Pendle allows users to directly transfer liquidity from one LP pool to another i
 
 ## Redeem Rewards Bundle
 
-!["Redeem Rewards Bundle"](/img/AppGuide/redeem-rewards-bundle.png "Redeem Rewards Bundle")
+![Redeem Rewards Bundle](/img/AppGuide/redeem-rewards-bundle.png "Redeem Rewards Bundle")
 
 By toggling “Claim All Pool Rewards” on the Zap Out page, Pendle App users can save on gas by claiming rewards AND removing liquidity/zapping out at the same time - in just one single transaction.
 
@@ -97,7 +97,7 @@ By toggling “Claim All Pool Rewards” on the Zap Out page, Pendle App users c
 
 Some money markets support LPs as collateral to borrow other assets. For LP to be used as collateral, it will first need to be wrapped. 
 
-!["Wrap LP"](/img/AppGuide/wrap-lp.png "Wrap LP")
+![Wrap LP](/img/AppGuide/wrap-lp.png "Wrap LP")
 
 ### How to wrap LP
 

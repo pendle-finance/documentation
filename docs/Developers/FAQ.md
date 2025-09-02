@@ -3,12 +3,12 @@ hide_table_of_contents: true
 ---
 # Frequently Asked Questions
 
-**This document is being iterated on rapidly due to incoming questions from partner protocols.** 
+**This document is being iterated on rapidly due to incoming questions from partner protocols.** 
 ## Contract
 
-### Why No `swapExactSyForPt`?
+### Why No `swapExactSyForPt`?
 
-Unlike standard AMMs, Pendle's AMM only allows swapping exact PT in/out. Therefore, functions like `swapExactSyForPt` and `swapPtForExactSy` should generally be avoided. If necessary, use PendleRouter's `swapExactSyForPt` with `approx` parameters. Refer to the PendleRouter documentation for details.
+Unlike standard AMMs, Pendle's AMM only allows swapping exact PT in/out. Therefore, functions like `swapExactSyForPt` and `swapPtForExactSy` should generally be avoided. If necessary, use PendleRouter's `swapExactSyForPt` with `approx` parameters. Refer to the PendleRouter documentation for details.
 
 ### How can I deploy a new SY Token on Pendle?
 Pendle's smart contracts are permissionless, meaning anyone can deploy a new Standardized Yield (SY) Token without requiring approval from the Pendle team. To implement an SY Token, you must follow the Pendle SY Token standard, ensuring compatibility with the ecosystem. Detailed guidance, including contract structure and best practices, can be found in the [Pendle Developer Documentation](https://docs.pendle.finance/Developers/Contracts/StandardizedYield).
@@ -34,14 +34,14 @@ You can track historical PT/YT prices using:
 
 ## Others
 
-### Getting Up-to-Date `accruedRewards` On-Chain (Applicable to SY, YT, & LP)
+### Getting Up-to-Date `accruedRewards` On-Chain (Applicable to SY, YT, & LP)
 
 There are two methods:
 
-1. **Call `redeemRewards(user)` and retrieve the output.** This method has the side effect of redeeming the user's rewards, so it might not be ideal.
-2. **Call `IERC20(market).transfer(user,0)` followed by `accruedRewards`.** The transfer triggers an update of the user's rewards.
+1. **Call `redeemRewards(user)` and retrieve the output.** This method has the side effect of redeeming the user's rewards, so it might not be ideal.
+2. **Call `IERC20(market).transfer(user,0)` followed by `accruedRewards`.** The transfer triggers an update of the user's rewards.
 
-### Can the output of `getRewardTokens` change?
+### Can the output of `getRewardTokens` change?
 
 Yes, the output can change if the underlying protocol adds new reward tokens. However, no reward tokens will ever be removed.
 

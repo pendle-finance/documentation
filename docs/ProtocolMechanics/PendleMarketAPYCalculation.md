@@ -94,7 +94,7 @@ $\text{swapFeeForVoter} = \text{explicitSwapFee} * 80\%$
 
 $\text{swapFeeRateForVoter} = \dfrac{\text{swapFeeForVoter} \ \times \  \text{syPriceUsd}}{\text{PendlePriceUSD} \ \times \ \text{totalVotedLastEpoch}}$
 
-$\text{voterApr} =  \text{swapFeeRateForVoter} \times \dfrac{365}{\text{durationInDays}}$
+$\text{voterApr} =  \text{swapFeeRateForVoter} \times \dfrac{365}{\text{durationInDays}}$
 
 
 - Explanation:
