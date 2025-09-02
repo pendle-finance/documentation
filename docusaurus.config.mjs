@@ -92,7 +92,7 @@ const config = {
       title: 'Documentation',
       items: [
         {
-          to: '/docs/Home',
+          to: '/docs/Introduction',
           label: 'Products',
           position: 'left',
         },

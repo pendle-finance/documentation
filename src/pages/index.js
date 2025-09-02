@@ -42,7 +42,7 @@ export default function Home() {
             <DocCard
               title="Pendle V2 Docs"
               description="Learn about Pendle's yield tokenization protocol, AMM mechanics, vePENDLE system, and integration guides for developers."
-              link="/docs/Home"
+              link="/docs/Introduction"
               icon="📚"
             />
             <DocCard

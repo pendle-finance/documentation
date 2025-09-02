@@ -1314,14 +1314,12 @@ nav[aria-label="Docs sidebar"] a[href*="Home"]:first-child,
 }
 
 /* Use attribute selector for links with specific text */
-a.menu__link[href^="/docs/Home"],
 a.menu__link[href="/"] {
   display: none !important;
 }
 
 /* Hide parent list item if it contains a back link */
-li:has(> a.menu__link[href="/"]),
-li:has(> a.menu__link[href^="/docs/Home"]) {
+li:has(> a.menu__link[href="/"]) {
   display: none !important;
 }
 
