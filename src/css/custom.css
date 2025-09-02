@@ -916,24 +916,37 @@ li code:hover {
 .menu__link--sublist {
   font-weight: 600;
   color: #1d1d1f;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding-right: 1.75rem !important;
 }
 
 .menu__link--sublist::after {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%235e6773" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>');
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%235e6773" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg>');
   background-size: 0.875rem 0.875rem;
+  background-repeat: no-repeat;
+  background-position: center;
   content: '';
+  display: block;
   width: 0.875rem;
   height: 0.875rem;
-  transition: transform 0.2s ease;
-  margin-left: auto;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  flex-shrink: 0;
 }
 
-.menu__link--sublist-caret:after {
-  transform: rotate(90deg);
+.menu__link--sublist-caret::after,
+.menu__list-item:not(.menu__list-item--collapsed) > .menu__link--sublist::after {
+  transform: translateY(-50%) rotate(90deg);
 }
 
 .menu__list-item--collapsed .menu__link--sublist::after {
-  transform: rotate(0);
+  transform: translateY(-50%) rotate(0deg);
 }
 
 /* Nested menu items */
