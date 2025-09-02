@@ -49,7 +49,7 @@ router.vaultDeposit(
 
 Withdrawals follow a two-step process: request → cooldown period → finalize.
 
-**Checking Withdrawal Status**: You can monitor your withdrawal request status and cooldown period through MarketHub's [getUserWithdrawalStatus](./MarketHub.md#getuserwithdrawalstatus) function. This returns detailed information including the pending amount and exact timestamp when withdrawal becomes available.
+**Checking Withdrawal Status**: You can monitor your withdrawal request status and cooldown period through MarketHub's [getUserWithdrawalStatus](./MarketHub.mdx#getuserwithdrawalstatus) function. This returns detailed information including the pending amount and exact timestamp when withdrawal becomes available.
 
 ```text
 // Step 1: Request withdrawal
@@ -109,7 +109,7 @@ router.enterExitMarkets(req);
 - **BTC markets**: 0.000008 BTC (≈$1 USD)
 - **ETH markets**: 0.00027 ETH (≈$1 USD)
 
-**Minimum Cash Requirements**: You must maintain minimum cash balances in your account to participate in markets. Check the [specific requirements](./MarketHub.md#getcashfeedata) for cross vs isolated margin modes.
+**Minimum Cash Requirements**: You must maintain minimum cash balances in your account to participate in markets. Check the [specific requirements](./MarketHub.mdx#getcashfeedata) for cross vs isolated margin modes.
 
 ### Exit Markets
 

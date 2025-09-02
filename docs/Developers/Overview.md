@@ -28,7 +28,7 @@ Follow our [Pendle Developer Updates](https://t.me/pendledevelopers) for importa
 
 ### Limit Orders
 
-- [Contract](./LimitOrder/LimitOrderContract.md) | [Create](./LimitOrder/CreateALimitOrder.md) | [Cancel](./LimitOrder/CancelOrders.md) | [Fill](./LimitOrder/FillALimitOrder.md)
+- [Contract](./LimitOrder/LimitOrderContract.md) | [Create](./LimitOrder/CreateALimitOrder.md) | [Cancel](./LimitOrder/CancelOrders.mdx) | [Fill](./LimitOrder/FillALimitOrder.md)
 
 ## Deployed Contract Addresses
 

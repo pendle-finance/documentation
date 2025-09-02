@@ -27,7 +27,7 @@ For a comprehensive understanding of the Pendle ecosystem, including key concept
 
 This section covers how to interact with the Pendle Router to buy and sell Principal Tokens (PTs) and Yield Tokens (YTs) using two methods:
 
-1. **Pendle's Hosted SDK**: Recommended for optimized liquidity, gas efficiency, and broader token support. Hosted SDK is publicly available at [https://api-v2.pendle.finance/core/docs](https://api-v2.pendle.finance/core/docs). More about it at [Pendle Hosted SDK](../Backend/BackendAndHostedSDK.md#pendle-hosted-sdk).
+1. **Pendle's Hosted SDK**: Recommended for optimized liquidity, gas efficiency, and broader token support. Hosted SDK is publicly available at [https://api-v2.pendle.finance/core/docs](https://api-v2.pendle.finance/core/docs). More about it at [Pendle Hosted SDK](../Backend/BackendAndHostedSDK.mdx).
 2. **Direct Interaction with the Pendle Router**: Offers direct contract interaction, all data are generate onchain.
 
 We highly recommend using Pendle's SDK to generate calldata for several reasons:

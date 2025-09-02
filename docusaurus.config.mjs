@@ -10,6 +10,7 @@ const config = {
   trailingSlash: false,
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'ignore',
+  onBrokenAnchors: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'pendle-finance', // Usually your GitHub org/user name.
   projectName: 'documentation', // Usually your repo name.

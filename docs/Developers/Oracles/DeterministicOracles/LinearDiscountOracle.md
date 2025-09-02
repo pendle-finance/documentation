@@ -18,7 +18,7 @@ For money markets listing PTs as collateral or borrowable assets, the oracle pro
 
 ### Deployment
 
-The oracle can be deployed using the `sparkLinearDiscountOracleFactory`. The address of the factory can be found in the [Deployments](../../Deployments/Ethereum.md) sections, under the `"sparkLinearDiscountOracleFactory"` field. The factory has two methods to help with oracle deployment:
+The oracle can be deployed using the `sparkLinearDiscountOracleFactory`. The address of the factory can be found in the [Deployments on GitHub](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments), under the `"sparkLinearDiscountOracleFactory"` field. The factory has two methods to help with oracle deployment:
 
 ```sol
 function createWithPt(address pt, uint256 baseDiscountPerYear) external returns (address);

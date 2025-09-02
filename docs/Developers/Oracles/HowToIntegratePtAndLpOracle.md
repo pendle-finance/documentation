@@ -144,7 +144,7 @@ PT_USD_oracle = PendleChainlinkOracleWithQuote(
 - `twapDuration` is the TWAP duration you want to use, chosen in the previous section.
 - `0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2` is the address of the deployed Pendle Oracle.
     - It was deployed to have the same address for all network.
-    - Refer to [Deployment](../Deployments/Ethereum.md) section for the full list of addresses.
+    - Refer to [Deployments on GitHub](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments) for the full list of addresses.
     - The deployed ChainLink oracles **wrap** this oracle.
     - Please refer to the _Using Pendle Oracle_ way if you want to use it directly.
 
@@ -189,7 +189,7 @@ We have deployed an a contract that helps obtaining the price of PT/YT/LP token 
 
 The contract is at address `0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2`.
   - It was deployed to have the same address for all network.
-  - Refer to [Deployment](../Deployments/Ethereum.md) section for the full list of addresses.
+  - Refer to [Deployments on GitHub](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments) for the full list of addresses.
 
 Getting the price can be done simply by calling the corresponding function ([source](https://github.com/pendle-finance/pendle-examples-public/blob/642b1ab2784b3015691d6c26a2684cd5f7585b0d/test/OracleSample.sol#L38-L46)).
 
