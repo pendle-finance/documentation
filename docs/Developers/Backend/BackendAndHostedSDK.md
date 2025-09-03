@@ -159,13 +159,52 @@ If you are using the old Hosted SDK, please take a look at [our example](https:/
 
 ## Pendle Restful API
 
-We support:
+The Pendle Backend API provides comprehensive access to protocol data through several distinct categories:
 
-- Get Pendle asset's information
-- Get Pendle market's information
-- Get vePendle's information
-- Get spot prices, historical prices of Pendle assets
-- Get historical data of Pendle markets
+### Markets API
+- **[Get Active Markets](https://api-v2.pendle.finance/core/docs#/Markets%20Simplified/MarketsSimplifiedController_getActiveMarkets)**: Returns a list of all active markets with basic metadata including market address, underlying asset, expiry date, and current status
+- **[Market Data](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketData_v2)**: Provides comprehensive real-time market metrics including total liquidity, 24h trading volume, implied APY, underlying APY, LP APY, and price impact data
+- **[Historical Data](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketApyHistory_v3)**: Returns time-series data in table format including historical APY values, TVL, trading volume, and other market metrics with customizable time frames
+- **[Market Assets](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketAssets)**: Returns detailed information about all tokens associated with a market including PT, YT, LP, SY addresses, decimals, and symbols
+- **[Featured Markets](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_getFeaturedMarkets)**: Returns curated list of highlighted markets with additional promotional metadata and priority ordering
+- **[Swap Pricing](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_getMarketSpotSwappingPrice)**: Provides real-time spot prices for swapping between underlying tokens and PT/YT, including implied APY calculations
+- **[Market Categories](https://api-v2.pendle.finance/core/docs#/Market%20Categories/MarketCategoriesController_getAll)**: Returns market categorization data including protocol names, asset types, and classification metadata
+
+### Assets API
+- **[Asset Metadata](https://api-v2.pendle.finance/core/docs#/Asset%20Simple%20APIs/AssetsSimplifiedController_getAllAssets)**: Returns complete asset information including name, symbol, decimals, addresses, expiry dates, and underlying asset details for all PT, YT, LP, and SY tokens
+- **[Asset Pricing](https://api-v2.pendle.finance/core/docs#/Prices/PricesController_getAllAssetPrices)**: Provides real-time USD prices for all supported assets, updated every 15 seconds for Pendle tokens and every minute for underlying assets
+- **[Asset Filtering](https://api-v2.pendle.finance/core/docs#/Assets/AssetsController_assets)**: Advanced filtering capabilities allowing queries by asset type (PT/YT/LP/SY), protocol, chain, expiry status, and custom criteria
+
+### Pricing and OHLCV API
+- **[OHLCV Charts](https://api-v2.pendle.finance/core/docs#/Prices/PricesController_ohlcv_v4)**: Returns Open, High, Low, Close, Volume data in CSV format for technical analysis with customizable time ranges and intervals
+- **[Notional Volume](https://api-v2.pendle.finance/core/docs#/Prices/PricesController_notionalVolumeByMarket)**: USD-denominated volume metrics providing normalized volume comparison across different markets and time periods
+- **[Asset Prices by Address](https://api-v2.pendle.finance/core/docs#/Prices/PricesController_getAllAssetPricesByAddresses)**: Bulk price queries for specific token addresses, returning current USD prices for multiple assets in a single request
+
+### vePendle Governance API
+- **[vePendle Data](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_vePendleData)**: Returns comprehensive vePendle statistics including total locked PENDLE, average lock duration, voting power distribution, and key governance metrics
+- **[Vote Snapshots](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_voteSnapshot)**: Epoch-based voting results showing vote distributions across pools, winning pools, and historical voting patterns
+- **[Pool Voter APR/APY](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_getPoolVoterAprAndSwapFee)**: Current and projected APR calculations for vePendle holders voting on specific pools, including swap fee distributions
+- **[Historical Votes](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_getHistoricalVotes)**: User-specific voting history showing past voting decisions, vote weights, and reward claims
+- **[Pool Metadata](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_poolMetadata)**: Complete information about voting pools including pool addresses, underlying assets, and vote eligibility
+- **[PENDLE Token Supply](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_pendleTokenSupply)**: Real-time circulating and total supply metrics for PENDLE token with emission schedule data
+- **[Monthly Revenue](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_getMonthlyRevenue)**: Protocol revenue breakdown showing monthly fee generation, revenue sources, and distribution to vePendle holders
+- **[Market Fees Chart](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_allMarketTotalFees)**: Weekly market fees across all markets grouped by epoch, showing fee generation trends and pool performance
+
+### User Analytics API
+- **[Transaction History](https://api-v2.pendle.finance/core/docs#/Transactions/TransactionsController_transactions_v5)**: Comprehensive user transaction data including swaps, liquidity additions/removals, mints, redeems, and reward claims with detailed metadata
+- **[Portfolio Positions](https://api-v2.pendle.finance/core/docs#/Dashboard/DashboardController_getUserPositions)**: User positions across markets and chains showing LP holdings, PT/YT balances, claimable rewards
+- **[PnL Tracking](https://api-v2.pendle.finance/core/docs#/PnL/PnlController_getUserTransactions)**: Detailed profit and loss calculations with historical performance tracking and realized/unrealized gains
+
+### Statistics and Analytics API
+- **[Protocol Statistics](https://api-v2.pendle.finance/core/docs#/Statistics/StatisticsController_getAllRelatedInfo)**: Comprehensive protocol metrics including total TVL, trading volume, active users, and growth statistics across all chains
+- **[User Metrics](https://api-v2.pendle.finance/core/docs#/Statistics/StatisticsController_getDistinctUsersFromToken)**: Active user statistics and growth metrics showing unique users, retention rates, and user behavior patterns
+- **[Liquid Locker Pools](https://api-v2.pendle.finance/core/docs#/Statistics/StatisticsController_getLiquidLockerPools)**: Analytics for liquid staking and locker token pools with TVL and yield metrics
+
+### Merkle Distribution API
+- **[Reward Proofs](https://api-v2.pendle.finance/core/docs#/Merkle/MerkleController_getProofV2)**: Cryptographic proofs for reward claims allowing users to verify and claim their earned rewards from campaigns and liquidity mining
+- **[Campaign Rewards](https://api-v2.pendle.finance/core/docs#/Merkle/MerkleController_getRewards)**: Information about active and past reward campaigns including claimable amounts, campaign duration, and eligibility criteria
+- **[Multi-token Merkle Proofs](https://api-v2.pendle.finance/core/docs#/Merkle/MerkleController_getMultiTokenMerkleProof)**: Support for campaigns distributing multiple different reward tokens simultaneously
+
 
 ### Get List of Active Markets
 
