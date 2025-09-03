@@ -116,13 +116,37 @@ body {
 
 /* 8. PREMIUM SELECTION COLORS - Enhanced with gradient feeling */
 ::selection {
-  background: linear-gradient(135deg, rgba(0, 102, 255, 0.18) 0%, rgba(51, 133, 255, 0.12) 100%);
+  background: rgba(0, 102, 255, 0.35);
   color: #0F172A;
+  text-shadow: none;
 }
 
 ::-moz-selection {
-  background: linear-gradient(135deg, rgba(0, 102, 255, 0.18) 0%, rgba(51, 133, 255, 0.12) 100%);
+  background: rgba(0, 102, 255, 0.35);
   color: #0F172A;
+  text-shadow: none;
+}
+
+/* Enhanced selection for specific elements */
+h1::selection, h2::selection, h3::selection, h4::selection, h5::selection, h6::selection {
+  background: rgba(0, 102, 255, 0.4);
+  color: #ffffff;
+}
+
+h1::-moz-selection, h2::-moz-selection, h3::-moz-selection, h4::-moz-selection, h5::-moz-selection, h6::-moz-selection {
+  background: rgba(0, 102, 255, 0.4);
+  color: #ffffff;
+}
+
+/* Links selection */
+a::selection {
+  background: rgba(0, 102, 255, 0.45);
+  color: #ffffff;
+}
+
+a::-moz-selection {
+  background: rgba(0, 102, 255, 0.45);
+  color: #ffffff;
 }
 
 /* 8. PAGE TRANSITIONS - Enhanced smooth transitions with cubic-bezier */
@@ -489,8 +513,9 @@ pre code {
 /* Selection in code blocks */
 pre code::selection,
 pre code *::selection {
-  background: rgba(51, 153, 255, 0.2);
+  background: rgba(51, 153, 255, 0.4);
   color: inherit;
+  text-shadow: none;
 }
 
 /* Inline code styling - better contrast */
