@@ -544,10 +544,10 @@ $$
 \text{boostedBalance}_u = 0.4 \cdot \text{lpBalance}_u + 0.6 \cdot \text{totalLP} \cdot \frac{\text{vePendleValue}^Y_u}{\text{veTotalSupply}^Y}
 $$
 
-The `activeBalance` of a user will be updated whenever there is a transaction related to LP that affects the user. Examples of such transactions include minting, burning, transferring LP, or redeeming rewards from the LP. This has several implications: 
+The `activeBalance` of a user will be updated whenever there is a transaction related to LP that affects the user. Examples of such transactions include minting, burning, transferring LP, or redeeming rewards from the LP. This has several implications:
 
 1. Boost transaction after providing liquidity: If a user increases their vePENDLE balance after providing liquidity, they will need to perform LP-related transactions for the Gauge to update their `activeBalance` if it has not already reached the maximum boost.. The most gas-efficient way to do this is for the user to call `LP.transfer(market.address, 0)`.
-  
+
 2. An user's `activeBalance` can change even if their vePENDLE position and LP position remain the same. This is because vePENDLE decays weekly. `activeBalance` depends on `boostedBalance`, which can change if `vePendleBalance / veTotalSupply` changes. `boostedBalance` may increase if `vePendleBalance` decays slower than `veTotalSupply`. On the other hand, it will decrease if `veTotalSupply` increases because people lock more or if `vePendleBalance` decays faster than `veTotalSupply`.
 
 ### Interface
@@ -557,7 +557,7 @@ interface IPGauge {
     function totalActiveSupply() external view returns (uint256);
 
     function activeBalance(address user) external view returns (uint256);
-		
+
 		/// @notice Redeem all accrued rewards, returning amountOuts in the same order as getRewardTokens.
 		function redeemRewards(address user) external returns (uint256[] memory);
 
