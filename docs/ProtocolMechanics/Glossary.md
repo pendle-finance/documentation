@@ -46,9 +46,9 @@ When used in conjunction with the Underlying APY, Implied APY can be used to est
 
 The value of Implied Yield is numerically equivalent to the to Fixed Yield APY.
 
-$$$
-\text{Implied APY} = \left[\left(1 + \cfrac{\text{YT Price}}{\text{PT Price}}\right)^\cfrac{365}{\text{Days to expiry}}\right] - 1
-$$$
+$$
+\text{Implied APY} = \left[\left(1 + \frac{\text{YT Price}}{\text{PT Price}}\right)^{\frac{365}{\text{Days to expiry}}}\right] - 1
+$$
 
 #### Fixed APY
 

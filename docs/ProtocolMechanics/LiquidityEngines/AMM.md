@@ -32,9 +32,9 @@ Liquidity pools in Pendle V2 are set up as PT/SY, e.g. PT-aUSDC / SY-aUSDC. Swap
 ### Flash Swaps
 
 Flash swaps are possible due to the relationship between PT and YT. As PT and YT can be minted from and redeemed to its underlying SY, we can express the price relationship:
-$$$
-P(PT) + P(YT) = P(Underlying)
-$$$
+$$
+P(PT) + P(YT) = P(\text{Underlying})
+$$
 
 Knowing that YT price has an inverted correlation against PT price, we use this price relationship to utilise the PT/SY pool for YT swaps.
 

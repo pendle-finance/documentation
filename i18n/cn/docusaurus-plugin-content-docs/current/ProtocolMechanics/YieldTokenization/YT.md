@@ -10,7 +10,7 @@ hide_table_of_contents: true
 
 例如，购买 10 个 YT-stETH 并在 5 天内持有它们，您将在同一时间段内收到与在 Lido 上存入 10 个 ETH 等值的所有收益。
 
-YT 的价值在接近到期时趋向于 $0（其他条件不变），到期时变为 $0。当到目前为止收集的总收益高于 YT 获取成本时，用户会获利。
+YT 的价值在接近到期时趋向于 $0$（其他条件不变），到期时变为 $0$。当到目前为止收集的总收益高于 YT 获取成本时，用户会获利。
 
 您可以将 [Implied APY](https://docs.pendle.finance/ProtocolMechanics/Glossary) 视为市场定价 YT 的“速率”。如果平均底层 APY 最终高于您支付的“速率”或隐含 APY，您将获利。
 

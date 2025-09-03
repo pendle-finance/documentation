@@ -30,9 +30,9 @@ Pendle V2 中的流动性池设置为 PT/SY，例如 PT-aUSDC / SY-aUSDC。交�
 ### 闪电交换
 
 由于 PT 和 YT 之间的关系，闪电交换是可能的。由于 PT 和 YT 可以从其底层 SY 铸造和兑换，我们可以表达价格关系：
-$$$
-P(PT) + P(YT) = P(Underlying)
-$$$
+$$
+P(PT) + P(YT) = P(\text{Underlying})
+$$
 
 知道 YT 价格与 PT 价格呈反比关系，我们利用这种价格关系来利用 PT/SY 池进行 YT 交换。
 

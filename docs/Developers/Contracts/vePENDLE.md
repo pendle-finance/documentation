@@ -536,13 +536,13 @@ Each user will have an `activeBalance` that indicates how many `shares` of rewar
 
 The `activeBalance` is calculated as follows:
 
-$$$
-activeBalance_u = min(lpBalance_u, boostedBalance_u)
-$$$
+$$
+\text{activeBalance}_u = \min(\text{lpBalance}_u, \text{boostedBalance}_u)
+$$
 
-$$$
-boostedBalance_u = 0.4lpBalance_u + 0.6totalLP \cdot \cfrac{vePendleValue^Y_u}{veTotalSupply^Y}
-$$$
+$$
+\text{boostedBalance}_u = 0.4 \cdot \text{lpBalance}_u + 0.6 \cdot \text{totalLP} \cdot \frac{\text{vePendleValue}^Y_u}{\text{veTotalSupply}^Y}
+$$
 
 The `activeBalance` of a user will be updated whenever there is a transaction related to LP that affects the user. Examples of such transactions include minting, burning, transferring LP, or redeeming rewards from the LP. This has several implications: 
 

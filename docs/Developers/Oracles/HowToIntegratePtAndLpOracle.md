@@ -93,7 +93,7 @@ $$
 \mathtt{cardinalityRequired} \approx
     \frac
         {\mathtt{duration}}
-        {\max\{\mathrm{\text{chain block time}}, 1\}}
+        {\max\{\text{chain block time}, 1\}}
 $$
 
 </details>

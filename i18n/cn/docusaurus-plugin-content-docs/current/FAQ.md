@@ -14,7 +14,7 @@ hide_table_of_contents: true
 
 在Pendle，一个epoch正好是一周。每个epoch都从周四00:00 UTC开始并结束。
 
-每个epoch都会进行vePENDLE投票的快照，非收益奖励（例如$CRV，$CVX代币）也会在每个epoch分发。
+每个epoch都会进行vePENDLE投票的快照，非收益奖励（例如\$CRV，\$CVX代币）也会在每个epoch分发。
 
 ### 为什么Pendle上显示的底层APY与底层协议中显示的APY不同？
 
@@ -26,7 +26,7 @@ Pendle 上显示的底层APY (Underlying APY) 是基于底层协议的7天收益
 
 * 由流动性池产生的交易费用
 * PENDLE 奖励
-* 由底层资产发行的协议奖励（例如 $COMP，$AAVE）
+* 由底层资产发行的协议奖励（例如 \$COMP，\$AAVE）
 
 ### 我必须抵押我的 LP 代币才能获得奖励吗？
 
