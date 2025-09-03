@@ -188,20 +188,19 @@ const config = {
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'cn'],
+    path: 'i18n',
     localeConfigs: {
       en: {
         label: 'English',
         direction: 'ltr',
         htmlLang: 'en-US',
         calendar: 'gregory',
-        path: 'en',
       },
       cn: {
         label: '中文（中国)',
         direction: 'ltr',
         htmlLang: 'zh-Hans',
         calendar: 'gregory',
-        path: 'cn',
       },
     },
   },
