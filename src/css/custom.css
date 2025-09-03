@@ -333,8 +333,9 @@ pre {
   background: #1e1e1e;
   border: none;
   border-radius: 12px;
-  padding: 3rem 1.5rem 1.5rem;
+  padding: 1.5rem;
   overflow-x: auto;
+  overflow-y: visible;
   box-shadow: 
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06),
@@ -352,44 +353,8 @@ pre:hover {
   transform: translateY(-2px);
 }
 
-/* macOS-style header bar - dark theme */
-pre::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2.5rem;
-  background: #2d2d30;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px 12px 0 0;
-}
+/* Removed macOS-style header to prevent content overlap */
 
-/* Traffic light controls */
-pre::after {
-  content: '';
-  position: absolute;
-  top: 0.875rem;
-  left: 1rem;
-  width: 12px;
-  height: 12px;
-  background: #FF5F57;
-  border-radius: 50%;
-  box-shadow: 
-    20px 0 0 #FFBD2E,
-    40px 0 0 #28CA42;
-  transition: all 0.2s var(--cubic-bezier-smooth);
-  z-index: 1;
-}
-
-pre:hover::after {
-  box-shadow: 
-    20px 0 0 #FFBD2E,
-    40px 0 0 #28CA42,
-    0 0 8px rgba(255, 95, 87, 0.5),
-    20px 0 8px rgba(255, 189, 46, 0.5),
-    40px 0 8px rgba(40, 202, 66, 0.5);
-}
 
 pre code {
   background: transparent;
@@ -397,6 +362,7 @@ pre code {
   font-weight: 400;
   border: none;
   box-shadow: none;
+  display: block;
   color: #d4d4d4;
   font-size: 0.875rem;
   line-height: 1.7;
