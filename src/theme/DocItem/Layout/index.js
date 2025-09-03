@@ -143,7 +143,7 @@ export default function DocItemLayout({children}) {
       const currentPath = window.location.pathname;
       
       // Check if we need to add /docs prefix
-      if (!pathname.startsWith('/docs/') && !pathname.startsWith('/boros/')) {
+      if (!pathname.startsWith('/pendle-v2/') && !pathname.startsWith('/boros/')) {
         const docPaths = [
           '/Developers/', '/ProtocolMechanics/', '/AppGuide/',
           '/Introduction', '/FAQ', '/LitePaper', '/HighLevelArchitecture',
@@ -156,7 +156,7 @@ export default function DocItemLayout({children}) {
           e.preventDefault();
           e.stopPropagation();
           
-          const correctedPath = '/docs' + pathname;
+          const correctedPath = '/pendle-v2' + pathname;
           
           // Check if we're already on the right page
           if (correctedPath === currentPath && hash) {

@@ -25,7 +25,7 @@ const config = {
           id: 'default',
           path: 'docs',
           breadcrumbs: false,
-          routeBasePath: 'docs',
+          routeBasePath: 'pendle-v2',
           sidebarPath: './sidebars.js',
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
@@ -92,7 +92,7 @@ const config = {
       title: 'Documentation',
       items: [
         {
-          to: '/docs/Introduction',
+          to: '/pendle-v2/Introduction',
           label: 'Products',
           position: 'left',
         },
@@ -102,7 +102,7 @@ const config = {
           position: 'left',
         },
         {
-          to: '/docs/Developers/Overview',
+          to: '/pendle-v2/Developers/Overview',
           label: 'Developers',
           position: 'left',
         },
