@@ -13,7 +13,7 @@
 @import './api-endpoints.css';
 
 :root {
-  /* 1. SOPHISTICATED COLOR PALETTE - Refined from #007AFF to #0066FF with better shadows */
+  /* Color Palette */
   --ifm-color-primary: #0066FF;
   --ifm-color-primary-dark: #0052E0;
   --ifm-color-primary-darker: #0047C7;
@@ -22,29 +22,40 @@
   --ifm-color-primary-lighter: #5C9FFF;
   --ifm-color-primary-lightest: #85B8FF;
   
-  /* Enhanced gradient palette for premium effects */
+  /* Common colors as variables */
+  --color-primary: #0066FF;
+  --color-primary-hover: #0052E0;
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #64748B;
+  --color-text-muted: #475569;
+  --color-background-glass: rgba(248, 249, 251, 0.9);
+  --color-background-surface: #ffffff;
+  --color-border-light: rgba(0, 0, 0, 0.08);
+  --color-border-primary: rgba(0, 102, 255, 0.3);
+  --color-selection: rgba(0, 102, 255, 0.35);
+  
+  /* Gradients */
   --gradient-primary: linear-gradient(135deg, #0066FF 0%, #0052E0 100%);
   --gradient-primary-hover: linear-gradient(135deg, #3385FF 0%, #0066FF 100%);
-  --gradient-shine: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
   
-  /* Sophisticated backgrounds with subtle depth */
+  /* Backgrounds */
   --ifm-background-color: #FAFBFC;
-  --ifm-background-surface-color: #ffffff;
+  --ifm-background-surface-color: var(--color-background-surface);
   --ifm-navbar-background-color: rgba(255, 255, 255, 0.98);
   --ifm-sidebar-background: rgba(248, 249, 251, 0.4);
   
-  /* Text colors - Refined contrast hierarchy */
+  /* Text colors */
   --ifm-font-color-base: #1a1f36;
-  --ifm-font-color-secondary: #64748B;
-  --ifm-heading-color: #0F172A;
-  --ifm-link-color: #0066FF;
-  --ifm-link-hover-color: #0052E0;
+  --ifm-font-color-secondary: var(--color-text-secondary);
+  --ifm-heading-color: var(--color-text-primary);
+  --ifm-link-color: var(--color-primary);
+  --ifm-link-hover-color: var(--color-primary-hover);
   
-  /* 2. PREMIUM TYPOGRAPHY - Enhanced line-height and weight system */
+  /* Typography */
   --ifm-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --ifm-font-family-monospace: 'JetBrains Mono', 'Courier New', Courier, monospace;
   --ifm-font-size-base: 16px;
-  --ifm-line-height-base: 1.8; /* Enhanced from 1.75 for better readability */
+  --ifm-line-height-base: 1.8;
   --ifm-font-weight-normal: 400;
   --ifm-font-weight-semibold: 500;
   --ifm-font-weight-bold: 600;
@@ -57,36 +68,29 @@
   /* Layout */
   --ifm-container-width-xl: 1280px;
   --doc-sidebar-width: 240px;
-  --ifm-navbar-height: 48px; /* 5. PREMIUM TOP BAR - Reduced to 48px for better proportions */
+  --ifm-navbar-height: 48px;
   
-  /* Borders - Subtle and refined */
+  /* Borders */
   --ifm-global-border-width: 0.5px;
-  --ifm-border-color: rgba(0, 0, 0, 0.08);
+  --ifm-border-color: var(--color-border-light);
   
-  /* Code - Clean and modern */
+  /* Code */
   --ifm-code-background: #f5f5f7;
   --ifm-code-border-radius: 6px;
   --ifm-pre-background: #f5f5f7;
   --ifm-pre-border-radius: 12px;
   --ifm-code-font-size: 14px;
   
-  /* Enhanced shadows with sophisticated depth */
+  /* Shadows */
   --ifm-global-shadow-lw: 0 1px 2px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.03);
   --ifm-global-shadow-md: 0 2px 4px rgba(0, 0, 0, 0.04), 0 8px 16px rgba(0, 0, 0, 0.06);
   --ifm-global-shadow-tl: 0 4px 8px rgba(0, 0, 0, 0.04), 0 12px 24px rgba(0, 0, 0, 0.08);
   --ifm-shadow-hover: 0 4px 8px rgba(0, 102, 255, 0.08), 0 8px 24px rgba(0, 102, 255, 0.12);
   
-  /* 7. GLASS EFFECT CARDS - Multi-layer shadows and premium effects */
-  --shadow-glass: 
-    0 1px 3px rgba(0, 0, 0, 0.04),
-    0 4px 8px rgba(0, 0, 0, 0.03),
-    0 8px 16px rgba(0, 0, 0, 0.02);
-  --shadow-glass-hover: 
-    0 1px 3px rgba(0, 0, 0, 0.04),
-    0 12px 24px rgba(0, 102, 255, 0.08),
-    0 20px 40px rgba(0, 102, 255, 0.06);
+  --shadow-glass: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.03), 0 8px 16px rgba(0, 0, 0, 0.02);
+  --shadow-glass-hover: 0 1px 3px rgba(0, 0, 0, 0.04), 0 12px 24px rgba(0, 102, 255, 0.08), 0 20px 40px rgba(0, 102, 255, 0.06);
 
-  /* 8. SMOOTH TRANSITIONS - Premium cubic-bezier timing */
+  /* Transitions */
   --ifm-transition-fast: 150ms;
   --ifm-transition-slow: 350ms;
   --cubic-bezier-smooth: cubic-bezier(0.4, 0, 0.2, 1);
@@ -117,42 +121,27 @@ body {
   max-width: 100vw;
 }
 
-/* 8. PREMIUM SELECTION COLORS - Enhanced with gradient feeling */
-::selection {
-  background: rgba(0, 102, 255, 0.35);
-  color: #0F172A;
-  text-shadow: none;
-}
-
+/* Selection colors */
+::selection,
 ::-moz-selection {
-  background: rgba(0, 102, 255, 0.35);
-  color: #0F172A;
+  background: var(--color-selection);
+  color: var(--color-text-primary);
   text-shadow: none;
 }
 
-/* Enhanced selection for specific elements */
-h1::selection, h2::selection, h3::selection, h4::selection, h5::selection, h6::selection {
-  background: rgba(0, 102, 255, 0.4);
-  color: #ffffff;
-}
-
+h1::selection, h2::selection, h3::selection, h4::selection, h5::selection, h6::selection,
 h1::-moz-selection, h2::-moz-selection, h3::-moz-selection, h4::-moz-selection, h5::-moz-selection, h6::-moz-selection {
   background: rgba(0, 102, 255, 0.4);
   color: #ffffff;
 }
 
-/* Links selection */
-a::selection {
-  background: rgba(0, 102, 255, 0.45);
-  color: #ffffff;
-}
-
+a::selection,
 a::-moz-selection {
   background: rgba(0, 102, 255, 0.45);
   color: #ffffff;
 }
 
-/* 8. PAGE TRANSITIONS - Enhanced smooth transitions with cubic-bezier */
+/* Global transitions */
 * {
   transition: color 0.15s var(--cubic-bezier-smooth), 
               background-color 0.15s var(--cubic-bezier-smooth), 
@@ -173,28 +162,21 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
 }
 
-/* 2. PREMIUM TYPOGRAPHY - Gradient H1 headers */
+/* Typography - H1 with gradient */
 h1 {
   font-size: 2.75rem;
   font-weight: 700;
   margin-top: 0;
   margin-bottom: 1.75rem;
   letter-spacing: -0.03em;
-  background: linear-gradient(135deg, #0F172A 0%, #334155 50%, #0066FF 100%);
+  background: linear-gradient(135deg, var(--color-text-primary) 0%, #334155 50%, var(--color-primary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   position: relative;
-  background-size: 200% 100%;
-  animation: gradientShift 8s ease-in-out infinite;
 }
 
-@keyframes gradientShift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-/* 2. PREMIUM TYPOGRAPHY - Animated H2 accent bars */
+/* H2 with accent bar */
 h2 {
   font-size: 1.875rem;
   font-weight: 600;
@@ -203,7 +185,6 @@ h2 {
   padding-bottom: 0.875rem;
   border-bottom: none;
   position: relative;
-  overflow: hidden;
 }
 
 h2::after {
@@ -213,9 +194,8 @@ h2::after {
   left: 0;
   width: 80px;
   height: 3px;
-  background: linear-gradient(90deg, #0066FF 0%, #3385FF 50%, #0052E0 100%);
+  background: var(--gradient-primary);
   border-radius: 2px;
-  animation: accentPulse 2s ease-in-out infinite alternate;
 }
 
 h2::before {
@@ -228,18 +208,6 @@ h2::before {
   background: linear-gradient(90deg, rgba(0, 102, 255, 0.1) 0%, transparent 30%);
 }
 
-@keyframes accentPulse {
-  0% { 
-    width: 60px;
-    opacity: 0.8;
-  }
-  100% { 
-    width: 80px;
-    opacity: 1;
-    box-shadow: 0 0 10px rgba(0, 102, 255, 0.3);
-  }
-}
-
 h3 {
   font-size: 1.375rem;
   font-weight: 600;
@@ -249,26 +217,25 @@ h3 {
 }
 
 h4 {
-  font-size: 1.125rem;
+  font-size: 0.875rem;
   font-weight: 500;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
   color: #334155;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-size: 0.875rem;
 }
 
 p {
   margin-bottom: 1.75rem;
-  line-height: 1.8; /* Enhanced line-height for premium readability */
-  color: #475569;
+  line-height: 1.8;
+  color: var(--color-text-muted);
   font-size: 1.0625rem;
   font-weight: 400;
   letter-spacing: -0.01em;
 }
 
-/* 6. ANIMATED LINK UNDERLINES - Smooth expanding underlines on hover */
+/* Links with animated underlines */
 a {
   color: var(--ifm-link-color);
   text-decoration: none;
@@ -285,7 +252,7 @@ a:hover {
 .markdown a {
   text-decoration: none;
   position: relative;
-  background: linear-gradient(90deg, #0066FF 0%, #3385FF 50%, #0052E0 100%);
+  background: var(--gradient-primary);
   background-size: 0% 2px;
   background-repeat: no-repeat;
   background-position: left bottom;
@@ -294,29 +261,12 @@ a:hover {
   border-radius: 1px;
 }
 
-.markdown a::before {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.3), transparent);
-  transition: all 0.3s var(--cubic-bezier-smooth);
-  transform: translateX(-50%);
-}
-
 .markdown a:hover {
   background-size: 100% 2px;
   transform: translateY(-1px);
 }
 
-.markdown a:hover::before {
-  width: 110%;
-  box-shadow: 0 2px 8px rgba(0, 102, 255, 0.2);
-}
-
-/* Code - Premium with subtle depth */
+/* Code styling */
 code {
   font-family: var(--ifm-font-family-monospace);
   font-size: 0.875em;
@@ -324,11 +274,11 @@ code {
   padding: 0.2rem 0.5rem;
   border-radius: 6px;
   font-weight: 500;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid var(--color-border-light);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
-/* 4. CLEAN MODERN CODE BLOCKS - Dark theme with excellent contrast */
+/* Code blocks */
 pre {
   background: #1e1e1e;
   border: none;
@@ -336,25 +286,16 @@ pre {
   padding: 1.5rem;
   overflow-x: auto;
   overflow-y: visible;
-  box-shadow: 
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06),
-    0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   position: relative;
   transition: all 0.3s var(--cubic-bezier-smooth);
   margin: 2rem 0;
 }
 
 pre:hover {
-  box-shadow: 
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05),
-    0 25px 35px -5px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 25px 35px -5px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
 }
-
-/* Removed macOS-style header to prevent content overlap */
-
 
 pre code {
   background: transparent;
@@ -369,125 +310,31 @@ pre code {
   font-family: 'JetBrains Mono', 'Courier New', monospace;
 }
 
-/* Syntax highlighting - VS Code Dark+ theme for excellent readability */
-.token.comment,
-.token.prolog,
-.token.doctype,
-.token.cdata {
-  color: #6a9955;
-  font-style: italic;
-}
+/* Syntax highlighting */
+.token.comment, .token.prolog, .token.doctype, .token.cdata { color: #6a9955; font-style: italic; }
+.token.punctuation { color: #d4d4d4; }
+.token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #b5cea8; }
+.token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #ce9178; }
+.token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #d4d4d4; }
+.token.atrule, .token.attr-value, .token.keyword { color: #c586c0; }
+.token.function, .token.class-name { color: #dcdcaa; }
+.token.regex, .token.important, .token.variable { color: #9cdcfe; }
 
-.token.punctuation {
-  color: #d4d4d4;
-}
+/* Language specific */
+.language-json .token.property { color: #9cdcfe; }
+.language-json .token.string { color: #ce9178; }
+.language-json .token.number { color: #b5cea8; }
+.language-json .token.boolean, .language-json .token.null { color: #569cd6; }
+.language-javascript .token.keyword, .language-typescript .token.keyword { color: #569cd6; }
+.language-javascript .token.function, .language-typescript .token.function { color: #dcdcaa; }
+.language-javascript .token.string, .language-typescript .token.string { color: #ce9178; }
+.language-javascript .token.number, .language-typescript .token.number { color: #b5cea8; }
+.language-javascript .token.operator, .language-typescript .token.operator { color: #d4d4d4; }
 
-.token.property,
-.token.tag,
-.token.boolean,
-.token.number,
-.token.constant,
-.token.symbol,
-.token.deleted {
-  color: #b5cea8;
-}
+.line-numbers .line-numbers-rows { border-right: 1px solid #3e3e42; color: #858585; }
+pre code::selection, pre code *::selection { background: rgba(51, 153, 255, 0.4); color: inherit; text-shadow: none; }
 
-.token.selector,
-.token.attr-name,
-.token.string,
-.token.char,
-.token.builtin,
-.token.inserted {
-  color: #ce9178;
-}
-
-.token.operator,
-.token.entity,
-.token.url,
-.language-css .token.string,
-.style .token.string {
-  color: #d4d4d4;
-}
-
-.token.atrule,
-.token.attr-value,
-.token.keyword {
-  color: #c586c0;
-}
-
-.token.function,
-.token.class-name {
-  color: #dcdcaa;
-}
-
-.token.regex,
-.token.important,
-.token.variable {
-  color: #9cdcfe;
-}
-
-/* JSON specific colors */
-.language-json .token.property {
-  color: #9cdcfe;
-}
-
-.language-json .token.string {
-  color: #ce9178;
-}
-
-.language-json .token.number {
-  color: #b5cea8;
-}
-
-.language-json .token.boolean {
-  color: #569cd6;
-}
-
-.language-json .token.null {
-  color: #569cd6;
-}
-
-/* JavaScript/TypeScript specific */
-.language-javascript .token.keyword,
-.language-typescript .token.keyword {
-  color: #569cd6;
-}
-
-.language-javascript .token.function,
-.language-typescript .token.function {
-  color: #dcdcaa;
-}
-
-.language-javascript .token.string,
-.language-typescript .token.string {
-  color: #ce9178;
-}
-
-.language-javascript .token.number,
-.language-typescript .token.number {
-  color: #b5cea8;
-}
-
-.language-javascript .token.operator,
-.language-typescript .token.operator {
-  color: #d4d4d4;
-}
-
-/* Line numbers if present */
-.line-numbers .line-numbers-rows {
-  border-right: 1px solid #3e3e42;
-  color: #858585;
-}
-
-/* Selection in code blocks */
-pre code::selection,
-pre code *::selection {
-  background: rgba(51, 153, 255, 0.4);
-  color: inherit;
-  text-shadow: none;
-}
-
-/* Inline code styling - better contrast */
+/* Inline code styling */
 :not(pre) > code,
 p code,
 li code,
@@ -497,7 +344,7 @@ h2 code,
 h3 code,
 h4 code {
   background: rgba(0, 102, 255, 0.08);
-  color: #0066ff;
+  color: var(--color-primary);
   padding: 0.2rem 0.4rem;
   border-radius: 6px;
   font-size: 0.875em;
@@ -507,7 +354,6 @@ h4 code {
   border: 1px solid rgba(0, 102, 255, 0.1);
 }
 
-/* Inline code hover effect */
 :not(pre) > code:hover,
 p code:hover,
 li code:hover {
@@ -515,12 +361,12 @@ li code:hover {
   border-color: rgba(0, 102, 255, 0.2);
 }
 
-/* Navbar - Premium glass effect */
+/* Navbar */
 .navbar {
   background-color: rgba(255, 255, 255, 0.9);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 0.5px solid var(--color-border-light);
   box-shadow: none;
   height: var(--ifm-navbar-height);
   padding: 0 2rem;
@@ -555,7 +401,7 @@ li code:hover {
   color: var(--ifm-color-primary);
 }
 
-/* Premium glass morphism top bar with progress indicator */
+/* Top bar with progress indicator */
 .thin-top-bar {
   position: fixed;
   top: 0;
@@ -565,7 +411,7 @@ li code:hover {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  border-bottom: 1px solid var(--color-border-light);
   z-index: 1000;
   display: flex;
   align-items: center;
@@ -573,14 +419,13 @@ li code:hover {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-/* Reading progress indicator */
 .thin-top-bar::after {
   content: '';
   position: absolute;
   bottom: -1px;
   left: 0;
   height: 2px;
-  background: linear-gradient(90deg, #0066FF 0%, #00D4FF 100%);
+  background: linear-gradient(90deg, var(--color-primary) 0%, #00D4FF 100%);
   width: var(--scroll-progress, 0%);
   transition: width 0.1s ease;
   z-index: 101;
@@ -627,18 +472,16 @@ li code:hover {
 }
 
 .thin-top-bar-search .DocSearch-Button {
-  background: rgba(248, 250, 252, 0.8);
-  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: var(--color-background-glass);
+  border: 1px solid var(--color-border-light);
   border-radius: 8px;
   height: 36px;
   padding: 0 12px;
   min-width: min(280px, calc(100vw - 200px));
   max-width: 100%;
   font-size: 14px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
-    inset 0 1px 2px rgba(0, 0, 0, 0.05),
-    0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s var(--cubic-bezier-smooth);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04);
   cursor: pointer;
   position: relative;
   z-index: 1;
@@ -646,30 +489,25 @@ li code:hover {
 
 .thin-top-bar-search .DocSearch-Button:hover {
   background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(0, 102, 255, 0.3);
-  box-shadow: 
-    inset 0 1px 2px rgba(0, 0, 0, 0.03),
-    0 0 0 3px rgba(0, 102, 255, 0.05);
+  border-color: var(--color-border-primary);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03), 0 0 0 3px rgba(0, 102, 255, 0.05);
   transform: translateY(-1px);
 }
 
-/* Ensure DocSearch modal appears above everything */
+/* DocSearch z-index fixes */
 .DocSearch-Modal {
   z-index: 2000 !important;
 }
 
-/* Fix Algolia search results paths */
 .DocSearch-Hit a {
   text-decoration: none !important;
 }
 
-/* Ensure the search button in the top bar works */
 .thin-top-bar-search button {
   pointer-events: auto !important;
   cursor: pointer !important;
 }
 
-/* Override any conflicting z-index issues */
 .DocSearch-Container {
   z-index: 2001 !important;
 }
@@ -679,8 +517,9 @@ li code:hover {
   z-index: 2002 !important;
 }
 
-/* Adjust main content for premium top bar */
-.docs-wrapper {
+/* Layout adjustments for top bar */
+.docs-wrapper,
+.main-wrapper {
   padding-top: 48px;
 }
 
@@ -692,11 +531,7 @@ li code:hover {
   background: transparent !important;
 }
 
-.main-wrapper {
-  padding-top: 48px;
-}
-
-/* 3. GLASS MORPHISM SIDEBAR - Enhanced with gradient active states and smooth transitions */
+/* Sidebar container */
 .theme-doc-sidebar-container {
   position: sticky !important;
   top: 48px;
@@ -704,17 +539,11 @@ li code:hover {
   width: var(--doc-sidebar-width, 300px);
   height: calc(100vh - 48px);
   max-height: calc(100vh - 48px);
-  border-right: 1px solid rgba(15, 23, 42, 0.06);
-  background: linear-gradient(180deg, 
-    rgba(248, 249, 251, 0.85) 0%, 
-    rgba(248, 249, 251, 0.95) 50%,
-    rgba(240, 242, 247, 0.9) 100%);
+  border-right: 1px solid var(--color-border-light);
+  background: var(--color-background-glass);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-  box-shadow: 
-    inset -1px 0 0 rgba(255, 255, 255, 0.8),
-    inset 1px 0 0 rgba(255, 255, 255, 0.4),
-    0 0 0 1px rgba(0, 0, 0, 0.02);
+  box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.8);
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;
@@ -741,13 +570,12 @@ li code:hover {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
-/* Main docs layout with flexbox */
+/* Main layout */
 .docs-wrapper {
   display: flex !important;
   min-height: calc(100vh - 48px);
 }
 
-/* Adjust main content to work with sticky sidebar */
 [class*="docMainContainer"] {
   flex: 1;
   min-height: calc(100vh - 48px);
@@ -755,16 +583,11 @@ li code:hover {
   width: 100%;
 }
 
-/* Hide sidebar toggle button since sidebar is always visible */
 .theme-doc-sidebar-menu-toggle-button {
   display: none !important;
 }
 
-/* Ensure doc page has proper layout */
-.docPage__5DB {
-  display: flex;
-}
-
+.docPage__5DB,
 .docRoot_UBD9 {
   display: flex;
   width: 100%;
@@ -783,6 +606,20 @@ li code:hover {
   
   .theme-doc-sidebar-menu-toggle-button {
     display: block !important;
+  }
+  
+  .theme-doc-toc-desktop, .col.col--3 {
+    display: none;
+  }
+  
+  [class*="docItemCol"] {
+    max-width: 100% !important;
+    flex: 1 1 100% !important;
+  }
+  
+  [class*="docItemRow"] {
+    padding: 0.75rem 0 0.75rem 0.75rem !important;
+    margin-top: 44px;
   }
 }
 
@@ -808,32 +645,29 @@ li code:hover {
 
 .menu.thin-scrollbar::-webkit-scrollbar {
   width: 6px;
+  background-color: #d0d0d0;
+  border-radius: 3px;
 }
 
 .menu.thin-scrollbar::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.menu.thin-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #d0d0d0;
-  border-radius: 3px;
-}
-
 .menu > .menu__list {
   flex: 1 0 auto;
 }
 
-/* Ensure sidebar viewport takes appropriate height */
-.sidebarViewport_aRkj {
+/* Sidebar layout */
+.sidebarViewport_aRkj,
+.sidebar_mhZE {
   height: 100%;
   max-height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
-  padding-bottom: 1rem;
 }
 
-.sidebar_mhZE {
-  height: 100%;
+.sidebarViewport_aRkj {
+  padding-bottom: 1rem;
 }
 
 .menu__list {
@@ -849,9 +683,9 @@ li code:hover {
   margin: 0.125rem 0;
 }
 
-/* 3. GLASS MORPHISM SIDEBAR - Enhanced menu links with gradient states */
+/* Menu links */
 .menu__link {
-  color: #64748B;
+  color: var(--color-text-secondary);
   padding: 0.625rem 1rem;
   border-radius: 10px;
   display: flex;
@@ -862,43 +696,25 @@ li code:hover {
   font-size: 0.9375rem;
   position: relative;
   margin: 0.125rem 0;
-  overflow: hidden;
-}
-
-.menu__link::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  transition: left 0.5s var(--cubic-bezier-smooth);
 }
 
 .menu__link:hover {
-  background: linear-gradient(90deg, rgba(15, 23, 42, 0.06) 0%, rgba(15, 23, 42, 0.02) 100%);
-  color: #0F172A;
+  background: rgba(15, 23, 42, 0.04);
+  color: var(--color-text-primary);
   text-decoration: none;
   transform: translateX(4px);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
-.menu__link:hover::before {
-  left: 100%;
-}
-
 .menu__link--active {
   background: linear-gradient(90deg, rgba(0, 102, 255, 0.12) 0%, rgba(51, 133, 255, 0.08) 50%, rgba(0, 102, 255, 0.04) 100%);
-  color: #0066FF !important;
+  color: var(--color-primary) !important;
   font-weight: 600;
   position: relative;
   border-left: none;
   margin-left: 0;
   padding-left: 1rem;
-  box-shadow: 
-    0 2px 4px rgba(0, 102, 255, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 102, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
 .menu__link--active::after {
@@ -909,32 +725,16 @@ li code:hover {
   transform: translateY(-50%);
   width: 4px;
   height: 24px;
-  background: linear-gradient(135deg, #0066FF 0%, #3385FF 100%);
+  background: var(--gradient-primary);
   border-radius: 0 2px 2px 0;
-  animation: slideIn 0.3s var(--cubic-bezier-bounce);
   box-shadow: 0 2px 4px rgba(0, 102, 255, 0.3);
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-50%) scaleY(0.5);
-    width: 2px;
-  }
-  to {
-    opacity: 1;
-    transform: translateY(-50%) scaleY(1);
-    width: 4px;
-  }
 }
 
 .menu__link--active:hover {
   background: linear-gradient(90deg, rgba(0, 102, 255, 0.16) 0%, rgba(51, 133, 255, 0.12) 50%, rgba(0, 102, 255, 0.06) 100%);
-  color: #0052E0 !important;
+  color: var(--color-primary-hover) !important;
   transform: translateX(2px);
-  box-shadow: 
-    0 4px 8px rgba(0, 102, 255, 0.15),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 8px rgba(0, 102, 255, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .menu__link--active:before {
@@ -960,7 +760,7 @@ li code:hover {
   display: block;
   width: 0.875rem;
   height: 0.875rem;
-  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s var(--cubic-bezier-smooth);
   position: absolute;
   right: 0.75rem;
   top: 50%;
@@ -977,7 +777,7 @@ li code:hover {
   transform: translateY(-50%) rotate(0deg);
 }
 
-/* Nested menu items */
+/* Nested menu */
 .menu__list .menu__list {
   padding-left: 0.75rem;
   margin-left: 0.5rem;
@@ -990,68 +790,20 @@ li code:hover {
   padding: 0.375rem 0.625rem;
 }
 
-/* Main content with premium feel */
+/* Main content */
 .main-wrapper {
   background: transparent;
   position: relative;
 }
 
-.main-wrapper::before {
-  content: '';
-  position: fixed;
-  top: 48px;
-  left: 0;
-  right: 0;
-  height: 100px;
-  background: linear-gradient(180deg, rgba(250, 251, 252, 1) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* 8. PAGE TRANSITIONS - Fade-in animations with staggered content */
+/* Article layout */
 article {
   padding: 1.5rem 2rem;
   max-width: 100%;
   position: relative;
-  animation: fadeInUp 0.6s var(--cubic-bezier-smooth);
-  animation-fill-mode: both;
 }
 
-article > * {
-  animation: fadeInContent 0.8s var(--cubic-bezier-smooth);
-  animation-fill-mode: both;
-}
-
-article > *:nth-child(1) { animation-delay: 0.1s; }
-article > *:nth-child(2) { animation-delay: 0.15s; }
-article > *:nth-child(3) { animation-delay: 0.2s; }
-article > *:nth-child(4) { animation-delay: 0.25s; }
-article > *:nth-child(5) { animation-delay: 0.3s; }
-article > *:nth-child(n+6) { animation-delay: 0.35s; }
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeInContent {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Right TOC sidebar - Prominent and well-defined */
+/* Right TOC sidebar */
 .theme-doc-toc-desktop {
   position: fixed !important;
   right: 8px !important;
@@ -1069,9 +821,9 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
   font-size: 0.6875rem;
   padding: 0.5rem 0.125rem 0.5rem 0.5rem;
   position: relative;
-  background: rgba(248, 250, 252, 0.2);
+  background: var(--color-background-glass);
   border-radius: 4px 0 0 4px;
-  border-left: 1.5px solid rgba(15, 23, 42, 0.06);
+  border-left: 1.5px solid var(--color-border-light);
   margin-right: 0;
 }
 
@@ -1080,13 +832,13 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #64748B;
+  color: var(--color-text-secondary);
   margin-bottom: 1rem;
   display: block;
 }
 
 .table-of-contents__link {
-  color: #64748B;
+  color: var(--color-text-secondary);
   text-decoration: none;
   display: block;
   padding: 0.625rem 0.75rem;
@@ -1106,7 +858,7 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
 }
 
 .table-of-contents__link--active {
-  color: #0066FF;
+  color: var(--color-primary);
   font-weight: 600;
   background: rgba(0, 102, 255, 0.08);
 }
@@ -1115,7 +867,7 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
   background: rgba(0, 102, 255, 0.12);
 }
 
-/* TOC List Structure */
+/* TOC structure */
 .table-of-contents ul {
   list-style: none;
   padding-left: 0;
@@ -1126,20 +878,19 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
   margin: 0;
 }
 
-/* H1 level - Top level items */
+/* TOC nested levels */
 .table-of-contents > ul > li > .table-of-contents__link {
   font-weight: 500;
   font-size: 0.6875rem;
-  color: #475569;
+  color: var(--color-text-muted);
   margin-bottom: 0.0625rem;
   padding: 0.25rem 0.375rem;
 }
 
-/* H2 level - Second level items */
 .table-of-contents > ul > li > ul {
   margin-left: 0.5rem;
   padding-left: 0.5rem;
-  border-left: 1px solid rgba(15, 23, 42, 0.06);
+  border-left: 1px solid var(--color-border-light);
   margin-top: 0.125rem;
   margin-bottom: 0.25rem;
 }
@@ -1147,11 +898,10 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
 .table-of-contents > ul > li > ul > li > .table-of-contents__link {
   font-size: 0.75rem;
   padding: 0.375rem 0.5rem;
-  color: #64748B;
+  color: var(--color-text-secondary);
   font-weight: 400;
 }
 
-/* H3 level - Third level items */
 .table-of-contents > ul > li > ul > li > ul {
   margin-left: 0.5rem;
   padding-left: 0.5rem;
@@ -1165,26 +915,25 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
   font-weight: 400;
 }
 
-/* Active state adjustments for different levels */
 .table-of-contents > ul > li > .table-of-contents__link--active {
-  color: #0066FF;
+  color: var(--color-primary);
   font-weight: 600;
   background: rgba(0, 102, 255, 0.08);
 }
 
 .table-of-contents > ul > li > ul > li > .table-of-contents__link--active {
-  color: #0066FF;
+  color: var(--color-primary);
   font-weight: 500;
   background: rgba(0, 102, 255, 0.06);
 }
 
 .table-of-contents > ul > li > ul > li > ul > li > .table-of-contents__link--active {
-  color: #0066FF;
+  color: var(--color-primary);
   font-weight: 450;
   background: rgba(0, 102, 255, 0.04);
 }
 
-/* Hide scrollbar for cleaner look */
+/* TOC scrollbar and layout */
 .theme-doc-toc-desktop::-webkit-scrollbar {
   display: none;
 }
@@ -1194,7 +943,6 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
   scrollbar-width: none;
 }
 
-/* TOC column - pushed to right edge */
 .col.col--3 {
   position: fixed !important;
   right: 0;
@@ -1207,7 +955,6 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
   overflow-y: auto;
 }
 
-/* Ensure consistent layout for all doc pages */
 [class*="docItemRow"] {
   display: block;
   margin: 0;
@@ -1217,43 +964,17 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
   padding: 1rem 220px 1rem 1.5rem !important;
 }
 
-/* Fix main content column width for all pages */
-[class*="docItemCol"] {
+[class*="docItemCol"],
+[class*="docItemContainer"] {
   width: 100% !important;
   max-width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
-/* Main content container - optimized width */
-[class*="docItemContainer"] {
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-@media (max-width: 996px) {
-  .theme-doc-toc-desktop {
-    display: none;
-  }
-  
-  .col.col--3 {
-    display: none;
-  }
-  
-  [class*="docItemCol"] {
-    max-width: 100% !important;
-    flex: 1 1 100% !important;
-  }
-  
-  [class*="docItemRow"] {
-    padding: 0.75rem 0 0.75rem 0.75rem !important;
-    margin-top: 44px;
-  }
-}
 
 
-/* Ensure good readability with max line length */
+/* Markdown layout */
 .markdown {
   max-width: 100%;
 }
@@ -1262,7 +983,7 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
   margin-top: 0;
 }
 
-/* Better spacing for content - Remove all top padding */
+/* Container spacing */
 .container.padding-top--md,
 .container.padding-bottom--lg,
 .container {
@@ -1272,14 +993,11 @@ article > *:nth-child(n+6) { animation-delay: 0.35s; }
   margin-top: 0 !important;
 }
 
-
-/* Remove any padding from main wrapper */
 main > .container {
   padding-top: 0 !important;
   margin-top: 0 !important;
 }
 
-/* Remove padding from the row that contains doc items */
 main .row {
   padding-top: 0 !important;
   margin-top: 0 !important;
@@ -1287,39 +1005,20 @@ main .row {
   flex-wrap: nowrap !important;
 }
 
-/* Hide "Back to Home" and "Back to Main Docs" navigation */
+/* Hide back navigation links */
 .theme-doc-sidebar-item-link-level-1[href="/"],
-.theme-doc-sidebar-item-link-level-1[href*="Back"],
 .menu__link[href="/"],
 .menu__link[href*="docs/Home"],
-.breadcrumbs__link[aria-label*="Back"],
-nav[aria-label="Docs sidebar"] a[href="/"],
-nav[aria-label="Docs sidebar"] a[href*="Home"]:first-child,
-.menu__list-item:has(> .menu__link[href="/"]),
-.menu__list-item:has(> .menu__link:contains("Back")) {
-  display: none !important;
-}
-
-/* Hide any link that contains "Back to" text */
-.menu__link {
-  display: flex;
-}
-
-.menu__link:has-text("Back to") {
-  display: none !important;
-}
-
-/* Use attribute selector for links with specific text */
-a.menu__link[href="/"] {
-  display: none !important;
-}
-
-/* Hide parent list item if it contains a back link */
+a.menu__link[href="/"],
 li:has(> a.menu__link[href="/"]) {
   display: none !important;
 }
 
-/* Buttons - Apple-like design */
+.menu__link {
+  display: flex;
+}
+
+/* Button base styles */
 .button {
   display: inline-flex;
   align-items: center;
@@ -1334,12 +1033,12 @@ li:has(> a.menu__link[href="/"]) {
 }
 
 .button--primary {
-  background-color: #007AFF;
+  background-color: var(--color-primary);
   color: white;
 }
 
 .button--primary:hover {
-  background-color: #0051D5;
+  background-color: var(--color-primary-hover);
   transform: scale(1.02);
   box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
 }
@@ -1353,85 +1052,41 @@ li:has(> a.menu__link[href="/"]) {
   background-color: #e8e8ed;
 }
 
-/* 7. GLASS EFFECT CARDS - Multi-layer shadows, shine effect on hover */
+/* Card component */
 .card {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border: 1px solid rgba(15, 23, 42, 0.1);
+  border: 1px solid var(--color-border-light);
   border-radius: 18px;
   padding: 2rem;
   box-shadow: var(--shadow-glass);
   transition: all 0.4s var(--cubic-bezier-smooth);
   position: relative;
-  overflow: hidden;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(45deg, 
-    transparent 30%, 
-    rgba(255, 255, 255, 0.8) 50%, 
-    transparent 70%);
-  opacity: 0;
-  transition: all 0.6s var(--cubic-bezier-smooth);
-  transform: translateX(-100%) translateY(-100%) rotate(45deg);
-}
-
-.card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, 
-    transparent, 
-    rgba(255, 255, 255, 0.8) 20%, 
-    rgba(0, 102, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.8) 80%, 
-    transparent);
-  opacity: 0;
-  transition: opacity 0.4s var(--cubic-bezier-smooth);
 }
 
 .card:hover {
   box-shadow: var(--shadow-glass-hover);
   transform: translateY(-8px) scale(1.01);
-  border-color: rgba(0, 102, 255, 0.25);
+  border-color: var(--color-border-primary);
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.95) 100%);
 }
 
-.card:hover::before {
-  opacity: 1;
-  transform: translateX(100%) translateY(100%) rotate(45deg);
-}
-
-.card:hover::after {
-  opacity: 1;
-}
-
-/* 9. PREMIUM TABLES - Clean and properly aligned */
+/* Tables */
 table {
   border-collapse: collapse;
-  margin: 2.5rem auto; /* Center the table */
+  margin: 2.5rem auto;
   background: white;
-  border: 1px solid rgba(15, 23, 42, 0.1);
+  border: 1px solid var(--color-border-light);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 0, 0, 0.06);
-  table-layout: auto; /* Let content determine width */
-  width: auto; /* Don't force 100% width */
-  min-width: 50%; /* But ensure minimum width */
-  max-width: 100%; /* And don't exceed container */
+  table-layout: auto;
+  width: auto;
+  min-width: 50%;
+  max-width: 100%;
 }
 
-/* For tables inside markdown, allow them to size naturally */
 .markdown table {
   display: table;
   width: auto;
@@ -1451,7 +1106,7 @@ table th {
   font-weight: 600;
   text-align: left;
   padding: 0.625rem 1rem;
-  color: #0F172A;
+  color: var(--color-text-primary);
   font-size: 0.8125rem;
   text-transform: none;
   letter-spacing: 0.01em;
@@ -1461,19 +1116,18 @@ table th {
 
 table td {
   padding: 0.625rem 1rem;
-  color: #475569;
+  color: var(--color-text-muted);
   font-size: 0.8125rem;
   line-height: 1.5;
   border-bottom: 1px solid #f3f4f6;
   vertical-align: top;
 }
 
-/* Remove bottom border from last row */
 table tbody tr:last-child td {
   border-bottom: none;
 }
 
-/* 10. GRADIENT BUTTONS - Linear gradients, shine effect on hover, better shadows */
+/* Buttons */
 .button {
   background: var(--gradient-primary);
   border: none;
@@ -1487,58 +1141,17 @@ table tbody tr:last-child td {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 4px 8px rgba(0, 102, 255, 0.25),
-    0 8px 16px rgba(0, 102, 255, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 102, 255, 0.25), 0 8px 16px rgba(0, 102, 255, 0.1);
   position: relative;
-  overflow: hidden;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--gradient-shine);
-  opacity: 0;
-  transition: opacity 0.3s var(--cubic-bezier-smooth);
-}
-
-.button::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-  opacity: 0;
-  transition: all 0.6s var(--cubic-bezier-smooth);
-  transform: translateX(-100%) translateY(-100%) rotate(45deg);
 }
 
 .button:hover {
   transform: translateY(-3px) scale(1.02);
   background: var(--gradient-primary-hover);
-  box-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 8px 16px rgba(0, 102, 255, 0.35),
-    0 16px 32px rgba(0, 102, 255, 0.15);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 16px rgba(0, 102, 255, 0.35), 0 16px 32px rgba(0, 102, 255, 0.15);
   text-decoration: none;
   color: white;
-}
-
-.button:hover::before {
-  opacity: 1;
-}
-
-.button:hover::after {
-  opacity: 1;
-  transform: translateX(100%) translateY(100%) rotate(45deg);
 }
 
 .button:active {
@@ -1549,15 +1162,9 @@ table tbody tr:last-child td {
 .button--outline {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9));
   color: var(--ifm-color-primary);
-  border: 2px solid rgba(0, 102, 255, 0.3);
-  box-shadow: 
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 4px 8px rgba(0, 102, 255, 0.08);
+  border: 2px solid var(--color-border-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 8px rgba(0, 102, 255, 0.08);
   text-shadow: none;
-}
-
-.button--outline::before {
-  background: linear-gradient(135deg, rgba(0, 102, 255, 0.1), transparent);
 }
 
 .button--outline:hover {
@@ -1619,12 +1226,11 @@ table tbody tr:last-child td {
   border-top: 1px solid var(--ifm-border-color);
 }
 
-/* Hide theme toggle since we're light-only */
 .navbar__toggle {
   display: none;
 }
 
-/* DocSearch integration with thin top bar */
+/* DocSearch styling */
 .thin-top-bar .DocSearch-Button-Keys {
   display: flex;
   align-items: center;
@@ -1643,49 +1249,42 @@ table tbody tr:last-child td {
   text-align: center;
 }
 
-/* Ensure the sidebar search is hidden when we have the top bar search */
 .docs-wrapper .menu .DocSearch-Button {
   display: none;
 }
 
-/* Language dropdown positioning - Allow language switcher to show */
 .docs-wrapper .navbar__item.dropdown:not([data-type="localeDropdown"]) {
   display: none;
 }
 
-/* Show locale dropdown specifically */
 .navbar__item--type-localeDropdown {
   display: flex !important;
 }
 
-/* Language switcher in thin top bar */
+/* Language switcher */
 .language-switcher select {
-  background: rgba(248, 250, 252, 0.8) !important;
-  border: 1px solid rgba(15, 23, 42, 0.1) !important;
+  background: var(--color-background-glass) !important;
+  border: 1px solid var(--color-border-light) !important;
   border-radius: 8px !important;
   padding: 6px 12px !important;
   font-size: 14px !important;
-  color: #475569 !important;
+  color: var(--color-text-muted) !important;
   cursor: pointer !important;
   min-width: 80px !important;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition: all 0.2s var(--cubic-bezier-smooth) !important;
 }
 
 .language-switcher select:hover {
   background: rgba(255, 255, 255, 0.95) !important;
-  border-color: rgba(0, 102, 255, 0.3) !important;
-  box-shadow: 
-    inset 0 1px 2px rgba(0, 0, 0, 0.03),
-    0 0 0 3px rgba(0, 102, 255, 0.05) !important;
+  border-color: var(--color-border-primary) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03), 0 0 0 3px rgba(0, 102, 255, 0.05) !important;
   transform: translateY(-1px);
 }
 
 .language-switcher select:focus {
   outline: none !important;
   border-color: rgba(0, 102, 255, 0.5) !important;
-  box-shadow: 
-    inset 0 1px 2px rgba(0, 0, 0, 0.03),
-    0 0 0 3px rgba(0, 102, 255, 0.1) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03), 0 0 0 3px rgba(0, 102, 255, 0.1) !important;
 }
 
 /* Navbar app button */
@@ -1705,7 +1304,7 @@ table tbody tr:last-child td {
   text-decoration: none;
 }
 
-/* Remove default Docusaurus styles */
+/* Landing page */
 .main--landing {
   background-image: none;
   background-color: transparent;
@@ -1775,42 +1374,17 @@ table tbody tr:last-child td {
   background: #b0b0b0;
 }
 
-/* Responsive */
+/* Responsive design */
 @media (max-width: 996px) {
-  article {
-    padding: 1.5rem;
-  }
-  
-  .navbar {
-    padding: 0 1rem;
-  }
-  
-  /* Make search button more responsive */
-  .thin-top-bar-search .DocSearch-Button {
-    min-width: min(200px, calc(100vw - 150px));
-  }
+  article { padding: 1.5rem; }
+  .navbar { padding: 0 1rem; }
+  .thin-top-bar-search .DocSearch-Button { min-width: min(200px, calc(100vw - 150px)); }
 }
 
 @media (max-width: 768px) {
-  h1 {
-    font-size: 2rem;
-  }
-  
-  h2 {
-    font-size: 1.5rem;
-  }
-  
-  h3 {
-    font-size: 1.25rem;
-  }
-  
-  /* Make search even smaller on mobile */
-  .thin-top-bar-search .DocSearch-Button {
-    min-width: min(180px, calc(100vw - 120px));
-  }
-  
-  /* Adjust thin-top-bar padding on mobile */
-  .thin-top-bar {
-    padding: 0 16px;
-  }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+  .thin-top-bar-search .DocSearch-Button { min-width: min(180px, calc(100vw - 120px)); }
+  .thin-top-bar { padding: 0 16px; }
 }
