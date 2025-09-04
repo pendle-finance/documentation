@@ -84,16 +84,17 @@ IPMarket(market).increaseObservationsCardinalityNext(cardinalityRequired)
 
 So on Ethereum, for `duration` of 900 seconds, `cardinalityRequired` can be 85.
 
-<details><summary>Calculate <code>cardinalityRequired</code></summary>
+<details>
+    <summary>Calculate <code>cardinalityRequired</code></summary>
 
-In general, it can calculated like this
+    In general, it can calculated like this
 
-$$
-\mathtt{cardinalityRequired} \approx
-    \frac
-        {\mathtt{duration}}
-        {\max\{\mathrm{\text{chain block time}}, 1\}}
-$$
+    $$
+    \mathtt{cardinalityRequired} \approx
+        \frac
+            {\mathtt{duration}}
+            {\max\{\mathrm{\text{chain block time}}, 1\}}
+    $$
 
 </details>
 
@@ -136,15 +137,16 @@ PT_USD_oracle = PendleChainlinkOracleWithQuote(
 );
 ```
 
-<details><summary>Parameters summary</summary>
+<details>
+    <summary>Parameters summary</summary>
 
-- `market` is the market address you want to observe the price.
-- `twapDuration` is the TWAP duration you want to use, chosen in the previous section.
-- `0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2` is the address of the deployed Pendle Oracle.
-    - It was deployed to have the same address for all network.
-    - Refer to [Deployment](../Deployments/Ethereum.md) section for the full list of addresses.
-    - The deployed ChainLink oracles **wrap** this oracle.
-    - Please refer to the _Using Pendle Oracle_ way if you want to use it directly.
+  - `market` is the market address you want to observe the price.
+  - `twapDuration` is the TWAP duration you want to use, chosen in the previous section.
+  - `0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2` is the address of the deployed Pendle Oracle.
+      - It was deployed to have the same address for all network.
+      - Refer to [Deployment](../Deployments/Ethereum.md) section for the full list of addresses.
+      - The deployed ChainLink oracles **wrap** this oracle.
+      - Please refer to the _Using Pendle Oracle_ way if you want to use it directly.
 
 </details>
 
