@@ -100,7 +100,7 @@ export async function addLiquiditySingleToken() {
 }
 ```
 
-Please visit our [Convert API examples](https://github.com/pendle-finance/pendle-examples-public/tree/main/convert-demo) to see more detailed examples.
+All actions above can be accessed via the all new [Convert API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_convert). Please visit our [Convert API demo](https://github.com/pendle-finance/pendle-examples-public/tree/main/hosted-sdk-demo/src) to see more detailed examples.
 
 ### Inputs
 
