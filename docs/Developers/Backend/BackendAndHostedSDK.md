@@ -221,7 +221,7 @@ export async function addLiquiditySingleToken() {
     receiver: RECEIVER_ADDRESS,
     slippage: 0.01,
     enableAggregator: true,
-    aggregators: "kyberswap,okx",
+    aggregators: "kyberswap,odos",
   });
 
   console.log("Action: ", res.action);
@@ -240,7 +240,6 @@ When an endpoint has an `additionalData` field, users can pass in some fields to
 For example, the **swap** action has `additionalData` with two available fields: `impliedApy` and `effectiveApy`. If the query parameters have `additionalData=impliedApy`, the response will have the implied APY before and after the swap action.
 
 For additional usage, please refer to our external swagger to explore more.
-
 
 #### Migrations
 
