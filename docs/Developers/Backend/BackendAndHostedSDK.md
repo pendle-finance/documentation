@@ -8,7 +8,7 @@ Pendle Backend offers developers accurate and up-to-date data, empowering them t
 
 Pendle backend is hosted at [https://api-v2.pendle.finance/core/docs](https://api-v2.pendle.finance/core/docs)
 
-Our Pendle Backend include two core features: Pendle Hosted SDK and Pendle API.
+Our Pendle Backend includes two core features: Pendle Hosted SDK and Pendle API.
 
 - **Pendle Hosted SDK**: Offers a more optimized and efficient way to interact with the Pendle Router to buy and sell PTs/YTs, add/remove liquidity, and more.
   - Code with examples: [Pendle Hosted SDK demo](https://github.com/pendle-finance/pendle-examples-public/tree/main/hosted-sdk-demo/src)
@@ -42,7 +42,7 @@ To get calldata and info of swapping **1000 USDC** to **PT stETH** in **stETH (0
 ![SDK swap](/img/Developers/sdk_swap_usdc.png "SDK swap")
 
 ```
-GET https://api-v2.pendle.finance/core/v2/sdk/1/markets/0x34280882267ffa6383b363e278b027be083bbe3b/swap?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&aggregators=kyberswap&tokenIn=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&tokenOut=0xb253eff1104802b97ac7e3ac9fdd73aece295a2c&amountIn=1000000000&additionalData=impliedApy
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&tokensIn=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&tokensOut=0xb253eff1104802b97ac7e3ac9fdd73aece295a2c&amountsIn=1000000000&additionalData=impliedApy
 ```
 
 In code:
@@ -50,21 +50,21 @@ In code:
 ```ts
 export async function swapTokenToPt() {
   // Swap 1 USDC to PT in stETH market with 1% slippage
-  const res = await callSDK<SwapData>(`/v2/sdk/${CHAIN_ID}/markets/${MARKET_ADDRESS}/swap`, {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${USDC_ADDRESS}`,
+    amountsIn: '1000000000',
+    tokensOut: `${PT_ADDRESS}`,
+    enableAggregator: true,
     receiver: RECEIVER_ADDRESS,
     slippage: 0.01,
-    tokenIn: USDC_ADDRESS,
-    tokenOut: PT_ADDRESS,
-    amountIn: "1000000000",
-    enableAggregator: true,
-    aggregators: "kyberswap",
   });
 
-  console.log("Amount PT Out: ", res.data.amountOut);
-  console.log("Price impact: ", res.data.priceImpact);
+  console.log("Action: ", res.action);
+  console.log("Outputs: ", res.routes[0].outputs);
+  console.log("Price impact: ", res.routes[0].data.priceImpact);
 
   // Send tx
-  getSigner().sendTransaction(res.tx);
+  getSigner().sendTransaction(res.routes[0].tx);
 }
 ```
 
@@ -73,7 +73,7 @@ To add liquidity of 1 ETH to **stETH (0x34280882267ffa6383b363e278b027be083bbe3b
 ![SDK add liquidity](/img/Developers/sdk_add_liquidity.png "SDK add liquidity")
 
 ```
-GET https://api-v2.pendle.finance/core/v2/sdk/1/markets/0x34280882267ffa6383b363e278b027be083bbe3b/add-liquidity?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&aggregators=kyberswap&tokenIn=0x0000000000000000000000000000000000000000&amountIn=1000000000000000000&zpi=false&additionalData=impliedApy
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&tokensIn=0x0000000000000000000000000000000000000000&amountsIn=1000000000000000000&tokensOut=0x34280882267ffa6383b363e278b027be083bbe3b
 ```
 
 In code:
@@ -81,24 +81,110 @@ In code:
 ```ts
 export async function addLiquiditySingleToken() {
   // Use 1 ETH to add liquidity to stETH pool with 1% slippage
-  const res = await callSDK<AddLiquidityData>(`/v2/sdk/${CHAIN_ID}/markets/${MARKET_ADDRESS}/add-liquidity`, {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${ETH_ADDRESS}`,
+    amountsIn: '1000000000000000000',
+    tokensOut: `${STETH_LP_ADDRESS}`,
     receiver: RECEIVER_ADDRESS,
     slippage: 0.01,
-    tokenIn: ETH_ADDRESS,
-    amountIn: "1000000000000000000",
     enableAggregator: true,
-    aggregators: "kyberswap",
+    aggregators: "kyberswap,okx",
   });
 
-  console.log("Amount LP Out: ", res.data.amountLpOut);
-  console.log("Price impact: ", res.data.priceImpact);
+  console.log("Action: ", res.action);
+  console.log("Outputs: ", res.routes[0].outputs);
+  console.log("Price impact: ", res.routes[0].data.priceImpact);
 
   // Send tx
-  getSigner().sendTransaction(res.tx);
+  getSigner().sendTransaction(res.routes[0].tx);
 }
 ```
 
-Please visit our [Pendle Hosted SDK demo](https://github.com/pendle-finance/pendle-examples-public/tree/main/hosted-sdk-demo/src) to see more detailed examples.
+All actions above can be accessed via the all new [Convert API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_convert). Please visit our [Convert API demo](https://github.com/pendle-finance/pendle-examples-public/tree/main/hosted-sdk-demo/src) to see more detailed examples.
+
+### Inputs
+
+The Convert API accepts the following input parameters:
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| `tokensIn` | string | Yes | - | Comma-separated input token addresses |
+| `amountsIn` | string | Yes | - | Comma-separated input token amounts (in wei) |
+| `tokensOut` | string | Yes | - | Comma-separated expected output token addresses |
+| `receiver` | string | Yes | - | Address to receive the output tokens |
+| `slippage` | number | Yes | - | Maximum slippage tolerance (0-1, where 0.01 = 1%) |
+| `enableAggregator` | boolean | No | `false` | Enable swap aggregators for token conversions |
+| `aggregators` | string | No | - | Specific aggregators to use (comma-separated), see [Routing](#routing) |
+| `redeemRewards` | boolean | No | `false` | Whether to redeem rewards during the action, applicable to actions: `transfer-liquidity` |
+| `additionalData` | string | No | - | Additional data to include in response (comma-separated), see [Additional data](#additional-data) |
+
+### Outputs
+
+The Convert API returns the following response structure:
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `action` | string | Yes | The classified and executed action (e.g., `mint-py`, `swap`, `add-liquidity`) |
+| `inputs` | [TokenAmountResponse[]](#tokenamountresponse) | Yes | Input tokens and amounts used in the action |
+| `requiredApprovals` | [TokenAmountResponse[]](#tokenamountresponse) | No | Tokens requiring approval before execution |
+| `routes` | [ConvertResponse[]](#convertresponse) | Yes | Array of route execution details (this version of the API always returns the single best route, i.e. `routes.length = 1`) |
+
+#### TokenAmountResponse
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `token` | string | Yes | Token contract address (lowercase) |
+| `amount` | string | Yes | Token amount in wei (BigInt string) |
+
+#### ConvertResponse
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `contractParamInfo` | [ContractParamInfo](#contractparaminfo) | Yes | Param info for the contract method called |
+| `tx` | [TransactionDto](#transactiondto-tx) | Yes | Complete transaction data for execution |
+| `outputs` | [TokenAmountResponse[]](#tokenamountresponse) | Yes | Expected output tokens and amounts |
+| `data` | [ConvertData](#convertdata) | Yes | Action-specific data |
+
+#### ContractParamInfo
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `method` | string | Yes | Contract method name (e.g., `mintPyFromToken`) |
+| `contractCallParamsName` | string[] | Yes | Parameter names array |
+| `contractCallParams` | any[] | Yes | Parameter values array |
+
+#### TransactionDto
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `data` | string | Yes | Encoded transaction data (hex) |
+| `to` | string | Yes | Contract address to call |
+| `from` | string | Yes | Sender address |
+| `value` | string | Yes | Native token amount to send |
+
+#### ConvertData
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `priceImpact` | number | Yes | Price impact |
+| `impliedApy` | [ImpliedApy](#impliedapy) | No | Market APY information for yield actions. (for `swap` actions) |
+| `effectiveApy` | number | No | User's effective APY after fees/slippage. (for `swap` actions) |
+| `paramsBreakdown` | [ParamsBreakdown](#paramsbreakdown) | No | Multi-step action breakdown (for `transfer-liquidity`) |
+
+#### ImpliedApy
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `before` | number | Yes | Implied APY before transaction |
+| `after` | number | Yes | Implied APY after transaction |
+
+#### ParamsBreakdown
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `selfCall1` | [ContractParamInfo](#contractparaminfo) | Yes | Params info for selfCall1 |
+| `selfCall2` | [ContractParamInfo](#contractparaminfo) | No | Params info for selfCall2 |
+| `reflectCall` | [ContractParamInfo](#contractparaminfo) | Yes | Params info for reflectCall |
 
 ### Features
 
@@ -128,20 +214,22 @@ Example, this request will use KyberSwap and Odos aggregators to find the optima
 ```ts
 export async function addLiquiditySingleToken() {
   // Use 1 ETH to add liquidity to stETH pool with 1% slippage
-  const res = await callSDK<AddLiquidityData>(`/v2/sdk/${CHAIN_ID}/markets/${MARKET_ADDRESS}/add-liquidity`, {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${ETH_ADDRESS}`,
+    amountsIn: '1000000000000000000',
+    tokensOut: `${STETH_LP_ADDRESS}`,
     receiver: RECEIVER_ADDRESS,
     slippage: 0.01,
-    tokenIn: ETH_ADDRESS,
-    amountIn: "1000000000000000000",
     enableAggregator: true,
     aggregators: "kyberswap,odos",
   });
 
-  console.log("Amount LP Out: ", res.data.amountLpOut);
-  console.log("Price impact: ", res.data.priceImpact);
+  console.log("Action: ", res.action);
+  console.log("Outputs: ", res.routes[0].outputs);
+  console.log("Price impact: ", res.routes[0].data.priceImpact);
 
   // Send tx
-  getSigner().sendTransaction(res.tx);
+  getSigner().sendTransaction(res.routes[0].tx);
 }
 ```
 
@@ -149,13 +237,20 @@ export async function addLiquiditySingleToken() {
 
 When an endpoint has an `additionalData` field, users can pass in some fields to receive more data, but it will cost more computing units.
 
-For example, our **swap** endpoint has `additionalData` with two available fields: `impliedApy` and `effectiveApy`. If the query parameters have `additionalData=impliedApy`, the response will have the implied APY before and after the swap action.
+For example, the **swap** action has `additionalData` with two available fields: `impliedApy` and `effectiveApy`. If the query parameters have `additionalData=impliedApy`, the response will have the implied APY before and after the swap action.
 
 For additional usage, please refer to our external swagger to explore more.
 
 #### Migrations
 
 If you are using the old Hosted SDK, please take a look at [our example](https://github.com/pendle-finance/pendle-examples-public/tree/main/hosted-sdk-demo/src/migrations) to migrate to the new system.
+
+The main benefits are:
+
+- **Simplified Integration**: One endpoint instead of 12+ individual endpoints
+- **Automatic Action Detection**: No need to manually determine which action to use
+- **Consistent Response Format**: Unified response structure across all actions
+- **Enhanced Error Handling**: Better error messages for invalid action combinations
 
 ## Pendle Restful API
 
@@ -246,7 +341,7 @@ The API includes chart data of historical max apy, base apy, underlying apy, imp
 
 ![Market Historical Data](/img/Developers/market_historical_data.png "Market Historical Data")
 
-To reduce payload side, the API returns the response using table format. You can read more about [response as a table concept](https://github.com/ylabio/trandingview-wiki/blob/master/UDF.md#response-as-a-table-concept) to understand the response.
+To reduce payload size, the API returns the response using table format. You can read more about [response as a table concept](https://github.com/ylabio/trandingview-wiki/blob/master/UDF.md#response-as-a-table-concept) to understand the response.
 
 Example:
 
@@ -270,7 +365,7 @@ Example:
 GET https://api-v2.pendle.finance/core/v3/1/assets/all
 ```
 
-returns metadata for all assets on Arbitrum.
+returns metadata for all assets on Ethereum.
 
 ### Get Voter APR and Fee Data
 
