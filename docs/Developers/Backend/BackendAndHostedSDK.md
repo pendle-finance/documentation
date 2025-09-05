@@ -35,7 +35,6 @@ To address this, Pendle has introduced a hosted version of our SDK. It ensures t
 - Mint SY
 - Redeem SY
 
-
 **Example**
 
 To get calldata and info of swapping **1000 USDC** to **PT stETH** in **stETH (0x34280882267ffa6383b363e278b027be083bbe3b)** with 1% slippage:
@@ -90,7 +89,6 @@ export async function addLiquiditySingleToken() {
     slippage: 0.01,
     enableAggregator: true,
     aggregators: "kyberswap,okx",
-    redeemRewards: true,
   });
 
   console.log("Action: ", res.action);
@@ -204,14 +202,12 @@ Using more aggregators generally results in better optimized routes since there 
 
 Currently supported aggregators (can be fetched from [fetch supported aggregators](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_getSupportedAggregators) endpoint), this list is subject to change:
 
-
 | Aggregator  | Cost (Computing Units) |
 | ----------- | ---------------------- |
 | `kyberswap` | 5                      |
 | `odos`      | 15                     |
 | `okx`       | 10                     |
 | `paraswap`  | 15                     |
-
 
 Example, this request will use KyberSwap and Odos aggregators to find the optimal route, and it cost 25 computing units (5 from kyberswap, 15 from odos, and 5 from the base computing cost):
 
@@ -226,7 +222,6 @@ export async function addLiquiditySingleToken() {
     slippage: 0.01,
     enableAggregator: true,
     aggregators: "kyberswap,okx",
-    redeemRewards: true,
   });
 
   console.log("Action: ", res.action);
@@ -237,7 +232,6 @@ export async function addLiquiditySingleToken() {
   getSigner().sendTransaction(res.routes[0].tx);
 }
 ```
-
 
 #### Additional data
 
