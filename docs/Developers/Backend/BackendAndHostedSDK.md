@@ -2,8 +2,6 @@
 hide_table_of_contents: true
 ---
 
-<!-- TODO: Add corresponding images for examples -->
-
 # Backend and Hosted SDK
 
 Pendle Backend offers developers accurate and up-to-date data, empowering them to build and innovate with the latest protocol information.
@@ -21,27 +19,42 @@ Our Pendle Backend includes two core features: Pendle Hosted SDK and Pendle API.
 
 Pendle accommodates a vast array of assets, each characterized by its unique nuances and complexities. While the Pendle protocol remains immutable, the underlying assets don't share this feature, requiring our app and SDK to be updated frequently to align with changes in these assets.
 
-To address this, Pendle has introduced the Router Actions API - a unified interface for executing Pendle protocol actions through intelligent action classification. Instead of calling separate endpoints for each action type, this API analyzes the input and output tokens to automatically determine the appropriate action and execute it accordingly. The API design prioritizes simplicity and stability, with a high rate limit to meet the needs of most users.
+To address this, Pendle has introduced a hosted version of our SDK. It ensures the output remains consistent with Pendle's UI and keeps up-to-date with the latest protocol changes. The API design prioritizes simplicity and stability, with a high rate limit to meet the needs of most users.
+
+### Supported functions
+
+- Swap
+- Add liquidity
+- Remove liquidity
+- Mint PT & YT
+- Redeem PT & YT
+- Transfer liquidity
+- Roll over PT
+- Add liquidity dual
+- Remove liquidity dual
+- Mint SY
+- Redeem SY
+
 
 **Example**
 
-To mint PT & YT from **1000 USDC** to **PT USDe** and **YT USDe** in **USDe market** with 1% slippage:
+To get calldata and info of swapping **1000 USDC** to **PT stETH** in **stETH (0x34280882267ffa6383b363e278b027be083bbe3b)** with 1% slippage:
 
-![Router Actions mint PY](/img/Developers/router_actions_mint.png "Router Actions mint PY")
+![SDK swap](/img/Developers/sdk_swap_usdc.png "SDK swap")
 
 ```
-GET https://api-v2.pendle.finance/core/v1/sdk/1/router-actions?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&tokensIn=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&amountsIn=1000000000&tokensOut=0xbc6736d346a5ebc0debc997397912cd9b8fae10a,0x48bbbedc4d2491cc08915d7a5c7cc8a8edf165da
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&tokensIn=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&tokensOut=0xb253eff1104802b97ac7e3ac9fdd73aece295a2c&amountsIn=1000000000&additionalData=impliedApy
 ```
 
 In code:
 
 ```ts
-export async function mintPtYtFromToken() {
-  // Mint PT & YT from 1000 USDC with 1% slippage
-  const res = await callSDK<RouterActionsResponse>(`/v1/sdk/${CHAIN_ID}/router-actions`, {
+export async function swapTokenToPt() {
+  // Swap 1 USDC to PT in stETH market with 1% slippage
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
     tokensIn: `${USDC_ADDRESS}`,
     amountsIn: '1000000000',
-    tokensOut: `${PT_ADDRESS},${YT_ADDRESS}`,
+    tokensOut: `${PT_ADDRESS}`,
     enableAggregator: true,
     receiver: RECEIVER_ADDRESS,
     slippage: 0.01,
@@ -56,23 +69,23 @@ export async function mintPtYtFromToken() {
 }
 ```
 
-To transfer **1 LP + 1 PT + 1 YT** from **USDe pool** to **sUSDe pool** with ZPI and redeem rewards with 1% slippage, using KyberSwap and OKX aggregators:
+To add liquidity of 1 ETH to **stETH (0x34280882267ffa6383b363e278b027be083bbe3b)** with 1% slippage
 
-![Router Actions transfer liquidity](/img/Developers/router_actions_transfer.png "Router Actions transfer liquidity")
+![SDK add liquidity](/img/Developers/sdk_add_liquidity.png "SDK add liquidity")
 
 ```
-GET https://api-v2.pendle.finance/core/v1/sdk/1/router-actions?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&aggregators=kyberswap,okx&tokensIn=0xbc6736d346a5ebc0debc997397912cd9b8fae10a,0x48bbbedc4d2491cc08915d7a5c7cc8a8edf165da,0x6d98a2b6cdbf44939362a3e99793339ba2016af4&amountsIn=1000000000000000000,1000000000000000000,1000000000000000000&tokensOut=0xa36b60a14a1a5247912584768c6e53e1a269a9f7,0x029d6247adb0a57138c62e3019c92d3dfc9c1840&redeemRewards=true
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&tokensIn=0x0000000000000000000000000000000000000000&amountsIn=1000000000000000000&tokensOut=0x34280882267ffa6383b363e278b027be083bbe3b
 ```
 
 In code:
 
 ```ts
-export async function transferLiquidity() {
-  // Transfer 1 LP + 1 PT + 1 YT from USDe pool to sUSDe pool with ZPI and redeem rewards with 1% slippage
-  const res = await callSDK<RouterActionsResponse>(`/v1/sdk/${CHAIN_ID}/router-actions`, {
-    tokensIn: [USDE_LP_ADDRESS, USDE_PT_ADDRESS, USDE_YT_ADDRESS],
-    amountsIn: ["1000000000000000000", "1000000000000000000", "1000000000000000000"],
-    tokensOut: [SUSDE_LP_ADDRESS, SUSDE_YT_ADDRESS],
+export async function addLiquiditySingleToken() {
+  // Use 1 ETH to add liquidity to stETH pool with 1% slippage
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${ETH_ADDRESS}`,
+    amountsIn: '1000000000000000000',
+    tokensOut: `${STETH_LP_ADDRESS}`,
     receiver: RECEIVER_ADDRESS,
     slippage: 0.01,
     enableAggregator: true,
@@ -89,26 +102,11 @@ export async function transferLiquidity() {
 }
 ```
 
-Please visit our [Router Actions API examples](https://github.com/pendle-finance/pendle-examples-public/tree/main/router-actions-demo) to see more detailed examples.
-
-### Supported Actions
-
-- Swap
-- Add liquidity
-- Remove liquidity
-- Add liquidity dual
-- Remove liquidity dual
-- Mint PT & YT
-- Redeem PT & YT
-- Mint SY
-- Redeem SY
-- Roll over PT
-- Transfer liquidity
-- Exit market
+Please visit our [Convert API examples](https://github.com/pendle-finance/pendle-examples-public/tree/main/convert-demo) to see more detailed examples.
 
 ### Inputs
 
-The Router Actions API accepts the following input parameters:
+The Convert API accepts the following input parameters:
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
@@ -124,14 +122,14 @@ The Router Actions API accepts the following input parameters:
 
 ### Outputs
 
-The Router Actions API returns the following response structure:
+The Convert API returns the following response structure:
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `action` | string | Yes | The classified and executed action (e.g., `mint-py`, `swap`, `add-liquidity`) |
 | `inputs` | [TokenAmountResponse[]](#tokenamountresponse) | Yes | Input tokens and amounts used in the action |
 | `requiredApprovals` | [TokenAmountResponse[]](#tokenamountresponse) | No | Tokens requiring approval before execution |
-| `routes` | [RouterActionsResponse[]](#routeractionsresponse-routes) | Yes | Array of route execution details (this version of the API always returns the single best route, i.e. `routes.length = 1`) |
+| `routes` | [ConvertResponse[]](#convertresponse) | Yes | Array of route execution details (this version of the API always returns the single best route, i.e. `routes.length = 1`) |
 
 #### TokenAmountResponse
 
@@ -140,14 +138,14 @@ The Router Actions API returns the following response structure:
 | `token` | string | Yes | Token contract address (lowercase) |
 | `amount` | string | Yes | Token amount in wei (BigInt string) |
 
-#### RouterActionsResponse
+#### ConvertResponse
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `contractParamInfo` | [ContractParamInfo](#contractparaminfo) | Yes | Param info for the contract method called |
 | `tx` | [TransactionDto](#transactiondto-tx) | Yes | Complete transaction data for execution |
 | `outputs` | [TokenAmountResponse[]](#tokenamountresponse) | Yes | Expected output tokens and amounts |
-| `data` | [RouterActionsData](#routeractionsdata-data) | Yes | Action-specific data |
+| `data` | [ConvertData](#convertdata) | Yes | Action-specific data |
 
 #### ContractParamInfo
 
@@ -166,7 +164,7 @@ The Router Actions API returns the following response structure:
 | `from` | string | Yes | Sender address |
 | `value` | string | Yes | Native token amount to send |
 
-#### RouterActionsData
+#### ConvertData
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -194,15 +192,18 @@ The Router Actions API returns the following response structure:
 
 #### Routing
 
-Router Actions API supports the same routing feature as the Pendle Hosted SDK. When `enableAggregator` is set to `true`, the system will automatically perform routing to find the most optimal route for the user's transaction.
+Routing is a feature of the Pendle SDK that helps users find the most optimal route to interact with the Pendle system. This feature ensures that users can efficiently execute their transactions by identifying the best paths for their specific needs, whether it's swapping assets, adding or removing liquidity, or any other supported function.
+
+To take advantage of the routing feature, users need to set the `enableAggregator` option to `true`. When this option is enabled, the system will automatically perform routing to find the most optimal route for the user's transaction. This ensures that users always get the best possible outcome when interacting with the Pendle system.
 
 ##### Select aggregators
 
-You can control which aggregators are used by specifying the `aggregators` parameter. This parameter accepts a comma-separated list of aggregator names (e.g. "kyberswap,odos"). If not specified, the system will use all available aggregators to find the optimal route.
+When `enableAggregator` is set to `true`, you can control which aggregators are used by specifying the `aggregators` parameter. This parameter accepts a comma-separated list of aggregator names (e.g. "kyberswap,odos"). If not specified, the system will use all available aggregators to find the optimal route.
 
 Using more aggregators generally results in better optimized routes since there are more options to choose from. However, each aggregator adds to the computing unit cost of the request (see [rate limiting](#rate-limiting)). You can balance between optimization and cost by selectively enabling only the aggregators you want to use.
 
-Currently supported aggregators:
+Currently supported aggregators (can be fetched from [fetch supported aggregators](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_getSupportedAggregators) endpoint), this list is subject to change:
+
 
 | Aggregator  | Cost (Computing Units) |
 | ----------- | ---------------------- |
@@ -211,11 +212,41 @@ Currently supported aggregators:
 | `okx`       | 10                     |
 | `paraswap`  | 15                     |
 
+
+Example, this request will use KyberSwap and Odos aggregators to find the optimal route, and it cost 25 computing units (5 from kyberswap, 15 from odos, and 5 from the base computing cost):
+
+```ts
+export async function addLiquiditySingleToken() {
+  // Use 1 ETH to add liquidity to stETH pool with 1% slippage
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${ETH_ADDRESS}`,
+    amountsIn: '1000000000000000000',
+    tokensOut: `${STETH_LP_ADDRESS}`,
+    receiver: RECEIVER_ADDRESS,
+    slippage: 0.01,
+    enableAggregator: true,
+    aggregators: "kyberswap,okx",
+    redeemRewards: true,
+  });
+
+  console.log("Action: ", res.action);
+  console.log("Outputs: ", res.routes[0].outputs);
+  console.log("Price impact: ", res.routes[0].data.priceImpact);
+
+  // Send tx
+  getSigner().sendTransaction(res.routes[0].tx);
+}
+```
+
+
 #### Additional data
 
 When an endpoint has an `additionalData` field, users can pass in some fields to receive more data, but it will cost more computing units.
 
-For example, you can pass `additionalData=impliedApy,effectiveApy` to get implied APY and effective APY information in the response.
+For example, the **swap** action has `additionalData` with two available fields: `impliedApy` and `effectiveApy`. If the query parameters have `additionalData=impliedApy`, the response will have the implied APY before and after the swap action.
+
+For additional usage, please refer to our external swagger to explore more.
+
 
 #### Migrations
 
