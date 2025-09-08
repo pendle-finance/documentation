@@ -39,6 +39,9 @@ Pendle taxes the yield-receivables of PT when swaps occur. This creates a fair f
 
 - **Fee Distribution**
 
-Pendle distributes protocol revenue from **YT fees to vePENDLE holders** and all protocol revenue from **swap fees to vePENDLE voters** of the correspondent pools (e.g. vePENDLE holders who voted for pool X will receive all protocol revenue from swap fee of pool X).
+Pendle has 2 sources of fees **YT fees** and **Swap fees**. 20% of all swap fees are given to LP providers of the pool as yield. 
 
-At the moment, Pendle protocol distributed all protocol revenue to vePENDLE with no allocation to the Pendle treasury. In the future, a portion of protocol revenue may be redirected to the Pendle treasury.
+The remaining swap fees and all YT fees are split between vePendle holders and Pendle protocol in the following ratio 
+- 80% to vePendle
+- 10% to Protocol Treasury
+- 10% to Protocol Operations
