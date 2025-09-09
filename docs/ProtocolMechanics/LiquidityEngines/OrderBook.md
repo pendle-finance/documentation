@@ -29,7 +29,7 @@ Orders can be:
 - Cancelled 
 - Invalid
 
-[Flash swap](https://docs.pendle.finance/ProtocolMechanics/AMM#flash-swaps) capability between PT and YT enhances the Order Book's flexibility by allowing a buy YT taker order to be matched with a buy PT limit order, and vice versa—a sell YT taker order can be matched with a sell PT limit order. This capability significantly broadens potential trading matches, streamlining transactions between PT and YT.
+[Flash swap](https://docs.pendle.finance/ProtocolMechanics/LiquidityEngines/AMM#flash-swaps) capability between PT and YT enhances the Order Book's flexibility by allowing a buy YT taker order to be matched with a buy PT limit order, and vice versa—a sell YT taker order can be matched with a sell PT limit order. This capability significantly broadens potential trading matches, streamlining transactions between PT and YT.
 
 ## Order Validity
 
