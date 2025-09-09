@@ -95,7 +95,27 @@ module.exports = {
           label: "Contracts",
           items: [
             { type: "doc", id: "Developers/Contracts/StandardizedYield" },
-            { type: "doc", id: "Developers/Contracts/PendleRouter" },
+            {
+              type: "category",
+              label: "PendleRouter",
+              items: [
+                { type: "doc", id: "Developers/Contracts/PendleRouter/PendleRouterOverview" },
+                { type: "doc", id: "Developers/Contracts/PendleRouter/ContractIntegrationGuide"},
+                {
+                  type: "category",
+                  label: "API Reference",
+                  items: [
+                    { type: "doc", id: "Developers/Contracts/PendleRouter/ApiReference/Types" },
+                    { type: "doc", id: "Developers/Contracts/PendleRouter/ApiReference/PtFunctions" },
+                    { type: "doc", id: "Developers/Contracts/PendleRouter/ApiReference/YtFunctions" },
+                    { type: "doc", id: "Developers/Contracts/PendleRouter/ApiReference/LiquidityFunctions" },
+                    { type: "doc", id: "Developers/Contracts/PendleRouter/ApiReference/MiscFunctions" },
+                    { type: "doc", id: "Developers/Contracts/PendleRouter/ApiReference/SimpleFunctions" },
+                  ]
+                }
+                
+              ],
+            },
             { type: "doc", id: "Developers/Contracts/vePENDLE" },
             { type: "doc", id: "Developers/Contracts/UnitAndDecimals" },
           ],
