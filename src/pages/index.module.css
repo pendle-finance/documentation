@@ -4,6 +4,19 @@
  * Minimal and sophisticated landing page styles
  */
 
+/* Hide navbar on homepage */
+:global(.navbar) {
+  display: none !important;
+}
+
+:global(nav.navbar) {
+  display: none !important;
+}
+
+:global(.navbar__inner) {
+  display: none !important;
+}
+
 .root {
   display: flex;
   flex-direction: column;
@@ -14,7 +27,6 @@
 }
 
 .heroBanner {
-  padding: 0 0 4rem 0;
   position: relative;
   text-align: center;
   max-width: 1200px;
@@ -38,11 +50,37 @@
   line-height: 1.5;
 }
 
+.section {
+  width: 100%;
+  margin-bottom: 2.5rem;
+}
+
+.section:last-child {
+  margin-bottom: 0;
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sectionTitleText {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
 .docCardsContainer {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-  max-width: 800px;
+  max-width: 1000px;
   width: 100%;
   padding: 0 1.5rem;
   margin: 0 auto;
@@ -132,23 +170,91 @@
   transform: translateX(2px);
 }
 
+/* Boros section - center the cards when there are only 2 */
+.borosSection {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 650px;
+  justify-content: center;
+}
+
+/* Disabled card styles */
+.docCardDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.docCardDisabled:hover {
+  border-color: #e5e5e5;
+  box-shadow: none;
+  transform: none;
+}
+
+.docCardDisabled .docCardIcon {
+  background: #f5f5f5;
+}
+
+.docCardDisabled .docCardTitle {
+  color: #999999;
+}
+
+.docCardDisabled .docCardDescription {
+  color: #999999;
+}
+
+.docCardDisabled .docCardAction {
+  color: #999999;
+}
+
+.docCardDisabled .docCardAction::after {
+  display: none;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .heroBanner h1 {
     font-size: 2.25rem;
   }
-  
+
   .subtitle {
     font-size: 1.125rem;
   }
-  
+
+  .section {
+    margin-bottom: 2rem;
+  }
+
+  .sectionTitle {
+    margin-bottom: 1.25rem;
+    padding: 0 1rem;
+  }
+
+  .sectionTitleText {
+    font-size: 1.875rem;
+  }
+
+  .sectionDescription {
+    font-size: 1rem;
+  }
+
   .docCardsContainer {
     grid-template-columns: 1fr;
     gap: 1rem;
     padding: 0 1rem;
   }
-  
+
+  .borosSection {
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+
   .docCardContent {
     padding: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .docCardsContainer {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

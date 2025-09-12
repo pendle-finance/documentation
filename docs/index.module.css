@@ -6,7 +6,6 @@
  */
 
 .heroBanner {
-  padding: 0rem;
   position: relative;
   overflow: hidden;
   width: 65vw;
@@ -26,7 +25,7 @@
   font-size: 16px;
 }
 @media only screen and (max-width: 1024px) {
-  .heroBanner{
+  .heroBanner {
     width: 90vw;
   }
 }
