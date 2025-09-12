@@ -13,11 +13,6 @@
   max-width: 900px;
 
 }
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .root {
   display: flex;

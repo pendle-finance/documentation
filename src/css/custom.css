@@ -315,7 +315,7 @@ pre code {
 .token.punctuation { color: #d4d4d4; }
 .token.property, .token.tag, .token.boolean, .token.number, .token.constant, .token.symbol, .token.deleted { color: #b5cea8; }
 .token.selector, .token.attr-name, .token.string, .token.char, .token.builtin, .token.inserted { color: #ce9178; }
-.token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string { color: #d4d4d4; }
+.token.operator, .token.entity, .token.url, .language-css .token.string { color: #d4d4d4; }
 .token.atrule, .token.attr-value, .token.keyword { color: #c586c0; }
 .token.function, .token.class-name { color: #dcdcaa; }
 .token.regex, .token.important, .token.variable { color: #9cdcfe; }
@@ -1253,9 +1253,6 @@ table tbody tr:last-child td {
   display: none;
 }
 
-.docs-wrapper .navbar__item.dropdown:not([data-type="localeDropdown"]) {
-  display: none;
-}
 
 .navbar__item--type-localeDropdown {
   display: flex !important;
@@ -1287,28 +1284,7 @@ table tbody tr:last-child td {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03), 0 0 0 3px rgba(0, 102, 255, 0.1) !important;
 }
 
-/* Navbar app button */
-.navbar-app-button {
-  background-color: #000000;
-  color: white !important;
-  border-radius: 8px;
-  padding: 8px 16px !important;
-  margin-left: 1rem;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-}
 
-.navbar-app-button:hover {
-  background-color: #333333;
-  color: white !important;
-  text-decoration: none;
-}
-
-/* Landing page */
-.main--landing {
-  background-image: none;
-  background-color: transparent;
-}
 
 /* Home page cards */
 .home-cards {

@@ -41,7 +41,7 @@ const config = {
       }),
     ],
   ],
-  
+
   plugins: [
     [
       '@docusaurus/plugin-content-docs',
@@ -68,6 +68,7 @@ const config = {
   themeConfig:
   /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
   ({
+
     algolia: {
       appId: "GFVY0GOMCR",
       apiKey: "1e9c713dfca40c64b56217bb24d5c4cd",
@@ -76,7 +77,8 @@ const config = {
     },
     colorMode: {
       defaultMode: 'light',
-      disableSwitch: true,
+      disableSwitch: false,
+      respectPrefersColorScheme: false,
     },
     docs:{
       sidebar: {

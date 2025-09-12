@@ -1,15 +1,8 @@
-.navbarHideable {
-  transition: transform var(--ifm-transition-fast) ease;
-}
 
 .navbarHidden {
   display: none;
 }
 
-.navbarFix {
-  display: flex;
-  width: 100%;
-}
 
 @media only screen and (max-width: 1024px) {
   .navbarHidden{
