@@ -18,19 +18,19 @@ While this standard benefits Pendle, our vision for SY extends beyond just our o
 
 Read more about SY and EIP-5115 [here](https://eips.ethereum.org/EIPS/eip-5115).
 
-## SY Unwrapper
+## SY Converter
 
-![SY Unwrapper](/img/ProtocolMechanics/sy-unwrapper.png "SY Unwrapper")
+![SY Converter](/img/ProtocolMechanics/sy-converter.png "SY Converter")
 
-The SY Unwrapper can be found in the top-right dropdown menu of the Pendle app, allowing users convert SY Tokens back into their underlying yield-bearing assets, vice versa.
+The SY Converter can be found in the trade form for any of the associated market. For example *SY-sUSDe* wrapper/unwrapper is accessible from sUSDe market of any maturity. 
 
-**To use the SY Unwrapper:**
+**To use the SY Converter:**
 
-![SY Unwrapper Window](/img/ProtocolMechanics/sy-unwrapper-window.png "SY Unwrapper Window")
+![SY Converter Window](/img/ProtocolMechanics/sy-converter-window.png "SY Unwrapper Window")
 
 Step 1: Select between “Unwrap” or “Wrap” mode
 
-Step 2: Select the inputs to be Unwrapped / Wrapped
+Step 2: Select the token to wrap from or unwrap to
 
 Step 3: Check the rate and output.
 
