@@ -23,7 +23,7 @@ const config = {
       ({
         docs: {
           id: 'default',
-          path: 'docs',
+          path: 'docs/pendle-v2',
           breadcrumbs: true,
           routeBasePath: 'pendle-v2',
           sidebarPath: './sidebars.js',
@@ -47,7 +47,7 @@ const config = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'boros',
-        path: 'boros-docs',
+        path: 'docs/boros-docs',
         routeBasePath: 'boros',
         sidebarPath: './sidebars-boros.js',
         breadcrumbs: true,
