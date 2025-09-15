@@ -24,7 +24,7 @@ const config = {
         docs: {
           id: 'default',
           path: 'docs',
-          breadcrumbs: false,
+          breadcrumbs: true,
           routeBasePath: 'pendle-v2',
           sidebarPath: './sidebars.js',
           remarkPlugins: [remarkMath],
@@ -50,7 +50,7 @@ const config = {
         path: 'boros-docs',
         routeBasePath: 'boros',
         sidebarPath: './sidebars-boros.js',
-        breadcrumbs: false,
+        breadcrumbs: true,
         remarkPlugins: [remarkMath],
         rehypePlugins: [rehypeKatex],
       },

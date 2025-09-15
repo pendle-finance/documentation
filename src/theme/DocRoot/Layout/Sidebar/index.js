@@ -1,10 +1,10 @@
 import React, {useState, useCallback} from 'react';
 import clsx from 'clsx';
 import {ThemeClassNames} from '@docusaurus/theme-common';
-import {useDocsSidebar} from '@docusaurus/theme-common/internal';
+import {useDocsSidebar} from '@docusaurus/plugin-content-docs/client';
 import {useLocation} from '@docusaurus/router';
 import DocSidebar from '@theme/DocSidebar';
-import ExpandButton from '@theme/DocPage/Layout/Sidebar/ExpandButton';
+import ExpandButton from '@theme-original/DocRoot/Layout/Sidebar/ExpandButton';
 import styles from './styles.module.css';
 // Reset sidebar state when sidebar changes
 // Use React key to unmount/remount the children
@@ -17,7 +17,7 @@ function ResetOnSidebarChange({children}) {
     </React.Fragment>
   );
 }
-export default function DocPageLayoutSidebar({
+export default function DocRootLayoutSidebar({
   sidebar,
   hiddenSidebarContainer,
   setHiddenSidebarContainer,

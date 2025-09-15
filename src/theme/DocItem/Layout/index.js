@@ -17,7 +17,7 @@ export default function DocItemLayout({children}) {
     // Check if there's a hash in the URL on page load
     if (window.location.hash) {
       const hash = window.location.hash.substring(1); // Remove the #
-      
+
       // Wait for the page to fully render
       setTimeout(() => {
         const targetElement = document.getElementById(hash);
@@ -27,7 +27,7 @@ export default function DocItemLayout({children}) {
       }, 500); // Wait for page to render
     }
   }, []); // Run once on mount
-  
+
   // Fix search result URLs by adding /docs prefix where needed
   React.useEffect(() => {
     const fixDocLinks = (e) => {
@@ -36,19 +36,19 @@ export default function DocItemLayout({children}) {
       if (!searchModal || !searchModal.contains(e.target)) {
         return; // Not a search result click
       }
-      
+
       const link = e.target.closest('a');
       if (!link) return;
-      
+
       const href = link.getAttribute('href');
       if (!href || !href.startsWith('/')) return;
-      
+
       // Parse the URL to separate path and hash
       const hashIndex = href.indexOf('#');
       const pathname = hashIndex > -1 ? href.substring(0, hashIndex) : href;
       const hash = hashIndex > -1 ? href.substring(hashIndex + 1) : '';
       const currentPath = window.location.pathname;
-      
+
       // Check if we need to add /docs prefix
       if (!pathname.startsWith('/pendle-v2/') && !pathname.startsWith('/boros/')) {
         const docPaths = [
@@ -56,21 +56,21 @@ export default function DocItemLayout({children}) {
           '/Introduction', '/FAQ', '/LitePaper', '/HighLevelArchitecture',
           '/Contracts/', '/Guides/', '/Pool/', '/User/'
         ];
-        
+
         const needsDocsPrefix = docPaths.some(path => pathname.startsWith(path));
-        
+
         if (needsDocsPrefix) {
           e.preventDefault();
           e.stopPropagation();
-          
+
           const correctedPath = '/pendle-v2' + pathname;
-          
+
           // Check if we're already on the right page
           if (correctedPath === currentPath && hash) {
             // Same page, just scroll to section
             const closeButton = document.querySelector('.DocSearch-Cancel');
             if (closeButton) closeButton.click();
-            
+
             setTimeout(() => {
               const targetElement = document.getElementById(hash);
               if (targetElement) {
@@ -85,15 +85,15 @@ export default function DocItemLayout({children}) {
         }
       }
     };
-    
+
     // Add listener in capture phase to intercept before other handlers
     document.addEventListener('click', fixDocLinks, true);
-    
+
     return () => {
       document.removeEventListener('click', fixDocLinks, true);
     };
   }, []);
-  
+
   return (
     <>
       <ThinTopBar />

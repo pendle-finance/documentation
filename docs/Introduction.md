@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 # Introduction to Pendle
 
-<iframe width="860" height="615" src="https://www.youtube.com/embed/SyjPDpjU6-s" title="Chapter 1: Introduction to Pendle" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe height="400" width="100%" src="https://www.youtube.com/embed/SyjPDpjU6-s" title="Chapter 1: Introduction to Pendle" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 How much will you earn from lending 1,000 USDC on Aave? 1%? 3%? 5%?
 
@@ -26,18 +26,18 @@ We give users the reins to their yield.
 There are 3 main parts to fully understand Pendle:
 
 1. Yield Tokenization
-    
-    First, Pendle wrap **yield-bearing tokens** into **SY**(standardized yield tokens), which is a wrapped version of the underlying yield-bearing token that is compatible with the Pendle AMM (e.g. stETH → SY-stETH). 
-    SY is then split into its principal and yield components, **PT** (principal token) and **YT** (yield token) respectively, this process is termed as yield-tokenization, where the yield is tokenized into a separate token. 
-    
+
+    First, Pendle wrap **yield-bearing tokens** into **SY**(standardized yield tokens), which is a wrapped version of the underlying yield-bearing token that is compatible with the Pendle AMM (e.g. stETH → SY-stETH).
+    SY is then split into its principal and yield components, **PT** (principal token) and **YT** (yield token) respectively, this process is termed as yield-tokenization, where the yield is tokenized into a separate token.
+
 2. Pendle AMM
-    
+
     Both **PT** and **YT** can be traded via Pendle’s **AMM**. Even though this is the core engine of Pendle, understanding of the AMM is not required to trade PT and YT.
-    
+
 3. vePENDLE
 
 
-As a yield derivative protocol, we are bringing the TradFi interest derivative market ([worth over $400T in notional value](https://www.bis.org/publ/otc_hy2111/intgraphs/graphA3.htm)) into DeFi, making it accessible to all. 
+As a yield derivative protocol, we are bringing the TradFi interest derivative market ([worth over $400T in notional value](https://www.bis.org/publ/otc_hy2111/intgraphs/graphA3.htm)) into DeFi, making it accessible to all.
 
 By creating a yield market in DeFi, Pendle unlocks the full potential of yield, enabling users to execute advanced yield strategies, such as:
 
