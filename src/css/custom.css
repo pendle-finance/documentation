@@ -68,7 +68,7 @@
 
   /* Layout */
   --ifm-container-width-xl: 1280px;
-  --doc-sidebar-width: 240px;
+  --doc-sidebar-width: 300px;
 
   /* Borders */
   --ifm-global-border-width: 0.5px;
@@ -369,8 +369,6 @@ li code:hover {
 /* Sidebar container */
 .theme-doc-sidebar-container {
   width: var(--doc-sidebar-width, 300px);
-  height: calc(100vh - 48px);
-  max-height: calc(100vh - 48px);
   border-right: 1px solid var(--color-border-light);
   background: var(--color-background-glass);
   backdrop-filter: saturate(180%) blur(20px);
@@ -382,6 +380,16 @@ li code:hover {
   scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
   align-self: flex-start;
   transition: all 0.3s var(--cubic-bezier-smooth);
+}
+
+/* Desktop sticky sidebar */
+@media (min-width: 997px) {
+  .theme-doc-sidebar-container {
+    position: sticky;
+    top: var(--ifm-navbar-height);
+    height: calc(100vh - var(--ifm-navbar-height));
+    max-height: calc(100vh - var(--ifm-navbar-height));
+  }
 }
 
 .theme-doc-sidebar-container::-webkit-scrollbar {
@@ -411,6 +419,7 @@ li code:hover {
 @media (max-width: 996px) {
   .theme-doc-sidebar-container {
     display: none;
+    position: static;
   }
 
   .theme-doc-sidebar-menu-toggle-button {
