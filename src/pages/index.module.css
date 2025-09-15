@@ -5,7 +5,7 @@
  */
 
 /* Hide navbar on homepage */
-:global(.navbar) {
+/* :global(.navbar) {
   display: none !important;
 }
 
@@ -15,7 +15,7 @@
 
 :global(.navbar__inner) {
   display: none !important;
-}
+} */
 
 .root {
   display: flex;

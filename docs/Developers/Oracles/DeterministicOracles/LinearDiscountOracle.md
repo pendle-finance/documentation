@@ -48,7 +48,7 @@ Since the oracle is deterministic, except for `answer`, every other fields retur
 
 Here is a graphic showing how different `baseDiscountPerYear` values affect the discount factor over time, with the x-axis representing time left until maturity in years and the y-axis showing the discount factor (1.0 = 100%):
 
-<iframe src="https://www.desmos.com/calculator/maytjkrvor?embed" width="700" height="700" style={{border: "1px solid #ccc"}} frameborder="0"></iframe>
+<iframe src="https://www.desmos.com/calculator/maytjkrvor?embed" width="700" height="700" style={{border: "1px solid #ccc"}} frameBorder="0"></iframe>
 
 <details>
 <summary>How <code>answer</code> is deterministically calculated</summary>
@@ -62,9 +62,8 @@ $$
 \text{answer} =
     \min\left(
         10^{18},
-        10^{18} - \frac{(\text{maturity} - t) \cdot \text{baseDiscountPerYear}}{365 \cdot 24 \cdot 60 \cdot 60} 
+        10^{18} - \frac{(\text{maturity} - t) \cdot \text{baseDiscountPerYear}}{365 \cdot 24 \cdot 60 \cdot 60}
     \right)
 $$
 
 </details>
-

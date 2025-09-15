@@ -1,14 +1,92 @@
 /*
 Hide color mode toggle in small viewports
  */
-@media (max-width: 1024) {
+@media (max-width: 1024px) {
   .colorModeToggle {
     display: none;
   }
 }
 
-.root{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 0px;
+/* Transfer ThinTopBar search styling */
+.searchContainer {
+  flex: 0 0 auto;
+  margin-left: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchContainer .DocSearch-Button {
+  background: var(--color-background-glass) !important;
+  border: 1px solid var(--color-border-light) !important;
+  border-radius: 8px !important;
+  height: 36px !important;
+  padding: 0 12px !important;
+  min-width: 200px !important;
+  transition: all 0.2s ease !important;
+}
+
+.searchContainer .DocSearch-Button:hover {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: var(--color-border-primary) !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03), 0 0 0 3px rgba(0, 102, 255, 0.05) !important;
+  transform: translateY(-1px) !important;
+}
+
+.searchContainer button {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
+
+.searchContainer .DocSearch-Button-Keys {
+  display: flex !important;
+  align-items: center !important;
+  gap: 2px !important;
+}
+
+.searchContainer .DocSearch-Button-Key {
+  background: white !important;
+  border: 1px solid #d0d0d0 !important;
+  border-radius: 3px !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) !important;
+  color: #666 !important;
+}
+
+/* Responsive search bar */
+@media (max-width: 996px) {
+  .searchContainer .DocSearch-Button {
+    min-width: min(200px, calc(100vw - 150px)) !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchContainer .DocSearch-Button {
+    min-width: min(180px, calc(100vw - 120px)) !important;
+  }
+}
+
+/* Logo styling to match ThinTopBar */
+.navbar__brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  text-decoration: none !important;
+  color: #000 !important;
+  margin-right: 1rem !important;
+}
+
+.navbar__brand:hover {
+  text-decoration: none !important;
+  color: #000 !important;
+}
+
+.navbar__logo img {
+  height: 24px !important;
+  width: auto !important;
+}
+
+.navbar__title {
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  letter-spacing: 0.5px !important;
 }

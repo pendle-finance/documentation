@@ -4,9 +4,9 @@ hide_table_of_contents: true
 
 # PT
 
-<iframe width="860" height="615" src="https://www.youtube.com/embed/kOErP_ZUncs" title="Chapter 4: What is Principle Token (PT)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="860" height="615" src="https://www.youtube.com/embed/kOErP_ZUncs" title="Chapter 4: What is Principle Token (PT)" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 
-Principal Token (PT) represents the principal portion of an underlying yield-bearing asset. Upon maturity, PT can be redeemed at 1:1 for the accounting asset, which appears in brackets at the end of each PT name. This is the base, principal asset deployed in the underlying protocol such as Lido, Renzo, and Aave (e.g. stETH in stETH, ETH in ezETH, USDC in aUSDC). 
+Principal Token (PT) represents the principal portion of an underlying yield-bearing asset. Upon maturity, PT can be redeemed at 1:1 for the accounting asset, which appears in brackets at the end of each PT name. This is the base, principal asset deployed in the underlying protocol such as Lido, Renzo, and Aave (e.g. stETH in stETH, ETH in ezETH, USDC in aUSDC).
 
 ![PT Mechanics](/img/ProtocolMechanics/pt-mechanics.png "PT Mechanics")
 
@@ -17,11 +17,11 @@ This appreciation in value is what establishes its Fixed Yield APY.
 # Redemption Value
 In general, yield bearing assets can be broadly categorized as:
 1. Rebasing assets - tokens that increase in count/number overtime as yield is accrued
-   
-   *Examples: stETH, aUSDC* 
+
+   *Examples: stETH, aUSDC*
 
 2. Interest-bearing assets - tokens that increase in value overtime as yield is accrued
-    
+
    *Examples: ezETH, wstETH*
 
 ![Redemption Value](/img/ProtocolMechanics/redemption-value.png "Redemption Value")

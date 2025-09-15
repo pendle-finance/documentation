@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import clsx from "clsx";
 import { useThemeConfig } from "@docusaurus/theme-common";
 import {
@@ -22,13 +22,33 @@ export default function NavbarLayout({ children }) {
   } = useThemeConfig();
   const mobileSidebar = useNavbarMobileSidebar();
   const { navbarRef, isNavbarVisible } = useHideableNavbar(hideOnScroll);
+  const scrollProgressLineRef = useRef(null);
+
+  // Transfer scroll progress functionality from ThinTopBar
+  useEffect(() => {
+    const updateProgress = () => {
+      const scrollTop = window.pageYOffset;
+      const docHeight = document.body.scrollHeight - window.innerHeight;
+      const scrollPercent = Math.min((scrollTop / docHeight) * 100, 100);
+
+      const scrollProgressLine = scrollProgressLineRef.current;
+      if (scrollProgressLine) {
+        scrollProgressLine.style.setProperty('--scroll-progress', `${scrollPercent}%`);
+      }
+    };
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+
+    return () => window.removeEventListener('scroll', updateProgress);
+  }, [navbarRef]);
+
   return (
     <nav
       ref={navbarRef}
       className={clsx(
         "navbar",
         "navbar--fixed-top",
-        styles.navbarHidden,
         {
           "navbar--dark": style === "dark",
           "navbar--primary": style === "primary",
@@ -37,6 +57,7 @@ export default function NavbarLayout({ children }) {
       )}
     >
       {children}
+      <div ref={scrollProgressLineRef} className={styles.scrollProgressLine} />
       <NavbarBackdrop onClick={mobileSidebar.toggle} />
       <NavbarMobileSidebar />
     </nav>

@@ -12,7 +12,7 @@ Furthermore, we managed to create a pseudo-AMM that allows us to both facilitate
 
 ## Liquidity Providers (LP)
 
-<iframe width="860" height="615" src="https://www.youtube.com/embed/AWceGmkv2pc" title="Chapter 6: Liquidity Provision on Pendle" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="860" height="615" src="https://www.youtube.com/embed/AWceGmkv2pc" title="Chapter 6: Liquidity Provision on Pendle" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 
 Liquidity on Pendle V2 comprises of PT/SY (where SY is simply a wrapped version of the underlying yield bearing asset). This means that LPs earn yields from:
 

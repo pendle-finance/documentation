@@ -67,8 +67,7 @@ const config = {
 
   themeConfig:
   /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-  ({
-
+  {
     algolia: {
       appId: "GFVY0GOMCR",
       apiKey: "1e9c713dfca40c64b56217bb24d5c4cd",
@@ -91,32 +90,28 @@ const config = {
         src: 'img/logo.svg',
         srcDark: 'img/logo.svg',
       },
-      title: 'Documentation',
+      title: 'Pendle Documentation',
       items: [
         {
           to: '/pendle-v2/Introduction',
-          label: 'Products',
+          label: 'Pendle V2',
           position: 'left',
         },
         {
           to: '/boros',
-          label: 'Resources',
+          label: 'Boros',
           position: 'left',
         },
         {
           to: '/pendle-v2/Developers/Overview',
-          label: 'Developers',
+          label: 'Pendle V2 Developers',
           position: 'left',
         },
         {
           href: 'https://app.pendle.finance',
-          label: 'Open App',
+          label: 'Open Pendle App',
           position: 'right',
           className: 'navbar-app-button',
-        },
-        {
-          type: 'localeDropdown',
-          position: 'right',
         }
       ],
     },
@@ -185,7 +180,7 @@ const config = {
     prism: {
       additionalLanguages: ["solidity"],
     },
-  }),
+  },
 
   i18n: {
     defaultLocale: 'en',

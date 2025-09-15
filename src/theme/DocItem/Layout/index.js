@@ -8,7 +8,6 @@ import DocItemContent from '@theme/DocItem/Content';
 import DocBreadcrumbs from '@theme/DocBreadcrumbs';
 import DocItemTOCDesktop from '@theme/DocItem/TOC/Desktop';
 import DocItemTOCMobile from '@theme/DocItem/TOC/Mobile';
-import ThinTopBar from './ThinTopBar';
 import styles from './styles.module.css';
 
 export default function DocItemLayout({children}) {
@@ -95,26 +94,23 @@ export default function DocItemLayout({children}) {
   }, []);
 
   return (
-    <>
-      <ThinTopBar />
-      <div className={clsx('row', styles.docItemRow)}>
-        <div className={clsx('col', styles.docItemCol)}>
-          <DocVersionBanner />
-          <div className={styles.docItemContainer}>
-            <article>
-              <DocBreadcrumbs />
-              <DocVersionBadge />
-              <DocItemTOCMobile />
-              <DocItemContent>{children}</DocItemContent>
-              <DocItemFooter />
-            </article>
-            <DocItemPaginator />
-          </div>
-        </div>
-        <div className="col col--3">
-          <DocItemTOCDesktop />
+    <div className={clsx('row', styles.docItemRow)}>
+      <div className={clsx('col', styles.docItemCol)}>
+        <DocVersionBanner />
+        <div className={styles.docItemContainer}>
+          <article>
+            <DocBreadcrumbs />
+            <DocVersionBadge />
+            <DocItemTOCMobile />
+            <DocItemContent>{children}</DocItemContent>
+            <DocItemFooter />
+          </article>
+          <DocItemPaginator />
         </div>
       </div>
-    </>
+      <div className="col col--3">
+        <DocItemTOCDesktop />
+      </div>
+    </div>
   );
 }

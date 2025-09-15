@@ -12,6 +12,7 @@
 /* Import API endpoint and callout styles */
 @import './api-endpoints.css';
 
+
 :root {
   /* Color Palette */
   --ifm-color-primary: #0066FF;
@@ -68,7 +69,6 @@
   /* Layout */
   --ifm-container-width-xl: 1280px;
   --doc-sidebar-width: 240px;
-  --ifm-navbar-height: 48px;
 
   /* Borders */
   --ifm-global-border-width: 0.5px;
@@ -274,6 +274,7 @@ code {
   padding: 0.2rem 0.5rem;
   border-radius: 6px;
   font-weight: 500;
+
   border: 1px solid var(--color-border-light);
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
 }
@@ -361,177 +362,12 @@ li code:hover {
   border-color: rgba(0, 102, 255, 0.2);
 }
 
-/* Navbar */
-.navbar {
-  background-color: rgba(255, 255, 255, 0.9);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 0.5px solid var(--color-border-light);
-  box-shadow: none;
-  height: var(--ifm-navbar-height);
-  padding: 0 2rem;
-}
-
-.docs-wrapper .navbar {
-  display: none;
-}
-
-.navbar__brand {
-  font-weight: var(--ifm-font-weight-semibold);
-  font-size: 1.125rem;
-  color: var(--ifm-heading-color);
-}
-
-.navbar__title {
-  font-weight: var(--ifm-font-weight-semibold);
-}
-
-.navbar__item {
-  font-weight: var(--ifm-font-weight-normal);
-  font-size: 0.9375rem;
-}
-
-.navbar__link {
-  color: var(--ifm-font-color-base);
-  font-weight: 500;
-}
-
-.navbar__link:hover,
-.navbar__link--active {
-  color: var(--ifm-color-primary);
-}
-
-/* Top bar with progress indicator */
-.thin-top-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
-  border-bottom: 1px solid var(--color-border-light);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  padding: 0 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-}
-
-.thin-top-bar::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-primary) 0%, #00D4FF 100%);
-  width: var(--scroll-progress, 0%);
-  transition: width 0.1s ease;
-  z-index: 101;
-}
-
-.thin-top-bar-content {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 100%;
-  overflow: hidden;
-}
-
-.thin-top-bar-logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  color: #000;
-}
-
-.thin-top-bar-logo:hover {
-  text-decoration: none;
-  color: #000;
-}
-
-.thin-top-bar-logo img {
-  height: 24px;
-  width: auto;
-}
-
-.thin-top-bar-logo-text {
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: 0.5px;
-}
-
-.thin-top-bar-search {
-  flex: 0 0 auto;
-  margin-left: auto;
-  position: relative;
-  z-index: 1001;
-}
-
-.thin-top-bar-search .DocSearch-Button {
-  background: var(--color-background-glass);
-  border: 1px solid var(--color-border-light);
-  border-radius: 8px;
-  height: 36px;
-  padding: 0 12px;
-  min-width: min(280px, calc(100vw - 200px));
-  max-width: 100%;
-  font-size: 14px;
-  transition: all 0.2s var(--cubic-bezier-smooth);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04);
-  cursor: pointer;
-  position: relative;
-  z-index: 1;
-}
-
-.thin-top-bar-search .DocSearch-Button:hover {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: var(--color-border-primary);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03), 0 0 0 3px rgba(0, 102, 255, 0.05);
-  transform: translateY(-1px);
-}
-
-/* DocSearch z-index fixes */
-.DocSearch-Modal {
-  z-index: 2000 !important;
-}
-
 .DocSearch-Hit a {
   text-decoration: none !important;
 }
 
-.thin-top-bar-search button {
-  pointer-events: auto !important;
-  cursor: pointer !important;
-}
-
-.DocSearch-Container {
-  z-index: 2001 !important;
-}
-
-.DocSearch-LoadingIndicator,
-.DocSearch-NoResults {
-  z-index: 2002 !important;
-}
-
-
-
-.theme-doc-sidebar-container {
-  position: sticky !important;
-  top: 48px !important;
-  height: calc(100vh - 48px) !important;
-  max-height: calc(100vh - 48px) !important;
-  background: transparent !important;
-}
-
 /* Sidebar container */
 .theme-doc-sidebar-container {
-  position: sticky !important;
-  top: 48px;
-  left: 0;
   width: var(--doc-sidebar-width, 300px);
   height: calc(100vh - 48px);
   max-height: calc(100vh - 48px);
@@ -544,7 +380,6 @@ li code:hover {
   overflow-x: hidden;
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
-  z-index: 10;
   align-self: flex-start;
   transition: all 0.3s var(--cubic-bezier-smooth);
 }
@@ -566,10 +401,6 @@ li code:hover {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
-.theme-doc-sidebar-menu-toggle-button {
-  display: none !important;
-}
-
 .docPage__5DB,
 .docRoot_UBD9 {
   display: flex;
@@ -586,6 +417,11 @@ li code:hover {
     display: block !important;
   }
 
+  /* Show mobile toggle button */
+  .navbar__toggle {
+    display: flex !important;
+  }
+
   .theme-doc-toc-desktop, .col.col--3 {
     display: none;
   }
@@ -593,11 +429,6 @@ li code:hover {
   [class*="docItemCol"] {
     max-width: 100% !important;
     flex: 1 1 100% !important;
-  }
-
-  [class*="docItemRow"] {
-    padding: 0.75rem 0 0.75rem 0.75rem !important;
-    margin-top: 44px;
   }
 }
 
@@ -774,19 +605,6 @@ li code:hover {
   position: relative;
 }
 
-/* Right TOC sidebar */
-/* .theme-doc-toc-desktop {
-  position: fixed !important;
-  right: 8px !important;
-  top: 56px !important;
-  width: 190px !important;
-  overflow-y: auto;
-  max-height: calc(100vh - 70px);
-  padding: 0 !important;
-  background: transparent;
-  z-index: 15;
-} */
-
 .table-of-contents {
   font-size: 0.6875rem;
   padding: 0.5rem 0.125rem 0.5rem 0.5rem;
@@ -913,27 +731,6 @@ li code:hover {
   scrollbar-width: none;
 }
 
-/* .col.col--3 {
-  position: fixed !important;
-  right: 0;
-  top: 44px;
-  width: 200px;
-  height: calc(100vh - 44px);
-  padding: 0;
-  margin: 0;
-  z-index: 10;
-  overflow-y: auto;
-} */
-
-[class*="docItemRow"] {
-  display: block;
-  margin: 0;
-  margin-top: 44px;
-  width: 100%;
-  max-width: 100%;
-  padding: 1rem 220px 1rem 1.5rem !important;
-}
-
 [class*="docItemCol"],
 [class*="docItemContainer"] {
   width: 100% !important;
@@ -1040,10 +837,8 @@ table {
 }
 
 .markdown table {
-  display: table;
-  width: auto;
-  margin-left: auto;
-  margin-right: auto;
+  display: inline-block;
+  overflow: auto;
 }
 
 table thead tr {
@@ -1127,28 +922,6 @@ table tbody tr:last-child td {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Search */
-.DocSearch-Button {
-  background: var(--ifm-background-surface-color);
-  border: 1px solid var(--ifm-border-color);
-  border-radius: 8px;
-  color: var(--ifm-font-color-secondary);
-  font-weight: var(--ifm-font-weight-normal);
-  height: 40px;
-  padding: 0 12px;
-  width: 200px;
-}
-
-.DocSearch-Button:hover {
-  box-shadow: var(--ifm-global-shadow-lw);
-}
-
-.DocSearch-Button .DocSearch-Search-Icon {
-  color: var(--ifm-font-color-secondary);
-  width: 16px;
-  height: 16px;
-}
-
 /* Footer */
 .footer {
   background-color: var(--ifm-background-surface-color);
@@ -1178,36 +951,9 @@ table tbody tr:last-child td {
   border-top: 1px solid var(--ifm-border-color);
 }
 
-.navbar__toggle {
-  display: none;
-}
-
-/* DocSearch styling */
-.thin-top-bar .DocSearch-Button-Keys {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-
-.thin-top-bar .DocSearch-Button-Key {
-  background: white;
-  border: 1px solid #d0d0d0;
-  border-radius: 3px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-  color: #666;
-  font-size: 11px;
-  padding: 2px 6px;
-  min-width: 20px;
-  text-align: center;
-}
-
-.docs-wrapper .menu .DocSearch-Button {
-  display: none;
-}
-
-
-.navbar__item--type-localeDropdown {
-  display: flex !important;
+.navbar__toggle svg {
+  width: 20px;
+  height: 20px;
 }
 
 /* Language switcher */
@@ -1235,8 +981,6 @@ table tbody tr:last-child td {
   border-color: rgba(0, 102, 255, 0.5) !important;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03), 0 0 0 3px rgba(0, 102, 255, 0.1) !important;
 }
-
-
 
 /* Home page cards */
 .home-cards {
@@ -1300,18 +1044,4 @@ table tbody tr:last-child td {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #b0b0b0;
-}
-
-/* Responsive design */
-@media (max-width: 996px) {
-  .navbar { padding: 0 1rem; }
-  .thin-top-bar-search .DocSearch-Button { min-width: min(200px, calc(100vw - 150px)); }
-}
-
-@media (max-width: 768px) {
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.5rem; }
-  h3 { font-size: 1.25rem; }
-  .thin-top-bar-search .DocSearch-Button { min-width: min(180px, calc(100vw - 120px)); }
-  .thin-top-bar { padding: 0 16px; }
 }

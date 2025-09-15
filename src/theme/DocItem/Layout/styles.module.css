@@ -3,14 +3,6 @@
   margin-top: 0 !important;
 }
 
-.docItemRow {
-  display: block;
-  margin: 0;
-  width: 100%;
-  max-width: 100%;
-  padding: 1rem 200px 1rem 1.5rem !important;
-}
-
 .docItemCol {
   width: 100% !important;
   max-width: 100% !important;

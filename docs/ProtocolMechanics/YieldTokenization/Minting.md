@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 # Minting
 
-<iframe width="860" height="615" src="https://www.youtube.com/embed/oDZ3JAkcFeM" title="Chapter 3: What is Yield Tokenization" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="860" height="615" src="https://www.youtube.com/embed/oDZ3JAkcFeM" title="Chapter 3: What is Yield Tokenization" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 
 Users receive yield-bearing assets when they deposit funds into a yield-source. For example, DAI staked in Compound is represented as *cDAI*. ETH staked in Lido is represented as *stETH*.
 
@@ -21,5 +21,3 @@ Users can mint PT and YT by depositing the yield-bearing asset (e.g. stETH) into
 e.g. ETH → stETH → SY-stETH → PT-stETH + YT-stETH. This function can be found in the Pendle App after selecting one of the assets.
 
 ![Yield Splitting UI](/img/ProtocolMechanics/yield-splitting-ui.png "Yield Splitting UI")
-
-

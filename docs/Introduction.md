@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 # Introduction to Pendle
 
-<iframe height="400" width="100%" src="https://www.youtube.com/embed/SyjPDpjU6-s" title="Chapter 1: Introduction to Pendle" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe height="400" width="100%" src="https://www.youtube.com/embed/SyjPDpjU6-s" title="Chapter 1: Introduction to Pendle" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 
 How much will you earn from lending 1,000 USDC on Aave? 1%? 3%? 5%?
 
