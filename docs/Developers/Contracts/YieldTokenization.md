@@ -119,17 +119,94 @@ function redeemDueInterestAndRewards(
 * **Interest unit:** Always **SY**. If you want the underlying/base asset, unwrap or route SY afterward (e.g., via Router).
 * **Pre- vs post-expiry:**
 
-  * *Pre-expiry:* interest and rewards continue accruing; this function pays whatever is due up to the call.
-  * *Post-expiry:* YT no longer earns new yield. Calling still pays any **remaining** pre-expiry interest/rewards, if any.
+  * Pre-expiry: interest and rewards continue accruing; this function pays whatever is due up to the call.
+  * Post-expiry: YT no longer earns new yield. Calling still pays any **remaining** pre-expiry interest/rewards, if any.
 * **Zero-flag calls:** If both flags are `false`, no tokens are transferred (a no-op aside from any index sync).
 * **Token order:** `rewardsOut[i]` corresponds to `getRewardTokens()[i]`. Always read the list first.
 
 **Examples**
 
 * *Claim both:*
-  User has accrued `2.5 SY` of interest and `[10 ABC, 0.3 XYZ]` rewards. Calling with `(true, true)` returns `(2.5, [10, 0.3])`, transfers those amounts, and resets baselines.
+  User has accrued `2.5 SY` of interest and `[10 X, 0.3 Y]` rewards. Calling with `(true, true)` returns `(2.5, [10, 0.3])`, transfers those amounts, and resets baselines.
 * *Claim rewards only:*
   Calling `(false, true)` transfers only rewards. Due interest remains in SY terms and continues to count toward reward-share until it’s eventually claimed or the user redeems PY.
+
+
+### [`pyIndexCurrent`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/YieldContracts/PendleYieldToken.sol#L226-L236)
+
+```solidity
+/**
+ * @notice updates and returns the current PY index
+ * @dev this function maximizes the current PY index with the previous index, guaranteeing
+ * non-decreasing PY index
+ * @dev if `doCacheIndexSameBlock` is true, PY index only updates at most once per block,
+ * and has no state changes on the second call onwards (within the same block).
+ * @dev see `pyIndexStored()` for view function for cached value.
+ */
+function pyIndexCurrent() external returns (uint256 currentIndex);
+```
+
+* **Purpose:** Returns the **current PY index**, updating it if needed. The PY index tracks the SY exchange rate and is stored **monotonically** (never decreases).
+
+* **Behavior notes:**
+
+  * The PY index is **non-decreasing**: `pyIndexCurrent = max(SY.exchangeRate(), pyIndexStored)`.
+  * If `doCacheIndexSameBlock` is enabled, the index is updated **at most once per block**; subsequent calls in the same block are read-only (no further state changes).
+  * If `SY.exchangeRate()` falls below the stored index (negative yield), the PY index **does not** move down. Consequences:
+
+    * Pre-expiry redemptions return **less SY per PY** until `SY.exchangeRate()` recovers above the stored index.
+    * YT accrual effectively **pauses** (no new interest) until recovery.
+    * In sustained drawdowns, even PT’s eventual redemption (valued in the accounting asset) can be **less than previously expected** because the SY backing has shrunk. See [Negative Yield](/ProtocolMechanics/NegativeYield).
+
+* **Examples:**
+
+  * **Up move:** Last stored `SY.exchangeRate()` = `1.20`; it rises to `1.25`. Calling `pyIndexCurrent()` updates the PY index to `1.25`.
+  * **Down move:** Last stored index = `1.20`; `SY.exchangeRate()` drops to `1.15`. The PY index **stays at `1.20`**.
+    If a user minted **120 PT** when the index was `1.20`, their claim on SY is `120 / 1.20 = 100 SY`.
+    At maturity, if each SY equals `1.15 USDe`, they redeem `100 × 1.15 = 115 USDe` (less than 120 USDe), reflecting the underlying negative yield.
+
+
+## Integration Example
+:::danger Example code only
+The snippets below are simplified for illustration and **are not audited**.  
+**Do not** use them in production or with real funds. If you adapt any example,
+conduct a full review, add comprehensive tests, and obtain an independent **security audit**.
+:::
+
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+IPYieldToken yt;
+IStandardizedYield sy = IStandardizedYield(yt.SY());
+IPrincipalToken pt = IPrincipalToken(yt.PT());
+
+address receiver;
+
+
+// Minting PT + YT by depositing SY
+IERC20(address(sy)).transfer(address(yt), 100e18); // deposit 100 SY
+uint256 amountPYOut = yt.mintPY(receiver, receiver); // receive PT + YT
+
+
+// Redeeming SY by burning PT + YT (pre-expiry)
+IERC20(address(pt)).transfer(address(yt), amountPYOut); // send PT
+IERC20(address(yt)).transfer(address(yt), amountPYOut); // send YT
+uint256 amountSyOut = yt.redeemPY(receiver); // receive SY
+
+// Redeeming SY by burning PT only (post-expiry)
+IERC20(address(pt)).transfer(address(yt), amountPYOut); // send PT
+uint256 amountSyOut = yt.redeemPY(receiver); // receive SY
+
+
+// Claiming accrued interest (in SY) and rewards (in reward tokens)
+(uint256 interestOut, uint256[] memory rewardsOut) = yt.redeemDueInterestAndRewards(
+    receiver,
+    true,  // claim interest
+    true   // claim rewards
+);
+```
+
 
 ## FAQ
 
@@ -139,4 +216,4 @@ No. Pendle’s accounting is **index-based**: yield accrues inside the **SY** ba
 
 ### Is 1 SY always equal to 1 PT + 1 YT
 
-No. **PT** is a principal claim **in units of the accounting asset at maturity**, whereas **SY** is a wrapper whose value floats with `exchangeRate`; **YT** represents the pre-expiry yield claim. The amounts of PT and YT you mint depend on the **current index**—they collectively replicate the economic exposure of the underlying, but **1 SY ≠ 1 PT + 1 YT** except in edge cases (e.g., `exchangeRate == 1`).
+No. **PT** is a principal claim **in units of the accounting asset at maturity**, whereas **SY** is a wrapper whose value floats with `exchangeRate`; **YT** represents the pre-expiry yield claim. The amounts of PT and YT you mint depend on the **current index** - they collectively replicate the economic exposure of the underlying, but **1 SY ≠ 1 PT + 1 YT** except in edge cases (e.g., `exchangeRate == 1`).

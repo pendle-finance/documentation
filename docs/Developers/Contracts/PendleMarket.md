@@ -2,7 +2,7 @@
 hide_table_of_contents: true
 ---
 
-# Pendle Market Smart Contract
+# Pendle Market Smart Contracts
 
 ## Introduction
 
@@ -31,7 +31,7 @@ Traditional AMMs like Uniswap use constant product formulas (`x × y = k`) that 
 
 - **Initial Anchor**: Sets the interest rate around which trading is most capital efficient at market launch - centers liquidity around expected yield levels.
 
-- **lnFeeRateRoot**: Dynamic fees based on interest rate impact rather than token amounts - larger market movements incur proportionally higher fees to protect liquidity providers.
+- **lnFeeRateRoot**: Dynamic fees based on interest rate impact rather than token amounts - larger market movements incur proportionally higher fees.
 
 ## Core Logic
 
@@ -187,7 +187,7 @@ pt.transfer(address(market), ptAmount);
 
 ## Flash Swap
 
-Similar to Uniswap V2, **all Pendle swaps are actually flash swaps**. The Market sends output tokens to the receiver first, then enforces that sufficient input tokens have been received by the end of the transaction.
+Similar to Uniswap V2, **all Pendle swaps are actually flash swaps**. The Market sends output tokens to the receiver first, then enforces that sufficient input tokens have been received by the end of the transaction. This facilitates advanced use cases like arbitrage, liquidation, and in Pendle specifically, YT trading.
 
 ### How It Works
 
@@ -323,8 +323,6 @@ function getPTPrice(uint32 twapPeriod) public view returns (uint256) {
 3. **Monitor cardinality**: Ensure sufficient observations for your time window needs
 4. **Handle edge cases**: Near expiry, prices become more volatile
 
-Refer to [IntroductionOfPtOracle](/Developers/Oracles/IntroductionOfPtOracle) for additional oracle utilities and helper functions.
-
 ## FAQ
 
 ### Why is there no swapExactSy function?
@@ -333,11 +331,7 @@ Unlike standard AMMs, Pendle's AMM only allows swapping exact PT in/out. Therefo
 
 ### How to trade YT tokens when the Market only composes PT and SY?
 
-YT trades are routed via **mint/burn + PT↔SY swap**:
-
-* **Buy YT:** Mint (PT+YT) from your SY (via router), then **sell PT for SY** on the Market; you end with YT exposure only.
-* **Sell YT:** **Buy PT** on the Market to pair with your YT, then **redeem PT+YT** back to SY.
-  For *no-upfront* flows, use the **flash-swap** route: e.g., borrow PT, pair with your YT to redeem for SY, then use part of the SY to buy back PT and repay remaining SY is your proceed. (Routers package this in one atomic tx with slippage guards.)
+YT tokens can be traded via flash swaps. Use the PendleRouter's `swapExactYtForPt` or `swapPtForExactYt` functions, which handle the necessary flash swap logic and token transfers. Refer to the [PendleRouter documentation](Developers/Contracts/PendleRouter/ApiReference/YtFunctions#swapexactytforsy) for details.
 
 ### Why can’t I swap PT after expiry?
 
