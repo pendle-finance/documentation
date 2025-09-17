@@ -18,7 +18,8 @@
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids"
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "migrate-gitbook": "npx ts-node migrate-gitbook.ts"
   },
   "dependencies": {
     "@docusaurus/core": "^3.6.3",
@@ -37,7 +38,10 @@
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.6.3",
-    "@docusaurus/tsconfig": "^3.6.3"
+    "@docusaurus/tsconfig": "^3.6.3",
+    "@types/node": "^20.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
   },
   "browserslist": {
     "production": [

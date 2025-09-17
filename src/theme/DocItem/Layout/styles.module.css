@@ -1,4 +1,4 @@
-.docItemContainer header + *,
+/* .docItemContainer header + *,
 .docItemContainer article > *:first-child {
   margin-top: 0 !important;
 }
@@ -37,4 +37,4 @@
     padding: 0;
     max-width: 100%;
   }
-}
+} */

@@ -58,7 +58,7 @@ export default function Home() {
       <main className="main--landing">
         <div className={styles.root}>
           <HomepageHeader />
-          
+
           <div className={styles.section}>
             <SectionTitle title="Pendle V2" />
             <div className={styles.docCardsContainer}>
@@ -71,10 +71,8 @@ export default function Home() {
               <DocCard
                 title="Pendle Academy"
                 description="Learn how to use Pendle products with Pendle Academy."
-                link="/boros"
+                link="/pendle-academy/Introduction"
                 icon="📊"
-                disabled={true}
-                comingSoon={true}
               />
               <DocCard
                 title="Pendle V2 API"
@@ -93,7 +91,7 @@ export default function Home() {
               <DocCard
                 title="Boros Developer Docs"
                 description="Explore Boros, Pendle's interest rate swaps platform with order book mechanics, margin trading, and advanced settlement features."
-                link="/boros"
+                link="/boros-dev"
                 icon="💻"
               />
               <DocCard

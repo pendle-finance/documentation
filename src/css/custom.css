@@ -409,10 +409,12 @@ li code:hover {
   background-color: rgba(0, 0, 0, 0.25);
 }
 
-.docPage__5DB,
-.docRoot_UBD9 {
-  display: flex;
-  width: 100%;
+.row {
+  flex-wrap: nowrap;
+}
+
+article {
+  max-width: 800px;
 }
 
 /* Hide sidebar on mobile */

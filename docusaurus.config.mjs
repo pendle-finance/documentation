@@ -47,9 +47,9 @@ const config = {
       '@docusaurus/plugin-content-docs',
       {
         id: 'boros',
-        path: 'docs/boros-docs',
-        routeBasePath: 'boros',
-        sidebarPath: './docs/boros-docs/sidebars.js',
+        path: 'docs/boros-dev-docs',
+        routeBasePath: 'boros-dev',
+        sidebarPath: './docs/boros-dev-docs/sidebars.js',
         breadcrumbs: true,
         remarkPlugins: [remarkMath],
         rehypePlugins: [rehypeKatex],
@@ -93,25 +93,30 @@ const config = {
       title: 'Pendle Documentation',
       items: [
         {
-          to: '/pendle-v2/Introduction',
+          type: 'dropdown',
           label: 'Pendle V2',
           position: 'left',
+          items: [
+            {
+              to: '/pendle-v2/Introduction',
+              label: 'Pendle V2 Docs',
+            },
+            {
+              to: 'pendle-academy/Introduction',
+              label: 'Pendle Academy',
+            }
+          ]
         },
         {
-          to: '/boros',
+          type: 'dropdown',
           label: 'Boros',
           position: 'left',
-        },
-        {
-          to: '/pendle-v2/Developers/Overview',
-          label: 'Pendle V2 Developers',
-          position: 'left',
-        },
-        {
-          href: 'https://app.pendle.finance',
-          label: 'Open Pendle App',
-          position: 'right',
-          className: 'navbar-app-button',
+          items: [
+            {
+              to: '/boros-dev/Introduction',
+              label: 'Boros Dev Docs',
+            },
+          ],
         }
       ],
     },

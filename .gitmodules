@@ -1,0 +1,9 @@
+[submodule "gitbook-docs/pendle-academy"]
+	path = gitbook-docs/pendle-academy
+	url = https://github.com/pendle-finance/gitbook_sync_pendle_academy
+[submodule "gitbook-docs/boros-academy"]
+	path = gitbook-docs/boros-academy
+	url = https://github.com/pendle-finance/gitbook_sync_boros_academy
+[submodule "gitbook-docs/boros-docs"]
+	path = gitbook-docs/boros-docs
+	url = https://github.com/pendle-finance/gitbook_sync_boros_docs
