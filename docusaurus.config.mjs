@@ -46,7 +46,7 @@ const config = {
     [
       '@docusaurus/plugin-content-docs',
       {
-        id: 'boros',
+        id: 'boros-dev',
         path: 'docs/boros-dev-docs',
         routeBasePath: 'boros-dev',
         sidebarPath: './docs/boros-dev-docs/sidebars.js',
@@ -125,7 +125,7 @@ const config = {
           position: 'left',
           items: [
             {
-              to: '/boros-dev/Introduction',
+              to: '/boros-dev',
               label: 'Boros Dev Docs',
             },
           ],
