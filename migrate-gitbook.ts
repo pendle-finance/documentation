@@ -122,44 +122,84 @@ ${this.generateSidebarItemsString(sidebarItems, '    ')}
     const lines = summaryContent.split('\n');
     const items: SidebarItem[] = [];
     let currentCategory: SidebarItem | null = null;
+    const stack: SidebarItem[] = []; // Stack to track nested categories
 
     for (const line of lines) {
       const trimmedLine = line.trim();
 
-      // Skip empty lines and table of contents header
-      if (!trimmedLine || trimmedLine.startsWith('#')) continue;
+      // Skip empty lines and main title header (single #)
+      if (!trimmedLine || (trimmedLine.startsWith('#') && !trimmedLine.startsWith('##'))) continue;
 
       // Check if this is a section header (##)
       if (trimmedLine.startsWith('##')) {
-        const categoryLabel = trimmedLine.replace('##', '').trim();
+        const categoryLabel = trimmedLine.replace(/^##\s*/, '').trim();
         currentCategory = {
           type: 'category',
           label: categoryLabel,
           items: []
         };
         items.push(currentCategory);
+        stack.length = 0; // Clear stack for new top-level category
         continue;
       }
 
       // Check if this is a doc item (* [Title](path))
-      const docMatch = trimmedLine.match(/^\*\s*\[([^\]]+)\]\(([^)]+)\)$/);
+      const docMatch = line.match(/^(\s*)\*\s*\[([^\]]+)\]\(([^)]+)\)$/);
       if (docMatch) {
-        const [, title, filePath] = docMatch;
+        const [, indentation, title, filePath] = docMatch;
+        const indentLevel = indentation.length;
 
-        // Skip README.md as it's converted to StartHere.md
+        // Skip README.md as it's converted to Introduction.md
         if (filePath === 'README.md') continue;
 
         const docId = this.filePathToDocId(filePath);
-        const docItem: SidebarItem = {
-          type: 'doc',
-          id: docId,
-          label: title
-        };
 
-        if (currentCategory && currentCategory.items) {
-          currentCategory.items.push(docItem);
+        // Determine if this is a nested item (indented)
+        if (indentLevel > 0 && stack.length > 0) {
+          // This is a nested item, add to the last doc item in stack as a category
+          const parentItem = stack[stack.length - 1];
+
+          // Convert parent to category if it's not already
+          if (parentItem.type === 'doc') {
+            const parentDocId = parentItem.id;
+            const parentLabel = parentItem.label;
+
+            // Convert to category and add the parent doc as the first item
+            parentItem.type = 'category';
+            parentItem.items = [
+              {
+                type: 'doc',
+                id: parentDocId,
+                label: parentLabel
+              }
+            ];
+            delete parentItem.id; // Remove id when converting to category
+          }
+
+          const nestedDocItem: SidebarItem = {
+            type: 'doc',
+            id: docId,
+            label: title
+          };
+
+          if (parentItem.items) {
+            parentItem.items.push(nestedDocItem);
+          }
         } else {
-          items.push(docItem);
+          // This is a top-level item
+          const docItem: SidebarItem = {
+            type: 'doc',
+            id: docId,
+            label: title
+          };
+
+          if (currentCategory && currentCategory.items) {
+            currentCategory.items.push(docItem);
+            stack.push(docItem); // Add to stack for potential nesting
+          } else {
+            items.push(docItem);
+            stack.push(docItem); // Add to stack for potential nesting
+          }
         }
       }
     }
@@ -259,15 +299,121 @@ ${indent}},`;
   }
 
   private convertGitBookTables(content: string): string {
-    // Convert GitBook table syntax to standard markdown
-    // This is a simplified conversion - may need enhancement for complex tables
-    content = content.replace(/<table[\s\S]*?<\/table>/gi, (match) => {
-      // For now, just remove GitBook specific table attributes and convert to basic markdown
-      // This would need more sophisticated parsing for production use
-      return '<!-- Table converted from GitBook format -->\n' + match;
+    // Convert GitBook table syntax to CardGrid components
+    // Look for the specific comment pattern followed by table HTML
+    const tablePattern = /<!-- Table converted from GitBook format -->\s*\n<table[\s\S]*?<\/table>/gi;
+
+    content = content.replace(tablePattern, (match) => {
+      return this.parseGitBookTableToCardGrid(match);
+    });
+
+    // Also handle tables without the comment (in case some are missed)
+    const directTablePattern = /<table[^>]*data-view="cards"[\s\S]*?<\/table>/gi;
+    content = content.replace(directTablePattern, (match) => {
+      // Only convert if it's not already processed (doesn't have the comment)
+      if (!match.includes('<!-- Table converted from GitBook format -->')) {
+        return this.parseGitBookTableToCardGrid(match);
+      }
+      return match;
     });
 
     return content;
+  }
+
+  private parseGitBookTableToCardGrid(tableHtml: string): string {
+    // Parse GitBook table and convert to CardGrid component
+    // First, clean the input by removing the comment if present
+    const cleanTableHtml = tableHtml.replace(/<!-- Table converted from GitBook format -->\s*\n?/gi, '');
+
+    const tableType = this.detectTableType(cleanTableHtml);
+
+    // Extract table rows
+    const rowMatches = cleanTableHtml.match(/<tr[\s\S]*?<\/tr>/gi);
+    if (!rowMatches || rowMatches.length < 2) {
+      console.log(`    ⚠️  Could not parse table rows, returning original`);
+      return tableHtml; // Return original if can't parse
+    }
+
+    // Skip header row, process data rows
+    const dataRows = rowMatches.slice(1);
+    const cards: string[] = [];
+
+    for (const row of dataRows) {
+      const card = this.parseTableRowToCard(row, tableType);
+      if (card) {
+        cards.push(card);
+      }
+    }
+
+    if (cards.length === 0) {
+      console.log(`    ⚠️  No cards extracted from table, returning original`);
+      return tableHtml; // Return original if no cards extracted
+    }
+
+    const gridType = this.getGridTypeFromTableType(tableType);
+
+    console.log(`    ✅ Converted table to CardGrid with ${cards.length} cards (type: ${gridType})`);
+
+    return `<CardGrid type="${gridType}">
+${cards.join('\n')}
+</CardGrid>`;
+  }
+
+  private detectTableType(tableHtml: string): 'selfService' | 'default' {
+    // All GitBook tables will be processed as self-service cards
+    if (tableHtml.includes('data-view="cards"') || tableHtml.includes('<table')) {
+      return 'selfService';
+    }
+
+    return 'default';
+  }
+
+  private getGridTypeFromTableType(tableType: string): string {
+    switch (tableType) {
+      case 'selfService': return 'selfService';
+      default: return 'default';
+    }
+  }
+
+  private parseTableRowToCard(rowHtml: string, tableType: string): string | null {
+    // Extract cell contents
+    const cellMatches = rowHtml.match(/<td[\s\S]*?<\/td>/gi);
+    if (!cellMatches) return null;
+
+    let title = '';
+    let link = '';
+
+    // Parse cells to extract content
+    for (const cell of cellMatches) {
+      const cellContent = cell.replace(/<\/?td[^>]*>/gi, '').trim();
+
+      if (!cellContent || cellContent === '') continue;
+
+      // Extract links
+      const linkMatch = cellContent.match(/<a[^>]+href="([^"]+)"[^>]*>/);
+      if (linkMatch) {
+        link = linkMatch[1];
+      }
+
+      // Extract strong text (titles)
+      const strongMatch = cellContent.match(/<strong[^>]*>(.*?)<\/strong>/);
+      if (strongMatch) {
+        title = strongMatch[1].trim();
+      }
+    }
+
+    if (!title) return null;
+
+    // All GitBook tables use the same self-service card format
+    return this.generateSelfServiceCard(title, link);
+  }
+
+  private generateSelfServiceCard(title: string, link: string): string {
+    const linkProp = link ? ` link="${link}"` : '';
+
+    return `  <Card
+    title="${this.escapeQuotesInLabel(title)}"${linkProp}
+  />`;
   }
 
   private convertGitBookHints(content: string): string {
@@ -286,13 +432,23 @@ ${cleanContent}
     });
   }
 
-  private addHintImport(content: string): string {
+  private addComponentImports(content: string): string {
+    const imports: string[] = [];
+
     // Check if the content contains any Hint components
     if (content.includes('<Hint')) {
-      // Add the import statement at the top of the file
-      const importStatement = "import Hint from '@site/src/components/Hint';\n\n";
-      return importStatement + content;
+      imports.push("import Hint from '@site/src/components/Hint';");
     }
+
+    // Check if the content contains any CardGrid components
+    if (content.includes('<CardGrid') || content.includes('<Card')) {
+      imports.push("import CardGrid, { Card } from '@site/src/components/CardGrid';");
+    }
+
+    if (imports.length > 0) {
+      return imports.join('\n') + '\n\n' + content;
+    }
+
     return content;
   }
 
@@ -323,6 +479,45 @@ ${cleanContent}
     });
   }
 
+  private disableSingleDollarLatex(content: string): string {
+    // Escape single dollar signs to prevent LaTeX rendering
+    // This is specific to GitBook projects that don't support single dollar LaTeX syntax
+    // Pattern: $ (single dollar not followed by another dollar)
+    // We need to be careful not to escape double dollars ($$)
+
+    return content.replace(/(?<!\$)\$(?!\$)/g, '\\$');
+  }
+
+  private removeMarkdownExtensions(content: string): string {
+    // Remove .md extensions from all internal links to follow Docusaurus link format
+    // Pattern: href="something.md" or [text](something.md) or <a href="something.md">
+
+    // Handle markdown links: [text](file.md) -> [text](file)
+    content = content.replace(/\[([^\]]*)\]\(([^)]+)\.md(#[^)]*)?(\)|#[^)]*\))/g, (match, text, link, anchor, closeParen) => {
+      const finalAnchor = anchor || '';
+      return `[${text}](${link}${finalAnchor})`;
+    });
+
+    // Handle HTML href attributes: href="file.md" -> href="file"
+    content = content.replace(/href="([^"]+)\.md(#[^"]*)?"/g, (match, link, anchor) => {
+      const finalAnchor = anchor || '';
+      return `href="${link}${finalAnchor}"`;
+    });
+
+    // Handle card links: link="file.md#anchor" -> link="file#anchor"
+    content = content.replace(/link="([^"]+)\.md(#[^"]*)?"/g, (match, link, anchor) => {
+      const finalAnchor = anchor || '';
+      return `link="${link}${finalAnchor}"`;
+    });
+
+    return content;
+  }
+
+  private stripInvalidEntities(content: string): string {
+    // Strip down all "&#xNAN;" invalid HTML entities from the content
+    return content.replace(/&#xNAN;/g, '');
+  }
+
   private formatDocFile(content: string, projectName: string): string {
     // Remove all existing frontmatter
     content = this.removeAllFrontmatter(content);
@@ -336,14 +531,23 @@ ${cleanContent}
     // Convert GitBook embeds to iframe elements
     content = this.convertGitBookEmbeds(content);
 
+    // Disable single dollar LaTeX syntax for GitBook projects
+    content = this.disableSingleDollarLatex(content);
+
+    // Remove .md extensions from internal links
+    content = this.removeMarkdownExtensions(content);
+
+    // Strip invalid HTML entities
+    content = this.stripInvalidEntities(content);
+
     // Fix unclosed img tags
     content = this.fixUnclosedImgTags(content);
 
     // Update image paths
     content = this.updateImagePathsInContent(content, projectName);
 
-    // Add Hint import if needed
-    content = this.addHintImport(content);
+    // Add component imports if needed
+    content = this.addComponentImports(content);
 
     return content;
   }

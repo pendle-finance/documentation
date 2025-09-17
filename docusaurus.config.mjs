@@ -55,6 +55,18 @@ const config = {
         rehypePlugins: [rehypeKatex],
       },
     ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'pendle-academy',
+        path: 'docs/pendle-academy',
+        routeBasePath: 'pendle-academy',
+        sidebarPath: './docs/pendle-academy/sidebars.js',
+        breadcrumbs: true,
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+      },
+    ]
   ],
 
   stylesheets: [

@@ -43,7 +43,8 @@ For assets that are wrapped to have 18 decimals:
 - One **natural unit** of the **wrapped** asset will equal to one **natural unit** of the original asset.
     - This fact can be used to convert between the **raw unit** of the wrapped asset and the original one.
 
-$$\begin{array}{rrcl}
+$$
+\begin{array}{rrcl}
 &
     10^{\mathrm{decimals}}\ \mathrm{original} & = & 10^{18}\ \mathrm{wrapped} \\
 \Leftrightarrow &
