@@ -6,18 +6,18 @@ hide_table_of_contents: true
 
 
 ## Overview
-This guide explains how Pendle tokenizes yield by splitting assets into PT (Principal Token) and YT (Yield Token), and how the YT contract handles minting/redeeming, index accounting, and interest/reward distribution. This documentation is for developers and partners who want a deep dive into the Pendle yield mechanism and how it works under the hood.
+This guide explains how Pendle tokenizes yield by splitting assets into PT (Principal Token) and YT (Yield Token), and how the YT contract handles minting and redeeming, index accounting, and the distribution of interest and rewards. This documentation is for developers and partners who want a deep dive into the Pendle yield mechanism and how it works under the hood.
 
 
 ## Key Concepts
 Yield tokenization takes a yield-bearing asset, then splits that value into two claims with a fixed expiry:
 - [PT (Principal Token)](/ProtocolMechanics/YieldTokenization/PT): represents the principal of the underlying yield-bearing token.
-- [YT (Yield Token)](/ProtocolMechanics/YieldTokenization/YT): represents entitlement to all the yield, reward and points of the asset until expiry.
+- [YT (Yield Token)](/ProtocolMechanics/YieldTokenization/YT): represents entitlement to all yield, rewards, and points of the asset until expiry.
 
 Example: A user stakes 100 USDe in Ethena and, via Pendle, tokenizes it into 100 PT-USDe and 100 YT-USDe with a 3-month expiry. They can sell the YT-USDe to someone who wants the next three months of yield and points while keeping the PT-USDe to redeem the principal at maturity; assuming a 12% APY (~3% over three months), the position would accrue about 3 USDe - so at expiry the YT-USDe holder is entitled to ~3 USDe of accrued yield (plus any program points earned during that period), and the PT-USDe holder redeems the 100 USDe principal.
 
 
-## Architecture
+## Technical Details
 
 The Pendle yield-tokenization architecture comprises three core components:
 
@@ -44,7 +44,12 @@ function mintPY(address receiverPT, address receiverYT) external returns (uint25
 **Purpose**: Mints equal amounts of PT and YT by depositing SY into the YT contract.
 
 **How it works:**
-- Deposit SY into the YT contract; the amounts of PT and YT minted are `SY_deposited × current PY index`. (current PY index can be thought of as how much SY is worth in terms of the underlying asset)
+- The YT contract mints using its current SY balance. Therefore, you must transfer SY into the YT contract before calling the function. The amount of PT and YT minted is calculated as:
+
+$$
+PY \; minted = SY \; deposited \times current \; PY \; index
+$$
+
 - The YT contract mints equal quantities of PT and YT to the specified recipient addresses.
 
 **Example:**
@@ -66,10 +71,12 @@ function redeemPY(address receiver) external returns (uint256 amountSyOut);
 
 **How it works:**
 
-* The user supplies equal amounts of PT and YT to the YT contract.
-* The contract burns them and returns SY based on the current PY index:
-  `SY_out = PY_burn / PY_index_current`.
-* SY is sent to the specified receiver; Interest and rewards accrued to YT are **not** included in this redemption.
+- You have to provide equal amounts of PT and YT to the YT contract before calling the function.
+- The contract burns the tokens and returns SY according to the current PY index:
+$$
+SY \; redeemed = PY \; burned \; \div current \; PY \; index
+$$
+- The redeemed SY is sent to the specified receiver. Note that interest and rewards accrued to YT are not included in this redemption.
 
 **Notes:**
 
@@ -111,20 +118,19 @@ function redeemDueInterestAndRewards(
 ) external returns (uint256 interestOut, uint256[] memory rewardsOut);
 ```
 
-**Purpose:** Claims what a YT holder has earned so far: interest (in SY) and any external reward tokens. Interest for YT is **always paid in SY**.
+**Purpose:** Allows a YT holder to claim accrued earnings: interest (in SY) and any external reward tokens. Interest for YT is **always paid in SY**, but it can be swapped into your preferred token through the [router](/Developers/Contracts/PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
 
+**Behavior notes:**
 
-**Behavior notes**
-
-* **Interest unit:** Always **SY**. If you want the underlying/base asset, unwrap or route SY afterward (e.g., via Router).
+* **Interest unit:** Always **SY**. If you want the underlying/base asset, unwrap or swap through the [router](/Developers/Contracts/PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
 * **Pre- vs post-expiry:**
 
   * Pre-expiry: interest and rewards continue accruing; this function pays whatever is due up to the call.
   * Post-expiry: YT no longer earns new yield. Calling still pays any **remaining** pre-expiry interest/rewards, if any.
-* **Zero-flag calls:** If both flags are `false`, no tokens are transferred (a no-op aside from any index sync).
+* **Zero-flag calls:** If both flags are `false`, no tokens are transferred (effectively a no-op, except for index synchronization)
 * **Token order:** `rewardsOut[i]` corresponds to `getRewardTokens()[i]`. Always read the list first.
 
-**Examples**
+**Examples:**
 
 * *Claim both:*
   User has accrued `2.5 SY` of interest and `[10 X, 0.3 Y]` rewards. Calling with `(true, true)` returns `(2.5, [10, 0.3])`, transfers those amounts, and resets baselines.
@@ -214,6 +220,6 @@ uint256 amountSyOut = yt.redeemPY(receiver); // receive SY
 
 No. Pendle’s accounting is **index-based**: yield accrues inside the **SY** balance held by the contracts as `exchangeRate` rises. **YT** holders are entitled to the yield portion of that **existing SY collateral** (paid in SY), while **PT** holders claim principal at/after maturity; users can then unwrap or swap SY to the base asset if they wish. No open-market purchases are required.
 
-### Is 1 SY always equal to 1 PT + 1 YT
+### Is 1 SY always equal to 1 PT + 1 YT?
 
 No. **PT** is a principal claim **in units of the accounting asset at maturity**, whereas **SY** is a wrapper whose value floats with `exchangeRate`; **YT** represents the pre-expiry yield claim. The amounts of PT and YT you mint depend on the **current index** - they collectively replicate the economic exposure of the underlying, but **1 SY ≠ 1 PT + 1 YT** except in edge cases (e.g., `exchangeRate == 1`).
