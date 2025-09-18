@@ -6,14 +6,14 @@ hide_table_of_contents: true
 
 ## Introduction
 
-A Pendle Market is a specialized Automated Market Maker (AMM) pool designed for trading yields. Each market enables efficient trading between:
+Pendle Market is a specialized Automated Market Maker (AMM) pool designed for trading yields. Each market enables efficient trading between:
 
-- **Principal Tokens (PT)** - Tokens representing the principal component of yield-bearing assets
+- **Principal Tokens (PT)** - Tokens that represent the principal component of yield-bearing assets
 - **Standardized Yield (SY)** - Wrapped yield-bearing assets that standardize yield mechanics
 
 ## Pendle AMM Overview
 
-Traditional AMMs like Uniswap use constant product formulas (`x × y = k`) that don't account for the unique properties of fixed-yield assets. Pendle Markets implement a sophisticated time-aware AMM that:
+Traditional AMMs like Uniswap use constant product formulas (`x × y = k`) that do not account for the unique properties of fixed-yield assets. Pendle Markets implement a sophisticated time-aware AMM based on Notional Finance's AMM model that:
 
 - **Recognizes time decay**: PT prices naturally converge to 1 as they approach expiry
 - **Optimizes for yield trading**: Pricing curves are tailored for interest rate movements
@@ -21,7 +21,7 @@ Traditional AMMs like Uniswap use constant product formulas (`x × y = k`) that 
 - **Minimal Impermanent Loss (IL)**: Pendle’s AMM accounts for PT’s natural price appreciation by shifting the AMM curve to push PT price towards its underlying value as time passes, mitigating time-dependent IL (No IL at maturity).
 
 
-> **📖 Deep Dive**: For complete mathematical analysis and comparisons, see the [Pendle V2 AMM Whitepaper](V2_AMM.pdf)
+> **Deep Dive**: For complete mathematical analysis and comparisons, see the [Pendle V2 AMM Whitepaper](https://github.com/pendle-finance/pendle-v2-resources/blob/main/whitepapers/V2_AMM.pdf)
 
 ## Market Parameters
 
@@ -31,14 +31,12 @@ Traditional AMMs like Uniswap use constant product formulas (`x × y = k`) that 
 
 - **Initial Anchor**: Sets the interest rate around which trading is most capital efficient at market launch - centers liquidity around expected yield levels.
 
-- **lnFeeRateRoot**: Dynamic fees based on interest rate impact rather than token amounts - larger market movements incur proportionally higher fees.
+- **Fee Rate Root**: Dynamic fees based on interest rate impact rather than token amounts - larger market movements incur proportionally higher fees.
 
 ## Core Logic
 
-### [`readState`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/v3/PendleMarketV3.sol#L272-L292)
+### [`readState`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L272-L292)
 Returns the current market state and pricing metadata. 
-
-**Note:** `lnFeeRateRoot` and `lastLnImpliedRate` are stored/returned as natural-log values in fixed-point form for gas-efficient math (document exact scaling). The router parameter allows the function to reflect router-specific settings (e.g., fee discounts if applicable).
 
 ```solidity
 struct MarketState {
@@ -60,10 +58,12 @@ struct MarketState {
 function readState(address router) external view returns (MarketState memory market);
 ```
 
-### [`mint`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/v3/PendleMarketV3.sol#L85-L125)
-Adds liquidity by depositing PT and SY; mints LP shares proportional to the amounts used. 
+**Note:** 
+- `feeRateRoot` and `lastImpliedRate` are stored/returned as natural-log values in fixed-point form. 
+- The router parameter allows the function to reflect router-specific settings (e.g., fee discounts if applicable).
 
-**Note:** caller must transfer PT and SY to the Market before calling. The function mints as many LPs as possible without exceeding `netSyDesired`/`netPtDesired`.
+### [`mint`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L85-L125)
+Adds liquidity using PT & SY; mints LP shares proportional to the amounts used.
 
 ```solidity
 /**
@@ -81,10 +81,11 @@ function mint(
 ) external returns (uint256 netLpOut, uint256 netSyUsed, uint256 netPtUsed);
 ```
 
-### [`burn`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/v3/PendleMarketV3.sol#L127-L148)
-Removes liquidity by burning LP shares for pro-rata SY and PT. 
+**Note:** 
+- Caller must transfer PT and SY to the Market before calling. The function mints as many LPs as possible without exceeding `netSyDesired`/`netPtDesired`.
 
-**Note:** caller must transfer LP to the Market before calling.
+### [`burn`](http://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L127-L148)
+Removes liquidity by burning LP shares for pro-rata SY and PT. 
 
 ```solidity
 /**
@@ -98,10 +99,10 @@ function burn(
 ) external returns (uint256 netSyOut, uint256 netPtOut);
 ```
 
-### [`swapExactPtForSy`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/v3/PendleMarketV3.sol#L150-L184)
-Swaps an exact amount of PT for SY. 
+**Note:** caller must transfer LP to the Market before calling.
 
-**Note:** caller must transfer PT to the Market first; the Market then sends out the computed SY and (optionally) invokes a callback if data is non-empty. For a deeper understanding of the math behind, refer to the [`Pendle V2 AMM Whitepaper`](V2_AMM.pdf) and [`MarketMathCore Contract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/MarketMathCore.sol#L193-L217).
+### [`swapExactPtForSy`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L150-L184)
+Swaps an exact amount of PT for SY. 
 
 ```solidity
 /**
@@ -122,10 +123,10 @@ function swapExactPtForSy(
 ) external nonReentrant notExpired returns (uint256 netSyOut, uint256 netSyFee);
 ```
 
-### [`swapSyForExactPt`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/v3/PendleMarketV3.sol#L186-L220)
-Swaps SY for an exact amount of PT. 
+**Note:** caller must transfer PT to the Market first; the Market then sends out the computed SY and (optionally) invokes a callback if data is non-empty. For a deeper understanding of the math behind, refer to the [`Pendle V2 AMM Whitepaper`](V2_AMM.pdf) and [`MarketMathCore Contract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/MarketMathCore.sol#L193-L217).
 
-**Note:** the Market sends out exactPtOut to receiver, optionally callbacks msg.sender, and then enforces that the required SY has been provided (typically via `transfer` in the callback/Router). For a deeper understanding of the math behind, refer to the [`Pendle V2 AMM Whitepaper`](V2_AMM.pdf) and [`MarketMathCore Contract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/MarketMathCore.sol#L193-L217).
+### [`swapSyForExactPt`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L186-L220)
+Swaps SY for an exact amount of PT. 
 
 ```solidity
 /**
@@ -145,7 +146,10 @@ function swapSyForExactPt(
 ) external returns (uint256 netSyIn, uint256 netSyFee);
 ```
 
-### [`redeemRewards`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/v3/PendleMarketV3.sol#L231-L237)
+**Note:** the Market sends out exactPtOut to receiver, optionally callbacks msg.sender, and then enforces that the required SY has been provided (typically via `transfer` in the callback/Router). For a deeper understanding of the math behind, refer to the [`Pendle V2 AMM Whitepaper`](V2_AMM.pdf) and [`MarketMathCore Contract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/MarketMathCore.sol#L193-L217).
+
+
+### [`redeemRewards`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L231-L237)
 Claims accumulated swap fees/protocol rewards for user (in the order of `getRewardTokens()`).
 
 ```solidity
@@ -244,84 +248,28 @@ interface IPMarketSwapCallback {
 
 ## Oracle
 
-Pendle Markets provide oracle functionality for PT pricing and implied yield rates, adapted from Uniswap V3's time-weighted average price (TWAP) oracle.
+Pendle Markets provide oracle functionality for PT pricing and implied yield rates, adapted from Uniswap V3’s time-weighted average price (TWAP) oracle.
 
 ### How It Works
 
-The oracle stores **implied rate observations** over time and uses them to calculate manipulation-resistant PT prices and yields.
+The oracle stores **implied rate observations** over time, which are then used to calculate manipulation-resistant PT prices and yields.
 
 **Key Formula:**
-```
-lnImpliedRateCumulative[i] = lnImpliedRateCumulative[i-1] + lnImpliedRate * timeDelta
-```
 
-Where `lnImpliedRate` is the natural log of the implied interest rate from the current market state.
+$$
+\text{lnImpliedRateCumulative}_i 
+= \text{lnImpliedRateCumulative}_{i-1} 
++ \text{lnImpliedRate} \times \Delta t
+$$
 
-### Oracle Functions
+where **lnImpliedRate** is the natural logarithm of the implied interest rate at the current market state, and **Δt** is the time elapsed.
 
-#### [`observe`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/v3/PendleMarketV3.sol#L448-L457)
-Returns cumulative implied rates for specified time periods.
+From these cumulative values, you can compute the **geometric mean price of PT** over a given interval (see [Introduction to PT Oracle](/Developers/Oracles/IntroductionOfPtOracle) for details).
 
-```solidity
-function observe(uint32[] memory secondsAgos) 
-    external view returns (uint216[] memory lnImpliedRateCumulative);
-```
+### Integration Guide
 
-#### [`increaseObservationsCardinalityNext`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/v3/PendleMarketV3.sol#L459-L467)
-Increases the number of observations the oracle can store (up to 65,535).
+See [How to Integrate PT and LP Oracles](/Developers/Oracles/HowToIntegratePtAndLpOracle) for implementation details.
 
-```solidity
-function increaseObservationsCardinalityNext(uint16 cardinalityNext) external;
-```
-
-### Calculating PT Price
-
-:::danger Example code only
-The snippets below are simplified for illustration and **are not audited**.  
-**Do not** use them in production or with real funds. If you adapt any example,
-conduct a full review, add comprehensive tests, and obtain an independent **security audit**.
-:::
-
-**Step 1: Get TWAP Implied Rate**
-```solidity
-contract PTPriceCalculator {
-    IPendleMarket public market;
-    
-    function getTWAPImpliedRate(uint32 twapPeriod) public view returns (uint256) {
-        uint32[] memory secondsAgos = new uint32[](2);
-        secondsAgos[0] = twapPeriod; // e.g., 3600 (1 hour ago)
-        secondsAgos[1] = 0;          // now
-        
-        uint216[] memory cumulativeRates = market.observe(secondsAgos);
-        
-        // Calculate TWAP: (current - past) / timeElapsed
-        uint256 lnImpliedRate = uint256(cumulativeRates[1] - cumulativeRates[0]) / twapPeriod;
-        
-        // Convert from ln to actual rate
-        return lnImpliedRate.exp(); // Using mathematical library
-    }
-}
-```
-
-**Step 2: Convert to PT Price**
-```solidity
-function getPTPrice(uint32 twapPeriod) public view returns (uint256) {
-    uint256 impliedRate = getTWAPImpliedRate(twapPeriod);
-    uint256 timeToExpiry = market.expiry() - block.timestamp;
-    uint256 yearsToExpiry = timeToExpiry * 1e18 / 365 days;
-    
-    // PT Price = 1 / (impliedRate^yearsToExpiry)
-    // This represents the present value of 1 unit at expiry
-    return 1e18 / impliedRate.powu(yearsToExpiry);
-}
-```
-
-### Best Practices
-
-1. **Use TWAP for important decisions**: Spot prices can be manipulated
-2. **Choose appropriate time windows**: Longer periods = more resistant but less responsive
-3. **Monitor cardinality**: Ensure sufficient observations for your time window needs
-4. **Handle edge cases**: Near expiry, prices become more volatile
 
 ## FAQ
 
@@ -329,14 +277,23 @@ function getPTPrice(uint32 twapPeriod) public view returns (uint256) {
 
 Unlike standard AMMs, Pendle's AMM only allows swapping exact PT in/out. Therefore, functions like `swapExactSyForPt` and `swapPtForExactSy` should generally be avoided. If necessary, use PendleRouter's `swapExactSyForPt` with approx parameters. Refer to the [PendleRouter documentation](/Developers/Contracts/PendleRouter/ApiReference/PtFunctions#swapexactsyforpt) for details.
 
-### How to trade YT tokens when the Market only composes PT and SY?
+### How can I trade YT tokens when the Market only contains PT and SY?
 
-YT tokens can be traded via flash swaps. Use the PendleRouter's `swapExactYtForPt` or `swapPtForExactYt` functions, which handle the necessary flash swap logic and token transfers. Refer to the [PendleRouter documentation](Developers/Contracts/PendleRouter/ApiReference/YtFunctions#swapexactytforsy) for details.
+YT tokens can be traded via [flash swaps](/ProtocolMechanics/LiquidityEngines/AMM#flash-swaps). Use the PendleRouter's `swapExactTokenForYt` or `swapExactYtForToken` functions, which handle the necessary flash swap logic and token transfers. Refer to the [PendleRouter documentation](/Developers/Contracts/PendleRouter/ApiReference/YtFunctions#swapexacttokenforyt) for details.
+
 
 ### Why can’t I swap PT after expiry?
 
-At expiry, **PT becomes a fixed claim on SY** at a deterministic conversion; market-making no longer makes economic sense and would invite circular arbitrage. The Market therefore **disables swaps** and functions solely as a **redemption venue** (LPs withdraw, PT/ YT settle via redeem paths). Use the router’s redeem flows to convert PT (and PT+YT) to SY post-expiry.
+At expiry, PT can be redeemed for the underlying asset. Market-making no longer makes economic sense at this point and would enable circular arbitrage. To redeem PT post-expiry, use the [Router](/Developers/Contracts/PendleRouter/ApiReference/LiquidityFunctions#removeliquiditysingletoken).
 
-### Should I use the router or interact with the market directly?
+### Should I use the Router or interact with the Market directly?
 
-For **anything involving YT**, multi-step routes, or “exact-SY” style intents, **use the Router** (fee discounts, slippage protection, flash-swap bundling). Interact **directly with the Market** only for simple **PT↔SY** swaps, custom flash-borrow logic, or ultra-lean integrations where you manage token transfers and slippage yourself.
+* Use the Router for:
+  * Any operations involving YT.
+  * Swaps using tokens other than the underlying (since additional swaps are required).
+  * Fee discounts, slippage protection, etc.
+
+* Interact directly with the Market for:
+  * Simple PT ↔ SY swaps.
+  * Flash swaps.
+  * Highly gas-optimized integrations where you manage token transfers and slippage manually.
