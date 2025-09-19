@@ -17,7 +17,7 @@ Follow our [Pendle Developer Updates](https://t.me/pendledevelopers) for importa
 
 ### On-chain Integration
 
-- **Router**: [Documentation](./Contracts/PendleRouter.md) | [Integration Guide](./Contracts/PendleRouter.md#integration-guide)
+- **Router**: [Documentation](./Contracts/PendleRouter/PendleRouterOverview.md) | [Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide.md)
 - **Oracles**: [Integration Guide](./Oracles/HowToIntegratePtAndLpOracle.md) | [PT as Collateral](./Oracles/PTAsCollateral.md) | [LP as Collateral](./Oracles/LPAsCollateral.md)
 - [Example Repository](https://github.com/pendle-finance/pendle-examples-public) - Various contract interaction examples
 
