@@ -7,7 +7,7 @@ import styles from './index.module.css';
 function HomepageHeader() {
   return (
     <header className={styles.heroBanner}>
-      <h1 className="hero__title">Welcome to Pendle Documentation</h1>
+      <h1 className="hero__title">Welcome to Pendle's Documentation Hub</h1>
     </header>
   );
 }
@@ -20,7 +20,7 @@ function SectionTitle({ title }) {
   );
 }
 
-function DocCard({ title, description, link, icon, disabled = false, comingSoon = false }) {
+function DocCard({ title, description, link, icon, disabled = false, comingSoon = false, external = false }) {
   const cardContent = (
     <div className={styles.docCardContent}>
       <div className={styles.docCardIcon}>{icon}</div>
@@ -37,6 +37,14 @@ function DocCard({ title, description, link, icon, disabled = false, comingSoon 
       <div className={`${styles.docCard} ${styles.docCardDisabled}`}>
         {cardContent}
       </div>
+    );
+  }
+
+  if (external) {
+    return (
+      <a href={link} className={styles.docCard} target="_blank" rel="noopener noreferrer">
+        {cardContent}
+      </a>
     );
   }
 
@@ -87,7 +95,7 @@ export default function Home() {
 
           <div className={styles.section}>
             <SectionTitle title="Boros" />
-            <div className={`${styles.docCardsContainer} ${styles.borosSection}`}>
+            <div className={`${styles.docCardsContainer}`}>
               <DocCard
                 title="Boros Developer Docs"
                 description="Explore Boros, Pendle's interest rate swaps platform with order book mechanics, margin trading, and advanced settlement features."
@@ -95,12 +103,18 @@ export default function Home() {
                 icon="💻"
               />
               <DocCard
+                title="Boros Docs"
+                description="Comprehensive documentation for Boros platform features and functionality."
+                link="https://pendle.gitbook.io/boros/boros-docs"
+                icon="📖"
+                external={true}
+              />
+              <DocCard
                 title="Boros Academy"
                 description="Learn how to become a Boros trader."
-                link="/boros"
+                link="https://pendle.gitbook.io/boros"
                 icon="💰"
-                disabled={true}
-                comingSoon={true}
+                external={true}
               />
             </div>
           </div>

@@ -128,6 +128,14 @@ const config = {
               to: '/boros-dev',
               label: 'Boros Dev Docs',
             },
+            {
+              href: 'https://pendle.gitbook.io/boros/boros-docs',
+              label: 'Boros Docs',
+            },
+            {
+              href: 'https://pendle.gitbook.io/boros',
+              label: 'Boros Academy',
+            },
           ],
         }
       ],
