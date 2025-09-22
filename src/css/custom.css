@@ -102,6 +102,10 @@
   box-sizing: border-box;
 }
 
+.hero__title {
+  padding-top: 48px;
+}
+
 html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
