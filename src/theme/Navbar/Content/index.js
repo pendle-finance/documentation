@@ -45,11 +45,10 @@ export default function NavbarContent() {
         <>
           <NavbarMobileSidebarToggle />
           {/* Logo similar to ThinTopBar */}
-          <Link to="/" className="navbar__brand">
+          <Link to="/">
             <div className="navbar__logo">
               <img src="/img/logo.svg" alt="Pendle" />
             </div>
-            <b className="navbar__title text--truncate">PENDLE</b>
           </Link>
           <NavbarItems items={leftItems} />
         </>

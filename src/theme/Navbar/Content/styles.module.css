@@ -69,24 +69,10 @@ Hide color mode toggle in small viewports
 .navbar__brand {
   display: flex !important;
   align-items: center !important;
-  gap: 12px !important;
   text-decoration: none !important;
-  color: #000 !important;
-  margin-right: 1rem !important;
-}
-
-.navbar__brand:hover {
-  text-decoration: none !important;
-  color: #000 !important;
+  margin-right: 0px !important;
 }
 
 .navbar__logo img {
-  height: 24px !important;
-  width: auto !important;
-}
-
-.navbar__title {
-  font-weight: 600 !important;
-  font-size: 16px !important;
-  letter-spacing: 0.5px !important;
+  height: 48px !important;
 }
