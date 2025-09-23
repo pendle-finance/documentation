@@ -79,8 +79,9 @@ export default function Home() {
               <DocCard
                 title="Pendle Academy"
                 description="Learn how to use Pendle products with Pendle Academy."
-                link="/pendle-academy/Introduction"
+                link="https://pendle.gitbook.io/pendle-academy/"
                 icon="📊"
+                external={true}
               />
               <DocCard
                 title="Pendle V2 API"
