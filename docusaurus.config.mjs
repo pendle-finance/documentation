@@ -114,7 +114,7 @@ const config = {
               label: 'Pendle V2 Docs',
             },
             {
-              to: 'pendle-academy/Introduction',
+              href: 'https://pendle.gitbook.io/pendle-academy/',
               label: 'Pendle Academy',
             }
           ]
