@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpendle_documentation=self.webpackChunkpendle_documentation||[]).push([[8913],{8913:(e,n,t)=>{t.r(n)}}]);
