@@ -43,9 +43,9 @@ YT可以在到期之前随时交易。
 隐含收益率的数值与「固定收益APY」数值相等。
 
 
-$$$
-\text{Implied APY} = \left[\left(1 + \cfrac{\text{YT Price}}{\text{PT Price}}\right)^\cfrac{365}{\text{Days to expiry}}\right] - 1
-$$$
+$$
+\text{Implied APY} = \left[\left(1 + \frac{\text{YT Price}}{\text{PT Price}}\right)^{\frac{365}{\text{Days to expiry}}}\right] - 1
+$$
 
 **固定收益APY (Fixed APY)**
 
@@ -56,4 +56,12 @@ $$$
 或译为「收益率长仓APY」或「收益率好仓APY」，是基于以当前价格购买YT、并假设底层APY保持不变下的预估回报（年化）。
 
 此值可以为负数 － 表示按当前底层APY所有计算的未来收益总价值，低于当前购买YT的成本。
+
+#### Exchange Rate
+
+指生息代币与其记账资产之间的汇率。
+
+#### Watermark Rate
+
+生息代币与其记账资产之间记录的最高汇率。当汇率低于此水平时，PT在到期时将以低于其实际价值赎回，YT将停止赚取收益。
 

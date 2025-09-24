@@ -63,3 +63,5 @@ typechain
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+.claude

@@ -1,0 +1,40 @@
+/* .docItemContainer header + *,
+.docItemContainer article > *:first-child {
+  margin-top: 0 !important;
+}
+
+.docItemCol {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.docItemContainer {
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
+}
+
+@media (min-width: 997px) {
+  .docItemContainer {
+    padding: 0;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 996px) {
+  .docItemRow {
+    padding: 0.75rem !important;
+  }
+  .docItemRow > .col {
+    --ifm-col-width: 100%;
+  }
+  .docItemCol {
+    max-width: 100% !important;
+  }
+  .docItemContainer {
+    padding: 0;
+    max-width: 100%;
+  }
+} */

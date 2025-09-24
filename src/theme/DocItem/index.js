@@ -3,7 +3,7 @@ import DocItem from '@theme-original/DocItem';
 
 export default function DocItemWrapper(props) {
   return (
-    <div style={{marginTop: '2rem', maxWidth: '900px', minHeight: '70vh'}}>
+    <div>
       <DocItem {...props} />
     </div>
   );

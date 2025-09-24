@@ -1,11 +1,11 @@
 @media (min-width: 1024px) {
   .menu {
     flex-grow: 1;
-    padding: 0.5rem;
+    padding: 1.5rem 1rem;
   }
   @supports (scrollbar-gutter: stable) {
     .menu {
-      padding: 0.5rem 0 0.5rem 0.5rem;
+      padding: 1.5rem 0.5rem 1.5rem 1rem;
       scrollbar-gutter: stable;
     }
   }
@@ -15,17 +15,6 @@
   }
 }
 
-.logo{
-  width: 80%;
-  margin-bottom: 3rem;
-  /* margin-top: var(--ifm-navbar-height); */
-  
-}
-
-.menu{
-  padding: 0rem 0.5rem 0rem 2rem;
-}
-
-.menu__margin {
-  margin-top: 8vh !important;
+.menu {
+  padding: 1.5rem 1rem;
 }

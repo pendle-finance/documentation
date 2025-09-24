@@ -8,8 +8,7 @@ import NavbarItem from "@theme/NavbarItem";
 import NavbarColorModeToggle from "@theme/Navbar/ColorModeToggle";
 import SearchBar from "@theme/SearchBar";
 import NavbarMobileSidebarToggle from "@theme/Navbar/MobileSidebar/Toggle";
-import NavbarLogo from "@theme/Navbar/Logo";
-import NavbarSearch from "@theme/Navbar/Search";
+import LanguageSwitcher from "../../DocItem/Layout/LanguageSwitcher";
 import styles from "./styles.module.css";
 import Link from "@docusaurus/Link";
 
@@ -39,24 +38,29 @@ export default function NavbarContent() {
   const items = useNavbarItems();
   const [leftItems, rightItems] = splitNavbarItems(items);
   const searchBarItem = items.find((item) => item.type === "search");
+
   return (
     <NavbarContentLayout
-      right={
-        // TODO stop hardcoding items?
-        // Ask the user to add the respective navbar items => more flexible
-        <>
-          <NavbarItems items={rightItems} />
-          <NavbarColorModeToggle className={styles.colorModeToggle} />
-          {!searchBarItem && (
-            <NavbarSearch>
-              <SearchBar />
-            </NavbarSearch>
-          )}
-        </>
-      }
       left={
         <>
           <NavbarMobileSidebarToggle />
+          {/* Logo similar to ThinTopBar */}
+          <Link to="/">
+            <div className="navbar__logo">
+              <img src="/img/logo.svg" alt="Pendle" />
+            </div>
+          </Link>
+          <NavbarItems items={leftItems} />
+        </>
+      }
+      right={
+        <>
+          <NavbarItems items={rightItems} />
+          <NavbarColorModeToggle className={styles.colorModeToggle} />
+          <div className={styles.searchContainer}>
+            {!searchBarItem && <SearchBar />}
+            <LanguageSwitcher />
+          </div>
         </>
       }
     />

@@ -1,20 +1,27 @@
-.navbarHideable {
-  transition: transform var(--ifm-transition-fast) ease;
+
+/* Transfer ThinTopBar styling to native navbar */
+.navbar {
+  height: 48px !important;
+  background: var(--color-background-glass) !important;
+  backdrop-filter: blur(8px) !important;
+  border-bottom: 1px solid var(--color-border-light) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+  padding: 0 24px !important;
 }
 
-.navbarHidden {
-  display: none;
+/* Scroll progress indicator */
+.scrollProgressLine {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #4C9A92, #3280AC);
+  width: var(--scroll-progress, 0%);
+  transition: width 0.1s ease;
 }
 
-.navbarFix {
-  display: flex;
-  width: 100%;
-}
-
-@media only screen and (max-width: 1024px) {
-  .navbarHidden{
-    display: flex;
-    width: 100vw;
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 16px !important;
   }
-  
 }
