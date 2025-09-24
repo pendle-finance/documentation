@@ -44,6 +44,20 @@ const config = {
 
   plugins: [
     [
+      '@docusaurus/plugin-client-redirects',
+      {
+        createRedirects(existingPath) {
+          // For paths like /Developer/SomeDocs, redirect to /pendle-v2/Developer/SomeDocs
+          if (existingPath.includes('/pendle-v2/')) {
+            const pathWithoutPrefix = existingPath.replace('/pendle-v2/', '/');
+            return [pathWithoutPrefix];
+          }
+
+          return undefined;
+        },
+      },
+    ],
+    [
       '@docusaurus/plugin-content-docs',
       {
         id: 'boros-dev',
