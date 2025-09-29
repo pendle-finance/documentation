@@ -25,82 +25,307 @@ To address this, Pendle has introduced a hosted version of our SDK. It ensures t
 
 - Swap
 - Add liquidity
+- Add liquidity ZPI
 - Remove liquidity
 - Mint PT & YT
 - Redeem PT & YT
 - Transfer liquidity
+- Transfer liquidity ZPI
 - Roll over PT
 - Add liquidity dual
 - Remove liquidity dual
 - Mint SY
 - Redeem SY
 
-**Example**
+All actions above can be accessed via the all new [Convert API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_convert). 
 
-To get calldata and info of swapping **1000 USDC** to **PT stETH** in **stETH (0x34280882267ffa6383b363e278b027be083bbe3b)** with 1% slippage:
+## Examples
 
-![SDK swap](/img/Developers/sdk_swap_usdc.png "SDK swap")
+### Swap
 
 ```
-GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&tokensIn=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&tokensOut=0xb253eff1104802b97ac7e3ac9fdd73aece295a2c&amountsIn=1000000000&additionalData=impliedApy
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&tokensOut=0xf99985822fb361117fcf3768d34a6353e6022f5f&amountsIn=1000000000&enableAggregator=true&aggregators=kyberswap&additionalData=impliedApy,effectiveApy
 ```
 
 In code:
 
 ```ts
 export async function swapTokenToPt() {
-  // Swap 1 USDC to PT in stETH market with 1% slippage
   const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
     tokensIn: `${USDC_ADDRESS}`,
-    amountsIn: '1000000000',
+    amountsIn: 1000000000,
     tokensOut: `${PT_ADDRESS}`,
-    enableAggregator: true,
     receiver: RECEIVER_ADDRESS,
     slippage: 0.01,
+    enableAggregator: true,
+    aggregators: "kyberswap",
+    additionalData: "impliedApy,effectiveApy",
   });
-
-  console.log("Action: ", res.action);
-  console.log("Outputs: ", res.routes[0].outputs);
-  console.log("Price impact: ", res.routes[0].data.priceImpact);
-
-  // Send tx
-  getSigner().sendTransaction(res.routes[0].tx);
 }
 ```
 
-To add liquidity of 1 ETH to **stETH (0x34280882267ffa6383b363e278b027be083bbe3b)** with 1% slippage
-
-![SDK add liquidity](/img/Developers/sdk_add_liquidity.png "SDK add liquidity")
+### Add liquidity
 
 ```
-GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&enableAggregator=true&tokensIn=0x0000000000000000000000000000000000000000&amountsIn=1000000000000000000&tokensOut=0x34280882267ffa6383b363e278b027be083bbe3b
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0&tokensOut=0xc374f7ec85f8c7de3207a10bb1978ba104bda3b2&amountsIn=1000000000000000000
 ```
 
 In code:
 
 ```ts
 export async function addLiquiditySingleToken() {
-  // Use 1 ETH to add liquidity to stETH pool with 1% slippage
   const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
-    tokensIn: `${ETH_ADDRESS}`,
-    amountsIn: '1000000000000000000',
-    tokensOut: `${STETH_LP_ADDRESS}`,
+    tokensIn: `${WSTETH_ADDRESS}`,
+    amountsIn: "1000000000000000000",
+    tokensOut: `${MARKET_ADDRESS}`,
     receiver: RECEIVER_ADDRESS,
     slippage: 0.01,
-    enableAggregator: true,
-    aggregators: "kyberswap,okx",
   });
-
-  console.log("Action: ", res.action);
-  console.log("Outputs: ", res.routes[0].outputs);
-  console.log("Price impact: ", res.routes[0].data.priceImpact);
-
-  // Send tx
-  getSigner().sendTransaction(res.routes[0].tx);
 }
 ```
 
-All actions above can be accessed via the all new [Convert API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_convert). Please visit our [Convert API demo](https://github.com/pendle-finance/pendle-examples-public/tree/main/hosted-sdk-demo/src) to see more detailed examples.
+### Add liquidity ZPI
+
+```
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0&tokensOut=0xc374f7ec85f8c7de3207a10bb1978ba104bda3b2,0xf3abc972a0f537c1119c990d422463b93227cd83&amountsIn=1000000000000000000
+```
+
+In code:
+
+```ts
+export async function addLiquiditySingleTokenKeepYt() {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${WSTETH_ADDRESS}`,
+    amountsIn: "1000000000000000000",
+    tokensOut: `${MARKET_ADDRESS},${YT_ADDRESS}`,
+    receiver: RECEIVER_ADDRESS,
+    slippage: 0.01,
+  });
+}
+```
+
+### Remove liquidity
+
+```
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0xc374f7ec85f8c7de3207a10bb1978ba104bda3b2&tokensOut=0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0&amountsIn=1000000000000000000&enableAggregator=true
+```
+
+In code:
+
+```ts
+export async function removeLiquiditySingleToken() {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${MARKET_ADDRESS}`,
+    amountsIn: "1000000000000000000",
+    tokensOut: `${WSTETH_ADDRESS}`,
+    receiver: RECEIVER_ADDRESS,
+    slippage: 0.01,
+    enableAggregator: true,
+  });
+}
+```
+
+### Mint PT & YT
+
+```
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0&tokensOut=0xf99985822fb361117fcf3768d34a6353e6022f5f,0xf3abc972a0f537c1119c990d422463b93227cd83&amountsIn=1000000000000000000
+```
+
+In code:
+
+```ts
+export async function mintPyFromToken() {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${WSTETH_ADDRESS}`,
+    amountsIn: "1000000000000000000",
+    tokensOut: `${PT_ADDRESS},${YT_ADDRESS}`,
+    receiver: RECEIVER_ADDRESS,
+    slippage: 0.01,
+  });
+}
+```
+
+### Redeem PT & YT
+
+```
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0xf99985822fb361117fcf3768d34a6353e6022f5f,0xf3abc972a0f537c1119c990d422463b93227cd83&tokensOut=0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0&amountsIn=1000000000000000000,1000000000000000000
+```
+
+In code:
+
+```ts
+export async function redeemPyToToken() {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${PT_ADDRESS},${YT_ADDRESS}`,
+    amountsIn: "1000000000000000000,1000000000000000000",
+    tokensOut: `${WSTETH_ADDRESS}`,
+    receiver: RECEIVER_ADDRESS,
+    slippage: 0.01,
+  });
+}
+```
+
+### Transfer liquidity
+
+```
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0x9bc2fb257e00468fe921635fe5a73271f385d0eb,0x21aace56a8f21210b7e76d8ef1a77253db85bf0a,0x3787c19c32e727310708c0693aec00fb37a01e7b&tokensOut=0xc374f7ec85f8c7de3207a10bb1978ba104bda3b2&amountsIn=1000000000000000000,1000000000000000000,1000000000000000000&enableAggregator=true&aggregators=kyberswap
+```
+
+In code:
+
+```ts
+export async function transferLiquidity() {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${FXSAVE_MARKET_ADDRESS},${FXSAVE_PT_ADDRESS},${FXSAVE_YT_ADDRESS}`,
+    amountsIn: "1000000000000000000,1000000000000000000,1000000000000000000",
+    tokensOut: `${MARKET_ADDRESS}`,
+    receiver: RECEIVER_ADDRESS,
+    slippage: 0.01,
+    enableAggregator: true,
+    aggregators: "kyberswap",
+  });
+}
+```
+
+### Transfer liquidity ZPI
+
+```
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0x9bc2fb257e00468fe921635fe5a73271f385d0eb,0x21aace56a8f21210b7e76d8ef1a77253db85bf0a,0x3787c19c32e727310708c0693aec00fb37a01e7b&tokensOut=0xc374f7ec85f8c7de3207a10bb1978ba104bda3b2,0xf3abc972a0f537c1119c990d422463b93227cd83&amountsIn=1000000000000000000,1000000000000000000,1000000000000000000&enableAggregator=true&aggregators=kyberswap
+```
+
+In code:
+
+```ts
+export async function transferLiquidityKeepYt() {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${FXSAVE_MARKET_ADDRESS},${FXSAVE_PT_ADDRESS},${FXSAVE_YT_ADDRESS}`,
+    amountsIn: "1000000000000000000,1000000000000000000,1000000000000000000",
+    tokensOut: `${MARKET_ADDRESS},${YT_ADDRESS}`,
+    receiver: RECEIVER_ADDRESS,
+    slippage: 0.01,
+    enableAggregator: true,
+    aggregators: "kyberswap",
+  });
+}
+```
+
+### Roll over PT
+
+```
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0x21aace56a8f21210b7e76d8ef1a77253db85bf0a&tokensOut=0xf99985822fb361117fcf3768d34a6353e6022f5f&amountsIn=1000000000000000000&enableAggregator=true
+```
+
+In code:
+
+```ts
+export async function rollOverPt() {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${FXSAVE_PT_ADDRESS}`,
+    amountsIn: "1000000000000000000",
+    tokensOut: `${PT_ADDRESS}`,
+    receiver: RECEIVER_ADDRESS,
+    slippage: 0.01,
+    enableAggregator: true,
+  });
+}
+```
+
+### Add liquidity dual
+
+```
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0xcbc72d92b2dc8187414f6734718563898740c0bc,0xf99985822fb361117fcf3768d34a6353e6022f5f&tokensOut=0xc374f7ec85f8c7de3207a10bb1978ba104bda3b2&amountsIn=1000000000000000000,1000000000000000000
+```
+
+In code:
+
+```ts
+export async function addLiquidityDualSyAndPt() {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${SY_ADDRESS},${PT_ADDRESS}`,
+    amountsIn: "1000000000000000000,1000000000000000000",
+    tokensOut: `${MARKET_ADDRESS}`,
+    receiver: RECEIVER_ADDRESS,
+    slippage: 0.01,
+  });
+}
+```
+
+### Remove liquidity dual
+
+```
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0xc374f7ec85f8c7de3207a10bb1978ba104bda3b2&tokensOut=0xf99985822fb361117fcf3768d34a6353e6022f5f,0xcbc72d92b2dc8187414f6734718563898740c0bc&amountsIn=1000000000000000000
+```
+
+In code:
+
+```ts
+export async function removeLiquidityDualSyAndPt() {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${MARKET_ADDRESS}`,
+    amountsIn: "1000000000000000000",
+    tokensOut: `${PT_ADDRESS},${SY_ADDRESS}`,
+    receiver: RECEIVER_ADDRESS,
+    slippage: 0.01,
+  });
+}
+```
+
+### Mint SY
+
+```
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0&tokensOut=0xcbc72d92b2dc8187414f6734718563898740c0bc&amountsIn=1000000000000000000
+```
+
+In code:
+
+```ts
+export async function mintSyFromToken() {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${WSTETH_ADDRESS}`,
+    amountsIn: "1000000000000000000",
+    tokensOut: `${SY_ADDRESS}`,
+    receiver: RECEIVER_ADDRESS,
+    slippage: 0.01,
+  });
+}
+```
+
+### Redeem SY
+
+```
+GET https://api-v2.pendle.finance/core/v2/sdk/1/convert?receiver=<RECEIVER_ADDRESS>&slippage=0.01&tokensIn=0xcbc72d92b2dc8187414f6734718563898740c0bc&tokensOut=0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0&amountsIn=1000000000000000000
+```
+
+In code:
+
+```ts
+export async function redeemSyToToken() {
+  const res = await callSDK<ConvertResponse>(`/v2/sdk/${CHAIN_ID}/convert`, {
+    tokensIn: `${SY_ADDRESS}`,
+    amountsIn: "1000000000000000000",
+    tokensOut: `${WSTETH_ADDRESS}`,
+    receiver: RECEIVER_ADDRESS,
+    slippage: 0.01,
+  });
+}
+```
+
+## Send Transaction
+
+After calling any of the Convert API functions above, you can inspect the response and send the transaction:
+
+```ts
+const res: ConvertResponse;
+
+// Log the action and outputs
+console.log("Action: ", res.action);
+console.log("Outputs: ", res.routes[0].outputs);
+
+// Send the transaction
+getSigner().sendTransaction(res.routes[0].tx);
+```
+
+Please visit our [Convert API demo](https://github.com/pendle-finance/pendle-examples-public/tree/main/hosted-sdk-demo/src) to see more detailed examples.
 
 ### Inputs
 
@@ -108,14 +333,15 @@ The Convert API accepts the following input parameters:
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
-| `tokensIn` | string | Yes | - | Comma-separated input token addresses |
-| `amountsIn` | string | Yes | - | Comma-separated input token amounts (in wei) |
-| `tokensOut` | string | Yes | - | Comma-separated expected output token addresses |
+| `tokensIn` | string | Yes | - | Array of input token addresses (comma-separated) |
+| `amountsIn` | string | Yes | - | Array of input token amounts in wei (comma-separated) |
+| `tokensOut` | string | Yes | - | Array of expected output token addresses (comma-separated) |
 | `receiver` | string | Yes | - | Address to receive the output tokens |
 | `slippage` | number | Yes | - | Maximum slippage tolerance (0-1, where 0.01 = 1%) |
 | `enableAggregator` | boolean | No | `false` | Enable swap aggregators for token conversions |
 | `aggregators` | string | No | - | Specific aggregators to use (comma-separated), see [Routing](#routing) |
 | `redeemRewards` | boolean | No | `false` | Whether to redeem rewards during the action, applicable to actions: `transfer-liquidity` |
+| `needScale` | boolean | No | `false` | Aggregator needScale parameter, only set to true when amounts are updated on-chain. When enabled, please make sure to buffer the input amount by about 2%, applicable to actions: `swap` |
 | `additionalData` | string | No | - | Additional data to include in response (comma-separated), see [Additional data](#additional-data) |
 
 ### Outputs
@@ -127,7 +353,7 @@ The Convert API returns the following response structure:
 | `action` | string | Yes | The classified and executed action (e.g., `mint-py`, `swap`, `add-liquidity`) |
 | `inputs` | [TokenAmountResponse[]](#tokenamountresponse) | Yes | Input tokens and amounts used in the action |
 | `requiredApprovals` | [TokenAmountResponse[]](#tokenamountresponse) | No | Tokens requiring approval before execution |
-| `routes` | [ConvertResponse[]](#convertresponse) | Yes | Array of route execution details (this version of the API always returns the single best route, i.e. `routes.length = 1`) |
+| `routes` | [ConvertResponse[]](#convertresponse) | Yes | Array of route execution details, sorted by decresing output amount |
 
 #### TokenAmountResponse
 
@@ -166,6 +392,7 @@ The Convert API returns the following response structure:
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
+| `aggregatorType` | string | Yes | The aggregator used, or `VOID` if none was used |
 | `priceImpact` | number | Yes | Price impact |
 | `impliedApy` | [ImpliedApy](#impliedapy) | No | Market APY information for yield actions. (for `swap` actions) |
 | `effectiveApy` | number | No | User's effective APY after fees/slippage. (for `swap` actions) |
