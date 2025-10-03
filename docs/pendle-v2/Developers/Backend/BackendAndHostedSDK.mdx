@@ -464,9 +464,9 @@ export async function addLiquiditySingleToken() {
 Currently you can use aggregator with your own API key by specifying specific field in the request headers.
 | Aggregator  | Header Key           | Note                          |
 | ----------- | -------------------- | ------------------------------------ |
-| `kyberswap` | `KYBERSWAP_API_KEY`  |        ---   |
-| `odos`      | `ODOS_API_KEY`     |             ---   |
-| `okx`       | `OKX_ACCESS_KEY, OKX_ACCESS_SECRET, OKX_PASSPHRASE`      | Need all three to return a valid response |
+| `kyberswap` | `KYBERSWAP-API-KEY`  |        ---   |
+| `odos`      | `ODOS-API-KEY`       |             ---   |
+| `okx`       | `OKX-ACCESS-KEY, OKX-ACCESS-SECRET, OKX-PASSPHRASE`      | Need all three to return a valid response |
 | `paraswap`  | --- | Currently not supported           |
 
 When using custom aggregators, please make sure to include the required headers in your request. If the headers are not provided, the system will default to using the public API for that aggregator.
