@@ -460,6 +460,19 @@ export async function addLiquiditySingleToken() {
 }
 ```
 
+##### Custom aggregators support
+Currently you can use aggregator with your own API key by specifying specific field in the request headers.
+| Aggregator  | Header Key           | Note                          |
+| ----------- | -------------------- | ------------------------------------ |
+| `kyberswap` | `KYBERSWAP_API_KEY`  |        ---   |
+| `odos`      | `ODOS_API_KEY`     |             ---   |
+| `okx`       | `OKX_ACCESS_KEY, OKX_ACCESS_SECRET, OKX_PASSPHRASE`      | Need all three to return a valid response |
+| `paraswap`  | --- | Currently not supported           |
+
+When using custom aggregators, please make sure to include the required headers in your request. If the headers are not provided, the system will default to using the public API for that aggregator.
+
+Computing unit for the custom aggregator is deduce from the public one. For example if you are using public Odos API key, the computing unit cost will be 5 (base cost) + 15 (odos cost) = 20 computing units, but when you use your own Odos API key, the computing unit cost will be 5 (base cost) + 0 (odos cost with custom API key) = 5 computing units.
+
 #### Additional data
 
 When an endpoint has an `additionalData` field, users can pass in some fields to receive more data, but it will cost more computing units.
