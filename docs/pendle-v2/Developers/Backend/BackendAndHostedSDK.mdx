@@ -460,6 +460,20 @@ export async function addLiquiditySingleToken() {
 }
 ```
 
+##### Reduce aggregator computing units (v2 endpoints only)
+
+By default, when using aggregators, the system will use public API keys for each aggregator. This means that the computing unit cost for each aggregator will be added to the total cost of the request. To reduce the computing unit cost, you can use your own API key for each aggregator. This way, the computing unit cost for that aggregator will be reduced to 0. For example, if you use your own API key for Odos, the total computing unit cost will be 5 (base cost) + 5 (kyberswap cost) + 0 (odos cost with custom API key) = 10 computing units.
+
+Currently you can use aggregator with your own API key by specifying specific field in the request headers.
+| Aggregator  | Header Key           | Note                          |
+| ----------- | -------------------- | ------------------------------------ |
+| `kyberswap` | `KYBERSWAP-API-KEY`  |        ---   |
+| `odos`      | `ODOS-API-KEY`       |             ---   |
+| `okx`       | `OKX-ACCESS-KEY, OKX-ACCESS-SECRET, OKX-PASSPHRASE`      | Need all three to return a valid response |
+| `paraswap`  | --- | Currently not supported           |
+
+When using custom aggregators, please make sure to include the required headers in your request. If the headers are not provided, the system will default to using the public API for that aggregator.
+
 #### Additional data
 
 When an endpoint has an `additionalData` field, users can pass in some fields to receive more data, but it will cost more computing units.
