@@ -460,7 +460,12 @@ export async function addLiquiditySingleToken() {
 }
 ```
 
-##### Custom aggregators support
+##### Reduce aggregator computing units
+
+By default, when using aggregators, the system will use public API keys for each aggregator. This means that the computing unit cost for each aggregator will be added to the total cost of the request. For example, if you use both KyberSwap and Odos aggregators, the total computing unit cost will be 5 (base cost) + 5 (kyberswap cost) + 15 (odos cost) = 25 computing units.
+
+To reduce the computing unit cost, you can use your own API key for each aggregator. This way, the computing unit cost for that aggregator will be reduced to 0. For example, if you use your own API key for Odos, the total computing unit cost will be 5 (base cost) + 5 (kyberswap cost) + 0 (odos cost with custom API key) = 10 computing units.
+
 Currently you can use aggregator with your own API key by specifying specific field in the request headers.
 | Aggregator  | Header Key           | Note                          |
 | ----------- | -------------------- | ------------------------------------ |
@@ -470,8 +475,6 @@ Currently you can use aggregator with your own API key by specifying specific fi
 | `paraswap`  | --- | Currently not supported           |
 
 When using custom aggregators, please make sure to include the required headers in your request. If the headers are not provided, the system will default to using the public API for that aggregator.
-
-Computing unit for the custom aggregator is deduce from the public one. For example if you are using public Odos API key, the computing unit cost will be 5 (base cost) + 15 (odos cost) = 20 computing units, but when you use your own Odos API key, the computing unit cost will be 5 (base cost) + 0 (odos cost with custom API key) = 5 computing units.
 
 #### Additional data
 
