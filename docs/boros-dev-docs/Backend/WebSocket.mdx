@@ -10,7 +10,7 @@ Here's a complete example of how to connect to and use the WebSocket:
 import { io } from 'socket.io-client';
 
 // Initialize the socket connection
-this.socket = io('wss://api.boros.finance/pendle-dapp-v3', {
+const socket = io('wss://api.boros.finance/pendle-dapp-v3', {
   path: '/socket/socket.io',
   reconnectionAttempts: 5,
   transports: ['websocket']
