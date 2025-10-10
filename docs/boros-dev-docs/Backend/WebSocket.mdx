@@ -10,8 +10,8 @@ Here's a complete example of how to connect to and use the WebSocket:
 import { io } from 'socket.io-client';
 
 // Initialize the socket connection
-const socket = io('wss://secrettune.io/pendle-dapp-v3', {
-  path: '/socket.io',
+const socket = io('wss://api.boros.finance/pendle-dapp-v3', {
+  path: '/socket/socket.io',
   reconnectionAttempts: 5,
   transports: ['websocket']
 });
@@ -44,11 +44,11 @@ To receive updates, you need to:
 
 ```text
 // Subscribe to a channel
-socket.emit('subscribe', 'orderbook:MARKET_ID:full');
+socket.emit('subscribe', 'statistics:MARKET_ID');
 
 // Listen for updates
-socket.on('orderbook:MARKET_ID:full:update', (data) => {
-  console.log('Received orderbook update:', data);
+socket.on('statistics:MARKET_ID:update', (data) => {
+  console.log('Received market statistics update:', data);
 });
 ```
 
@@ -59,10 +59,10 @@ Always clean up your WebSocket connections when they're no longer needed:
 ```text
 function cleanup() {
   // Unsubscribe from channels
-  socket.emit('unsubscribe', 'orderbook:MARKET_ID:full');
+  socket.emit('unsubscribe', 'statistics:MARKET_ID');
 
   // Remove listeners
-  socket.off('orderbook:MARKET_ID:full:update');
+  socket.off('statistics:MARKET_ID:update');
 
   // Disconnect
   socket.disconnect();
@@ -134,16 +134,16 @@ class PendleWebSocket {
   }
 
   public subscribeToMarket(marketId: string) {
-    const channel = `orderbook:$\{marketId\}:full`;
+    const channel = `statistics:${marketId}`;
     this.socket.emit('subscribe', channel);
 
     this.socket.on(`${channel}:update`, (data) => {
-      console.log(`Received update for $\{marketId\}:`, data);
+      console.log(`Received update for ${marketId}:`, data);
     });
   }
 
   public unsubscribeFromMarket(marketId: string) {
-    const channel = `orderbook:$\{marketId\}:full`;
+    const channel = `statistics:$\{marketId\}`;
     this.socket.emit('unsubscribe', channel);
     this.socket.off(`${channel}:update`);
   }
