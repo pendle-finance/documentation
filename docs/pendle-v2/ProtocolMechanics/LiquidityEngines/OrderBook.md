@@ -49,7 +49,7 @@ Setting a limit order requires signature from your address while revoking the or
 
 Fees for swaps on limit order will be the same as if they were done on the AMM. Currently, maker order fee is set to be 0 (taker order fees remain the same). The team has full discretion on when to scale-up fees for maker order.
 
-Fees collected will be distributed in $ETH to vePENDLE voters of its respective pools.
+Fees collected will be distributed in USDT to vePENDLE voters of its respective pools.
 
 ## Arbitrage 
 
