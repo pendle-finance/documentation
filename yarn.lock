@@ -9386,6 +9386,7 @@ __metadata:
     "@docusaurus/plugin-client-redirects": "npm:^3.8.1"
     "@docusaurus/plugin-content-docs": "npm:^3.6.3"
     "@docusaurus/plugin-google-gtag": "npm:^3.6.3"
+    "@docusaurus/plugin-sitemap": "npm:3.8.1"
     "@docusaurus/preset-classic": "npm:^3.6.3"
     "@docusaurus/tsconfig": "npm:^3.6.3"
     "@mdx-js/react": "npm:^3.0.0"
