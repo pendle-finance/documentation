@@ -50,9 +50,9 @@ Pool caps are finalized on Wednesday 00:00 UTC based on two variables:
 1. Current Cap (C) – the maximum incentive currently set for the pool.
 2. Fee Share % (F) – the pool’s proportion of total swap fees generated across Pendle over the last 7 days.
 
-Pools launched on Pendle will begin with a **default 5% cap** in their first epoch. After that, a pool’s cap adjusts dynamically each week based on its performance, with a maximum cap of 20%. The cap adjusts based on the following formula:
-- If C > 3 \* F → `New cap = max(C − 20% * C, 3 * F)`.
-- If C < 3 \* F → `New cap = min(C + 20% * (3 * F), 3 * F)`.
+Pools launched on Pendle will begin with a **default 5% cap** in their first epoch. After that, a pool’s cap adjusts dynamically each week based on its performance. The cap adjusts based on the following formula:
+- If C > 3 \* F → `New cap = max(C − 25% * C, 3 * F)`.
+- If C < 3 \* F → `New cap = min(C + 35% * F, 3 * F)`.
 
 The fee share (F) is calculated based on a Wednesday-to-Wednesday measurement period and finalized at 00:00 UTC on Wednesday. This creates a 24-hour lag before the new epoch begins on Thu 00:00 UTC.
 
