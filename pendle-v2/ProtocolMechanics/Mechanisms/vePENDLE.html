@@ -17,7 +17,7 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous"><link rel="stylesheet" href="/assets/css/styles.85c6c580.css">
-<script src="/assets/js/runtime~main.0e3939e4.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.30c2d0df.js" defer="defer"></script>
 <script src="/assets/js/main.ada506da.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -54,10 +54,10 @@
 <li>Current Cap (C) – the maximum incentive currently set for the pool.</li>
 <li>Fee Share % (F) – the pool’s proportion of total swap fees generated across Pendle over the last 7 days.</li>
 </ol>
-<p>Pools launched on Pendle will begin with a <strong>default 5% cap</strong> in their first epoch. After that, a pool’s cap adjusts dynamically each week based on its performance, with a maximum cap of 20%. The cap adjusts based on the following formula:</p>
+<p>Pools launched on Pendle will begin with a <strong>default 5% cap</strong> in their first epoch. After that, a pool’s cap adjusts dynamically each week based on its performance. The cap adjusts based on the following formula:</p>
 <ul>
-<li>If C &gt; 3 * F → <code>New cap = max(C − 20% * C, 3 * F)</code>.</li>
-<li>If C &lt; 3 * F → <code>New cap = min(C + 20% * (3 * F), 3 * F)</code>.</li>
+<li>If C &gt; 3 * F → <code>New cap = max(C − 25% * C, 3 * F)</code>.</li>
+<li>If C &lt; 3 * F → <code>New cap = min(C + 35% * F, 3 * F)</code>.</li>
 </ul>
 <p>The fee share (F) is calculated based on a Wednesday-to-Wednesday measurement period and finalized at 00:00 UTC on Wednesday. This creates a 24-hour lag before the new epoch begins on Thu 00:00 UTC.</p>
 <p><img decoding="async" loading="lazy" alt="Caps Timeline" src="/assets/images/caps_timeline-f3e964e181666f02e678afe34e3fa0da.png" title="Caps Timeline" width="4624" height="2604" class="img_ev3q"></p>
