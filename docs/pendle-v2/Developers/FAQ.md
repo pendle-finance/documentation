@@ -91,15 +91,76 @@ I am trying to better understand why Pendle recommends the pricing of PT to SY i
 **Answer:**
 Actually, that might be misunderstood. Pendle recommends pricing PT to SY. For SY to any other units, the integrator can choose an appropriate method based on whether the asset can be directly redeemed from the SY or if there is a slashing risk, etc.
 
-Pendle can’t provide a perfect PT to Asset price because Asset price is not well defined. Take a simple example:
-PT-sUSDe / SY-sUSDe with asset being USDe
-Pendle can guarantee 1 PT-sUSDe can be traded to X SY-sUSDe == X sUSDe . So PT to SY price exists natively
-Pendle can’t guarantee sUSDe is redeemable to some amount of USDe
+Pendle can't provide a perfect PT to Asset price because the Asset price is not well defined. Take a simple example:
+- PT-sUSDe / SY-sUSDe with asset being USDe
+- Pendle can guarantee 1 PT-sUSDe can be traded to X SY-sUSDe == X sUSDe. So PT to SY price exists natively.
+- Pendle can't guarantee sUSDe is redeemable to some amount of USDe.
 
-Which now traced back to: SY-sUSDe’s asset is not USDe, but USDe staked in Ethena, and the price of this is not well defined
+This traces back to: SY-sUSDe's asset is not USDe, but USDe staked in Ethena, and the price of this is not well defined.
 
 **Question:**
-Thanks! That makes sense utilizing the SY and letting integrators choose the approriate method. What would happen in essence if there was a depeg in USDe from PT to Asset, would there possibly be any impact on the PT to Asset oracle feed relative to a PT to SY?
+Thanks! That makes sense utilizing the SY and letting integrators choose the appropriate method. What would happen in essence if there was a depeg in USDe from PT to Asset, would there possibly be any impact on the PT to Asset oracle feed relative to a PT to SY?
 
 **Answer:**
-for sUSDe depeg from USDe, PT price is not impacted even when PT-Asset is used because Pendle base the SY-Asset conversion rate on the underlying contract, not the market rate (this rate is SY.exchangeRate() and it will always read a rate provided by the underlying contract)
+For sUSDe depeg from USDe, PT price is not impacted even when PT-Asset is used because Pendle bases the SY-Asset conversion rate on the underlying contract, not the market rate (this rate is `SY.exchangeRate()` and it will always read a rate provided by the underlying contract).
+
+**Question:**
+Why do quoted amounts from Pendle's quoter contract rate functions (e.g., `getPtToSyRate`, `getYtToSyRate`) differ from actual amounts returned by router functions, and what is the most accurate method for obtaining swap amounts?
+
+**Answer:**
+The rate functions in Pendle's quoter contract provide spot prices, which do not account for price impact. To obtain the most accurate swap amounts, call Pendle's router functions directly.
+
+**Question:**
+Why does the quantity of aTokens fluctuate when claiming rewards or transferring them, and how does this affect transactions?
+
+**Answer:**
+aTokens are rebasing tokens from Aave, meaning their quantity accrues rewards in real-time. This property causes the token balance to fluctuate, even during a transfer. Consequently, if you attempt to transfer a specific amount, the actual amount received might be slightly different (e.g., A-1 instead of A), which can lead to transaction failures if not accounted for. This is a well-known characteristic of aTokens, not an issue with Pendle itself.
+
+**Question:**
+What is the recommended way to handle aToken rebasing to prevent transaction failures?
+
+**Answer:**
+Due to the real-time rebasing nature of aTokens, their balance can change unexpectedly. To prevent transaction failures, it is crucial to check the aToken balance immediately before each transfer or operation that relies on a precise quantity. This ensures that the transaction uses the most up-to-date balance.
+
+**Question:**
+What is the format for `expectedCap` and `currentCap`?
+
+**Answer:**
+The `expectedCap` and `currentCap` values are provided in base18 format (18 decimals).
+
+**Question:**
+How can I get pending LP/market rewards and YT rewards?
+
+**Answer:**
+You can call the `redeemRewards` function in the market contract for LP/market rewards, or call `redeemDueInterestAndRewards` in YT contracts for YT rewards.
+
+**Question:**
+Are PT to PT swaps supported for all asset pairs on the same chain?
+
+**Answer:**
+No, PT to PT swaps are only available selectively and not across all assets.
+
+**Question:**
+Are there any fees associated with using the Pendle API?
+
+**Answer:**
+No, there are no fees required to use the Pendle API.
+
+**Question:**
+What are the considerations for selecting aggregators when using Pendle's API, and which aggregator is recommended for specific use cases?
+
+**Answer:**
+The choice of aggregators depends on your use case, as using more aggregators increases cost. For previewing results, Kyber is recommended due to its speed, extensive route support, and low CU cost. For sending transactions, it is advisable to enable more aggregators to ensure the best possible routing.
+
+**Question:**
+When will PENDLE incentives for a new market begin?
+
+**Answer:**
+PENDLE incentives for a new market will begin on Thursday at 00:00 UTC (12 AM UTC), after the market has been whitelisted and added to voting.
+
+**Question:**
+Does the `priceImpact` value in the Pendle API account for both fees and slippage?
+
+**Answer:**
+The `priceImpact` value includes fees but does not account for slippage. Slippage can only be determined after the transaction has been sent.
+
