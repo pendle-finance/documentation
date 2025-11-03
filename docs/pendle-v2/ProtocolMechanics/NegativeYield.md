@@ -21,3 +21,5 @@ When this happens:
 ![Watermark Chart](/img/ProtocolMechanics/watermark_chart.png "Watermark Chart")
 
 You can track the Watermark Rate and current Exchange Rate by switching to the **Watermark Rate** view on any asset’s market page.
+
+The Watermark Rate can become artificially elevated due to factors such as oracle mispricing or temporary spikes in the IBT’s share price. When this occurs, a new inflated Watermark Rate is recorded and remains in effect even after the Exchange Rate normalizes to reflect the asset’s true value. During this period, the pool may appear to be generating negative yield until the Exchange Rate catches up with the inflated Watermark Rate.
