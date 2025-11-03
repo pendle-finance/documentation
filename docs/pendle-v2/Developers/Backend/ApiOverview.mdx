@@ -1,0 +1,215 @@
+---
+hide_table_of_contents: true
+---
+
+# Pendle API Overview
+
+Pendle provides a comprehensive API system that enables developers to integrate with the Pendle protocol for trading, analytics, and portfolio management.
+
+**API Base URL**: [https://api-v2.pendle.finance/core/docs/scalar](https://api-v2.pendle.finance/core/docs/scalar)
+
+**Developer Community**: Join our [Telegram Developer Channel](https://t.me/pendledevelopers) for updates, announcements, and support.
+
+## Understanding Pendle's API System
+
+Pendle's API consists of two complementary components:
+
+### 1. Hosted SDK (Transaction Generation)
+**Purpose**: Generate transaction payloads to interact with Pendle smart contracts
+
+**Use this when you need to**:
+- Swap tokens (buy/sell PT, YT)
+- Add or remove liquidity
+- Mint or redeem PT/YT tokens
+- Transfer liquidity between pools
+- Roll over PT positions
+- ... or any other transactions that interact with Pendle smart contracts
+
+
+📖 [View Hosted SDK Documentation](./HostedSdk.mdx)
+
+### 2. Backend API (Data Queries)
+**Purpose**: Retrieve offchain data for markets, assets, pricing, user positions, and vePendle governance
+
+**Use this when you need to**:
+- Get offchain data for analytics
+- Get supported markets list with latest data (TVL, volume, underlying APY, swap fee, ...)
+- Get PT/YT/LP/SY asset prices
+- Get VePendle data (vePendle, current vote, current vote cap, voter apr, ...)
+
+📖 [View Backend API Documentation](https://api-v2.pendle.finance/core/docs/scalar)
+
+## Rate Limiting
+
+All Pendle API endpoints are rate-limited to ensure service stability and fair usage.
+
+### How Rate Limiting Works
+
+Pendle uses a **Computing Unit (CU)** based system:
+- Every user gets **100 CU per minute** by default
+- Each endpoint consumes variable number of CUs, depends on the complexity of the calls
+- Rate limits reset every minute
+
+**Example**: If an endpoint costs 5 CU, you can call it 20 times per minute (100 ÷ 5 = 20).
+
+#### Computing Unit Costs
+
+Most RESTful API endpoints have fixed costs (typically 1-5 CU) wheare HostedSdk has dynamic costs depends on the number of aggregators used. Check the swagger documentation for specific costs - they're displayed in the "CU" box before each endpoint description.
+
+More on computing unit costs for HostedSdk can be found in [HostedSdk.mdx](./HostedSdk.mdx#select-aggregators).
+
+#### Rate Limit Headers
+
+Monitor your usage via response headers:
+
+| Header | Description |
+|--------|-------------|
+| `X-RateLimit-Limit` | Maximum CU per minute (default: 100) |
+| `X-RateLimit-Remaining` | CU remaining in current window |
+| `X-RateLimit-Reset` | Unix timestamp when limit resets |
+| `X-Computing-Unit` | CU cost of this request |
+
+Example response:
+```
+x-ratelimit-limit: 100
+x-ratelimit-remaining: 75
+x-ratelimit-reset: 1724206817
+x-computing-unit: 25
+```
+
+This means you have 75 CU remaining and the limit resets at 1724206817 (Unix timestamp).
+
+### I get rate limited, what should I do?
+
+Our rate limit was designed so that most users can use the API without facing any rate limiting issues unless you are calling the API unreasonably fast.
+
+So before requesting increased rate limits, please make sure you are not calling the API at an unreasonable rate, follow our best practices and examples. 
+
+If after all that, you are still getting rate limited, please contact us and provide the following information:
+
+1. **Your use case**: What is your usecase for using the API?
+  - Example: "I'm building a trading bot that need to get prices for all PT tokens on Pendle every minutes"
+2. **Specific endpoints**: Which endpoints will you use most frequently?
+   - Example: I call https://api-v2.pendle.finance/core/docs/scalar#tag/assets/get/v1/prices/assets every minutes, then use the [hosted sdk convert](https://api-v2.pendle.finance/core/docs/scalar#tag/sdk/get/v2/sdk/{chainId}/convert) to execute swap if needed 
+3. **Expected calling rate**: How many CU per minute/hour do you expect to use?
+4. **Integration type**: Browser-based, server-side, or both? Do note that rate limit is applied per IP address, so if you are using client side application, each user will have their own rate limit, so maybe you don't need a higher rate limit.
+
+Contact us via our [Discord](https://pendle.finance/discord)
+
+## API Updates and deprecation notice
+- **Deprecation Notice**: Breaking changes announced at least 30 days in advance, follow [Telegram Developer Channel](https://t.me/pendledevelopers) for announcements
+
+## Code Examples and Resources
+
+### Official Examples
+- [Hosted SDK Demo](https://github.com/pendle-finance/pendle-examples-public/tree/main/hosted-sdk-demo/src) - Transaction generation examples
+- [Backend API Demo](https://github.com/pendle-finance/pendle-examples-public/blob/main/backend-api-demo/src/index.ts) - Data query examples
+
+## Getting Help
+
+1. **Documentation**: Start with [API Overview](./ApiOverview.mdx), [Hosted SDK](./HostedSdk.mdx) or [Backend API](./BackendApi.mdx) docs
+2. **API Reference**: Explore endpoints at [Swagger UI](https://api-v2.pendle.finance/core/docs/scalar)
+3. **Examples**: Check [GitHub examples](https://github.com/pendle-finance/pendle-examples-public)
+
+
+## Frequently Asked Questions
+
+#### **Q: When should I use Hosted SDK vs RESTful API?**
+
+A: Use Hosted SDK when you need to **send transactions** to the blockchain (swaps, liquidity operations, mints/redeems). Use RESTful API when you need to **get data** (market info, prices, positions). See [Overview](./ApiOverview.mdx#understanding-pendles-api-system).
+
+### Hosted SDK FAQ
+
+#### **Q: How do I know the exact output amount before sending a transaction?**
+
+A: There is no way to know the exact output amount before sending a transaction. All the output amounts are calculated based on the current market conditions, and they are subject to change until the transaction is executed, you can control how much the output amount can vary compared to the expected amount by setting the `slippage` parameter.
+
+#### **Q: Why do I get different results each time I call the same endpoint?**
+
+A: Market conditions change constantly. Each call reflects the current state of liquidity pools and aggregator routes. 
+
+#### **Q: Do I need to approve tokens before using the Hosted SDK?**
+
+A: Short answer is No, long answer is Yes.
+- Short answer: You don't need to approve/have enough token balance to call hosted sdk API.
+- Long answer: Our hosted sdk try its best to return a most correct route by simulating all the routes it returns,
+however if you don't have enough token or approval, the hosted sdk couldn't simulate the call,
+the return route will be preview route, which could be different from actual route.
+So TLDR: if you have enough approval and balance, SDK will beable to simulate -> more accurate route. Otherwise, all routes are preview routes.
+
+Also, the API response includes a `requiredApprovals` field listing tokens that need approval. Approve these tokens to the router contract before sending your transaction.
+
+#### **Q: How do I reduce Computing Unit costs when using aggregators?**
+
+A: Obtain API keys from aggregator partners (KyberSwap, Odos, OKX) and pass them in request headers. This reduces that aggregator's CU cost to 0. See [Reducing Aggregator Costs](./HostedSdk.mdx##reduce-aggregator-computing-units-v2-endpoints-only).
+
+#### **Q: What happens if I don't specify which aggregators to use?**
+
+A: If `enableAggregator=true` but no `aggregators` parameter is provided, the system will use a preset set of aggregators will be used, which may change over time for optimization.
+
+#### **Q: Can I swap any PT to any other PT?**
+
+A: Not all PT pairs are swappable. Try using the Convert API, if the swap is not supported, the API will return an error.
+
+#### **Q: What does the `needScale` parameter do?**
+
+A: Set `needScale=true` only when your input amounts are updated on-chain (e.g., using contract balance). When enabled, buffer your input amount by ~2% to account for changes during transaction execution. Only applicable to swap actions.
+
+#### **Q: What is `priceImpact` and does it include slippage?**
+
+A: `priceImpact` is the effect your trade size has on the market price - it's included in the output amount. **Slippage** is different - it's caused by market movement between API call and transaction execution. You set `slippage` parameter as maximum tolerance (e.g., 0.01 = 1%). See [BackendApi.mdx - Price Impact vs Slippage](./BackendApi.mdx#price-impact-vs-slippage).
+
+#### **Q: What's the difference between "Add liquidity" and "Add liquidity ZPI"?**
+
+A:
+- **Add liquidity**: Adds liquidity and receives only LP tokens
+- **Add liquidity ZPI** (Zero Price Impact): Adds liquidity while keeping the generated YT tokens
+
+#### **Q: Can I transfer liquidity between different pools?**
+
+A: Yes! Use the Convert API with your current position (LP + PT + YT) as `tokensIn` and the target market as `tokensOut`.
+
+#### **Q: What contract is the `to` address in the transaction response?**
+
+A: The `to` address is typically the Pendle Router contract. This contract is upgradeable, so the address may change over time. Always use the address returned by the API - never hardcode it.
+
+#### **Q: How do I decode the transaction data to see what function is being called?**
+
+A: The response includes `contractParamInfo` with:
+- `method`: Function name (e.g., `"swapExactTokenForPt"`)
+- `contractCallParamsName`: Parameter names
+- `contractCallParams`: Parameter values
+
+```typescript
+console.log('Method:', response.contractParamInfo.method);
+console.log('Params:', response.contractParamInfo.contractCallParams);
+```
+
+#### **Q: Is the router address guaranteed to stay the same?**
+
+A: No, the router may be updated for protocol improvements. Always use the `tx.to` address from the API response. Changes will be announced publicly via the [Telegram Developer Channel](https://t.me/pendledevelopers).
+
+#### **Q: Can I use the same transaction data multiple times?**
+
+A: No. Transaction data is specific to current market conditions. Always generate fresh transaction data immediately before sending. Reusing old data will likely fail or give suboptimal results.
+
+## Backend API FAQ
+
+#### **Q: How do I stay updated on API changes?**
+
+A: Join the [Telegram Developer Channel](https://t.me/pendledevelopers) for announcements about new features, deprecations, and breaking changes (announced 30+ days in advance).
+
+#### **Q: How is projected vePendle computed?**
+
+A: Projected vePendle = Total vePendle supply × Pool's projected vote share. Get pool projected votes from `/v2/ve-pendle/data` endpoint.
+
+#### **Q: What's the difference between `expectedCap` and `currentCap`?**
+
+A:
+- `currentCap`: Active cap set last week (currently in effect)
+- `expectedCap`: Tentative cap for next week (finalized on Wednesday)
+Both values are in base18 format. See [Expected Cap vs Current Cap](#expected-cap-vs-current-cap).
+
+#### **Q: How do I get per-user vote breakdown?**
+
+A: Per-user vote data is not available via API. You need to listen for voting events on-chain.

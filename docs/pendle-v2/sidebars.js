@@ -161,7 +161,8 @@ module.exports = {
           type: "category",
           label: "🛠️ Off-chain helpers",
           items: [
-            { type: "doc", id: "Developers/Backend/BackendAndHostedSDK" },
+            { type: "doc", id: "Developers/Backend/ApiOverview" },
+            { type: "doc", id: "Developers/Backend/HostedSdk" },
             { type: "doc", id: "Developers/Backend/RouterStatic" },
           ],
         },
