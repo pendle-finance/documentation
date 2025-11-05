@@ -17,7 +17,7 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous"><link rel="stylesheet" href="/cn/assets/css/styles.ebaf8e16.css">
-<script src="/cn/assets/js/runtime~main.6178a76e.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.23e308ec.js" defer="defer"></script>
 <script src="/cn/assets/js/main.663d9e92.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -135,7 +135,7 @@
 <h5 class="anchor anchorWithStickyNavbar_LWe7" id="reduce-aggregator-computing-units-v2-endpoints-only">Reduce aggregator computing units (v2 endpoints only)<a href="#reduce-aggregator-computing-units-v2-endpoints-only" class="hash-link" aria-label="Direct link to Reduce aggregator computing units (v2 endpoints only)" title="Direct link to Reduce aggregator computing units (v2 endpoints only)">​</a></h5>
 <p>By default, when using aggregators, the system will use public API keys for each aggregator. This means that the computing unit cost for each aggregator will be added to the total cost of the request. To reduce the computing unit cost, you can use your own API key for each aggregator. This way, the computing unit cost for that aggregator will be reduced to 0. For example, if you use your own API key for Odos, the total computing unit cost will be 5 (base cost) + 5 (kyberswap cost) + 0 (odos cost with custom API key) = 10 computing units.</p>
 <p>Currently you can use aggregator with your own API key by specifying specific field in the request headers.</p>
-<table><thead><tr><th>Aggregator</th><th>Header Key</th><th>Note</th></tr></thead><tbody><tr><td><code>kyberswap</code></td><td><code>KYBERSWAP-API-KEY</code></td><td>---</td></tr><tr><td><code>odos</code></td><td><code>ODOS-API-KEY</code></td><td>---</td></tr><tr><td><code>okx</code></td><td><code>OKX-ACCESS-KEY, OKX-ACCESS-SECRET, OKX-PASSPHRASE</code></td><td>Need all three to return a valid response</td></tr><tr><td><code>paraswap</code></td><td>---</td><td>Currently not supported</td></tr></tbody></table>
+<table><thead><tr><th>Aggregator</th><th>Header Key</th><th>Note</th></tr></thead><tbody><tr><td><code>kyberswap</code></td><td><code>KYBERSWAP-API-KEY</code></td><td></td></tr><tr><td><code>odos</code></td><td><code>ODOS-API-KEY</code></td><td></td></tr><tr><td><code>okx</code></td><td><code>OKX-ACCESS-KEY</code>, <code>OKX-ACCESS-SECRET</code>, <code>OKX-PASSPHRASE</code></td><td>Need all three to return a valid response</td></tr><tr><td><code>paraswap</code></td><td><code>PARASWAP-API-KEY</code></td><td></td></tr></tbody></table>
 <p>When using custom aggregators, please make sure to include the required headers in your request. If the headers are not provided, the system will default to using the public API for that aggregator.</p>
 <h4 class="anchor anchorWithStickyNavbar_LWe7" id="additional-data">Additional data<a href="#additional-data" class="hash-link" aria-label="Direct link to Additional data" title="Direct link to Additional data">​</a></h4>
 <p>When an endpoint has an <code>additionalData</code> field, users can pass in some fields to receive more data, but it will cost more computing units.</p>
