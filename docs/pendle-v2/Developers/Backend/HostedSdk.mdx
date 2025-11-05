@@ -454,10 +454,10 @@ By default, when using aggregators, the system will use public API keys for each
 Currently you can use aggregator with your own API key by specifying specific field in the request headers.
 | Aggregator  | Header Key           | Note                          |
 | ----------- | -------------------- | ------------------------------------ |
-| `kyberswap` | `KYBERSWAP-API-KEY`  |        ---   |
-| `odos`      | `ODOS-API-KEY`       |             ---   |
-| `okx`       | `OKX-ACCESS-KEY, OKX-ACCESS-SECRET, OKX-PASSPHRASE`      | Need all three to return a valid response |
-| `paraswap`  | --- | Currently not supported           |
+| `kyberswap` | `KYBERSWAP-API-KEY`  | |
+| `odos`      | `ODOS-API-KEY`       | |
+| `okx`       | `OKX-ACCESS-KEY`, `OKX-ACCESS-SECRET`, `OKX-PASSPHRASE` | Need all three to return a valid response |
+| `paraswap`  | `PARASWAP-API-KEY` | |
 
 When using custom aggregators, please make sure to include the required headers in your request. If the headers are not provided, the system will default to using the public API for that aggregator.
 
