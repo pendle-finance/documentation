@@ -77,7 +77,7 @@ The current cap for this epoch and the tentative projected cap for the next epoc
 
 ## Fees and Rewards
 
-Pendle collects a 5% fee from all yield (including points) accrued by YT. Currently, 100% of this fee is distributed to vePENDLE holders, while the protocol collects no revenue. This is subject to change in the future.
+Pendle collects a 5% fee from all yield (including points) accrued by YT.
 
 A portion of yield from matured unredeemed PTs will be distributed pro rata to vePENDLE holders as well. 
 
