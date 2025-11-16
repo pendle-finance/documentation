@@ -12,9 +12,30 @@ The contract exposes familiar read functions (`latestRoundData`, `decimals`) so 
 
 Please see the [Choosing Linear Discount Parameters](./ChoosingLinearDiscountParams.md) documentation for guidance on selecting appropriate linear discount parameters.
 
+**Important:** The oracle returns the PT price in terms of the **accounting asset** (shown in brackets in the PT name). When converting to USD, you may need to account for the SY-to-accounting-asset exchange rate.
+
+### Pricing Examples
+
+Different PT types require different pricing calculations:
+
+- **`PT-kHYPE (HYPE)`**: The oracle returns the price in terms of HYPE staked in Kinetiq. To get the USD price:
+  ```
+  PT-kHYPE USD price = (Oracle discount factor) × (kHYPE exchange rate to HYPE) × (HYPE USD price)
+  ```
+
+- **`PT-sUSDe (USDe)`**: The oracle returns the price in terms of USDe staked in the sUSDe contract. To get the USD price:
+  ```
+  PT-sUSDe USD price = (Oracle discount factor) × (sUSDe exchange rate to USDe) × (USDe USD price)
+  ```
+
+- **`PT-USDe (USDe)`**: The oracle returns the price directly in terms of USDe. To get the USD price:
+  ```
+  PT-USDe USD price = (Oracle discount factor) × (USDe USD price)
+  ```
+
 ## Use cases
 
-For money markets listing PTs as collateral or borrowable assets, the oracle provides a stable, predictable valuation path. Integrators read the factor, multiply it by their PT redemption preview (and then by the underlying'S USD price feed if needed). Because the factor converges linearly to 1.0 at expiry, LTVs and liquidation thresholds behave smoothly instead of whipsawing with AMM volatility.
+For money markets listing PTs as collateral or borrowable assets, the oracle provides a stable, predictable valuation path. Integrators can use the discount factor to calculate conservative PT valuations without relying on AMM prices. Because the factor converges linearly to 1.0 at expiry, LTVs and liquidation thresholds behave smoothly instead of whipsawing with AMM volatility.
 
 ## Usage
 
@@ -27,7 +48,7 @@ function createWithPt(address pt, uint256 baseDiscountPerYear) external returns 
 function createWithMarket(address market, uint256 baseDiscountPerYear) external returns (address);
 ```
 
-The second method will will automatically derive the PT address from the market, which is useful for Pendle markets where the PT is derived from the underlying asset.
+The second method will automatically derive the PT address from the market, which is useful for Pendle markets where the PT is derived from the underlying asset.
 
 ### Feed retrieval
 
@@ -38,11 +59,11 @@ function latestRoundData()
     returns (uint80 roundId, int256 answer, uint256 startedAt, uint256 updatedAt, uint80 answeredInRound)
 ```
 
-Since the oracle is deterministic, except for `answer`, every other fields returned are `0`.
+Since the oracle is deterministic, all fields except `answer` are returned as `0`.
 
 #### Feed properties
 
-- **Decimals**: The oracle returns values in 18 decimals, so integrators should multiply the factor by their PT redemption preview (also in 18 decimals) to get the value.
+- **Decimals**: The oracle returns values in 18 decimals. Integrators should multiply this discount factor by the PT's redemption value (in 18 decimals) to calculate the PT's current value.
 - **Deterministic**: The oracle is deterministic, meaning the same inputs will always yield the same output. This allows for predictable valuation paths.
 - **Linear Discount**: The discount factor increases linearly over time, converging to 1.0 at maturity. This means the factor is always between 0 and 1, and it never goes negative.
 - **No External Calls**: The oracle does not make any external calls during reads, ensuring minimal liveness or manipulation surface. It relies solely on `block.timestamp` for time calculations.

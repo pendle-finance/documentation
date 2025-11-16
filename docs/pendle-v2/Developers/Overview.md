@@ -2,9 +2,14 @@
 hide_table_of_contents: true
 ---
 
-Follow our [Pendle Developer Updates](https://t.me/pendledevelopers) for important updates about the [Pendle Backend API](https://api-v2.pendle.finance/core/docs)
-
 # Overview
+
+## Stay Connected
+
+**Important:** Stay up to date with the latest developer updates and get support from our team:
+
+- **Telegram**: Join [t.me/pendledevelopers](https://t.me/pendledevelopers) for all development updates, API changes, and important announcements
+- **Discord**: Get technical support on our [Discord Developer Channel](https://pendle.finance/discord) with responses within 24 hours
 
 ## Core Documentation
 
@@ -42,7 +47,3 @@ All deployed Markets can be found here: [GitHub link](https://github.com/pendle-
 - [SY Contract Repository](https://github.com/pendle-finance/Pendle-SY-Public) & [SY Contract Addresses](https://github.com/pendle-finance/Pendle-SY-Public/tree/main/deployments)
 - [Example Repository](https://github.com/pendle-finance/pendle-examples-public)
 - [Whitepapers](https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers)
-
-## Support
-
-Join our [Discord Developer Channel](https://pendle.finance/discord) for support (response within 12 hours).
