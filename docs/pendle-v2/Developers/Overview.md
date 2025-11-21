@@ -28,7 +28,7 @@ hide_table_of_contents: true
 
 ### Off-chain Integration
 
-- [Backend RESTful API](./Backend/BackendAndHostedSDK#pendle-restful-api)
+- [Backend API overview](./Backend/ApiOverview.mdx)
 - [RouterStatic](./Backend/RouterStatic.md) - Extensively tested contract for off-chain calculations. Not audited; should not be used for on-chain fund-related operations.
 
 ### Limit Orders
