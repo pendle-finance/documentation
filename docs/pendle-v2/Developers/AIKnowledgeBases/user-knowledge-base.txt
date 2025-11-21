@@ -1,0 +1,88 @@
+Question: When will Sonic aUSDC rewards be distributed?||Where will aUSDC wS rewards be         distributed?||When will aUSDC wS rewards be distributed?||Why I can't claim my Merit rewards?||Where can I claim my Merit rewards?
+Answer: To claim your wS rewards from aUSDC (Sonic) LP or YT, just click on claim on your position dashboard, make sure Sonic chain is selected and than go to the Merkle section Rewards will be made claimable there once a week a few days after Merit has distributed them.
+
+
+Question: How to claim Concrete Bera rewards?
+Answer: follow the instructions below: 
+• click on claim on your Dashboard
+• click the Bear icon for Berachain
+• click Merkle
+make sure your wallet is set to Berachain and you have some BERA for gas in order to claim them
+
+
+Question: Hey, is Boros still scheduled for April? And how about citadels, when are they coming out?
+Answer: The team is currently working on adjusting the final details with internal beta-testing. More information will be announced soon . The expected release timeline for Boros is 2025, pending successful audits and final adjustments. Citadels is Pendle's mission to push Pendle PT expansion with different integrations and strong institutional adoption, so it's already happening!
+
+
+Question: When is Boros gonna be live?
+Answer: The team is currently working on adjusting the final details with internal beta-testing. More information will be announced soon . The expected release timeline for Boros is 2025, pending successful audits and final adjustments
+
+
+Question: vePEDNLE 空投快照已经过了？
+Answer: 从2025年2月到2025年6月，vePENDLE 持有者将每月收到空投。
+vePENDLE 持有的快照将于活动期间的***每月***20日00:00 UTC快照。
+这些空投来自Pendle团队协商的积分(来自YT费用的积分)，空投将根据vePENDLE持有量按比例分配(并包括Liquid Locker生态协议)
+
+
+Question: What happens to Boyco vault pools farming Berachain points on Pendle once Boyco goes live?||Once Boyco pool goes live, when will 1 to 1 redemption for underlying assets be enabled?||What happens once Boyco goes live?
+Answer: Once boyco goes live, the tokens are locked up and you can no longer redeem to other assets besides underlying (i.e. liquidBeraETH, liquidBeraBTC, ctsUSDe etc.) However, at any point in time, you can still exit your PT/YT/LP positions to the underlying token. Redemption to native assets will be live a few months after berachain goes live. For specific assets, the supposed withdrawal schedules are as follow - LBTC + WBTC (Bera Concrete): 14 April 2025 - sUSDe + USDe (Bera Concrete): 1 to 3 months after Berachain live - SolvBTC.BERA: 90 days from Berachain live - BeraSTONE: End of Boyco campaign, but can exit via uniswap DEX currently - liquidBeraETH + liquidBeraBTC: 90 days from Berachain live
+
+
+Question: Where can I withdraw the underlying tokens for Boyco pools once withdrawal is enabled?
+Answer: The underlying can be withdrawn on both ethereum mainnet and Berachain once withdrawal is enabled
+
+
+Question: what is the different between providing liquidity on Pendle vs on Uniswap?
+Answer: Similar to many other DeFi protocols, you can also deposit your asset to provide liquidity to Pendle pools. Unlike traditional LP in decentralised exchange (DEX) like Uniswap, Pendle's LP consist of the underlying asset and its principle token PT, thus, Pendle's LP will have no impermanent loss at maturity because the two assets in the pool will converge to the same asset. For more about Pendle LP, read Pendle Academy link about LP here https://pendle.gitbook.io/pendle-academy/optimizing-yields-with-pendle/chapter-3.2-more-yield-via-liquidity-provision
+
+
+Question: How many bera vaults i could hunt for point right now?
+Answer: Pendle houses the most comprehensive collection of Bera point yield sources ever made. Visit our Bera Era homepage for more information: https://app.pendle.finance/trade/points?category=berachain
+
+
+Question: How many bera vaults i could hunt for point right now?
+Answer: Pendle is the number one source of point trading in Defi. Visit our Point market to see list of high multiplier points yield being traded currently https://app.pendle.finance/trade/points. Pendle also house the most comprehensive collection of Bera point yield sources ever made. Visit our Bera Era homepage for more information: https://app.pendle.finance/trade/points?category=berachain
+
+
+Question: 你好，我如果持有1个USUALx PT，pt时间到期后是不是ptusualx兑换成usualx的比例是1:1
+Answer: 1 PT USUALx 到期是赎回「 1 $USUAL 价值的 $USUALx代币」。 购买PT是付出「未知的未来变动回报（质押USUAL所得的USUALx质押收益）」换取一个固定的利率收益。基本上就是传统金融中的利率互换。 PT的固定利率让你在到期时实现「将 1 PT-USUALx赎回相当于1个$USUAL价值的USUALx代币」。（到期前你以低于1个$USUAL的价格购买 1 PT-USUALx，之间的价差即是PT的固定收益）
+
+
+Question: morpho上的市场抵押pt借贷usdc/dai，morpho用的pt的oracle，是读取的pendle的当前市场价格吗？
+Answer: Morpho将PT在1美元时的价值假设为减去一个线性折扣，这个折扣取决于到期日离现在还有多远。因此，隐含收益率的波动不会影响抵押品健康比率。
+
+
+Question: long yield apy为负的话代表什么呢？
+Answer: 如果long yield APY为负，代表你付出的成本比你预期得到的利息收益为多。 但请注意，在**积分项目**的情况下，YT将收获积分，但由于这些积分价值未知，所以Pendle介面会假设积分价值为0。 此时若 YT的成本高于根据当前底层APY推算的应得收益（不含积分的预期收益），Long Yield APY将会显示为负值。
+
+
+Question: When will the vePENDLE users get their airdrop? A pendie fren asked
+Answer: Snapshot for vePENDLE Airdrop was taken at the end of 31DEC2024. Timeline of airdrop is still undecided. Follow our Official Announcement for latest update.
+
+
+Question: Do you think is TN bald?
+Answer: Definitely not. He specifically chose that haircut cuz JOB'S NOT DONE!
+
+
+Question: When will the vePENDLE users get their airdrop? A pendie fren asked
+Answer: Snapshot for vePENDLE Airdrop was taken at the end of 31DEC2024. Timeline of airdrop is still undecided. Follow our Official Announcement for latest update.
+
+
+Question: If I put my PT into LP, do I get yield from both
+Answer: If you put PT or underlying into an LP on Pendle, you will only earn the LP APY, not both. This is because creating the LP token requires selling some of your underlying/PT for the other.
+
+
+Question: APY out of range, what do
+Answer: If a market is outside of its APY range, it is recommended to use limit orders to enter or exit markets.
+
+
+Question: how do I short yield on Pendle?
+Answer: if you think the yield will go down and you would like to short the yield to profit, you can sell your YT or buy more PT. This way, you can secure a fixed rate of return and avoid losing money if the yield drops. This is called shorting yield. https://pendle.gitbook.io/pendle-academy/yield-trading-deep-dives/chapter-6-shorting-yield
+
+
+Question: I bought some YT Resolv, how can I claim Resolv points?
+Answer: There is no need to claim Resolv points, they are automatically awarded to YT or LP holders by the protocol. In order to know how many points you are awarded, check the dashboard of the underlying protocol, in this case, Resolv's dashboard. Note that in some cases, points might not show in real-time and could take some time to appear due to the internal process of each protocol. In those cases, points are retroactively awarded and recorded on-chain, so you will receive them once the dashboard updates
+
+
+Question: 
+Answer:
