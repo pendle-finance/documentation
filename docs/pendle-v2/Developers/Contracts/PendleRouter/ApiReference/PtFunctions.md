@@ -8,7 +8,7 @@ This document covers all functions for trading Principal Tokens (PT) in Pendle m
 
 ## Token to PT Trading
 
-Since AMM only supports swaps by exact PT, to swap exact tokens for PT requires binary search approximation to find the correct amount of SY needed to achieve the desired PT output. For best usage, use the [SDK](/Developers/Backend/BackendAndHostedSDK#features) for better approximation since running binary search on-chain is costly.
+Since AMM only supports swaps by exact PT, to swap exact tokens for PT requires binary search approximation to find the correct amount of SY needed to achieve the desired PT output. For best usage, use the [SDK](/docs/pendle-v2/Developers/Backend/HostedSdk.mdx#features) for better approximation since running binary search on-chain is costly.
 
 ### swapExactTokenForPt
 

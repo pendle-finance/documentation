@@ -8,7 +8,7 @@ hide_table_of_contents: true
 
 This guide shows how to interact with the Pendle Router for common on-chain actions—buying/selling PT or YT, adding/removing liquidity, minting/redeeming PT and YT, and claiming rewards. It’s intended for developers who want to integrate Pendle fully on-chain without using the Pendle SDK.
 
-For most use cases, we recommend the Pendle SDK for a better developer and end-user experience. The SDK supports zap-in/zap-out from any token, limit-order filling, and off-chain quoting, among other features. See the [Pendle SDK documentation](docs/Developers/Backend/BackendAndHostedSDK.md) for details.
+For most use cases, we recommend the Pendle SDK for a better developer and end-user experience. The SDK supports zap-in/zap-out from any token, limit-order filling, and off-chain quoting, among other features. See the [Pendle SDK documentation](../../Backend/HostedSdk.mdx) for details.
 
 The full tutorial source code is available in [RouterSample.sol](https://github.com/pendle-finance/pendle-examples-public/blob/main/test/RouterSample.sol). The examples target the wstETH market, but you can adapt them to other markets by changing the market and underlying asset addresses.
 

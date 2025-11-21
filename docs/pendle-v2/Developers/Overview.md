@@ -9,7 +9,13 @@ hide_table_of_contents: true
 **Important:** Stay up to date with the latest developer updates and get support from our team:
 
 - **Telegram**: Join [t.me/pendledevelopers](https://t.me/pendledevelopers) for all development updates, API changes, and important announcements
+- **Telegram bot**: We have a telegram bot for developers to ask about the API at [t.me/peepo_the_engineer_bot](https://t.me/peepo_the_engineer_bot)
 - **Discord**: Get technical support on our [Discord Developer Channel](https://pendle.finance/discord) with responses within 24 hours
+
+## For AI users
+- As many of us increasingly rely on AI tools to read and understand project documentation, we’ve added a new folder to the repository: [docs/Developers](https://github.com/pendle-finance/documentation/tree/master/docs/Developers). It contains a list of questions and answers about our system and our API, useful for AI to better understand our system and provide more accurate answers when you query them. Our in-house AI is also using these knowledge bases!
+
+- Follow the instructions in [README.md](https://github.com/pendle-finance/documentation/tree/master?tab=readme-ov-file#ai-knowledge-bases) to index the knowledge bases for your AI. 
 
 ## Core Documentation
 
@@ -28,7 +34,7 @@ hide_table_of_contents: true
 
 ### Off-chain Integration
 
-- [Backend RESTful API](./Backend/BackendAndHostedSDK#pendle-restful-api)
+- [Backend API overview](./Backend/ApiOverview.mdx)
 - [RouterStatic](./Backend/RouterStatic.md) - Extensively tested contract for off-chain calculations. Not audited; should not be used for on-chain fund-related operations.
 
 ### Limit Orders

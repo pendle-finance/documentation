@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const TARGET_DIR = "docs/pendle-v2/Developers/AIKnowledgeBases/";
+const TARGET_DIR = "docs/Developers/";
 
 const V2_DEV_KNOWLEDGE_BASE_DOC_ID = "1GnE1PqqMrRy4hT6JJq86l6eLWbFEs2ubJwK_g8PSUH8";
 const V2_USER_KNOWLEDGE_BASE_DOC_ID = "1nMqsJGkNVw3ZxCZZ743PhzrWo6O8urlwMBESFalQSTw";
