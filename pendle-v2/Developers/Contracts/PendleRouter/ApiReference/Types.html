@@ -17,7 +17,7 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous"><link rel="stylesheet" href="/assets/css/styles.85c6c580.css">
-<script src="/assets/js/runtime~main.f103e9fe.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.52b55b2d.js" defer="defer"></script>
 <script src="/assets/js/main.1b24e965.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -59,7 +59,7 @@ When <code>tokenIn</code> is any ERC20 token that needs to be swapped to a suppo
 <li>Set <code>tokenIn = USDC</code></li>
 <li>Set <code>tokenMintSy = SY-sUSDe</code></li>
 <li>Set <code>pendleSwap = 0xd4F480965D2347d421F1bEC7F545682E5Ec2151D</code></li>
-<li>Set <code>swapData</code> to proper data configuration obtained from <a href="/Developers/Backend/BackendAndHostedSDK#supported-functions">SDK</a></li>
+<li>Set <code>swapData</code> to proper data configuration obtained from <a href="/pendle-v2/Developers/Backend/HostedSdk#supported-functions">SDK</a></li>
 </ul>
 </li>
 </ul>
@@ -71,7 +71,7 @@ When <code>tokenIn</code> is any ERC20 token that needs to be swapped to a suppo
 <li>Single transaction for swap + Pendle operation</li>
 </ul>
 <p><strong>SDK Integration:</strong>
-The <a href="/Developers/Backend/BackendAndHostedSDK#features">Pendle Hosted SDK</a> automatically handles all TokenInput configuration when you enable routing. When you set <code>enableAggregator: true</code> in SDK calls, it:</p>
+The <a href="/pendle-v2/Developers/Backend/HostedSdk#features">Pendle Hosted SDK</a> automatically handles all TokenInput configuration when you enable routing. When you set <code>enableAggregator: true</code> in SDK calls, it:</p>
 <ul>
 <li>Automatically selects the best swap aggregator (KyberSwap, ODOS, 1inch, etc.)</li>
 <li>Generates optimal <code>swapData</code> for the chosen route</li>
@@ -109,7 +109,7 @@ When <code>tokenOut</code> is any ERC20 token different from supported SY tokens
 <li>Built-in slippage protection with <code>minTokenOut</code></li>
 </ul>
 <p><strong>SDK Integration:</strong>
-The <a href="/Developers/Backend/BackendAndHostedSDK#features">Pendle Hosted SDK</a> automatically handles all TokenOutput configuration when you enable routing. When you set <code>enableAggregator: true</code> in SDK calls, it:</p>
+The <a href="/pendle-v2/Developers/Backend/HostedSdk#features">Pendle Hosted SDK</a> automatically handles all TokenOutput configuration when you enable routing. When you set <code>enableAggregator: true</code> in SDK calls, it:</p>
 <ul>
 <li>Automatically selects the best swap aggregator for output token conversion</li>
 <li>Generates optimal <code>swapData</code> for the chosen route</li>
@@ -155,7 +155,7 @@ Enables integration with external swap aggregators like KyberSwap, 1inch, Parasw
 <p><strong>Values</strong></p>
 <table><thead><tr><th>Value</th><th>Description</th></tr></thead><tbody><tr><td><code>NONE</code></td><td>No external swap aggregation</td></tr><tr><td><code>KYBERSWAP</code></td><td>KyberSwap aggregation</td></tr><tr><td><code>ODOS</code></td><td>ODOS aggregation</td></tr><tr><td><code>ETH_WETH</code></td><td>ETH/WETH conversion</td></tr><tr><td><code>OKX</code></td><td>OKX DEX aggregation</td></tr><tr><td><code>ONE_INCH</code></td><td>1inch aggregation</td></tr><tr><td><code>PARASWAP</code></td><td>Paraswap aggregation</td></tr></tbody></table>
 <p><strong>Use Case</strong>
-Specifies which external aggregator to use for token swaps, enabling Pendle to leverage the best available liquidity across different DEXes. The <a href="/Developers/Backend/BackendAndHostedSDK#features">Pendle Hosted SDK</a> automatically selects the optimal SwapType based on available liquidity and routing efficiency.</p>
+Specifies which external aggregator to use for token swaps, enabling Pendle to leverage the best available liquidity across different DEXes. The <a href="/pendle-v2/Developers/Backend/HostedSdk#features">Pendle Hosted SDK</a> automatically selects the optimal SwapType based on available liquidity and routing efficiency.</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="exitpreexpreturnparams">ExitPreExpReturnParams<a href="#exitpreexpreturnparams" class="hash-link" aria-label="Direct link to ExitPreExpReturnParams" title="Direct link to ExitPreExpReturnParams">​</a></h3>
 <p>Detailed breakdown of returns from pre-expiry position exit operations.</p>
 <div class="language-solidity codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-solidity codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token keyword" style="font-style:italic">struct</span><span class="token plain"> </span><span class="token class-name" style="color:rgb(255, 203, 107)">ExitPreExpReturnParams</span><span class="token plain"> </span><span class="token punctuation" style="color:rgb(199, 146, 234)">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token builtin" style="color:rgb(130, 170, 255)">uint256</span><span class="token plain"> netPtFromRemove</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token builtin" style="color:rgb(130, 170, 255)">uint256</span><span class="token plain"> netSyFromRemove</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token builtin" style="color:rgb(130, 170, 255)">uint256</span><span class="token plain"> netPyRedeem</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token builtin" style="color:rgb(130, 170, 255)">uint256</span><span class="token plain"> netSyFromRedeem</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token builtin" style="color:rgb(130, 170, 255)">uint256</span><span class="token plain"> netPtSwap</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token builtin" style="color:rgb(130, 170, 255)">uint256</span><span class="token plain"> netYtSwap</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token builtin" style="color:rgb(130, 170, 255)">uint256</span><span class="token plain"> netSyFromSwap</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token builtin" style="color:rgb(130, 170, 255)">uint256</span><span class="token plain"> netSyFee</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain">    </span><span class="token builtin" style="color:rgb(130, 170, 255)">uint256</span><span class="token plain"> totalSyOut</span><span class="token punctuation" style="color:rgb(199, 146, 234)">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#bfc7d5"><span class="token plain"></span><span class="token punctuation" style="color:rgb(199, 146, 234)">}</span><br></span></code></pre></div></div>
