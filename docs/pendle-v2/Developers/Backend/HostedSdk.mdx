@@ -2,13 +2,13 @@
 hide_table_of_contents: true
 ---
 
-## Pendle Hosted SDK
+# Pendle Hosted SDK
 
 Pendle accommodates a vast array of assets, each characterized by its unique nuances and complexities. While the Pendle protocol remains immutable, the underlying assets don't share this feature, requiring our app and SDK to be updated frequently to align with changes in these assets.
 
 To address this, Pendle has introduced a hosted version of our SDK. It ensures the output remains consistent with Pendle's UI and keeps up-to-date with the latest protocol changes. The API design prioritizes simplicity and stability, with a high rate limit to meet the needs of most users.
 
-### Supported functions
+## Supported functions
 
 - Swap
 - Add liquidity
@@ -400,9 +400,9 @@ The Convert API returns the following response structure:
 | `selfCall2` | [ContractParamInfo](#contractparaminfo) | No | Params info for selfCall2 |
 | `reflectCall` | [ContractParamInfo](#contractparaminfo) | Yes | Params info for reflectCall |
 
-### Features
+## Features
 
-#### Routing
+### Routing
 
 Routing is a feature of the Pendle SDK that helps users find the most optimal route to interact with the Pendle system. This feature ensures that users can efficiently execute their transactions by identifying the best paths for their specific needs, whether it's swapping assets, adding or removing liquidity, or any other supported function.
 
@@ -447,7 +447,7 @@ export async function addLiquiditySingleToken() {
 }
 ```
 
-##### Reduce aggregator computing units (v2 endpoints only)
+### Reduce aggregator computing units
 
 By default, when using aggregators, the system will use public API keys for each aggregator. This means that the computing unit cost for each aggregator will be added to the total cost of the request. To reduce the computing unit cost, you can use your own API key for each aggregator. This way, the computing unit cost for that aggregator will be reduced to 0. For example, if you use your own API key for Odos, the total computing unit cost will be 5 (base cost) + 5 (kyberswap cost) + 0 (odos cost with custom API key) = 10 computing units.
 
@@ -462,8 +462,7 @@ Currently you can use aggregator with your own API key by specifying specific fi
 When using custom aggregators, please make sure to include the required headers in your request. If the headers are not provided, the system will default to using the public API for that aggregator.
 
 
-
-#### Additional data
+### Additional data
 
 When an endpoint has an `additionalData` field, users can pass in some fields to receive more data, but it will cost more computing units.
 
