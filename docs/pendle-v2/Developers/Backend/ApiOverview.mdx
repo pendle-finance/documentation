@@ -49,12 +49,16 @@ All Pendle API endpoints are rate-limited to ensure service stability and fair u
 
 ### How Rate Limiting Works
 
-Pendle uses a **Computing Unit (CU)** based system:
-- Every user gets **100 CU per minute** by default
-- Each endpoint consumes variable number of CUs, depends on the complexity of the calls
-- Rate limits reset every minute
+Pendle uses a **Computing Unit (CU)** based system, every endpoint have a CU cost (could be fixed or dynamic depending on the endpoint).
+The rate limit is calculated based on the total CU cost of all endpoints.
 
-**Example**: If an endpoint costs 5 CU, you can call it 20 times per minute (100 ÷ 5 = 20).
+Each user (IP) has a rate limit of 100 CU per minute, and 200,000 CU per week.
+
+Both limits apply simultaneously. You must stay within both the per-minute AND weekly limits to avoid rate limiting.
+
+**Example**: If an endpoint costs 5 CU, you can call it:
+- 20 times per minute (100 ÷ 5 = 20)
+- 40,000 times per week (200,000 ÷ 5 = 40,000)
 
 #### Computing Unit Costs
 
@@ -64,24 +68,29 @@ More on computing unit costs for HostedSdk can be found in [HostedSdk.mdx](./Hos
 
 #### Rate Limit Headers
 
-Monitor your usage via response headers:
+Our endpoints return following headers to help you monitor your usage:
 
 | Header | Description |
 |--------|-------------|
-| `X-RateLimit-Limit` | Maximum CU per minute (default: 100) |
-| `X-RateLimit-Remaining` | CU remaining in current window |
-| `X-RateLimit-Reset` | Unix timestamp when limit resets |
 | `X-Computing-Unit` | CU cost of this request |
+| `X-RateLimit-Limit` | Maximum CU per minute (e.g., 100 for free tier) |
+| `X-RateLimit-Remaining` | CU remaining in current minute window |
+| `X-RateLimit-Reset` | Unix timestamp when minute limit resets |
+| `X-RateLimit-Weekly-Limit` | Maximum CU per week (e.g., 200,000 for free tier) |
+| `X-RateLimit-Weekly-Remaining` | CU remaining in current week window |
+| `X-RateLimit-Weekly-Reset` | Unix timestamp when week limit resets |
+
 
 Example response:
 ```
+x-computing-unit: 25
 x-ratelimit-limit: 100
 x-ratelimit-remaining: 75
 x-ratelimit-reset: 1724206817
-x-computing-unit: 25
+x-ratelimit-weekly-limit: 200000
+x-ratelimit-weekly-remaining: 175000
+x-ratelimit-weekly-reset: 1724206817
 ```
-
-This means you have 75 CU remaining and the limit resets at 1724206817 (Unix timestamp).
 
 ### I get rate limited, what should I do?
 
@@ -89,16 +98,42 @@ Our rate limit was designed so that most users can use the API without facing an
 
 So before requesting increased rate limits, please make sure you are not calling the API at an unreasonable rate, follow our best practices and examples. 
 
-If after all that, you are still getting rate limited, please contact us and provide the following information:
+If after all that, you are still getting rate limited, you can consider upgrading your plan, details below.
 
-1. **Your use case**: What is your usecase for using the API?
-  - Example: "I'm building a trading bot that need to get prices for all PT tokens on Pendle every minutes"
-2. **Specific endpoints**: Which endpoints will you use most frequently?
-   - Example: I call https://api-v2.pendle.finance/core/docs/scalar#tag/assets/get/v1/prices/assets every minutes, then use the [hosted sdk convert](https://api-v2.pendle.finance/core/docs/scalar#tag/sdk/get/v2/sdk/{chainId}/convert) to execute swap if needed 
-3. **Expected calling rate**: How many CU per minute/hour do you expect to use?
-4. **Integration type**: Browser-based, server-side, or both? Do note that rate limit is applied per IP address, so if you are using client side application, each user will have their own rate limit, so maybe you don't need a higher rate limit.
+### API Pricing Plans
 
-Contact us via our [Discord](https://pendle.finance/discord)
+If you need higher rate limits, we offer flexible paid plans that scale with your needs.
+
+#### Pricing Structure
+
+Our pricing is simple and scalable: **$10/week = 500 CU/min + 1,000,000 CU/week**
+
+You can purchase multiple units to scale your rate limits based on your application's requirements:
+
+| Weekly Cost | CU per Minute | Weekly CU Limit |
+|-------------|---------------|-----------------|
+| **$0** (Free) | 100 | 200,000 |
+| **$10** | 500 | 1,000,000 |
+| **$20** | 1,000 | 2,000,000 |
+| **$30** | 1,500 | 3,000,000 |
+| **$40** | 2,000 | 4,000,000 |
+
+**Pricing Model:**
+- Each **$10/week** adds **+500 CU/min** and **+1,000,000 CU/week** to your limits
+- Scale up to **$40/week** (2,000 CU/min, 4M CU/week) through our standard plans
+
+**Example:**
+If you want to use 1,000,000 CU per week and you want to use the API for 4 weeks, it would be $10 * 4 = $40.
+
+If you want to use 2,000,000 CU per week and you want to use the API for 8 weeks (about 2 months), it would be $20 * 8 = $160.
+
+#### How to upgrade your plan?
+
+Contact us via [Discord](https://pendle.finance/discord), and provide the following information:
+1. Your expected weekly usage
+2. How long you need the API for
+3. Send USDC/USDT to our address (we will provide the address after you contact us)
+
 
 ## API Updates and deprecation notice
 - **Deprecation Notice**: Breaking changes announced at least 30 days in advance, follow [Telegram Developer Channel](https://t.me/pendledevelopers) for announcements
@@ -111,8 +146,8 @@ Contact us via our [Discord](https://pendle.finance/discord)
 
 ## Getting Help
 
-1. **Documentation**: Start with [API Overview](./ApiOverview.mdx), [Hosted SDK](./HostedSdk.mdx) or [Backend API](./BackendApi.mdx) docs
-2. **API Reference**: Explore endpoints at [Swagger UI](https://api-v2.pendle.finance/core/docs/scalar)
+1. **Documentation**: Start with [API Overview](./ApiOverview.mdx), [Hosted SDK](./HostedSdk.mdx) or [Backend API](https://api-v2.pendle.finance/core/docs) docs
+2. **API Reference**: Explore endpoints at [Swagger UI](https://api-v2.pendle.finance/core/docs)
 3. **Examples**: Check [GitHub examples](https://github.com/pendle-finance/pendle-examples-public)
 
 
@@ -196,24 +231,3 @@ A: No, the router may be updated for protocol improvements. Always use the `tx.t
 #### **Q: Can I use the same transaction data multiple times?**
 
 A: No. Transaction data is specific to current market conditions. Always generate fresh transaction data immediately before sending. Reusing old data will likely fail or give suboptimal results.
-
-## Backend API FAQ
-
-#### **Q: How do I stay updated on API changes?**
-
-A: Join the [Telegram Developer Channel](https://t.me/pendledevelopers) for announcements about new features, deprecations, and breaking changes (announced 30+ days in advance).
-
-#### **Q: How is projected vePendle computed?**
-
-A: Projected vePendle = Total vePendle supply × Pool's projected vote share. Get pool projected votes from `/v2/ve-pendle/data` endpoint.
-
-#### **Q: What's the difference between `expectedCap` and `currentCap`?**
-
-A:
-- `currentCap`: Active cap set last week (currently in effect)
-- `expectedCap`: Tentative cap for next week (finalized on Wednesday)
-Both values are in base18 format. See [Expected Cap vs Current Cap](#expected-cap-vs-current-cap).
-
-#### **Q: How do I get per-user vote breakdown?**
-
-A: Per-user vote data is not available via API. You need to listen for voting events on-chain.

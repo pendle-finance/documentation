@@ -163,6 +163,7 @@ module.exports = {
           items: [
             { type: "doc", id: "Developers/Backend/ApiOverview" },
             { type: "doc", id: "Developers/Backend/HostedSdk" },
+            { type: "link", label: 'API Reference', href: "https://api-v2.pendle.finance/core/docs" },
             { type: "doc", id: "Developers/Backend/RouterStatic" },
           ],
         },
