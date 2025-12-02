@@ -127,13 +127,32 @@ If you want to use 1,000,000 CU per week and you want to use the API for 4 weeks
 
 If you want to use 2,000,000 CU per week and you want to use the API for 8 weeks (about 2 months), it would be $20 * 8 = $160.
 
-#### How to upgrade your plan?
+### How to get an API key
 
-Go to our [API dashboard](http://api-v2.pendle.finance/dashboard)
-- Login with your wallet, you will be asked to sign a message to verify your identity
-- Top-up the account with USDC/USDT/DAI in arbitrum
-- Choose your plan & create a new API key
+To get an API key and upgrade your plan:
 
+1. Go to the API dashboard at: [https://api-v2.pendle.finance/dashboard](https://api-v2.pendle.finance/dashboard)
+2. Login with your wallet (you will be asked to sign a message to verify your identity)
+3. Top-up your account with USDC/USDT/DAI on Arbitrum
+4. Choose your plan and create a new API key
+
+Your API key will be generated. Make sure to save it securely as you'll need it to authenticate your requests.
+
+#### How to use your API key
+
+Include the `Bearer <API_KEY>` in the `Authorization` header in your requests:
+
+```
+Authorization: Bearer <API_KEY>
+```
+
+**Example:**
+```bash
+curl -i -H "Authorization: Bearer your_api_key_here" \
+  https://api-v2.pendle.finance/core/v1/chains
+```
+
+The response will have rate limit headers as described in [Rate Limit Headers](#rate-limit-headers).
 
 ## API Updates and deprecation notice
 - **Deprecation Notice**: Breaking changes announced at least 30 days in advance, follow [Telegram Developer Channel](https://t.me/pendledevelopers) for announcements
