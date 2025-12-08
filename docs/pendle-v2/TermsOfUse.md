@@ -1,235 +1,372 @@
-# Terms of Use (updated on 30 June 2025)
+# TERMS OF USE (THESE “TERMS”)
 
-## Welcome to Pendle.Finance
+Date Last Revised: 9 December 2025 (“**Date Last Revised**”)
 
-www.pendle.finance is brought to you by Univerum Innovations Inc  (”Pendle”), Torre Advanced Building, first floor, Ricardo Arias Street, Panama, Republic of Panama (”Univerum”) and its affiliates (collectively, "we,” "us,” or "our”) committed to creating open-source software that empowers users' financial, social and cultural independence.
+The Website and the Pendle Protocol (each as defined herein) is operated by Univerum Innovations Inc (“**Company**”, “**we**”, "**us**”, or “**our**”), an entity established under the laws of the Republic of Panama. 
 
-ARBITRATION NOTICE: THESE TERMS ("TERMS”) CONTAIN AN ARBITRATION CLAUSE BELOW. EXCEPT FOR CERTAIN TYPES OF DISPUTES MENTIONED IN THAT ARBITRATION CLAUSE, YOU AND WE AGREE THAT ANY DISPUTES RELATING TO THE SERVICES (AS DEFINED BELOW) WILL BE RESOLVED BY MANDATORY BINDING ARBITRATION, AND YOU WAIVE ANY RIGHT TO A TRIAL BY JURY OR TO PARTICIPATE IN A CLASS-ACTION LAWSUIT OR CLASS-WIDE ARBITRATION. **You are entering into a binding Agreement.**
+By: (a) accessing the Website; (b) using Pendle Protocol; and/or (c) integrating Pendle Protocol with your protocol or products (whether on behalf of your users (including you as a representative of Non-Pendle Underlying Protocol (as defined below) or otherwise)), you (“**you**” or “**User**”) agree to these Terms, and if applicable, you agree to these Terms for and on behalf of any person (as defined in these Terms to include an entity) you represent, and you represent and warrant that you have the right and authority to do so. For purposes of these Terms, User and Company shall be collectively referred to as “**Parties**”, and each, a “**Party**”.
 
-BY ACCESSING OR USING OUR SERVICES, WHICH INCLUDE OUR VARIOUS WEBSITES, INCLUDING, WITHOUT LIMITATION, PENDLE.FINANCE (AND ANY RESPECTIVE SUBDOMAINS); APPLICATIONS (COLLECTIVELY WITH ANY MATERIALS AND SERVICES AVAILABLE THEREIN, AND SUCCESSOR WEBSITE(S) OR APPLICATION(S) THERETO, THE "SITE”), AND OTHER SERVICES THAT LINK TO THESE TERMS, AS WELL AS ANY INFORMATION, TEXT, LINKS, GRAPHICS, PHOTOS, AUDIO, VIDEO, OR OTHER MATERIALS STORED, RETRIEVED OR APPEARING THEREON, WHETHER ACCESSED THROUGH THE SITE OR OTHERWISE (COLLECTIVELY, THE "SERVICES”), YOU ARE ENTERING INTO A BINDING AGREEMENT WITH US THAT INCLUDES THESE TERMS, PENDLE.FINANCE - PRIVACY POLICY, AND OTHER POLICIES REFERENCED HEREIN (COLLECTIVELY, THE "AGREEMENT”).
+Please review these Terms carefully, as they set forth legally binding terms and conditions between you and the Company that govern your access and/or use of: (a) the website located at https://pendle.finance, including all applications, chatbots, widgets, linked pages within the same domain and all associated social media channels and chat forums (collectively, the “**Website**”); (b) the Smart Contracts (as defined below), whether your access and/or use is via (i) the Website-hosted interface access (“**Website Access**”) or (ii) command line, locally installed programs, software development kits, software code and blockchain and smart contract explorers or any other channel through which you interact with the Smart Contracts (collectively “**Direct Access**”); and (c) any content or document you may have access to that is prepared by the Company and/or any other person in connection with Pendle Protocol (“**Content**”). These Terms are to be read together with the provisions set forth in our privacy policy found at https://docs.pendle.finance/pendle-v2/PrivacyPolicy (“**Privacy Policy**”).
 
-To the extent that there is a conflict between these Terms and any applicable additional terms, these Terms will control unless expressly stated otherwise. If you don't agree with these Terms, you may not use the Services and should not visit the Site or otherwise engage with the Services.
+For purposes of these Terms, the Website, the Smart Contracts, Content, and all associated product(s) or product component(s) associated with Pendle-branded products (including Pendle V2 and Boros (each as defined herein)) shall be collectively referred to as “**Pendle Protocol**”. 
 
-### Use of the Services
+**~~Pendle Protocol is not intended for (a) access and/or use by Excluded Persons (as defined below); or (b) access and/or use by any person or entity in, or accessing or using Pendle Protocol from, an Excluded Jurisdiction. Accordingly, Excluded Persons (as defined below) must not access and/or use Pendle Protocol.~~**
 
-To use the Services, you must legally be able to enter into the Agreement. By using the Services, you represent and warrant that you meet the eligibility requirement. If you do not meet the requirement, you must not access or use the Site or the Services.
+You acknowledge that you shall be deemed to have accepted these Terms by accessing and/or using Pendle Protocol–whether by Website Access or Direct Access and/or accessing or retaining Content. 
 
-### We may update the Services and the Terms
+Company reserves the right to change these Terms in its sole discretion from time to time. The “**Date Last Revised**” specified on these Terms indicates the date on which the Terms were last changed. Your acceptance of, and/or your access or continued access and/or use of Pendle Protocol following notice of, the updated Terms shall indicate your acknowledgement of, and agreement to be bound by, the updated Terms.
 
-We may update the Services, the Agreement, and any part of the Terms at any time, for any reason, at our sole discretion. Once any part of the Agreement is updated and in effect, you will be bound by the Terms if you continue to use the Services, including by accessing the Site. We may, at any time, and without liability to you, modify or discontinue all or part of the Services (including access to the Services via any third-party links). You may contact us with questions about your use of the Services via our social media. When you communicate with us electronically, you consent to receive communications from us electronically. You should review the Terms from time to time to ensure that you understand the terms and conditions that apply to you when you access or use the Site.
+### 1.	OVERVIEW OF PENDLE PROTOCOL
 
-## Services
+1.	Pendle Protocol is a collection of open-source protocols that enables a User to, on a self-directed and non-custodial basis, among other things (“**Pendle Protocol Activities**”): 
 
-### Pendle.Finance is provided as an informational resource
+    1. 	in connection with the Pendle V2 product accessible at: https://app.pendle.finance/trade/markets (last accessed on the Date Last Revised) (“Pendle V2”): 
 
-[Pendle.Finance](http://Pendle.finance) provides resources about the fundamentals of the Protocol, which is a fully decentralized, community governed protocol deployed on multiple blockchain networks and systems, and provides information about the wider Pendle ecosystem, governance, community, and various interfaces and integrations to the Protocol. All information provided in connection with your access and use of the Site and the Services is for informational purposes only. You should not take, or refrain from taking, any action based on any information contained on the Site or any other information that we make available at any time, including blog posts, data, articles, links to third-party content, discord content, news feeds, tutorials, tweets, and videos. Before you make any financial, legal, technical, or other decisions involving the Services, you should seek independent professional advice from a licensed and qualified individual in the area for which such advice would be appropriate. The Services provide, or third parties may provide, links to other sites, applications, or resources. You acknowledge and agree that we are not responsible for the availability of such external sites, applications or resources, and do not endorse and are not responsible or liable for any content, advertising, products, or other materials on or available from such sites or resources. You further acknowledge and agree that we will not be responsible or liable, directly or indirectly, for any damage or loss caused or alleged to be caused by or in connection with use of or reliance on any such content, goods, or services available on or through any such site or resource. Because the Site provides information about the Protocol, these Terms also provide some information about the use of the Protocol. This information is not intended to be comprehensive or address all aspects of the Protocol. There is additional documentation on the Site about the functioning of the Protocol or its ecosystem or community.
+        1\.	in respect of such User’s yield or reward bearing asset (“**Yield-Bearing Asset**”), effectively separate the yield component from the principal component to be each represented by tokens referred to as “**YT**” and “**PT**” respectively;
 
-### We are software developers in the Protocol ecosystem
+        2\.	trade and/or provide liquidity for PTs and/or YTs;
 
-It is important to understand that neither we nor any affiliated entity is a party to any transaction on the blockchain networks underlying the Protocol; we do not have possession, custody or control over any cryptoassets appearing on the Services; and we do not have possession, custody, or control over any user’s funds. Further, we do not store, send, or receive any cryptoassets. You understand that when you interact with any Protocol smart contracts, you retain control over your cryptoassets at all times. The private key associated with the wallet address from which you transfer cryptoassets or the private key associated is the only private key that can control the cryptoassets you transfer into the smart contracts. You alone are responsible for securing your private keys. We do not have access to your private keys. Due to the non-custodial and decentralized nature of the technology, we are not intermediaries, agents, advisors, or custodians, and we do not have a fiduciary relationship or obligation to you regarding any other decisions or activities that you affect when using our Services. You acknowledge that we, for the avoidance of doubt, do not have any information regarding any users, users’ identities, or services beyond what is available or obtainable publicly via the blockchain. We are not responsible for any activities you engage in when using Services, and you should understand the risks associated with cryptoassets, blockchain technology generally, and our Services.
+    2.	in connection with the Boros product accessible at: https://boros.pendle.finance/ (last accessed on the Date Last Revised) (“**Boros**”);
 
-### The Pendle Protocol is deployed on multiple blockchain-based networks, and we are not responsible for the operation of such networks
+        1\.	trade funding rates (including on a leveraged basis against User’s collateral) on perpetual markets on certain third-party trading venues;
 
-The software underlying blockchain networks on which the Protocol is deployed, including, for example, the Ethereum blockchain, is open source, which means that anyone can use, utilize, and build on top of it. By using the Services, you acknowledge and agree (i) that we are not responsible for the operation of the blockchain-based software and networks underlying the Protocol, (ii) that there exists no guarantee of the functionality, security, or availability of that software and networks, and (iii) that the underlying blockchain-based networks are subject to sudden changes in operating rules, such as those commonly referred to as "forks”.
+        2\.	provide liquidity towards trading of funding rates (including through liquidity vaults);
 
-### Transactions on the blockchain are not anonymous
+    3.	participate and provide certain governance-related input relating to Pendle Protocol using the PENDLE Token (“**PENDLE Token**”);
 
-A widespread belief is that transactions involving blockchains are anonymous. In fact, a central feature of blockchains and thus, blockchain-based transactions, are that they are transparent. Your public key and your wallet address, which you need to buy or sell items on the blockchain, are visible to anyone. To the extent your public key or wallet address can be linked back to you, it would be possible for someone to determine your identity and the cryptoassets you own.
+    4.	such other functions or features available through Pendle Protocol.
 
-### There may be associated blockchain fees
+    See documentation related to the Pendle Protocol accessible at https://docs.pendle.finance and all its associated links (“**Pendle Protocol Documentation**”), which you acknowledge to have reviewed and have understood how the Pendle Protocol operates.
 
-All transactions using blockchains require the payment of gas fees, which are essentially transaction fees paid on every transaction that occurs on the selected blockchain network. Please note that gas fees are non-refundable. We do not provide any services to users or deliver, hold, and/or receive payment for cryptoassets. We do not receive any fees for any transactions, the Services, or the Site.
+2.	**IMPORTANT: AS A GENERALLY SELF-DIRECTED AND NON-CUSTODIAL PROTOCOL, PENDLE PROTOCOL FUNCTIONS AS A “PASS-THROUGH” INFRASTRUCTURE TECHNOLOGY LAYER THAT ENABLES USER TO EXECUTE TRANSACTIONS DIRECTED BY THE USER BASED ON THE PARAMETERS THAT HAVE BEEN ENCODED IN PENDLE PROTOCOL WHICH USER AGREES TO AND WISHES TO VOLUNTARILY EXECUTE ON A SELF-DIRECTED BASIS. NEITHER THE COMPANY NOR ITS AFFILIATES IS: (A) PROVIDING ANY SERVICE OF EXECUTING ANY TRANSACTION ON BEHALF OF USER; (B) SOLICITING USER TO PERFORM ANY ACTION; (C) AN ISSUER OF ANY TOKEN TO THE USER OR ANY OTHER PERSON (INCLUDING BUT NOT LIMITED TO PT AND YT, WHICH ARE ISSUED ON A SELF-DIRECTED BASIS); (D) A CLEARING HOUSE, BROKER, DEALER, CUSTODIAN, OR ANY OTHER TYPE OF INTERMEDIARY TO THE USER AND ANOTHER PERSON.**
 
-### Pendle Ecosystem and Community contributors are independent
+3.	**Pendle** Protocol is integrated with or built on other blockchains which may comprise Yield-Bearing Assets issued on such blockchains or based on other protocols (“**Non-Pendle Underlying Protocols**”). These Yield-Bearing Assets and blockchains are neither issued, operated nor controlled by the Pendle Group (as defined below). 
 
-All community contributors to the ecosystem around the Protocol are independent of us, and we will not have and do not assume any liability or responsibility for their actions or omissions.
+4.	Pendle Protocol enables Pendle Protocol Activities using smart contracts comprising computer code written based on various blockchain standards and programming languages (collectively, “**Smart Contracts**”) deployed by Company or its Affiliate(s) which are referred to at Pendle Protocol’s official Github page (“**Github Page**”).
 
-## Assumption of Risk
+5.	For purposes of these Terms:
 
-### You assume the risks of engaging in transactions that rely on smart contracts and other experimental technology.
+    1.	“**Affiliate**” in respect of a person (“first-mentioned person”), means any other person (“second-mentioned person”) that directly or indirectly controls, is controlled by, or is under common control with, the second-mentioned person, including but not limited to a parent company, subsidiary, service provider, a person having direct or indirect interest, and the scope of the foregoing shall also be enlarged to include, in respect of each of the first-mentioned and second-mentioned person, their respective owners, directors, officers, employees, advisors and agents; 
 
-Transactions on the Protocol rely on smart contracts stored on various blockchains, cryptographic tokens generated by the smart contracts, and other nascent software, applications and systems that interact with blockchain-based networks. These technologies are experimental, speculative, inherently risky, and subject to change. Among other risks, bugs, malfunctions, cyberattacks, or changes to the applicable blockchain (e.g., forks) could disrupt these technologies and even result in a total loss of cryptoassets, their market value, or digital funds. You are solely responsible for the safekeeping of the private key associated with the blockchain address used to interact with the Protocol. We assume no liability or responsibility for any such risks. If you are not comfortable assuming these risks, you should not access or engage in transactions using blockchain-based technology.
+    2.	“**Pendle Protocol Supported Asset**” means any asset or position made available on or can interact with the Pendle Protocol, including but not limited to PT, YT, PENDLE Token and any asset underlying PT and YT;
 
-One of the other defining features of blockchain technology is that its entries are immutable, which means, as a technical matter, they generally cannot be deleted or modified by anyone. This includes smart contracts and cryptoassets generated and programmed by smart contracts.
+    3.	“**Pendle Group**” means the Company and its Affiliates collectively;
 
-THUS, TRANSACTIONS RECORDED ON THE BLOCKCHAIN, INCLUDING TRANSFERS OF CRYPTOASSETS AND DATA PROGRAMMED INTO THESE ASSETS (SUCH AS REVENUE AND INTEREST ALLOCATIONS), MUST BE TREATED AS PERMANENT AND CANNOT BE UNDONE BY US OR BY ANYONE. YOU MUST BE VERY CAREFUL WHEN YOU FINALIZE ANY TRANSACTION THAT WILL BE RECORDED ON THE BLOCKCHAIN.
+    4.	“**Supported Wallet**” in relation to Pendle Protocol, means such digital wallet of User as may be supported by Pendle Protocol;
 
-### We are not liable for any third-party services or links.
+    a reference to:
 
-We are not responsible for the content or services of any third-party, including, without limitation, any network, or apps like Discord, or MetaMask, and we make no representations regarding the content or accuracy of any third-party services or materials. The use and access of any third-party products or services, including through the Services, is at your own risk.
+    5.	a “person” includes a reference to any individual, body corporate, unincorporated association or partnership;
 
-**You agree to the automated collection and disbursement of proceeds by smart contracts.** You acknowledge and agree that all transactions accessed through the Services will be automatically processed using one or more blockchain-based smart contracts. By engaging in transactions using the Services, you acknowledge and consent to the automatic processing of all transactions in connection with using the Services. You further acknowledge and agree that the applicable smart contract will dictate how the funds of a transaction and ownership of cryptoassets are distributed.
+    6.	an agreement or other document is a reference to that agreement or document as from time to time supplemented or amended;
 
-**You acknowledge the risks of using the Services.** You bear sole responsibility for evaluating the Services before using them, and all transactions accessed through the Services are irreversible, final, and without refunds. The Services may be disabled, disrupted or adversely impacted as a result of sophisticated cyber-attacks, surges in activity, computer viruses, and/or other operational or technical challenges, among other things. We disclaim any ongoing obligation to notify you of all of the potential risks of using and accessing our Services. You agree to (defined below) accept these risks and agree that you will not seek to hold any Pendle Indemnified Party responsible for any consequent losses.
+    7.	the masculine gender includes the feminine and neuter genders and vice versa;
 
-**You are solely responsible for the security of your wallet.** You understand and agree that you are solely responsible for maintaining the security of your wallet. Any unauthorized access to your wallet by third parties could result in the loss or theft of any cryptoasset, or any funds held in your account and any associated accounts. You understand and agree that we have no involvement in, and you will not hold us responsible for managing and maintaining the security of your wallet. You further understand and agree that we are not responsible, and you will not hold us accountable, for any unauthorized access to your wallet. It is your responsibility to monitor your wallet.
+    8.	the singular includes the plural and vice versa; and
 
-**We do not guarantee the quality or accessibility of the Services.** As a condition to accessing or using the Services or the Site, you acknowledge, understand, and agree that from time to time, the Site and the Services may be inaccessible or inoperable for any reason, including, but not limited to equipment malfunctions, periodic maintenance procedures or repairs, causes beyond our control or that we could not reasonably foresee, disruptions and temporary or permanent unavailability of underlying blockchain infrastructure or unavailability of third-party service providers or external partners for any reason.
+    9.	any law or regulation is a reference to that law or regulation as amended from time to time and, where the same has been repealed, to any re-enactment or replacement of the same.
 
-You acknowledge and agree that you will access and use the Services, including, without limitation, the Site at your own risk. You should not engage in blockchain-based transactions unless it is suitable given your circumstances and financial resources. By using the Services, you represent that you have been, are and will be solely responsible for conducting your own due diligence into the risks of a transaction and the underlying smart contracts and cryptoassets.
+6.	__Website Access__
 
-## Taxes
+    1.	The Website is a user interface deployed by Company to facilitate use of the Pendle Protocol and Smart Contracts by providing a user-friendly interface to access and/or use the Smart Contracts, although the Smart Contracts are also accessible / can be used via Direct Access. Company may modify or discontinue support for the Website at any time, in its sole discretion.
 
-**You are responsible for your taxes and duties.** Users bear sole responsibility for paying any and all taxes, duties, and assessments now or hereafter claimed or imposed by any governmental authority associated with their use of the Services, and/or payable as the result of using and/or exploiting any cryptoassets and interacting with smart contracts. Blockchain-based transactions are novel, and their tax treatment is uncertain.
+    2.	You are hereby granted a non-exclusive, non-transferable, revocable, limited licence to electronically access and use the Website in the manner described in these Terms. You do not have the right, and nothing in these Terms shall be construed as granting you the right, to sub-license any rights in connection with the access and/or use of the Website. Company may revoke or terminate this licence at any time if you use, or attempt to use, the Website in a manner prohibited by these Terms, or if your rights are terminated pursuant to these Terms.
 
-## The Services
+7.	__Direct Access__. With the necessary technical expertise, it is possible for a User to generate transaction messages to interact with the Smart Contracts via Direct Access directly without use of the Website. Company is not involved in and has no oversight of any Direct Access and expressly disclaims all responsibility, and User acknowledges that Pendle Group shall have no responsibility for any loss suffered or attributable to Direct Access.
 
-**We grant you a license to use our Services.** Contingent upon your ongoing compliance with the Agreement, we grant you a personal, worldwide, revocable, non-exclusive and non-assignable license to use the software provided to you as part of our Services. The only purpose of this license is to allow you to use and enjoy the Services solely as permitted by these Terms.
+8.	__Smart Contracts__.
 
-**We own all rights in the Services.** We own any and all right, title, and interest in and to the Services including, without limitation, any and all copyrights in and to any content, code, data, or other materials that you may access or use on or through the Services; however, the code for the Protocol and the front-end interface (app.pendle.finance) is open-sourced. Except as expressly set forth herein, your use of or access to the Services does not grant you any ownership or other rights therein.
+    The Smart Contracts are open source and generally documented at the Github Page and are subject to modification. You agree that save for the right to access and/or use the Smart Contracts on the relevant licensing terms, you shall not acquire and/or own any legal right, title and/or interest in the Smart Contracts or any intellectual property rights associated thereto.
 
-**We may use and share your feedback.** Any comments, bug reports, ideas, or other feedback that you may provide about our Services, including suggestions about how we might improve our Services, are entirely voluntary. You agree that we are free to use or not use any feedback that we receive from you as we see fit, including copying and sharing such feedback with third parties, without any obligation to you.
+9.	__Transaction-Related Costs__.
 
-## Prohibited Content
+    1.	User may be subject to transaction-related costs, including transaction fees, slippage, among others (“Transaction-Related Costs”) while using Pendle Protocol. Such Transaction-Related Costs designed and encoded as part of the Pendle Protocol. Such Transaction-Related Costs like slippage may be a function of liquidity conditions (for example, the lack of liquidity may result in substantially higher price impact and costs). You acknowledge and agree to assume all Transaction-Related Costs.
 
-You may only use the Services if you comply with this Agreement (including, without limitation, these Terms), applicable third-party policies, and all applicable laws, rules, regulations and related guidance.The following conduct is prohibited:
+    2.	User hereby consents to such Transaction-Related Costs being charged / debited from such User’s assets which may also be applicable to Users using the Smart Contracts via Direct Access.
 
-- using the Services for, or to promote or facilitate, illegal activity (including, without limitation, money laundering, financing terrorism, tax evasion, buying or selling illegal drugs, contraband, counterfeit goods, or illegal weapons);
-- exploiting the Services for any unauthorized commercial purpose;
-- uploading or transmitting viruses, worms, Trojan horses, time bombs, cancel bots, spiders, malware or any other type of malicious code that will or may be used in any way that will affect the functionality or operation of the Services;
-- attempting to or actually copying or making unauthorized use of all or any portion of the Services, including by attempting to reverse compile, reformatting or framing, disassemble, reverse engineer any part of the Services;
-- harvesting or otherwise collecting information from the Services for any unauthorized purpose;
-- using the Services under false or fraudulent pretenses or otherwise being deceitful;
-- interfering with other users’ access to or use of the Services;
-- interfering with or circumventing of the security features of the Services or any third party’s systems, networks or resources used in the provision of Services;
-- engaging in any attack, hack, denial-of-service attack, interference, or exploit of any smart contract in connection with use of the Service (and operations performed by a user that are technically permitted by a smart contract may nevertheless be a violation of our Agreement, including these Terms, and the law);
-- engaging in any anticompetitive behavior or other misconduct.
-- use the service as target of any sanctions administered or enforced by the U.S. Department of the Treasury’s Office of Foreign Assets Control ("OFAC"), the United Nations Security Council, the European Union, Her Majesty’s Treasury, or any other legal or regulatory authority in any applicable jurisdiction;
-- you, as an individual or an entity, or your wallet address is listed on the Specially Designated Nationals and Blocked Persons List ("SDN List”), Consolidated Sanctions List ("Non-SDN Lists), or any other sanctions lists administered by OFAC; or
-- you are located, organized, or resident in a country or territory that is, or whose government is, the subject of sanctions, including but not limited to Côte d’Ivoire, Cuba, Belarus, Iran, Iraq, Liberia, North Korea, Singapore, Sudan, and Syria;
+    3.	Such Transaction-Related Costs may be subject of variation through on-chain governance with such variation implemented via variations to the Smart Contracts.
 
-### Violating our rules may result in our intervention.
+### 2.	REPRESENTATIONS AND WARRANTIES
 
-You agree and acknowledge that if you use the Services to engage in conduct prohibited by applicable law, permanently reserve the right to completely or partially restrict or revoke your access to the Services, either completely or for a period of time, at our sole discretion. We reserve the right to amend, rectify, edit, or otherwise alter transaction data to remediate or mitigate any damage caused either to us or to any other person as a result of a user’s violation of this Agreement or applicable law.
+1.	By accessing and/or using Pendle Protocol and/or connecting a Supported Wallet to Pendle Protocol, User makes the following representations and warranties:
 
-### We reserve the right to investigate violations.
+    1.	User is at least eighteen (18) years of age, and has the full right, power and authority to access and/or use the Pendle Protocol, and to enter into and comply with these Terms;
 
-We reserve the right to investigate and prosecute any suspected breaches of this Agreement, including the Terms. We may disclose any information as necessary to satisfy any law, regulation, legal process, or governmental request.
+    2.	User is not prohibited and/or restricted under the laws of any jurisdiction applicable to User from accessing and/or using Pendle Protocol; 
 
-## Disclaimers and Limitations of Liability
+    3.	User is compliant with all laws of any jurisdiction applicable to User in relation to User’s access and/or use of Pendle Protocol and acknowledges and agrees that the Pendle Group is not liable for User’s compliance or non-compliance with any such laws;
 
-**We make no representations or warranties.** THE SERVICES ARE PROVIDED ON AN "AS IS” AND "AS AVAILABLE” BASIS. WE AND OUR PARENTS, SUBSIDIARIES, AFFILIATES, RELATED COMPANIES, OFFICERS, DIRECTORS, EMPLOYEES, AGENTS, REPRESENTATIVES, PARTNERS, AND LICENSORS (COLLECTIVELY, THE "PENDLE INDEMNIFIED PARTIES”) MAKE NO GUARANTEES OF ANY KIND IN CONNECTION WITH THE SERVICES. TO THE MAXIMUM EXTENT PERMITTED UNDER APPLICABLE LAW, PENDLE FINANCE INDEMNIFIED PARTIES DISCLAIM ALL WARRANTIES AND CONDITIONS, WHETHER EXPRESS OR IMPLIED, OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT AND DISCLAIM ALL RESPONSIBILITY AND LIABILITY FOR:
+    4.	User is not an Excluded Person (as defined below), and User is not accessing and/or using Pendle Protocol from an Excluded Jurisdiction (as defined below);
 
-- THE SERVICES BEING ACCURATE, COMPLETE, CURRENT, RELIABLE, UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE. INFORMATION (INCLUDING, WITHOUT LIMITATION, THE VALUE OR OUTCOME OF ANY TRANSACTION) AVAILABLE THROUGH THE SERVICE IS PROVIDED FOR GENERAL INFORMATION ONLY AND SHOULD NOT BE RELIED UPON OR USED AS THE SOLE BASIS FOR MAKING DECISIONS. ANY RELIANCE ON THE SERVICES IS AT YOUR OWN RISK.
-- INJURY OR DAMAGE RESULTING FROM THE SERVICES. FOR EXAMPLE, YOU EXPRESSLY ACKNOWLEDGE, UNDERSTAND, AND AGREE THAT THE SERVICES MAY CONTAIN AUDIO-VISUAL EFFECTS, STROBE LIGHTS OR OTHER MATERIALS THAT MAY AFFECT YOUR PHYSICAL SENSES AND/OR PHYSICAL CONDITION. FURTHER, YOU EXPRESSLY ACKNOWLEDGE THAT THE PENDLE FINANCE INDEMNIFIED PARTIES ARE NOT RESPONSIBLE FOR LOSS OR DAMAGE CAUSED BY ANOTHER USER’S CONDUCT, UNAUTHORIZED ACTORS, OR ANY UNAUTHORIZED ACCESS TO OR USE OF THE SERVICES.
-- VIRUSES, WORMS, TROJAN HORSES, TIME BOMBS, CANCEL BOTS, SPIDERS, MALWARE OR OTHER TYPE OF MALICIOUS CODE THAT MAY BE USED IN ANY WAY TO AFFECT THE FUNCTIONALITY OR OPERATION OF THE SERVICES.
+    5.	User has not had User’s access or use of Pendle Protocol previously terminated or revoked for any reason whatsoever; 
 
-**Limitation of Liability.** TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL PENDLE INDEMNIFIED PARTY BE LIABLE TO YOU FOR ANY LOSS, DAMAGE, OR INJURY OF ANY KIND INCLUDING ANY DIRECT, INDIRECT, SPECIAL, INCIDENTAL, EXEMPLARY, CONSEQUENTIAL, OR PUNITIVE LOSSES OR DAMAGES, OR DAMAGES FOR SYSTEM FAILURE OR MALFUNCTION OR LOSS OF PROFITS, DATA, USE, BUSINESS OR GOOD-WILL OR OTHER INTANGIBLE LOSSES, ARISING OUT OF OR IN CONNECTION WITH: (A) THE SERVICES OR YOUR INABILITY TO USE OR ACCESS THE SERVICES; (B) MISUSE OF THE SERVICES (INCLUDING WITHOUT LIMITATION, UNAUTHORIZED ACCESS OF THE SERVICES); (C) ANY USER CONDUCT ON THE SERVICES; OR (D) TERMINATION, SUSPENSION OR RESTRICTION OF ACCESS TO ANY THE SERVICES.
+    6.	User will not, and will not attempt to, authorize anyone other than User to access and/or use Pendle Protocol using a Supported Wallet owned by User, or otherwise engage in Prohibited Use (as defined below) of such Supported Wallet;
 
-IN ADDITION TO THE FOREGOING, NO PENDLE INDEMNIFIED PARTY SHALL BE LIABLE FOR ANY DAMAGES CAUSED IN WHOLE OR IN PART BY: (A) USER ERROR, SUCH AS FORGOTTEN PASSWORDS OR INCORRECTLY CONSTRUCTED SMART CONTRACTS OR OTHER TRANSACTIONS; (B) SERVER FAILURE OR DATA LOSS; (C) THE MALFUNCTION, UNEXPECTED FUNCTION OR UNINTENDED FUNCTION OF THE BLOCKCHAIN, ANY COMPUTER OR CRYPTOASSET NETWORK (INCLUDING ANY WALLET PROVIDER), INCLUDING WITHOUT LIMITATION LOSSES ASSOCIATED WITH NETWORK FORKS, REPLAY ATTACKS, DOUBLE-SPEND ATTACKS, SYBIL ATTACKS, 51% ATTACKS, GOVERNANCE DISPUTES, MINING DIFFICULTY, CHANGES IN CRYPTOGRAPHY OR CONSENSUS RULES, HACKING, OR CYBERSECURITY BREACHES; (D) ANY CHANGE IN VALUE OF ANY CRYPTOASSET; (E) ANY CHANGE IN LAW, REGULATION, OR POLICY; (VI) EVENTS OF FORCE MAJEURE; OR (F) ANY THIRD PARTY.
+    7.	User is the legal and beneficial owner of, or is authorized by the owner of the Supported Wallet to hold and/or deploy assets through Pendle Protocol; and 
 
-THIS LIMITATION OF LIABILITY IS INTENDED TO APPLY WITHOUT REGARD TO WHETHER OTHER PROVISIONS OF THESE TERMS HAVE BEEN BREACHED OR HAVE PROVEN INEFFECTIVE. THE LIMITATIONS SET FORTH IN THIS SECTION SHALL APPLY REGARDLESS OF THE FORM OF ACTION, WHETHER THE ASSERTED LIABILITY OR DAMAGES ARE BASED ON CONTRACT, INDEMNIFICATION, TORT, STRICT LIABILITY, STATUTE, OR ANY OTHER LEGAL OR EQUITABLE THEORY, AND WHETHER OR NOT THE PENDLE INDEMNIFIED PARTIES HAVE BEEN INFORMED OF THE POSSIBILITY OF ANY SUCH DAMAGE.IN NO EVENT WILL THE PENDLE FINANCE INDEMNIFIED PARTIES’ CUMULATIVE LIABILITY TO YOU OR ANY OTHER USER, FROM ALL CAUSES OF ACTION AND ALL THEORIES OF LIABILITY EXCEED ONE THOUSAND U.S. DOLLARS (U.S. $1,000.00).UNDER NO CIRCUMSTANCES SHALL ANY PENDLE FINANCE INDEMNIFIED PARTY BE REQUIRED TO DELIVER TO YOU ANY VIRTUAL CURRENCY AS DAMAGES, MAKE SPECIFIC PERFORMANCE, OR ANY OTHER REMEDY. IF YOU WOULD BASE YOUR CALCULATIONS OF DAMAGES IN ANY WAY ON THE VALUE OF VIRTUAL CURRENCY, YOU AND WE AGREE THAT THE CALCULATION SHALL BE BASED ON THE LOWEST VALUE OF THE VIRTUAL CURRENCY DURING THE PERIOD BETWEEN THE ACCRUAL OF THE CLAIM AND THE AWARD OF DAMAGES.
+    8.	User is knowledgeable in using and evaluating blockchain technologies and related blockchain-based digital assets, including Pendle Protocol, PT and YT, Pendle Protocol Supported Assets and Supported Wallets, and User has evaluated and understands the use of Pendle Protocol and has not relied on any information, statement, representation, or warranty, express or implied, made by or on behalf of Pendle Group with respect to Pendle Protocol whether as regards the suitability, reliability, security or otherwise of Pendle Protocol.
 
-Some jurisdictions do not allow the exclusion or limitation of certain warranties and liabilities provided in this section; accordingly, some of the above limitations and disclaimers may not apply to you. To the extent applicable law does not permit Pendle Finance Indemnified Parties to disclaim certain warranties or limit certain liabilities, the extent of Pendle Finance Indemnified Parties’ liability and the scope of any such warranties will be as permitted under applicable law.
+    Each and all of User’s above representations and warranties are true, complete, accurate and not misleading from the time of User’s acceptance of these Terms and are deemed repeated each time User uses the Pendle Protocol.
 
-## Indemnification
+2.	By accessing and/or using Pendle Protocol, User acknowledges and accepts that the Pendle Group shall not be liable to User for the deployment and maintenance of Pendle Protocol and/or any malfunction thereof.
 
-You agree to indemnify, defend, and hold harmless the Pendle Indemnified Parties from any claim or demand, including reasonable attorneys’ fees, made by any third party due to or arising out of: (a) your breach or alleged breach of the Agreement (including, without limitation, these Terms); (b) anything you contribute to the Services; (c) your misuse of the Services, or any smart contract and/or script related thereto; (d) your violation of any laws, rules, regulations, codes, statutes, ordinances, or orders of any governmental or quasi-governmental authorities; (e) your violation of the rights of any third party, including any intellectual property right, publicity, confidentiality, property, or privacy right; (f) your use of a third-party product, service, and/or website; or (g) any misrepresentation made by you. We reserve the right to assume, at your expense, the exclusive defense and control of any matter subject to indemnification by you. You agree to cooperate with our defense of any claim. You will not in any event settle any claim without our prior written consent.
+3.	Company may, in its sole discretion, modify or discontinue support for Pendle Protocol and/or access to the Smart Contracts at any time. 
 
-## Arbitration Agreement and Waiver of Rights, Including Class Actions.
+4.	User shall be responsible for obtaining the data network access necessary to use and/or access Pendle Protocol, and for acquiring compatible hardware or device necessary to access and use Pendle Protocol and any updates thereto. 
 
-PLEASE READ THIS SECTION CAREFULLY: IT MAY SIGNIFICANTLY AFFECT YOUR LEGAL RIGHTS, INCLUDING YOUR RIGHT TO FILE A LAWSUIT IN COURT AND TO HAVE A JURY HEAR YOUR CLAIMS. IT CONTAINS PROCEDURES FOR MANDATORY BINDING ARBITRATION AND A CLASS ACTION WAIVER.
+5.	Use of Pendle Protocol may be disrupted due to malfunction and/or delays which are inherent to the use of the internet and electronic communications, and User agrees that the Pendle Group shall not be responsible for any such disruption, malfunction and/or delay, and any loss which may arise therefrom. 
 
-_Agreement to Attempt to Resolve Disputes Through Good Faith Negotiations_
+6.	The Website and its contents are our property or the property of our licensors and are protected by copyright, trademark, patent and other applicable laws. User is permitted to download and print content from the Website solely for such User’s own personal use to the extent required to access and use the tools and information made available via the Website. Unless with our prior written consent, the Website and its contents must not be reproduced, modified, redistributed or otherwise used for any other reason.  
 
-Prior to commencing any legal proceeding against us of any kind, including an arbitration as set forth below, you and we agree that we will attempt to resolve any dispute, claim, or controversy between us arising out of or relating to the agreement or the Services (each, a "Dispute” and, collectively, "Disputes”) by engaging in good faith negotiations. Such good faith negotiations require, at a minimum, that the aggrieved party provide a written notice to the other party specifying the nature and details of the Dispute. The party receiving such notice shall have thirty (30) days to respond to the notice. Within sixty (60) days after the aggrieved party sent the initial notice, the parties shall meet and confer in good faith by videoconference, or by telephone, to try to resolve the Dispute. If the parties are unable to resolve the Dispute within ninety (90) days after the aggrieved party sent the initial notice, the parties may agree to mediate their Dispute, or either party may submit the Dispute to arbitration as set forth below.
+7.	User shall not modify, adapt or hack the Website and/or Pendle Protocol, or modify any other website and/or protocol to falsely imply that such other website and/or protocol is associated with the , Pendle Protocol and/or Pendle Group and/or its Affiliates (as defined below) in any way. User shall not crawl, scrape, cache or otherwise access any content from the Website via automated means, and User shall not use automated data collection, data mining, robots or any other data gathering methods of any kind on the Website and/or Pendle Protocol. 
 
-_Agreement to Arbitrate_
+8.	User may, through hyperlinks displayed on the Website, gain access to websites operated by persons other than Pendle Protocol. Such hyperlinks are displayed only for User’s convenience, and we assume no responsibility for the use of any third-party software or other materials on the Website.
 
-You and we agree that any Dispute that cannot be resolved through the procedures set forth above will be resolved through binding arbitration in accordance with the International Arbitration Rules of the International Centre for Dispute Resolution. The place of arbitration shall be Singapore. The language of the arbitration shall be English. The arbitrator(s) shall have experience adjudicating matters involving Internet technology, software applications, financial transactions and, ideally, blockchain technology. The arbitrator’s award of damages must be consistent with the terms of the "Limitation of Liability” subsection of these Terms as to the types and amounts of damages for which a party may be held liable. The prevailing party will be entitled to an award of their reasonable attorney’s fees and costs. Except as may be required by law, neither a party nor its representatives may disclose the existence, content, or results of any arbitration hereunder without the prior written consent of (all/both) parties.
+### 3.	EXCLUDED PERSON AND EXCLUDED JURISDICTION
 
-UNLESS YOU TIMELY PROVIDE US WITH AN ARBITRATION OPT-OUT NOTICE, YOU ACKNOWLEDGE AND AGREE THAT YOU AND WE ARE EACH WAIVING THE RIGHT TO A TRIAL BY JURY OR TO PARTICIPATE AS A PLAINTIFF OR CLASS MEMBER IN ANY PURPORTED CLASS ACTION OR REPRESENTATIVE PROCEEDING. FURTHER, UNLESS BOTH YOU AND WE OTHERWISE AGREE IN WRITING, THE ARBITRATOR MAY NOT CONSOLIDATE MORE THAN ONE PERSON’S CLAIMS AND MAY NOT OTHERWISE PRESIDE OVER ANY FORM OF ANY CLASS OR REPRESENTATIVE PROCEEDING.
+1.	You agree not to use the Pendle Protocol if you are an Excluded Person and that we have the right to take appropriate action including restricting your access to Pendle Protocol if there is a reasonable suspicion that you or the person you are acting for is an Excluded Person. You shall not use a virtual private network, proxy or any other method to circumvent geo-blocks or eligibility criteria.
 
-_Changes_
+2.	“**Excluded Jurisdiction**” means any of the following jurisdictions:
 
-By rejecting any changes to these Terms, you agree that you will arbitrate any Dispute between you and us in accordance with the provisions of this section as of the date you first accepted these Terms (or accepted any subsequent changes to these Terms).
+    1.	a jurisdiction identified by the Financial Action Task Force (FATF) for strategic AML/CFT deficiencies and included in FATF’s listing of “High-risk and Other Monitored Jurisdictions” accessible at http://www.fatf-gafi.org/publications/high-risk-and-other-monitored-jurisdictions; 
 
-## Waiver of Injunctive or Other Equitable Relief.
+    2.	a sanctioned, embargoed, adverse jurisdiction as identified in any adverse list issued by Office of Foreign Assets Control (OFAC), European Union (EU), United Nations (UN) or any other international or local regulatory or oversight body; and/or
 
-TO THE MAXIMUM EXTENT PERMITTED BY LAW, YOU AGREE THAT YOU WILL NOT BE PERMITTED TO OBTAIN AN INJUNCTION OR OTHER EQUITABLE RELIEF OF ANY KIND, SUCH AS ANY COURT OR OTHER ACTION THAT MAY INTERFERE WITH OR PREVENT THE DEVELOPMENT OR EXPLOITATION OF THE SERVICES, OR ANY OTHER WEBSITE, APPLICATION, CONTENT, SUBMISSION, PRODUCT, SERVICE, OR INTELLECTUAL PROPERTY OWNED, LICENSED, USED OR CONTROLLED BY ANY PENDLE INDEMNIFIED PARTY.
+    3.	a jurisdiction in which Pendle Protocol and the use of which are prohibited or would subject Pendle Group to licensing, permissions or approvals.
+ 
+3.	“Excluded Persons” refers to the following:
 
-## Termination; Cancellation
+    1.	a person who is a citizen of, resident of, incorporated in, owned, controlled by, operating from an Excluded Jurisdiction, or an Affiliate of such person;
 
-This Agreement is effective unless and until terminated by either you or us. You may terminate your Agreement with us at any time by ceasing all access to the Site or the Services. If, in our sole judgment, you fail, or we suspect that you have failed, to comply with any term or provision of the Agreement (including without limitation any provision of these Terms), we reserve the right to terminate our Agreement with you and deny you access to the Services. We further reserve the right to restrict your access to the Site or to stop providing you with all or a part of the Services at any time and for no reason, including, without limitation, if we reasonably believe: (a) your use of the Services exposes us to risk or liability; (b) you are using the Services for unlawful purposes; or (c) it is not commercially viable to continue providing you with our Services. All of these are in addition to any other rights and remedies that may be available to us, whether in equity or at law, all of which we expressly reserve.
+    2.	a person included in United Nations Consolidated List (accessible at https://www.un.org/securitycouncil/content/un-sc-consolidated-list), Consolidated Sanctions List, or any other adverse list issued by Office of Foreign Assets Control (OFAC), European Union (EU), United Nations (UN) or any other international or local regulatory or oversight body, or an Affiliate of such person; 
 
-WE RESERVE THE RIGHT TO MODIFY THE SERVICES AT ANY TIME, BUT WE HAVE NO OBLIGATION TO UPDATE THE SERVICES. YOU AGREE THAT IT IS YOUR RESPONSIBILITY TO MONITOR CHANGES TO THE SERVICES THAT MAY AFFECT YOU. YOU AGREE THAT WE MAY REMOVE THE SERVICES AND/OR ANY CONTENT THEREON FOR INDEFINITE PERIODS OF TIME OR CANCEL THE SERVICES AT ANY TIME, WITHOUT NOTICE TO YOU.
+    3.	if your wallet address is listed on the Specially Designated Nationals and Blocked Persons List or any other adverse list of any regulatory or oversight body, or any private or public entity that performs the function of wallet and illicit activity screening;
 
-## Severability
+    4.	if you violate these Terms or can be reasonably suspected to be utilising Pendle Protocol for illegal or fraudulent purposes.
 
-If any provision of the Agreement (including, without limitation, these Terms) is determined to be unlawful, void, or unenforceable, such provision shall nonetheless be enforceable to the fullest extent permitted by applicable law, and the unenforceable portion shall be deemed to be severed from the Agreement. Such determination shall not affect the validity and enforceability of any other remaining provisions.
+### 4.	PROHIBITED USE
 
-## Assignment
+User shall not, directly or indirectly:
 
-The Agreement (including, without limitation, these Terms) may be assigned without your prior consent to any Pendle Indemnified Party, or to its successors in the interest of any business associated with the Services provided by us. You may not assign or transfer any rights or obligations under the Agreement without our prior written consent.
+1.	access and/or use Pendle Protocol:
 
-## Entire Agreement
+    1.	in violation of any law, rule, or regulation of any jurisdiction that is applicable to User; and/or
 
-The Agreement (including, without limitation, these Terms, and the Pendle Privacy Policy) and any policies or operating rules posted by us on the Services constitute the entire agreement and understanding between you and us and govern your use of the Services, superseding any prior or contemporaneous agreements, communications, and proposals, whether oral or written, between you and us (including, but not limited to, any prior versions of these Terms). Any failure by us to exercise or enforce any right or provision of the Agreement (including, without limitation, these Terms) shall not constitute a waiver of such right or provision.
+    2.	in violation or breach of these Terms and/or any other document from time-to-time governing User access and/or use of Pendle Protocol;
 
-## Governing Law
+2.	permit others to access Pendle Protocol through User’s wallet or a blockchain address User controls or otherwise engage in transactions using Pendle Protocol for any person other than the wallet owner;
 
-These Terms and any separate agreements whereby we provide you Services shall be governed by and construed in accordance with the laws of BVI.
+3.	disrupt, interfere with, or otherwise adversely affect the normal flow or function of Pendle Protocol or otherwise act in a manner that may negatively affect other users’ experience when using Pendle Protocol, and User shall not take advantage of software vulnerabilities and any other act that intentionally abuses or exploits the design and functions of Pendle Protocol;
 
-[Privacy Policy](PrivacyPolicy.md)
+4.	engage in, or knowingly facilitate, any fraudulent, deceptive, or manipulative transaction activity in connection with User’s use of Pendle Protocol;
 
+5.	engage in, or knowingly facilitate, any money laundering, terrorist financing, or other illegal activities using Pendle Protocol;
 
-## Addendum to Terms of Use
+6.	access or attempt to access non-public systems, programs, data, or services using Pendle Protocol;
 
-### Pendle Boros
-Pendle Boros is an application in the Protocol that enables eligible users to trade funding rates linked to cryptoassets positions. This functionality is governed by smart contracts and system settings managed by the Pendle Boros administrator.  By accessing this feature, you acknowledge and agree to comply with the provisions of this Pendle Boros section in addition to the Terms of Use.
+7.	copy, reproduce, republish, upload, post, transmit, resell, or distribute in any way, any data, content, or any part of Pendle Protocol except as expressly permitted by applicable laws; and
 
-Before you use Pendle Boros, it is strongly recommended that you read and understand the mechanics of Pendle Boros as set out in the [documentation](https://pendle.gitbook.io/boros/boros-dev-docs)
+8.	attempt to bypass, evade or circumvent restrictions imposed by the Website or the Company, including but not limited to using virtual private networks, proxies or other methods to conceal your location, make false statements or misrepresentations about your residency, citizenship or compliance with applicable laws, or to circumvent the restrictions set out in these Terms or applicable law
 
-### Eligibility
-You may use the funding rate trading feature only if you:
-1. are not restricted by the laws of your jurisdiction from participating in such activity;
-2. meet the relevant onboarding, verification, and funding requirements; and
-3. maintain sufficient collateral and account health per system settings.
+(collectively, “**Prohibited Uses**”).
 
-### System Controls and Administrative Rights
-You acknowledge and accept that your trading activity is subject to various dynamic global and user-specific settings managed by the Pendle Boros administrator and/or us, including but not limited to:
+### 5.	WAIVERS & RELEASE
 
-Global Parameters:
-1. Maximum open orders per account;
-2. Hard Open Interest Cap (beyond which no new positions may be opened);
-3. “Close-only” mode restrictions;
-4. Adjustable fees (e.g., taker, settlement, OTC, liquidation);
-5. Margin configurations impacting leverage, liquidation thresholds, and order validity;
-6. Limit and market order price bounds based on mark rate;
-7. Minimum account balance and entrance fees per market; and
-8. Withdrawal cooldown durations.
+1.	User agrees and acknowledges that neither the Company nor any of its Affiliates (as defined below) shall be liable to User for any direct, indirect, special, incidental, consequential or other losses of any kind, in tort, contract or otherwise (including but not limited to loss of revenue, income or profits, and loss of use or data), arising out of or in connection with User’s access and/or use of Pendle Protocol.
 
-User-Specific Parameters:
-1. Custom margin configurations;
-2. Personalized fee discounts;
-3. Close-only mode exemptions (e.g., market makers); and
-4. Custom withdrawal cooldowns.
+2.	To the extent permitted by law, you expressly waive and release the Pendle Group from any and all liability, claims, causes of action, or damages arising out of or related to your use of the Website and Pendle Protocol including but not limited to: (i) any errors, delays, or interruptions in its operation; (ii) your interaction with the Pendle Protocol, including in respect of any unrealised gains, trading losses, liquidation events, or other financial impact; (iii) any reliance on market data, token values, or information displayed on the Website, which may be inaccurate; (iv) any third-party services; and (v) any regulatory, tax, or legal consequences arising in connection with Pendle Protocol.
 
-System-Level Actions:
-1. Emergency pause of collateral zones or the platform;
-2. Forced deleveraging of unhealthy accounts;
-3. Administrative order cancellations; and
-4. Account suspension or bans for security, risk, or compliance reasons.
+3.	User undertakes not to initiate or participate, and waives the right to participate in, any class action lawsuit or a class-wide arbitration against the Pendle Group in relation to User’s access and/or use of Pendle Protocol.
 
-**You understand that these parameters are subject to change without prior notice and may directly impact your ability to open, maintain, or close positions.**
+4.	By accepting these Terms, User waives all rights, claims and/or causes of action (present or future) under law (including any tortious claims) or contract against the Pendle Group and its Affiliates in connection with User’s access and/or use of Pendle Protocol.
 
+### 6.	TERMINATION
 
-### Risk Acknowledgement
-You understand and agree that trading funding rates carries inherent risks, including but not limited to:
-1. liquidation due to price movements or admin-configured margin settings;
-2. order rejections or cancellations due to system-configured bounds;
-3. delays or denials of withdrawals during cooldowns or system pauses;
-4. loss of value due to forced deleveraging or partial fills at adverse rates; and
-5. temporary or permanent trading restrictions imposed by the Pendel Boros administrator.
+1.	The Pendle Group may restrict, suspend and/or terminate User’s access and/or use of Pendle Protocol at any time for any reason and to such extent at Pendle Group’s sole discretion.
 
-### Smart Contract-Based Trading
-All funding rate transactions are facilitated by smart contracts. You bear the full risk of using such contracts, including technical failures, bugs, or exploits.  We do not guarantee performance or uptime and disclaims liability for smart contract risks to the maximum extent permitted by law.
+2.	Neither the Company nor any of our Affiliates will have any liability whatsoever to User for any such restriction, suspension and/or termination or for any action taken by the Company and/or any of our Affiliates to implement such restriction, suspension and/or termination which can include blacklisting User’s Supported Wallet which User uses to access and/or use Pendle Protocol.
 
-### User Responsibilities
-You are solely responsible for monitoring your account’s health, margin levels, and applicable limits. You must not attempt to circumvent system controls or engage in behaviour deemed harmful to the protocol’s integrity.
+3.	These Terms shall remain in effect in favour of the Pendle Group notwithstanding any such restriction, suspension and/or termination.
 
-### No Fiduciary Relationship
-We are not your broker, fiduciary, or custodian. No advisory relationship is created by your use of the funding rate trading feature.
+### 7.	DISCLAIMERS
 
-### Amendments and Termination of Pendle Boros
-We may update this Pendle Boros section or disable the feature entirely at any time. Your continued use after changes take effect constitutes your acceptance of the modified terms.
+USER ACKNOWLEDGES AND AGREES THAT:
+
+1.	PENDLE PROTOCOL IS PROVIDED ON AN “AS-IS” AND “AS AVAILABLE” BASIS BY THE COMPANY, AND THE PENDLE GROUP EXPRESSLY DISCLAIMS ANY AND ALL REPRESENTATIONS, WARRANTIES AND/OR CONDITIONS OF ANY KIND, WHETHER EXPRESS, IMPLIED, OR STATUTORY, INCLUDING ALL WARRANTIES OR CONDITIONS OF MERCHANTABILITY, MERCHANTABLE QUALITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, QUIET ENJOYMENT, ACCURACY, OR NON-INFRINGEMENT.
+
+2.	THE PENDLE GROUP HAS NOT MADE AND MAKES NO REPRESENTATION, WARRANTY AND/OR CONDITION OF ANY KIND THAT PENDLE PROTOCOL WILL MEET USER’S REQUIREMENTS, WILL BE AVAILABLE ON AN UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE BASIS, OR WILL BE ACCURATE, RELIABLE, FREE OF VIRUSES OR OTHER HARMFUL CODE, COMPLETE, LEGAL, OR SAFE. NO REPRESENTATION THAT THE PENDLE TOKENS, PT, YT, YIELD-BEARING ASSET, OR ANY OTHER ASSET IN CONNECTION WITH PENDLE PROTOCOL SHALL HAVE OR SHALL CONTINUE TO HAVE ANY VALUE.
+
+3.	BLOCKCHAIN TRANSACTIONS, INCLUDING TRANSACTIONS EXECUTED USING PENDLE PROTOCOL ARE GENERALLY IRREVERSIBLE ONCE CONFIRMED. YOU ARE RESPONSIBLE FOR YOUR OWN TRANSACTIONS AND AGREE NOT TO HOLD THE PENDLE GROUP FOR YOUR TRANSACTIONS.
+
+4.	NEITHER PENDLE PROTOCOL NOR ANY OF ITS AFFILIATES IS USER’S BROKER, AGENT, TAX OR LEGAL ADVISOR, AND HAS NO FIDUCIARY RELATIONSHIP WITH OR OBLIGATION TO USER. NO COMMUNICATION OR INFORMATION PROVIDED BY PENDLE PROTOCOL OR ANY OF ITS AFFILIATES IS INTENDED AS OR SHALL BE CONSTRUED AS INVESTMENT, FINANCIAL, TAX, LEGAL OR ANY OTHER KIND OF ADVICE. THE PENDLE GROUP SHALL NOT BE LIABLE FOR ANY DECISIONS USER MAKES TO ACCESS AND/OR USE PENDLE PROTOCOL.
+
+5.	TO THE EXTENT THAT APPLICABLE LAW REQUIRES OR IMPOSES ANY REPRESENTATION, WARRANTY AND/OR CONDITION WITH RESPECT TO USER’S ACCESS AND/OR USE OF PENDLE PROTOCOL, ALL SUCH REPRESENTATION, WARRANTY AND/OR CONDITION ARE LIMITED IN DURATION TO THIRTY (30) DAYS FROM THE DATE OF FIRST ACCESS AND/USE BY USER OF PENDLE PROTOCOL.
+
+6.	THE PENDLE GROUP DOES NOT ENDORSE ANY THIRD PARTY AND SHALL NOT BE RESPONSIBLE IN ANY WAY FOR ANY TRANSACTIONS YOU ENTER INTO WITH ANY OTHER THIRD PARTY.
+
+7.	YOU ACKNOWLEDGE AND AGREE THAT NEITHER THE COMPANY NOR ANY OF ITS AFFILIATES WILL BE LIABLE TO YOU FOR ANY LOSS OR DAMAGES OF ANY SORT INCURRED AS THE RESULT OF ANY INTERACTIONS BETWEEN YOU AND ANY THIRD PARTY.
+
+### 8.	LIMITATION OF LIABILITY
+
+1.	TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL THE COMPANY AND/OR ANY OF OUR AFFILIATES BE LIABLE TO USER OR ANY THIRD PARTY FOR ANY LOST PROFITS, LOST DATA, OR ANY INDIRECT, CONSEQUENTIAL, EXEMPLARY, INCIDENTAL, SPECIAL OR PUNITIVE DAMAGES ARISING OUT OF USER’S ACCESS AND/OR USE OF PENDLE PROTOCOL, EVEN IF THE COMPANY AND/OR ANY OF ITS AFFILIATES HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+2.	USER’S ACCESS TO AND/OR USE OF PENDLE PROTOCOL IS AT USER’S OWN DISCRETION AND RISK, AND USER WILL BE SOLELY RESPONSIBLE FOR ANY DAMAGE TO USER’S DEVICE OR COMPUTER SYSTEM, OR LOSS OF DATA RESULTING THEREFROM.
+
+3.	NEITHER THE COMPANY NOR ANY OF ITS AFFILIATES SHALL BE LIABLE TO USER FOR ANY LOSS OR DAMAGE ARISING OUT OF USER’S FAILURE TO KEEP USER’S PRIVATE KEYS OR LOGIN CREDENTIALS TO USER’S WALLET SECURE OR ANY OTHER UNAUTHORIZED ACCESS TO OR TRANSACTIONS INVOLVING USER’S WALLET.
+
+4.	TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, NOTWITHSTANDING ANYTHING TO THE CONTRARY CONTAINED HEREIN, THE LIABILITY OF THE COMPANY AND/OR ANY OF OUR AFFILIATES TO USER FOR ANY CLAIM BY USER FOR DAMAGES ARISING FROM OR RELATED TO USER’S ACCESS AND/OR USE OF PENDLE PROTOCOL:
+
+    1.	WHETHER PURSUANT TO THESE TERMS; AND/OR
+
+    2.	WHETHER FOR ANY CAUSE WHATSOEVER AND REGARDLESS OF THE FORM OF THE ACTION,
+
+    WILL AT ALL TIMES BE LIMITED TO A MAXIMUM OF USD100. THE EXISTENCE OF MORE THAN ONE CLAIM BY USER WILL NOT ENLARGE THIS LIMIT.
+
+### 9.	INDEMNIFICATION
+
+1.	User shall indemnify and hold the Pendle Group including each of their respective employees, officers, directors, representatives and agents (collectively, “Indemnified Party”), harmless, including costs and attorneys’ fees, from any loss, claim or demand made due to or arising out of:
+
+    1.	User’s access and/or use of Pendle Protocol;
+
+    2.	User’s violation of these Terms; and
+
+    3.	User’s violation of laws or regulations applicable to User’s access and/or use of Pendle Protocol.
+
+2.	The relevant Indemnified Party reserves the right, at User’s expense, to assume the exclusive defence and control of any matter for which User is required to provide indemnification, and User agrees to cooperate in the defence of these claims. User shall not settle any matter without the prior written consent of the relevant Indemnified Party. The relevant Indemnified Party will use reasonable efforts to notify User of any such claim, action or proceeding upon becoming aware of it.
+
+### 10.	TAX IMPLICATIONS
+
+User is solely responsible for determining the tax implications and tax reporting requirements associated with transactions User engages in using Pendle Protocol, and for paying any applicable taxes in each applicable jurisdiction. Neither Pendle Protocol nor any of our Affiliates shall be responsible for determining whether there are tax implications in connection with transactions involving User’s use of Pendle Protocol, for reporting any such transactions, or for paying any applicable taxes.
+
+### 11.	POTENTIAL RISKS ASSOCIATED WITH USE OF PENDLE PROTOCOL
+
+1.	The Use of Pendle Protocol is at the User’s own risk.
+
+2.	User acknowledges and agrees to assume all risks including the following:
+
+    1.	__Underlying Protocol Risk__: Pendle Protocol is built on and is composable on several Non-Pendle Underlying Protocols. There is no assurance that the Non-Pendle Underlying Protocols are functioning or will continue to function as expected. If there are any adverse events affecting the Non-Pendle Underlying Protocols, it could result in a material adverse impact on User’s position on the Pendle Protocol. Such adverse events include without limitation, a de-peg in the price of a stablecoin or synthetically-pegged token, an exploit or cybersecurity compromise, oracle failure, freezing of assets or default by the Non-Pendle Underlying Protocols. The Non-Pendle Underlying Protocols may also operate in a manner that undermines or adversely affects PT, YT and Pendle Protocol as a whole, including without limitation, not honouring yield distributions to be made to the holders of PT and/or YT.    
+    
+    2.	__Product Sophistication (including stablecoins, wrappers, etc.)__: Assets issued by Non-Pendle Underlying Protocols that integrated with Pendle Protocol can be sophisticated. You shall do your own due diligence and be satisfied with the risks you are assuming, including but not limited to the following:
+
+        1\.	Products which are termed or characterised as stablecoins which may have price-stable characteristics but are structured differently from traditionally understood dollar or treasury-backed stablecoins like USD coin issued by Circle (“USDC”). In general, whilst stablecoins (including USDC) may possess price-stable characteristics, User should not assume that all stablecoins function in the same manner. In respect of all stablecoins, there is no assurance that User may ultimately be able receive any yields promised, and/or to recover the expected dollar-denominated amount for various reasons, including but not limited to a de-peg in price due to the insolvency of the issuer, the lack of liquidity to redeem the relevant stablecoin, a malfunction or exploit in the system supporting price stability of a stablecoin, or a change in the terms and conditions under which the relevant stablecoin is issued. The Pendle Group makes no representation in respect of any of such assets termed as stablecoins, including but not limited to how such stablecoins are structured, and whether User may be able to recover any value associated with such stablecoin. 
+            
+        2\.	Products which track, or are wrappers or synthetic representations of, more traditionally understood products (“**RWA Associated Products**”), which for the avoidance of doubt are neither issued by the Company nor its Affiliates. In general, whilst such RWA Associated Products may track the price of an underlying traditionally understood asset (or commonly referred to as “**Real World Assets**” or “**RWA**”) the underlying RWA Associated Product, there is no assurance that User may ultimately be able to receive any yields promised, to recover the underlying RWA Associated Product, and/or to recover any dollar-denominated value expected from holding, trading or participating in Real World Assets or RWA. This could be for many reasons, including but not limited to a de-peg in price due to, among other things, the insolvency, malfeasance of the issuer, the lack of liquidity to redeem the RWA Associated Products, or a change in the terms and conditions under which the relevant RWA Associated Products are issued. The Pendle Group makes no representation in respect of any of such assets termed or associated with the RWA Associated Products or RWA, how such RWA Associated Products or RWAs are structured, and whether User may be able to recover any value associated with such RWA Associated Products or RWA. 
+
+    3.	__Monetary Loss__: Trading cryptographic tokens are highly risky and can result in losses including total loss. Where tokens are deposited in pools or vaults which includes or is exposed to other tokens, the movement in price relative to such other tokens and vice versa can result in impermanent loss, which may eventually realise into actual losses on withdrawal or termination of the User’s position. 
+
+    4.	__Liquidation Risks__: Where leverage is used, there is a risk of being liquidated, which may involve a total loss of your assets or capital. Liquidation may occur for various reasons, including a situation where your position is no longer supported by the value of your collateral based on the risk parameters of the Pendle Protocol. Automated liquidation can also occur in periods of high price volatility (whether such price volatility is caused by market movements or inaccurate or incorrect price feeds and other market structure issues) which results in auto-deleveraging (“**ADL**”). ADL is built into the risk parameters of Pendle Protocol and can occur even if your position would otherwise have been profitable, to avoid or mitigate the risk of bad debt of the Pendle Protocol. In the event of ADL, losses may effectively be socialised amongst other users. You accept the risk of total loss if your position is liquidated whether it occurs due to ADL or otherwise.    
+
+    5.	__Technology / Smart Contract Risk__: While security audits are carried on certain code infrastructure of Pendle Protocol, there is no assurance that such security audits are sufficient, comprehensive or that such security audits represent that Pendle Protocol is immune from exploits. Open technologies are typically targeted by bad actors and are vulnerable to exploits. There may be vulnerabilities or bugs in distributed networks, protocols, systems and smart contracts and there is no assurance that Pendle Protocol or any other protocol connected to the Pendle Protocol would be immune from attacks or exploits resulting in loss to User.
+
+    6.	__Risks related to distributed network consensus mechanisms__: Distributed networks and blockchains are based on various consensus mechanisms (including but not limited to ‘proof-of-work’ or ‘proof-of-stake’ mechanisms) each having inherent risks. These include majority control risks, malicious or exploitive actions by nodes or network participants or a failure of such consensus mechanisms to work as intended resulting in forks and/or other circumstances resulting in disruption or loss.
+
+    7.	__Risks associated, hardware, software or service providers__: Hardware and software disruptions can happen including disruptions from infrastructure service providers (including but not limited to cloud service providers).  Pendle Protocol may be adversely affected by such disruptions which may result in disruption or loss to the User.
+
+    8.	__Volatility Risk__: Digital assets and tokens are highly speculative and are usually subject to high price volatility. There is no assurance that these digital assets (including but not limited to PENDLE token, PT, YT and Yield-Bearing Assets), tokens and/or financial positions will have or will continue to have any market value.
+
+    9.	__Tax Risks__: Tax treatment on digital assets and financial positions in connection with Pendle Protocol may have adverse tax consequences and you should seek independent tax and financial advice in connection with your use of Pendle Protocol.
+
+    10.	__Regulatory Risk__: The laws, regulations and guidelines governing digital assets, distributed technologies and cryptographic tokens are uncertain and may apply or change in such a way as to have an adverse effect on User and User’s use of Pendle Protocol, including materially adverse effect on the distributed ledger industry, Pendle Protocol, the Pendle Group, and any asset in connection with Pendle Protocol.
+
+    11.	__Operational Risk__: Contributors to Pendle Protocol may be compelled to cease operations for financial reasons, regulatory restrictions, hostile actions, legal proceedings, or any other circumstance that would make operations no longer viable. In such event, the development of Pendle Protocol may be disrupted and may not continue to operate as expected.
+
+    12.	__Force Majeure__: Acts of God, natural disasters, wars, terrorist attacks, riots, civil commotions, widespread communicable diseases and other force majeure events may occur resulting in adverse effects on Pendle Protocol and User. 
+
+    13.	__Token Risk__: You shall not view or treat the PENDLE Token as a form of investment and shall only acquire the PENDLE Token with a view towards utilising PENDLE Token to participate in furthering the development of the Pendle Protocol. Similar to other cryptographic tokens in the industry, there can be no assurance of any value or of a constantly available market to acquire PENDLE Tokens with sufficient liquidity. You accept all risks (including all losses) associated with PENDLE Token as yours.     
+
+    14.	__Unanticipated Risks__: Notwithstanding the risks set out herein (which may not be complete), there can be risks that are not anticipated. Such unanticipated risks may realise into adverse consequences or loss to the User. 
+
+    15.	__Financial Risk__: Trading digital assets and/or providing liquidity of the same entails a high financial risk. User has necessary experience and knowledge to understand the risks involved. User should carefully assess User’s financial circumstances and risk tolerance and where appropriate, seek third party financial advice before engaging in the aforementioned activities.
+
+    16.	__Address Handling Risks__. User is solely responsible for verifying the accuracy and authenticity of blockchain addresses in connection with the use of Pendle Protocol. User may interact with malicious, spoofed, cloned, modified or unofficial smart contracts, websites, interfaces or applications including phishing or impersonated interfaces designed to trick User into sending assets incorrectly. Such transactions, if executed on the blockchain is effectively irreversible. 
+
+3.	Nothing in these Terms or the Website shall be construed as:
+
+    1.	financial or investment advice. We do not provide any view on the merits of any particular investment. Any information provided is for educational purposes and to keep investors informed of prices, ranges, and volatility of digital assets and derivatives thereof. No person in the Pendle Group acts as your broker, intermediary, agent or advisor in any capacity; and 
+
+    2.	any marketing, promotion or offer for any product or investment to User or any third party. User shall be solely responsible for any losses, damages or costs resulting from User’s reliance on any data or information on the Website or otherwise. User shall be responsible for User’s decisions relating to Pendle Protocol which are User’s own.
+
+4. Like all software, Pendle Protocol may be subject to exploits, accordingly, neither the Company nor any of its Affiliates shall be responsible to User for any such exploits or loss to User as a result of such exploits, whether foreseeable or not.
+
+5.	While the Company has taken a number of precautions to ensure the security of Pendle Protocol including obtaining third-party security audits, the technology constituting Pendle Protocol, and their interaction, is relatively new and it is not possible to guarantee that the code is completely free from bugs or errors.
+
+6.	User accepts all risks that arise from User’s access and/or use of Pendle Protocol, including and not limited to, the risk of any of Pendle Protocol Supported Assets being lost due to a failure or exploit of Pendle Protocol.
+
+7.	User is solely responsible for securing the private keys associated with any Supported Wallet which User uses when accessing and/or using Pendle Protocol.
+
+8.	User understands that anyone who obtains User’s private keys to User’s Supported Wallet and/or access to User’s device containing such private keys, may access User’s Supported Wallet controlled with those private keys with or without User’s authorisation and may transfer any Pendle Protocol Supported Assets accessible through User’s Supported Wallet.
+
+9.	In choosing to access and/or use Pendle Protocol, User does so on User’s own initiative and at User’s own risk, and User is responsible for complying with all applicable local laws, rules and regulations relating to User’s access and/or use of Pendle Protocol.
+
+10.	Support for the Pendle Protocol may be modified or discontinued at any time in Pendle Group’s sole discretion.
+
+11.	In the event of a change in the operating rules or other features of the relevant code (“**Fork**”) that may result in more than one version of a network (“**Forked Network**”) and more than one version of a digital asset (“**Forked Asset**”), Pendle Protocol may not support activity related to any Forked Assets. Forked Networks and the available supply of any Forked Assets are wholly outside Pendle Group’s control. In the event of a Fork, Pendle Group may temporarily suspend certain services on the Website (with or without advance notice to User) while it is determined which Forked Network(s) to support. Pendle Group shall not be responsible for a lack of support for any Forked Asset.
+
+12.	By using Pendle Protocol, User is using Pendle Protocol “as is” and “as available” with no representations or warranties whatsoever. To the maximum extent permitted by law, neither the Company nor any of its Affiliates makes any express or implied representations and warranties, including implied representations or warranties of accuracy, merchantability, fitness for a particular purpose and non-infringement in relation to Pendle Protocol. Neither the Company nor any of its Affiliates is responsible or liable for any error, delay or interruption in or lack of access to Pendle Protocol or for any loss of digital assets (including but not limited to Pendle Protocol Supported Assets) occasioned by or attributable to the Pendle Protocol.
+
+### 12.	Electronic Communications
+
+1.	The communications between User and the Company shall be via electronic means, either through the Website or electronic mail.
+
+2.	For contractual purposes, User:
+
+    1.	consents to receive communications from the Company in any electronic form; and
+
+    2.	acknowledges and agrees that all terms and conditions, agreements, notices, disclosures, and other communications that the Company provides to User electronically satisfy any legal requirement that would also be satisfied if such communications were to be in a hardcopy writing.
+
+### 13.	CONTENT, THIRD PARTY SERVICES, PROGRAMS
+
+1.	Nothing in Pendle Protocol, the Smart Contracts, the Website, or any Content shall constitute or be construed as an offer, solicitation, invitation, advertisement, inducement, financial promotion, marketing, or public offering of any tokens, securities, commodities, derivatives, financial instruments, or other regulated products in any jurisdiction. The Pendle Group does not purport to and does not provide any facility for the purchase, sale, issuance, distribution, exchange, arrangement, or offering of securities or capital markets products, nor does it intend or purport to operate any exchange, trading venue, organised market, regulated market, multilateral trading facility, payment service, money service business, or any similar regulated service.
+
+2.	All Content is subject to these Terms and is solely for informational purposes only. No representation is made and no Content shall in any way constitute an offer, solicitation, financial, legal, tax or professional advice. 
+
+3.	ANY METRIC (“**METRIC**”), INCLUDING BUT NOT LIMITED TO YIELD, RETURN, APR, APY, RATE, PROJECTION, IMPLIED, ESTIMATION, SIMULATION, OR PERFORMANCE METRIC DISPLAYED OR REFERENCED IN CONTENT, ON THE WEBSITE AND IN CONNECTION WITH PENDLE PROTOCOL (INCLUDING IN RELATION TO ANY PT, YT, YIELD-BEARING ASSET, POOLS OR VAULTS) IS PROVIDED STRICTLY FOR INFORMATIONAL PURPOSES ONLY, AND SHALL NOT BE CONSTRUED AS A PROMISE, GUARANTEE, WARRANTY, OR REPRESENTATION OF ANY KIND. THE PENDLE GROUP DOES NOT GUARANTEE THAT ANY USER WILL RECEIVE ANY YIELD, RETURN, OR REWARD, OR THAT ANY REFERENCED YIELD-GENERATING MECHANISM WILL FUNCTION AS EXPECTED. PAST PERFORMANCE DOES NOT GUARANTEE FUTURE RESULTS, AND ALL ECONOMIC OUTCOMES REMAIN HIGHLY SPECULATIVE AND MAY RESULT IN TOTAL LOSS. SUCH METRIC CAN BE INACCURATE FOR VARIOUS REASONS, INCLUDING BUT NOT LIMITED TO  INACCURATE API SOURCES, ROUNDING ERRORS, LATENCY, LACK OF LIQUIDITY, SPECULATIVE YIELD THAT ARE UNREALISED (INCLUDING POINTS THAT DO NOT REALISE INTO ANY VALUE) AND PRICE FLUCTUATIONS WHICH CAN DEVIATE GREATLY FROM ANY EXPECTATION OF VALUE, WHICH YOU ACCEPT.
+
+4.	By accessing or retaining Content, you acknowledge and agree that you qualify as a financially sophisticated person, that you have enquired and not been solicited to receive Content, that any action you take is entirely based on your due diligence and you have not relied on any part of Content, and that you accept all consequences and risks of damage or loss (direct or indirect) as your own and shall hold no one else liable (including the Pendle Group). 
+
+5.	Content may include third party content (including links to other websites, content or applications) which are provided “as is” and shall not be construed as endorsement by any person including the Pendle Group. 
+
+6.	We may in our sole discretion run promotions or growth campaigns (“Campaigns”) from time to time. The terms and conditions applicable to such Campaigns shall be at the sole discretion of the Pendle Group shall be ultimately subject to these Terms which are incorporated by reference. We reserve the right to modify, suspend or terminate such Campaigns and to cancel or retroactively revoke any benefits associated with such Campaigns at our own discretion. The benefits in connection with such Campaigns may not have any value and is subject to applicable law which may prohibit your participation.
+
+
+### 14.	GENERAL
+
+1.	**Entire Terms**
+
+    These Terms (read together with our Privacy Policy) constitute the entire agreement between User and the Company regarding User’s access and/or use of Pendle Protocol.
+
+2.	**Severability**
+
+    If any provision of these Terms is, for any reason, held to be invalid or unenforceable, the other provisions of these Terms will be unimpaired and the invalid or unenforceable provision will be deemed modified so that it is valid and enforceable to the maximum extent permitted by law.
+
+3.	**Relationship of Parties**
+ 
+    Nothing contained in these Terms will be deemed to be construed as creating a partnership or an agency relationship or joint venture between User, the Company and/or any of our Affiliates.
+
+4.	**Assignment**
+
+    These Terms, and User’s rights thereunder, may not be assigned, without the Company’s prior written consent, and any attempted assignment, subcontract, delegation, or transfer in violation of the foregoing will be null and void. The Company may freely assign these Terms and our respective rights thereunder.
+
+5.	**Waiver**
+
+    A waiver by the Company of any right or remedy under these Terms shall only be effective if it is in writing, executed by a duly authorized representative of the Company and shall apply only to the circumstances for which it is given. Failure of the Company to exercise or enforce any right or remedy under these Terms shall not operate as a waiver of such right or remedy, nor shall it prevent any future exercise or enforcement of such right or remedy, and no single or partial exercise of any right or remedy shall preclude or restrict the further exercise of any such right or remedy or other rights or remedies.
+
+6.	**No Third-Party Rights** 
+
+    Save for the Company’s Affiliates and the Indemnified Parties who shall have the rights and benefits to the extent accorded thereto under these Terms, any person who is not a Party shall have no right under the Contracts (Rights of Third Parties) Act 2001 of Singapore to enforce any of these Terms. 
+
+7.	**Governing Law and Jurisdiction**
+
+    The agreement as shall be constituted by User’s acceptance of these Terms, and any dispute or claim arising out of or in connection with the subject matter or formation (including non-contractual disputes or claims) of such agreement, shall be governed by and construed in accordance with the law of Singapore.
+
+    The Parties agree that any dispute or claim arising out of or in connection with the subject matter or formation (including non-contractual disputes or claims) of these Terms shall be by arbitration, and judgment upon the award may be entered by any court having jurisdiction thereof or having jurisdiction over the relevant Party or its assets. The arbitration shall be conducted under the rules of the Singapore International Arbitration Centre (“**SIAC**”). The arbitral tribunal shall consist of a sole arbitrator to be appointed by the President of the SIAC. The seat of the arbitration shall be Singapore. The language of the arbitration shall be English. The arbitration agreement shall be governed by Singapore law.
+
+8.	**Severability** 
+
+    If any provisions of these Terms are found by any court or tribunal of competent jurisdiction to be invalid, void, unlawful or unenforceable under any applicable law, such unenforceability or invalidity shall not render these Terms unenforceable or invalid as a whole, and such provisions shall be deleted without affecting the remaining provisions herein.
+
+ 
+
+
+
+
