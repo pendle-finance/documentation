@@ -239,6 +239,15 @@ p {
   letter-spacing: -0.01em;
 }
 
+ol {
+  list-style-type: lower-latin; /* For a, b, c */
+}
+
+s, del {
+  color: #ff0000;
+  text-decoration-color: #00000000;
+}
+
 /* Links with animated underlines */
 a {
   color: var(--ifm-link-color);
