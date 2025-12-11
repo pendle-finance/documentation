@@ -51,8 +51,8 @@ Pool caps are finalized on Wednesday 00:00 UTC based on two variables:
 2. Fee Share % (F) – the pool’s proportion of total swap fees generated across Pendle over the last 7 days.
 
 Pools launched on Pendle will begin with a **default 5% cap** in their first epoch. After that, a pool’s cap adjusts dynamically each week based on its performance. The cap adjusts based on the following formula (capped at 15%):
-- If C > 1.5 \* F → `New cap = min(15%, max(C − 25% * C, 1.5 * F))`.
-- If C < 1.5 \* F → `New cap = min(15%, min(C + 35% * F, 1.5 * F))`.
+- If C > 1.5 \* F → `New cap = min(10%, max(C − 25% * C, 1.5 * F))`.
+- If C < 1.5 \* F → `New cap = min(10%, min(C + 35% * F, 1.5 * F))`.
 
 The fee share (F) is calculated based on a Wednesday-to-Wednesday measurement period and finalized at 00:00 UTC on Wednesday. This creates a 24-hour lag before the new epoch begins on Thu 00:00 UTC.
 
@@ -64,13 +64,13 @@ The imposed cap adjustments are asymmetrical by design: they rise quickly with s
 
 This mechanism prevents pools that are consistent laggards from receiving excessive liquidity incentives, ensuring that they only qualify for additional incentives when they demonstrate traction.
 
-Walking through a simplified example of how a pool’s cap might adjust based on its fee share, assume a pool currently has a cap of 10%. Based on its performance in the current epoch, here’s how its cap may change in the next:
+Walking through a simplified example of how a pool’s cap might adjust based on its fee share, assume a pool currently has a cap of 6%. Based on its performance in the current epoch, here’s how its cap may change in the next:
 
 | Fee Share This Epoch | Resulting Cap Next Epoch |        Explanation            |
 | -------------------- | ------------------------ | ----------------------------- |
-| 1%                   | 7.5%                     | Low fee contribution leads to a reduction in cap. |
-| 6.7%                 | 10%                      | Fee share meets the threshold to maintain the current cap. |
-| 10%                  | 15%                      | High fee contribution enables a significant cap increase.|
+| 1%                   | 4.5%                     | Low fee contribution leads to a reduction in cap. |
+| 4%                   | 6%                       | Fee share meets the threshold to maintain the current cap. |
+| 8%                   | 8%                       | High fee contribution enables a significant cap increase.|
 
 The current cap for this epoch and the tentative projected cap for the next epoch will be publicly available on [vePendle’s vote page](https://app.pendle.finance/vependle/vote) when it’s live.
 
