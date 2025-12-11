@@ -17,7 +17,7 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous"><link rel="stylesheet" href="/assets/css/styles.1e78c9e4.css">
-<script src="/assets/js/runtime~main.42dc71d4.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.d469a95e.js" defer="defer"></script>
 <script src="/assets/js/main.1b24e965.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -56,16 +56,16 @@
 </ol>
 <p>Pools launched on Pendle will begin with a <strong>default 5% cap</strong> in their first epoch. After that, a pool’s cap adjusts dynamically each week based on its performance. The cap adjusts based on the following formula (capped at 15%):</p>
 <ul>
-<li>If C &gt; 1.5 * F → <code>New cap = min(15%, max(C − 25% * C, 1.5 * F))</code>.</li>
-<li>If C &lt; 1.5 * F → <code>New cap = min(15%, min(C + 35% * F, 1.5 * F))</code>.</li>
+<li>If C &gt; 1.5 * F → <code>New cap = min(10%, max(C − 25% * C, 1.5 * F))</code>.</li>
+<li>If C &lt; 1.5 * F → <code>New cap = min(10%, min(C + 35% * F, 1.5 * F))</code>.</li>
 </ul>
 <p>The fee share (F) is calculated based on a Wednesday-to-Wednesday measurement period and finalized at 00:00 UTC on Wednesday. This creates a 24-hour lag before the new epoch begins on Thu 00:00 UTC.</p>
 <p><img decoding="async" loading="lazy" alt="Caps Timeline" src="/assets/images/caps_timeline-f3e964e181666f02e678afe34e3fa0da.png" title="Caps Timeline" width="4624" height="2604" class="img_ev3q"></p>
 <p>This buffer gives vePENDLE holders 24 hours to adjust their votes before incentives are distributed—especially useful if the updated caps impact voting decisions.</p>
 <p>The imposed cap adjustments are asymmetrical by design: they rise quickly with strong performance but decline more gradually, providing stability and encouraging growth without penalizing short-term dips.</p>
 <p>This mechanism prevents pools that are consistent laggards from receiving excessive liquidity incentives, ensuring that they only qualify for additional incentives when they demonstrate traction.</p>
-<p>Walking through a simplified example of how a pool’s cap might adjust based on its fee share, assume a pool currently has a cap of 10%. Based on its performance in the current epoch, here’s how its cap may change in the next:</p>
-<table><thead><tr><th>Fee Share This Epoch</th><th>Resulting Cap Next Epoch</th><th>Explanation</th></tr></thead><tbody><tr><td>1%</td><td>7.5%</td><td>Low fee contribution leads to a reduction in cap.</td></tr><tr><td>6.7%</td><td>10%</td><td>Fee share meets the threshold to maintain the current cap.</td></tr><tr><td>10%</td><td>15%</td><td>High fee contribution enables a significant cap increase.</td></tr></tbody></table>
+<p>Walking through a simplified example of how a pool’s cap might adjust based on its fee share, assume a pool currently has a cap of 6%. Based on its performance in the current epoch, here’s how its cap may change in the next:</p>
+<table><thead><tr><th>Fee Share This Epoch</th><th>Resulting Cap Next Epoch</th><th>Explanation</th></tr></thead><tbody><tr><td>1%</td><td>4.5%</td><td>Low fee contribution leads to a reduction in cap.</td></tr><tr><td>4%</td><td>6%</td><td>Fee share meets the threshold to maintain the current cap.</td></tr><tr><td>8%</td><td>8%</td><td>High fee contribution enables a significant cap increase.</td></tr></tbody></table>
 <p>The current cap for this epoch and the tentative projected cap for the next epoch will be publicly available on <a href="https://app.pendle.finance/vependle/vote" target="_blank" rel="noopener noreferrer">vePendle’s vote page</a> when it’s live.</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="fees-and-rewards">Fees and Rewards<a href="#fees-and-rewards" class="hash-link" aria-label="Direct link to Fees and Rewards" title="Direct link to Fees and Rewards">​</a></h2>
 <p>Pendle collects a 5% fee from all yield (including points) accrued by YT.</p>
