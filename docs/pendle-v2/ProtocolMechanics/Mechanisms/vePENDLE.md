@@ -50,9 +50,9 @@ Pool caps are finalized on Wednesday 00:00 UTC based on two variables:
 1. Current Cap (C) – the maximum incentive currently set for the pool.
 2. Fee Share % (F) – the pool’s proportion of total swap fees generated across Pendle over the last 7 days.
 
-Pools launched on Pendle will begin with a **default 5% cap** in their first epoch. After that, a pool’s cap adjusts dynamically each week based on its performance. The cap adjusts based on the following formula:
-- If C > 3 \* F → `New cap = max(C − 25% * C, 3 * F)`.
-- If C < 3 \* F → `New cap = min(C + 35% * F, 3 * F)`.
+Pools launched on Pendle will begin with a **default 5% cap** in their first epoch. After that, a pool’s cap adjusts dynamically each week based on its performance. The cap adjusts based on the following formula (capped at 15%):
+- If C > 1.5 \* F → `New cap = min(15%, max(C − 25% * C, 1.5 * F))`.
+- If C < 1.5 \* F → `New cap = min(15%, min(C + 35% * F, 1.5 * F))`.
 
 The fee share (F) is calculated based on a Wednesday-to-Wednesday measurement period and finalized at 00:00 UTC on Wednesday. This creates a 24-hour lag before the new epoch begins on Thu 00:00 UTC.
 
@@ -68,9 +68,9 @@ Walking through a simplified example of how a pool’s cap might adjust based on
 
 | Fee Share This Epoch | Resulting Cap Next Epoch |        Explanation            |
 | -------------------- | ------------------------ | ----------------------------- |
-| 1%                   | 8%                       | Low fee contribution leads to a reduction in cap. |
-| 2.5%                 | 10%                      | Fee share meets the threshold to maintain the current cap. |
-| 10%                  | 18%                      | High fee contribution enables a significant cap increase.|
+| 1%                   | 7.5%                     | Low fee contribution leads to a reduction in cap. |
+| 6.7%                 | 10%                      | Fee share meets the threshold to maintain the current cap. |
+| 10%                  | 15%                      | High fee contribution enables a significant cap increase.|
 
 The current cap for this epoch and the tentative projected cap for the next epoch will be publicly available on [vePendle’s vote page](https://app.pendle.finance/vependle/vote) when it’s live.
 
