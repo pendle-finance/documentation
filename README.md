@@ -40,6 +40,7 @@ The knowledge bases are stored in the following files:
 - [dev-knowledge-base.txt](docs/Developers/dev-knowledge-base.txt): Questions and answers for developers, they contains context about our contract system and our API.
 - [user-knowledge-base.txt](docs/Developers/user-knowledge-base.txt): General questions and answers for retail users
 - [api-spec.json](docs/Developers/api-spec.json): the openAPI spec for our public API, at: [https://api-v2.pendle.finance/core/docs#/](https://api-v2.pendle.finance/core/docs#/).
+- [general-knowledge-base.md](docs/Developers/general-knowledge-base.md): general knowledge about the Pendle protocol. Summary from tons of our conversations with partners and users.
 
 ## How to use the knowledge bases
 
