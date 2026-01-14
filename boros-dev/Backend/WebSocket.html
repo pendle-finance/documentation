@@ -17,8 +17,8 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous"><link rel="stylesheet" href="/assets/css/styles.1e78c9e4.css">
-<script src="/assets/js/runtime~main.d469a95e.js" defer="defer"></script>
-<script src="/assets/js/main.1b24e965.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.c7683869.js" defer="defer"></script>
+<script src="/assets/js/main.ed84b73b.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -45,8 +45,7 @@
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="channel-types">Channel Types<a href="#channel-types" class="hash-link" aria-label="Direct link to Channel Types" title="Direct link to Channel Types">​</a></h2>
 <p>Common channel patterns:</p>
 <ul>
-<li><code>orderbook:MARKET_ID:full</code> - Full orderbook updates</li>
-<li><code>orderbook:MARKET_ID:update</code> - Incremental orderbook updates</li>
+<li><code>orderbook:MARKET_ID:TICK_SIZE</code> – Orderbook updates for the given market, where TICK_SIZE refers to the price granularity. Accepted TICK_SIZE values are: 0.1, 0.01, 0.001, 0.0001, and 0.00001.</li>
 <li><code>market-trade:MARKET_ID</code> - Market trade updates</li>
 <li><code>statistics:MARKET_ID</code> - Market statistics updates</li>
 </ul>

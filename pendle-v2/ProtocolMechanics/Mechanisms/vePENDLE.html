@@ -17,8 +17,8 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous"><link rel="stylesheet" href="/assets/css/styles.1e78c9e4.css">
-<script src="/assets/js/runtime~main.d469a95e.js" defer="defer"></script>
-<script src="/assets/js/main.1b24e965.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.c7683869.js" defer="defer"></script>
+<script src="/assets/js/main.ed84b73b.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -54,7 +54,7 @@
 <li>Current Cap (C) – the maximum incentive currently set for the pool.</li>
 <li>Fee Share % (F) – the pool’s proportion of total swap fees generated across Pendle over the last 7 days.</li>
 </ol>
-<p>Pools launched on Pendle will begin with a <strong>default 5% cap</strong> in their first epoch. After that, a pool’s cap adjusts dynamically each week based on its performance. The cap adjusts based on the following formula (capped at 15%):</p>
+<p>Pools launched on Pendle will begin with a <strong>default 5% cap</strong> in their first epoch. After that, a pool’s cap adjusts dynamically each week based on its performance. The cap adjusts based on the following formula (capped at 10%):</p>
 <ul>
 <li>If C &gt; 1.5 * F → <code>New cap = min(10%, max(C − 25% * C, 1.5 * F))</code>.</li>
 <li>If C &lt; 1.5 * F → <code>New cap = min(10%, min(C + 35% * F, 1.5 * F))</code>.</li>
