@@ -73,8 +73,7 @@ function cleanup() {
 
 Common channel patterns:
 
-- `orderbook:MARKET_ID:full` - Full orderbook updates
-- `orderbook:MARKET_ID:update` - Incremental orderbook updates
+- `orderbook:MARKET_ID:TICK_SIZE` – Orderbook updates for the given market, where TICK_SIZE refers to the price granularity. Accepted TICK_SIZE values are: 0.1, 0.01, 0.001, 0.0001, and 0.00001.
 - `market-trade:MARKET_ID` - Market trade updates
 - `statistics:MARKET_ID` - Market statistics updates
 
