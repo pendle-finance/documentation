@@ -35,10 +35,11 @@ module.exports = {
         },
         {
           type: "category",
-          label: "💰 Tokenomics, vePENDLE, Fees",
+          label: "💰 Tokenomics and Fees",
           items: [
             { type: "doc", id: "ProtocolMechanics/Mechanisms/Tokenomics" },
-            { type: "doc", id: "ProtocolMechanics/Mechanisms/vePENDLE" },
+            { type: "doc", id: "ProtocolMechanics/Mechanisms/sPENDLE" },
+            { type: "doc", label: "vePENDLE (Legacy)", id: "ProtocolMechanics/Mechanisms/vePENDLE" },
             { type: "doc", id: "ProtocolMechanics/Mechanisms/Fees" },
             {
               type: "category",
