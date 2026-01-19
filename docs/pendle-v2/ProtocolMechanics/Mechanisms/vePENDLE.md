@@ -2,7 +2,13 @@
 hide_table_of_contents: true
 ---
 
-# vePENDLE
+:::warning[**vePENDLE will be fully replaced by sPENDLE.** Final vePENDLE vote is on Jan 21 (23:59 UTC). ]
+
+vePENDLE renewal will cease as of Jan 29 00:00 UTC onwards, and a snapshot will be taken for calculation of special vePENDLE Loyalty Bonus for this transition period. Refer to the sPENDLE section of the docs for more details. (add link for sPENDLE section pls) 
+
+:::
+
+# vePENDLE (Legacy)
 
 Pendle's governance relies on Vote-escrowed PENDLE, also known as vePENDLE, which enables a higher degree of decentralization. By utilizing vePENDLE, PENDLE holders gain access to an array of features that increase the token's utility.
 
