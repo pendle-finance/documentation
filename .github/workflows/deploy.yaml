@@ -3,7 +3,7 @@ name: Deploy Docusaurus site with Yarn
 on:
   push:
     branches:
-      - main # Change to your default branch if it's different (e.g., master)
+      - master # Change to your default branch if it's different (e.g., master)
   workflow_dispatch:
 
 jobs:
