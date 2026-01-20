@@ -1,0 +1,72 @@
+# Boros Open API Documentation
+
+This document provides a guide to integrating with the Boros trading platform API.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Base URLs](#base-urls)
+- [API Reference](#api-reference)
+- [Code Examples](#code-examples)
+
+---
+
+## Overview
+
+The Boros Open API allows you to:
+- Query market data, assets, and order books
+- Deposit and withdraw collateral
+- Place, cancel, and manage orders
+- Query account balances and positions
+- Access funding rate and settlement data
+
+For key concepts and terminology, see the [Glossary](./glossary).
+
+**Example Repository:** [https://github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples)
+
+---
+
+## Base URLs
+
+| Environment | Base URL |
+|-------------|----------|
+| Production  | `https://api.boros.finance` |
+
+All API endpoints are prefixed with `/open-api/v1/` (or `/open-api/v2/` for v2 endpoints).
+
+---
+
+## API Reference
+
+For complete API documentation with all endpoints, parameters, request/response examples, and interactive testing, see:
+
+- **Open API (Swagger):** [https://api.boros.finance/open-api/docs](https://api.boros.finance/open-api/docs)
+- **Transaction Submission API (Swagger):** [https://api.boros.finance/send-txs-bot/docs](https://api.boros.finance/send-txs-bot/docs)
+
+### API Categories
+
+| Category | Description |
+|----------|-------------|
+| **Assets** | Retrieve available assets with metadata and prices |
+| **Markets** | Query markets, trades, order books, and chart data |
+| **Accounts** | Manage settings, balances, orders, and transactions |
+| **Calldata** | Generate transaction calldata for deposits, withdrawals, orders, and more |
+| **Simulations** | Preview operations before executing on-chain |
+| **Funding Rate** | Access funding rate symbols and settlement summaries |
+| **Charts** | Fetch OHLCV data for markets |
+| **Agents** | Manage agent authorization and expiry |
+| **Events** | Query liquidation events |
+
+### Transaction Submission Flow
+
+1. Get calldata from the Open API (e.g., `/open-api/v1/calldata/place-orders`)
+2. Sign the calldata using `@pendle/sdk-boros` package
+3. Submit signed transactions to `/send-txs-bot/v2/agent/bulk-direct-call`
+
+---
+
+## Code Examples
+
+For complete working examples including agent approval, deposits, withdrawals, order placement, and more, see the example repository:
+
+**[https://github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples)**

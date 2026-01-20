@@ -39,9 +39,12 @@ module.exports = {
       type: "category",
       label: "🔌 Backend Integration",
       items: [
-        { type: "doc", id: "Backend/REST API", label: "🌐 REST API" },
-        { type: "doc", id: "Backend/WebSocket", label: "📡 WebSocket" },
-        { type: "doc", id: "Backend/SDK", label: "🛠️ SDK" },
+        { type: "doc", id: "Backend/overview", label: "📖 Overview" },
+        { type: "doc", id: "Backend/glossary", label: "📚 Glossary" },
+        { type: "doc", id: "Backend/agent", label: "🤖 Agent" },
+        { type: "doc", id: "Backend/api", label: "🌐 API" },
+        { type: "doc", id: "Backend/websocket", label: "📡 WebSocket" },
+        { type: "doc", id: "Backend/best-practices", label: "✨ Best Practices" },
       ],
     },
     {

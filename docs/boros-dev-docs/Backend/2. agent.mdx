@@ -1,0 +1,100 @@
+# Agent Trading
+
+## Overview
+
+An **agent** is an EVM address authorized to execute trading operations on behalf of your root account. Agents enable automated trading and simplified transaction management without requiring your root account to sign every transaction.
+
+**Benefits:**
+- Execute trades without signing each transaction with your root account
+- Enable automated trading strategies
+- Simplified transaction flow for high-frequency operations
+- Enhanced security by limiting exposure of your root private key
+
+## How Agents Work
+
+Agents use a delegated signing mechanism where your root account authorizes a specific agent address to perform actions on your behalf. Once approved, the agent can sign transactions for operations like placing orders, canceling orders, and other trading activities.
+
+## Setting Up an Agent
+
+### Step 1: Generate an Agent
+
+Create a new EVM address (private/public key pair) that will serve as your agent. This can be done using standard Ethereum wallet libraries.
+
+**Example:** https://github.com/pendle-finance/boros-api-examples/blob/main/examples/01-agent.ts
+
+### Step 2: Approve the Agent
+
+Sign an approval payload with your root account to authorize the agent.
+
+1. Generate the approval payload
+2. Sign the payload using your root account's private key
+3. Submit the signed approval to the Boros backend
+
+Example can be found in https://github.com/pendle-finance/boros-api-examples/blob/main/examples/01-agent.ts
+
+### Step 3: Confirmation
+
+Once the approval transaction is processed, the agent is authorized to act on behalf of your account. You can now use the agent's signature for trading operations without requiring your root signature.
+
+**API Reference:** Check agent expiry and status: https://api.boros.finance/open-api/docs#tag/agents/get/v1/agents/expiry-time
+
+## Trading with an Agent
+
+Once your agent is approved, follow this workflow for executing trades:
+
+### Workflow
+
+1. **Generate Calldata**
+   - Call the Boros API to generate transaction calldata, or
+   - Generate calldata manually using the SDK
+
+2. **Sign with Agent**
+   - Use your agent's private key to sign the calldata payload
+
+3. **Submit Transaction**
+   - Send the signed calldata to the Boros backend
+   - The backend submits the transaction on-chain on your behalf
+
+**Example:** https://github.com/pendle-finance/boros-api-examples
+
+## Gas Fees
+
+The Boros backend submits transactions to the blockchain on your behalf. Gas fees are charged for each on-chain action.
+
+**Important Points:**
+- Gas fees are denominated in USD based on the current ETH price
+- Fees reflect the actual cost charged by the Arbitrum network
+- **No additional markup** - you pay only the network transaction fee
+- Fees are deducted from your account balance automatically
+
+### Managing Gas Balance
+
+You need to maintain sufficient balance to cover gas fees for your transactions.
+
+#### Option 1: Pay via Agent Flow
+
+Use the agent signing mechanism to deposit funds into your gas treasury.
+
+**Example:** https://github.com/pendle-finance/boros-api-examples/blob/main/examples/12-top-up-gas-account.ts
+
+#### Option 2: Web Interface
+
+Use the Boros web interface for a simple deposit flow. You can go to https://boros.pendle.finance/account and click on the Gas balance button
+
+
+**UI Link:** [Boros App](https://boros.pendle.finance)
+
+## Security Considerations
+
+**Best Practices:**
+- Store agent private keys securely, separate from your root key
+- Monitor agent activity regularly
+- Set appropriate expiry times for agent approvals
+- Revoke agent access if compromised
+- Never share agent private keys
+
+**Agent Limitations:**
+- Agents can only perform authorized trading operations
+- Agents cannot withdraw funds without additional authorization
+- Agent approvals can be revoked at any time by the root account
+

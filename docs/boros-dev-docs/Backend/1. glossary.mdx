@@ -1,0 +1,78 @@
+# Glossary
+
+Quick reference for key terms used in the Boros API. For portfolio concepts (leverage, margin, PnL, liquidation), see the [Boros User Glossary](https://pendle.gitbook.io/boros/boros-docs/about-boros/glossary).
+
+---
+
+## Core Concepts
+
+| Term | Description |
+|------|-------------|
+| **Market** | A trading market uniquely identified by `marketId`, with one collateral token and specific parameters |
+| **Asset** | Any token in the system, identified by `tokenId` (e.g., USDT has 6 decimals, BTC has 8) |
+| **Root** | EVM address (0x-prefixed) serving as the primary trading identity |
+| **Account** | Sub-account under a root (IDs 0-255). Account `0` is default for trading; `255` is reserved for AMM |
+| **Agent** | Wallet authorized to trade on your behalf but cannot withdraw funds |
+| **Market Account** | Unique trading context: `(root, subaccountId, tokenId, marketId)`. Use `CROSS_MARKET_ID` (16777215) for cross-margin, or specific `marketId` for isolated |
+| **Decimals** | Deposits/withdrawals use native token decimals; trading/balances always use 18 decimals internally |
+
+---
+
+## Trading Concepts
+
+| Term | Description |
+|------|-------------|
+| **OrderBook** | Primary liquidity source with Long/Short sides organized by price ticks. [Learn more](/boros-dev/Mechanics/OrderBook) |
+| **Order** | Trade instruction with `orderId`, `tick` (price level), `side`, `size` (18 decimals), and `tif` |
+| **Tick** | Integer price level. Formula: `rate = 1.00005^(tick × tickStep) - 1`. Use SDK helpers to convert |
+| **Slippage** | Max acceptable price impact as percentage (market orders only) |
+| **AMM** | Automated market maker providing continuous liquidity |
+
+---
+
+## Enums
+
+### Side
+
+| Value | Name | Description |
+|-------|------|-------------|
+| `0` | `LONG` | Betting on rate increase |
+| `1` | `SHORT` | Betting on rate decrease |
+
+### Time In Force (TIF)
+
+| Value | Name | Description |
+|-------|------|-------------|
+| `0` | `GOOD_TIL_CANCELLED` | Remains active until filled or cancelled |
+| `1` | `FILL_OR_KILL` | Must fill completely immediately or cancel |
+| `2` | `IMMEDIATE_OR_CANCEL` | Fill what's possible, cancel the rest |
+| `3` | `POST_ONLY` | Only add liquidity, reject if would take |
+| `4` | `POST_ONLY_SLIDE` | Post-only with price adjustment |
+
+---
+
+## SDK Helpers
+
+```typescript
+import { MarketAccLib, CROSS_MARKET_ID, estimateTickForRate, getRateAtTick } from "@pendle/sdk-boros";
+import { FixedX18 } from "@pendle/boros-offchain-math";
+
+// Pack market account
+const marketAcc = MarketAccLib.pack(walletAddress, accountId, tokenId, CROSS_MARKET_ID);
+
+// Convert between tick and rate
+const tick = estimateTickForRate(FixedX18.fromNumber(0.05), tickStep, false);
+const rate = getRateAtTick(tick, tickStep);
+
+// Convert decimals
+const size = FixedX18.fromNumber(100).value.toString();
+const amount = FixedX18.fromBigIntString(balanceString).toNumber();
+```
+
+---
+
+## Additional Resources
+
+- [Boros User Glossary](https://pendle.gitbook.io/boros/boros-docs/about-boros/glossary) - Portfolio and general trading terms
+- [OrderBook Mechanics](/boros-dev/Mechanics/OrderBook) - How the orderbook works
+- [Custom Types](/boros-dev/Contracts/CustomTypes) - Contract type definitions
