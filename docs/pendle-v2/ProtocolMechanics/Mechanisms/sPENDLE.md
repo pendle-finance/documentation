@@ -29,7 +29,7 @@ Rewards from buybacks and point distributions may be claimed from the Pendle dAp
 ## Accounting
 
 ### Voting Power
-A snapshot of sPENDLE balances is taken whenever a PPP is created and determines the voting power of each user.
+A snapshot of sPENDLE balances is taken whenever a PPP is created and determines the voting power of each user. Voting power for virtual sPENDLE balance is equal to the underlying PENDLE locked in the vePENDLE contract. 
 
 sPENDLE held in whitelisted smart contracts is excluded from voting snapshots.
 
