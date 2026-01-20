@@ -41,3 +41,26 @@ A snapshot of active sPENDLE balances is taken every 14-days. This **does** incl
 *Example: A holder with 10% of total active sPENDLE receives 10% of that epoch’s rewards.*
 
 Rewards are distributed pro-rata to active sPENDLE holders.
+
+
+# vePENDLE Loyalty Bonus
+
+![vePENDLE bonus timeline](/img/ProtocolMechanics/vependle_bonus_timeline.png "vePENDLE Bonus Timeline")
+
+__January 20th__
+- sPENDLE staking goes live
+
+__January 29th, 00:00 UTC__
+- vePENDLE locks paused
+- Snapshot of vePENDLE balance and lock duration (for virtual sPENDLE calculation)
+- New PENDLE incentive structure commences
+
+![vePENDLE bonus decay](/img/ProtocolMechanics/vependle_bonus_decay.png "vePENDLE Bonus Decay")
+
+During this period, existing vePENDLE holders receive a virtual sPENDLE balance based on their PENDLE locked and time to full unlock during the snapshot at 00:00 UTC, January 29th. This virtual sPENDLE balance is non-transferable.
+
+The maximum multiplier is 4x for 2 years to unlock (i.e. maximum unlock) and decays to 1x when the unlock duration has finished.
+
+![vePENDLE multiplier illustration](/img/ProtocolMechanics/vependle_bonus_illustration.png "vePENDLE Multiplier Illustration")
+
+Once all users are fully unlocked, sPENDLE will be the sole governance and revenue token of the Pendle ecosystem.
