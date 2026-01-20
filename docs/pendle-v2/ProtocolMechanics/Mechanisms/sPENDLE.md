@@ -6,7 +6,7 @@
 sPENDLE is Pendle’s native governance token that distributes protocol rewards for active participation in the ecosystem. As a staked version of PENDLE, sPENDLE aligns the interest of various stakeholders while contributing to token stability and overall robustness of the Pendle protocol.
 
 ## Staking and Unstaking
-PENDLE may be staked to receive sPENDLE instantly at a 1:1 ratio.
+PENDLE may be staked to receive sPENDLE instantly at a 1:1 ratio. sPENDLE **does not** increase in value over time.
 
 sPENDLE held in a user’s wallet is eligible for:
 - Voting power within the Pendle ecosystem
