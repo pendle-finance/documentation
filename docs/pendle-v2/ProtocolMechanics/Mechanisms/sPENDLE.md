@@ -59,7 +59,7 @@ __January 29th, 00:00 UTC__
 
 During this period, existing vePENDLE holders receive a virtual sPENDLE balance based on their PENDLE locked and time to full unlock during the snapshot at 00:00 UTC, January 29th. This virtual sPENDLE balance is non-transferable.
 
-The maximum multiplier is 4x for 2 years to unlock (i.e. maximum unlock) and decays to 1x when the unlock duration has finished.
+The maximum multiplier is 4x for 2 years to unlock (i.e. maximum unlock) and decays to 1x by the unlock date, after which the virtual sPENDLE balance expires. To continue receiving sPENDLE benefits, vePENDLE holders must redeem vePENDLE for PENDLE and stake it as sPENDLE.
 
 ![vePENDLE multiplier illustration](/img/ProtocolMechanics/vependle_bonus_illustration.png "vePENDLE Multiplier Illustration")
 
