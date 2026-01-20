@@ -29,14 +29,14 @@ Rewards from buybacks and point distributions may be claimed from the Pendle dAp
 ## Accounting
 
 ### Voting Power
-A snapshot of sPENDLE balances is taken whenever a PPP is created and determines the voting power of each user. This **does not** include virtual sPENDLE balances.
+A snapshot of sPENDLE balances is taken whenever a PPP is created and determines the voting power of each user.
 
 sPENDLE held in whitelisted smart contracts is excluded from voting snapshots.
 
 *Example: A holder with 5% of snapshotted sPENDLE receives 5% of that proposal’s votes.*
 
 ### Reward Distribution
-A snapshot of active sPENDLE balances is taken every 14-days. This **does** include virtual sPENDLE balances. 
+A snapshot of active sPENDLE balances is taken every 14-days. This includes virtual sPENDLE balances. Rewards are distributed through merkle.
 
 *Example: A holder with 10% of total active sPENDLE receives 10% of that epoch’s rewards.*
 
