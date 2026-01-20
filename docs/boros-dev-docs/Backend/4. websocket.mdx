@@ -78,7 +78,7 @@ Common channel patterns:
 | `orderbook:MARKET_ID:TICK_SIZE` | Orderbook updates for the given market. Accepted TICK_SIZE values: `0.1`, `0.01`, `0.001`, `0.0001`, `0.00001` |
 | `market-trade:MARKET_ID` | Market trade updates |
 | `statistics:MARKET_ID` | Market statistics updates |
-| `account:USER_ADDRESS:ACCOUNT_ID` | Account state change notifications (orders, positions, balances) |
+| `account:ACCOUNT` | Account state change notifications (orders, positions, balances) |
 
 Replace `MARKET_ID` with your specific market identifier, `USER_ADDRESS` with the wallet address, and `ACCOUNT_ID` with the sub-account ID (default: `0`).
 
