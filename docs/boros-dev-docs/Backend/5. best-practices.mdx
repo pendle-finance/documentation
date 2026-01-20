@@ -1,0 +1,129 @@
+# Boros API Best Practices
+
+This guide provides recommendations and common patterns for integrating with the Boros API efficiently.
+
+## Table of Contents
+
+- [Bulk Order Placement](#bulk-order-placement)
+- [Market Management](#market-management)
+- [Gas Usage and Estimation](#gas-usage-and-estimation)
+
+---
+
+## Bulk Order Placement
+
+When placing multiple orders simultaneously, **always use the bulk order endpoint** instead of making multiple single order requests.
+
+### Why Use Bulk Orders?
+
+| Approach | Gas Cost | Atomicity | Network Overhead |
+|----------|----------|-----------|------------------|
+| Multiple single orders | High (N transactions) | None (partial failures possible) | High |
+| Bulk orders | Low (1 transaction) | Atomic (all or nothing) | Low |
+
+### Benefits
+
+1. **Lower Gas Fees** - Multiple operations batched into a single transaction
+2. **Atomic Execution** - All operations execute together, eliminating partial execution risks
+3. **Better Performance** - Reduces network overhead and speeds up execution
+4. **Complex Strategies** - Combine cancellations and new orders in one operation
+
+> **Note:** Unlike single order placement, bulk placed orders do NOT match with the AMM. They are placed directly into the order book.
+
+### Examples
+
+- [Bulk Place Orders Example](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/11-bulk-place-orders.ts)
+- [Place Orders API](./3.%20api.md#place-orders-calldata)
+
+---
+
+## Market Management
+
+### Exit Unused Markets
+
+If you have entered markets that are no longer in use, **exit them to reduce gas costs** on future operations.
+
+When you enter a market, the system tracks your participation for margin calculations. Each entered market adds overhead to the margin tracker, making it **more expensive in gas** for every subsequent transaction.
+
+**Important limitations:**
+- **Maximum 10 entered markets** per `marketAcc` (market account)
+- **Maximum 100 active limit orders** per `marketAcc` per market
+- Entering more markets = heavier margin calculations = higher gas costs
+
+Exiting unused markets helps:
+- Reduce gas consumption on all subsequent transactions
+- Free up slots for new markets (10 market limit)
+- Improve transaction performance
+
+### When to Exit Markets
+
+- After closing all positions in a market
+- When you no longer plan to trade a specific market
+- During account cleanup/maintenance
+- Before market expiry (for dated markets)
+
+### Isolated-Only Markets
+
+Some markets are **isolated-only**, meaning they cannot be traded from a cross-margin account. For these markets:
+
+1. **Deposit to the isolated account** - You must transfer collateral specifically to the isolated market account, not the cross-margin account
+2. **Use the correct `marketAcc`** - Pack the `marketAcc` with the specific `marketId` instead of `CROSS_MARKET_ID`
+
+```typescript
+import { MarketAccLib } from "@pendle/sdk-boros";
+
+// For isolated-only markets, use the specific marketId
+const isolatedMarketAcc = MarketAccLib.pack(
+  walletAddress,
+  accountId,
+  tokenId,
+  marketId  // Use the specific market ID, NOT CROSS_MARKET_ID
+);
+```
+
+To fund an isolated account, either:
+- **Direct deposit**: Deposit directly to the isolated market using the `marketId` in the deposit calldata
+- **Cash transfer**: Transfer from cross-margin to isolated using the `/calldata/cash-transfer` endpoint with `isDeposit: true`
+
+**Example:** [Top Up Isolated Account](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/13-top-up-isolated-account.ts)
+
+### API Reference
+
+- [Enter/Exit Markets API](./3.%20api.md#enterexit-markets-calldata)
+- [Get Account Info API](./3.%20api.md#get-account-info) - Check your entered markets
+
+---
+
+## Gas Usage and Estimation
+
+### Monitor Gas Balance
+
+Boros uses a gas account system for executing agent-signed transactions. Always monitor your gas balance to avoid failed transactions.
+
+### Arbitrum Gas Spikes
+
+Arbitrum gas prices can spike significantly during high network activity. Consider:
+
+1. **Monitor gas prices** before submitting transactions
+2. **Maintain buffer** in your gas account for unexpected spikes
+3. **Check gas consumption history** to understand your usage patterns
+
+### API Reference
+
+- [Get Gas Balance API](./3.%20api.md#get-gas-balance)
+- [Gas Consumption History API](./3.%20api.md#get-gas-consumption-history)
+- [Pay Treasury (Top Up Gas) API](./3.%20api.md#pay-treasury-calldata)
+- [Top Up Gas Account Example](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/12-top-up-gas-account.ts)
+
+---
+
+## Summary
+
+| Best Practice | Why |
+|---------------|-----|
+| Use bulk orders for multiple operations | Lower gas, atomic execution |
+| Exit unused markets (max 10 per account) | Reduce gas overhead, free up slots |
+| Use correct `marketAcc` for isolated-only markets | Required for trading isolated-only markets |
+| Monitor gas balance | Avoid failed transactions |
+
+For complete working examples, visit: [https://github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples)
