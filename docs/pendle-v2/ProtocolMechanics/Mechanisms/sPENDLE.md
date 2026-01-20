@@ -6,7 +6,7 @@
 sPENDLE is Pendle’s native governance token that distributes protocol rewards for active participation in the ecosystem. As a staked version of PENDLE, sPENDLE aligns the interest of various stakeholders while contributing to token stability and overall robustness of the Pendle protocol.
 
 ## Staking and Unstaking
-PENDLE may be staked to receive sPENDLE instantly at a 1:1 ratio.
+PENDLE may be staked to receive sPENDLE instantly at a 1:1 ratio. sPENDLE **does not** increase in value over time.
 
 sPENDLE held in a user’s wallet is eligible for:
 - Voting power within the Pendle ecosystem
@@ -29,14 +29,14 @@ Rewards from buybacks and point distributions may be claimed from the Pendle dAp
 ## Accounting
 
 ### Voting Power
-A snapshot of sPENDLE balances is taken whenever a PPP is created and determines the voting power of each user. This **does not** include virtual sPENDLE balances.
+A snapshot of sPENDLE balances is taken whenever a PPP is created and determines the voting power of each user. Voting power for virtual sPENDLE balance is equal to the underlying PENDLE locked in the vePENDLE contract. 
 
 sPENDLE held in whitelisted smart contracts is excluded from voting snapshots.
 
 *Example: A holder with 5% of snapshotted sPENDLE receives 5% of that proposal’s votes.*
 
 ### Reward Distribution
-A snapshot of active sPENDLE balances is taken every 14-days. This **does** include virtual sPENDLE balances. 
+A snapshot of active sPENDLE balances is taken every 14-days. This includes virtual sPENDLE balances. Rewards are distributed through merkle.
 
 *Example: A holder with 10% of total active sPENDLE receives 10% of that epoch’s rewards.*
 
