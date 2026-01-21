@@ -22,9 +22,9 @@ sPENDLE holders are only considered inactive if they fail to vote during a perio
 ## sPENDLE Yields
 80% of Pendle V2 fees from **Yield** and **Swap Fees** are allocated to PENDLE token buybacks. Up to 100% of repurchased PENDLE will be distributed to active sPENDLE holders in the form of sPENDLE. Airdrops that Pendle Protocol receives as a result of fees from points-bearing assets will be distributed in kind (i.e. not used for buyback).
 
-*Buybacks for the current epoch are sourced from fees from the previous epoch and executed via 1-hour TWAP.*
+*Buybacks for the current epoch are sourced from fees from the previous epoch are executed using a 1-hourly TWAP throughout the current epoch.*
 
-Rewards from buybacks and point distributions may be claimed from the Pendle dApp at any time.
+Rewards from buybacks and point are distributed every 2 weeks and may be claimed from the Pendle dApp at any time.
 
 ## Accounting
 
