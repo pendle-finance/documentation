@@ -2,7 +2,14 @@
 hide_table_of_contents: true
 ---
 
-# vePENDLE
+:::warning[**vePENDLE 将被 sPENDLE 全面取代。** 最后一轮 vePENDLE 投票将于 1 月 21 日（23:59 UTC）结束。]
+
+自 1 月 29 日 00:00 UTC 起，vePENDLE 将停止续期。同时将进行一次快照，用于计算本次过渡期的 vePENDLE 忠诚度特别奖励（Loyalty Bonus）。
+更多详情请参阅 [sPENDLE 章节](./sPENDLE.md)。
+
+:::
+
+# vePENDLE ()
 
 Pendle 的治理依赖于锁定投票的 PENDLE，也称为 vePENDLE，它可以实现更高程度的去中心化。通过利用 vePENDLE，PENDLE 持有者可以获得一系列增加代币效用的功能。
 
