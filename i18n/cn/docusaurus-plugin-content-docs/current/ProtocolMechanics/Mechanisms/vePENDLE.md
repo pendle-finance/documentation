@@ -9,7 +9,7 @@ hide_table_of_contents: true
 
 :::
 
-# vePENDLE ()
+# vePENDLE (旧版)
 
 Pendle 的治理依赖于锁定投票的 PENDLE，也称为 vePENDLE，它可以实现更高程度的去中心化。通过利用 vePENDLE，PENDLE 持有者可以获得一系列增加代币效用的功能。
 
