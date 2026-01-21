@@ -36,7 +36,7 @@ sPENDLE held in whitelisted smart contracts is excluded from voting snapshots.
 *Example: A holder with 5% of snapshotted sPENDLE receives 5% of that proposal’s votes.*
 
 ### Reward Distribution
-A snapshot of active sPENDLE balances is taken every 14-days. This includes virtual sPENDLE balances. Rewards are distributed through merkle.
+A snapshot of active sPENDLE balances is taken every 14-days. This includes virtual sPENDLE balances. Rewards are claimable via sPENDLE dashboard (merkle distribution)".
 
 *Example: A holder with 10% of total active sPENDLE receives 10% of that epoch’s rewards.*
 
