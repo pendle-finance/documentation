@@ -12,25 +12,23 @@ The contract exposes familiar read functions (`latestRoundData`, `decimals`) so 
 
 Please see the [Choosing Linear Discount Parameters](./ChoosingLinearDiscountParams.md) documentation for guidance on selecting appropriate linear discount parameters.
 
-**Important:** The oracle returns the PT price in terms of the **accounting asset** (shown in brackets in the PT name). When converting to USD, you may need to account for the SY-to-accounting-asset exchange rate.
+
+**Important:** The oracle returns the PT price in terms of the **accounting asset** (shown in brackets in the PT name). When converting to USD, you may need to multiply the oracle discount factor by the conversion rate from the accounting asset to USD. See the [Pricing Examples](#pricing-examples) section below for clarification.
 
 ### Pricing Examples
-
-Different PT types require different pricing calculations:
-
 - **`PT-kHYPE (HYPE)`**: The oracle returns the price in terms of HYPE staked in Kinetiq. To get the USD price:
   ```
-  PT-kHYPE USD price = (Oracle discount factor) × (kHYPE exchange rate to HYPE) × (HYPE USD price)
+  PT-kHYPE USD price = Oracle discount factor × HYPE USD price
   ```
 
 - **`PT-sUSDe (USDe)`**: The oracle returns the price in terms of USDe staked in the sUSDe contract. To get the USD price:
   ```
-  PT-sUSDe USD price = (Oracle discount factor) × (sUSDe exchange rate to USDe) × (USDe USD price)
+  PT-sUSDe USD price = Oracle discount factor × USDe USD price
   ```
 
 - **`PT-USDe (USDe)`**: The oracle returns the price directly in terms of USDe. To get the USD price:
   ```
-  PT-USDe USD price = (Oracle discount factor) × (USDe USD price)
+  PT-USDe USD price = Oracle discount factor × USDe USD price
   ```
 
 ## Use cases
