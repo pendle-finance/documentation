@@ -18,17 +18,17 @@ Please see the [Choosing Linear Discount Parameters](./ChoosingLinearDiscountPar
 ### Pricing Examples
 - **`PT-kHYPE (HYPE)`**: The oracle returns the price in terms of HYPE staked in Kinetiq. To get the USD price:
   ```
-  PT-kHYPE USD price = Oracle discount factor × HYPE USD price
+  PT-kHYPE USD price = (Oracle discount factor) × (HYPE USD price)
   ```
 
 - **`PT-sUSDe (USDe)`**: The oracle returns the price in terms of USDe staked in the sUSDe contract. To get the USD price:
   ```
-  PT-sUSDe USD price = Oracle discount factor × USDe USD price
+  PT-sUSDe USD price = (Oracle discount factor) × (USDe USD price)
   ```
 
 - **`PT-USDe (USDe)`**: The oracle returns the price directly in terms of USDe. To get the USD price:
   ```
-  PT-USDe USD price = Oracle discount factor × USDe USD price
+  PT-USDe USD price = (Oracle discount factor) × (USDe USD price)
   ```
 
 ## Use cases
