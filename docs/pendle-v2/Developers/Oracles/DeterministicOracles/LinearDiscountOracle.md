@@ -14,7 +14,7 @@ Please see the [Choosing Linear Discount Parameters](./ChoosingLinearDiscountPar
 
 ## How to price PT
 
-The oracle provides the PT price denominated in the **accounting asset staked in the underlying protocol** (indicated in brackets within the PT name). To convert this value to USD, you need to account for the conversion rate using the PY Index.
+The oracle provides the PT price denominated in the **accounting asset staked in the underlying protocol** (indicated in brackets within the PT name). To convert this value to USD, you need to account for the SY-to-accounting-asset exchange rate using the PY Index.
 
 ### Formula
 ```
