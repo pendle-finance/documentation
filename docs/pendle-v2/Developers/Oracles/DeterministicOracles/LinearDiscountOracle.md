@@ -12,24 +12,40 @@ The contract exposes familiar read functions (`latestRoundData`, `decimals`) so 
 
 Please see the [Choosing Linear Discount Parameters](./ChoosingLinearDiscountParams.md) documentation for guidance on selecting appropriate linear discount parameters.
 
+## How to price PT
 
-**Important:** The oracle returns the PT price in terms of the **accounting asset** (shown in brackets in the PT name). When converting to USD, you may need to multiply the oracle discount factor by the conversion rate from the accounting asset to USD. See the [Pricing Examples](#pricing-examples) section below for clarification.
+The oracle provides the PT price denominated in the **accounting asset staked in the underlying protocol** (indicated in brackets within the PT name). To convert this value to USD, you need to account for the conversion rate using the PY Index.
+
+### Formula
+```
+Price of PT (USD) = (Oracle discount factor) / (PYIndex) × (Yield Token USD Price)
+```
+
+The yield token price can be sourced from market data or derived from exchange rate to accounting asset - the choice depends on your requirements.
+
+### Simplified Formula
+If your use case does not require accounting for yield token depeg risks, you can ignore the PYIndex and use this simplified version:
+```
+Price of PT (USD) = (Oracle discount factor) × (Accounting Asset USD Price)
+```
 
 ### Pricing Examples
-- **`PT-kHYPE (HYPE)`**: The oracle returns the price in terms of HYPE staked in Kinetiq. To get the USD price:
+
+- **`PT-kHYPE (HYPE)`**: The oracle returns the price in HYPE staked in Kinetiq. To convert to USD:
   ```
-  PT-kHYPE USD price = (Oracle discount factor) × (HYPE USD price)
+  PT-kHYPE USD price = (Oracle discount factor) / (kHYPE PYIndex) × (kHYPE USD price)
   ```
 
-- **`PT-sUSDe (USDe)`**: The oracle returns the price in terms of USDe staked in the sUSDe contract. To get the USD price:
+- **`PT-sUSDe (USDe)`**: The oracle returns the price in USDe staked in the sUSDe contract. To convert to USD:
   ```
-  PT-sUSDe USD price = (Oracle discount factor) × (USDe USD price)
+  PT-sUSDe USD price = (Oracle discount factor) / (sUSDe PYIndex) × (sUSDe USD price)
   ```
 
-- **`PT-USDe (USDe)`**: The oracle returns the price directly in terms of USDe. To get the USD price:
+- **`PT-USDe (USDe)`**: The oracle returns the price directly in USDe. Since the PYIndex is always 1, we can simplify the formula to:
   ```
   PT-USDe USD price = (Oracle discount factor) × (USDe USD price)
   ```
+
 
 ## Use cases
 
