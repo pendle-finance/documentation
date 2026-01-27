@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 :::warning[**vePENDLE will be fully replaced by sPENDLE.** Final vePENDLE vote is on Jan 21 (23:59 UTC). ]
 
-vePENDLE renewal will cease as of Jan 29 00:00 UTC onwards, and a snapshot will be taken for calculation of special vePENDLE Loyalty Bonus for this transition period. Refer to the sPENDLE section of the docs for more details. (add link for sPENDLE section pls) 
+vePENDLE renewal will cease as of Jan 29 00:00 UTC onwards, and a snapshot will be taken for calculation of special vePENDLE Loyalty Bonus for this transition period. For more details, refer to sPENDLE section [here](./sPENDLE.md)
 
 :::
 
