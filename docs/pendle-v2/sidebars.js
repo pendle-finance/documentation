@@ -39,6 +39,7 @@ module.exports = {
           items: [
             { type: "doc", id: "ProtocolMechanics/Mechanisms/Tokenomics" },
             { type: "doc", id: "ProtocolMechanics/Mechanisms/sPENDLE" },
+            { type: "doc", id: "ProtocolMechanics/Mechanisms/Incentives"},
             { type: "doc", label: "vePENDLE (Legacy)", id: "ProtocolMechanics/Mechanisms/vePENDLE" },
             { type: "doc", id: "ProtocolMechanics/Mechanisms/Fees" },
             {
