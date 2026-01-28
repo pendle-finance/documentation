@@ -117,6 +117,7 @@ module.exports = {
                 
               ],
             },
+            { type: "doc", id: "Developers/Contracts/sPENDLE" },
             { type: "doc", id: "Developers/Contracts/vePENDLE" },
             { type: "doc", id: "Developers/Contracts/UnitAndDecimals" },
           ],
