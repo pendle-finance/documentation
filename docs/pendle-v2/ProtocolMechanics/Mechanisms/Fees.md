@@ -29,8 +29,6 @@ Fee wallet for pools launched AFTER 8th October 2024
 :::
 All chains: `0xC328dFcD2C8450e2487a91daa9B75629075b7A43`
 
-Once the token rewards are claimable, the fee wallets will claim the rewards which will later be forwarded to vePENDLE holders.
-
 - **Swap Fees**
     
 Pendle collects a percentage-based swap fee, scaled with maturity, from all PT swaps. Each fee tier will be displayed in the dApp and is decided by the pool deployer (currently only the Pendle team deploys pools on Pendle). 
@@ -41,7 +39,7 @@ Pendle taxes the yield-receivables of PT when swaps occur. This creates a fair f
 
 Pendle has 2 sources of fees **YT fees** and **Swap fees**. 20% of all swap fees are given to LP providers of the pool as yield. 
 
-The remaining swap fees and all YT fees are split between vePendle holders and Pendle protocol in the following ratio 
-- 80% to vePendle
+The remaining swap fees and all YT fees are split between PENDLE buyback fund and Pendle protocol in the following ratio 
+- 80% for PENDLE buyback
 - 10% to Protocol Treasury
 - 10% to Protocol Operations

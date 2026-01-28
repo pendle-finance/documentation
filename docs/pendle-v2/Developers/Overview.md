@@ -21,7 +21,6 @@ hide_table_of_contents: true
 
 - [High Level Architecture](./HighLevelArchitecture.md)
 - [StandardizedYield (SY)](./Contracts/StandardizedYield.md)
-- [vePENDLE](./Contracts/vePENDLE.md)
 - [Common Questions](./FAQ.md)
 
 ## Integration Guides

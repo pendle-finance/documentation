@@ -18,7 +18,10 @@ Pendle 从所有 PT 交易的“隐含收益”中收取一定比例的交易费
 
 - **费用分配**
 
-Pendle 将 **YT 费用的协议收入分配给 vePENDLE 持有者**，并将对应池的 **所有交易费用的协议收入分配给 vePENDLE 投票者**（例如，投票给池 X 的 vePENDLE 持有者将收到池 X 交易费的所有协议收入）。
+Pendle 协议有两种费用来源：**YT 费用** 和 **Swap（交易）费用**。其中，20% 的 Swap 费用将作为收益分配给该池的 LP 提供者。
 
-目前，Pendle 协议将所有协议收入分配给 vePENDLE，不分配给 Pendle 国库。将来，可能会将一部分协议收入重定向到 Pendle 国库。
+剩余的 Swap 费用以及 全部 YT 费用，将按照以下比例在 PENDLE 回购基金 与 Pendle 协议之间进行分配：
+- 80% 用于 PENDLE 回购
+- 10% 分配至协议金库（Protocol Treasury）
+- 10% 用于协议运营（Protocol Operations）
 

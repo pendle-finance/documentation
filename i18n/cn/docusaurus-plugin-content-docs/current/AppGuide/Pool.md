@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 # 流动性池
 
-在[这页面](https://app.pendle.finance/pro/pools)提供Pendle 池子的流动性 (LP)。您可查看不同池子的**到期日**、池内流动性的**总金额**、及提供流动性的现行**收益率**。Base APY为基础收益率，视乎您持有的vePENDLE数量，可以对APY进行一定程度的加速(Boost)。
+在[这页面](https://app.pendle.finance/pro/pools)提供Pendle 池子的流动性 (LP)。您可查看不同池子的**到期日**、池内流动性的**总金额**、及提供流动性的现行**收益率**。
 
 流动性提供者从多个渠道获得回报：
 
