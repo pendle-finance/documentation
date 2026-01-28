@@ -96,4 +96,4 @@ For every $1 contributed by the protocol, Pendle provides additional PENDLE of:
 - $0.4 for external incentives provided as PENDLE
 - $0.3 for external incentives provided as other tokens
 
-A maximum budget of 9,000 PENDLE per epoch is allocated to co-incentives
+A maximum budget of 9,000 PENDLE per week is allocated to co-incentives
