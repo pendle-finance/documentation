@@ -43,7 +43,7 @@ Price of PT (USD) = (Oracle discount factor) × (Accounting Asset USD Price)
   ```
   PT-kHYPE USD price = (Oracle discount factor) / (kHYPE PYIndex) × (kHYPE USD price)
   ```
-  Or using the simplified formula (ignoring yield token depeg risk):
+  Assuming kHYPE can always be redeemed fully for HYPE (no exchange rate depeg), you can use the simplified formula:
   ```
   PT-kHYPE USD price = (Oracle discount factor) × (HYPE USD price)
   ```
@@ -52,7 +52,7 @@ Price of PT (USD) = (Oracle discount factor) × (Accounting Asset USD Price)
   ```
   PT-sUSDe USD price = (Oracle discount factor) / (sUSDe PYIndex) × (sUSDe USD price)
   ```
-  Or using the simplified formula (ignoring yield token depeg risk):
+  Assuming sUSDe can always be redeemed fully for USDe (no exchange rate depeg), you can use the simplified formula:
   ```
   PT-sUSDe USD price = (Oracle discount factor) × (USDe USD price)
   ```
