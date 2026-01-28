@@ -23,6 +23,14 @@ Price of PT (USD) = (Oracle discount factor) / (PYIndex) × (Yield Token USD Pri
 
 The yield token price can be sourced from market data or derived from exchange rate to accounting asset - the choice depends on your requirements.
 
+#### Where to get the PYIndex
+
+The PYIndex can be retrieved from the YT (Yield Token) contract:
+- **`pyIndexCurrent()`**: Returns the most up-to-date PY index. This is a state-changing function.
+- **`pyIndexStored()`**: Returns the cached PY index without updating. This is a view function.
+
+See the [Yield Tokenization documentation](/docs/pendle-v2/Developers/Contracts/YieldTokenization.md) for more details on PY index behavior.
+
 ### Simplified Formula
 If your use case does not require accounting for yield token depeg risks, you can ignore the PYIndex and use this simplified version:
 ```
@@ -35,10 +43,18 @@ Price of PT (USD) = (Oracle discount factor) × (Accounting Asset USD Price)
   ```
   PT-kHYPE USD price = (Oracle discount factor) / (kHYPE PYIndex) × (kHYPE USD price)
   ```
+  Or using the simplified formula (ignoring yield token depeg risk):
+  ```
+  PT-kHYPE USD price = (Oracle discount factor) × (HYPE USD price)
+  ```
 
 - **`PT-sUSDe (USDe)`**: The oracle returns the price in USDe staked in the sUSDe contract. To convert to USD:
   ```
   PT-sUSDe USD price = (Oracle discount factor) / (sUSDe PYIndex) × (sUSDe USD price)
+  ```
+  Or using the simplified formula (ignoring yield token depeg risk):
+  ```
+  PT-sUSDe USD price = (Oracle discount factor) × (USDe USD price)
   ```
 
 - **`PT-USDe (USDe)`**: The oracle returns the price directly in USDe. Since the PYIndex is always 1, we can simplify the formula to:
