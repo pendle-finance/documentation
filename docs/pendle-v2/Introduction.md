@@ -23,7 +23,7 @@ We give users the reins to their yield.
 
 [Pendle](https://pendle.finance/) is a permissionless yield-trading protocol where users can execute various yield-management strategies.
 
-There are 3 main parts to fully understand Pendle:
+There are 2 main parts to fully understand Pendle:
 
 1. Yield Tokenization
 
@@ -33,8 +33,6 @@ There are 3 main parts to fully understand Pendle:
 2. Pendle AMM
 
     Both **PT** and **YT** can be traded via Pendle’s **AMM**. Even though this is the core engine of Pendle, understanding of the AMM is not required to trade PT and YT.
-
-3. vePENDLE
 
 
 As a yield derivative protocol, we are bringing the TradFi interest derivative market ([worth over $400T in notional value](https://www.bis.org/publ/otc_hy2111/intgraphs/graphA3.htm)) into DeFi, making it accessible to all.

@@ -21,7 +21,7 @@ hide_table_of_contents: true
 
 [Pendle](https://pendle.finance/)是一个无需许可(permissionless)的收益率交易协议，用户可以执行各种收益率管理策略。
 
-要了解Pendle，主要可以分为3个部份：
+要了解Pendle，主要可以分为2个部份：
 
 1. 收益代币化
    
@@ -30,8 +30,6 @@ hide_table_of_contents: true
 2. Pendle AMM
 
 **PT**和**YT**都可以通过Pendle的**AMM**进行交易。尽管这是Pendle的核心引擎，但用户无需理解AMM也能交易PT和YT。
-
-3. vePENDLE
 
 
 作为一个利率衍生品协议，我们将传统金融的利率衍生品市场（名义价值超过400万亿美元）引入到DeFi中，使其能为大众所用。

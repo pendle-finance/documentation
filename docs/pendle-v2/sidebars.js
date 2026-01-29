@@ -40,27 +40,7 @@ module.exports = {
             { type: "doc", id: "ProtocolMechanics/Mechanisms/Tokenomics" },
             { type: "doc", id: "ProtocolMechanics/Mechanisms/sPENDLE" },
             { type: "doc", id: "ProtocolMechanics/Mechanisms/Incentives"},
-            { type: "doc", label: "vePENDLE (Legacy)", id: "ProtocolMechanics/Mechanisms/vePENDLE" },
             { type: "doc", id: "ProtocolMechanics/Mechanisms/Fees" },
-            {
-              type: "category",
-              label: "Guides",
-              items: [
-                { type: "doc", id: "ProtocolMechanics/Mechanisms/Guides/Lock" },
-                {
-                  type: "doc",
-                  id: "ProtocolMechanics/Mechanisms/Guides/ClaimRewards",
-                },
-                {
-                  type: "doc",
-                  id: "ProtocolMechanics/Mechanisms/Guides/ChannelIncentives",
-                },
-                {
-                  type: "doc",
-                  id: "ProtocolMechanics/Mechanisms/Guides/ApplyBoost",
-                },
-              ],
-            },
           ],
         },
         { type: "doc", id: "ProtocolMechanics/NegativeYield", label: "Negative Yield" },
@@ -78,7 +58,6 @@ module.exports = {
         { type: "doc", id: "AppGuide/Pool", label: "🏊 Pool" },
         { type: "doc", id: "AppGuide/Claim", label: "💎 Claim" },
         { type: "doc", id: "AppGuide/Dashboard", label: "📈 Dashboard" },
-        { type: "doc", id: "AppGuide/Calculator", label: "🧮 Calculator" },
         { type: "doc", id: "AppGuide/BridgePendle", label: "🌉 Bridge PENDLE"}
       ],
     },
@@ -118,7 +97,6 @@ module.exports = {
               ],
             },
             { type: "doc", id: "Developers/Contracts/sPENDLE" },
-            { type: "doc", id: "Developers/Contracts/vePENDLE" },
             { type: "doc", id: "Developers/Contracts/UnitAndDecimals" },
           ],
         },

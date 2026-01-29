@@ -18,7 +18,6 @@ In this document, we take the market `0x107a2e3cd2bb9a32b9ee2e4d51143149f8367eba
 | $\text{lpPriceUsd}$          | price of the lp token in terms of USD                                                                                                                                                              |
 | $\text{syPriceUsd}$          | price of the sy token in terms of USD                                                                                                                                                              |
 | $\text{pendlePriceUSD}$      | price of the Pendle token in terms of USD                                                                                                                                                          |
-| $\text{totalVotedLastEpoch}$ | total of vePendle voted for the pool in the last epoch                                                                                                                                             |
 | $\text{duration}$            | the interval that we use to calculate the APY. For example, $\text{duration}=7$ means we calculate the APY based on data of the last 7 days. In our system, we use 7 days as the default duration! |
 | $\text{syIndex}$             | the current index of the SY token, can be taken from [exchangeRate function](https://etherscan.io/address/0xC4ed348c56223C5953939e932E315F9d72Cd83fF#readContract#F9) of the sy contract           |
 | $\text{prevSyIndex}$         | the $\text{syIndex}$ at $\text{duration}$ days ago.                                                                                                                                                |
@@ -67,7 +66,7 @@ $\text{apy} = e^{\text{lnImpliedYield}} - 1$
 - $\text{lnImpliedYield}$ can be read from [readState](https://etherscan.io/address/0x107a2e3cd2bb9a32b9ee2e4d51143149f8367eba#readContract#F18) function of the market contract. Do remember to scale it by 1e18.
 
 
-## **SwapFeeApy & voterApr**
+## **SwapFeeApy**
 
 ### SwapFeeApy
 $\text{swapFeeApy}$ is the APY that LP holders will get from the swap fees of the pool.
@@ -86,20 +85,6 @@ $\text{swapFeeApy} = (1 + \text{swapFeeRateForLpHolder})^\frac{{365}}{\text{dura
 - Explanation:
     - LP Holder will received 20% from explicit swap fee, and 100% from the implicit swap fee
     - $\text{swapFeeRateForLpHolder}$ is the rate of swap fee that LP holder will get in terms of USD, then we interpolate it to get the $swapFeeApy$
-
-### VoterApr
-$\text{VoterApr}$ is the APR that vePendle voters will get from voting for the pool.
-
-$\text{swapFeeForVoter} = \text{explicitSwapFee} * 80\%$
-
-$\text{swapFeeRateForVoter} = \dfrac{\text{swapFeeForVoter} \ \times \  \text{syPriceUsd}}{\text{PendlePriceUSD} \ \times \ \text{totalVotedLastEpoch}}$
-
-$\text{voterApr} =  \text{swapFeeRateForVoter} \times \dfrac{365}{\text{durationInDays}}$
-
-
-- Explanation:
-    - Voter will received 80% from explicit swap fee of the pool
-
 
 #### longYieldApy:
 

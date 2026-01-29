@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 # Pool
 
-Pendle's liquidity pools can be found [here](https://app.pendle.finance/pro/pools). You can see the **Pools**, their **Maturity** date, the total **Liquidity** in the pool, and the current APY of liquidity provision. This **APY** is the base value, and can be boosted with vePENDLE. 
+Pendle's liquidity pools can be found [here](https://app.pendle.finance/pro/pools). You can see the **Pools**, their **Maturity** date, the total **Liquidity** in the pool, and the current APY of liquidity provision.
 
 Liquidity providers receive returns from multiple avenues
 * Fixed rate from PT
@@ -120,5 +120,4 @@ LP needs to be wrapped to ensure Pendle rewards are still properly distributed w
 Wrapped LPs have the following properties: 
 
 - Wrapped LP rewards are claimable on dashboard in Merkle Rewards Tab every few weeks.
-- Wrapped LPs do not receive boost from your vePENDLE.
 - Wrapped LPs are not trackable on the dashboard

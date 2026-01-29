@@ -10,7 +10,7 @@ The algorithmic incentive model has two reward streams:
 - Performance
 - Co-Incentives
 
-Each pool is eligible for a maximum of 7,500 PENDLE per epoch.
+Each pool is eligible for a maximum of 7,500 PENDLE per week.
 
 Input data is based on a 2-week recency-weighted average that applies a 2x weighting on the most recent week and a 1x weighting on the previous week.
 
@@ -96,4 +96,4 @@ For every $1 contributed by the protocol, Pendle provides additional PENDLE of:
 - $0.4 for external incentives provided as PENDLE
 - $0.3 for external incentives provided as other tokens
 
-A maximum budget of 9,000 PENDLE per epoch is allocated to co-incentives
+A maximum budget of 9,000 PENDLE per week is allocated to co-incentives
