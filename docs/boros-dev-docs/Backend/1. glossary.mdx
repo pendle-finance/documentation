@@ -43,11 +43,11 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 
 | Value | Name | Description |
 |-------|------|-------------|
-| `0` | `GOOD_TIL_CANCELLED` | Remains active until filled or cancelled |
-| `1` | `IMMEDIATE_OR_CANCEL` | Fill what's possible, cancel the rest |
-| `2` | `FILL_OR_KILL` | Must fill completely immediately or cancel |
-| `3` | `POST_ONLY` | Only add liquidity, reject if would take |
-| `4` | `POST_ONLY_SLIDE` | Post-only with price adjustment |
+| `0` | `GOOD_TIL_CANCELLED` | Standard limit order that remains on the order book until fully filled or manually canceled |
+| `1` | `IMMEDIATE_OR_CANCEL` | Executes against available liquidity immediately, cancels any unfilled portion |
+| `2` | `FILL_OR_KILL` | Must fill entire order size immediately or the transaction reverts |
+| `3` | `ALO` | Add Liquidity Only order that adds liquidity to the book, transaction reverts if it would match existing orders |
+| `4` | `SOFT_ALO` | Soft Add Liquidity Only order, similar to ALO but skips matching without reverting the transaction |
 
 ---
 
