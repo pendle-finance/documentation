@@ -101,6 +101,6 @@ For every $1 contributed by the protocol, Pendle provides additional PENDLE of:
 
 A maximum budget of 9,000 PENDLE per week is allocated to co-incentives
 
-## iscretionary
+## Discretionary
 
 Up to 15% of the maximum weekly emissions may be used for discretionary allocations which are primarily targeted towards pools with high growth potential.
