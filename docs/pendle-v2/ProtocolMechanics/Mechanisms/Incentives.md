@@ -7,13 +7,21 @@ hide_table_of_contents: true
 The algorithmic incentive model is an automated merit-based reward system that allocates PENDLE emissions to pools based on their performance. Pools that excel across liquidity, swap fee, and co-incentive categories receive a higher share of rewards to recognize their contributions to the Pendle ecosystem.
 
 The algorithmic incentive model has three reward streams:
-- Performance
-- Co-Incentives
-- Discretionary
+- Performance: Automated emissions based on liquidity and swap fees
+- Co-Incentives: Matching rewards for protocol-provided incentives
+- Discretionary: Strategic allocations for high-potential pools
 
-The maximum rewards per week across all streams is 90k PENDLE and each pool may receive up to 7.5% of total emissions from the Performance stream.
+The maximum rewards per week across all streams is 90,000 PENDLE. Each pool may receive up to 7.5% of total emissions (6,750 PENDLE) from the Performance stream specifically, though total rewards can exceed this when co-incentives and discretionary allocations are included. Any PENDLE not distributed in a given week is returned to the protocol treasury and does not roll over to the next week's budget.
 
-Input data is based on a 2-week rolling recency-weighted average that applies a 2x weighting on the most recent 7 days and a 1x weighting on the 7 days preceding.
+## How Often Are Incentives Updated?​
+
+Incentives are recalculated and updated every hour. When a new pool is whitelisted, it will begin receiving incentives within the next hour.
+
+Individual components update on different schedules:
+- Liquidity emissions: Continuously in real-time as TVL changes
+- Fee emissions: Recalculated three times per week (Monday, Wednesday, Saturday)
+- Co-incentives: Updated weekly on Wednesdays
+- Discretionary: Updated weekly on Wednesdays
 
 ## Performance 
 
@@ -21,7 +29,7 @@ Performance-based emissions are adapted to support pools based on their expected
 
 ![incentive timeline](/img/ProtocolMechanics/incentive_timeline.png "Incentive Timeline")
 
-The performance-based emission streams may receive up to the maximum weekly reward rate less emissions consumed by the co-incentive and discretionary streams.
+The performance-basexd emission streams may receive up to the maximum weekly reward rate less emissions consumed by the co-incentive and discretionary streams.
 
 ## Liquidity-Based Emissions
 
@@ -89,7 +97,14 @@ Fee-based Emissions receives the remaining PENDLE balance that has not been paid
 
 *For example, if 30,000 PENDLE is paid out for liquidity, 50,000 PENDLE is available to be distributed for fees.*
 
-A pool’s share of **swap fees** determines their pro-rata share of the fee-based emission budget with a maximum cap of **four times** its 2-week recency weighted swap fees.
+A pool’s share of **total swap fees** determines their pro-rata share of the fee-based emission budget with a maximum cap of **four times** its fee performance from this stream.
+
+### Eligibility and Fee Measurement​
+
+**Eligibility**: Pools must be at least 2 days old to receive fee-based emissions. Newer pools can still receive liquidity-based emissions and other incentives.
+**Fee Calculation**: Fee performance uses a recency-weighted methodology that emphasizes recent activity:
+- For pools older than 14 days: Uses a 2-week recency-weighted average with the most recent 7 days weighted 2x and the previous 7 days weighted 1x
+- For younger pools: Special calculations account for limited trading history
 
 ## Co-Incentive
 
@@ -99,7 +114,11 @@ For every $1 contributed by the protocol, Pendle provides additional PENDLE of:
 - $0.4 for external incentives provided as PENDLE
 - $0.3 for external incentives provided as other tokens
 
-A maximum budget of 9,000 PENDLE per week is allocated to co-incentives
+**How Matching Works​**
+- Protocols submit incentives weekly (Wednesdays) through External Incentive Campaigns
+- Token values are calculated using 7-day moving average prices for both the contributed token and PENDLE
+- Protocols receive their guaranteed match rate for that week
+- Maximum co-incentive budget: 9,000 PENDLE per week
 
 ## Discretionary
 
