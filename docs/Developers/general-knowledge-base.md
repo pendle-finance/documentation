@@ -812,7 +812,7 @@ Many Pendle pools offer additional rewards in the form of points from integrated
 
 - **YT Equivalence:** For point calculation purposes, **1 YT is treated as equivalent to 1 unit of the underlying SY asset**, regardless of the YT’s market price. It earns the same amount of points and yield as if you were holding the full underlying asset.
 - **LP Position:** For LPs, only the **SY portion** of the LP position earns points. The PT portion does not. The ratio of SY to PT within an LP position is dynamic and changes with every trade in the pool.
-- **Fees:** A **3% fee** is typically applied to the yield and points earned from **YT holdings**. This fee is allocated to Pendle governance. No such fee is applied to points earned from LP positions.
+- **Fees:** A **5% fee** is typically applied to the yield and points earned from **YT holdings**. This fee is allocated to Pendle governance. No such fee is applied to points earned from LP positions.
 - **Boosting:** Point earnings from LP positions are influenced by the vePENDLE boost mechanism, which can multiply rewards.
 
 A user’s proportional share of a liquidity pool is the foundation for calculating their share of points and rewards from the LP position. This is consistently calculated using the `activeBalance` of the user relative to the `totalActiveSupply` of the pool, which accounts for the vePENDLE incentive model.
@@ -830,8 +830,8 @@ To find a user’s total point-earning position, you must sum the contributions 
 
 1. **Calculate YT Contribution:**
     - Identify the user’s YT balance (e.g., `100 YT-ezETH`).
-    - Apply the 3% fee: `100 * 0.97 = 97`.
-    - The point-earning asset amount from YT is `97 ezETH`.
+    - Apply the 5% fee: `100 * 0.95 = 95`.
+    - The point-earning asset amount from YT is `95 ezETH`.
 2. **Calculate LP Contribution:**
     - Calculate the user’s proportion in the LP using the `activeBalance` formula described in section 3.2.
     - Query the total amount of SY held within the LP contract: `SY_Contract.balanceOf(LP_Contract_Address)`.
