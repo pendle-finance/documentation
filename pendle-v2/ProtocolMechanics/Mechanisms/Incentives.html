@@ -17,7 +17,7 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous"><link rel="stylesheet" href="/assets/css/styles.1e78c9e4.css">
-<script src="/assets/js/runtime~main.0f69a425.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.72a7e692.js" defer="defer"></script>
 <script src="/assets/js/main.336a0c75.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -28,16 +28,24 @@
 <p>The algorithmic incentive model is an automated merit-based reward system that allocates PENDLE emissions to pools based on their performance. Pools that excel across liquidity, swap fee, and co-incentive categories receive a higher share of rewards to recognize their contributions to the Pendle ecosystem.</p>
 <p>The algorithmic incentive model has three reward streams:</p>
 <ul>
-<li>Performance</li>
-<li>Co-Incentives</li>
-<li>Discretionary</li>
+<li>Performance: Automated emissions based on liquidity and swap fees</li>
+<li>Co-Incentives: Matching rewards for protocol-provided incentives</li>
+<li>Discretionary: Strategic allocations for high-potential pools</li>
 </ul>
-<p>The maximum rewards per week across all streams is 90k PENDLE and each pool may receive up to 7.5% of total emissions from the Performance stream.</p>
-<p>Input data is based on a 2-week rolling recency-weighted average that applies a 2x weighting on the most recent 7 days and a 1x weighting on the 7 days preceding.</p>
+<p>The maximum rewards per week across all streams is 90,000 PENDLE. Each pool may receive up to 7.5% of total emissions (6,750 PENDLE) from the Performance stream specifically, though total rewards can exceed this when co-incentives and discretionary allocations are included. Any PENDLE not distributed in a given week is returned to the protocol treasury and does not roll over to the next week&#x27;s budget.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="how-often-are-incentives-updated">How Often Are Incentives Updated?​<a href="#how-often-are-incentives-updated" class="hash-link" aria-label="Direct link to How Often Are Incentives Updated?​" title="Direct link to How Often Are Incentives Updated?​">​</a></h2>
+<p>Incentives are recalculated and updated every hour. When a new pool is whitelisted, it will begin receiving incentives within the next hour.</p>
+<p>Individual components update on different schedules:</p>
+<ul>
+<li>Liquidity emissions: Continuously in real-time as TVL changes</li>
+<li>Fee emissions: Recalculated three times per week (Monday, Wednesday, Saturday)</li>
+<li>Co-incentives: Updated weekly on Wednesdays</li>
+<li>Discretionary: Updated weekly on Wednesdays</li>
+</ul>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="performance">Performance<a href="#performance" class="hash-link" aria-label="Direct link to Performance" title="Direct link to Performance">​</a></h2>
 <p>Performance-based emissions are adapted to support pools based on their expected needs throughout their lifecycle: newer pools are aggressively incentivized based on liquidity growth while mature pools are primarily incentivized based on swap fee performance.</p>
 <p><img decoding="async" loading="lazy" alt="incentive timeline" src="/assets/images/incentive_timeline-5c4e7329e1e464ea6eb1e9969ee29efd.png" title="Incentive Timeline" width="1600" height="900" class="img_ev3q"></p>
-<p>The performance-based emission streams may receive up to the maximum weekly reward rate less emissions consumed by the co-incentive and discretionary streams.</p>
+<p>The performance-basexd emission streams may receive up to the maximum weekly reward rate less emissions consumed by the co-incentive and discretionary streams.</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="liquidity-based-emissions">Liquidity-Based Emissions<a href="#liquidity-based-emissions" class="hash-link" aria-label="Direct link to Liquidity-Based Emissions" title="Direct link to Liquidity-Based Emissions">​</a></h2>
 <p>Pools receive PENDLE based on their LP liquidity and time since deployment and is split into three phases:</p>
 <ol>
@@ -79,7 +87,14 @@
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="fee-based-emission">Fee-Based Emission<a href="#fee-based-emission" class="hash-link" aria-label="Direct link to Fee-Based Emission" title="Direct link to Fee-Based Emission">​</a></h2>
 <p>Fee-based Emissions receives the remaining PENDLE balance that has not been paid out by the liquidity substream.</p>
 <p><em>For example, if 30,000 PENDLE is paid out for liquidity, 50,000 PENDLE is available to be distributed for fees.</em></p>
-<p>A pool’s share of <strong>swap fees</strong> determines their pro-rata share of the fee-based emission budget with a maximum cap of <strong>four times</strong> its 2-week recency weighted swap fees.</p>
+<p>A pool’s share of <strong>total swap fees</strong> determines their pro-rata share of the fee-based emission budget with a maximum cap of <strong>four times</strong> its fee performance from this stream.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="eligibility-and-fee-measurement">Eligibility and Fee Measurement​<a href="#eligibility-and-fee-measurement" class="hash-link" aria-label="Direct link to Eligibility and Fee Measurement​" title="Direct link to Eligibility and Fee Measurement​">​</a></h3>
+<p><strong>Eligibility</strong>: Pools must be at least 2 days old to receive fee-based emissions. Newer pools can still receive liquidity-based emissions and other incentives.
+<strong>Fee Calculation</strong>: Fee performance uses a recency-weighted methodology that emphasizes recent activity:</p>
+<ul>
+<li>For pools older than 14 days: Uses a 2-week recency-weighted average with the most recent 7 days weighted 2x and the previous 7 days weighted 1x</li>
+<li>For younger pools: Special calculations account for limited trading history</li>
+</ul>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="co-incentive">Co-Incentive<a href="#co-incentive" class="hash-link" aria-label="Direct link to Co-Incentive" title="Direct link to Co-Incentive">​</a></h2>
 <p>Protocols can use External Incentive Campaigns to provide additional rewards to Pendle users. Participants are also eligible for co-incentives, where Pendle will match contributions up to a defined amount.</p>
 <p>For every $1 contributed by the protocol, Pendle provides additional PENDLE of:</p>
@@ -87,8 +102,14 @@
 <li>$0.4 for external incentives provided as PENDLE</li>
 <li>$0.3 for external incentives provided as other tokens</li>
 </ul>
-<p>A maximum budget of 9,000 PENDLE per week is allocated to co-incentives</p>
+<p><strong>How Matching Works​</strong></p>
+<ul>
+<li>Protocols submit incentives weekly (Wednesdays) through External Incentive Campaigns</li>
+<li>Token values are calculated using 7-day moving average prices for both the contributed token and PENDLE</li>
+<li>Protocols receive their guaranteed match rate for that week</li>
+<li>Maximum co-incentive budget: 9,000 PENDLE per week</li>
+</ul>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="discretionary">Discretionary<a href="#discretionary" class="hash-link" aria-label="Direct link to Discretionary" title="Direct link to Discretionary">​</a></h2>
-<p>Up to 15% of the maximum weekly emissions may be used for discretionary allocations which are primarily targeted towards pools with high growth potential.</p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/pendle-v2/ProtocolMechanics/Mechanisms/sPENDLE"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">sPENDLE</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/pendle-v2/ProtocolMechanics/Mechanisms/Fees"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Fees</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#performance" class="table-of-contents__link toc-highlight">Performance</a></li><li><a href="#liquidity-based-emissions" class="table-of-contents__link toc-highlight">Liquidity-Based Emissions</a><ul><li><a href="#renewed-pools" class="table-of-contents__link toc-highlight">Renewed Pools</a></li></ul></li><li><a href="#fee-based-emission" class="table-of-contents__link toc-highlight">Fee-Based Emission</a></li><li><a href="#co-incentive" class="table-of-contents__link toc-highlight">Co-Incentive</a></li><li><a href="#discretionary" class="table-of-contents__link toc-highlight">Discretionary</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.com/invite/EAujvncY2R" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://pendle.finance/brandguide" target="_blank">Media Kit</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
+<p>Up to 15% of the maximum weekly emissions may be used for discretionary allocations which are primarily targeted towards pools with high growth potential.</p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/pendle-v2/ProtocolMechanics/Mechanisms/sPENDLE"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">sPENDLE</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/pendle-v2/ProtocolMechanics/Mechanisms/Fees"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Fees</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#how-often-are-incentives-updated" class="table-of-contents__link toc-highlight">How Often Are Incentives Updated?​</a></li><li><a href="#performance" class="table-of-contents__link toc-highlight">Performance</a></li><li><a href="#liquidity-based-emissions" class="table-of-contents__link toc-highlight">Liquidity-Based Emissions</a><ul><li><a href="#renewed-pools" class="table-of-contents__link toc-highlight">Renewed Pools</a></li></ul></li><li><a href="#fee-based-emission" class="table-of-contents__link toc-highlight">Fee-Based Emission</a><ul><li><a href="#eligibility-and-fee-measurement" class="table-of-contents__link toc-highlight">Eligibility and Fee Measurement​</a></li></ul></li><li><a href="#co-incentive" class="table-of-contents__link toc-highlight">Co-Incentive</a></li><li><a href="#discretionary" class="table-of-contents__link toc-highlight">Discretionary</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.com/invite/EAujvncY2R" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://pendle.finance/brandguide" target="_blank">Media Kit</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
 </body>
 </html>
