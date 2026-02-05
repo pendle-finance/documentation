@@ -103,7 +103,7 @@ A pool’s share of **total swap fees** determines their pro-rata share of the f
 
 **Eligibility**: Pools must be at least 2 days old to receive fee-based emissions. Newer pools can still receive liquidity-based emissions and other incentives.
 **Fee Calculation**: Fee performance uses a recency-weighted methodology that emphasizes recent activity:
-- For pools older than 14 days: Uses a 2-week recency-weighted average with the most recent 7 days weighted 2x and the previous 7 days weighted 1x
+- For pools older than 14 days: Uses a 2-week recency-weighted average with 7 days before last snapshot weighted at 2x and the previous 7 days weighted at 1x
 - For younger pools: Special calculations account for limited trading history
 
 ## Co-Incentive
