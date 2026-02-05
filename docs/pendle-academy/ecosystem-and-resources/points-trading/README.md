@@ -19,7 +19,7 @@ Points trading on Pendle works the same way as yield-trading where:
 * Liquidity Providers receive additional yields from swap fees and Pendle incentives while retaining points exposure (with zero price impact enabled)
 
 <Hint style="info">
-In other words, underlying points are treated the same way as the underlying yields. This includes 3% YT fees incurred on underlying yields and points.
+In other words, underlying points are treated the same way as the underlying yields. This includes 5% YT fees incurred on underlying yields and points.
 </Hint>
 
 ## YT
