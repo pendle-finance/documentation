@@ -14,6 +14,10 @@ sPENDLE held in a user’s wallet is eligible for:
 
 For details on governance rights and rewards distribution, see the [sPENDLE mechanism documentation](/docs/pendle-v2/ProtocolMechanics/Mechanisms/sPENDLE.md).
 
+## Audit Reports
+
+The sPENDLE contract has been audited. Full audit reports are available [here](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/audits).
+
 ## Staking PENDLE
 
 To stake PENDLE and receive sPENDLE
