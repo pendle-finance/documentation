@@ -26,6 +26,11 @@ sPENDLE holders are only considered inactive if they fail to vote during a perio
 
 Rewards from buybacks and point are distributed every 2 weeks and may be claimed from the Pendle dApp at any time.
 
+## Buyback mechanism & execution
+Protocol fees are harvested every 2 weeks and deposited into the buyback contract. Once funded, the contract executes PENDLE purchases over the subsequent week using a 1-hourly TWAP.
+
+Buy back contract: [0x9e08C5499f953C6297A7755BcBcEd383b606896b](https://etherscan.io/address/0x9e08C5499f953C6297A7755BcBcEd383b606896b)
+
 ## Accounting
 
 ### Voting Power
