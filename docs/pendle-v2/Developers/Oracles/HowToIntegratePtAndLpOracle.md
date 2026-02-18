@@ -127,7 +127,7 @@ The source code of the whole example can be found here:
 If the oracle are not already deployed, you can deploy yourself the same as this `setUp` function ([source](https://github.com/pendle-finance/pendle-examples-public/blob/642b1ab2784b3015691d6c26a2684cd5f7585b0d/test/ChainlinkOracleSample.sol#L30-L41)).
 
 ```solidity title="code fragment of setUp function"
-factory = new PendleChainlinkOracleFactory(0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2);
+factory = new PendleChainlinkOracleFactory(0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2);
 PT_LBTC_oracle = PendleChainlinkOracle(
     factory.createOracle(address(market), twapDuration, PendleOracleType.PT_TO_SY)
 );
@@ -142,7 +142,7 @@ PT_USD_oracle = PendleChainlinkOracleWithQuote(
 
   - `market` is the market address you want to observe the price.
   - `twapDuration` is the TWAP duration you want to use, chosen in the previous section.
-  - `0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2` is the address of the deployed Pendle Oracle.
+  - `0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2` is the address of the deployed Pendle Oracle.
       - It was deployed to have the same address for all network.
       - Refer to [Deployment](../Deployments/Ethereum.md) section for the full list of addresses.
       - The deployed ChainLink oracles **wrap** this oracle.
@@ -187,7 +187,7 @@ The source code of the whole example can be found here:
 
 We have deployed an a contract that helps obtaining the price of PT/YT/LP token in SY or asset.
 
-The contract is at address `0x9a9Fa8338dd5E5B2188006f1Cd2Ef26d921650C2`.
+The contract is at address `0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2`.
   - It was deployed to have the same address for all network.
   - Refer to [Deployment](../Deployments/Ethereum.md) section for the full list of addresses.
 
