@@ -21,7 +21,9 @@ With Pendle, you can always maximise your yield: increase your yield exposure in
 
 We give users the reins to their yield.
 
-[Pendle](https://pendle.finance/) is a permissionless yield-trading protocol where users can execute various yield-management strategies.
+[Pendle](https://pendle.finance/) is a permissionless yield-trading protocol where users can execute various yield-management strategies. It acts as a second-order derivative layer, building upon and integrating with existing core yield-generating primitives in the DeFi ecosystem — Liquid Staking Tokens (LSTs), Liquid Restaking Tokens (LRTs), stablecoins, RWAs, and more.
+
+Pendle's smart contract architecture is **permissionless** — any user or protocol can create a new yield-trading market on-chain. While on-chain creation is open to all, the visibility of these markets on the official [Pendle UI](https://app.pendle.finance) is curated through a review process to ensure quality and safety. Community members can also leverage the [Community Listing Portal](https://listing.pendle.finance) for a streamlined listing process.
 
 There are 2 main parts to fully understand Pendle:
 

@@ -51,7 +51,7 @@ When `tokenIn` is any ERC20 token that needs to be swapped to a supported SY tok
     - Set `tokenIn = USDC`
     - Set `tokenMintSy = SY-sUSDe`
     - Set `pendleSwap = 0xd4F480965D2347d421F1bEC7F545682E5Ec2151D`
-    - Set `swapData` to proper data configuration obtained from [SDK](/docs/pendle-v2/Developers/Backend/HostedSdk.mdx#supported-functions)
+    - Set `swapData` to proper data configuration obtained from [SDK](../../../Backend/HostedSdk#supported-functions)
 
 **Benefits of Zap In:**
 - Users can interact with any Pendle market using any ERC20 token they hold
@@ -60,7 +60,7 @@ When `tokenIn` is any ERC20 token that needs to be swapped to a supported SY tok
 - Single transaction for swap + Pendle operation
 
 **SDK Integration:**
-The [Pendle Hosted SDK](/docs/pendle-v2/Developers/Backend/HostedSdk.mdx#features) automatically handles all TokenInput configuration when you enable routing. When you set `enableAggregator: true` in SDK calls, it:
+The [Pendle Hosted SDK](../../../Backend/HostedSdk#features) automatically handles all TokenInput configuration when you enable routing. When you set `enableAggregator: true` in SDK calls, it:
 - Automatically selects the best swap aggregator (KyberSwap, ODOS, 1inch, etc.)
 - Generates optimal `swapData` for the chosen route
 - Handles all token conversions transparently
@@ -115,7 +115,7 @@ When `tokenOut` is any ERC20 token different from supported SY tokens:
 - Built-in slippage protection with `minTokenOut`
 
 **SDK Integration:**
-The [Pendle Hosted SDK](/docs/pendle-v2/Developers/Backend/HostedSdk.mdx#features) automatically handles all TokenOutput configuration when you enable routing. When you set `enableAggregator: true` in SDK calls, it:
+The [Pendle Hosted SDK](../../../Backend/HostedSdk#features) automatically handles all TokenOutput configuration when you enable routing. When you set `enableAggregator: true` in SDK calls, it:
 - Automatically selects the best swap aggregator for output token conversion
 - Generates optimal `swapData` for the chosen route
 - Calculates appropriate slippage protection
@@ -150,10 +150,10 @@ struct ApproxParams {
 **When ApproxParams is Needed:**
 
 ApproxParams is required for functions that swap an exact amount of tokens to PT or YT, such as:
-- [`swapExactTokenForPt`](/Developers/Contracts/PendleRouter/ApiReference/PtFunctions#swapexacttokenforpt) - Convert exact token amount to PT
-- [`swapExactSyForPt`](/Developers/Contracts/PendleRouter/ApiReference/PtFunctions#swapexactsyforpt) - Convert exact SY amount to PT
-- [`swapExactTokenForYt`](/Developers/Contracts/PendleRouter/ApiReference/YtFunctions#swapexacttokenforyt) - Convert exact token amount to YT
-- [`swapExactSyForYt`](/Developers/Contracts/PendleRouter/ApiReference/YtFunctions#swapexactsyforyt) - Convert exact SY amount to YT
+- [`swapExactTokenForPt`](./PtFunctions#swapexacttokenforpt) - Convert exact token amount to PT
+- [`swapExactSyForPt`](./PtFunctions#swapexactsyforpt) - Convert exact SY amount to PT
+- [`swapExactTokenForYt`](./YtFunctions#swapexacttokenforyt) - Convert exact token amount to YT
+- [`swapExactSyForYt`](./YtFunctions#swapexactsyforyt) - Convert exact SY amount to YT
 
 **Why Approximation is Required:**
 The Pendle AMM natively supports functions like `swapExactPtForSy` and `swapSyForExactPt`, but does NOT have `swapExactSyForPt`. When you want to swap an exact amount of tokens/SY for PT/YT, the router must use binary search to determine how much PT/YT can be obtained, since the AMM can only calculate the reverse (exact PT amounts).
@@ -260,7 +260,7 @@ enum SwapType {
 | `PARASWAP` | Paraswap aggregation |
 
 **Use Case**
-Specifies which external aggregator to use for token swaps, enabling Pendle to leverage the best available liquidity across different DEXes. The [Pendle Hosted SDK](/docs/pendle-v2/Developers/Backend/HostedSdk.mdx#features) automatically selects the optimal SwapType based on available liquidity and routing efficiency.
+Specifies which external aggregator to use for token swaps, enabling Pendle to leverage the best available liquidity across different DEXes. The [Pendle Hosted SDK](../../../Backend/HostedSdk#features) automatically selects the optimal SwapType based on available liquidity and routing efficiency.
 
 ### ExitPreExpReturnParams
 

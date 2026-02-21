@@ -4,9 +4,9 @@ hide_table_of_contents: true
 
 # Order Book
 
-Pendle features an Order Book system alongside its AMM to enable peer-to-peer trading of PT and YT. Users can place limit orders to buy or sell at a specified implied APY. 
+Pendle features an Order Book system alongside its AMM to enable peer-to-peer trading of PT and YT. Users can place limit orders to buy or sell at a specified implied APY.
 
-Together, the Order Book and AMM enhance market liquidity, facilitating smoother trading on Pendle.
+Together, the Order Book and AMM enhance market liquidity, facilitating smoother trading on Pendle. Pendle's swap router intelligently sources liquidity from **both** the AMM pool and the limit order book simultaneously, automatically calculating the optimal path for any given trade to minimize price impact and gas costs for the user.
 
 ![Order Book](/img/AppGuide/order_book.png "Order Book")
 
@@ -47,9 +47,9 @@ Setting a limit order requires signature from your address while revoking the or
 
 ## Fees
 
-Fees for swaps on limit order will be the same as if they were done on the AMM. Currently, maker order fee is set to be 0 (taker order fees remain the same). The team has full discretion on when to scale-up fees for maker order.
+Fees for swaps on limit order will be the same as if they were done on the AMM. The **taker** of the order pays both the gas fee and the swap fee. The **maker** of the order does not incur these costs (maker order fee is currently set to 0). The team has full discretion on when to scale-up fees for maker orders.
 
-Fees collected will be distributed in USDT to vePENDLE voters of its respective pools.
+Fees collected are distributed in accordance with the protocol's [fee structure](../Mechanisms/Fees).
 
 ## Arbitrage 
 

@@ -12,7 +12,7 @@ sPENDLE held in a user’s wallet is eligible for:
 - Voting power within the Pendle ecosystem
 - Pro-rata share of reward distributions if they meet the active participation criteria
 
-For details on governance rights and rewards distribution, see the [sPENDLE mechanism documentation](/docs/pendle-v2/ProtocolMechanics/Mechanisms/sPENDLE.md).
+For details on governance rights and rewards distribution, see the [sPENDLE mechanism documentation](../../ProtocolMechanics/Mechanisms/sPENDLE).
 
 ### Audit Reports
 

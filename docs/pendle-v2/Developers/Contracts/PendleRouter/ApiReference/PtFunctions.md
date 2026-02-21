@@ -8,7 +8,7 @@ This document covers all functions for trading Principal Tokens (PT) in Pendle m
 
 ## Token to PT Trading
 
-Since AMM only supports swaps by exact PT, to swap exact tokens for PT requires binary search approximation to find the correct amount of SY needed to achieve the desired PT output. For best usage, use the [SDK](/docs/pendle-v2/Developers/Backend/HostedSdk.mdx#features) for better approximation since running binary search on-chain is costly.
+Since AMM only supports swaps by exact PT, to swap exact tokens for PT requires binary search approximation to find the correct amount of SY needed to achieve the desired PT output. For best usage, use the [SDK](../../../Backend/HostedSdk#features) for better approximation since running binary search on-chain is costly.
 
 ### swapExactTokenForPt
 
@@ -32,9 +32,9 @@ function swapExactTokenForPt(
 | receiver | `address` | Address to receive PT tokens |
 | market | `address` | Pendle market address |
 | minPtOut | `uint256` | Minimum PT tokens to receive |
-| guessPtOut | [`ApproxParams`](/Developers/Contracts/PendleRouter/ApiReference/types#approxparams) | Approximation parameters |
-| input | [`TokenInput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokeninput) | Token input configuration |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| guessPtOut | [`ApproxParams`](./Types#approxparams) | Approximation parameters |
+| input | [`TokenInput`](./Types#tokeninput) | Token input configuration |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -49,7 +49,7 @@ function swapExactTokenForPt(
 Most common function for buying PT tokens with any supported token. The function converts your token to SY and then swaps SY for PT, first filling available limit orders, then using the AMM for any remaining amount.
 
 **Simple Version Available**
-For basic operations without custom parameters, use [`swapExactTokenForPtSimple`](/Developers/Contracts/PendleRouter/SimpleFunctions#swapexacttokenforptsimple) which automatically handles approximation and skips limit order functionality.
+For basic operations without custom parameters, use [`swapExactTokenForPtSimple`](./SimpleFunctions#swapexacttokenforptsimple) which automatically handles approximation and skips limit order functionality.
 
 ### swapExactSyForPt
 
@@ -74,8 +74,8 @@ function swapExactSyForPt(
 | market | `address` | Pendle market address |
 | exactSyIn | `uint256` | Exact amount of SY tokens to swap |
 | minPtOut | `uint256` | Minimum PT tokens to receive |
-| guessPtOut | [`ApproxParams`](/Developers/Contracts/PendleRouter/ApiReference/types#approxparams) | Approximation parameters |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| guessPtOut | [`ApproxParams`](./Types#approxparams) | Approximation parameters |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -88,7 +88,7 @@ function swapExactSyForPt(
 Direct and efficient method when you already have SY tokens and want to buy PT tokens.
 
 **Simple Version Available**
-For basic operations without custom parameters, use [`swapExactSyForPtSimple`](/Developers/Contracts/PendleRouter/SimpleFunctions#swapexactsyforptsimple) which automatically handles approximation and skips limit order functionality.
+For basic operations without custom parameters, use [`swapExactSyForPtSimple`](./SimpleFunctions#swapexactsyforptsimple) which automatically handles approximation and skips limit order functionality.
 
 ## PT to Token Trading
 
@@ -113,8 +113,8 @@ function swapExactPtForToken(
 | receiver | `address` | Address to receive tokens |
 | market | `address` | Pendle market address |
 | exactPtIn | `uint256` | Exact amount of PT tokens to swap |
-| output | [`TokenOutput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokenoutput) | Token output configuration |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| output | [`TokenOutput`](./Types#tokenoutput) | Token output configuration |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -149,7 +149,7 @@ function swapExactPtForSy(
 | market | `address` | Pendle market address |
 | exactPtIn | `uint256` | Exact amount of PT tokens to swap |
 | minSyOut | `uint256` | Minimum SY tokens to receive |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 

@@ -22,7 +22,7 @@ For money markets listing LPs as collateral or borrowable assets, the oracle pro
 
 ### Deployment
 
-The oracle can be deployed using the `lpLinearDiscountOracleFactory`. The address of the factory can be found in the [Deployments](../../Deployments/Ethereum.md) sections, under the `"lpLinearDiscountOracleFactory"` field. The factory has a method to help with oracle deployment:
+The oracle can be deployed using the `lpLinearDiscountOracleFactory`. The address of the factory can be found in the [Deployments on GitHub](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments) sections, under the `"lpLinearDiscountOracleFactory"` field. The factory has a method to help with oracle deployment:
 
 ```sol
 function create(address market, uint256 basePtDiscountPerYear, uint256 lpMaturedPrice) external returns (address res);

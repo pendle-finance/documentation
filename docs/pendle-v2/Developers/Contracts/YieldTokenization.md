@@ -11,8 +11,8 @@ This guide explains how Pendle tokenizes yield by splitting assets into PT (Prin
 
 ## Key Concepts
 Yield tokenization takes a yield-bearing asset, then splits that value into two claims with a fixed expiry:
-- [PT (Principal Token)](/ProtocolMechanics/YieldTokenization/PT): represents the principal of the underlying yield-bearing token.
-- [YT (Yield Token)](/ProtocolMechanics/YieldTokenization/YT): represents entitlement to all yield, rewards, and points of the asset until expiry.
+- [PT (Principal Token)](../../ProtocolMechanics/YieldTokenization/PT): represents the principal of the underlying yield-bearing token.
+- [YT (Yield Token)](../../ProtocolMechanics/YieldTokenization/YT): represents entitlement to all yield, rewards, and points of the asset until expiry.
 
 Example: A user stakes 100 USDe in Ethena and, via Pendle, tokenizes it into 100 PT-USDe and 100 YT-USDe with a 3-month expiry. They can sell the YT-USDe to someone who wants the next three months of yield and points while keeping the PT-USDe to redeem the principal at maturity; assuming a 12% APY (~3% over three months), the position would accrue about 3 USDe - so at expiry the YT-USDe holder is entitled to ~3 USDe of accrued yield (plus any program points earned during that period), and the PT-USDe holder redeems the 100 USDe principal.
 
@@ -118,11 +118,11 @@ function redeemDueInterestAndRewards(
 ) external returns (uint256 interestOut, uint256[] memory rewardsOut);
 ```
 
-**Purpose:** Allows a YT holder to claim accrued earnings: interest (in SY) and any external reward tokens. Interest for YT is **always paid in SY**, but it can be swapped into your preferred token through the [router](/Developers/Contracts/PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
+**Purpose:** Allows a YT holder to claim accrued earnings: interest (in SY) and any external reward tokens. Interest for YT is **always paid in SY**, but it can be swapped into your preferred token through the [router](./PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
 
 **Behavior notes:**
 
-* **Interest unit:** Always **SY**. If you want the underlying/base asset, unwrap or swap through the [router](/Developers/Contracts/PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
+* **Interest unit:** Always **SY**. If you want the underlying/base asset, unwrap or swap through the [router](./PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
 * **Pre- vs post-expiry:**
 
   * Pre-expiry: interest and rewards continue accruing; this function pays whatever is due up to the call.
@@ -162,7 +162,7 @@ function pyIndexCurrent() external returns (uint256 currentIndex);
 
     * Pre-expiry redemptions return **less SY per PY** until `SY.exchangeRate()` recovers above the stored index.
     * YT accrual effectively **pauses** (no new interest) until recovery.
-    * In sustained drawdowns, even PT’s eventual redemption (valued in the accounting asset) can be **less than previously expected** because the SY backing has shrunk. See [Negative Yield](/ProtocolMechanics/NegativeYield).
+    * In sustained drawdowns, even PT’s eventual redemption (valued in the accounting asset) can be **less than previously expected** because the SY backing has shrunk. See [Negative Yield](../../ProtocolMechanics/NegativeYield).
 
 * **Examples:**
 

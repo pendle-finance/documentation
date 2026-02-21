@@ -12,7 +12,7 @@ hide_table_of_contents: true
 
 PendleRouter is a contract that aggregates callers' actions with various different SYs, PTs, YTs, and Markets. It does not have any special permissions or whitelists on any contracts it interacts with. Therefore, any third-party protocols can freely embed the router's logic into their code for better gas efficiency.
 
-You can read more about the PendleRouter [here](./Contracts/PendleRouter.md).
+You can read more about the PendleRouter [here](./Contracts/PendleRouter/PendleRouterOverview.md).
 
 ### Standardized Yield (SY)
 
@@ -72,4 +72,43 @@ Currently, there is no market to trade YT, but it is always tradable by the foll
 
 - `SY ➝ YT` = flashswap SY, mint PT & YT, payback PT, send YT to users.
 - `YT ➝ SY` = flashswap PT, use PT & YT, redeem SY, pay back, send excess to users.
+
+:::info YT Fungibility
+All Yield Tokens (YT) of the same underlying asset are **completely fungible**. It is not programmatically possible to distinguish between YT acquired through minting, swapping, or LPing. User balances are queried on the SY contract, which treats all YT of a given type as identical. Any attempt to classify users or distribute rewards based on how they acquired their YT is not feasible on-chain.
+:::
+
+## Contract Factories
+
+Pendle uses a factory pattern for deploying new markets, PTs, and YTs. This standardizes the creation process and provides a single source of truth for identifying valid protocol components.
+
+### Factory Versions
+
+| Version | Timeframe | Key Changes |
+|---------|-----------|-------------|
+| Pre-V3 | Early deployments | Initial factory implementations |
+| **V3** | Late 2023 | Standard for all new deployments across all chains |
+| **V4/V5** | Mid-2024 | **Removed `Permit` (EIP-2612) from all new PT, YT, and LP tokens** to mitigate phishing attacks |
+| **V6** | Late 2025 | Current recommended version for all new market deployments |
+
+:::caution Security Note: Permit Removal
+Starting with V4/V5 factories, the `Permit` function (EIP-2612) was **completely removed** from all newly created PT, YT, and LP tokens. The `Permit` function, which allows gasless approvals via off-chain signatures, was identified as a significant phishing attack vector. Tokens created by V4+ factories no longer support `permit()`.
+:::
+
+:::warning
+Always use the **latest factory version** for new market deployments. Using deprecated factories can lead to issues including improper contract verification.
+:::
+
+### Immutability vs. Upgradability
+
+- **Market contracts are immutable** once deployed. Their fundamental parameters (including the concentrated yield range) cannot be changed. If a pool goes "out of range," a brand new market must be deployed and LPs must manually migrate.
+- **SY contracts are upgradable proxies** (for newer deployments). This allows adding support for new deposit assets or adjusting mechanisms without requiring a full market migration. When developing an SY externally, it is recommended to deploy it as an upgradeable contract using Pendle's proxy admin and transfer ownership to Pendle's pause controller.
+
+## Cross-Chain Principal Tokens
+
+Cross-chain PTs allow Principal Tokens to be bridged and used on networks where Pendle may not have a full deployment, while concentrating deep trading liquidity on mainnet.
+
+- **Standard:** Uses [LayerZero's Omnichain Fungible Token (OFT)](https://docs.layerzero.network/v2/home/token-standards/oft-standard) standard.
+- **Mechanism:** Users can "zap in" to a PT position on a mainnet pool, then bridge the PT to a destination chain (e.g., Avalanche, HyperEVM) for use as collateral in local money markets.
+- **Liquidation:** The system handles liquidations without relying on DEX liquidity on the destination chain — the underlying asset is converted and bridged back from mainnet.
+- **Initial Pilot:** sUSDe/USDe PTs, with the goal of collateral support on money markets like Morpho.
 

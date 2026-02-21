@@ -19,9 +19,17 @@ Up until now, the Router has had four versions:
 - **RouterV3**, deployed on 18/12/2023 at `0x00000000005BBB0EF59571E58418F9a4357b68A0`, supporting limit orders
 - **RouterV4**, deployed on 29/04/2024 at `0x888888888889758F76e7103c6CbF23ABbF58F946`, upgradable router to support new features and optimize the algorithm more easily without requiring partners to migrate. This is likely the last version of the Router with features being added gradually.
 
-Since PendleRouter is a proxy to multiple implementations, the caller can call the desired functions, and the Router will resolve to the correct implementation. Please refer to the [list of callable functions](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol).
+Since PendleRouter is a proxy to multiple implementations (using the [EIP-2535 Diamond Standard](https://eips.ethereum.org/EIPS/eip-2535)), the caller can call the desired functions, and the Router will resolve to the correct implementation. Please refer to the [list of callable functions](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol).
 
-For a comprehensive understanding of the Pendle ecosystem, including key concepts and terminology, please refer to the [Overview document](../Overview.md).
+:::caution Block Explorer Limitation
+Because the Router uses the Diamond proxy pattern, block explorers like Etherscan **cannot correctly display all available functions**. They typically only show the ABI of the base proxy contract, not the aggregated functions from all its facets (implementations). To interact with the full range of Router functions, use the complete combined ABI from [`IPAllActionV3.sol`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol).
+:::
+
+**Important notes on older Router versions:**
+- **RouterV2** may have issues with newer markets where a necessary approval step is not being called. On some networks like Mantle, RouterV2 is not supported and will revert.
+- **RouterV3** and earlier versions remain functional but lack the latest optimizations. Upgrading to **RouterV4** is highly recommended for all integrations.
+
+For a comprehensive understanding of the Pendle ecosystem, including key concepts and terminology, please refer to the [High Level Architecture](../../HighLevelArchitecture).
 
 ## Integration Guide
 
@@ -40,316 +48,21 @@ We highly recommend using Pendle's SDK to generate calldata for several reasons:
 
 We'll explore both methods, including example code, for each approach.
 
-### Method 1: Using the Pendle Hosted SDK
+### Method 1: Using the Pendle Hosted SDK (Recommended)
 
-Pendle's Hosted SDK provides a generic `swap` endpoint to swap any supported ERC20 token for PT or YT and vice versa. The SDK automatically finds the best route for the swap, including intermediate swaps if necessary. It supports:
-
-- Swap an exact amount of a supported ERC20 token for PT.
-- Swap an exact amount of PT for a supported ERC20 token.
-- Swap an exact amount of a supported ERC20 token for YT.
-- Swap an exact amount of YT for a supported ERC20 token.
-
-#### Example: Buy PT (wstETH) using 1 wstETH with 1% Slippage
-
-```ts
-async function swapTokenToPt() {
-  // Swap 1 wstETH to PT in wstETH market with 1% slippage
-  const res = await callSDK<SwapData>(`/v1/sdk/${CHAIN_ID}/markets/${MARKET_ADDRESS}/swap`, {
-    receiver: RECEIVER_ADDRESS,
-    slippage: 0.01,
-    tokenIn: wstETH,
-    tokenOut: PT_ADDRESS,
-    amountIn: "1000000000000000000",
-  });
-
-  console.log("Amount PT Out: ", res.data.amountOut);
-  console.log("Price impact: ", res.data.priceImpact);
-  console.log("Transaction data: ", res.data.tx);
-
-  // Send transaction using the data that we get from the SDK
-  await getSigner().sendTransaction(res.tx);
-}
-```
-
-#### Example: Sell 1 YT (wstETH) to wstETH with 1% Slippage
-
-```ts
-export async function swapYtToToken() {
-  // Swap 1 YT to wstETH in wstETH market with 1% slippage
-  const res = await callSDK<SwapData>(`/v1/sdk/${CHAIN_ID}/markets/${MARKET_ADDRESS}/swap`, {
-    receiver: RECEIVER_ADDRESS,
-    slippage: 0.01,
-    tokenIn: YT_ADDRESS,
-    tokenOut: wstETH,
-    amountIn: "1000000000000000000",
-  });
-
-  console.log("Amount wstETH Out: ", res.data.amountOut);
-  console.log("Price impact: ", res.data.priceImpact);
-
-  // Send tx
-  getSigner().sendTransaction(res.tx);
-}
-```
-
-For full source code, refer to [this example](https://github.com/pendle-finance/pendle-examples-public/blob/main/hosted-sdk-demo/src/swap.ts#L90).
-
-#### Using the Aggregator for Optimal Routing
-
-Aggregator is a feature of the Pendle SDK that helps users find the most optimal route to interact with the Pendle system from any supported ERC20 token. This feature ensures that users can use whatever token they have to interact with the Pendle system. For example, user can use `USDC` to buy `PT wstETH` in `wstETH` market using aggregator, without it, user need to swap `USDC` to `wETH` first then use Pendle to buy `PT wstETH` with `wETH` .
-
-To take advantage of the aggregator, users need to set the `enableAggregator` option to `true`.
-
-##### Example: Buy PT (wstETH) using 1000 USDC with 1% Slippage
-
-```ts
-export async function swapTokenToPtUsingAggregation() {
-  // Swap 1000 USDC to PT in wstETH market with 1% slippage
-  const res = await callSDK<SwapData>(`/v1/sdk/${CHAIN_ID}/markets/${MARKET_ADDRESS}/swap`, {
-    receiver: RECEIVER_ADDRESS,
-    slippage: 0.01,
-    tokenIn: USDC,
-    tokenOut: PT_ADDRESS,
-    // USDC has 6 decimals
-    amountIn: (1000n * 10n ** 6n).toString(),
-    // enable aggregator, else it will throw an error because USDC could not be directly swapped to PT
-    enableAggregator: true,
-  });
-
-  console.log("Amount PT Out: ", res.data.amountOut);
-  console.log("Price impact: ", res.data.priceImpact);
-
-  // Send tx
-  await getSigner().sendTransaction(res.tx);
-}
-```
-
-##### Example: Sell 1 PT (wstETH) to USDC with 1% Slippage
-
-```ts
-export async function swapPtToTokenUsingAggregation() {
-  // Swap 1 PT to USDC in wstETH market with 1% slippage
-  const res = await callSDK<SwapData>(`/v1/sdk/${CHAIN_ID}/markets/${MARKET_ADDRESS}/swap`, {
-    receiver: RECEIVER_ADDRESS,
-    slippage: 0.01,
-    tokenIn: PT_ADDRESS,
-    tokenOut: USDC,
-    amountIn: "1000000000000000000",
-    // enable aggregator
-    enableAggregator: true,
-  });
-
-  console.log("Amount USDC Out: ", res.data.amountOut);
-  console.log("Price impact: ", res.data.priceImpact);
-
-  // Send tx
-  getSigner().sendTransaction(res.tx);
-}
-```
+The Hosted SDK handles off-chain optimization, aggregator routing, and limit order integration automatically. See the [Hosted SDK Documentation](../../Backend/HostedSdk.mdx) for full details, examples, and supported operations.
 
 ### Method 2: Direct Interaction with the Pendle Router
 
-You can also generate contract calls directly using the Pendle Router. This approach requires knowledge of specific Pendle Router contract structures, including `TokenInput`, `TokenOutput`, `ApproxParams`, and `LimitOrderData`.
+For fully on-chain integrations without the SDK, see the [Contract Integration Guide](./ContractIntegrationGuide) for step-by-step Solidity examples covering PT/YT trading, liquidity management, and minting/redeeming.
 
-For detailed information on these structures, refer to the [Important Structs in PendleRouter](#important-structs-in-pendlerouter).
+Key struct types used by the Router (`TokenInput`, `TokenOutput`, `ApproxParams`, `LimitOrderData`) are documented in the [Types and Utility Functions](./ApiReference/Types) reference, along with helper functions for on-chain parameter generation.
 
-#### Generating Required Parameters On-Chain
+### Available Router Functions
 
-Although Pendle's Hosted SDK is recommended for parameter generation, the following functions can be used for on-chain generation:
+- **Trading**: `swapExactTokenForPt`, `swapExactPtForToken`, `swapExactTokenForYt`, `swapExactYtForToken`
+- **Liquidity**: `addLiquiditySingleToken`, `removeLiquiditySingleToken`
+- **Minting/Redeeming**: `mintPyFromToken`, `redeemPyToToken`
+- **Rewards**: `redeemDueInterestAndRewards`
 
-- **`TokenInput`**: `createTokenInputSimple`
-- **`TokenOutput`**: `createTokenOutputSimple`
-- **`ApproxParams`**: `createDefaultApproxParams`
-- **`LimitOrderData`**: `createEmptyLimitOrderData`
-
-#### Example Code for Parameter Creation
-
-```solidity
-/// @dev Creates a TokenInput struct without using any swap aggregator
-/// @param tokenIn must be one of the SY's tokens in (obtain via `IStandardizedYield#getTokensIn`)
-/// @param netTokenIn amount of token in
-function createTokenInputSimple(address tokenIn, uint256 netTokenIn) pure returns (TokenInput memory) {
-    return
-        TokenInput({
-            tokenIn: tokenIn,
-            netTokenIn: netTokenIn,
-            tokenMintSy: tokenIn,
-            pendleSwap: address(0),
-            swapData: createSwapTypeNoAggregator()
-        });
-}
-
-/// @dev Creates a TokenOutput struct without using any swap aggregator
-/// @param tokenOut must be one of the SY's tokens out (obtain via `IStandardizedYield#getTokensOut`)
-/// @param minTokenOut minimum amount of token out
-function createTokenOutputSimple(address tokenOut, uint256 minTokenOut) pure returns (TokenOutput memory) {
-    return
-        TokenOutput({
-            tokenOut: tokenOut,
-            minTokenOut: minTokenOut,
-            tokenRedeemSy: tokenOut,
-            pendleSwap: address(0),
-            swapData: createSwapTypeNoAggregator()
-        });
-}
-
-function createEmptyLimitOrderData() pure returns (LimitOrderData memory) {}
-
-/// @dev Creates default ApproxParams for on-chain approximation
-function createDefaultApproxParams() pure returns (ApproxParams memory) {
-    return ApproxParams({guessMin: 0, guessMax: type(uint256).max, guessOffchain: 0, maxIteration: 256, eps: 1e14});
-}
-
-function createSwapTypeNoAggregator() pure returns (SwapData memory) {}
-```
-
-The full source code is available [here](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionTypeV3.sol).
-
-#### Example: Swapping 1000 USDC for PT via Pendle Router
-
-Once the parameters (`TokenInput`, `TokenOutput`, etc.) are generated, you can call `swapExactTokenForPt` on the Pendle Router.
-
-```solidity
-swapExactTokenForPt(
-    msg.sender,
-    MARKET_ADDRESS,
-    minPtOut,
-    createDefaultApproxParams(),
-    createTokenInputSimple(USDC_ADDRESS, 1000e6),
-    createEmptyLimitOrderData()
-);
-```
-
-### More Actions Available!
-
-In addition to swapping tokens, you can also **add**, **remove liquidity**, **mint PT YT**, **redeem PT YT**, **transfer liquidity**, **roll over pt** in Pendle markets using either the **Pendle Hosted SDK** or by directly interacting with the **Pendle Router**.
-
-#### Using the Pendle Hosted SDK
-
-We have provided examples for each action using the Pendle Hosted SDK:
-
-- [Add Liquidity](https://github.com/pendle-finance/pendle-examples-public/blob/main/hosted-sdk-demo/src/add-liquidity-dual.ts)
-- [Zap In (single token)](https://github.com/pendle-finance/pendle-examples-public/blob/main/hosted-sdk-demo/src/add-liquidity.ts)
-- [Remove Liquidity](https://github.com/pendle-finance/pendle-examples-public/blob/main/hosted-sdk-demo/src/remove-liquidity-dual.ts)
-- [Zap Out (single token)](https://github.com/pendle-finance/pendle-examples-public/blob/main/hosted-sdk-demo/src/remove-liquidity.ts)
-- [Transfer Liquidity](https://github.com/pendle-finance/pendle-examples-public/blob/main/hosted-sdk-demo/src/transfer-liquidity.ts)
-- [Roll Over PT](https://github.com/pendle-finance/pendle-examples-public/blob/main/hosted-sdk-demo/src/roll-over-pt.ts)
-- [Mint PT YT](https://github.com/pendle-finance/pendle-examples-public/blob/main/hosted-sdk-demo/src/mint-py.ts)
-- [Redeem PT YT](https://github.com/pendle-finance/pendle-examples-public/blob/main/hosted-sdk-demo/src/redeem-py.ts)
-
-#### Direct Interaction with the Pendle Router
-
-Here is the list of common functions and their actions in the Pendle Router:
-
-- Add/Remove Liquidity
-  - **`addLiquiditySingleToken`**: Add liquidity to a market with any ERC20 tokens.
-  - **`removeLiquiditySingleToken`**: Remove liquidity from a market with ERC20 tokens.
-- Buy/Sell PT, YT
-  - **`swapExactTokenForPt`**: Swap an exact amount of a supported ERC20 token for PT.
-  - **`swapExactPtForToken`**: Swap an exact amount of PT for a supported ERC20 token.
-  - **`swapExactTokenForYt`**: Swap an exact amount of a supported ERC20 token for YT.
-  - **`swapExactYtForToken`**: Swap an exact amount of YT for a supported ERC20 token.
-- Redeeming PT post-expiry for the underlying
-  - **`RedeemPyToToken`**: PY stands for PT and YT. Post-expiry, you no longer need YT to redeem.
-- Redeeming LP, YT yield
-  - **`redeemDueInterestAndRewards`**: Redeem the accrued interest and rewards from both the LP position and YT.
-
-You can find example code on how to use those functions at [Example Repository/RouterSample.sol](https://github.com/pendle-finance/pendle-examples-public/blob/main/test/RouterSample.sol)
-
-## Important Structs in PendleRouter
-
-While most function arguments should be straightforward, using structs can be less intuitive. PendleRouter is a sophisticated contract that supports various powerful features and relies on off-chain pre-computed data to help save gas. Below are the important structs and instructions on how to fill them:
-
-### ApproxParams
-
-```solidity
-struct ApproxParams {
-    uint256 guessMin;
-    uint256 guessMax;
-    uint256 guessOffchain;
-    uint256 maxIteration;
-    uint256 eps;
-}
-```
-
-- `guessMin` and `guessMax`: The minimum and maximum values for binary search.
-- `maxIteration`: The maximum number of times binary search will be performed.
-- `eps`: The precision of binary search - the maximum proportion of the input that can be unused. `eps` is 1e18-based, so an `eps` of 1e14 implies that no more than 0.01% of the input might be unused.
-- `guessOffchain`: This is the first answer to be checked before performing any binary search. If the answer already satisfies the conditions, we skip the search and save significant gas.
-
-In case off-chain data cannot be provided, the parameters can be passed as:
-
-```solidity
-guessMin: 0, // adjust as desired
-guessMax: type(uint256).max, // adjust as desired
-guessOffchain: 0, // strictly 0
-maxIteration: 256, // adjust as desired
-eps: 1e14 // max 0.01% unused, adjust as desired
-```
-
-Please note that in this situation, the parameters can be fine-tuned to narrow the search range for optimal gas usage or to reduce the number of unused inputs.
-
-### TokenInput & TokenOutput
-
-```solidity
-struct TokenInput {
-    // TOKEN DATA
-    address tokenIn;
-    uint256 netTokenIn;
-    address tokenMintSy;
-    // AGGREGATOR DATA
-    address pendleSwap;
-    SwapData swapData;
-}
-
-struct TokenOutput {
-    // TOKEN DATA
-    address tokenOut;
-    uint256 minTokenOut;
-    address tokenRedeemSy;
-    // AGGREGATOR DATA
-    address pendleSwap;
-    SwapData swapData;
-}
-```
-
-#### Overview
-
-Pendle system doesn't interact with the underlying token. Swaps happen between SY ↔ PT, SY ↔ YT, etc. Hence, `TokenInput` & `TokenOutput` are data about the conversion between the underlying token and the corresponding SY.
-
-- **TokenInput**: Users start with `netTokenIn` of `tokenIn`, using a swap aggregator to convert those tokens to `tokenMintSy`, and those `tokenMintSy` is used to mint SY.
-- **TokenOutput**: Users receive SY & redeem the SY to `tokenRedeemSy`. These tokens are swapped through an aggregator to `tokenOut`.
-
-#### TokenInput
-
-- `tokenIn` & `netTokenIn`: Token & amount that the user starts with.
-- `tokenMintSy`: The token used to mint SY. Must be in `SY.getTokensIn()`. If `tokenMintSy != tokenIn`, aggregator data must be populated.
-- `pendleSwap`: Address of swap helper, do not hardcode.
-- `swapData`: Data for swap, generated by Pendle's SDK.
-
-Aggregator data can be generated by Pendle's SDK. If no aggregator is used, `tokenIn = tokenMintSy`, `pendleSwap = address(0)`, and `swapData` is empty.
-
-#### TokenOutput
-
-- `tokenOut` & `minTokenOut`: Token & minimal amount that the user finally receives.
-- `tokenRedeemSy`: The token used to redeem SY. Must be in `SY.getTokensOut()`. If `tokenRedeemSy != tokenOut`, aggregator data must be populated.
-- `pendleSwap`: Address of swap helper, do not hardcode.
-- `swapData`: Data for swap, generated by Pendle's SDK.
-
-If no aggregator is used, `tokenOut = tokenRedeemSy`, `pendleSwap = address(0)`, and `swapData` is empty.
-
-### LimitOrderData
-
-```solidity
-
-
-struct LimitOrderData {
-    address limitRouter;
-    uint256 epsSkipMarket;
-    FillOrderParams[] normalFills;
-    FillOrderParams[] flashFills;
-    bytes optData;
-}
-```
-
-LimitOrderData is generated using Pendle's SDK. If not using a limit order, all fields can be set to `address(0)` or empty.
+For the full list, see [`IPAllActionV3.sol`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol). Example code: [RouterSample.sol](https://github.com/pendle-finance/pendle-examples-public/blob/main/test/RouterSample.sol).
