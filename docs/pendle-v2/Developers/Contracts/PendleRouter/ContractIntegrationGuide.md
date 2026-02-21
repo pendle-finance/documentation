@@ -185,7 +185,7 @@ IERC20(market).approve(address(router), lpAmount);
 ```
 
 ### Add Liquidity (Keep YT)
-Add liquidity to a market using a single underlying token while keeping the YT. This example uses wstETH to add liquidity to wstETH market while keeping the YT. More information about this function can be found in the [documentation](docs/Developers/Contracts/PendleRouter/ApiReference/LiquidityFunctions.md#addLiquiditySingleTokenKeepYt).
+Add liquidity to a market using a single underlying token while keeping the YT. This example uses wstETH to add liquidity to wstETH market while keeping the YT. More information about this function can be found in the [documentation](./ApiReference/LiquidityFunctions#addliquiditysingletokenkeepyt).
 
 ```solidity
 address market = 0xD0354D4e7bCf345fB117cabe41aCaDb724eccCa2;

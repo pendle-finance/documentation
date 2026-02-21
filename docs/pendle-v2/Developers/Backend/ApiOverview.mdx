@@ -6,12 +6,6 @@ hide_table_of_contents: true
 
 Pendle provides a comprehensive API system that enables developers to integrate with the Pendle protocol for trading, analytics, and portfolio management.
 
-**Important:** Stay up to date with the latest developer updates and get support from our team:
-
-- **Telegram**: Join [t.me/pendledevelopers](https://t.me/pendledevelopers) for all development updates, API changes, and important announcements
-- **Telegram bot**: We have a telegram bot for developers to ask about the API at [t.me/peepo_the_engineer_bot](https://t.me/peepo_the_engineer_bot)
-- **Discord**: Get technical support on our [Discord Developer Channel](https://pendle.finance/discord) with responses within 24 hours
-
 ## Understanding Pendle's API System
 
 **API Base URL**: [https://api-v2.pendle.finance/core/docs](https://api-v2.pendle.finance/core/docs)
@@ -33,13 +27,13 @@ Pendle's API consists of two complementary components:
 📖 [View Hosted SDK Documentation](./HostedSdk.mdx)
 
 ### 2. Backend API (Data Queries)
-**Purpose**: Retrieve offchain data for markets, assets, pricing, user positions, and vePendle governance
+**Purpose**: Retrieve offchain data for markets, assets, pricing, user positions, and governance
 
 **Use this when you need to**:
 - Get offchain data for analytics
 - Get supported markets list with latest data (TVL, volume, underlying APY, swap fee, ...)
 - Get PT/YT/LP/SY asset prices
-- Get VePendle data (vePendle, current vote, current vote cap, voter apr, ...)
+- Get sPENDLE and governance data (staking, rewards, ...)
 
 📖 [View Backend API Documentation](https://api-v2.pendle.finance/core/docs)
 
@@ -91,6 +85,15 @@ x-ratelimit-weekly-limit: 200000
 x-ratelimit-weekly-remaining: 175000
 x-ratelimit-weekly-reset: 1724206817
 ```
+
+### Best Practices for Rate Limiting
+
+- **Never hardcode rate limits.** Rate limits have evolved over time and may change in the future. Always handle `429` responses gracefully.
+- **Implement exponential backoff.** When you receive a `429 Too Many Requests` response, wait and retry with increasing delays.
+- **Use the right endpoint for the job.** For general price monitoring, use `getAllAssetPricesByAddresses` (updates every ~30 seconds). For pre-swap price checks, use `getMarketSpotSwappingPrice` (updates every block).
+- **Set generous timeouts.** Some API endpoints, particularly those querying complex data, can be slow. Set a client-side HTTP timeout of at least **120 seconds**.
+- **Watch out for RPC rate limits.** A `429` error is most often caused by your **RPC provider**, not the Pendle API — especially when backfilling historical data. Use a private or paid archival RPC (e.g., QuickNode) for intensive operations.
+- **Use pagination correctly.** For endpoints returning large lists, include the `resumeToken` from a response in your next request to fetch subsequent pages.
 
 ### I get rate limited, what should I do?
 
@@ -215,7 +218,7 @@ A: Set `needScale=true` only when your input amounts are updated on-chain (e.g.,
 
 #### **Q: What is `priceImpact` and does it include slippage?**
 
-A: `priceImpact` is the effect your trade size has on the market price - it's included in the output amount. **Slippage** is different - it's caused by market movement between API call and transaction execution. You set `slippage` parameter as maximum tolerance (e.g., 0.01 = 1%). See [BackendApi.mdx - Price Impact vs Slippage](./BackendApi.mdx#price-impact-vs-slippage).
+A: `priceImpact` is the effect your trade size has on the market price - it's included in the output amount. **Slippage** is different - it's caused by market movement between API call and transaction execution. You set `slippage` parameter as maximum tolerance (e.g., 0.01 = 1%). See the Pendle API documentation for more details on the difference between price impact and slippage.
 
 #### **Q: What's the difference between "Add liquidity" and "Add liquidity ZPI"?**
 

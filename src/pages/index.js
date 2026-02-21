@@ -72,7 +72,7 @@ export default function Home() {
             <div className={styles.docCardsContainer}>
               <DocCard
                 title="Pendle V2 Docs"
-                description="Learn about Pendle's yield tokenization protocol, AMM mechanics, vePENDLE system, and integration guides for developers."
+                description="Learn about Pendle's yield tokenization protocol, AMM mechanics, sPENDLE system, and integration guides for developers."
                 link="/pendle-v2/Introduction"
                 icon="📚"
               />
@@ -86,10 +86,8 @@ export default function Home() {
               <DocCard
                 title="Pendle V2 API"
                 description="For developers to integrate Pendle products into their own applications."
-                link="/boros"
+                link="/pendle-v2/Developers/Backend/ApiOverview"
                 icon="🔌"
-                disabled={true}
-                comingSoon={true}
               />
             </div>
           </div>

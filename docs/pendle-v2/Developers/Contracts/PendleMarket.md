@@ -123,7 +123,7 @@ function swapExactPtForSy(
 ) external nonReentrant notExpired returns (uint256 netSyOut, uint256 netSyFee);
 ```
 
-**Note:** caller must transfer PT to the Market first; the Market then sends out the computed SY and (optionally) invokes a callback if data is non-empty. For a deeper understanding of the math behind, refer to the [`Pendle V2 AMM Whitepaper`](V2_AMM.pdf) and [`MarketMathCore Contract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/MarketMathCore.sol#L193-L217).
+**Note:** caller must transfer PT to the Market first; the Market then sends out the computed SY and (optionally) invokes a callback if data is non-empty. For a deeper understanding of the math behind, refer to the [`Pendle V2 AMM Whitepaper`](https://github.com/pendle-finance/pendle-v2-resources/blob/main/whitepapers/V2_AMM.pdf) and [`MarketMathCore Contract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/MarketMathCore.sol#L193-L217).
 
 ### [`swapSyForExactPt`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L186-L220)
 Swaps SY for an exact amount of PT. 
@@ -146,7 +146,7 @@ function swapSyForExactPt(
 ) external returns (uint256 netSyIn, uint256 netSyFee);
 ```
 
-**Note:** the Market sends out exactPtOut to receiver, optionally callbacks msg.sender, and then enforces that the required SY has been provided (typically via `transfer` in the callback/Router). For a deeper understanding of the math behind, refer to the [`Pendle V2 AMM Whitepaper`](V2_AMM.pdf) and [`MarketMathCore Contract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/MarketMathCore.sol#L193-L217).
+**Note:** the Market sends out exactPtOut to receiver, optionally callbacks msg.sender, and then enforces that the required SY has been provided (typically via `transfer` in the callback/Router). For a deeper understanding of the math behind, refer to the [`Pendle V2 AMM Whitepaper`](https://github.com/pendle-finance/pendle-v2-resources/blob/main/whitepapers/V2_AMM.pdf) and [`MarketMathCore Contract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/MarketMathCore.sol#L193-L217).
 
 
 ### [`redeemRewards`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L231-L237)
@@ -264,27 +264,27 @@ $$
 
 where **lnImpliedRate** is the natural logarithm of the implied interest rate at the current market state, and **Δt** is the time elapsed.
 
-From these cumulative values, you can compute the **geometric mean price of PT** over a given interval (see [Introduction to PT Oracle](/Developers/Oracles/IntroductionOfPtOracle) for details).
+From these cumulative values, you can compute the **geometric mean price of PT** over a given interval (see [Introduction to PT Oracle](../Oracles/IntroductionOfPtOracle) for details).
 
 ### Integration Guide
 
-See [How to Integrate PT and LP Oracles](/Developers/Oracles/HowToIntegratePtAndLpOracle) for implementation details.
+See [How to Integrate PT and LP Oracles](../Oracles/HowToIntegratePtAndLpOracle) for implementation details.
 
 
 ## FAQ
 
 ### Why is there no swapExactSy function?
 
-Unlike standard AMMs, Pendle's AMM only allows swapping exact PT in/out. Therefore, functions like `swapExactSyForPt` and `swapPtForExactSy` should generally be avoided. If necessary, use PendleRouter's `swapExactSyForPt` with approx parameters. Refer to the [PendleRouter documentation](/Developers/Contracts/PendleRouter/ApiReference/PtFunctions#swapexactsyforpt) for details.
+Unlike standard AMMs, Pendle's AMM only allows swapping exact PT in/out. Therefore, functions like `swapExactSyForPt` and `swapPtForExactSy` should generally be avoided. If necessary, use PendleRouter's `swapExactSyForPt` with approx parameters. Refer to the [PendleRouter documentation](./PendleRouter/ApiReference/PtFunctions#swapexactsyforpt) for details.
 
 ### How can I trade YT tokens when the Market only contains PT and SY?
 
-YT tokens can be traded via [flash swaps](/ProtocolMechanics/LiquidityEngines/AMM#flash-swaps). Use the PendleRouter's `swapExactTokenForYt` or `swapExactYtForToken` functions, which handle the necessary flash swap logic and token transfers. Refer to the [PendleRouter documentation](/Developers/Contracts/PendleRouter/ApiReference/YtFunctions#swapexacttokenforyt) for details.
+YT tokens can be traded via [flash swaps](../../ProtocolMechanics/LiquidityEngines/AMM#flash-swaps). Use the PendleRouter's `swapExactTokenForYt` or `swapExactYtForToken` functions, which handle the necessary flash swap logic and token transfers. Refer to the [PendleRouter documentation](./PendleRouter/ApiReference/YtFunctions#swapexacttokenforyt) for details.
 
 
 ### Why can’t I swap PT after expiry?
 
-At expiry, PT can be redeemed for the underlying asset. Market-making no longer makes economic sense at this point and would enable circular arbitrage. To redeem PT post-expiry, use the [Router](/Developers/Contracts/PendleRouter/ApiReference/LiquidityFunctions#removeliquiditysingletoken).
+At expiry, PT can be redeemed for the underlying asset. Market-making no longer makes economic sense at this point and would enable circular arbitrage. To redeem PT post-expiry, use the [Router](./PendleRouter/ApiReference/LiquidityFunctions#removeliquiditysingletoken).
 
 ### Should I use the Router or interact with the Market directly?
 

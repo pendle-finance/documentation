@@ -144,7 +144,7 @@ PT_USD_oracle = PendleChainlinkOracleWithQuote(
   - `twapDuration` is the TWAP duration you want to use, chosen in the previous section.
   - `0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2` is the address of the deployed Pendle Oracle.
       - It was deployed to have the same address for all network.
-      - Refer to [Deployment](../Deployments/Ethereum.md) section for the full list of addresses.
+      - Refer to [Deployments on GitHub](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments) section for the full list of addresses.
       - The deployed ChainLink oracles **wrap** this oracle.
       - Please refer to the _Using Pendle Oracle_ way if you want to use it directly.
 
@@ -189,7 +189,7 @@ We have deployed an a contract that helps obtaining the price of PT/YT/LP token 
 
 The contract is at address `0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2`.
   - It was deployed to have the same address for all network.
-  - Refer to [Deployment](../Deployments/Ethereum.md) section for the full list of addresses.
+  - Refer to [Deployments on GitHub](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments) section for the full list of addresses.
 
 Getting the price can be done simply by calling the corresponding function ([source](https://github.com/pendle-finance/pendle-examples-public/blob/642b1ab2784b3015691d6c26a2684cd5f7585b0d/test/OracleSample.sol#L38-L46)).
 
@@ -341,13 +341,13 @@ this fact is important to remember.
 
 ### For PT liquidation
 * When a liquidation with $PT$ as collateral occurs, commonly, the liquidator will have to sell $PT$ into common asset to pay their debt.
-* In Pendle's system, we support converting $PT$ back to $SY$ by selling $PT$ on our AMM (before maturity) or redeeming directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output token of $SY$ (see [EIP-5115](https://eips.ethereum.org/EIPS/eip-5115)).
+* In Pendle's system, we support converting $PT$ back to $SY$ by selling $PT$ on our AMM (before maturity) or redeeming directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output token of $SY$.
 * For reference, we have written the [`BoringPtSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/oracles/samples/BoringPtSeller.sol) contract to sell $PT$ into one of the output token.
 * You can extend this abstract contract to use in a liquidation system.
 
 ### For LP liquidation
 * When a liquidation with $LP$ as collateral occurs, commonly, the liquidator will have to sell $LP$ into common asset to pay their debt.
-* In Pendle's system, we support converting $LP$ back to $SY$ by removing liquidity single-sided into $SY$ on our AMM (before maturity) or redeeming $PT$ + $SY$ and redeeming $PT$ to $SY$ directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output token of $SY$ (see [EIP-5115](https://eips.ethereum.org/EIPS/eip-5115)).
+* In Pendle's system, we support converting $LP$ back to $SY$ by removing liquidity single-sided into $SY$ on our AMM (before maturity) or redeeming $PT$ + $SY$ and redeeming $PT$ to $SY$ directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output token of $SY$.
 * For reference, we have written the [`BoringLpSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/oracles/samples/BoringLpSeller.sol) contract to sell $LP$ into one of SY's output tokens.
 * You can extend this abstract contract to use in a liquidation system.
 

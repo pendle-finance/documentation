@@ -8,7 +8,7 @@ This document covers all functions for trading Yield Tokens (YT) in Pendle marke
 
 ## Token to YT Trading
 
-Since AMM only supports swaps by exact YT, to swap exact tokens for YT requires binary search approximation to find the correct amount of SY needed to achieve the desired YT output. For best usage, use the [SDK](/docs/pendle-v2/Developers/Backend/HostedSdk.mdx#features) for better approximation since running binary search on-chain is costly.
+Since AMM only supports swaps by exact YT, to swap exact tokens for YT requires binary search approximation to find the correct amount of SY needed to achieve the desired YT output. For best usage, use the [SDK](../../../Backend/HostedSdk#features) for better approximation since running binary search on-chain is costly.
 
 ### swapExactTokenForYt
 
@@ -32,9 +32,9 @@ function swapExactTokenForYt(
 | receiver | `address` | Address to receive YT tokens |
 | market | `address` | Pendle market address |
 | minYtOut | `uint256` | Minimum YT tokens to receive |
-| guessYtOut | [`ApproxParams`](/Developers/Contracts/PendleRouter/ApiReference/types#approxparams) | Approximation parameters |
-| input | [`TokenInput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokeninput) | Token input configuration |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| guessYtOut | [`ApproxParams`](./Types#approxparams) | Approximation parameters |
+| input | [`TokenInput`](./Types#tokeninput) | Token input configuration |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -48,7 +48,7 @@ function swapExactTokenForYt(
 Most common function for buying YT tokens with any supported token. The function converts your token to SY and then swaps SY for YT, first filling available limit orders, then using the AMM for any remaining amount.
 
 **Simple Version Available**
-For basic operations without custom parameters, use [`swapExactTokenForYtSimple`](/Developers/Contracts/PendleRouter/ApiReference/SimpleFunctions#swapexacttokenforytSimple) which automatically handles approximation and skips limit order functionality.
+For basic operations without custom parameters, use [`swapExactTokenForYtSimple`](./SimpleFunctions#swapexacttokenforytSimple) which automatically handles approximation and skips limit order functionality.
 
 ### swapExactSyForYt
 
@@ -73,8 +73,8 @@ function swapExactSyForYt(
 | market | `address` | Pendle market address |
 | exactSyIn | `uint256` | Exact amount of SY tokens to swap |
 | minYtOut | `uint256` | Minimum YT tokens to receive |
-| guessYtOut | [`ApproxParams`](/Developers/Contracts/PendleRouter/ApiReference/types#approxparams) | Approximation parameters |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| guessYtOut | [`ApproxParams`](./Types#approxparams) | Approximation parameters |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -87,7 +87,7 @@ function swapExactSyForYt(
 Direct and efficient method when you already have SY tokens and want to buy YT tokens.
 
 **Simple Version Available**
-For basic operations without custom parameters, use [`swapExactSyForYtSimple`](/Developers/Contracts/PendleRouter/ApiReference/SimpleFunctions#swapexactsyforytSimple) which automatically handles approximation and skips limit order functionality.
+For basic operations without custom parameters, use [`swapExactSyForYtSimple`](./SimpleFunctions#swapexactsyforytSimple) which automatically handles approximation and skips limit order functionality.
 
 ## YT to Token Trading
 
@@ -112,8 +112,8 @@ function swapExactYtForToken(
 | receiver | `address` | Address to receive tokens |
 | market | `address` | Pendle market address |
 | exactYtIn | `uint256` | Exact amount of YT tokens to swap |
-| output | [`TokenOutput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokenoutput) | Token output configuration |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| output | [`TokenOutput`](./Types#tokenoutput) | Token output configuration |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -148,7 +148,7 @@ function swapExactYtForSy(
 | market | `address` | Pendle market address |
 | exactYtIn | `uint256` | Exact amount of YT tokens to swap |
 | minSyOut | `uint256` | Minimum SY tokens to receive |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
