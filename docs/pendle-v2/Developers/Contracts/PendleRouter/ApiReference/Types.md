@@ -47,7 +47,7 @@ When `tokenIn` is any ERC20 token that needs to be swapped to a supported SY tok
 - Set `pendleSwap` to the swap aggregator address
 - Set `swapData` with proper aggregator configuration.
   
-    **E.g**: When you had USDC token and want to mint SY-sUSDe:
+    **E.g**: When you have USDC and want to mint SY-sUSDe:
     - Set `tokenIn = USDC`
     - Set `tokenMintSy = SY-sUSDe`
     - Set `pendleSwap = 0xd4F480965D2347d421F1bEC7F545682E5Ec2151D`
@@ -455,7 +455,7 @@ ApproxParams memory customApprox = ApproxParams({
     guessMax: type(uint256).max,
     guessOffchain: estimatedOutput,  // Use off-chain calculation if available
     maxIteration: 512,               // Higher precision
-    eps: 1e15                        // Tighter tolerance (0.001%)
+    eps: 1e15                        // Looser tolerance (0.1%)
 });
 ```
 

@@ -9,7 +9,7 @@ hide_table_of_contents: true
 **Important:** Stay up to date with the latest developer updates and get support from our team:
 
 - **Telegram**: Join [t.me/pendledevelopers](https://t.me/pendledevelopers) for all development updates, API changes, and important announcements
-- **Telegram bot**: We have a telegram bot for developers to ask about the API at [t.me/peepo_the_engineer_bot](https://t.me/peepo_the_engineer_bot)
+- **Telegram bot**: We have a Telegram bot for developers to ask about the API at [t.me/peepo_the_engineer_bot](https://t.me/peepo_the_engineer_bot)
 - **Discord**: Get technical support on our [Discord Developer Channel](https://pendle.finance/discord) with responses within 24 hours
 
 ## For AI users

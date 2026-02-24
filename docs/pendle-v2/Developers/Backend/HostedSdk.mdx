@@ -340,7 +340,7 @@ The Convert API returns the following response structure:
 | `action` | string | Yes | The classified and executed action (e.g., `mint-py`, `swap`, `add-liquidity`) |
 | `inputs` | [TokenAmountResponse[]](#tokenamountresponse) | Yes | Input tokens and amounts used in the action |
 | `requiredApprovals` | [TokenAmountResponse[]](#tokenamountresponse) | No | Tokens requiring approval before execution |
-| `routes` | [ConvertResponse[]](#convertresponse) | Yes | Array of route execution details, sorted by decresing output amount |
+| `routes` | [ConvertResponse[]](#convertresponse) | Yes | Array of route execution details, sorted by decreasing output amount |
 
 #### TokenAmountResponse
 
@@ -408,7 +408,7 @@ Routing is a feature of the Pendle SDK that helps users find the most optimal ro
 
 To take advantage of the routing feature, users need to set the `enableAggregator` option to `true`. When this option is enabled, the system will automatically perform routing to find the most optimal route for the user's transaction. This ensures that users always get the best possible outcome when interacting with the Pendle system.
 
-##### Select aggregators
+#### Select aggregators
 
 When `enableAggregator` is set to `true`, you can control which aggregators are used by specifying the `aggregators` parameter. This parameter accepts a comma-separated list of aggregator names (e.g. "kyberswap,odos"). If not specified, the system will use all available aggregators to find the optimal route.
 
@@ -423,7 +423,7 @@ Currently supported aggregators (can be fetched from [fetch supported aggregator
 | `okx`       | 10                     |
 | `paraswap`  | 15                     |
 
-Example, this request will use KyberSwap and Odos aggregators to find the optimal route, and it cost 25 computing units (5 from kyberswap, 15 from odos, and 5 from the base computing cost):
+For example, this request will use KyberSwap and Odos aggregators to find the optimal route, and it costs 25 computing units (5 from kyberswap, 15 from odos, and 5 from the base computing cost):
 
 ```ts
 export async function addLiquiditySingleToken() {
@@ -451,7 +451,7 @@ export async function addLiquiditySingleToken() {
 
 By default, when using aggregators, the system will use public API keys for each aggregator. This means that the computing unit cost for each aggregator will be added to the total cost of the request. To reduce the computing unit cost, you can use your own API key for each aggregator. This way, the computing unit cost for that aggregator will be reduced to 0. For example, if you use your own API key for Odos, the total computing unit cost will be 5 (base cost) + 5 (kyberswap cost) + 0 (odos cost with custom API key) = 10 computing units.
 
-Currently you can use aggregator with your own API key by specifying specific field in the request headers.
+Currently, you can use an aggregator with your own API key by specifying the corresponding field in the request headers.
 | Aggregator  | Header Key           | Note                          |
 | ----------- | -------------------- | ------------------------------------ |
 | `kyberswap` | `KYBERSWAP-API-KEY`  | |
@@ -459,7 +459,7 @@ Currently you can use aggregator with your own API key by specifying specific fi
 | `okx`       | `OKX-ACCESS-KEY`, `OKX-ACCESS-SECRET`, `OKX-PASSPHRASE` | Need all three to return a valid response |
 | `paraswap`  | `PARASWAP-API-KEY` | |
 
-When using custom aggregators, please make sure to include the required headers in your request. If the headers are not provided, the system will default to using the public API for that aggregator.
+When using custom aggregator keys, make sure to include the required headers in your request. If the headers are not provided, the system will use the public API key for that aggregator.
 
 
 ### Additional data

@@ -297,7 +297,7 @@ function removeLiquidityDualTokenAndPt(
 
 | Name | Type | Description |
 |------|------|-------------|
-| netTokenOut | `uint256` | Amount tokens received |
+| netTokenOut | `uint256` | Amount of tokens received |
 | netPtOut | `uint256` | PT tokens received |
 | netSyInterm | `uint256` | SY tokens converted to underlying |
 
@@ -405,7 +405,7 @@ function removeLiquiditySingleToken(
 
 | Name | Type | Description |
 |------|------|-------------|
-| netTokenOut | `uint256` | Amount tokens received |
+| netTokenOut | `uint256` | Amount of tokens received |
 | netSyFee | `uint256` | Trading fees paid in SY |
 | netSyInterm | `uint256` | SY tokens before conversion |
 
