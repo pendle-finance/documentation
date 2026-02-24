@@ -43,7 +43,7 @@ All Pendle API endpoints are rate-limited to ensure service stability and fair u
 
 ### How Rate Limiting Works
 
-Pendle uses a **Computing Unit (CU)** based system, every endpoint have a CU cost (could be fixed or dynamic depending on the endpoint).
+Pendle uses a **Computing Unit (CU)** based system. Every endpoint has a CU cost, which may be fixed or dynamic depending on the endpoint.
 The rate limit is calculated based on the total CU cost of all endpoints.
 
 Each user (IP) has a rate limit of 100 CU per minute, and 200,000 CU per week.
@@ -56,13 +56,13 @@ Both limits apply simultaneously. You must stay within both the per-minute AND w
 
 #### Computing Unit Costs
 
-Most RESTful API endpoints have fixed costs (typically 1-5 CU) wheare HostedSdk has dynamic costs depends on the number of aggregators used. Check the swagger documentation for specific costs - they're displayed in the "CU" box before each endpoint description.
+Most RESTful API endpoints have fixed costs (typically 1-5 CU), whereas the Hosted SDK has dynamic costs depending on the number of aggregators used. Check the swagger documentation for specific costs - they're displayed in the "CU" box before each endpoint description.
 
 More on computing unit costs for HostedSdk can be found in [HostedSdk.mdx](./HostedSdk.mdx#select-aggregators).
 
 #### Rate Limit Headers
 
-Our endpoints return following headers to help you monitor your usage:
+Our endpoints return the following headers to help you monitor your usage:
 
 | Header | Description |
 |--------|-------------|
@@ -97,9 +97,9 @@ x-ratelimit-weekly-reset: 1724206817
 
 ### I get rate limited, what should I do?
 
-Our rate limit was designed so that most users can use the API without facing any rate limiting issues unless you are calling the API unreasonably fast.
+Our rate limit was designed so that most users can use the API without facing any rate limiting issues, unless you are calling the API unreasonably fast.
 
-So before requesting increased rate limits, please make sure you are not calling the API at an unreasonable rate, follow our best practices and examples.
+So before requesting increased rate limits, please make sure you are not calling the API at an unreasonable rate. Follow our best practices and examples.
 
 If after all that, you are still getting rate limited, you can consider upgrading your plan, details below.
 
@@ -183,7 +183,7 @@ A: Use Hosted SDK when you need to **send transactions** to the blockchain (swap
 
 #### **Q: How do I know the exact output amount before sending a transaction?**
 
-A: There is no way to know the exact output amount before sending a transaction. All the output amounts are calculated based on the current market conditions, and they are subject to change until the transaction is executed, you can control how much the output amount can vary compared to the expected amount by setting the `slippage` parameter.
+A: There is no way to know the exact output amount before sending a transaction. All output amounts are calculated based on current market conditions and are subject to change until the transaction is executed. You can control how much the output amount can vary compared to the expected amount by setting the `slippage` parameter.
 
 #### **Q: Why do I get different results each time I call the same endpoint?**
 
@@ -191,12 +191,10 @@ A: Market conditions change constantly. Each call reflects the current state of 
 
 #### **Q: Do I need to approve tokens before using the Hosted SDK?**
 
-A: Short answer is No, long answer is Yes.
-- Short answer: You don't need to approve/have enough token balance to call hosted sdk API.
-- Long answer: Our hosted sdk try its best to return a most correct route by simulating all the routes it returns,
-however if you don't have enough token or approval, the hosted sdk couldn't simulate the call,
-the return route will be preview route, which could be different from actual route.
-So TLDR: if you have enough approval and balance, SDK will beable to simulate -> more accurate route. Otherwise, all routes are preview routes.
+A: Short answer: no. Long answer: yes.
+- Short answer: You don't need to approve or have enough token balance to call the Hosted SDK API.
+- Long answer: The Hosted SDK tries its best to return the most accurate route by simulating all the routes it generates. However, if you don't have enough tokens or approvals, the SDK can't simulate the call, and the returned route will be a preview route, which could differ from the actual route.
+In short: if you have sufficient approval and balance, the SDK will be able to simulate the transaction, resulting in a more accurate route. Otherwise, all routes are preview routes.
 
 Also, the API response includes a `requiredApprovals` field listing tokens that need approval. Approve these tokens to the router contract before sending your transaction.
 
@@ -206,11 +204,11 @@ A: Obtain API keys from aggregator partners (KyberSwap, Odos, OKX) and pass them
 
 #### **Q: What happens if I don't specify which aggregators to use?**
 
-A: If `enableAggregator=true` but no `aggregators` parameter is provided, the system will use a preset set of aggregators will be used, which may change over time for optimization.
+A: If `enableAggregator=true` but no `aggregators` parameter is provided, a preset set of aggregators will be used, which may change over time for optimization.
 
 #### **Q: Can I swap any PT to any other PT?**
 
-A: Not all PT pairs are swappable. Try using the Convert API, if the swap is not supported, the API will return an error.
+A: Not all PT pairs are swappable. Try using the Convert API. If the swap is not supported, the API will return an error.
 
 #### **Q: What does the `needScale` parameter do?**
 

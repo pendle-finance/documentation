@@ -16,7 +16,7 @@ For Hosted SDK, rate limiting, and Backend API questions, see the **[API Overvie
 ### How can I deploy a new SY Token on Pendle?
 Pendle's smart contracts are permissionless, meaning anyone can deploy a new Standardized Yield (SY) Token without requiring approval from the Pendle team. To implement an SY Token, you must follow the Pendle SY Token standard, ensuring compatibility with the ecosystem. Detailed guidance, including contract structure and best practices, can be found in the [StandardizedYield documentation](./Contracts/StandardizedYield).
 
-For community listing a new asset, see the [Community Listing guide](./Integration/CommunityListing) and the [SY writing guide](https://pendle.notion.site/How-to-write-a-SY-A-guide-207567a21d378069aecbf20176591d93).
+To community-list a new asset, see the [Community Listing guide](./Integration/CommunityListing) and the [SY writing guide](https://pendle.notion.site/How-to-write-a-SY-A-guide-207567a21d378069aecbf20176591d93).
 
 ### How can I generate all the params for the Router on-chain?
 Please refer to the following:
@@ -79,7 +79,7 @@ Use the [Pendle Hosted SDK](./Backend/HostedSdk.mdx) to simulate the swap. This 
 
 ## Rewards & Interest
 
-### Getting Up-to-Date `accruedRewards` On-Chain (Applicable to SY, YT, & LP)
+### How can I get up-to-date `accruedRewards` on-chain? (Applicable to SY, YT, & LP)
 
 There are two methods:
 
@@ -90,11 +90,11 @@ There are two methods:
 
 Yes, the output can change if the underlying protocol adds new reward tokens. However, no reward tokens will ever be removed.
 
-### How to read unclaimed Rewards and Interest for SY/YT/Market
+### How can I read unclaimed rewards and interest for SY/YT/Market?
 
 **On-Chain Method:**
 
-To read for SY, please execute an `eth_call` (`callStatic` in ethersjs) to the following function of SY:
+To read for SY, please execute an `eth_call` (`callStatic` in ethers.js) to the following function of SY:
 
 ```solidity
 function claimRewards(address user) external returns (uint256[] memory rewardAmounts);
@@ -134,7 +134,7 @@ Yes. The [`pendle-generic-balance-fetcher`](https://github.com/Pendle-Finance-Pe
 
 ### Why does the quantity of aTokens fluctuate?
 
-aTokens are rebasing tokens from Aave, meaning their quantity accrues rewards in real-time. This property causes the token balance to fluctuate, even during a transfer. Consequently, if you attempt to transfer a specific amount, the actual amount received might be slightly different (e.g., A-1 instead of A), which can lead to transaction failures if not accounted for.
+aTokens are rebasing tokens from Aave, meaning their quantity accrues rewards in real-time. This property causes the token balance to fluctuate, even during a transfer. Consequently, if you attempt to transfer a specific amount, the actual amount received might be slightly different (e.g., 99.9999 instead of 100), which can lead to transaction failures if not accounted for.
 
 To prevent failures, check the aToken balance immediately before each transfer or operation that relies on a precise quantity.
 
@@ -154,7 +154,7 @@ Not all PT pairs are swappable. There is no static list of available pairs — c
 
 ---
 
-# Supplemental Knowledge Base
+## Supplemental Knowledge Base
 
 :::info AI-optimized reference
 This section contains supplemental Q&A and technical insights gathered from real partner integrations. It is intended to be searched and read by AI tools to provide more accurate answers about the Pendle protocol. The content below supplements the main documentation and covers edge cases, best practices, and technical nuances.
@@ -177,7 +177,7 @@ These insights come from real conversations with technical partners during integ
 
 **Q: Is there a value that can be used as an upper bound for LP-to-SY?**
 
-LP in theory can have a value as high as infinity if the fee generated is infinity. However, an upper bound of approximately **3 units** is somewhat reasonable for data validation purposes. (This is not security advice.)
+In theory, an LP token's value could be unbounded if accumulated fees were infinite. However, an upper bound of approximately **3 units** is somewhat reasonable for data validation purposes. (This is not security advice.)
 
 ### PT Pricing: Always Price to SY, Not Asset
 

@@ -27,7 +27,7 @@ The full tutorial source code is available in [RouterSample.sol](https://github.
 - [Add Liquidity (Keep YT)](#add-liquidity-keep-yt)
 
 ### Other Operations
-- [Mint/Burn SY](#mint-sy-from-token)
+- [Mint/Redeem SY](#mint-sy-from-token)
 - [Mint/Redeem PT & YT](#mint-pt--yt-from-token)
 
 ---
@@ -66,7 +66,7 @@ function createTokenOutputStruct(
 ## PT Trading
 
 ### Buy PT with Token
-Buying PT with underlying token. This example uses wstETH to buy PT-wstETH.
+Buying PT with the underlying token. This example uses wstETH to buy PT-wstETH.
 ```solidity
 address market = 0xD0354D4e7bCf345fB117cabe41aCaDb724eccCa2;
 address wstETH = 0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0;
@@ -84,7 +84,7 @@ IERC20(wstETH).approve(address(router), tokenAmount);
 ```
 
 ### Sell PT for Token
-Selling PT for underlying token. This example uses PT-wstETH to sell for wstETH.
+Selling PT for the underlying token. This example uses PT-wstETH to sell for wstETH.
 ```solidity
 address market = 0xD0354D4e7bCf345fB117cabe41aCaDb724eccCa2;
 address wstETH = 0x7f39C581F595B53c5cb19bD0b3f8dA6c935E2Ca0;
@@ -106,7 +106,7 @@ IERC20(PT).approve(address(router), ptAmount);
 ## YT Trading
 
 ### Buy YT with Token
-Buying YT with underlying token. This example uses wstETH to buy YT-wstETH.
+Buying YT with the underlying token. This example uses wstETH to buy YT-wstETH.
 
 ```solidity
 address market = 0xD0354D4e7bCf345fB117cabe41aCaDb724eccCa2;
@@ -125,7 +125,7 @@ IERC20(wstETH).approve(address(router), tokenAmount);
 ```
 
 ### Sell YT for Token
-Selling YT for underlying token. This example uses YT-wstETH to sell for wstETH.
+Selling YT for the underlying token. This example uses YT-wstETH to sell for wstETH.
 
 ```solidity
 address market = 0xD0354D4e7bCf345fB117cabe41aCaDb724eccCa2;
@@ -148,7 +148,7 @@ IERC20(YT).approve(address(router), ytAmount);
 ## Liquidity Management
 
 ### Add Liquidity (Zap In)
-Add liquidity to a market using a single underlying token. This example uses wstETH to add liquidity to wstETH market.
+Add liquidity to a market using a single underlying token. This example uses wstETH to add liquidity to the wstETH market.
 
 ```solidity
 address market = 0xD0354D4e7bCf345fB117cabe41aCaDb724eccCa2;
@@ -167,7 +167,7 @@ IERC20(wstETH).approve(address(router), tokenAmount);
 ```
 
 ### Remove Liquidity (Zap Out)
-Remove liquidity from a market to a single underlying token. This example uses wstETH market to remove liquidity to wstETH.
+Remove liquidity from a market to a single underlying token. This example removes liquidity from the wstETH market to receive wstETH.
 
 ```solidity
 address market = 0xD0354D4e7bCf345fB117cabe41aCaDb724eccCa2;
@@ -185,7 +185,7 @@ IERC20(market).approve(address(router), lpAmount);
 ```
 
 ### Add Liquidity (Keep YT)
-Add liquidity to a market using a single underlying token while keeping the YT. This example uses wstETH to add liquidity to wstETH market while keeping the YT. More information about this function can be found in the [documentation](./ApiReference/LiquidityFunctions#addliquiditysingletokenkeepyt).
+Add liquidity to a market using a single underlying token while keeping the YT. This example uses wstETH to add liquidity to the wstETH market while keeping the YT. More information about this function can be found in the [documentation](./ApiReference/LiquidityFunctions#addliquiditysingletokenkeepyt).
 
 ```solidity
 address market = 0xD0354D4e7bCf345fB117cabe41aCaDb724eccCa2;
@@ -206,7 +206,7 @@ IERC20(wstETH).approve(address(router), tokenAmount);
 
 ### Mint SY from Token
 
-Mint SY using underlying token. This example uses wstETH to mint SY-wstETH.
+Mint SY using the underlying token. This example uses wstETH to mint SY-wstETH.
 
 ```solidity
 address market = 0xD0354D4e7bCf345fB117cabe41aCaDb724eccCa2;
@@ -225,7 +225,7 @@ uint256 netSyOut = router.mintSyFromToken(
 
 ### Redeem SY to Token
 
-Redeem SY to underlying token. This example uses SY-wstETH to redeem to wstETH.
+Redeem SY to the underlying token. This example uses SY-wstETH to redeem to wstETH.
 
 ```solidity
 address market = 0xD0354D4e7bCf345fB117cabe41aCaDb724eccCa2;
@@ -244,7 +244,7 @@ uint256 netTokenOut = router.redeemSyToToken(
 
 ### Mint PT & YT from Token
 
-Mint both PT and YT using underlying token. This example uses wstETH to mint PT-wstETH and YT-wstETH.
+Mint both PT and YT using the underlying token. This example uses wstETH to mint PT-wstETH and YT-wstETH.
 
 ```solidity
 address market = 0xD0354D4e7bCf345fB117cabe41aCaDb724eccCa2;
@@ -264,7 +264,7 @@ IERC20(wstETH).approve(address(router), tokenAmount);
 
 ### Redeem PT & YT to Token
 
-Redeem both PT and YT to underlying token. This example uses PT-wstETH and YT-wstETH to redeem to wstETH.
+Redeem both PT and YT to the underlying token. This example uses PT-wstETH and YT-wstETH to redeem to wstETH.
 
 ```solidity
 address market = 0xD0354D4e7bCf345fB117cabe41aCaDb724eccCa2;

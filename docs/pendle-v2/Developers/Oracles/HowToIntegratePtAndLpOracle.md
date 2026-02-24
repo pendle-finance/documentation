@@ -55,7 +55,7 @@ function _test_oracle_ready(address marketToCheck, uint32 duration) public view 
         oracle.getOracleState(marketToCheck, duration);
 
     if (increaseCardinalityRequired) {
-        // <=============== (1) - Oracle need to be initialized
+        // <=============== (1) - Oracle needs to be initialized
     }
 
     if (!oldestObservationSatisfied) {
@@ -87,7 +87,7 @@ So on Ethereum, for `duration` of 900 seconds, `cardinalityRequired` can be 85.
 <details>
     <summary>Calculate <code>cardinalityRequired</code></summary>
 
-    In general, it can calculated like this
+    In general, it can be calculated like this
 
     $$
     \mathtt{cardinalityRequired} \approx
@@ -111,20 +111,20 @@ Now you can call functions to get the observed price!
 ## Price Retrieval
 
 We have provided a few ways to obtain the price. Select one of the following
-tab to choose the one that best suits your needs.
+tabs to choose the one that best suits your needs.
 
 <Tabs>
 
 <TabItem value="chainlink-oracle" label="Using ChainLink oracle" default>
 
-We have provided a way to the price, with the same interface as ChainLink oracles.
+We have provided a way to get the price, with the same interface as ChainLink oracles.
 
 The source code of the whole example can be found here:
 - https://github.com/pendle-finance/pendle-examples-public/blob/main/test/ChainlinkOracleSample.sol
 
 ### Step 1. Deploy the oracle (if not already deployed)
 
-If the oracle are not already deployed, you can deploy yourself the same as this `setUp` function ([source](https://github.com/pendle-finance/pendle-examples-public/blob/642b1ab2784b3015691d6c26a2684cd5f7585b0d/test/ChainlinkOracleSample.sol#L30-L41)).
+If the oracle is not already deployed, you can deploy it yourself the same as this `setUp` function ([source](https://github.com/pendle-finance/pendle-examples-public/blob/642b1ab2784b3015691d6c26a2684cd5f7585b0d/test/ChainlinkOracleSample.sol#L30-L41)).
 
 ```solidity title="code fragment of setUp function"
 factory = new PendleChainlinkOracleFactory(0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2);
@@ -143,20 +143,20 @@ PT_USD_oracle = PendleChainlinkOracleWithQuote(
   - `market` is the market address you want to observe the price.
   - `twapDuration` is the TWAP duration you want to use, chosen in the previous section.
   - `0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2` is the address of the deployed Pendle Oracle.
-      - It was deployed to have the same address for all network.
+      - It was deployed to have the same address on all networks.
       - Refer to [Deployments on GitHub](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments) section for the full list of addresses.
       - The deployed ChainLink oracles **wrap** this oracle.
       - Please refer to the _Using Pendle Oracle_ way if you want to use it directly.
 
 </details>
 
-When deploy the oracle, you need to specified the type:
+When deploying the oracle, you need to specify the type:
 - `PendleOracleType.PT_TO_SY` - to get the price of PT in SY.
 - `PendleOracleType.PT_TO_ASSET` - to get the price of PT in the underlying asset.
 
 We support 2 contracts for obtaining the price:
 - `PendleChainlinkOracle` - to get the price of PT in SY/asset.
-- `PendleChainlinkOracleWithQuote` - to get price of PT in a different token if you have the ChainLink oracle of that token with the underlying asset.
+- `PendleChainlinkOracleWithQuote` - to get the price of PT in a different token if you have the ChainLink oracle of that token with the underlying asset.
 
 ### Step 2. Call the oracle
 
@@ -185,10 +185,10 @@ function test_get_prices_in_quote() external view {
 The source code of the whole example can be found here:
 - https://github.com/pendle-finance/pendle-examples-public/blob/main/test/OracleSample.sol
 
-We have deployed an a contract that helps obtaining the price of PT/YT/LP token in SY or asset.
+We have deployed a contract that helps obtain the price of PT/YT/LP token in SY or asset.
 
 The contract is at address `0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2`.
-  - It was deployed to have the same address for all network.
+  - It was deployed to have the same address on all networks.
   - Refer to [Deployments on GitHub](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments) section for the full list of addresses.
 
 Getting the price can be done simply by calling the corresponding function ([source](https://github.com/pendle-finance/pendle-examples-public/blob/642b1ab2784b3015691d6c26a2684cd5f7585b0d/test/OracleSample.sol#L38-L46)).
@@ -332,7 +332,7 @@ $$
 
 Conversion between PT/YT and SY is done similarly.
 
-As Pendle support a wide variety of assets, each with a different `decimals`,
+As Pendle supports a wide variety of assets, each with a different `decimals`,
 this fact is important to remember.
 
 :::
@@ -341,13 +341,13 @@ this fact is important to remember.
 
 ### For PT liquidation
 * When a liquidation with $PT$ as collateral occurs, commonly, the liquidator will have to sell $PT$ into common asset to pay their debt.
-* In Pendle's system, we support converting $PT$ back to $SY$ by selling $PT$ on our AMM (before maturity) or redeeming directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output token of $SY$.
+* In Pendle's system, we support converting $PT$ back to $SY$ by selling $PT$ on our AMM (before maturity) or redeeming directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output tokens of $SY$.
 * For reference, we have written the [`BoringPtSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/oracles/samples/BoringPtSeller.sol) contract to sell $PT$ into one of the output token.
 * You can extend this abstract contract to use in a liquidation system.
 
 ### For LP liquidation
 * When a liquidation with $LP$ as collateral occurs, commonly, the liquidator will have to sell $LP$ into common asset to pay their debt.
-* In Pendle's system, we support converting $LP$ back to $SY$ by removing liquidity single-sided into $SY$ on our AMM (before maturity) or redeeming $PT$ + $SY$ and redeeming $PT$ to $SY$ directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output token of $SY$.
+* In Pendle's system, we support converting $LP$ back to $SY$ by removing liquidity single-sided into $SY$ on our AMM (before maturity) or redeeming $PT$ + $SY$ and redeeming $PT$ to $SY$ directly from `PendleYieldToken` contract (post maturity). This will then allow the liquidator to redeem their $SY$ into one of the output tokens of $SY$.
 * For reference, we have written the [`BoringLpSeller`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/oracles/samples/BoringLpSeller.sol) contract to sell $LP$ into one of SY's output tokens.
 * You can extend this abstract contract to use in a liquidation system.
 

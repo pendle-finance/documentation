@@ -8,7 +8,7 @@ This document covers all functions for trading Yield Tokens (YT) in Pendle marke
 
 ## Token to YT Trading
 
-Since AMM only supports swaps by exact YT, to swap exact tokens for YT requires binary search approximation to find the correct amount of SY needed to achieve the desired YT output. For best usage, use the [SDK](../../../Backend/HostedSdk#features) for better approximation since running binary search on-chain is costly.
+Since the AMM only supports swaps by exact YT, to swap exact tokens for YT requires binary search approximation to find the correct amount of SY needed to achieve the desired YT output. For best usage, use the [SDK](../../../Backend/HostedSdk#features) for better approximation since running binary search on-chain is costly.
 
 ### swapExactTokenForYt
 
@@ -119,7 +119,7 @@ function swapExactYtForToken(
 
 | Name | Type | Description |
 |------|------|-------------|
-| netTokenOut | `uint256` | Amount tokens received |
+| netTokenOut | `uint256` | Amount of tokens received |
 | netSyFee | `uint256` | Trading fees paid in SY |
 | netSyInterm | `uint256` | SY tokens before conversion |
 
