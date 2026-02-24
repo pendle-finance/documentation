@@ -29,7 +29,7 @@ The PYIndex can be retrieved from the YT (Yield Token) contract:
 - **`pyIndexCurrent()`**: Returns the most up-to-date PY index. This is a state-changing function.
 - **`pyIndexStored()`**: Returns the cached PY index without updating. This is a view function.
 
-See the [Yield Tokenization documentation](/docs/pendle-v2/Developers/Contracts/YieldTokenization.md) for more details on PY index behavior.
+See the [Yield Tokenization documentation](../../Contracts/YieldTokenization) for more details on PY index behavior.
 
 ### Simplified Formula
 If your use case does not require accounting for yield token depeg risks, you can ignore the PYIndex and use this simplified version:

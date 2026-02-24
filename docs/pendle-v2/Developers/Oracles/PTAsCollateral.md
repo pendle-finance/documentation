@@ -35,7 +35,7 @@ This use case is similar to depositing a yield bearing asset (like wstETH) and b
   * If Pendle contracts malfunctions or gets exploited, PT could lose value significantly in a short duration, leading to bad debt for the money market protocol.
   * Assessment:
     * Pendle V2 contracts have been audited by 6 auditors, with 3 of the top 4 C4 auditors. Find the audit reports [here](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/audits).
-    * Pendle V2 contract system's components (SY, YT-PT, Market, vePENDLE) are decoupled from each other, only interacting with the other components via interfaces, decreasing the chance for bugs due to complexity and interwoven logic.
+    * Pendle V2 contract system's components (SY, YT-PT, Market, sPENDLE) are decoupled from each other, only interacting with the other components via interfaces, decreasing the chance for bugs due to complexity and interwoven logic.
     * Lindy-ness: There have been no incidents so far in Pendle contracts since June 2021
       * Pendle V2 contracts have been live since November 2022 (peak TVL of $93M)
       * Pendle V1 contracts (with many similar mechanisms to V2) have been live since June 2021, with a peak TVL of $37M

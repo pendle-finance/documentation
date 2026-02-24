@@ -1,8 +1,5 @@
 # sPENDLE
 
-:::info[sPENDLE buybacks will commence on Jan 29th 00:00 UTC, and will begin to distribute yields after 2 weeks.]
-:::
-
 sPENDLE is Pendle’s native governance token that distributes protocol rewards for active participation in the ecosystem. As a staked version of PENDLE, sPENDLE aligns the interest of various stakeholders while contributing to token stability and overall robustness of the Pendle protocol.
 
 ## Staking and Unstaking
@@ -34,7 +31,7 @@ Buy back contract: [0x9e08C5499f953C6297A7755BcBcEd383b606896b](https://ethersca
 ## Accounting
 
 ### Voting Power
-A snapshot of sPENDLE balances is taken whenever a PPP is created and determines the voting power of each user. Voting power for virtual sPENDLE balance is equal to the underlying PENDLE locked in the vePENDLE contract. 
+A snapshot of sPENDLE balances is taken whenever a PPP is created and determines the voting power of each user. Voting power for virtual sPENDLE balance is equal to the underlying PENDLE locked in the vePENDLE contract.
 
 sPENDLE held in whitelisted smart contracts is excluded from voting snapshots.
 
@@ -57,14 +54,14 @@ __January 20th__
 
 __January 29th, 00:00 UTC__
 - vePENDLE locks paused
-- Snapshot of vePENDLE balance and lock duration (for virtual sPENDLE calculation)
-- New PENDLE incentive structure commences
+- Snapshot of locked balance and lock duration (for virtual sPENDLE calculation)
+- New PENDLE incentive structure commences (see [Algorithmic Incentive Module](./Incentives))
 
 ![vePENDLE bonus decay](/img/ProtocolMechanics/vependle_bonus_decay.png "vePENDLE Bonus Decay")
 
 During this period, existing vePENDLE holders receive a virtual sPENDLE balance based on their PENDLE locked and time to full unlock during the snapshot at 00:00 UTC, January 29th. This virtual sPENDLE balance is non-transferable.
 
-The maximum multiplier is 4x for 2 years to unlock (i.e. maximum unlock) and decays to 1x by the unlock date, after which the virtual sPENDLE balance expires. To continue receiving sPENDLE benefits, vePENDLE holders must redeem vePENDLE for PENDLE and stake it as sPENDLE.
+The maximum multiplier is 4x for 2 years to unlock (i.e. maximum unlock) and decays to 1x by the unlock date, after which the virtual sPENDLE balance expires. To continue receiving sPENDLE benefits, vePENDLE holders must redeem their locked PENDLE and stake it as sPENDLE.
 
 ![vePENDLE multiplier illustration](/img/ProtocolMechanics/vependle_bonus_illustration.png "vePENDLE Multiplier Illustration")
 

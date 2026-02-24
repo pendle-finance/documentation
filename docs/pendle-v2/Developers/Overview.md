@@ -40,15 +40,10 @@ hide_table_of_contents: true
 
 - [Contract](./LimitOrder/LimitOrderContract.md) | [Create](./LimitOrder/CreateALimitOrder.md) | [Cancel](./LimitOrder/CancelOrders.mdx) | [Fill](./LimitOrder/FillALimitOrder.md)
 
-## Deployed Contract Addresses
-
-All deployed contracts can be found here: [GitHub link](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments)
-
-All deployed Markets can be found here: [GitHub link](https://github.com/pendle-finance/Pendle-SY-Public)
-
 ## Resources
 
-- [Core Contract Repository](https://github.com/pendle-finance/pendle-core-v2-public) & [Core Contract Addresses](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments)
-- [SY Contract Repository](https://github.com/pendle-finance/Pendle-SY-Public) & [SY Contract Addresses](https://github.com/pendle-finance/Pendle-SY-Public/tree/main/deployments)
+- [Deployed Contract Addresses](./Deployments.md) — Core contracts and market addresses by chain
+- [Core Contract Repository](https://github.com/pendle-finance/pendle-core-v2-public)
+- [SY Contract Repository](https://github.com/pendle-finance/Pendle-SY-Public)
 - [Example Repository](https://github.com/pendle-finance/pendle-examples-public)
 - [Whitepapers](https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers)

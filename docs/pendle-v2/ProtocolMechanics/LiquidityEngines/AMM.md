@@ -4,11 +4,15 @@ hide_table_of_contents: true
 
 # AMM
 
-Pendle’s V2 AMM is designed specifically for trading yield, and takes advantage of the behaviors of PT and YT.
+Pendle’s V2 AMM is designed specifically for trading yield, and takes advantage of the behaviors of PT and YT. Unlike standard AMMs that concentrate liquidity within a **price range**, Pendle’s AMM concentrates liquidity within a pre-configured **yield range** (or Implied APY range). This makes trading within the expected yield boundaries highly efficient, with lower slippage for larger trades.
 
-The AMM model was adapted from Notional Finance's AMM. The AMM curve changes to account for yield accrued over time and narrows PT’s price range as it approaches maturity. By concentrating liquidity into a narrow, meaningful range, the capital efficiency to trade yield is increased as PT approaches maturity
+The AMM model was adapted from Notional Finance’s AMM. The AMM curve changes to account for yield accrued over time and narrows PT’s price range as it approaches maturity (**dynamic curve tightening**). By concentrating liquidity into a narrow, meaningful range, the capital efficiency to trade yield is increased as PT approaches maturity. This automatic tightening reflects the decreasing uncertainty of future yield and is a key factor in minimizing impermanent loss.
 
 Furthermore, we managed to create a pseudo-AMM that allows us to both facilitate PT and YT swaps using just a single pool of liquidity. With a PT/SY pool, PT can be directly traded with SY, while YT trades are also possible via flash swaps.
+
+### Fee Calculation
+
+Unlike traditional AMMs that charge fees on the swap principal, Pendle’s AMM fee is calculated relative to the **yield** being traded. This means the fee is influenced by the time to maturity — a trade made one year before maturity will incur a significantly higher fee than the same size trade made one month before maturity. See [Fees](../Mechanisms/Fees) for the full formula.
 
 ## Liquidity Providers (LP)
 

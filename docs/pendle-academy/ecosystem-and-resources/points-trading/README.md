@@ -3,7 +3,7 @@ import Hint from '@site/src/components/Hint';
 # Points Trading
 
 <Hint style="info">
-Facing problems? Head to our [Support](points-support-page) page!
+Facing problems? Head to our [Support](./points-trading/points-support-page) page!
 </Hint>
 
 Assets with Points on Pendle are consolidated into our Points UI: [https://app.pendle.finance/points](https://app.pendle.finance/points)

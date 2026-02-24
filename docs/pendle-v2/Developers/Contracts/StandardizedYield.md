@@ -91,6 +91,31 @@ Other SYs that are not 1-1 wrap of yieldToken:
 
 For aUSDT and aUSDC, similar considerations apply as for sDAI, scrvUSD, and gDAI. Value them directly in their underlying asset.
 
+## SY Adapters
+
+An SY Adapter is an optional contract that enhances the user experience by enabling **native minting and redemption** through the Pendle Router. Without an adapter, the Router must rely on DEX swaps to convert between a base token and the underlying yield-bearing token, which introduces price impact and fees. An adapter allows the Router to perform this conversion natively.
+
+**Example:** An adapter for SY-sUSDe can handle the conversion `USDC → USDe → sUSDe` directly, avoiding a DEX swap.
+
+### Architecture
+
+An adapter is a **separate contract** that can be plugged into an existing SY contract after deployment by calling `SY.setAdapter()`. This modular design means adapters can be added or updated without redeploying the SY or its associated market.
+
+### Required Functions
+
+A SY adapter must implement four key functions:
+
+| Function | Description |
+|---|---|
+| `convertToDeposit(address tokenIn, uint256 amount)` | Converts a deposit token to the SY's native mint token |
+| `convertToRedeem(address tokenOut, uint256 amount)` | Converts the SY's native redeem token to the desired output token |
+| `previewConvertToDeposit(address tokenIn, uint256 amount)` | Preview (estimate) the result of `convertToDeposit` |
+| `previewConvertToRedeem(address tokenOut, uint256 amount)` | Preview (estimate) the result of `convertToRedeem` |
+
+### Development
+
+Partners are responsible for writing, testing, and auditing their own adapters. For a comprehensive implementation guide, see [How to write a SY adapter](https://github.com/pendle-finance/pendle-core-v2-public) in the Pendle public repository.
+
 ## Extended StandardizedYield
 
 The following are _optional_ methods that a SY can have. They are not the standard methods, but they can help with calculation for better accuracy.

@@ -37,9 +37,33 @@ The selling of YT in the 3rd step above can cause a price impact. But, this can 
 
 ![Keep YT Mode](/img/AppGuide/keep_yt_mode.png "Keep YT Mode")
 
-On Pendle, users have the option to activate **Keep YT Mode**, which allows them to provide liquidity to the PT/SY pool without affecting the price. Normally, when liquidity is added, a portion of the underlying asset is used to purchase PT from the pool (causing price impact), and the rest is wrapped into SY.
+On Pendle, users have the option to activate **Keep YT Mode** (previously called "Zero Price Impact Mode"), which allows them to provide liquidity to the PT/SY pool without affecting the price. Normally, when liquidity is added, a portion of the underlying asset is used to purchase PT from the pool (causing price impact), and the rest is wrapped into SY.
 
-With **Keep YT Mode** enabled, the underlying asset is fully wrapped into SY, a portion of which is used to **mint PT and YT**. The PT and remaining SY are then used for liquidity provision, with the YT returned to the user's wallet. While this method prevents price impact, it results in a portion of the user's capital becoming YT, which doesn't earn LP yield. YT value goes to 0 at maturity but entitles holders to the underlying yield or points. This approach offers a trade-off between **avoiding price impact in the initial zap** in and having a **separate YT component** with different earning potential
+With **Keep YT Mode** enabled, the underlying asset is fully wrapped into SY, a portion of which is used to **mint PT and YT**. The PT and remaining SY are then used for liquidity provision, with the YT returned to the user's wallet. While this method prevents price impact, it results in a portion of the user's capital becoming YT, which doesn't earn LP yield. YT value goes to 0 at maturity but entitles holders to the underlying yield or points. This approach offers a trade-off between **avoiding price impact in the initial zap** in and having a **separate YT component** with different earning potential.
+
+:::tip Keep YT Mode is automatically enabled by default for pools with low liquidity (below approximately $100,000) to protect new LPs.
+:::
+
+### Seeding Initial Liquidity
+
+When seeding a new pool with initial liquidity, it is **mandatory** to enable Keep YT Mode. Without sufficient initial liquidity, early LPs and users who zap in will suffer excessive price impact.
+
+**Recommended seeding amounts:**
+
+| Scenario | Minimum Amount |
+|----------|---------------|
+| Standard pool | **$150,000** (for < 1% price impact on subsequent zaps) |
+| Workable minimum | **$50,000 – $100,000** |
+| Major networks (Ethereum) | **$500,000+** (especially if large migration from an older pool is expected) |
+
+**Best practice:** Deposit a smaller amount first (e.g., $100K), verify that the pool's Implied APY is at the desired level, then proceed with the larger remaining amount to minimize immediate impermanent loss.
+
+### Adding & Removing Liquidity Best Practices
+
+- **Adding liquidity**: Enable Keep YT Mode when adding to any pool to avoid price impact. For large deposits, use Keep YT Mode and place a limit order to sell the retained YT over time.
+- **Removing liquidity**: It is strongly recommended to **manually remove liquidity** to the pool's base assets (SY and PT) rather than using "Zap Out" to a single token, which can cause unnecessary price impact.
+- **Gas optimization**: Choose SY as one of the output tokens instead of the final underlying asset. This returns SY and PT directly, and you can handle the final redemption separately.
+- **Protocol Owned Liquidity (POL)**: There are no conditions or lockups on POL provided to Pendle pools. The protocol that provided liquidity is free to withdraw at any time.
 
 ## Transfer Liquidity
 

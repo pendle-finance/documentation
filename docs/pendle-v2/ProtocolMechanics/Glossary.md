@@ -14,7 +14,7 @@ The asset yield bearing token appreciates in value against. It appears in bracke
 
 #### SY = Standardized Yield
 
-SY is a token standard ([EIP-5115](https://eips.ethereum.org/EIPS/eip-5115)) written by the Pendle team that wraps any yield-bearing token and provides a standardized interface for interacting with any yield-bearing token’s yield generating mechanism. SY is a purely technical component, the user does not interact directly with SY.
+SY is a token standard written by the Pendle team that wraps any yield-bearing token and provides a standardized interface for interacting with any yield-bearing token’s yield generating mechanism. SY is a purely technical component, the user does not interact directly with SY.
 
 #### PT = Principal Token
 
@@ -63,6 +63,14 @@ This value can be negative, meaning that the total value of all the future yield
 #### Exchange Rate
 
 Refers to the exchange rate between the interest-bearing token and its accounting asset
+
+#### LP = Liquidity Provider Token
+
+LP tokens represent a user's share of a Pendle liquidity pool, which is composed of PT and SY. LPs earn returns from multiple sources simultaneously: swap fees, PENDLE incentives, underlying yield from the SY portion, and an implicit fixed yield from the PT portion.
+
+#### LP Wrapper
+
+An ERC-20 token that wraps the underlying LP position on a 1:1 basis, enabling LP tokens to be used as collateral in external money markets while still accruing PENDLE rewards and off-chain points. The wrapper ensures that the original depositor continues to receive all associated rewards.
 
 #### Watermark Rate
 

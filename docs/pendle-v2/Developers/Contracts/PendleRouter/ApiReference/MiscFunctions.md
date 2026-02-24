@@ -28,7 +28,7 @@ function mintSyFromToken(
 | receiver | `address` | Address to receive SY tokens |
 | SY | `address` | SY token contract address |
 | minSyOut | `uint256` | Minimum SY tokens to receive |
-| input | [`TokenInput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokeninput) | Token input configuration |
+| input | [`TokenInput`](./Types#tokeninput) | Token input configuration |
 
 **Return Values**
 
@@ -59,7 +59,7 @@ function redeemSyToToken(
 | receiver | `address` | Address to receive tokens |
 | SY | `address` | SY token contract address |
 | netSyIn | `uint256` | Amount of SY tokens to redeem |
-| output | [`TokenOutput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokenoutput) | Token output configuration |
+| output | [`TokenOutput`](./Types#tokenoutput) | Token output configuration |
 
 **Return Values**
 
@@ -92,7 +92,7 @@ function mintPyFromToken(
 | receiver | `address` | Address to receive PT and YT tokens |
 | YT | `address` | YT token contract address |
 | minPyOut | `uint256` | Minimum PY tokens to mint |
-| input | [`TokenInput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokeninput) | Token input configuration |
+| input | [`TokenInput`](./Types#tokeninput) | Token input configuration |
 
 **Return Values**
 
@@ -124,7 +124,7 @@ function redeemPyToToken(
 | receiver | `address` | Address to receive tokens |
 | YT | `address` | YT token contract address |
 | netPyIn | `uint256` | Amount of PT+YT pairs to redeem |
-| output | [`TokenOutput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokenoutput) | Token output configuration |
+| output | [`TokenOutput`](./Types#tokenoutput) | Token output configuration |
 
 **Return Values**
 
@@ -244,10 +244,10 @@ function redeemDueInterestAndRewardsV2(
 | Name | Type | Description |
 |------|------|-------------|
 | SYs | `IStandardizedYield[]` | Array of SY contracts |
-| YTs | [`RedeemYtIncomeToTokenStruct[]`](/Developers/Contracts/PendleRouter/ApiReference/types#redeemytincometotokenstruct) | YT redemption configurations |
+| YTs | [`RedeemYtIncomeToTokenStruct[]`](./Types#redeemytincometotokenstruct) | YT redemption configurations |
 | markets | `IPMarket[]` | Array of market contracts |
 | pendleSwap | `IPSwapAggregator` | Swap aggregator for token conversions |
-| swaps | [`SwapDataExtra[]`](/Developers/Contracts/PendleRouter/ApiReference/types#swapdata) | Swap configurations |
+| swaps | [`SwapDataExtra[]`](./Types#swapdata) | Swap configurations |
 
 **Return Values**
 
@@ -352,14 +352,14 @@ function exitPreExpToToken(
 | netYtIn | `uint256` | Amount of YT tokens to exit |
 | netLpIn | `uint256` | Amount of LP tokens to exit |
 | output | `TokenOutput` | Output token configuration |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
 | Name | Type | Description |
 |------|------|-------------|
 | totalTokenOut | `uint256` | Total tokens received |
-| params | [`ExitPreExpReturnParams`](/Developers/Contracts/PendleRouter/ApiReference/types#exitpreexpreturnparams) | Detailed breakdown of exit operations |
+| params | [`ExitPreExpReturnParams`](./Types#exitpreexpreturnparams) | Detailed breakdown of exit operations |
 
 **Use Case**
 Complete portfolio liquidation before expiry. Optimally combines PT+YT pairs and swaps remaining tokens.
@@ -390,13 +390,13 @@ function exitPreExpToSy(
 | netYtIn | `uint256` | Amount of YT tokens to exit |
 | netLpIn | `uint256` | Amount of LP tokens to exit |
 | minSyOut | `uint256` | Minimum SY tokens to receive |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
 | Name | Type | Description |
 |------|------|-------------|
-| params | [`ExitPreExpReturnParams`](/Developers/Contracts/PendleRouter/ApiReference/types#exitpreexpreturnparams) | Detailed breakdown of exit operations |
+| params | [`ExitPreExpReturnParams`](./Types#exitpreexpreturnparams) | Detailed breakdown of exit operations |
 
 **Use Case**
 Portfolio liquidation to SY tokens, useful when you want to stay within Pendle ecosystem or perform further operations.
@@ -430,7 +430,7 @@ function exitPostExpToToken(
 | Name | Type | Description |
 |------|------|-------------|
 | totalTokenOut | `uint256` | Total tokens received |
-| params | [`ExitPostExpReturnParams`](/Developers/Contracts/PendleRouter/ApiReference/types#exitpostexpreturnparams) | Breakdown of redemption operations |
+| params | [`ExitPostExpReturnParams`](./Types#exitpostexpreturnparams) | Breakdown of redemption operations |
 
 **Use Case**
 Clean exit after maturity when PT tokens are worth face value. Much simpler than pre-expiry exits.
@@ -463,7 +463,7 @@ function exitPostExpToSy(
 
 | Name | Type | Description |
 |------|------|-------------|
-| params | [`ExitPostExpReturnParams`](/Developers/Contracts/PendleRouter/ApiReference/types#exitpostexpreturnparams) | Breakdown of redemption operations |
+| params | [`ExitPostExpReturnParams`](./Types#exitpostexpreturnparams) | Breakdown of redemption operations |
 
 **Use Case**
 Post-expiry exit to SY tokens, maintaining position within Pendle ecosystem.

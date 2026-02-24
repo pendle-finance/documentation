@@ -21,7 +21,7 @@ A Pendle pool consists of PT and SY. Let’s use stETH as an example of our unde
 
 **The best of both worlds: Earn fixed yield and swap fees with PT liquidity pools**
 
-[Holding PT](chapter-7-providing-liquidity-while-trading-yield#2.-how-to-be-yield-neutral-with-zero-price-impact-mode) gives you fixed yield that does not change with market conditions, and is a safe strategy that can still offer high returns.
+[Holding PT](chapter-7-providing-liquidity-while-trading-yield#2-how-to-be-yield-neutral-with-zero-price-impact-mode) gives you fixed yield that does not change with market conditions, and is a safe strategy that can still offer high returns.
 
 PT can also be used to provide liquidity in our liquidity pools to earn extra yields. When you provide liquidity with PT and the underlying asset (e.g. PT-stETH + stETH), you can earn:
 

@@ -34,7 +34,7 @@ import CardGrid, { Card } from '@site/src/components/CardGrid';
 
 ## FAQ
 
-### YT / PT / LP
+### YT / PT / LP {#yt-pt-lp}
 
 #### 1. What are the differences between YT, PT and LP?
 
@@ -97,15 +97,15 @@ No. It depends on the underlying protocols to decide what to grant the points fo
 
 #### 1. My YT balance is down, what is going on?
 
-That means YT's price is down. See [#id-1.-what-are-the-risks](points-support-page#id-1.-what-are-the-risks "mention") for a list of risks.
+That means YT's price is down. See [#id-1.-what-are-the-risks](points-support-page#1-what-are-the-risks "mention") for a list of risks.
 
 YT's price fluctuates based on market valuation. YT's value is derived from its yields and points receivables. If the market thinks its future yields and points are worth more than what YT is trading at, YT should see demand, driving its price up, and vice-versa.
 
-That said, YT price naturally declines to zero at maturity while it earns yields and points from the underlying LRT. Because the \$ value of points is unknown, Pendle assumes 0 value, hence your YT PnL will be deep in the negatives in the Pendle dashboard. Learn more at [#id-3.-why-does-yt-have-a-negative-long-yield-apy](points-support-page#id-3.-why-does-yt-have-a-negative-long-yield-apy "mention")
+That said, YT price naturally declines to zero at maturity while it earns yields and points from the underlying LRT. Because the \$ value of points is unknown, Pendle assumes 0 value, hence your YT PnL will be deep in the negatives in the Pendle dashboard. Learn more at [#id-3.-why-does-yt-have-a-negative-long-yield-apy](points-support-page#3-why-does-yt-have-a-negative-long-yield-apy "mention")
 
 #### 2. My PT balance is down, what is going on?
 
-That means PT's price is down. See [#id-1.-what-are-the-risks](points-support-page#id-1.-what-are-the-risks "mention") for a list of risks.
+That means PT's price is down. See [#id-1.-what-are-the-risks](points-support-page#1-what-are-the-risks "mention") for a list of risks.
 
 PT's price fluctuates based on market valuation. **However, at maturity PTs will be worth its guaranteed value**. This means that over time, each PT will appreciate toward that value, with some fluctuations in between. PT price gain is guaranteed at maturity, barring any smart contract risk.
 

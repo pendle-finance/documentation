@@ -84,7 +84,7 @@ Providing liquidity on Pendle can be as simple as just a one-click transaction, 
 
 **What is the “Zero Price Impact Mode” in the “Zap” interface in “Pendle Trade”?**
 
-> Please check out [#2.-how-to-be-yield-neutral-with-zero-price-impact-mode](../yield-trading-deep-dives/chapter-7-providing-liquidity-while-trading-yield#2.-how-to-be-yield-neutral-with-zero-price-impact-mode "mention")
+> Please check out [#2-how-to-be-yield-neutral-with-zero-price-impact-mode](../yield-trading-deep-dives/chapter-7-providing-liquidity-while-trading-yield#2-how-to-be-yield-neutral-with-zero-price-impact-mode "mention")
 
 ### LP as part of your yield-trading strategy
 

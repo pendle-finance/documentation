@@ -31,24 +31,24 @@ If you are using GitHub pages for hosting, this command is a convenient way to b
 
 # AI Knowledge Bases
 
-As many of us increasingly rely on AI tools to read and understand project documentation, we’ve added a new folder to the repository: [docs/Developers/](docs/Developers/).
+As many of us increasingly rely on AI tools to read and understand project documentation, we’ve organized supplemental knowledge for AI consumption across the repository.
 
-This folder contains list of questions and answers that helps AI better understand our system and provide more accurate answers when you query them. Our in-house AI is using these knowledge bases!
+### Supplemental Knowledge Base (for AI)
+- **[Developer FAQ & Supplemental Knowledge Base](docs/pendle-v2/Developers/FAQ.md)**: The developer FAQ includes a "Supplemental Knowledge Base" section at the bottom containing partner technical insights, edge cases, and best practices gathered from real integrations. This content is intended to be searched and read by AI tools to provide more accurate answers about the Pendle protocol.
 
-The knowledge bases are stored in the following files:
-- [Knowledge-base.md](docs/Developers/Knowledge-base.md): conversation excerpts with different Pendle partners, useful for answering questions.
-- [dev-knowledge-base.txt](docs/Developers/dev-knowledge-base.txt): Questions and answers for developers, they contains context about our contract system and our API.
-- [user-knowledge-base.txt](docs/Developers/user-knowledge-base.txt): General questions and answers for retail users
-- [api-spec.json](docs/Developers/api-spec.json): the openAPI spec for our public API, at: [https://api-v2.pendle.finance/core/docs#/](https://api-v2.pendle.finance/core/docs#/).
-- [general-knowledge-base.md](docs/Developers/general-knowledge-base.md): general knowledge about the Pendle protocol. Summary from tons of our conversations with partners and users.
+### API Specification:
+- **[api-spec.json](docs/Developers/api-spec.json)**: The complete OpenAPI 3.0 specification for our public API (119 endpoints). Auto-synced from production at [https://api-v2.pendle.finance/core/docs#/](https://api-v2.pendle.finance/core/docs#/).
+
+### For General Understanding:
+- **[user-knowledge-base.txt](docs/Developers/user-knowledge-base.txt)**: User-facing Q&A for retail users covering app usage, claiming rewards, understanding yields, Berachain campaigns, and common troubleshooting (includes Chinese language support).
 
 ## How to use the knowledge bases
 
-- Just clone this repo and ask your AI to index the whole repo, including the knowledge bases folder. A prompt like this should work:
+Just clone this repo and ask your AI to index the whole repo. A prompt like this should work:
 
 ```
 You are a helpful assistant that can answer questions about the Pendle protocol. Your goal is to answer the question based on the context provided.
 
-The data source are files in @docs folder, especially the ones in @docs/Developers/ folder are list of questions and answers that helps you better understand the Pendle protocol. There is a file @docs/Developers/api-spec.json that is the openAPI spec for Pendle public API, use it to recommend the best API endpoint to use for the question if needed.
+The data source are files in the @docs folder. The developer FAQ at @docs/pendle-v2/Developers/FAQ.md contains a Supplemental Knowledge Base section with partner insights and edge cases. There is a file @docs/Developers/api-spec.json that is the openAPI spec for Pendle public API, use it to recommend the best API endpoint to use for the question if needed.
 
 ```

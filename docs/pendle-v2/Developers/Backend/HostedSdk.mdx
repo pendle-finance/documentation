@@ -366,7 +366,7 @@ The Convert API returns the following response structure:
 | `contractCallParamsName` | string[] | Yes | Parameter names array |
 | `contractCallParams` | any[] | Yes | Parameter values array |
 
-#### TransactionDto
+#### TransactionDto {#transactiondto-tx}
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
@@ -412,7 +412,7 @@ To take advantage of the routing feature, users need to set the `enableAggregato
 
 When `enableAggregator` is set to `true`, you can control which aggregators are used by specifying the `aggregators` parameter. This parameter accepts a comma-separated list of aggregator names (e.g. "kyberswap,odos"). If not specified, the system will use all available aggregators to find the optimal route.
 
-Using more aggregators generally results in better optimized routes since there are more options to choose from. However, each aggregator adds to the computing unit cost of the request (see [rate limiting](#rate-limiting)). You can balance between optimization and cost by selectively enabling only the aggregators you want to use.
+Using more aggregators generally results in better optimized routes since there are more options to choose from. However, each aggregator adds to the computing unit cost of the request (see [rate limiting](./ApiOverview.mdx#rate-limiting)). You can balance between optimization and cost by selectively enabling only the aggregators you want to use.
 
 Currently supported aggregators (can be fetched from [fetch supported aggregators](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_getSupportedAggregators) endpoint), this list is subject to change:
 

@@ -28,7 +28,7 @@ function addLiquidityDualTokenAndPt(
 |------|------|-------------|
 | receiver | `address` | Address to receive LP tokens |
 | market | `address` | Pendle market address |
-| input | [`TokenInput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokeninput) | Token input configuration |
+| input | [`TokenInput`](./Types#tokeninput) | Token input configuration |
 | netPtDesired | `uint256` | Desired amount of PT tokens to use |
 | minLpOut | `uint256` | Minimum LP tokens to receive |
 
@@ -101,8 +101,8 @@ function addLiquiditySinglePt(
 | market | `address` | Pendle market address |
 | netPtIn | `uint256` | Amount of PT tokens to use |
 | minLpOut | `uint256` | Minimum LP tokens to receive |
-| guessPtSwapToSy | [`ApproxParams`](/Developers/Contracts/PendleRouter/ApiReference/types#approxparams) | Approximation parameters |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| guessPtSwapToSy | [`ApproxParams`](./Types#approxparams) | Approximation parameters |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -115,7 +115,7 @@ function addLiquiditySinglePt(
 When you only have PT tokens and want to add liquidity. The function will automatically determine the optimal amount of PT to swap for SY to achieve balanced liquidity provision.
 
 **Simple Version Available**
-For basic operations without custom parameters, use [`addLiquiditySinglePtSimple`](/Developers/Contracts/PendleRouter/ApiReference/SimpleFunctions#addliquiditysingleptSimple) which automatically handles approximation and skips limit order functionality.
+For basic operations without custom parameters, use [`addLiquiditySinglePtSimple`](./SimpleFunctions#addliquiditysingleptsimple) which automatically handles approximation and skips limit order functionality.
 
 ### addLiquiditySingleToken
 
@@ -139,9 +139,9 @@ function addLiquiditySingleToken(
 | receiver | `address` | Address to receive LP tokens |
 | market | `address` | Pendle market address |
 | minLpOut | `uint256` | Minimum LP tokens to receive |
-| guessPtReceivedFromSy | [`ApproxParams`](/Developers/Contracts/PendleRouter/ApiReference/types#approxparams) | Approximation parameters |
-| input | [`TokenInput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokeninput) | Token input configuration |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| guessPtReceivedFromSy | [`ApproxParams`](./Types#approxparams) | Approximation parameters |
+| input | [`TokenInput`](./Types#tokeninput) | Token input configuration |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -155,7 +155,7 @@ function addLiquiditySingleToken(
 Most convenient method when you have any supported token and want to add liquidity. The function handles all necessary conversions and swaps automatically.
 
 **Simple Version Available**
-For basic operations without custom parameters, use [`addLiquiditySingleTokenSimple`](/Developers/Contracts/PendleRouter/ApiReference/SimpleFunctions#addliquiditysingletokenSimple) which automatically handles approximation and skips limit order functionality.
+For basic operations without custom parameters, use [`addLiquiditySingleTokenSimple`](./SimpleFunctions#addliquiditysingletokensimple) which automatically handles approximation and skips limit order functionality.
 
 ### addLiquiditySingleSy
 
@@ -180,8 +180,8 @@ function addLiquiditySingleSy(
 | market | `address` | Pendle market address |
 | netSyIn | `uint256` | Amount of SY tokens to use |
 | minLpOut | `uint256` | Minimum LP tokens to receive |
-| guessPtReceivedFromSy | [`ApproxParams`](/Developers/Contracts/PendleRouter/ApiReference/types#approxparams) | Approximation parameters |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| guessPtReceivedFromSy | [`ApproxParams`](./Types#approxparams) | Approximation parameters |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -194,7 +194,7 @@ function addLiquiditySingleSy(
 When you have SY tokens and want to add liquidity. The function will swap some SY for PT to achieve optimal liquidity provision.
 
 **Simple Version Available**
-For basic operations without custom parameters, use [`addLiquiditySingleSySimple`](/Developers/Contracts/PendleRouter/ApiReference/SimpleFunctions#addliquiditysingleSySimple) which automatically handles approximation and skips limit order functionality.
+For basic operations without custom parameters, use [`addLiquiditySingleSySimple`](./SimpleFunctions#addliquiditysinglesysimple) which automatically handles approximation and skips limit order functionality.
 
 ### addLiquiditySingleTokenKeepYt
 
@@ -218,7 +218,7 @@ function addLiquiditySingleTokenKeepYt(
 | market | `address` | Pendle market address |
 | minLpOut | `uint256` | Minimum LP tokens to receive |
 | minYtOut | `uint256` | Minimum YT tokens to receive |
-| input | [`TokenInput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokeninput) | Token input configuration |
+| input | [`TokenInput`](./Types#tokeninput) | Token input configuration |
 
 **Return Values**
 
@@ -290,7 +290,7 @@ function removeLiquidityDualTokenAndPt(
 | receiver | `address` | Address to receive tokens |
 | market | `address` | Pendle market address |
 | netLpToRemove | `uint256` | Amount of LP tokens to burn |
-| output | [`TokenOutput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokenoutput) | Token output configuration |
+| output | [`TokenOutput`](./Types#tokenoutput) | Token output configuration |
 | minPtOut | `uint256` | Minimum PT tokens to receive |
 
 **Return Values**
@@ -361,8 +361,8 @@ function removeLiquiditySinglePt(
 | market | `address` | Pendle market address |
 | netLpToRemove | `uint256` | Amount of LP tokens to burn |
 | minPtOut | `uint256` | Minimum PT tokens to receive |
-| guessPtReceivedFromSy | [`ApproxParams`](/Developers/Contracts/PendleRouter/ApiReference/types#approxparams) | Approximation parameters |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| guessPtReceivedFromSy | [`ApproxParams`](./Types#approxparams) | Approximation parameters |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -375,7 +375,7 @@ function removeLiquiditySinglePt(
 When you want to exit liquidity and hold only PT tokens, maximizing your PT position.
 
 **Simple Version Available**
-For basic operations without custom parameters, use [`removeLiquiditySinglePtSimple`](/Developers/Contracts/PendleRouter/ApiReference/SimpleFunctions#removeliquiditysingleptSimple) which automatically handles approximation and skips limit order functionality.
+For basic operations without custom parameters, use [`removeLiquiditySinglePtSimple`](./SimpleFunctions#removeliquiditysingleptsimple) which automatically handles approximation and skips limit order functionality.
 
 ### removeLiquiditySingleToken
 
@@ -398,8 +398,8 @@ function removeLiquiditySingleToken(
 | receiver | `address` | Address to receive tokens |
 | market | `address` | Pendle market address |
 | netLpToRemove | `uint256` | Amount of LP tokens to burn |
-| output | [`TokenOutput`](/Developers/Contracts/PendleRouter/ApiReference/types#tokenoutput) | Token output configuration |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| output | [`TokenOutput`](./Types#tokenoutput) | Token output configuration |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 
@@ -434,7 +434,7 @@ function removeLiquiditySingleSy(
 | market | `address` | Pendle market address |
 | netLpToRemove | `uint256` | Amount of LP tokens to burn |
 | minSyOut | `uint256` | Minimum SY tokens to receive |
-| limit | [`LimitOrderData`](/Developers/Contracts/PendleRouter/ApiReference/types#limitorderdata) | Limit order configuration |
+| limit | [`LimitOrderData`](./Types#limitorderdata) | Limit order configuration |
 
 **Return Values**
 

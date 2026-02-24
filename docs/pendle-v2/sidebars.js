@@ -68,6 +68,15 @@ module.exports = {
         { type: "doc", id: "Developers/Overview" },
         { type: "doc", id: "Developers/HighLevelArchitecture" },
         { type: "doc", id: "Developers/FAQ" },
+        { type: "doc", id: "Developers/Troubleshooting", label: "🔧 Troubleshooting" },
+        {
+          type: "category",
+          label: "🤝 Integration Guides",
+          items: [
+            { type: "doc", id: "Developers/Integration/CommunityListing", label: "Community Listing" },
+            { type: "doc", id: "Developers/Integration/PointsTracking", label: "Points & Rewards Tracking" },
+          ],
+        },
         {
           type: "category",
           label: "📜 Contracts",
