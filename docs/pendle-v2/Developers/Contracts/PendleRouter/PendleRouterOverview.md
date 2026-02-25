@@ -12,12 +12,14 @@ hide_table_of_contents: true
 
 PendleRouter is a contract that aggregates callers' actions with various SYs, PTs, YTs, and markets. It does not have any special permissions or whitelists on any contracts it interacts with. However, it is recommended that third parties use the Router to enjoy the fee discount while trading with the pool, as opposed to directly interacting with the pools themselves. The lnFeeRateRoot in the pool will be reduced when the Router is used to trade.
 
-Up until now, the Router has had four versions:
+The Router has had three historical versions, with **RouterV4** very likely being the final version:
 
-- **RouterV1**, deployed on 23/11/2022 at `0x41FAD93F225b5C1C95f2445A5d7fcB85bA46713f`
-- **RouterV2**, deployed on 21/02/2023 at `0x0000000001e4ef00d069e71d6ba041b0a16f7ea0`, 15% to 20% more gas-optimized
-- **RouterV3**, deployed on 18/12/2023 at `0x00000000005BBB0EF59571E58418F9a4357b68A0`, supporting limit orders
-- **RouterV4**, deployed on 29/04/2024 at `0x888888888889758F76e7103c6CbF23ABbF58F946`, upgradable router to support new features and optimize the algorithm more easily without requiring partners to migrate. This is likely the last version of the Router with features being added gradually.
+| Version | Deployed | Address | Notes |
+|---------|----------|---------|-------|
+| RouterV1 | Nov 23, 2022 | `0x41FAD93F225b5C1C95f2445A5d7fcB85bA46713f` | Initial release |
+| RouterV2 | Feb 21, 2023 | `0x0000000001e4ef00d069e71d6ba041b0a16f7ea0` | 15–20% gas optimization |
+| RouterV3 | Dec 18, 2023 | `0x00000000005BBB0EF59571E58418F9a4357b68A0` | Added limit order support |
+| **RouterV4** | Apr 29, 2024 | `0x888888888889758F76e7103c6CbF23ABbF58F946` | **Upgradable** — new features and optimizations are added gradually without requiring partners to migrate |
 
 Since PendleRouter is a proxy to multiple implementations (using the [EIP-2535 Diamond Standard](https://eips.ethereum.org/EIPS/eip-2535)), the caller can call the desired functions, and the Router will resolve to the correct implementation. Please refer to the [list of callable functions](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPAllActionV3.sol).
 
