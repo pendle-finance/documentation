@@ -120,6 +120,7 @@ module.exports = {
           type: "category",
           label: "📋 Limit Orders",
           items: [
+            { type: "doc", id: "Developers/LimitOrder/Overview", label: "Overview" },
             { type: "doc", id: "Developers/LimitOrder/LimitOrderContract" },
             { type: "doc", id: "Developers/LimitOrder/CreateALimitOrder" },
             { type: "doc", id: "Developers/LimitOrder/CancelOrders" },

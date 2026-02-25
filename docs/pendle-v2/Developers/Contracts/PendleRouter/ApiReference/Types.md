@@ -49,7 +49,7 @@ When `tokenIn` is any ERC20 token that needs to be swapped to a supported SY tok
   
     **E.g**: When you have USDC and want to mint SY-sUSDe:
     - Set `tokenIn = USDC`
-    - Set `tokenMintSy = SY-sUSDe`
+    - Set `tokenMintSy = sUSDe` (a token accepted by SY-sUSDe's `deposit()` function)
     - Set `pendleSwap = 0xd4F480965D2347d421F1bEC7F545682E5Ec2151D`
     - Set `swapData` to proper data configuration obtained from [SDK](../../../Backend/HostedSdk#supported-functions)
 

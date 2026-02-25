@@ -8,6 +8,20 @@ Pendle accommodates a vast array of assets, each characterized by its unique nua
 
 To address this, Pendle has introduced a hosted version of our SDK. It ensures the output remains consistent with Pendle's UI and keeps up-to-date with the latest protocol changes. The API design prioritizes simplicity and stability, with a high rate limit to meet the needs of most users.
 
+## Getting Started
+
+**Base URL:** `https://api-v2.pendle.finance/core`
+
+Most SDK operations go through a single universal endpoint — the [Convert API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_convert):
+
+```
+GET /v2/sdk/{chainId}/convert?tokensIn=...&tokensOut=...&amountsIn=...&receiver=...&slippage=...
+```
+
+The code examples on this page use a `callSDK` helper function that wraps HTTP requests to the base URL. A complete implementation can be found in the [Convert API demo repository](https://github.com/pendle-finance/pendle-examples-public/tree/main/hosted-sdk-demo/src).
+
+For API rate limits and computing unit costs, see [API Overview](./ApiOverview.mdx#rate-limiting).
+
 ## Supported functions
 
 - Swap
@@ -24,7 +38,7 @@ To address this, Pendle has introduced a hosted version of our SDK. It ensures t
 - Mint SY
 - Redeem SY
 
-All actions above can be accessed via one universal [Convert API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_convert). 
+All actions above can be accessed via one universal [Convert API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_convert).
 
 ## Examples
 

@@ -29,8 +29,7 @@ questions.
 
 ## Choose a Market
 
-In this documentation and the code example, EtherFi's [weETH market] on Arbitrum,
-which has 70M USD liquidity at block 192 001 277, is chosen.
+The _Using Pendle Oracle_ and _Using Pendle Library_ tabs use EtherFi's [weETH market] on Arbitrum (70M USD liquidity at block 192 001 277). The _Using ChainLink oracle_ tab demonstrates with an LBTC market to show how `PendleChainlinkOracleWithQuote` works with external price feeds.
 
 [weETH market]: https://arbiscan.io/address/0x952083cde7aaa11AB8449057F7de23A970AA8472
 

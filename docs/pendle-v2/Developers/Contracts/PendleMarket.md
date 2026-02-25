@@ -164,13 +164,13 @@ function redeemRewards(address user) external returns (uint256[] memory);
 
 ### Basic Swap
 ```solidity
-// Transfer SY to market first
-sy.transfer(address(market), syAmount);
+// Transfer PT to market first
+pt.transfer(address(market), ptAmount);
 
-// Execute swap
-(uint256 ptOut,) = market.swapExactSyForPt(
+// Execute swap (exact PT in → SY out)
+(uint256 syOut,) = market.swapExactPtForSy(
     msg.sender,
-    syAmount,
+    ptAmount,
     ""
 );
 ```

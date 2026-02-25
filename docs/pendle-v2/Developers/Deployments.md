@@ -44,4 +44,4 @@ To find the relevant addresses and details of a specific market:
 
 - [Core Contract Repository](https://github.com/pendle-finance/pendle-core-v2-public)
 - [SY Contract Repository](https://github.com/pendle-finance/Pendle-SY-Public)
-- All deployed Markets: [GitHub link](https://github.com/pendle-finance/Pendle-SY-Public)
+- All deployed Markets: [Pendle App](https://app.pendle.finance/trade/markets)
