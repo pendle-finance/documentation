@@ -80,7 +80,7 @@ Common channel patterns:
 | `statistics:MARKET_ID` | Market statistics updates |
 | `account:ACCOUNT` | Account state change notifications (orders, positions, balances) |
 
-Replace `MARKET_ID` with your specific market identifier and `ACCOUNT` with the packed account identifier (wallet address concatenated with account ID, see [Account Change Tracking](#account-change-tracking) for details).
+Replace `MARKET_ID` with your specific market identifier. For `ACCOUNT`, use the format `USER_ADDRESS:ACCOUNT_ID` (e.g., `0xYourWalletAddress:0` where `0` is the default sub-account ID).
 
 ## Best Practices
 
@@ -112,8 +112,8 @@ class PendleWebSocket {
   private socket: any;
 
   constructor() {
-    this.socket = io('wss://secrettune.io/pendle-dapp-v3', {
-      path: '/socket.io',
+    this.socket = io('wss://api.boros.finance/pendle-dapp-v3', {
+      path: '/socket/socket.io',
       reconnectionAttempts: 5,
       transports: ['websocket']
     });
@@ -145,7 +145,7 @@ class PendleWebSocket {
   }
 
   public unsubscribeFromMarket(marketId: string) {
-    const channel = `statistics:$\{marketId\}`;
+    const channel = `statistics:${marketId}`;
     this.socket.emit('unsubscribe', channel);
     this.socket.off(`${channel}:update`);
   }

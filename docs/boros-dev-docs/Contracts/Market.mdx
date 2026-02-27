@@ -128,7 +128,7 @@ Order memory order = market.getOrder(orderId);
 
 **Caveats:**
 
-- For order that is **not fully filled**, `size` returns the **remaining unfilled size**, not the original order size.
+- For an order that is **not fully filled**, `size` returns the **remaining unfilled size**, not the original order size.
 - If an order is partially filled (possible multiple times) before being fully filled, `size` returns the remaining order size right before the order gets fully filled, excluding previous partial fills.
 - Cancelled orders show `status = NOT_EXIST` and `size = 0`.
 

@@ -18,7 +18,7 @@ graph TD
 
 Router authenticates and forwards user operations to MarketHub.
 
-MarketHub receives user operations from Router, forward to the correct market contract, settle fees/payment, and check that accounts fulfill the margin requirements.
+MarketHub receives user operations from Router, forwards them to the correct market contract, settles fees/payment, and checks that accounts fulfill the margin requirements.
 
 Market executes user operations from MarketHub, then returns payment amount and data for margin checking.
 
@@ -29,7 +29,7 @@ Router is the gateway to the Boros protocol. Its main functionality is authentic
 - Direct call where `msg.sender` is used as user address
 - Agent call where user signs messages of desired operations
   - Only available to Pendle's permissioned relayers
-  - Accessed through [Boros SDK](./Backend-legacy/SDK.mdx)
+  - Accessed through the [Boros SDK](./Backend/0.%20overview.mdx)
 
 ### MarketHub
 
@@ -50,7 +50,7 @@ After each user operation, MarketHub checks that accounts fulfill the [margin re
 
 ### Market
 
-Boros markets is deployed as separate contracts. Markets are differentiated by their descriptors:
+Boros markets are deployed as separate contracts. Markets are differentiated by their descriptors:
 
 ```
 - bool isIsolatedOnly
@@ -76,4 +76,4 @@ Internally, Boros uses 18-decimals fixed point for all numerical values, includi
 
 When depositing ERC20 tokens of non-18 decimals, the amount will be scaled up. Similarly, when withdrawing, the amount will be scaled down.
 
-Tokens with decimal greater than 18 are not supported.
+Tokens with decimals greater than 18 are not supported.

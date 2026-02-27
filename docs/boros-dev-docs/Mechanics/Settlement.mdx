@@ -1,6 +1,6 @@
 # Settlement
 
-In Boros, settlement refers to position update when a trade happens (e.g. market order placed, limit order filled) and the periodic floating payment.
+In Boros, settlement refers to the position update when a trade happens (e.g., market order placed, limit order filled) and the periodic floating payment.
 
 ### Trade Settlement
 
@@ -64,7 +64,7 @@ Floating payments are subject to settlement fees. For detailed fee structure, se
 
 ## Algorithm
 
-In traditional order books, when a market order matches against limit orders, all makers' positions are updated immediately. On-chain, this becomes prohibitively expensive as a single order could match against hundreds or thousands of limit orders, each requiring storage updates. Boros solved this by using a lazy settlement process that defers the position update until the next time users interact with Boros.
+In traditional order books, when a market order matches against limit orders, all makers' positions are updated immediately. On-chain, this becomes prohibitively expensive as a single order could match against hundreds or thousands of limit orders, each requiring storage updates. Boros solves this by using a lazy settlement process that defers the position update until the next time users interact with Boros.
 
 Since the last time a user interacted with Boros, multiple events may have occurred that affect their position:
 
@@ -126,7 +126,7 @@ To retrieve current, accurate position information, you must first trigger settl
 IMarketHub(marketHub).settleAllAndGet(acc, GetRequest.ZERO, MarketId.ZERO);
 ```
 
-You can also use the [REST API](../Backend-legacy/REST%20API.mdx), which provides accurate, up-to-date data without requiring manual settlement triggers.
+You can also use the [REST API](../Backend/3.%20api.mdx), which provides accurate, up-to-date data without requiring manual settlement triggers.
 
 **Strategic Position Management:**
 

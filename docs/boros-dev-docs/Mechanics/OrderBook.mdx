@@ -61,18 +61,19 @@ Boros order book follows the standard **rate-time priority** matching:
 
 ## Order Id
 
-Each order in Boros has a unique order Id, which a 64-bit packed value containing order metadata:
+Each order in Boros has a unique order Id, which is a 64-bit packed value containing order metadata:
 
 ```text
 OrderId structure (64 bits):
-┌─────────┬──────────┬─────────────┬──────────────┐
-│ Init(1) │ Side(1)  │ Tick(16)    │ Index(40)    │
-└─────────┴──────────┴─────────────┴──────────────┘
+┌─────────┬──────────────┬──────────┬─────────────┬──────────────┐
+│ Init(1) │ Reserved(6)  │ Side(1)  │ Tick(16)    │ Index(40)    │
+└─────────┴──────────────┴──────────┴─────────────┴──────────────┘
 
-Bit 63: Initialization marker (always 1 for valid orders)
-Bit 56: Side (0 = LONG, 1 = SHORT)
+Bit 63:    Initialization marker (always 1 for valid orders)
+Bits 57-62: Reserved
+Bit 56:    Side (0 = LONG, 1 = SHORT)
 Bits 40-55: Encoded tick index
-Bits 0-39: Order index within tick
+Bits 0-39:  Order index within tick
 ```
 
 This encoding has a nice ordering property: orders with **lower OrderId values** have **higher priority** in the order book.
@@ -136,7 +137,7 @@ Boros prevents self-trading by checking if an incoming order would match against
 
 ## TWAP Oracle
 
-Boros maintains a Time-Weighted Average Price (TWAP) oracle to calculate the **mark rate** - the reference rate used for margining and liquidations. Each time an order is matched against the order book. The rate of the last matched tick is incorporated into the TWAP calculation based on time elapsed.
+Boros maintains a Time-Weighted Average Price (TWAP) oracle to calculate the **mark rate** — the reference rate used for margining and liquidations. Each time an order is matched against the order book, the rate of the last matched tick is incorporated into the TWAP calculation based on time elapsed.
 
 The oracle uses a fixed-window observation approach:
 

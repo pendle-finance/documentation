@@ -10,7 +10,7 @@ This document outlines how Boros works in a more high level and user-centric man
 
 ### Interest rate swap mechanics
 
-- Users can open **interest rate swap positions** to speculate on **interests** of certain asset.
+- Users can open **interest rate swap positions** to speculate on **interest rates** of a certain asset.
 - An **interest rate swap position** = user has to pay an **interest stream** and receive another **interest stream** until a **maturity**. There are only two possible scenarios:
   - Receive the **floating interest**, and pay a **fixed interest**
   - Receive a **fixed interest**, and pay the **floating interest**
@@ -47,10 +47,10 @@ This document outlines how Boros works in a more high level and user-centric man
 
 ### Orderbook for matching swaps
 
-- Each Boros market has a native orderbook to facilitating opening swaps.
+- Each Boros market has a native orderbook to facilitate opening swaps.
 - Users can open a new swap in two ways:
   - Open a limit order on the orderbook and wait for someone to take their order, creating a pair of swaps between the two users.
-  - Do a market order, filling an existing limit orders, creating a pair of swaps between the two users.
+  - Do a market order, filling existing limit orders, creating a pair of swaps between the two users.
 
 ### Important terms and mechanics, using an example
 
@@ -63,14 +63,14 @@ This document outlines how Boros works in a more high level and user-centric man
   - Maintenance Margin Rate:
     - 25% of Mark Rate, with a minimum of 2.5%
 - 6 months before maturity
-  - Alice wants to gets a **swap position** with **size = 10 ETH**, **paying fixed and receiving floating (Long Rate)**
+  - Alice wants to get a **swap position** with **size = 10 ETH**, **paying fixed and receiving floating (Long Rate)**
   - Alice deposits 0.4 ETH collateral into the ETH trading zone.
   - Current Mark Rate is 12%
   - Alice is good to pay a fixed rate of 12% (and below), so she offers to pay 12% fixed rate on 10 ETH to get the floating interest stream, by placing an order in an on-chain orderbook.
     - **Initial Margin Rate** is 50% \* 12% = 6%
     - **Initial margin needed** for this position = 10 \* 0.5 years \* 6% = 0.3 ETH out of Alice's 0.4 ETH collateral. Alice's available initial margin left is 0.1 ETH after placing the limit order.
-  - Bob is another user who wants to pay the **floating rate** in exchange for a **fixed rate**. Bob is good to receive 12% fixed (and above) on 10 ETH, do a market order on the orderbook and fills Alice's limit order.
-  - Now, a pair of swap between Alice is Bob is created and:
+  - Bob is another user who wants to pay the **floating rate** in exchange for a **fixed rate**. Bob is good to receive 12% fixed (and above) on 10 ETH, so he does a market order on the orderbook and fills Alice's limit order.
+  - Now, a pair of swaps between Alice and Bob is created and:
     - Alice has
       - 0.4 ETH in collateral, minus a debt of 12% \* 10 \* 0.5 = 0.6 ETH that is "realized" immediately
         - = -0.2 ETH **collateral** (it's ok to have negative "collateral" because there is still the value of the floating leg)
@@ -84,7 +84,7 @@ This document outlines how Boros works in a more high level and user-centric man
       - Alice's total maintenance margin required is 10 \* 0.5 years \* 3% = 0.15 ETH
         - (Margin rate = 25% \* 12% = 3%)
       - Alice's health ratio is 0.4 / 0.15 = 2.67 (healthy)
-- After 1 months, (5 **months** before maturity), the average ETH funding rate has been 10%. Now, let's say the **mark rate** is 5% (traders on Boros collectively thinks the average future rate is at 5%)
+- After 1 month, (5 **months** before maturity), the average ETH funding rate has been 10%. Now, let's say the **mark rate** is 5% (traders on Boros collectively think the average future rate is at 5%)
   - At this point, Alice has
     - A **swap position** of **"10 ETH, paying 12% fixed (paid upfront) & receiving floating until June 2025"** [Same]
     - Alice's **swap position** has a **"unrealized PnL"** of: 5% \* (5 months / 12 months) \* 10 ETH = 0.2083 **ETH**
