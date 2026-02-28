@@ -1,5 +1,9 @@
 # Market View Functions
 
+:::caution Prefer the API over direct contract calls
+The [REST API](/boros-dev/Backend/api) provides all market data (positions, order books, margins) with up-to-date settlement applied. Direct contract calls return unsettled data and require manual settlement triggers. Use the API unless you have a specific need for on-chain reads.
+:::
+
 The Market contract provides comprehensive view functions for querying market state, user positions, order book data, and risk parameters.
 
 ## Market Information

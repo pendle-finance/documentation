@@ -1,26 +1,8 @@
-# Boros Open API Documentation
+# Boros Open API
 
-This document provides a guide to integrating with the Boros trading platform API.
+This guide walks you through integrating with the Boros trading platform via the REST API. For exact request/response schemas and parameter details, see the [interactive API docs](https://api.boros.finance/open-api/docs).
 
-## Table of Contents
-
-- [Overview](#overview)
-- [Base URLs](#base-urls)
-- [API Reference](#api-reference)
-- [Code Examples](#code-examples)
-
----
-
-## Overview
-
-The Boros Open API allows you to:
-- Query market data, assets, and order books
-- Deposit and withdraw collateral
-- Place, cancel, and manage orders
-- Query account balances and positions
-- Access funding rate and settlement data
-
-For key concepts and terminology, see the [Glossary](./glossary).
+For key concepts and terminology, see the [Glossary](./1.%20glossary.mdx).
 
 **Example Repository:** [https://github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples)
 
@@ -32,41 +14,292 @@ For key concepts and terminology, see the [Glossary](./glossary).
 |-------------|----------|
 | Production  | `https://api.boros.finance` |
 
-All API endpoints are prefixed with `/open-api/v1/` (or `/open-api/v2/` for v2 endpoints).
+| Service | Path Prefix | Purpose |
+|---------|-------------|---------|
+| **Open API** | `/open-api/v1/` (or `/v2/`) | Market data, calldata generation, account queries |
+| **Send Txs Bot** | `/send-txs-bot/v2/` or `/v3/` | Submitting signed transactions on-chain |
+| **Stop Order** | `/stop-order/v1/` to `/v3/` | Conditional TP/SL order management |
 
 ---
 
-## API Reference
+## API Services
 
-For complete API documentation with all endpoints, parameters, request/response examples, and interactive testing, see:
+### Open API (Primary)
 
-- **Open API Docs:** [https://api.boros.finance/open-api/docs](https://api.boros.finance/open-api/docs)
-- **Transaction Submission API Docs:** [https://api.boros.finance/send-txs-bot/docs](https://api.boros.finance/send-txs-bot/docs)
+The main API for querying data and generating transaction calldata.
 
-### API Categories
+**Interactive docs:** [https://api.boros.finance/open-api/docs](https://api.boros.finance/open-api/docs)
 
-| Category | Description |
+### Send Txs Bot (Transaction Submission)
+
+Receives signed calldata from agents and broadcasts transactions on-chain. You never call smart contracts directly — the bot submits them on your behalf and charges gas fees from your gas balance.
+
+**Interactive docs:** [https://api.boros.finance/send-txs-bot/docs](https://api.boros.finance/send-txs-bot/docs)
+
+### Stop Order Service
+
+Manages conditional stop orders (take-profit / stop-loss). These orders live off-chain and are triggered automatically when the market APR crosses a threshold. See [Stop Orders](#stop-orders-tpsl) below for details.
+
+**Interactive docs:** [https://api.boros.finance/stop-order/docs](https://api.boros.finance/stop-order/docs)
+
+---
+
+## Integration Workflows
+
+### 1. First-Time Setup
+
+Before trading, you need to set up an agent and fund your accounts.
+
+```text
+┌─────────────────────────────────────────────────────┐
+│  1. Generate an agent key pair                      │
+│  2. GET  /calldata/approve-agent → calldata         │
+│  3. Sign & submit approval tx (from root wallet)    │
+│  4. GET  /calldata/deposit → calldata               │
+│  5. Sign & submit deposit tx (from root wallet)     │
+│  6. Top up gas balance for agent tx fees             │
+└─────────────────────────────────────────────────────┘
+```
+
+**Steps 2-5 are "sensitive" actions** — they require the root wallet signature and are submitted directly to the blockchain, not through the Send Txs Bot. The calldata endpoints return a `to` address (the Router contract) and the encoded calldata to include in your transaction.
+
+See [Agent Trading](./2.%20agent.mdx) for the full agent setup guide.
+
+### 2. Placing a Trade (Agent Flow)
+
+Once your agent is approved, this is the typical order placement flow:
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│  1. GET  /markets/{marketId}              → market info      │
+│  2. GET  /simulations/place-order         → preview trade    │
+│  3. POST /calldata/place-orders           → calldata[]       │
+│  4. Sign each calldata with agent key                        │
+│  5. POST /send-txs-bot/v3/agent/bulk-direct-call → tx hash  │
+│  6. Subscribe to WebSocket account channel for fill updates  │
+└──────────────────────────────────────────────────────────────┘
+```
+
+**Step 2 (simulation) is optional** but recommended — it previews the margin impact, estimated fees, and validates constraints before generating calldata.
+
+**Step 3** returns an array of calldata objects. For bulk orders, multiple operations are batched into a single transaction.
+
+**Step 5** sends the signed calldata to the Send Txs Bot, which submits the on-chain transaction. The response includes a transaction status and hash.
+
+### 3. Closing a Position
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│  1. POST /accounts/market-acc-infos       → current position │
+│  2. GET  /simulations/close-active-position → preview close  │
+│  3. POST /calldata/place-orders           → counter-order    │
+│  4. Sign & submit via Send Txs Bot                           │
+└──────────────────────────────────────────────────────────────┘
+```
+
+Closing a position internally creates a counter-order (opposite side, same size). The simulation endpoint handles this logic for you.
+
+### 4. Withdrawing Funds
+
+Withdrawals follow a **request → cooldown → finalize** pattern:
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│  1. GET  /calldata/withdraw-request       → request calldata │
+│  2. Sign & submit withdrawal request (root wallet)           │
+│  3. Wait for cooldown period                                 │
+│  4. Finalize withdrawal on MarketHub contract                │
+│                                                              │
+│  To cancel: GET /calldata/withdraw-cancel → cancel calldata  │
+└──────────────────────────────────────────────────────────────┘
+```
+
+Withdrawal requests and cancellations are **sensitive** actions signed by the root wallet.
+
+### 5. Setting Up Stop Orders (TP/SL)
+
+Stop orders are conditional orders that execute automatically when the market APR hits your target:
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│  1. GET  /stop-order/v1/orders/tpsl/prepare → order params   │
+│  2. POST /stop-order/v2/orders/place        → place order    │
+│                                                              │
+│  To cancel: DELETE /stop-order/v3/orders/cancel              │
+└──────────────────────────────────────────────────────────────┘
+```
+
+The prepare endpoint generates the order parameters (including the calldata that will be executed when triggered). The place endpoint submits the signed conditional order. See [Stop Orders](./6.%20stop-orders.mdx) for details.
+
+---
+
+## Sensitive vs Non-Sensitive Actions
+
+Understanding this distinction is critical for integration:
+
+| Type | Signed by | Submitted via | Examples |
+|------|-----------|---------------|----------|
+| **Sensitive** | Root wallet | Direct to blockchain | Deposit, withdraw, approve/revoke agent |
+| **Non-sensitive** | Agent key | Send Txs Bot | Place orders, cancel orders, cash transfer, enter/exit markets |
+
+Sensitive actions require the root wallet's private key and are submitted as regular Ethereum transactions. Non-sensitive actions are signed by the agent and submitted through the Send Txs Bot service, which handles gas and on-chain submission.
+
+---
+
+## Endpoint Categories
+
+### Assets
+Query available collateral tokens with metadata and current prices.
+
+| Endpoint | Description |
 |----------|-------------|
-| **Assets** | Retrieve available assets with metadata and prices |
-| **Markets** | Query markets, trades, order books, and chart data |
-| **Accounts** | Manage settings, balances, orders, and transactions |
-| **Calldata** | Generate transaction calldata for deposits, withdrawals, orders, and more |
-| **Simulations** | Preview operations before executing on-chain |
-| **Funding Rate** | Access funding rate symbols and settlement summaries |
-| **Charts** | Fetch OHLCV data for markets |
-| **Agents** | Manage agent authorization and expiry |
-| **Events** | Query liquidation events |
+| `GET /assets/all` | List all supported collateral assets |
 
-### Transaction Submission Flow
+### Markets
+Query market configurations, order books, and trade history.
 
-1. Get calldata from the Open API (e.g., `/open-api/v1/calldata/place-orders`)
-2. Sign the calldata using `@pendle/sdk-boros` package
-3. Submit signed transactions to `/send-txs-bot/v3/agent/bulk-direct-call`
+| Endpoint | Description |
+|----------|-------------|
+| `GET /markets` | List all markets with current state and pricing |
+| `GET /markets/{marketId}` | Get a single market's details |
+| `GET /markets/order-books` | Aggregated order book by tick size |
+| `GET /v2/markets/order-books` | Order book with optional AMM liquidity |
+| `GET /markets/market-trades` | Recent executed trades |
+| `GET /markets/chart` | OHLCV candlestick data |
+
+### Accounts
+Query and manage user account state.
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /accounts/market-acc-infos` | Positions, margins, balances for market accounts |
+| `GET /accounts/entered-markets` | Markets entered by a cross-margin account |
+| `GET /accounts/limit-orders` | Active/inactive limit orders |
+| `GET /accounts/transactions` | Trade history on a market |
+| `GET /accounts/settlements` | Funding rate settlement history |
+| `GET /accounts/transfer-logs` | Deposit/withdrawal transfer logs |
+| `GET /accounts/gas-balance` | Current gas balance |
+| `GET /accounts/gas-consumption-history` | Gas usage history |
+| `GET /accounts/settings` | User account settings |
+| `POST /accounts/settings` | Update settings (agent-signed) |
+
+### Calldata Generation
+Generate transaction calldata for on-chain operations.
+
+**Sensitive (root-signed, direct to chain):**
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /calldata/deposit` | Deposit collateral to margin account |
+| `GET /calldata/withdraw-request` | Request withdrawal |
+| `GET /calldata/withdraw-cancel` | Cancel pending withdrawal |
+| `GET /calldata/approve-agent` | Approve an agent |
+| `GET /calldata/revoke-agent` | Revoke an agent |
+| `GET /calldata/vault-pay-treasury` | Pay treasury from vault |
+
+**Non-sensitive (agent-signed, via Send Txs Bot):**
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /calldata/place-orders` | Place one or more limit orders |
+| `GET /calldata/cancel-order` | Cancel orders |
+| `GET /calldata/cash-transfer` | Transfer between cross and isolated accounts |
+| `GET /calldata/enter-exit-markets` | Enter or exit markets |
+| `GET /calldata/pay-treasury` | Pay accrued treasury fees |
+| `GET /calldata/add-liquidity-single-cash-to-amm` | Add AMM liquidity |
+| `GET /calldata/remove-liquidity-single-cash-from-amm` | Remove AMM liquidity |
+
+### Simulations
+Preview operations before executing them. All simulation endpoints return the projected account state after the operation.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /simulations/deposit` | Preview deposit effect on account |
+| `GET /simulations/withdraw` | Preview withdrawal effect on account |
+| `GET /simulations/cash-transfer` | Preview cross ↔ isolated transfer |
+| `GET /simulations/place-order` | Preview order placement with fees |
+| `GET /simulations/close-active-position` | Preview closing a position |
+| `GET /simulations/add-liquidity-single-cash` | Preview adding AMM liquidity |
+| `GET /simulations/remove-liquidity-single-cash` | Preview removing AMM liquidity |
+
+### Funding Rate
+Access funding rate data and settlement history.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /funding-rate/all-funding-rate-symbols` | Available funding rate symbols |
+| `POST /funding-rate/settlement-summary` | Historical settlement summaries |
+
+### Agents
+Manage agent authorization.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /agents/expiry-time` | Check agent expiry time |
+
+### Events
+Query protocol events.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /events/liquidation-events` | Liquidation event history |
+
+### Charts
+Charting data for trading UIs.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /charts/ohlcv` | OHLCV candlestick data |
+
+---
+
+## Error Handling
+
+The Open API returns errors in a structured format:
+
+```json
+{
+  "errorCode": "INVALID_MARKET_ID",
+  "message": "Market with ID 999 not found",
+  "data": {}
+}
+```
+
+The `errorCode` field is a machine-readable string you can use for programmatic error handling. Common error codes include validation errors (invalid parameters), state errors (insufficient margin), and not-found errors.
+
+The Send Txs Bot and Stop Order services use the legacy format:
+
+```json
+{
+  "statusCode": 400,
+  "message": "Invalid signature"
+}
+```
+
+See [Best Practices](./5.%20best-practices.mdx) for error handling recommendations.
+
+---
+
+## Rate Limiting
+
+The API does not currently enforce strict rate limits, but excessive request rates may be throttled. Recommendations:
+
+- Use [WebSocket](./4.%20websocket.mdx) for real-time data instead of polling
+- Use bulk order endpoints instead of multiple single-order calls
+- Cache market and asset data that doesn't change frequently
 
 ---
 
 ## Code Examples
 
-For complete working examples including agent approval, deposits, withdrawals, order placement, and more, see the example repository:
+For complete working examples covering the full integration lifecycle, see:
 
 **[https://github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples)**
+
+Key examples:
+- `01-agent.ts` — Agent setup and approval
+- `02-deposit.ts` to `04-withdraw.ts` — Fund management
+- `05-place-order.ts` to `08-cancel-order.ts` — Order lifecycle
+- `11-bulk-place-orders.ts` — Bulk order placement
+- `12-top-up-gas-account.ts` — Gas management
+- `13-top-up-isolated-account.ts` — Isolated margin funding

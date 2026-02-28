@@ -22,8 +22,10 @@ Fee = |Position Size| × Fee Rate × Time to Maturity
 Where:
 
 - **Position Size**: The notional size of the position being opened
-- **Fee Rate**: 0.05% (0.0005)
+- **Fee Rate**: Configured per market — `takerFee` for order book trades and `otcFee` for OTC swaps (e.g., AMM interactions). Typical value: 0.05% (0.0005). Query the exact rates via [`getMarketConfig()`](../Contracts/Market.mdx#getmarketconfig) or [`getBestFeeRates()`](../Contracts/Market.mdx#getbestfeerates)
 - **Time to Maturity**: The time remaining until the swap maturity, expressed in years
+
+**Fee Discounts:** Some accounts may have personal discount rates (`takerDisc`, `otcDisc`) that reduce the effective fee. The `getBestFeeRates()` function returns the actual rate after applying any applicable discounts.
 
 ### Example
 
@@ -88,3 +90,23 @@ bool hasEntered = MarketHub.hasEnteredMarketBefore(userAccount, marketId);
 ```
 
 If `hasEntered` returns `true`, you won't be charged the entrance fee again for that market.
+
+## Liquidation Fees
+
+When an account is liquidated, a fee is charged on the liquidated position and collected by the protocol treasury. This fee is separate from the [liquidation incentive](./Margin.mdx#liquidation-process) paid to the liquidator.
+
+```
+Liquidation Fee = |Liquidated Size| × LiqSettings.feeRate × Time to Maturity
+```
+
+The `feeRate` is part of the market's [`LiqSettings`](/boros-dev/Contracts/CustomTypes#liqsettings) configuration. It follows the same time-scaling pattern as position opening fees.
+
+## Fee Summary
+
+| Fee Type | When Charged | Rate Source | Discountable |
+|----------|-------------|-------------|--------------|
+| Taker fee | Order fills against book | `MarketConfig.takerFee` | Yes (`takerDisc`) |
+| OTC fee | AMM swaps / OTC trades | `MarketConfig.otcFee` | Yes (`otcDisc`) |
+| Settlement fee | Each funding period | `FIndex.feeIndex` | No |
+| Market entrance fee | First action per market | `CashFeeData.marketEntranceFee` | No |
+| Liquidation fee | Account liquidated | `LiqSettings.feeRate` | No |

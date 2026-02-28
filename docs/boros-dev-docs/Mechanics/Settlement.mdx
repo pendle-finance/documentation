@@ -110,7 +110,7 @@ Events to process:
 
 Processing order:
 1. Process fills from 08:00-16:00 period (100 units)
-2. Process Floating payment at 16:00
+2. Process floating payment at 16:00
 3. Process fills from 16:00-24:00 period (50 units)
 ```
 
@@ -138,7 +138,7 @@ Floating payments are calculated based on your position size at the exact paymen
 
 **Oracle Update Delays:**
 
-In practice, Floating payments don't occur at the exact period boundaries due to off-chain oracle update delays:
+In practice, floating payments don't occur at the exact period boundaries due to off-chain oracle update delays:
 
 - **Expected Time**: Payment for 8:00:00 boundary
 - **Actual Time**: Usually occurs ~10 seconds later (e.g., 8:00:10)

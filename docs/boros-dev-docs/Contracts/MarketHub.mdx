@@ -1,5 +1,9 @@
 # MarketHub View Functions
 
+:::caution Prefer the API over direct contract calls
+The [REST API](/boros-dev/Backend/api) exposes the same data (balances, withdrawals, entered markets) with proper settlement handling. Direct contract calls return unsettled data. Use the API unless you have a specific need for on-chain reads.
+:::
+
 ### `getEnteredMarkets()`
 
 ```text
