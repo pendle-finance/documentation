@@ -157,6 +157,15 @@ curl -i -H "Authorization: Bearer your_api_key_here" \
 
 The response will have rate limit headers as described in [Rate Limit Headers](#rate-limit-headers).
 
+:::note
+
+You may occasionally notice `X-Ratelimit-Limit: 100` in responses even when you have a higher rate limit plan. 
+This happens when the response is served from **Cloudflare's cache** (indicated by the `CF-Cache-Status: HIT` header). 
+When a cache hit occurs, the request never reaches our backend, so **it does not count against your rate limit quota**. 
+The `X-Ratelimit-Limit: 100` value in this case is simply a default header from the cached response and does not reflect your actual rate limit.
+
+:::
+
 ## API Updates and deprecation notice
 - **Deprecation Notice**: Breaking changes announced at least 30 days in advance, follow [Telegram Developer Channel](https://t.me/pendledevelopers) for announcements
 
