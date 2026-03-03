@@ -117,6 +117,28 @@ int16 endTick = side.endTick();          // Boundary tick values
 
 ## Market Types
 
+### MarketStatus
+
+**Definition**: `enum MarketStatus { PAUSED, CLO, GOOD }`
+
+- **PAUSED (0)**: Market is fully paused — no trading, no order placement, no cancellation
+- **CLO (1)**: Close-Only mode — only orders that reduce existing position size are allowed. New position opening is prohibited. Activated when open interest approaches risk limits
+- **GOOD (2)**: Normal operating mode — all trading operations are available
+
+Markets transition between states based on risk conditions (e.g., open interest approaching caps). Query the current status via [`getMarketConfig()`](./Market.mdx#getmarketconfig).
+
+### LiqSettings
+
+**Definition**: `struct LiqSettings { uint64 base, uint64 slope, uint64 feeRate }`
+
+Parameters governing [liquidation incentives](../Mechanics/Margin.mdx#liquidation-process):
+
+- **base**: Base incentive factor for liquidators
+- **slope**: Scaling factor that increases incentive as health ratio decreases
+- **feeRate**: Fee rate charged on liquidated positions (goes to protocol treasury)
+
+See [Margin — Liquidation Process](../Mechanics/Margin.mdx#liquidation-process) for the incentive formula.
+
 ### TokenId
 
 **Definition**: `type TokenId is uint16`
@@ -166,11 +188,28 @@ bool isZero = fIndex.isZero();
 bool same = fIndex1 == fIndex2;
 ```
 
+### PayFee
+
+**Definition**: `type PayFee is uint256`
+
+**Bit Packing**: `payment(128) | fees(128)`
+
+Compact representation of a cash payment paired with its associated fees. Used throughout the settlement and liquidation system to bundle payment amounts with their fee components.
+
+```text
+PayFee result = PayFeeLib.from(payment, fees);
+
+(int128 payment, uint128 fees) = result.unpack();
+int256 netAmount = result.total();   // payment - fees
+```
+
 ### VMResult
 
 **Definition**: `type VMResult is uint256`
 
 **Bit Packing**: `value(128) | margin(128)`
+
+Compact representation of a position's value paired with its margin requirement. Used by `settleAllAndGet()` to return position valuation and margin data in a single value.
 
 ```text
 VMResult result = VMResultLib.from(positionValue, marginRequired);

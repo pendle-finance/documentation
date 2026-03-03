@@ -2,12 +2,6 @@
 
 This guide provides recommendations and common patterns for integrating with the Boros API efficiently.
 
-## Table of Contents
-
-- [Bulk Order Placement](#bulk-order-placement)
-- [Market Management](#market-management)
-- [Gas Usage and Estimation](#gas-usage-and-estimation)
-
 ---
 
 ## Bulk Order Placement
@@ -23,10 +17,10 @@ When placing multiple orders simultaneously, **always use the bulk order endpoin
 
 ### Benefits
 
-1. **Lower Gas Fees** - Multiple operations batched into a single transaction
-2. **Atomic Execution** - All operations execute together, eliminating partial execution risks
-3. **Better Performance** - Reduces network overhead and speeds up execution
-4. **Complex Strategies** - Combine cancellations and new orders in one operation
+1. **Lower Gas Fees** — Multiple operations batched into a single transaction
+2. **Atomic Execution** — All operations execute together, eliminating partial execution risks
+3. **Better Performance** — Reduces network overhead and speeds up execution
+4. **Complex Strategies** — Combine cancellations and new orders in one operation
 
 > **Note:** Unlike single order placement, bulk placed orders do NOT match with the AMM. They are placed directly into the order book.
 
@@ -62,12 +56,17 @@ Exiting unused markets helps:
 - During account cleanup/maintenance
 - Before market expiry (for dated markets)
 
+To exit a market, you must first:
+1. Close all positions (zero position size)
+2. Cancel all open orders
+3. Have no pending settlements
+
 ### Isolated-Only Markets
 
 Some markets are **isolated-only**, meaning they cannot be traded from a cross-margin account. For these markets:
 
-1. **Deposit to the isolated account** - You must transfer collateral specifically to the isolated market account, not the cross-margin account
-2. **Use the correct `marketAcc`** - Pack the `marketAcc` with the specific `marketId` instead of `CROSS_MARKET_ID`
+1. **Deposit to the isolated account** — You must transfer collateral specifically to the isolated market account, not the cross-margin account
+2. **Use the correct `marketAcc`** — Pack the `marketAcc` with the specific `marketId` instead of `CROSS_MARKET_ID`
 
 ```typescript
 import { MarketAccLib } from "@pendle/sdk-boros";
@@ -87,11 +86,6 @@ To fund an isolated account, either:
 
 **Example:** [Top Up Isolated Account](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/13-top-up-isolated-account.ts)
 
-### API Reference
-
-- [Enter/Exit Markets API](https://api.boros.finance/open-api/docs)
-- [Get Account Info API](https://api.boros.finance/open-api/docs) - Check your entered markets
-
 ---
 
 ## Gas Usage and Estimation
@@ -99,6 +93,11 @@ To fund an isolated account, either:
 ### Monitor Gas Balance
 
 Boros uses a gas account system for executing agent-signed transactions. Always monitor your gas balance to avoid failed transactions.
+
+**Key endpoints:**
+- `GET /accounts/gas-balance` — Check current balance
+- `GET /accounts/gas-consumption-history` — Review usage patterns
+- `GET /calldata/vault-pay-treasury` — Top up gas balance (sensitive, root-signed)
 
 ### Arbitrum Gas Spikes
 
@@ -108,12 +107,109 @@ Arbitrum gas prices can spike significantly during high network activity. Consid
 2. **Maintain buffer** in your gas account for unexpected spikes
 3. **Check gas consumption history** to understand your usage patterns
 
-### API Reference
+**Example:** [Top Up Gas Account](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/12-top-up-gas-account.ts)
 
-- [Get Gas Balance API](https://api.boros.finance/open-api/docs)
-- [Gas Consumption History API](https://api.boros.finance/open-api/docs)
-- [Pay Treasury (Top Up Gas) API](https://api.boros.finance/open-api/docs)
-- [Top Up Gas Account Example](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/12-top-up-gas-account.ts)
+---
+
+## Error Handling
+
+### Error Response Formats
+
+The Open API uses a structured error format:
+
+```json
+{
+  "errorCode": "INVALID_MARKET_ID",
+  "message": "Market with ID 999 not found",
+  "data": {}
+}
+```
+
+The Send Txs Bot and Stop Order services use a legacy format:
+
+```json
+{
+  "statusCode": 400,
+  "message": "Invalid signature"
+}
+```
+
+### Handling Common Errors
+
+| Error | Cause | Solution |
+|-------|-------|----------|
+| Insufficient margin | Not enough collateral for the position | Deposit more, reduce size, or close other positions |
+| Agent expired | Agent approval has expired | Re-approve agent via `GET /calldata/approve-agent` |
+| Invalid signature | Signature doesn't match the expected signer | Verify you're signing with the correct agent key |
+| Market not entered | Trying to trade on a market you haven't entered | Use `GET /calldata/enter-exit-markets` to enter first |
+| Order limit reached | Over 100 open orders on a market | Cancel some existing orders before placing new ones |
+| Market limit reached | Over 10 entered markets | Exit unused markets to free up slots |
+
+### Retry Strategy
+
+- **Don't retry immediately** on validation errors (bad parameters, insufficient margin) — fix the root cause
+- **Retry with backoff** on transient errors (network timeouts, 503s)
+- **Check transaction status** before retrying submissions to the Send Txs Bot — the original may have succeeded
+
+---
+
+## Simulation Before Execution
+
+Always use the simulation endpoints before executing trades, especially for:
+
+- **Large orders** — preview margin impact and fees
+- **Close positions** — verify the counter-order parameters
+- **Deposits/withdrawals** — check that the operation won't cause under-margining
+
+Simulations are free (no gas) and return the projected account state. The key simulation endpoints:
+
+| Endpoint | Use case |
+|----------|----------|
+| `GET /simulations/place-order` | Preview order placement |
+| `GET /simulations/close-active-position` | Preview closing a position |
+| `GET /simulations/deposit` | Preview deposit effect |
+| `GET /simulations/withdraw` | Preview withdrawal effect |
+| `GET /simulations/cash-transfer` | Preview cross ↔ isolated transfer |
+
+---
+
+## Real-Time Data
+
+### Use WebSocket for Streaming
+
+Don't poll REST endpoints for real-time data. Use [WebSocket](./4.%20websocket.mdx) for:
+
+- **Order book updates**: `orderbook:MARKET_ID:TICK_SIZE`
+- **Trade events**: `market-trade:MARKET_ID`
+- **Market statistics**: `statistics:MARKET_ID`
+- **Account changes**: `account:ADDRESS:ACCOUNT_ID`
+
+### Caching Strategy
+
+| Data | Cache duration | Refresh trigger |
+|------|---------------|-----------------|
+| Assets list | Long (hours) | Rarely changes |
+| Market list | Medium (minutes) | New markets added infrequently |
+| Market state / order book | Don't cache | Use WebSocket |
+| Account positions | Don't cache | Use WebSocket account channel |
+| Gas balance | Short (seconds) | After each transaction |
+
+---
+
+## Security
+
+### Key Management
+
+- **Never expose your root private key** in client-side code or logs
+- **Use the agent system** — the agent key has limited permissions and cannot withdraw funds
+- **Rotate agent keys** periodically by revoking the old agent and approving a new one
+- **Set reasonable expiry times** on agent approvals
+
+### Transaction Verification
+
+- Always **simulate before executing** to verify expected outcomes
+- Check the `to` address in calldata responses matches the expected Router contract
+- Verify transaction status after submission — don't assume success
 
 ---
 
@@ -125,5 +221,9 @@ Arbitrum gas prices can spike significantly during high network activity. Consid
 | Exit unused markets (max 10 per account) | Reduce gas overhead, free up slots |
 | Use correct `marketAcc` for isolated-only markets | Required for trading isolated-only markets |
 | Monitor gas balance | Avoid failed transactions |
+| Simulate before executing | Preview margin impact and catch errors |
+| Use WebSocket for real-time data | Lower latency, less overhead than polling |
+| Handle errors by format (Open API vs legacy) | Different services use different formats |
+| Never expose root key; use agents | Security best practice |
 
 For complete working examples, visit: [https://github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples)

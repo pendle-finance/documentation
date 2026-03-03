@@ -6,7 +6,7 @@ Similar to other derivative exchanges, Boros supports both cross margin and isol
 
 - **Isolated Margin**: Constrains collateral to a single market, providing position-level risk isolation. Liquidations in an isolated market only affect that specific position and do not impact other isolated positions or cross-margin positions.
 
-This document covers the essential concepts of Boros margin system. For complete specifications, please refer to the [Boros whitepaper](https://github.com/pendle-finance/boros-core-public/blob/main/whitepapers/Boros.pdf).
+This document covers the essential concepts of the Boros margin system. For complete specifications, please refer to the [Boros whitepaper](https://github.com/pendle-finance/boros-core-public/blob/main/whitepapers/Boros.pdf).
 
 ## Position Value and Total Value
 
@@ -50,7 +50,7 @@ The system combines initial margin requirements from:
 2. **Long Orders**: Unfilled buy orders
 3. **Short Orders**: Unfilled sell orders
 
-PIM for active position is using with mark rate. PIM for orders are calculated using order rates.
+PIM for the active position is calculated using the mark rate. PIM for orders is calculated using order rates.
 
 The calculation evaluates worst-case margin requirements for both long and short sides:
 
@@ -107,8 +107,10 @@ _Note: For simplicity, these examples ignore the rate threshold parameter and us
 The actual initial margin requirement scales the pre-scaling amount:
 
 ```
-Initial Margin = Pre-scaling IM × IM Factor × Personal Factor × max(Time to Maturity, Time Threshold)
+Initial Margin = Pre-scaling IM × IM Factor × max(Time to Maturity, Time Threshold)
 ```
+
+**Note:** The IM Factor (`kIM`) and MM Factor (`kMM`) are global market parameters set in `MarketConfigStruct`. In some cases, individual accounts may have personal margin factors that differ from the global values (e.g., for whitelisted market makers). The effective factor for an account can be queried via [`getMarginFactor()`](../Contracts/Market.mdx#getmarginfactor).
 
 ### Opening Position Requirements
 
@@ -146,8 +148,14 @@ A user's health ratio indicates their margin safety:
 Health Ratio = Total Value / Total Maintenance Margin
 ```
 
-- **Health Ratio > 1**: Position is healthy
-- **Health Ratio ≤ 1**: Position is eligible for liquidation
+The system uses multiple health ratio thresholds to trigger progressive risk actions:
+
+| Threshold | Value | Action |
+|-----------|-------|--------|
+| Healthy | > 1.0 | Normal operations |
+| `riskyThresHR` | Approaching 1.0 | Risky orders may be force-cancelled (see [below](#risk-management-actions)) |
+| Liquidation | ≤ 1.0 | Position eligible for liquidation |
+| Deleverage | ≤ 0.7 | Forced deleverage as last resort |
 
 ### Liquidation Process
 
@@ -165,11 +173,13 @@ When a user's total value drops below maintenance margin requirements, their pos
 Liquidation Incentive = min(Incentive Factor, Health Ratio) × Change in Maintenance Margin
 ```
 
-Where the **Incentive Factor** is calculated as:
+Where the **Incentive Factor** is calculated from the market's [`LiqSettings`](/boros-dev/Contracts/CustomTypes#liqsettings):
 
 ```
-Incentive Factor = Base Factor + Slope Factor × (1 - Health Ratio)
+Incentive Factor = LiqSettings.base + LiqSettings.slope × (1 - Health Ratio)
 ```
+
+A liquidation fee (`LiqSettings.feeRate`) is also charged on the liquidated position and collected by the protocol treasury.
 
 This structure provides larger incentives as positions become more distressed, encouraging timely liquidation.
 
@@ -190,6 +200,26 @@ When insufficient liquidity exists for normal liquidation and a user's health ra
 - This action is not expected to occur frequently under normal market conditions
 - Priority targets are high-leverage positions on the opposite side
 
+### Risk Management Actions
+
+In addition to liquidation and deleverage, the protocol performs automated risk management to protect system solvency:
+
+**Force-Cancel of Risky Orders:**
+
+When an account's health ratio falls below `riskyThresHR`, all open orders for that account may be force-cancelled across all markets. This prevents further exposure from orders that could fill and worsen the account's position.
+
+**Out-of-Bound Order Purging:**
+
+Orders with rates that deviate too far from the current mark rate are periodically purged. The maximum allowed deviation is controlled by the market's `maxRateDeviationFactorBase1e4` parameter. Purged orders receive the [`PURGED`](/boros-dev/Contracts/CustomTypes#orderstatus) status. This mechanism prevents stale or manipulative orders from remaining in the book.
+
+**Health-Jump Order Cancellation:**
+
+If a pending funding rate update would cause an account's health ratio to drop below the risky threshold, the system may proactively cancel orders that contribute to the potential health deterioration.
+
+:::note
+These actions are performed by Pendle's permissioned infrastructure. Users should monitor their order status and health ratio, especially during volatile market conditions.
+:::
+
 ## Additional Restrictions
 
 ### Hard Open Interest Cap
@@ -204,8 +234,10 @@ When the system approaches this limit, "Closing only" mode may be activated for 
 
 ### Closing Only Mode
 
-Markets can enter closing-only mode during high-risk conditions. In this mode:
+Markets can enter [CLO (Close-Only)](/boros-dev/Contracts/CustomTypes#marketstatus) mode when open interest approaches the hard cap or during high-risk conditions. In this mode:
 
 - Only orders that reduce position size are allowed
 - New position opening is prohibited
-- Market makers may be whitelisted to continue providing liquidity
+- Certain whitelisted accounts (e.g., market makers) may be exempt from CLO restrictions via the `exemptCLOCheck` flag
+
+The market's current status (PAUSED, CLO, or GOOD) can be queried via [`getMarketConfig()`](../Contracts/Market.mdx#getmarketconfig).

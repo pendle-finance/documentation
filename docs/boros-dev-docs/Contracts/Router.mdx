@@ -1,5 +1,9 @@
 # Router Integration Guide
 
+:::caution Prefer the API over direct contract calls
+Interacting with Boros contracts directly is **not recommended** for most use cases. The [REST API](/boros-dev/Backend/api) and [SDK](/boros-dev/Backend/overview) handle authentication, calldata encoding, and transaction submission for you. Direct contract interaction is error-prone and may break if contract addresses or ABIs change. The information below is provided as a reference for advanced integrators only.
+:::
+
 The Router contract serves as the main entry point for all user interactions with Boros.
 
 Router follows a modular architecture:
@@ -7,7 +11,9 @@ Router follows a modular architecture:
 - **AuthModule**: agent authentication and delegated trading (irrelevant for external parties)
 - **AMMModule**: AMM-specific operations (add/remove liquidity, swaps)
 - **TradeModule**: core trading operations (enter/exit markets, place/cancel orders, cash transfer)
-- **MiscModule**: utility functions
+- **ConditionalModule**: conditional order execution (used by stop-order system)
+- **DepositModule**: deposit box operations (managed by Pendle backend)
+- **MiscModule**: utility functions (simulation, batch operations)
 
 ## Account Authorization
 
@@ -82,6 +88,24 @@ req.signedAmount = -500e18;    // Negative = from isolated to cross
 router.cashTransfer(req);
 ```
 
+### Subaccount Transfer
+
+Transfer cash between subaccounts under the same root. This is distinct from cross/isolated cash transfer — it moves funds between different subaccount IDs (e.g., from subaccount 0 to subaccount 1).
+
+```text
+router.subaccountTransfer(
+    1,              // target accountId
+    tokenId,        // TokenId of collateral token
+    marketId,       // marketId (CROSS for cross-margin)
+    500e18,         // amount to transfer
+    true            // isDeposit: true = transfer TO target, false = transfer FROM target
+);
+```
+
+:::note
+Currently only subaccount 0 is available for external users. Subaccount transfers are primarily used internally.
+:::
+
 ## Market Entry and Exit
 
 ### Enter Markets
@@ -104,10 +128,7 @@ router.enterExitMarkets(req);
 
 **Market Entry Limits**: Each account can enter a maximum of **10 markets** simultaneously. Exceeding this limit will cause transactions to revert.
 
-**Market Entrance Fees**: A one-time entrance fee is charged when you first interact with any market:
-
-- **BTC markets**: 0.000008 BTC (≈$1 USD)
-- **ETH markets**: 0.00027 ETH (≈$1 USD)
+**Market Entrance Fees**: A one-time entrance fee is charged when you first interact with any market. See [Fees — Market Entrance Fees](/boros-dev/Mechanics/Fees#market-entrance-fees) for amounts.
 
 **Minimum Cash Requirements**: You must maintain minimum cash balances in your account to participate in markets. Check the [specific requirements](./MarketHub.mdx#getcashfeedata) for cross vs isolated margin modes.
 
@@ -368,3 +389,33 @@ simulations[1] = SimulateData({
 // Get simulation results without changing state
 (bytes[] memory results, uint256[] memory gasUsed) = router.batchSimulate(simulations);
 ```
+
+## Conditional Orders
+
+The ConditionalModule enables orders with off-chain trigger conditions. This is the on-chain mechanism underlying the [Stop Order](../Backend/6.%20stop-orders.mdx) system.
+
+**How it works:**
+
+1. The user (agent) signs a `ConditionalOrder` specifying the trade parameters and a hashed off-chain condition
+2. When the condition is met (e.g., market rate crosses a threshold), a permissioned validator signs an execution message
+3. The validator submits both signatures to `executeConditionalOrder()`, which executes the trade on-chain
+
+```text
+struct ConditionalOrder {
+    Account account;       // The trading account
+    bool cross;            // Cross or isolated margin
+    MarketId marketId;     // Target market
+    Side side;             // LONG or SHORT
+    TimeInForce tif;       // Order type (GTC, IOC, etc.)
+    uint256 size;          // Order size
+    int16 tick;            // Price tick
+    bool reduceOnly;       // Only reduce existing position
+    uint256 salt;          // Unique salt for replay protection
+    uint64 expiry;         // Order expiration timestamp
+    bytes32 hashedOffchainCondition;  // Hash of the trigger condition
+}
+```
+
+:::note
+Conditional orders are not placed directly by users. They are managed through the [Stop Order Service](../Backend/6.%20stop-orders.mdx) API, which handles the signing, condition monitoring, and execution flow.
+:::

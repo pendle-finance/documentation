@@ -61,18 +61,19 @@ Boros order book follows the standard **rate-time priority** matching:
 
 ## Order Id
 
-Each order in Boros has a unique order Id, which a 64-bit packed value containing order metadata:
+Each order in Boros has a unique order Id, which is a 64-bit packed value containing order metadata:
 
 ```text
 OrderId structure (64 bits):
-┌─────────┬──────────┬─────────────┬──────────────┐
-│ Init(1) │ Side(1)  │ Tick(16)    │ Index(40)    │
-└─────────┴──────────┴─────────────┴──────────────┘
+┌─────────┬──────────────┬──────────┬─────────────┬──────────────┐
+│ Init(1) │ Reserved(6)  │ Side(1)  │ Tick(16)    │ Index(40)    │
+└─────────┴──────────────┴──────────┴─────────────┴──────────────┘
 
-Bit 63: Initialization marker (always 1 for valid orders)
-Bit 56: Side (0 = LONG, 1 = SHORT)
+Bit 63:    Initialization marker (always 1 for valid orders)
+Bits 57-62: Reserved
+Bit 56:    Side (0 = LONG, 1 = SHORT)
 Bits 40-55: Encoded tick index
-Bits 0-39: Order index within tick
+Bits 0-39:  Order index within tick
 ```
 
 This encoding has a nice ordering property: orders with **lower OrderId values** have **higher priority** in the order book.
@@ -93,17 +94,7 @@ uint40 index = orderId.orderIndex();
 
 ### Time In Force
 
-Time In Force (TIF) parameters control how orders behave during matching and placement. Boros supports five TIF types to accommodate different trading strategies:
-
-```text
-enum TimeInForce {
-    GTC,       // Good Till Cancel - Standard limit order, remains on book until filled/cancelled
-    IOC,       // Immediate or Cancel - Executes against available liquidity, cancels unfilled portion
-    FOK,       // Fill or Kill - Must fill entire size or transaction reverts
-    ALO,       // Add Liquidity Only - Post-only order, transaction reverts if would match
-    SOFT_ALO   // Soft ALO - If order would match, it gets skipped (not placed on orderbook) and transaction doesn't revert
-}
-```
+Time In Force (TIF) parameters control how orders behave during matching and placement. Boros supports five TIF types: GTC, IOC, FOK, ALO, and SOFT_ALO. See [Custom Types — TimeInForce](/boros-dev/Contracts/CustomTypes#timeinforce) for descriptions of each type.
 
 ### Self-trade Prevention
 
@@ -127,16 +118,29 @@ Boros prevents self-trading by checking if an incoming order would match against
 - Orders with rates significantly deviating from the mark rate will be rejected:
   - **Buy/Long orders**: Rejected if rate is too far above the mark rate
   - **Sell/Short orders**: Rejected if rate is too far below the mark rate
-- The acceptable deviation threshold is market-specific and configured to prevent market manipulation
+- The acceptable deviation is governed by `maxRateDeviationFactorBase1e4` in the market config
+- When placing **closing orders** (reducing position), a separate, more lenient bound `closingOrderBoundBase1e4` applies
 
-**Bad Debt Prevention**:
+**Limit Order Rate Bounds**:
 
-- The system continuously monitors all open orders against account health
-- Orders that could potentially put makers into bad debt if filled are force-cancelled
+Limit orders have additional rate constraints controlled by four parameters in the market config:
+
+```
+Upper Bound = Mark Rate × (1 + loUpperConst + loUpperSlope × Time to Maturity)
+Lower Bound = Mark Rate × (1 - loLowerConst - loLowerSlope × Time to Maturity)
+```
+
+These parameters ensure limit orders remain within a reasonable range of the current mark rate, scaling with time to maturity.
+
+## Order Lifecycle
+
+Beyond normal cancellation, orders can be removed by the protocol's risk management system — including force-cancellation of risky accounts' orders and purging of out-of-bound orders (which receive the [`PURGED`](/boros-dev/Contracts/CustomTypes#orderstatus) status). See [Risk Management Actions](./Margin.mdx#risk-management-actions) for details.
+
+For order status values, see [Custom Types — OrderStatus](/boros-dev/Contracts/CustomTypes#orderstatus).
 
 ## TWAP Oracle
 
-Boros maintains a Time-Weighted Average Price (TWAP) oracle to calculate the **mark rate** - the reference rate used for margining and liquidations. Each time an order is matched against the order book. The rate of the last matched tick is incorporated into the TWAP calculation based on time elapsed.
+Boros maintains a Time-Weighted Average Price (TWAP) oracle to calculate the **mark rate** — the reference rate used for margining and liquidations. Each time an order is matched against the order book, the rate of the last matched tick is incorporated into the TWAP calculation based on time elapsed.
 
 The oracle uses a fixed-window observation approach:
 

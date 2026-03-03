@@ -4,6 +4,10 @@ hide_table_of_contents: true
 
 # High Level Architecture
 
+:::tip Use the API
+For most integrations, interact with Boros through the [REST API](/boros-dev/Backend/api) and [SDK](/boros-dev/Backend/overview) rather than calling contracts directly. The API handles calldata encoding, settlement, and transaction submission. The contract details below are provided as an architectural reference.
+:::
+
 ## Core Contracts
 
 ```text
@@ -18,7 +22,7 @@ graph TD
 
 Router authenticates and forwards user operations to MarketHub.
 
-MarketHub receives user operations from Router, forward to the correct market contract, settle fees/payment, and check that accounts fulfill the margin requirements.
+MarketHub receives user operations from Router, forwards them to the correct market contract, settles fees/payment, and checks that accounts fulfill the margin requirements.
 
 Market executes user operations from MarketHub, then returns payment amount and data for margin checking.
 
@@ -29,7 +33,7 @@ Router is the gateway to the Boros protocol. Its main functionality is authentic
 - Direct call where `msg.sender` is used as user address
 - Agent call where user signs messages of desired operations
   - Only available to Pendle's permissioned relayers
-  - Accessed through [Boros SDK](./Backend-legacy/SDK.mdx)
+  - Accessed through the [Boros SDK](./Backend/0.%20overview.mdx)
 
 ### MarketHub
 
@@ -37,12 +41,12 @@ MarketHub is the market coordinator and risk manager of Boros. MarketHub holds u
 
 - user EVM address
 - subaccountID
-  - Every user has up to 256 subaccounts, though only subaccount 0 is available to direct call
+  - Every user has up to 256 subaccounts, though only subaccount 0 is available for direct calls
 - tokenId
   - Every collateral token has a specific ID inside Boros. A given MarketAcc can only interact with markets of that collateral token.
 - marketId
-  - For isolated-margin account, this is the marketId of the market that this accounts operates on.
-  - For cross-margin account, this is a special value _CROSS_, equal to $2^{24}-1$.
+  - For an isolated-margin account, this is the marketId of the market that this account operates on.
+  - For a cross-margin account, this is a special value _CROSS_, equal to $2^{24}-1$.
 
 An account can enter a single market, if it is isolated, or multiple markets, if it is _CROSS_. Every market represents a different interest rate swap type: different token, different maturity, different reference rate. However, every market entered by a given account must share the same collateral token.
 
@@ -50,7 +54,7 @@ After each user operation, MarketHub checks that accounts fulfill the [margin re
 
 ### Market
 
-Boros markets is deployed as separate contracts. Markets are differentiated by their descriptors:
+Boros markets are deployed as separate contracts. Markets are differentiated by their descriptors:
 
 ```
 - bool isIsolatedOnly
@@ -70,10 +74,20 @@ Automated Market Makers (AMM) provide continuous liquidity alongside the order b
 
 More details about AMM can be found in the [whitepaper](https://github.com/pendle-finance/boros-core-public/blob/main/whitepapers/AMM.pdf).
 
+## Supporting Contracts
+
+### FIndex Oracle
+
+Each market has an associated FIndex Oracle that provides the floating rate data used in [periodic settlement](./Mechanics/Settlement.mdx). The oracle reports the cumulative floating index and fee index, which are packed into the [`FIndex`](./Contracts/CustomTypes.mdx#findex) type. Oracle updates trigger settlement calculations for all positions in the market. The oracle address is configured per market and can be queried via [`getMarketConfig()`](./Contracts/Market.mdx#getmarketconfig).
+
+### Deposit Box
+
+Deposit Boxes are deterministic per-user contracts created by the `DepositBoxFactory`. They serve as intermediary wallets for receiving cross-chain deposits and performing token swaps (via external DEX routers) before depositing into Boros. Funds in Deposit Boxes are managed by Pendle's backend — users do not interact with them directly. The factory computes a deterministic address from `(root, boxId)` so senders can pre-calculate the deposit target.
+
 ## Token Decimals
 
 Internally, Boros uses 18-decimals fixed point for all numerical values, including position size, payment, fees, etc.
 
 When depositing ERC20 tokens of non-18 decimals, the amount will be scaled up. Similarly, when withdrawing, the amount will be scaled down.
 
-Tokens with decimal greater than 18 are not supported.
+Tokens with decimals greater than 18 are not supported.

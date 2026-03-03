@@ -1,5 +1,9 @@
 # MarketHub View Functions
 
+:::caution Prefer the API over direct contract calls
+The [REST API](/boros-dev/Backend/api) exposes the same data (balances, withdrawals, entered markets) with proper settlement handling. Direct contract calls return unsettled data. Use the API unless you have a specific need for on-chain reads.
+:::
+
 ### `getEnteredMarkets()`
 
 ```text
@@ -29,7 +33,7 @@ address btcAddress = marketHub.tokenIdToAddress(btcTokenId);
 
 ```text
 MarketId btcMarketId = MarketId.wrap(456);
-address btcMarketAddress = marketHub.marketIdToAddress(marketId);
+address btcMarketAddress = marketHub.marketIdToAddress(btcMarketId);
 ```
 
 ### `tokenData()`
@@ -41,7 +45,7 @@ Returns the token configuration data for the specified token ID. The `TokenData`
 
 ```text
 TokenId btcTokenId = TokenId.wrap(1);
-TokenData memory data = marketHub.tokenData(tokenId);
+TokenData memory data = marketHub.tokenData(btcTokenId);
 ```
 
 ## Cash and Balance Functions
@@ -130,7 +134,7 @@ console.log("Total value: %s", totalCash + totalPositionValue);
 console.log("Total Maintenance Margin: %s", totalMaintenanceMargin);
 
 // Calculate health ratio
-int256 healthRatio = (totalCash + totalPositionValue) * 1e18 / int256(marginRequired);
+int256 healthRatio = (totalCash + totalPositionValue) * 1e18 / int256(totalMaintenanceMargin);
 console.log("Health ratio: %s", healthRatio);
 ```
 

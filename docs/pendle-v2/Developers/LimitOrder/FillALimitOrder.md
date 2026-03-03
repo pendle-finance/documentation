@@ -6,9 +6,9 @@ Pendle exposes 1 API for takers to view active orders to fill them on-chain
 
 [Get limit orders](https://api-v2.pendle.finance/limit-order/docs#/Taker/TakersController_generateLimitOrderData)
 
-# Typescript example
+## TypeScript Example
 
-**Note:**: The code examples in the guide below are taken from our demo GitHub repository, which demonstrates the complete end-to-end Limit Order processes in a TypeScript environment.
+**Note:** The code examples in the guide below are taken from our demo GitHub repository, which demonstrates the complete end-to-end Limit Order processes in a TypeScript environment.
 
 [Repo](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
 
@@ -19,7 +19,7 @@ Takers can use Pendle's API to fetch the limit orders and use any fetched orders
 ```ts
 const requestQuery: LimitOrderQuery = {
   skip: 0,
-  limit: 10, // Use skip and limit to fetch the orders, you can fetch upto 100 orders at a request
+  limit: 10, // Use skip and limit to fetch the orders, you can fetch up to 100 orders per request
   chainId: ChainId.ARBITRUM,
   yt: aUSDC_MARKET.yt,
   type: LimitOrderType.TOKEN_FOR_PT,
@@ -32,7 +32,7 @@ A single API response can return up to 100 orders. Takers can use the skip and l
 
 Takers can sort the orders by implied rate (in ascending or descending order) to find the best orders.
 
-For example: If a taker want to find orders sell token for YT, the orders with lower implied rate will be profitable than those with a higher implied rate. So takers can fetch the orders sorted by `Implied Rate` and `sortOrder` set to `asc`.
+For example: If a taker wants to find orders selling tokens for YT, the orders with a lower implied rate will be more profitable than those with a higher implied rate. So takers can fetch the orders sorted by `Implied Rate` and `sortOrder` set to `asc`.
 
 The returned data will include `netFromTaker`, `netToTaker`, indicating the amount the taker will receive and the amount that will be taken from the taker.
 
@@ -64,6 +64,6 @@ There are three main params that you need to fill the limit orders
 
 The maxTaking value indicates the maximum amount the limit order contract can take from the Taker to fill the limit orders.
 
-Because the `netFromTaker` data received from Pendle's backend can be change over time, it's recommended to buffer the maxTaking by 1% of the sumNetFromTaker.
+Because the `netFromTaker` data received from Pendle's backend can change over time, it's recommended to buffer the maxTaking by 1% of the sumNetFromTaker.
 
 You can find more implementation details in our [demo repository](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)

@@ -3,3 +3,167 @@ hide_table_of_contents: true
 ---
 
 # Frequently Asked Questions
+
+## Getting Started
+
+### What do I need to start trading on Boros programmatically?
+
+You need three things:
+1. **A root wallet** — an Ethereum address on Arbitrum with funds for collateral deposits
+2. **An agent wallet** — a separate key pair authorized to trade on your behalf (so you don't expose your root key)
+3. **Gas balance** — topped up via the agent flow or the Boros web UI, used to pay for on-chain transaction fees
+
+See the [Backend Integration Overview](./Backend/0.%20overview.mdx) and [Agent Trading](./Backend/2.%20agent.mdx) for the full setup guide.
+
+### What's the difference between root wallet and agent wallet?
+
+Your **root wallet** is your primary identity. It signs sensitive actions: deposits, withdrawals, and agent approvals. These go directly to the blockchain.
+
+Your **agent wallet** is a delegated signer for day-to-day trading. It signs non-sensitive actions: placing orders, canceling orders, cash transfers. These go through the Send Txs Bot service. The agent **cannot withdraw funds** — only the root can.
+
+### Which chain is Boros on?
+
+Boros is deployed on **Arbitrum**. All on-chain transactions (deposits, withdrawals, agent approvals) are Arbitrum transactions.
+
+---
+
+## Account & Margin
+
+### What is a Market Account (`marketAcc`)?
+
+A Market Account is a packed identifier: `(root, subaccountId, tokenId, marketId)`. It uniquely identifies your trading context. Pack it using the SDK:
+
+```typescript
+import { MarketAccLib, CROSS_MARKET_ID } from "@pendle/sdk-boros";
+const marketAcc = MarketAccLib.pack(walletAddress, 0, tokenId, CROSS_MARKET_ID);
+```
+
+Use `CROSS_MARKET_ID` (16777215) for cross-margin, or a specific `marketId` for isolated margin.
+
+### What's the difference between cross-margin and isolated-margin?
+
+**Cross-margin** shares collateral across all entered markets. Profit in one market offsets losses in another, giving you better capital efficiency. Most users should use cross-margin.
+
+**Isolated-margin** constrains collateral to a single market. A liquidation in that market won't affect your other positions. Use isolated when you want strict risk separation.
+
+See [Margin Mechanics](./Mechanics/Margin.mdx) for details.
+
+### How many markets can I enter?
+
+Up to **10 markets** per market account. If you've hit the limit, exit markets you're no longer trading. See [Best Practices](./Backend/5.%20best-practices.mdx) for why exiting unused markets also saves gas.
+
+### How many open orders can I have?
+
+Maximum **100 open limit orders** per market account per market.
+
+### Why are all my values in 18 decimals?
+
+Boros normalizes all internal values to 18-decimal fixed-point for consistency, regardless of the underlying token's native decimals (e.g., USDT uses 6 decimals on-chain, but 18 inside Boros). Use the SDK helpers `FixedX18.fromNumber()` and `FixedX18.fromBigIntString()` to convert.
+
+---
+
+## Trading
+
+### How do I place an order?
+
+1. Generate calldata: `POST /open-api/v1/calldata/place-orders`
+2. Sign the calldata with your agent key
+3. Submit: `POST /send-txs-bot/v3/agent/bulk-direct-call`
+
+See the [API integration workflow](./Backend/3.%20api.mdx#2-placing-a-trade-agent-flow) for the complete flow.
+
+### What's the difference between single orders and bulk orders?
+
+**Single orders** (`placeSingleOrder` on-chain) can match with the AMM for potentially better execution but cost more gas if placing multiple.
+
+**Bulk orders** are batched into one transaction — lower gas, atomic execution, but they go directly to the order book and do **not** match with the AMM.
+
+Use bulk orders when placing or adjusting multiple orders at once. See [Best Practices](./Backend/5.%20best-practices.mdx#bulk-order-placement).
+
+### What is a tick? How do I convert APR to tick?
+
+A tick is an integer representing an interest rate level on the order book. The conversion formula is:
+
+```
+rate = 1.00005^(tick × tickStep) - 1
+```
+
+Where `tickStep` is a market-specific parameter. Use the SDK:
+
+```typescript
+import { estimateTickForRate, getRateAtTick } from "@pendle/sdk-boros";
+import { FixedX18 } from "@pendle/boros-offchain-math";
+
+const tick = estimateTickForRate(FixedX18.fromNumber(0.05), tickStep, false); // 5% APR → tick
+const rate = getRateAtTick(tick, tickStep); // tick → rate
+```
+
+### How do stop orders (TP/SL) work?
+
+Stop orders are off-chain conditional orders monitored by the Stop Order Service. When the market APR crosses your specified threshold, the service automatically submits a market order on your behalf. See [Stop Orders](./Backend/6.%20stop-orders.mdx) for the full guide.
+
+### Can I close a position partially?
+
+Yes. Use the `place-orders` calldata endpoint to place a counter-order (opposite side) with a smaller size than your current position. For a full close, use the `simulations/close-active-position` endpoint to get the exact parameters.
+
+---
+
+## Withdrawals
+
+### Why can't I withdraw immediately?
+
+Boros uses a **request → cooldown → finalize** withdrawal pattern for security. After requesting a withdrawal, you must wait for the cooldown period before finalizing. You can cancel a pending withdrawal request at any time.
+
+### Can my agent withdraw funds?
+
+No. Withdrawals are a **sensitive action** that only the root wallet can initiate. This is a key security property — even if your agent key is compromised, your funds remain safe.
+
+---
+
+## Gas & Fees
+
+### What fees does Boros charge?
+
+1. **Position opening fees** (taker only): `size × 0.05% × time to maturity`. Makers pay zero fees.
+2. **Settlement fees**: Charged every 8 hours on open positions.
+3. **Market entrance fee**: One-time ~$1 fee when first entering a market.
+4. **Gas fees**: Actual Arbitrum gas cost for agent-submitted transactions (no markup).
+
+See [Fee Structure](./Mechanics/Fees.mdx) for detailed formulas.
+
+### How does the gas balance work?
+
+When the Send Txs Bot submits transactions on your behalf, gas is paid from your gas balance (denominated in USD). You're charged the actual Arbitrum gas cost with no markup. Top up via the agent flow (`/calldata/vault-pay-treasury`) or the [Boros web UI](https://boros.pendle.finance/account).
+
+### What happens if my gas balance runs out?
+
+Your agent-submitted transactions will fail. You can still perform root-signed actions (deposit, withdraw) since those are submitted directly to the blockchain. Top up your gas balance to resume agent trading.
+
+---
+
+## WebSocket
+
+### Should I use REST or WebSocket for real-time data?
+
+Use **WebSocket** for real-time streaming: order book updates, trade events, and account state changes. Use **REST** for initial data loading and on-demand queries. See [WebSocket docs](./Backend/4.%20websocket.mdx).
+
+### Do WebSocket events include full data?
+
+Currently, account update events are **notifications only** — they tell you something changed but don't include the full updated state. When you receive an update, call the REST API (`POST /accounts/market-acc-infos`) to fetch the latest data. Richer event payloads are planned for a future update.
+
+---
+
+## Troubleshooting
+
+### My transaction failed with "insufficient margin"
+
+Your account doesn't have enough collateral to satisfy the initial margin requirement for the new position. Either:
+- Deposit more collateral
+- Reduce the position size
+- Close existing positions to free up margin
+
+Use `GET /simulations/place-order` to preview margin requirements before placing.
+
+### I'm getting "agent expired" errors
+
+Agent approvals have an expiry time. Check it with `GET /agents/expiry-time` and re-approve if needed using `GET /calldata/approve-agent`.

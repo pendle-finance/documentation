@@ -8,7 +8,7 @@ This document covers all functions for trading Principal Tokens (PT) in Pendle m
 
 ## Token to PT Trading
 
-Since AMM only supports swaps by exact PT, to swap exact tokens for PT requires binary search approximation to find the correct amount of SY needed to achieve the desired PT output. For best usage, use the [SDK](../../../Backend/HostedSdk#features) for better approximation since running binary search on-chain is costly.
+Since the AMM only supports swaps by exact PT, to swap exact tokens for PT requires binary search approximation to find the correct amount of SY needed to achieve the desired PT output. For best usage, use the [SDK](../../../Backend/HostedSdk#features) for better approximation since running binary search on-chain is costly.
 
 ### swapExactTokenForPt
 
@@ -120,7 +120,7 @@ function swapExactPtForToken(
 
 | Name | Type | Description |
 |------|------|-------------|
-| netTokenOut | `uint256` | Amount tokens received |
+| netTokenOut | `uint256` | Amount of tokens received |
 | netSyFee | `uint256` | Trading fees paid in SY |
 | netSyInterm | `uint256` | SY tokens before conversion |
 

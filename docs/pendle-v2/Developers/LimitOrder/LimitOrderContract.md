@@ -182,4 +182,4 @@ The callback mechanism enables complex interactions and arbitrage opportunities.
 
 ![Limit Order Callback Flow](/img/Developers/limit_order_callback_flow.png "Limit Order Callback Flow")
 
-This flow allows for flexible and creative use of the `fill` function, providing opportunities for arbitrage and custom contract logic. Arbitrageurs can take advantage of this mechanism to execute strategies that generate profit by finding discrepancies in token values or other
+This flow allows for flexible and creative use of the `fill` function, providing opportunities for arbitrage and custom contract logic. Arbitrageurs can take advantage of this mechanism to execute strategies that generate profit by finding discrepancies in token values or other market inefficiencies.

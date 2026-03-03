@@ -1,6 +1,6 @@
 # Settlement
 
-In Boros, settlement refers to position update when a trade happens (e.g. market order placed, limit order filled) and the periodic floating payment.
+In Boros, settlement refers to the position update when a trade happens (e.g., market order placed, limit order filled) and the periodic floating payment.
 
 ### Trade Settlement
 
@@ -64,7 +64,7 @@ Floating payments are subject to settlement fees. For detailed fee structure, se
 
 ## Algorithm
 
-In traditional order books, when a market order matches against limit orders, all makers' positions are updated immediately. On-chain, this becomes prohibitively expensive as a single order could match against hundreds or thousands of limit orders, each requiring storage updates. Boros solved this by using a lazy settlement process that defers the position update until the next time users interact with Boros.
+In traditional order books, when a market order matches against limit orders, all makers' positions are updated immediately. On-chain, this becomes prohibitively expensive as a single order could match against hundreds or thousands of limit orders, each requiring storage updates. Boros solves this by using a lazy settlement process that defers the position update until the next time users interact with Boros.
 
 Since the last time a user interacted with Boros, multiple events may have occurred that affect their position:
 
@@ -110,7 +110,7 @@ Events to process:
 
 Processing order:
 1. Process fills from 08:00-16:00 period (100 units)
-2. Process Floating payment at 16:00
+2. Process floating payment at 16:00
 3. Process fills from 16:00-24:00 period (50 units)
 ```
 
@@ -126,7 +126,7 @@ To retrieve current, accurate position information, you must first trigger settl
 IMarketHub(marketHub).settleAllAndGet(acc, GetRequest.ZERO, MarketId.ZERO);
 ```
 
-You can also use the [REST API](../Backend-legacy/REST%20API.mdx), which provides accurate, up-to-date data without requiring manual settlement triggers.
+You can also use the [REST API](../Backend/3.%20api.mdx), which provides accurate, up-to-date data without requiring manual settlement triggers.
 
 **Strategic Position Management:**
 
@@ -138,7 +138,7 @@ Floating payments are calculated based on your position size at the exact paymen
 
 **Oracle Update Delays:**
 
-In practice, Floating payments don't occur at the exact period boundaries due to off-chain oracle update delays:
+In practice, floating payments don't occur at the exact period boundaries due to off-chain oracle update delays:
 
 - **Expected Time**: Payment for 8:00:00 boundary
 - **Actual Time**: Usually occurs ~10 seconds later (e.g., 8:00:10)

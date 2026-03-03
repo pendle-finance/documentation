@@ -44,6 +44,7 @@ module.exports = {
         { type: "doc", id: "Backend/agent", label: "🤖 Agent" },
         { type: "doc", id: "Backend/api", label: "🌐 API" },
         { type: "doc", id: "Backend/websocket", label: "📡 WebSocket" },
+        { type: "doc", id: "Backend/stop-orders", label: "🎯 Stop Orders" },
         { type: "doc", id: "Backend/best-practices", label: "✨ Best Practices" },
       ],
     },

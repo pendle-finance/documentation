@@ -1,0 +1,127 @@
+# Stop Orders (TP/SL)
+
+## Overview
+
+Stop orders are **conditional orders** that automatically execute when the market APR crosses a specified threshold. They allow you to set up take-profit (TP) and stop-loss (SL) levels for your positions without needing to monitor the market continuously.
+
+Unlike regular limit orders that live on-chain in the order book, stop orders are managed **off-chain** by the Stop Order Service. When the trigger condition is met, the service generates and submits the trade on your behalf through the agent system.
+
+## How Stop Orders Work
+
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  1. You have an open position on a market                   │
+│  2. You set a stop order: "if APR reaches X, close/reduce"  │
+│  3. The Stop Order Service monitors the market APR           │
+│  4. When APR crosses your threshold → order is triggered     │
+│  5. The service executes a market order to close/reduce      │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Order Types
+
+| Type | Value | Description |
+|------|-------|-------------|
+| **Take Profit (Market)** | `2` | Triggers when the market moves in your favor. Closes at market price to lock in profit. |
+| **Stop Loss (Market)** | `3` | Triggers when the market moves against you. Closes at market price to limit losses. |
+
+Both types execute as **market orders** (IOC — Immediate or Cancel) when triggered, filling against available liquidity in the order book.
+
+## Trigger Logic
+
+The trigger condition depends on the combination of your position side and the order type:
+
+| Position | Order Type | Triggers when APR... |
+|----------|------------|---------------------|
+| Long | Take Profit | rises above the threshold |
+| Long | Stop Loss | falls below the threshold |
+| Short | Take Profit | falls below the threshold |
+| Short | Stop Loss | rises above the threshold |
+
+The trigger APR is specified as a **tick** value. See the [Glossary](./1.%20glossary.mdx) for how ticks map to interest rates.
+
+## Integration Guide
+
+### Step 1: Prepare the Stop Order
+
+Call the prepare endpoint to generate the order parameters including the calldata that will be executed when the order triggers:
+
+```typescript
+const { data: prepareResult } = await axios.get(
+  `${BASE_URL}/stop-order/v1/orders/tpsl/prepare`,
+  {
+    params: {
+      userAddress: '0xYourAddress',
+      accountId: 0,
+      marketId: 1,
+      side: 0,              // 0 = Long, 1 = Short
+      stopAprOrderType: 3,  // 2 = Take Profit, 3 = Stop Loss
+      tick: -500,           // trigger APR as tick value
+      size: '1000000000000000000000', // size in 18 decimals
+    }
+  }
+);
+```
+
+The response includes a `calldatas` array — the pre-built transaction data that the service will submit when the stop order triggers.
+
+### Step 2: Place the Stop Order
+
+Sign and submit the stop order. The placement requires an agent signature to authorize the service to execute on your behalf:
+
+```typescript
+const { data: placeResult } = await axios.post(
+  `${BASE_URL}/stop-order/v2/orders/place`,
+  {
+    userAddress: '0xYourAddress',
+    accountId: 0,
+    tokenId: 0,
+    marketId: 1,
+    side: 0,
+    stopAprOrderType: 3,
+    tick: -500,
+    size: '1000000000000000000000',
+    timeInForce: 1,          // IOC for market execution
+    calldatas: prepareResult.calldatas,
+    // ... agent signature fields
+  }
+);
+```
+
+The response confirms placement with the order details and a `stopOrderRequestId`.
+
+### Step 3: Monitor or Cancel
+
+To cancel a pending stop order:
+
+```typescript
+const { data: cancelResult } = await axios.delete(
+  `${BASE_URL}/stop-order/v3/orders/cancel`,
+  {
+    data: {
+      orderIds: ['order-id-1', 'order-id-2'],
+      // ... agent signature fields
+    }
+  }
+);
+```
+
+## Important Notes
+
+- **Off-chain execution**: Stop orders are not on-chain limit orders. They are monitored and triggered by the Stop Order Service.
+- **Market orders**: When triggered, stop orders execute as market orders (IOC). In low-liquidity conditions, the order may partially fill or not fill at all.
+- **Agent required**: Stop orders use the agent authorization system. Your agent must be approved before placing stop orders.
+- **Size in 18 decimals**: Position sizes are always specified in 18-decimal fixed-point format, regardless of the underlying token's native decimals.
+- **Tick precision**: The trigger APR is specified as a tick value. Use SDK helpers (`estimateTickForRate`, `getRateAtTick`) to convert between human-readable APR and tick values.
+
+## API Reference
+
+For exact request/response schemas, see the interactive docs:
+
+**[https://api.boros.finance/stop-order/docs](https://api.boros.finance/stop-order/docs)**
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/v1/orders/tpsl/prepare` | GET | Generate stop order parameters and calldata |
+| `/v2/orders/place` | POST | Place a signed stop order |
+| `/v3/orders/cancel` | DELETE | Cancel one or more stop orders |
