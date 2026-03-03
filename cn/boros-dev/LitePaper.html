@@ -17,8 +17,8 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous"><link rel="stylesheet" href="/cn/assets/css/styles.0805199b.css">
-<script src="/cn/assets/js/runtime~main.28d6cb5d.js" defer="defer"></script>
-<script src="/cn/assets/js/main.0f54531c.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.cfe97ff5.js" defer="defer"></script>
+<script src="/cn/assets/js/main.d0b040a5.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -29,7 +29,7 @@
 <h1>How does Boros work from a user perspective?</h1>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="interest-rate-swap-mechanics">Interest rate swap mechanics<a href="#interest-rate-swap-mechanics" class="hash-link" aria-label="Direct link to Interest rate swap mechanics" title="Direct link to Interest rate swap mechanics">​</a></h3>
 <ul>
-<li>Users can open <strong>interest rate swap positions</strong> to speculate on <strong>interests</strong> of certain asset.</li>
+<li>Users can open <strong>interest rate swap positions</strong> to speculate on <strong>interest rates</strong> of a certain asset.</li>
 <li>An <strong>interest rate swap position</strong> = user has to pay an <strong>interest stream</strong> and receive another <strong>interest stream</strong> until a <strong>maturity</strong>. There are only two possible scenarios:<!-- -->
 <ul>
 <li>Receive the <strong>floating interest</strong>, and pay a <strong>fixed interest</strong></li>
@@ -84,11 +84,11 @@
 </ul>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="orderbook-for-matching-swaps">Orderbook for matching swaps<a href="#orderbook-for-matching-swaps" class="hash-link" aria-label="Direct link to Orderbook for matching swaps" title="Direct link to Orderbook for matching swaps">​</a></h3>
 <ul>
-<li>Each Boros market has a native orderbook to facilitating opening swaps.</li>
+<li>Each Boros market has a native orderbook to facilitate opening swaps.</li>
 <li>Users can open a new swap in two ways:<!-- -->
 <ul>
 <li>Open a limit order on the orderbook and wait for someone to take their order, creating a pair of swaps between the two users.</li>
-<li>Do a market order, filling an existing limit orders, creating a pair of swaps between the two users.</li>
+<li>Do a market order, filling existing limit orders, creating a pair of swaps between the two users.</li>
 </ul>
 </li>
 </ul>
@@ -116,7 +116,7 @@
 </li>
 <li>6 months before maturity<!-- -->
 <ul>
-<li>Alice wants to gets a <strong>swap position</strong> with <strong>size = 10 ETH</strong>, <strong>paying fixed and receiving floating (Long Rate)</strong></li>
+<li>Alice wants to get a <strong>swap position</strong> with <strong>size = 10 ETH</strong>, <strong>paying fixed and receiving floating (Long Rate)</strong></li>
 <li>Alice deposits 0.4 ETH collateral into the ETH trading zone.</li>
 <li>Current Mark Rate is 12%</li>
 <li>Alice is good to pay a fixed rate of 12% (and below), so she offers to pay 12% fixed rate on 10 ETH to get the floating interest stream, by placing an order in an on-chain orderbook.<!-- -->
@@ -125,8 +125,8 @@
 <li><strong>Initial margin needed</strong> for this position = 10 * 0.5 years * 6% = 0.3 ETH out of Alice&#x27;s 0.4 ETH collateral. Alice&#x27;s available initial margin left is 0.1 ETH after placing the limit order.</li>
 </ul>
 </li>
-<li>Bob is another user who wants to pay the <strong>floating rate</strong> in exchange for a <strong>fixed rate</strong>. Bob is good to receive 12% fixed (and above) on 10 ETH, do a market order on the orderbook and fills Alice&#x27;s limit order.</li>
-<li>Now, a pair of swap between Alice is Bob is created and:<!-- -->
+<li>Bob is another user who wants to pay the <strong>floating rate</strong> in exchange for a <strong>fixed rate</strong>. Bob is good to receive 12% fixed (and above) on 10 ETH, so he does a market order on the orderbook and fills Alice&#x27;s limit order.</li>
+<li>Now, a pair of swaps between Alice and Bob is created and:<!-- -->
 <ul>
 <li>Alice has<!-- -->
 <ul>
@@ -157,7 +157,7 @@
 </li>
 </ul>
 </li>
-<li>After 1 months, (5 <strong>months</strong> before maturity), the average ETH funding rate has been 10%. Now, let&#x27;s say the <strong>mark rate</strong> is 5% (traders on Boros collectively thinks the average future rate is at 5%)<!-- -->
+<li>After 1 month, (5 <strong>months</strong> before maturity), the average ETH funding rate has been 10%. Now, let&#x27;s say the <strong>mark rate</strong> is 5% (traders on Boros collectively think the average future rate is at 5%)<!-- -->
 <ul>
 <li>At this point, Alice has<!-- -->
 <ul>
