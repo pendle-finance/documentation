@@ -80,7 +80,7 @@ Common channel patterns:
 | `statistics:MARKET_ID` | Market statistics updates |
 | `account:ACCOUNT` | Account state change notifications (orders, positions, balances) |
 
-Replace `MARKET_ID` with your specific market identifier, `USER_ADDRESS` with the wallet address, and `ACCOUNT_ID` with the sub-account ID (default: `0`).
+Replace `MARKET_ID` with your specific market identifier and `ACCOUNT` with the packed account identifier (wallet address concatenated with account ID, see [Account Change Tracking](#account-change-tracking) for details).
 
 ## Best Practices
 
@@ -170,13 +170,31 @@ You can subscribe to your account channel to receive notifications when your acc
 
 ### Subscribing to Account Updates
 
+The account channel format is `account:ACCOUNT`, where `ACCOUNT` is your wallet address (lowercased) concatenated with your account ID.
+
+For example, if your wallet address is `0xdAC17F958D2ee523a2206206994597C13D831ec7` and your account ID is `0` (the default account ID in Boros), the channel would be:
+
+```
+account:0xdac17f958d2ee523a2206206994597c13d831ec700
+```
+
+You can use `AccountLib.pack()` from `@pendle/sdk-boros` to construct this:
+
+```typescript
+import { AccountLib } from '@pendle/sdk-boros';
+
+const account = AccountLib.pack('0xdAC17F958D2ee523a2206206994597C13D831ec7', 0);
+// account = '0xdac17f958d2ee523a2206206994597c13d831ec700'
+```
+
 ```typescript
 // Subscribe to account updates
-// Format: account:USER_ADDRESS:ACCOUNT_ID
-socket.emit('subscribe', 'account:0xYourWalletAddress:0');
+// Format: account:ACCOUNT
+const channel = `account:${AccountLib.pack(walletAddress, accountId)}`;
+socket.emit('subscribe', channel);
 
 // Listen for account update events
-socket.on('account:0xYourWalletAddress:0:update', (data) => {
+socket.on(`${channel}:update`, (data) => {
   console.log('Account updated:', data);
 
   // Refetch the latest account data via API
@@ -228,7 +246,8 @@ async function refreshAccountData() {
 
 ```typescript
 import { io } from 'socket.io-client';
-import axios from "axios";
+import axios from 'axios';
+import { AccountLib } from '@pendle/sdk-boros';
 
 class AccountTracker {
   private socket: any;
@@ -236,13 +255,13 @@ class AccountTracker {
   private accountId: number;
 
   constructor(walletAddress: string, accountId: number = 0) {
-    this.walletAddress = walletAddress;
+    this.walletAddress = walletAddress.toLowerCase();
     this.accountId = accountId;
 
     this.socket = io('wss://api.boros.finance/pendle-dapp-v3', {
       path: '/socket/socket.io',
       reconnectionAttempts: 5,
-      transports: ['websocket']
+      transports: ['websocket'],
     });
 
     this.setupConnection();
@@ -260,10 +279,12 @@ class AccountTracker {
   }
 
   private subscribeToAccount() {
-    const channel = `account:${this.walletAddress}:${this.accountId}`;
+    const channel = `account:${AccountLib.pack(this.walletAddress as `0x${string}`, this.accountId)}`;
     this.socket.emit('subscribe', channel);
 
-    this.socket.on(`${channel}:update`, async (data) => {
+    console.log('Subscribed to account:', channel);
+
+    this.socket.on(`${channel}:update`, async (data: any) => {
       console.log('Account change detected:', data);
 
       // Fetch updated data from API
@@ -274,10 +295,11 @@ class AccountTracker {
   private async refreshAccountData() {
     try {
       // Fetch latest account state
-      const { data } = await axios.post(
-        'https://api.boros.finance/open-api/v1/accounts/market-acc-infos',
-        { marketAccs: [/* your marketAcc */] }
-      );
+      const { data } = await axios.post('https://api.boros.finance/open-api/v1/accounts/market-acc-infos', {
+        marketAccs: [
+          /* your marketAcc */
+        ],
+      });
 
       console.log('Updated account data:', data);
       // Process updated data...
@@ -287,7 +309,7 @@ class AccountTracker {
   }
 
   public disconnect() {
-    const channel = `account:${this.walletAddress}:${this.accountId}`;
+    const channel = `account:${AccountLib.pack(this.walletAddress as `0x${string}`, this.accountId)}`;
     this.socket.emit('unsubscribe', channel);
     this.socket.off(`${channel}:update`);
     this.socket.disconnect();
@@ -295,7 +317,7 @@ class AccountTracker {
 }
 
 // Usage
-const tracker = new AccountTracker('0xYourWalletAddress', 0);
+const tracker = new AccountTracker('0xdAC17F958D2ee523a2206206994597C13D831ec7', 0);
 
 // Clean up when done
 // tracker.disconnect();

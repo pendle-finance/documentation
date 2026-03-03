@@ -73,11 +73,14 @@ function cleanup() {
 
 Common channel patterns:
 
-- `orderbook:MARKET_ID:TICK_SIZE` – Orderbook updates for the given market, where TICK_SIZE refers to the price granularity. Accepted TICK_SIZE values are: 0.1, 0.01, 0.001, 0.0001, and 0.00001.
-- `market-trade:MARKET_ID` - Market trade updates
-- `statistics:MARKET_ID` - Market statistics updates
+| Channel | Description |
+|---------|-------------|
+| `orderbook:MARKET_ID:TICK_SIZE` | Orderbook updates for the given market. Accepted TICK_SIZE values: `0.1`, `0.01`, `0.001`, `0.0001`, `0.00001` |
+| `market-trade:MARKET_ID` | Market trade updates |
+| `statistics:MARKET_ID` | Market statistics updates |
+| `account:ACCOUNT` | Account state change notifications (orders, positions, balances) |
 
-Replace `MARKET_ID` with your specific market identifier.
+Replace `MARKET_ID` with your specific market identifier and `ACCOUNT` with the packed account identifier (wallet address concatenated with account ID, see [Account Change Tracking](#account-change-tracking) for details).
 
 ## Best Practices
 
@@ -160,6 +163,167 @@ ws.subscribeToMarket('YOUR_MARKET_ID');
 // ws.unsubscribeFromMarket('YOUR_MARKET_ID');
 // ws.disconnect();
 ```
+
+## Account Change Tracking
+
+You can subscribe to your account channel to receive notifications when your account state changes (e.g., order fills, position updates, balance changes).
+
+### Subscribing to Account Updates
+
+The account channel format is `account:ACCOUNT`, where `ACCOUNT` is your wallet address (lowercased) concatenated with your account ID.
+
+For example, if your wallet address is `0xdAC17F958D2ee523a2206206994597C13D831ec7` and your account ID is `0` (the default account ID in Boros), the channel would be:
+
+```
+account:0xdac17f958d2ee523a2206206994597c13d831ec700
+```
+
+You can use `AccountLib.pack()` from `@pendle/sdk-boros` to construct this:
+
+```typescript
+import { AccountLib } from '@pendle/sdk-boros';
+
+const account = AccountLib.pack('0xdAC17F958D2ee523a2206206994597C13D831ec7', 0);
+// account = '0xdac17f958d2ee523a2206206994597c13d831ec700'
+```
+
+```typescript
+// Subscribe to account updates
+// Format: account:ACCOUNT
+const channel = `account:${AccountLib.pack(walletAddress, accountId)}`;
+socket.emit('subscribe', channel);
+
+// Listen for account update events
+socket.on(`${channel}:update`, (data) => {
+  console.log('Account updated:', data);
+
+  // Refetch the latest account data via API
+  refreshAccountData();
+});
+```
+
+### Recommended Pattern
+
+When you receive an account update event, **refetch the relevant API endpoints** to get the complete updated state:
+
+```typescript
+import axios from "axios";
+import { MarketAccLib, CROSS_MARKET_ID } from "@pendle/sdk-boros";
+
+async function refreshAccountData() {
+  const marketAcc = MarketAccLib.pack(walletAddress, accountId, tokenId, CROSS_MARKET_ID);
+
+  // Refetch account info
+  const { data: accountInfo } = await axios.post(
+    `${API_BASE_URL}/open-api/v1/accounts/market-acc-infos`,
+    { marketAccs: [marketAcc] }
+  );
+
+  // Refetch active orders
+  const { data: orders } = await axios.get(
+    `${API_BASE_URL}/open-api/v1/accounts/limit-orders`,
+    {
+      params: {
+        userAddress: walletAddress,
+        accountId: accountId,
+        isActive: true,
+      },
+    }
+  );
+
+  // Update your local state
+  updateLocalState(accountInfo, orders);
+}
+```
+
+### Current Limitations
+
+> **Note:** Currently, account update events serve as notifications that *something* has changed, but do not include the full details of the change in the event payload. You need to call the REST API to fetch the updated data.
+>
+> We are planning to enhance these WebSocket events to include more detailed data in future updates, reducing the need for additional API calls.
+
+### Complete Account Tracking Example
+
+```typescript
+import { io } from 'socket.io-client';
+import axios from 'axios';
+import { AccountLib } from '@pendle/sdk-boros';
+
+class AccountTracker {
+  private socket: any;
+  private walletAddress: string;
+  private accountId: number;
+
+  constructor(walletAddress: string, accountId: number = 0) {
+    this.walletAddress = walletAddress.toLowerCase();
+    this.accountId = accountId;
+
+    this.socket = io('wss://api.boros.finance/pendle-dapp-v3', {
+      path: '/socket/socket.io',
+      reconnectionAttempts: 5,
+      transports: ['websocket'],
+    });
+
+    this.setupConnection();
+  }
+
+  private setupConnection() {
+    this.socket.on('connect', () => {
+      console.log('Connected - subscribing to account updates');
+      this.subscribeToAccount();
+    });
+
+    this.socket.on('disconnect', () => {
+      console.log('Disconnected from WebSocket');
+    });
+  }
+
+  private subscribeToAccount() {
+    const channel = `account:${AccountLib.pack(this.walletAddress as `0x${string}`, this.accountId)}`;
+    this.socket.emit('subscribe', channel);
+
+    console.log('Subscribed to account:', channel);
+
+    this.socket.on(`${channel}:update`, async (data: any) => {
+      console.log('Account change detected:', data);
+
+      // Fetch updated data from API
+      await this.refreshAccountData();
+    });
+  }
+
+  private async refreshAccountData() {
+    try {
+      // Fetch latest account state
+      const { data } = await axios.post('https://api.boros.finance/open-api/v1/accounts/market-acc-infos', {
+        marketAccs: [
+          /* your marketAcc */
+        ],
+      });
+
+      console.log('Updated account data:', data);
+      // Process updated data...
+    } catch (error) {
+      console.error('Failed to refresh account data:', error);
+    }
+  }
+
+  public disconnect() {
+    const channel = `account:${AccountLib.pack(this.walletAddress as `0x${string}`, this.accountId)}`;
+    this.socket.emit('unsubscribe', channel);
+    this.socket.off(`${channel}:update`);
+    this.socket.disconnect();
+  }
+}
+
+// Usage
+const tracker = new AccountTracker('0xdAC17F958D2ee523a2206206994597C13D831ec7', 0);
+
+// Clean up when done
+// tracker.disconnect();
+```
+
+---
 
 ## Error Handling
 
