@@ -37,6 +37,36 @@ Pendle's API consists of two complementary components:
 
 📖 [View Backend API Documentation](https://api-v2.pendle.finance/core/docs)
 
+## API Entry Points
+
+All public endpoints are served under `https://api-v2.pendle.finance/core` and follow one of two routing patterns:
+
+### Chain-scoped endpoints — `/v1/{chainId}/...`
+
+These are the original per-chain routes. They remain fully functional and are a safe choice for chain-specific integrations:
+
+| Example | Description |
+|---------|-------------|
+| `GET /v1/{chainId}/markets` | Markets on a specific chain |
+| `GET /v1/{chainId}/prices/assets/all` | Asset prices on a specific chain |
+| `GET /v1/{chainId}/sdk/swap` | Swap transaction payload for a specific chain |
+
+### Cross-chain endpoints — `/v1/...`
+
+Newer endpoints that return data across all chains in a single request. Preferred for new integrations:
+
+| Example | Description |
+|---------|-------------|
+| `GET /v1/markets/all` | All markets across all chains |
+| `GET /v1/assets/all` | All assets across all chains |
+| `GET /v1/prices/assets` | Asset prices across all chains |
+
+For new integrations, prefer cross-chain endpoints where available — they reduce the number of calls needed when working with multiple chains.
+
+### BFF API — `https://api-v2.pendle.finance/bff`
+
+The BFF (Backend for Frontend) API powers the official Pendle web app. It is **not intended for third-party integrations**: endpoints may change or be removed without notice. For third-party use, always use the `/core` API documented here.
+
 ## Rate Limiting
 
 All Pendle API endpoints are rate-limited to ensure service stability and fair usage.
@@ -166,8 +196,13 @@ The `X-Ratelimit-Limit: 100` value in this case is simply a default header from 
 
 :::
 
-## API Updates and deprecation notice
-- **Deprecation Notice**: Breaking changes announced at least 30 days in advance, follow [Telegram Developer Channel](https://t.me/pendledevelopers) for announcements
+## API Updates and Deprecation
+
+- **Deprecation Notice**: Breaking changes are announced at least 30 days in advance. Follow the [Telegram Developer Channel](https://t.me/pendledevelopers) for announcements.
+
+### vePENDLE Deprecation
+
+vePENDLE has been deprecated and replaced by **sPENDLE**. All endpoints listed under the **Ve Pendle** tag in the [Swagger documentation](https://api-v2.pendle.finance/core/docs) are deprecated — they remain accessible but will not be updated to reflect the new sPENDLE staking system.
 
 ## Code Examples and Resources
 

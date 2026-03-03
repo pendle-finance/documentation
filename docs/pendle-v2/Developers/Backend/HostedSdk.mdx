@@ -469,3 +469,30 @@ When an endpoint has an `additionalData` field, users can pass in some fields to
 For example, the **swap** action has `additionalData` with two available fields: `impliedApy` and `effectiveApy`. If the query parameters have `additionalData=impliedApy`, the response will have the implied APY before and after the swap action.
 
 For additional usage, please refer to our external swagger to explore more.
+
+## Migrating from individual endpoints to Convert
+
+The Convert API replaces all of the individual SDK endpoints (`/swap`, `/add-liquidity`, `/mint`, `/redeem`, etc.). The table below maps each old endpoint to the equivalent Convert call.
+
+| Old endpoint | Convert equivalent |
+|---|---|
+| `GET /v2/sdk/{chainId}/markets/{market}/swap` | `tokensIn=[token/PT/YT]`, `tokensOut=[token/PT/YT]` |
+| `GET /v2/sdk/{chainId}/markets/{market}/add-liquidity` | `tokensIn=[token]`, `tokensOut=[LP]` (standard) or `tokensOut=[LP,YT]` (ZPI) |
+| `GET /v2/sdk/{chainId}/markets/{market}/add-liquidity-dual` | `tokensIn=[token,PT]`, `tokensOut=[LP]` |
+| `GET /v2/sdk/{chainId}/markets/{market}/remove-liquidity` | `tokensIn=[LP]`, `tokensOut=[token]` |
+| `GET /v2/sdk/{chainId}/markets/{market}/remove-liquidity-dual` | `tokensIn=[LP]`, `tokensOut=[token,PT]` |
+| `GET /v2/sdk/{chainId}/mint` | `tokensIn=[token]`, `tokensOut=[PT,YT]` |
+| `GET /v2/sdk/{chainId}/redeem` | `tokensIn=[PT,YT]` (or just `[PT]` after expiry), `tokensOut=[token]` |
+| `GET /v2/sdk/{chainId}/mint-sy` | `tokensIn=[token]`, `tokensOut=[SY]` |
+| `GET /v2/sdk/{chainId}/redeem-sy` | `tokensIn=[SY]`, `tokensOut=[token]` |
+| `GET /v2/sdk/{chainId}/markets/{market}/transfer-liquidity` | `tokensIn=[LP,PT,YT]` (any subset), `tokensOut=[destination LP]` |
+| `GET /v2/sdk/{chainId}/markets/{market}/roll-over-pt` | `tokensIn=[source PT]`, `tokensOut=[destination PT]` |
+| `GET /v2/sdk/{chainId}/markets/{market}/exit-positions` | `tokensIn=[LP,PT,YT]` (any subset), `tokensOut=[token]` |
+
+### Which version should I use?
+
+Use **v3 (POST `/v3/sdk/{chainId}/convert`)** for new integrations. It accepts a JSON body with a typed `inputs` array instead of comma-separated query strings, which is easier to construct programmatically.
+
+Use **v2 (GET `/v2/sdk/{chainId}/convert`)** if you need a fully query-parameter-based URL (e.g. for simple curl testing or when an HTTP client doesn't support request bodies on GET).
+
+Both variants execute the same logic and return the same response.
