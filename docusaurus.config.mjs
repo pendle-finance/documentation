@@ -16,6 +16,16 @@ const config = {
   projectName: 'documentation', // Usually your repo name.
   deploymentBranch: 'gh-pages',
 
+  headTags: [
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'llms-txt',
+        href: '/llms.txt',
+      },
+    },
+  ],
+
   presets: [
     [
       'classic',

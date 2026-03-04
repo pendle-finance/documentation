@@ -37,10 +37,20 @@ As many of us increasingly rely on AI tools to read and understand project docum
 - **[Developer FAQ & Supplemental Knowledge Base](docs/pendle-v2/Developers/FAQ.md)**: The developer FAQ includes a "Supplemental Knowledge Base" section at the bottom containing partner technical insights, edge cases, and best practices gathered from real integrations. This content is intended to be searched and read by AI tools to provide more accurate answers about the Pendle protocol.
 
 ### API Specification:
-- **[api-spec.json](docs/Developers/api-spec.json)**: The complete OpenAPI 3.0 specification for our public API (119 endpoints). Auto-synced from production at [https://api-v2.pendle.finance/core/docs#/](https://api-v2.pendle.finance/core/docs#/).
+- **[api-spec.json](docs/Developers/api-spec.json)**: The complete OpenAPI 3.0 specification for the Pendle V2 public API (120 endpoints). Synced from production — see update instructions below.
 
 ### For General Understanding:
 - **[user-knowledge-base.txt](docs/Developers/user-knowledge-base.txt)**: User-facing Q&A for retail users covering app usage, claiming rewards, understanding yields, Berachain campaigns, and common troubleshooting (includes Chinese language support).
+
+### llms.txt (AI discovery standard)
+- **[static/llms.txt](static/llms.txt)**: Concise index of all Pendle V2 + Boros developer docs, following the [llms.txt standard](https://llmstxt.org/). Served at `docs.pendle.finance/llms.txt`. Update manually when docs sections are added or removed.
+- **[static/llms-full.txt](static/llms-full.txt)**: All Pendle V2 + Boros developer documentation concatenated into one file for AI ingestion. **Generated file — do not edit directly.** Regenerate with the script below.
+- **[static/pendle-v2/openapi/open-api.json](static/pendle-v2/openapi/open-api.json)**: Static copy of the V2 API spec served at `docs.pendle.finance/pendle-v2/openapi/open-api.json`. Sync with the command below.
+- **[static/boros-dev/openapi/](static/boros-dev/openapi/)**: Static copies of Boros API specs (`open-api.json`, `send-txs-bot.json`, `stop-order.json`). Update manually from each service's `/docs-json` endpoint when the Boros API changes.
+
+## Updating AI assets
+
+See **[docs/Developers/updating-ai-assets.md](docs/Developers/updating-ai-assets.md)** for step-by-step instructions on regenerating `llms-full.txt` and syncing API specs.
 
 ## How to use the knowledge bases
 

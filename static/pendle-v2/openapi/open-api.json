@@ -94,7 +94,7 @@
     },
     "/v2/limit-orders": {
       "get": {
-        "description": "This endpoint is for analytics purpose, if you want to analyze the limit orders data, this endpoint return all the orders that have been made, including the ones that have been cancelled or fully filled. \n\nThe results could be very large, so each time we returns at most 1000 orders, you can use the resumeToken to fetch the next page. \n\nTo get limit order for filling, use the [Get limit orders to match by YT address\u200b](#tag/limit-orders/get/v1/limit-orders/takers/limit-orders) endpoint!",
+        "description": "This endpoint is for analytics purpose, if you want to analyze the limit orders data, this endpoint return all the orders that have been made, including the ones that have been cancelled or fully filled. \n\nThe results could be very large, so each time we returns at most 1000 orders, you can use the resumeToken to fetch the next page. \n\nTo get limit order for filling, use the [Get limit orders to match by YT address​](#tag/limit-orders/get/v1/limit-orders/takers/limit-orders) endpoint!",
         "operationId": "LimitOrdersController_getAllLimitOrders",
         "parameters": [
           {
@@ -2242,7 +2242,7 @@
             "name": "skip",
             "required": false,
             "in": "query",
-            "description": "Number of results to skip.",
+            "description": "Number of results to skip. The parameter is capped at 300.",
             "schema": {
               "default": 0,
               "type": "number"
@@ -7123,31 +7123,6 @@
           "Incentive Rewards"
         ]
       }
-    },
-    "/v1/pendle-emission": {
-      "get": {
-        "description": "Returns the latest confirmed PENDLE emission across all eligible markets. Each market includes a breakdown of emission by TVL, fee, discretionary, and co-bribing components.",
-        "operationId": "PendleEmissionController_pendleEmission",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "The latest emission with per-market breakdown",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetPendleEmissionResponse"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Get Pendle Emission",
-        "tags": [
-          "Pendle Emission"
-        ],
-        "x-computing-unit": "1",
-        "x-retail-api-rank": 6969
-      }
     }
   },
   "info": {
@@ -9182,10 +9157,6 @@
             "items": {
               "type": "string"
             }
-          },
-          "isVolatile": {
-            "type": "boolean",
-            "description": "Whether the market is volatile"
           },
           "chainId": {
             "type": "number",
@@ -15745,63 +15716,6 @@
         "required": [
           "tvl",
           "apr"
-        ]
-      },
-      "MarketEmission": {
-        "type": "object",
-        "properties": {
-          "chainId": {
-            "type": "number",
-            "description": "Chain ID of the market"
-          },
-          "address": {
-            "type": "string",
-            "description": "Contract address of the market"
-          },
-          "totalIncentive": {
-            "type": "number",
-            "description": "Total PENDLE emission allocated to this market"
-          },
-          "tvlIncentive": {
-            "type": "number",
-            "description": "Emission allocated based on TVL proportion"
-          },
-          "feeIncentive": {
-            "type": "number",
-            "description": "Emission allocated based on fee proportion"
-          },
-          "discretionaryIncentive": {
-            "type": "number",
-            "description": "Discretionary emission manually assigned to this market"
-          },
-          "cobribingIncentive": {
-            "type": "number",
-            "description": "Co-bribing emission allocated to this market"
-          }
-        },
-        "required": [
-          "chainId",
-          "address",
-          "totalIncentive",
-          "tvlIncentive",
-          "feeIncentive",
-          "discretionaryIncentive",
-          "cobribingIncentive"
-        ]
-      },
-      "GetPendleEmissionResponse": {
-        "type": "object",
-        "properties": {
-          "markets": {
-            "description": "List of markets with their emission breakdown",
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/MarketEmission"
-            }
-          }
-        },
-        "required": [
-          "markets"
         ]
       },
       "TagDefinitionResponse": {
