@@ -126,7 +126,7 @@ EnterExitMarketsReq memory req = EnterExitMarketsReq({
 router.enterExitMarkets(req);
 ```
 
-**Market Entry Limits**: Each account can enter a maximum of **10 markets** simultaneously. Exceeding this limit will cause transactions to revert.
+**Market Entry Limits**: Each market account (`marketAcc`) can enter a maximum of **10 markets** simultaneously. This limit is per combination of `(address, accountId, tokenId)` — i.e., per collateral type. Exceeding this limit will cause transactions to revert. You must **exit expired or matured markets** to free up slots before entering new ones.
 
 **Market Entrance Fees**: A one-time entrance fee is charged when you first interact with any market. See [Fees — Market Entrance Fees](/boros-dev/Mechanics/Fees#market-entrance-fees) for amounts.
 
@@ -194,6 +194,10 @@ router.placeSingleOrder(req);
 ```
 
 ### Bulk Orders
+
+:::caution bulkOrders does NOT match with the AMM
+Orders placed via `bulkOrders` are placed directly into the order book and **cannot match with AMM liquidity**. If you need to take liquidity from both the order book and the AMM (e.g., for taker orders), use [`placeSingleOrder`](#place-single-order) instead. For taker-only execution without any residual maker orders, set `tif` to `IOC` (Immediate or Cancel) or `FOK` (Fill or Kill).
+:::
 
 **Optimal for Market Makers**: `bulkOrders` is designed for professional market makers and offers:
 

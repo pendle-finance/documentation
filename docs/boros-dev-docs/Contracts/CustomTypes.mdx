@@ -100,11 +100,11 @@ int16 endTick = side.endTick();          // Boundary tick values
 
 **Definition**: `enum TimeInForce { GTC, IOC, FOK, ALO, SOFT_ALO }`
 
-- **GTC (Good Till Cancel)**: Standard limit order that remains on the order book until fully filled or manually canceled
-- **IOC (Immediate or Cancel)**: Executes against available liquidity immediately, cancels any unfilled portion
-- **FOK (Fill or Kill)**: Must fill entire order size immediately or the transaction reverts
-- **ALO (Add Liquidity Only)**: Post-only order that adds liquidity to the book, transaction reverts if it would match existing orders
-- **SOFT_ALO**: Post-only order similar to ALO, but skips matching without reverting the transaction
+- **GTC (Good Till Cancel)**: Standard limit order that remains on the order book until fully filled or manually canceled. With `placeSingleOrder`, a GTC order can match against existing order book and AMM liquidity; any unfilled remainder stays on the book as a maker order. With `bulkOrders`, GTC orders are placed directly on the book without AMM matching.
+- **IOC (Immediate or Cancel)**: Executes against available liquidity (order book + AMM) immediately, cancels any unfilled portion. **Best for taker orders** — guarantees no residual maker orders remain on the book.
+- **FOK (Fill or Kill)**: Must fill entire order size immediately (from order book + AMM) or the transaction reverts. Use when partial fills are unacceptable.
+- **ALO (Add Liquidity Only)**: Also known as **Post-Only**. Ensures the order is placed as a maker order only — the transaction reverts if it would immediately match against existing orders or the AMM. Ideal for market makers who want to guarantee maker status.
+- **SOFT_ALO**: Similar to ALO (Post-Only), but instead of reverting, it silently skips any portion that would match and places the rest on the book. Useful for market makers who prefer no-revert behavior.
 
 ### OrderStatus
 

@@ -84,6 +84,16 @@ Each market has an associated FIndex Oracle that provides the floating rate data
 
 Deposit Boxes are deterministic per-user contracts created by the `DepositBoxFactory`. They serve as intermediary wallets for receiving cross-chain deposits and performing token swaps (via external DEX routers) before depositing into Boros. Funds in Deposit Boxes are managed by Pendle's backend — users do not interact with them directly. The factory computes a deterministic address from `(root, boxId)` so senders can pre-calculate the deposit target.
 
+### Bot Infrastructure
+
+Pendle operates permissioned bots that perform automated risk management on behalf of the protocol. These bots can affect user positions and orders:
+
+- **Liquidation Bot**: Liquidates accounts whose [health ratio](./Mechanics/Margin.mdx#health-ratio) drops to 1.0 or below
+- **Force-Cancel Bot**: Cancels open orders for accounts approaching liquidation, or orders with rates that deviate too far from the mark rate (see [Risk Management Actions](./Mechanics/Margin.mdx#risk-management-actions))
+- **CLO Bot**: Toggles markets into [Close-Only mode](./Mechanics/Margin.mdx#closing-only-mode) when open interest approaches risk limits
+
+Users should monitor their [order status](/boros-dev/Contracts/CustomTypes#orderstatus) and account health, especially during volatile market conditions, as these bots may modify open orders or trigger liquidations.
+
 ## Token Decimals
 
 Internally, Boros uses 18-decimals fixed point for all numerical values, including position size, payment, fees, etc.

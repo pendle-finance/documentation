@@ -82,9 +82,13 @@ Once your agent is approved, this is the typical order placement flow:
 
 **Step 2 (simulation) is optional** but recommended — it previews the margin impact, estimated fees, and validates constraints before generating calldata.
 
-**Step 3** returns an array of calldata objects. For bulk orders, multiple operations are batched into a single transaction.
+**Step 3** returns an array of calldata objects. When `autoExitMarket` is enabled (default), the response may contain **1 or 2 calldatas**: an optional exit-market calldata followed by the place-order calldata. You must submit **all** calldatas, not just the first one.
 
-**Step 5** sends the signed calldata to the Send Txs Bot, which submits the on-chain transaction. The response includes a transaction status and hash.
+**Step 5** sends the signed calldata(s) to the Send Txs Bot. Use `bulk-direct-call` when you have multiple calldatas (e.g., exit-market + place-order). Use `direct-call` only when you have exactly one calldata. The response includes a transaction status and hash.
+
+:::tip skipReceipt parameter
+When submitting via the Send Txs Bot, you can set `skipReceipt=true` to get the `txHash` returned immediately without waiting for block inclusion. With `skipReceipt=false` (default), the bot waits for the transaction to be included in a block and returns the full `status` and any `error` message. Use `skipReceipt=true` for lower latency when you can track the transaction status yourself.
+:::
 
 ### 3. Closing a Position
 
@@ -175,7 +179,7 @@ Query and manage user account state.
 | `POST /accounts/market-acc-infos` | Positions, margins, balances for market accounts |
 | `GET /accounts/entered-markets` | Markets entered by a cross-margin account |
 | `GET /accounts/limit-orders` | Active/inactive limit orders |
-| `GET /accounts/transactions` | Trade history on a market |
+| `GET /accounts/transactions` | Trade history for your account on a market (includes both maker and taker fills, with size, rate, PnL, and maker/taker indicator). Supports `skip`, `limit`, and `total` for pagination. |
 | `GET /accounts/settlements` | Funding rate settlement history |
 | `GET /accounts/transfer-logs` | Deposit/withdrawal transfer logs |
 | `GET /accounts/gas-balance` | Current gas balance |

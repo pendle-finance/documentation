@@ -136,9 +136,17 @@ Floating payments are calculated based on your position size at the exact paymen
 - **Payment Timing**: Payments occur at regular intervals (e.g., every 8 hours)
 - **Position Size Matters**: Only the position size at the payment timestamp is used for calculation
 
+**Settlement Timing:**
+
+Floating rate settlements are triggered by off-chain oracle updates and occur at regular intervals:
+
+- **Settlement frequency**: Typically every hour (but varies by market)
+- **Expected settlement time**: Approximately **30 seconds after the hour** (e.g., 08:00:30 UTC)
+- **Exceptional cases**: During extreme market volatility or high/low settlement values that could push users' health ratios near zero, settlements may be delayed while the system runs additional risk management operations (e.g., liquidation bots)
+
 **Oracle Update Delays:**
 
 In practice, floating payments don't occur at the exact period boundaries due to off-chain oracle update delays:
 
 - **Expected Time**: Payment for 8:00:00 boundary
-- **Actual Time**: Usually occurs ~10 seconds later (e.g., 8:00:10)
+- **Actual Time**: Usually occurs ~30 seconds later (e.g., 8:00:30)

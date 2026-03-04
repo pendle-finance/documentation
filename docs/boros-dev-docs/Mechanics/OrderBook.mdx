@@ -19,6 +19,15 @@ The tick system uses an exponential function to map discrete tick indices to int
 
 The tick spacing is configurable per market via the `tickStep` parameter. A larger `tickStep` creates wider rate intervals between ticks, suitable for more volatile markets.
 
+## Tick vs Rate
+
+**Ticks are for the order book only.** The order book uses integer tick values to represent discrete rate levels. The AMM, on the other hand, operates with continuous **rates** (not ticks). This distinction is important:
+
+- **Order placement** requires an integer `tick` value — you cannot place orders at arbitrary rates
+- **AMM implied rate** is a continuous value and does not correspond to any specific tick
+- **Mid APR** is typically `(bestBid + bestAsk) / 2` or the AMM implied rate, which is a continuous value that generally cannot be expressed as an integer tick
+- When converting a rate to a tick for order placement, you must **round** to the nearest valid tick — this introduces a small rounding difference
+
 ## Tick to Rate Conversion
 
 The conversion between tick indices and interest rates follows an exponential formula:
@@ -61,7 +70,9 @@ Boros order book follows the standard **rate-time priority** matching:
 
 ## Order Id
 
-Each order in Boros has a unique order Id, which is a 64-bit packed value containing order metadata:
+Each order in Boros has a unique order Id **within its market**. The combination of **(Market ID, Order ID)** is the globally unique identifier. Order IDs may be reused across different markets — do not use the Order ID alone as a unique key.
+
+The order Id is a 64-bit packed value containing order metadata:
 
 ```text
 OrderId structure (64 bits):
@@ -110,20 +121,23 @@ Boros prevents self-trading by checking if an incoming order would match against
 
 **Order Limits**:
 
-- Maximum **100 open orders** per account across all sides
+- Maximum open orders per account across all sides (configurable per market via `maxOpenOrders`, typically 100)
 - Exceeding this limit will cause the transaction to revert
 
-**Rate Bounds**:
+**Rate Bounds (Taker Orders) — "Large Rate Deviation"**:
 
-- Orders with rates significantly deviating from the mark rate will be rejected:
-  - **Buy/Long orders**: Rejected if rate is too far above the mark rate
-  - **Sell/Short orders**: Rejected if rate is too far below the mark rate
+- When an order matches and executes (taker fill), the resulting trade rate is checked against the mark rate
+- If the rate deviates too much from the mark rate, the transaction reverts with **`Large Rate Deviation`**
+  - **Buy/Long orders**: Rejected if executed rate is too far above the mark rate
+  - **Sell/Short orders**: Rejected if executed rate is too far below the mark rate
 - The acceptable deviation is governed by `maxRateDeviationFactorBase1e4` in the market config
 - When placing **closing orders** (reducing position), a separate, more lenient bound `closingOrderBoundBase1e4` applies
 
-**Limit Order Rate Bounds**:
+**Limit Order Rate Bounds (Maker Orders) — "Rate too far off"**:
 
-Limit orders have additional rate constraints controlled by four parameters in the market config:
+- Limit orders placed on the book have additional rate constraints
+- If a maker order's rate is too far from the mark rate, it is rejected with **`Rate too far off`**
+- The bounds are controlled by four parameters in the market config:
 
 ```
 Upper Bound = Mark Rate × (1 + loUpperConst + loUpperSlope × Time to Maturity)
@@ -132,18 +146,27 @@ Lower Bound = Mark Rate × (1 - loLowerConst - loLowerSlope × Time to Maturity)
 
 These parameters ensure limit orders remain within a reasonable range of the current mark rate, scaling with time to maturity.
 
+:::tip Understanding the two rate errors
+- **`Large Rate Deviation`** → applies to **taker fills** (IOC, FOK, or the matched portion of GTC). Your trade's execution rate is too far from the mark rate.
+- **`Rate too far off`** → applies to **maker orders** (the resting portion placed on the book). Your order's rate is too far from the mark rate to be placed.
+:::
+
 ## Order Lifecycle
 
 Beyond normal cancellation, orders can be removed by the protocol's risk management system — including force-cancellation of risky accounts' orders and purging of out-of-bound orders (which receive the [`PURGED`](/boros-dev/Contracts/CustomTypes#orderstatus) status). See [Risk Management Actions](./Margin.mdx#risk-management-actions) for details.
 
 For order status values, see [Custom Types — OrderStatus](/boros-dev/Contracts/CustomTypes#orderstatus).
 
-## TWAP Oracle
+## TWAP Oracle (Mark Rate)
 
-Boros maintains a Time-Weighted Average Price (TWAP) oracle to calculate the **mark rate** — the reference rate used for margining and liquidations. Each time an order is matched against the order book, the rate of the last matched tick is incorporated into the TWAP calculation based on time elapsed.
+Boros maintains a Time-Weighted Average Price (TWAP) oracle to calculate the **mark rate** — the reference rate used for margining, liquidations, and order rate bounds. The mark rate is essentially the **TWAP of historical trades**.
+
+Each time an order is matched against the order book, the rate of the last matched tick is incorporated into the TWAP calculation based on time elapsed.
 
 The oracle uses a fixed-window observation approach:
 
 ```
 markRate = (lastTradedRate × timeElapsed + prevOracleRate × (window - timeElapsed)) / window
 ```
+
+The mark rate is distinct from the **mid rate** (midpoint of best bid and best ask) and the **AMM implied rate**. In normal conditions, these values should be close, but they can diverge in thin markets or when the AMM operates outside its active range.
