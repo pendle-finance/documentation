@@ -1,0 +1,654 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/v2/agent/direct-call": {
+            "post": {
+                "operationId": "AgentController_directCallV2",
+                "summary": "Agent direct call",
+                "description": "Submits a single signed agent transaction to the blockchain. The agent must be approved and not created via browser. The calldata is ABI-encoded and will be decoded and executed by the Boros Router contract. Requires a valid EIP-712 signature from the agent.\n\nSee the [Agent Trading guide](https://docs.pendle.finance/boros-dev/Backend/agent) for the full agent workflow.",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AgentExecuteDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Transaction submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TxResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid calldata, agent created in browser, or agent disabled"
+                    }
+                },
+                "tags": [
+                    "Agent"
+                ]
+            }
+        },
+        "/v2/agent/bulk-direct-call": {
+            "post": {
+                "operationId": "AgentController_bulkAgentDirectCallV2",
+                "summary": "Send multiple direct calls to agent (no session, for scripts)",
+                "description": "Submits multiple signed agent transactions in a single batch. All transactions must originate from the same agent and root account. Transactions are batched and executed sequentially. Use `skipReceipt` to return immediately without waiting for on-chain confirmation, and `requireSuccess` to revert the batch if any transaction fails.\n\nThis version validates signatures only \u2014 no browser session required. Suitable for programmatic/script integrations. For browser-based UIs, use V3 (`/v3/agent/bulk-direct-call`) which adds session-based CSRF protection.",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BulkAgentExecuteDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Batch submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TxResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Empty calldata, mismatched agent/root, agent created in browser, or agent disabled"
+                    }
+                },
+                "tags": [
+                    "Agent"
+                ]
+            }
+        },
+        "/v3/agent/bulk-direct-call": {
+            "post": {
+                "operationId": "AgentController_bulkAgentDirectCallV3",
+                "summary": "Send multiple direct calls to agent (with session, for UI)",
+                "description": "Same as V2 but adds mandatory session verification for browser-based UIs. Verifies the agent session cookie to prevent cross-site request forgery. The session's agent and root must match the transaction data. Requires `agentSession` field in the request body.\n\nFor programmatic/script integrations without a browser session, use V2 (`/v2/agent/bulk-direct-call`) instead.",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BulkAgentExecuteV2Dto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Batch submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/TxResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid session, mismatched agent/root, empty calldata, or agent disabled"
+                    }
+                },
+                "tags": [
+                    "Agent"
+                ]
+            }
+        },
+        "/v1/agent/approve": {
+            "post": {
+                "operationId": "AgentController_approveAgent",
+                "summary": "Approve agent",
+                "description": "Approves an agent wallet to act on behalf of a user account. This is a free action (no gas balance required). The calldata must encode the `approveAgent` function on the Router contract. This endpoint validates the calldata to prevent gas balance bypass attacks.\n\nSee the [Agent Trading guide](https://docs.pendle.finance/boros-dev/Backend/agent) for agent setup instructions.",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ApproveAgentQueryDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Agent approved successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApproveAgentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid approveAgentCalldata or agent disabled"
+                    }
+                },
+                "tags": [
+                    "Agent"
+                ]
+            }
+        },
+        "/v1/agent/deposit-from-box": {
+            "post": {
+                "operationId": "AgentController_depositFromBox",
+                "summary": "Deposit from box",
+                "description": "Deposits funds from a deposit box into a user's Boros trading account. Requires both a deposit-box signature and an agent signature for dual authorization. Also verifies the agent session and validates that the provided account matches the message parameters.",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DepositFromBoxDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Deposit submitted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TxResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid session, account mismatch, invalid signature, or agent disabled"
+                    }
+                },
+                "tags": [
+                    "Agent"
+                ]
+            }
+        },
+        "/v1/agent/dedicated/direct-call": {
+            "post": {
+                "operationId": "DedicatedAgentController_directCall",
+                "summary": "Dedicated agent direct call",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AgentExecuteDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Dedicated agent direct call",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DedicatedTxResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Dedicated Agent"
+                ]
+            }
+        },
+        "/v1/agent/dedicated/bulk-direct-call": {
+            "post": {
+                "operationId": "DedicatedAgentController_bulkDirectCall",
+                "summary": "Dedicated agent bulk direct call",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BulkAgentExecuteDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Dedicated agent bulk direct call",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DedicatedTxResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Dedicated Agent"
+                ]
+            }
+        },
+        "/v1/agent/dedicated/tx-status": {
+            "post": {
+                "operationId": "DedicatedAgentController_getTransactionStatus",
+                "summary": "Get transaction status",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DedicatedTxStatusQueryDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Transaction status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DedicatedTxStatusItem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Dedicated Agent"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "Send Txs Bot API Docs",
+        "description": "Transaction submission service for Boros. This service receives signed calldata from approved agents and submits on-chain transactions to the Boros smart contracts on Arbitrum. It handles agent approval, direct calls, bulk execution, and deposit-box operations.\n\nFor integration workflow, see https://docs.pendle.finance/boros-dev/Backend/api",
+        "version": "1.0",
+        "contact": {
+            "name": "Pendle Finance",
+            "url": "https://pendle.finance",
+            "email": "hello@pendle.finance"
+        }
+    },
+    "tags": [],
+    "servers": [
+        {
+            "url": "https://api.boros.finance/send-txs-bot"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "PendleSignTxDto": {
+                "type": "object",
+                "properties": {
+                    "account": {
+                        "type": "string",
+                        "description": "Packed account identifier (root address + account ID)",
+                        "example": "0x009dcf85824e024fea9e3ef583dccbea68edbc37b8"
+                    },
+                    "connectionId": {
+                        "type": "string",
+                        "description": "Unique connection identifier for nonce management",
+                        "example": "0xabcdef1234567890"
+                    },
+                    "nonce": {
+                        "type": "string",
+                        "description": "Transaction nonce as a bigint string, must be >= 1"
+                    }
+                },
+                "required": [
+                    "account",
+                    "connectionId",
+                    "nonce"
+                ]
+            },
+            "AgentExecuteDto": {
+                "type": "object",
+                "properties": {
+                    "agent": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "$ref": "#/components/schemas/PendleSignTxDto"
+                    },
+                    "signature": {
+                        "type": "string"
+                    },
+                    "calldata": {
+                        "type": "string",
+                        "description": "ABI-encoded calldata to be executed by the Boros Router contract",
+                        "example": "0x..."
+                    }
+                },
+                "required": [
+                    "agent",
+                    "message",
+                    "signature",
+                    "calldata"
+                ]
+            },
+            "TxResponse": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Transaction status: \"success\" if confirmed on-chain, \"reverted\" if the tx reverted, or undefined if pending"
+                    },
+                    "txHash": {
+                        "type": "string"
+                    },
+                    "index": {
+                        "type": "number"
+                    },
+                    "error": {
+                        "type": "string",
+                        "description": "Error message if the transaction failed during simulation or execution",
+                        "example": "[SIMULATE] execution reverted"
+                    }
+                }
+            },
+            "BulkAgentExecuteDto": {
+                "type": "object",
+                "properties": {
+                    "datas": {
+                        "description": "Array of agent execute requests. All must share the same agent address and root account.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AgentExecuteDto"
+                        }
+                    },
+                    "skipReceipt": {
+                        "type": "boolean",
+                        "description": "If true, returns immediately without waiting for on-chain transaction confirmation. Default: false.",
+                        "example": false
+                    },
+                    "requireSuccess": {
+                        "type": "boolean",
+                        "description": "If true, reverts the entire batch if any single transaction fails. Default: false.",
+                        "example": false
+                    }
+                },
+                "required": [
+                    "datas"
+                ]
+            },
+            "AgentSessionQueryDto": {
+                "type": "object",
+                "properties": {
+                    "root": {
+                        "type": "string",
+                        "description": "Root address"
+                    },
+                    "agent": {
+                        "type": "string",
+                        "description": "Agent address"
+                    },
+                    "timestamp": {
+                        "type": "number",
+                        "description": "Timestamp in seconds"
+                    },
+                    "signature": {
+                        "type": "string",
+                        "description": "Signature"
+                    }
+                },
+                "required": [
+                    "root",
+                    "agent",
+                    "timestamp",
+                    "signature"
+                ]
+            },
+            "BulkAgentExecuteV2Dto": {
+                "type": "object",
+                "properties": {
+                    "datas": {
+                        "description": "Array of agent execute requests. All must share the same agent address and root account.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AgentExecuteDto"
+                        }
+                    },
+                    "agentSession": {
+                        "description": "Agent session credentials for server-side session verification",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/AgentSessionQueryDto"
+                            }
+                        ]
+                    },
+                    "skipReceipt": {
+                        "type": "boolean",
+                        "description": "If true, returns immediately without waiting for on-chain transaction confirmation. Default: false."
+                    },
+                    "requireSuccess": {
+                        "type": "boolean",
+                        "description": "If true, reverts the entire batch if any single transaction fails. Default: false."
+                    }
+                },
+                "required": [
+                    "datas",
+                    "agentSession"
+                ]
+            },
+            "ApproveAgentQueryDto": {
+                "type": "object",
+                "properties": {
+                    "approveAgentCalldata": {
+                        "type": "string",
+                        "description": "ABI-encoded calldata for the Router.approveAgent() function call",
+                        "example": "0x..."
+                    },
+                    "skipReceipt": {
+                        "type": "boolean",
+                        "description": "If true, returns immediately without waiting for on-chain confirmation. Default: false."
+                    }
+                },
+                "required": [
+                    "approveAgentCalldata"
+                ]
+            },
+            "ApproveAgentResponse": {
+                "type": "object",
+                "properties": {
+                    "approveAgentResult": {
+                        "$ref": "#/components/schemas/TxResponse"
+                    }
+                },
+                "required": [
+                    "approveAgentResult"
+                ]
+            },
+            "DepositFromBoxMessageDto": {
+                "type": "object",
+                "properties": {
+                    "root": {
+                        "type": "string",
+                        "description": "Root wallet address that owns the deposit box"
+                    },
+                    "boxId": {
+                        "type": "number",
+                        "description": "Deposit box ID to withdraw funds from"
+                    },
+                    "tokenSpent": {
+                        "type": "string",
+                        "description": "Address of the ERC-20 token being deposited from the box"
+                    },
+                    "maxAmountSpent": {
+                        "type": "string",
+                        "description": "Maximum amount of tokenSpent to use (in raw token units, as a bigint string)"
+                    },
+                    "accountId": {
+                        "type": "number",
+                        "description": "Boros sub-account ID to deposit into (currently must be 0)"
+                    },
+                    "tokenId": {
+                        "type": "number",
+                        "description": "Collateral token ID within the Boros system"
+                    },
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "minDepositAmount": {
+                        "type": "string",
+                        "description": "Minimum acceptable deposit amount after swap (slippage protection, bigint string)"
+                    },
+                    "payTreasuryAmount": {
+                        "type": "string",
+                        "description": "Amount to pay to the treasury for the deposit operation (bigint string)"
+                    },
+                    "swapApprove": {
+                        "type": "string",
+                        "description": "Token approval target address for the swap router",
+                        "example": "0x..."
+                    },
+                    "swapExtRouter": {
+                        "type": "string",
+                        "description": "External swap router address for token conversion",
+                        "example": "0x..."
+                    },
+                    "swapCalldata": {
+                        "type": "string",
+                        "description": "ABI-encoded calldata for the external swap (can be empty 0x if no swap needed)"
+                    },
+                    "expiry": {
+                        "type": "string",
+                        "description": "Signature expiry timestamp as a bigint string (unix seconds)"
+                    },
+                    "salt": {
+                        "type": "string",
+                        "description": "Random salt for signature uniqueness (bigint string)"
+                    }
+                },
+                "required": [
+                    "root",
+                    "boxId",
+                    "tokenSpent",
+                    "maxAmountSpent",
+                    "accountId",
+                    "tokenId",
+                    "marketId",
+                    "minDepositAmount",
+                    "payTreasuryAmount",
+                    "swapApprove",
+                    "swapExtRouter",
+                    "swapCalldata",
+                    "expiry",
+                    "salt"
+                ]
+            },
+            "DepositFromBoxDto": {
+                "type": "object",
+                "properties": {
+                    "account": {
+                        "type": "string",
+                        "description": "Packed Boros account identifier (root address + account ID)",
+                        "example": "0x009dcf85824e024fea9e3ef583dccbea68edbc37b8"
+                    },
+                    "signature": {
+                        "type": "string"
+                    },
+                    "agent": {
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "type": "number"
+                    },
+                    "message": {
+                        "$ref": "#/components/schemas/DepositFromBoxMessageDto"
+                    },
+                    "depositFromBoxSignature": {
+                        "type": "string",
+                        "description": "EIP-712 signature from the user authorizing this deposit-from-box operation"
+                    },
+                    "agentSession": {
+                        "$ref": "#/components/schemas/AgentSessionQueryDto"
+                    },
+                    "intentId": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "account",
+                    "signature",
+                    "agent",
+                    "timestamp",
+                    "message",
+                    "depositFromBoxSignature",
+                    "agentSession"
+                ]
+            },
+            "DedicatedTxResponse": {
+                "type": "object",
+                "properties": {
+                    "txHash": {
+                        "type": "string",
+                        "description": "Transaction hash"
+                    }
+                },
+                "required": [
+                    "txHash"
+                ]
+            },
+            "DedicatedTxStatusQueryDto": {
+                "type": "object",
+                "properties": {
+                    "txHash": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "txHash"
+                ]
+            },
+            "DedicatedTxStatusItem": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "description": "Transaction status"
+                    },
+                    "index": {
+                        "type": "number",
+                        "description": "Index in tryAggregate batch"
+                    },
+                    "error": {
+                        "type": "string",
+                        "description": "Error message if reverted"
+                    }
+                },
+                "required": [
+                    "status",
+                    "index"
+                ]
+            }
+        }
+    }
+}

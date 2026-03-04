@@ -1,0 +1,4739 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/v1/assets/all": {
+            "get": {
+                "operationId": "AssetsController_getAllAssets",
+                "summary": "Get all assets",
+                "description": "Returns a complete list of all supported collateral assets on the Boros platform. Each asset includes its token address, symbol, name, decimals, icon URL, and current price. Use this to display asset selectors, resolve token metadata, or look up collateral information.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "Complete list of all supported collateral assets with metadata and pricing",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AssetsResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Assets"
+                ]
+            }
+        },
+        "/v1/markets": {
+            "get": {
+                "operationId": "MarketsController_getMarkets",
+                "summary": "Get all markets",
+                "description": "Returns a paginated list of all available perpetual futures markets. Each market includes its configuration, current state, oracle info, and real-time pricing data such as best bid/ask APR from the order book.",
+                "parameters": [
+                    {
+                        "name": "skip",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to skip.",
+                        "schema": {
+                            "default": 0,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to return. The parameter is capped at 100.",
+                        "schema": {
+                            "default": 100,
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A paginated list of markets with their current state and configuration",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MarketsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters (e.g., skip or limit out of range)"
+                    }
+                },
+                "tags": [
+                    "Markets"
+                ]
+            }
+        },
+        "/v1/markets/market-trades": {
+            "get": {
+                "operationId": "MarketsController_getMarketTrades",
+                "summary": "Get market trades",
+                "description": "Returns a paginated list of executed trades for a specific market, ordered by timestamp descending. Each trade includes the execution price (tick/APR), size, side, and transaction hash.",
+                "parameters": [
+                    {
+                        "name": "skip",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to skip.",
+                        "schema": {
+                            "default": 0,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to return. The parameter is capped at 100.",
+                        "schema": {
+                            "default": 10,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A paginated list of executed trades for the specified market",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MarketTradesResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid marketId or query parameters"
+                    }
+                },
+                "tags": [
+                    "Markets"
+                ]
+            }
+        },
+        "/v1/markets/chart": {
+            "get": {
+                "operationId": "MarketsController_getChartData",
+                "summary": "Get chart data",
+                "description": "Returns OHLCV (Open, High, Low, Close, Volume) candlestick chart data for a specific market. Supports configurable time frames and date ranges. Useful for rendering trading charts and analyzing historical price action.",
+                "parameters": [
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "timeFrame",
+                        "required": true,
+                        "in": "query",
+                        "description": "TimeFrameType { FIVE_MINUTES : 5m, ONE_HOUR : 1h, ONE_DAY : 1d, ONE_WEEK : 1w }",
+                        "schema": {
+                            "enum": [
+                                "5m",
+                                "1h",
+                                "1d",
+                                "1w"
+                            ],
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "startTimestamp",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "default": 0,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "endTimestamp",
+                        "required": false,
+                        "in": "query",
+                        "description": "End timestamp (Unix seconds), default to current timestamp",
+                        "schema": {
+                            "default": 1772602308,
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Array of OHLCV candlestick data points for the specified market and time range",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChartResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid marketId, timeFrame, or timestamp range"
+                    }
+                },
+                "tags": [
+                    "Markets"
+                ]
+            }
+        },
+        "/v1/markets/{marketId}": {
+            "get": {
+                "operationId": "MarketsController_getMarketInfo",
+                "summary": "Get market data by marketId",
+                "description": "Returns detailed information for a single market identified by its numeric ID. Includes market configuration, oracle addresses, IM/MM parameters, current state, fee rates, and real-time order book pricing.",
+                "parameters": [
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "path",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Full market details including configuration, state, and pricing data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MarketResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid marketId format"
+                    },
+                    "404": {
+                        "description": "Market with the specified ID was not found"
+                    }
+                },
+                "tags": [
+                    "Markets"
+                ]
+            }
+        },
+        "/v1/markets/order-books": {
+            "get": {
+                "operationId": "MarketsController_getOrderBooksByMarketId",
+                "summary": "Get market order books by tick",
+                "deprecated": true,
+                "description": "**Deprecated: use V2 (`/v2/markets/order-books`) which supports optional AMM liquidity inclusion.**\n\nReturns aggregated order book data for a specific market grouped by tick size. The response contains long (bid) and short (ask) sides, each with arrays of price levels showing implied APR and total size at that level.\n\nSee [Order Book mechanics](https://docs.pendle.finance/boros-dev/Mechanics/OrderBook) for tick-to-rate conversion and matching rules.",
+                "parameters": [
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "tickSize",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "enum": [
+                                1e-05,
+                                0.0001,
+                                0.001,
+                                0.01,
+                                0.1
+                            ],
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order book with long and short sides aggregated by the specified tick size",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrderBooksResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid marketId or tickSize"
+                    }
+                },
+                "tags": [
+                    "Markets"
+                ]
+            }
+        },
+        "/v2/markets/order-books": {
+            "get": {
+                "operationId": "MarketsController_getOrderBooksByMarketIdV2",
+                "summary": "Get market order books by tick (v2, recommended)",
+                "description": "Returns aggregated order book data with optional AMM liquidity inclusion. When AMM liquidity is included, the response merges on-chain AMM positions into the order book. Maximum 50 entries per side when AMM is included. Supersedes V1 by adding the `includeAmm` parameter.\n\nSee [Order Book mechanics](https://docs.pendle.finance/boros-dev/Mechanics/OrderBook) for tick-to-rate conversion and matching rules.",
+                "parameters": [
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "tickSize",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "enum": [
+                                1e-05,
+                                0.0001,
+                                0.001,
+                                0.01,
+                                0.1
+                            ],
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "includeAmm",
+                        "required": false,
+                        "in": "query",
+                        "description": "Include AMM liquidity in the order book. When true, AMM positions are merged into the book. Maximum 50 entries per side when enabled.",
+                        "schema": {
+                            "default": false,
+                            "example": true,
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Order book with long and short sides, optionally including AMM liquidity",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrderBooksResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid marketId or tickSize"
+                    }
+                },
+                "tags": [
+                    "Markets"
+                ]
+            }
+        },
+        "/v1/calldata/deposit": {
+            "get": {
+                "operationId": "CalldataController_getDepositCalldata",
+                "summary": "Get deposit from wallet to margin account calldata",
+                "description": "Generates the transaction calldata for depositing collateral from a wallet into a margin account. This is a sensitive action that requires the user to sign and submit the transaction directly. The returned calldata should be sent to the contract address specified in the 'to' field.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tokenId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "amount",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of the deposit amount",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "accountId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deposit calldata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCalldataResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid deposit parameters (e.g., invalid address, unsupported token, or zero amount)"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/calldata/vault-pay-treasury": {
+            "get": {
+                "operationId": "CalldataController_getVaultPayTreasuryCalldata",
+                "summary": "Get vault pay treasury calldata",
+                "description": "Generates calldata for a vault to pay treasury fees. This is a sensitive action requiring the user to sign the transaction directly.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tokenId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "amount",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of the treasury payment amount",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vault pay treasury calldata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCalldataResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters (e.g., invalid address or amount)"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/calldata/withdraw-request": {
+            "get": {
+                "operationId": "CalldataController_getWithdrawRequestCalldata",
+                "summary": "Get withdraw request calldata",
+                "description": "Generates calldata to request a withdrawal from a margin account. Withdrawals in Boros follow a request-finalize pattern: first submit a withdrawal request, then finalize it after the cooldown period. This is a sensitive user-signed action.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tokenId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "amount",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of the withdrawal amount",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Withdraw request calldata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCalldataResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid withdrawal parameters or insufficient balance"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/calldata/withdraw-cancel": {
+            "get": {
+                "operationId": "CalldataController_getWithdrawCancelCalldata",
+                "summary": "Get cancelled withdraw from margin account to wallet calldata",
+                "description": "Generates calldata to cancel a pending withdrawal request. Use this if you want to abort a withdrawal that has been requested but not yet finalized. This is a sensitive user-signed action.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tokenId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Withdraw cancel calldata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCalldataResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters or no pending withdrawal to cancel"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/calldata/approve-agent": {
+            "get": {
+                "operationId": "CalldataController_getApproveAgentCalldata",
+                "summary": "Get approve agent calldata",
+                "description": "Generates calldata to approve an agent address to trade on behalf of the user's account. Once approved, the agent can execute non-sensitive actions (placing orders, transfers) without requiring the user's signature for each transaction.\n\nSee [Agent Trading guide](https://docs.pendle.finance/boros-dev/Backend/agent) for the full setup workflow.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "accountId",
+                        "required": true,
+                        "in": "query",
+                        "description": "Account ID (0-255)",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "agentAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "expiryTime",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "example": 1709164800,
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Approve agent calldata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCalldataResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid user address, account ID, or agent address"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/calldata/revoke-agent": {
+            "get": {
+                "operationId": "CalldataController_revokeApproveAgentCalldata",
+                "summary": "Get revoke agent calldata",
+                "description": "Generates calldata to revoke a previously approved agent's permissions. After revocation, the agent can no longer execute actions on behalf of the user's account.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "accountId",
+                        "required": true,
+                        "in": "query",
+                        "description": "Account ID (0-255)",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "agentAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Revoke agent calldata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCalldataResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid user address, account ID, or agent address"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/calldata/cash-transfer": {
+            "get": {
+                "operationId": "CalldataController_getPositionTransferCalldataV3",
+                "summary": "Get cash transfer contract params",
+                "description": "Generates agent-executable calldata for transferring cash between cross and isolated margin accounts. This is a non-sensitive action that can be executed by an approved agent. Returns an array of calldatas that may include a pay-treasury step if payTreasuryAmount is specified.",
+                "parameters": [
+                    {
+                        "name": "payTreasuryAmount",
+                        "required": false,
+                        "in": "query",
+                        "description": "bigint string of amount to pay treasury",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "isDeposit",
+                        "required": true,
+                        "in": "query",
+                        "description": "true if you want to transfer cash from cross to isolated account, false vice versa",
+                        "schema": {
+                            "example": true,
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "amount",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of the transfer amount",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Transfer cash between cross and isolated account",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BulkAgentExecuteParamsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid transfer parameters or insufficient balance"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/calldata/place-orders": {
+            "post": {
+                "operationId": "CalldataController_getBulkPlaceOrderCalldata",
+                "summary": "Get place multiple limit orders contract params",
+                "description": "Generates agent-executable calldata for placing one or more limit orders. Supports both single orders and bulk orders (multiple orders per market with optional cancellations). This is a non-sensitive action that can be executed by an approved agent.\n\nSee [Best Practices](https://docs.pendle.finance/boros-dev/Backend/best-practices) for bulk order recommendations.",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BulkPlaceOrderQueryDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Place multiple orders contract params",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BulkAgentExecuteParamsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid order parameters or malformed order request body"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/calldata/cancel-order": {
+            "get": {
+                "operationId": "CalldataController_getCancelOrderCalldata",
+                "summary": "Get cancel order contract params",
+                "description": "Generates agent-executable calldata for cancelling one or more orders. Supports cancelling specific orders by ID or all orders on a market. This is a non-sensitive action that can be executed by an approved agent.",
+                "parameters": [
+                    {
+                        "name": "payTreasuryAmount",
+                        "required": false,
+                        "in": "query",
+                        "description": "bigint string of amount to pay treasury",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "marketAcc",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "cancelAll",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "orderIds",
+                        "required": false,
+                        "in": "query",
+                        "description": "Comma-separated order ids to cancel (ignored if cancelAll is true)",
+                        "schema": {
+                            "example": "1,2,3",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cancel order contract params",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BulkAgentExecuteParamsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters, market expired, or mismatched marketAcc and marketId"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/calldata/add-liquidity-single-cash-to-amm": {
+            "get": {
+                "operationId": "CalldataController_getAddLiquiditySingleCashToAmmCalldataV4",
+                "summary": "Get add liquidity single cash to amm contract params",
+                "description": "Generates agent-executable calldata for adding single-asset liquidity to an AMM pool. Specify the net cash amount to deposit and the minimum LP tokens expected (slippage protection). Returns execute params including the calldata and target account ID.",
+                "parameters": [
+                    {
+                        "name": "payTreasuryAmount",
+                        "required": false,
+                        "in": "query",
+                        "description": "bigint string of amount to pay treasury",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "accountId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "netCashIn",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of net cash to add as liquidity",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "minLpOut",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of minimum LP tokens to receive",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Add liquidity single cash to amm contract params",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BulkAgentExecuteParamsResponseV2"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters or insufficient balance for liquidity provision"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/calldata/remove-liquidity-single-cash-from-amm": {
+            "get": {
+                "operationId": "CalldataController_getRemoveLiquiditySingleCashFromAmmCalldataV4",
+                "summary": "Get remove liquidity single cash from amm contract params",
+                "description": "Generates agent-executable calldata for removing liquidity from an AMM pool and receiving cash. Specify the LP amount to remove and the minimum cash expected (slippage protection). Returns execute params including the calldata and target account ID.",
+                "parameters": [
+                    {
+                        "name": "payTreasuryAmount",
+                        "required": false,
+                        "in": "query",
+                        "description": "bigint string of amount to pay treasury",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "lpToRemove",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of LP tokens to remove",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "minCashOut",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of minimum cash to receive",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Remove liquidity single cash from amm contract params",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BulkAgentExecuteParamsResponseV2"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters or insufficient LP token balance"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/calldata/enter-exit-markets": {
+            "get": {
+                "operationId": "CalldataController_getEnterExitMarketsCalldata",
+                "summary": "Get enter exit markets contract params",
+                "description": "Generates agent-executable calldata for entering or exiting markets on a cross margin account. Entering a market allows the account to trade on it; exiting removes the market from the account's active list. Returns an array of calldatas for the agent to execute.",
+                "parameters": [
+                    {
+                        "name": "isCross",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "marketIds",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "example": "1,2,3",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isEnter",
+                        "required": true,
+                        "in": "query",
+                        "description": "true to enter markets, false to exit markets",
+                        "schema": {
+                            "example": true,
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Enter exit markets contract params",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BulkAgentExecuteParamsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid market IDs or account parameters"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/calldata/pay-treasury": {
+            "get": {
+                "operationId": "CalldataController_getPayTreasuryCalldata",
+                "summary": "Pay treasury",
+                "description": "Generates agent-executable calldata for paying treasury fees on an account. Treasury fees accrue from trading activity and must be paid periodically. Returns an array of calldatas for the agent to execute.",
+                "parameters": [
+                    {
+                        "name": "isCross",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "usdAmount",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "example": 10.5,
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pay treasury",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BulkAgentExecuteParamsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters (e.g., invalid marketId or amount)"
+                    }
+                },
+                "tags": [
+                    "Calldata"
+                ]
+            }
+        },
+        "/v1/funding-rate/all-funding-rate-symbols": {
+            "get": {
+                "operationId": "FundingRateController_getAllFundingRateSymbols",
+                "summary": "Get all funding rate symbols",
+                "description": "Returns all available funding rate symbols across supported exchanges. Each symbol includes the asset name, exchange, and underlying rate source. Use this to discover which funding rate markets are available for trading.",
+                "parameters": [],
+                "responses": {
+                    "200": {
+                        "description": "List of all available funding rate symbols with their exchange and asset info",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/FundingRateSymbolListResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Funding Rate"
+                ]
+            }
+        },
+        "/v1/funding-rate/settlement-summary": {
+            "post": {
+                "operationId": "FundingRateController_getSettlementSummaryByMarket",
+                "summary": "Get settlement summary",
+                "description": "Returns settlement summary data for specified markets. Includes historical funding rate settlements, aggregated by market, with total settlement amounts and rates. Useful for analyzing funding rate history and settlement patterns across markets.\n\nSee [Settlement mechanics](https://docs.pendle.finance/boros-dev/Mechanics/Settlement) for how funding payments work.",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetSettlementSummaryByMarketQueryDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Settlement summaries for the requested markets",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SettlementMarketSummaryListResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid market IDs in request body"
+                    }
+                },
+                "tags": [
+                    "Funding Rate"
+                ]
+            }
+        },
+        "/v1/events/liquidation-events": {
+            "get": {
+                "operationId": "EventsController_getLiquidationEvents",
+                "summary": "Get liquidation events, sorted by timestamp descending",
+                "description": "Returns a paginated list of liquidation events, sorted by timestamp descending. Each event includes the liquidated account, market, liquidation price, size, penalty amount, and the liquidator address. Useful for monitoring market health and liquidation activity.\n\nSee [Margin mechanics](https://docs.pendle.finance/boros-dev/Mechanics/Margin) for liquidation rules and health ratio.",
+                "parameters": [
+                    {
+                        "name": "marketId",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "fromTimestamp",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "toTimestamp",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to return. The parameter is capped at 2000.",
+                        "schema": {
+                            "default": 10,
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated list of liquidation events sorted by most recent first",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LiquidationEventListResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters"
+                    }
+                },
+                "tags": [
+                    "Events"
+                ]
+            }
+        },
+        "/v1/simulations/deposit": {
+            "get": {
+                "operationId": "SimulationsController_getDeposit",
+                "summary": "Deposit collateral to isolated/cross margin account",
+                "description": "Simulates depositing collateral from a wallet into an isolated or cross margin account. Returns the projected account state after the deposit, including updated balances and margin ratios. Use this to preview the effect of a deposit before generating calldata.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tokenId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "amount",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of the deposit amount",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "accountId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns deposit collateral simulation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DepositSimulationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters (e.g., invalid address, unsupported token, or zero amount)"
+                    }
+                },
+                "tags": [
+                    "Simulations"
+                ]
+            }
+        },
+        "/v1/simulations/withdraw": {
+            "get": {
+                "operationId": "SimulationsController_getWithdraw",
+                "summary": "Withdraw collateral",
+                "description": "Simulates withdrawing collateral from a margin account back to the wallet. Returns the projected account state after withdrawal, including updated margin ratios. The simulation will fail if the withdrawal would cause the account to be under-margined.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tokenId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "amount",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of the withdrawal amount",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns withdraw collateral simulation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WithdrawSimulationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters or withdrawal would cause under-margining"
+                    }
+                },
+                "tags": [
+                    "Simulations"
+                ]
+            }
+        },
+        "/v1/simulations/cash-transfer": {
+            "get": {
+                "operationId": "SimulationsController_getCashTransfer",
+                "summary": "Cash transfer",
+                "description": "Simulates transferring cash between a cross margin account and an isolated market account. When isDeposit is true, cash moves from cross to isolated; when false, from isolated to cross. Returns the projected state of both accounts after the transfer.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "isDeposit",
+                        "required": true,
+                        "in": "query",
+                        "description": "true if you want to transfer cash from cross to isolated account, false vice versa",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "amount",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of the transfer amount",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns cash transfer simulation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CashTransferSimulationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters or insufficient balance for transfer"
+                    }
+                },
+                "tags": [
+                    "Simulations"
+                ]
+            }
+        },
+        "/v1/simulations/place-order": {
+            "get": {
+                "operationId": "SimulationsController_getPlaceOrder",
+                "summary": "Place limit order",
+                "description": "Simulates placing a limit order on a specific market. Returns the projected account state including new margin requirements, estimated fees, and the order details. Validates tick/slippage constraints, market expiry, and minimum order value before simulation.\n\nSee [Margin mechanics](https://docs.pendle.finance/boros-dev/Mechanics/Margin) for how initial margin is calculated.",
+                "parameters": [
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "side",
+                        "required": true,
+                        "in": "query",
+                        "description": "Side { LONG : 0, SHORT : 1 }",
+                        "schema": {
+                            "enum": [
+                                0,
+                                1
+                            ],
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "required": true,
+                        "in": "query",
+                        "description": "bigint string of size",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limitTick",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": -32768,
+                            "maximum": 32767,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "tif",
+                        "required": true,
+                        "in": "query",
+                        "description": "TimeInForce { GOOD_TIL_CANCELLED : 0, IMMEDIATE_OR_CANCEL : 1, FILL_OR_KILL : 2, ADD_LIQUIDITY_ONLY : 3, SOFT_ADD_LIQUIDITY_ONLY : 4 }",
+                        "schema": {
+                            "enum": [
+                                0,
+                                1,
+                                2,
+                                3,
+                                4
+                            ],
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "slippage",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "default": 0.05,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "marketAcc",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns place limit simulation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlaceOrderSimulationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid order parameters, market expired, or order value below minimum"
+                    }
+                },
+                "tags": [
+                    "Simulations"
+                ]
+            }
+        },
+        "/v1/simulations/close-active-position": {
+            "get": {
+                "operationId": "SimulationsController_closeActiveMarketPosition",
+                "summary": "Close an active market position",
+                "description": "Simulates closing an active position on a specific market. Internally creates a counter-order to close the position. Returns the projected account state after the position is closed, including realized PnL and updated margin requirements.",
+                "parameters": [
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "side",
+                        "required": true,
+                        "in": "query",
+                        "description": "Side { LONG : 0, SHORT : 1 }",
+                        "schema": {
+                            "enum": [
+                                0,
+                                1
+                            ],
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "required": true,
+                        "in": "query",
+                        "description": "bigint string of size",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limitTick",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "minimum": -32768,
+                            "maximum": 32767,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "tif",
+                        "required": true,
+                        "in": "query",
+                        "description": "TimeInForce { GOOD_TIL_CANCELLED : 0, IMMEDIATE_OR_CANCEL : 1, FILL_OR_KILL : 2, ADD_LIQUIDITY_ONLY : 3, SOFT_ADD_LIQUIDITY_ONLY : 4 }",
+                        "schema": {
+                            "enum": [
+                                0,
+                                1,
+                                2,
+                                3,
+                                4
+                            ],
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "slippage",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "default": 0.05,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "marketAcc",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns close active position simulation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlaceOrderSimulationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters, market expired, or no active position to close"
+                    }
+                },
+                "tags": [
+                    "Simulations"
+                ]
+            }
+        },
+        "/v1/simulations/add-liquidity-single-cash": {
+            "get": {
+                "operationId": "SimulationsController_getAddLiquiditySingleCashToAmm",
+                "summary": "Add liquidity single cash to amm",
+                "description": "Simulates adding liquidity to an AMM pool using a single cash deposit. Returns the projected LP token amount to be received and the updated account state. The netCashIn represents the USD amount of cash to provide as liquidity.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "accountId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "netCashIn",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of net cash to add as liquidity",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns add liquidity single cash to amm simulation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AddLiquiditySingleCashSimulationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters or insufficient balance for liquidity provision"
+                    }
+                },
+                "tags": [
+                    "Simulations"
+                ]
+            }
+        },
+        "/v1/simulations/remove-liquidity-single-cash": {
+            "get": {
+                "operationId": "SimulationsController_getRemoveLiquiditySingleCashFromAmm",
+                "summary": "Remove liquidity single cash from amm",
+                "description": "Simulates removing liquidity from an AMM pool and receiving a single cash asset. Returns the projected cash amount to be received and the updated account state. The lpToRemove represents the amount of LP tokens to redeem.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "accountId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "lpToRemove",
+                        "required": true,
+                        "in": "query",
+                        "description": "BigInt string of LP tokens to remove",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns remove liquidity single cash from amm simulation result",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RemoveLiquiditySingleCashSimulationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters or insufficient LP token balance"
+                    }
+                },
+                "tags": [
+                    "Simulations"
+                ]
+            }
+        },
+        "/v1/accounts/settings": {
+            "get": {
+                "operationId": "AccountsController_getUserSettings",
+                "summary": "Get user settings",
+                "description": "Retrieves the current account settings for a specific user address and account ID. Settings include user preferences such as display configurations and notification preferences.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "accountId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccountSettingsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid user address or account ID"
+                    }
+                },
+                "tags": [
+                    "Accounts"
+                ]
+            },
+            "post": {
+                "operationId": "AccountsController_updateAccountSettings",
+                "summary": "Update user settings",
+                "description": "Updates the account settings for a user. This endpoint is protected by agent signature verification - the request must include a valid signature proving ownership of the account. Only the account owner can modify settings.",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateAccountSettingBodyDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": ""
+                    },
+                    "400": {
+                        "description": "Invalid settings data"
+                    },
+                    "401": {
+                        "description": "Invalid or missing agent signature"
+                    }
+                },
+                "tags": [
+                    "Accounts"
+                ]
+            }
+        },
+        "/v1/accounts/gas-balance": {
+            "get": {
+                "operationId": "AccountsController_getAccountGasBalance",
+                "summary": "Get account gas balance",
+                "description": "Returns the current gas balance for the specified user address. The gas balance is used to pay for on-chain transaction execution fees when orders are matched or positions are liquidated.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccountGasBalanceResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid user address format"
+                    }
+                },
+                "tags": [
+                    "Accounts"
+                ]
+            }
+        },
+        "/v1/accounts/gas-consumption-history": {
+            "get": {
+                "operationId": "AccountsController_getGasConsumptionHistory",
+                "summary": "Get gas consumption history",
+                "description": "Returns a paginated history of gas consumption events for the specified user. Each entry includes the gas amount consumed, the transaction that consumed it, and the timestamp. Ordered by most recent first.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to return. The parameter is capped at 100.",
+                        "schema": {
+                            "default": 10,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "skip",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to skip.",
+                        "schema": {
+                            "default": 0,
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Gas consumption history",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AccountGasConsumptionHistoryResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid user address or pagination parameters"
+                    }
+                },
+                "tags": [
+                    "Accounts"
+                ]
+            }
+        },
+        "/v1/accounts/transfer-logs": {
+            "get": {
+                "operationId": "AccountsController_getTransferLogs",
+                "summary": "Get transfer logs",
+                "description": "Returns deposit and withdrawal transfer logs for a user's account. Includes transfers between wallet and margin accounts, filtered by the specified criteria. Each log entry contains the token, amount, direction, and transaction details.",
+                "parameters": [
+                    {
+                        "name": "skip",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to skip.",
+                        "schema": {
+                            "default": 0,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to return. The parameter is capped at 100.",
+                        "schema": {
+                            "default": 10,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "root",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "accountId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "tokenId",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns transfer logs",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransferLogsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters"
+                    }
+                },
+                "tags": [
+                    "Accounts"
+                ]
+            }
+        },
+        "/v1/accounts/limit-orders": {
+            "get": {
+                "operationId": "AccountsController_getLimitOrders",
+                "summary": "Get limit orders",
+                "description": "Returns a paginated list of limit orders for a user's account. Supports filtering by market ID, active/inactive status, and order type. Results can be sorted using the orderBy parameter. Each order includes its current status, fill amount, and price details.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "accountId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "skip",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to skip.",
+                        "schema": {
+                            "default": 0,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to return. The parameter is capped at 200.",
+                        "schema": {
+                            "default": 10,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "isActive",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "example": true,
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "orderType",
+                        "required": false,
+                        "in": "query",
+                        "description": "OrderType { LIMIT : 0, MARKET : 1, TAKE_PROFIT_MARKET : 2, STOP_LOSS_MARKET : 3 }. Comma-separated for multiple values (e.g., \"0,1,2\")",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "orderBy",
+                        "required": false,
+                        "in": "query",
+                        "description": "Sort by field: 1 for ascending, -1 for descending. Allowed fields: blockTimestamp, side, placedSize, unfilledSize, impliedApr, status, orderType. Default to blockTimestamp:-1",
+                        "schema": {
+                            "default": "blockTimestamp:-1",
+                            "example": "blockTimestamp:-1",
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns limit orders",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LimitOrdersResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters or unsupported orderBy field"
+                    }
+                },
+                "tags": [
+                    "Accounts"
+                ]
+            }
+        },
+        "/v1/accounts/transactions": {
+            "get": {
+                "operationId": "AccountsController_getTransactions",
+                "summary": "Get the transactions of a user for a market, ordered by timestamp descending",
+                "description": "Returns a paginated list of trading transactions for a user on a specific market, ordered by timestamp descending. Includes trades, liquidations, and settlements. Each transaction contains detailed execution info such as price, size, and PnL impact.",
+                "parameters": [
+                    {
+                        "name": "marketAcc",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to return. The parameter is capped at 2000.",
+                        "schema": {
+                            "default": 10,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "skip",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to skip.",
+                        "schema": {
+                            "default": 0,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "fromBlockNumber",
+                        "required": false,
+                        "in": "query",
+                        "description": "Filter transactions from this block number",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "toBlockNumber",
+                        "required": false,
+                        "in": "query",
+                        "description": "Filter transactions up to this block number",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "isLimitOrderTrade",
+                        "required": false,
+                        "in": "query",
+                        "description": "Filter to only limit order trades",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns transactions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters"
+                    }
+                },
+                "tags": [
+                    "Accounts"
+                ]
+            }
+        },
+        "/v1/accounts/settlements": {
+            "get": {
+                "operationId": "AccountsController_getSettlements",
+                "summary": "Get the settlements of a user for a market",
+                "description": "Returns a paginated list of funding rate settlements for a user's account on a specific market. Settlements occur periodically and reflect the funding payments between long and short positions.\n\nSee [Settlement mechanics](https://docs.pendle.finance/boros-dev/Mechanics/Settlement) for how funding payments work.",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to return. The parameter is capped at 100.",
+                        "schema": {
+                            "default": 10,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "skip",
+                        "required": false,
+                        "in": "query",
+                        "description": "Maximum number of results to skip.",
+                        "schema": {
+                            "default": 0,
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "accountId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": false,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns settlements",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SettlementsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid query parameters"
+                    }
+                },
+                "tags": [
+                    "Accounts"
+                ]
+            }
+        },
+        "/v1/accounts/market-acc-infos": {
+            "post": {
+                "operationId": "AccountsController_getMarketAccInfos",
+                "summary": "Get market acc infos by marketAccs",
+                "description": "Returns detailed account information for one or more market accounts (marketAccs). Each result includes the account's positions, margin status, open orders, and balance details. Accepts an array of marketAcc addresses in the request body.\n\nSee [Glossary](https://docs.pendle.finance/boros-dev/Backend/glossary) for how to construct a marketAcc.",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/GetMarketAccInfos"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get market acc infos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MarketAccInfosResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid marketAcc addresses"
+                    }
+                },
+                "tags": [
+                    "Accounts"
+                ]
+            }
+        },
+        "/v1/accounts/entered-markets": {
+            "get": {
+                "operationId": "AccountsController_getEnteredMarkets",
+                "summary": "Get entered markets for a cross market account",
+                "description": "Returns the list of markets that a cross margin account has entered and not yet exited. Only applicable to cross margin accounts. Entering a market is required before trading on it with a cross margin account.",
+                "parameters": [
+                    {
+                        "name": "marketAcc",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns markets that the user has entered and not exited. Only suitable for cross marketAcc.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EnteredMarketsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid marketAcc address"
+                    }
+                },
+                "tags": [
+                    "Accounts"
+                ]
+            }
+        },
+        "/v1/charts/ohlcv": {
+            "get": {
+                "operationId": "ChartsController_getChartData",
+                "summary": "Get chart data",
+                "description": "Returns OHLCV (Open, High, Low, Close, Volume) candlestick data for charting. Supports multiple time intervals and configurable date ranges. Each candle includes the period timestamp, OHLCV values in APR terms, and trading volume. Commonly used for rendering TradingView-style charts.",
+                "parameters": [
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "interval",
+                        "required": true,
+                        "in": "query",
+                        "description": "Interval in seconds. Must be one of: 300 (5m), 3600 (1h), 86400 (1d), 604800 (1w)",
+                        "schema": {
+                            "example": 3600,
+                            "enum": [
+                                300,
+                                3600,
+                                86400,
+                                604800
+                            ],
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "startTimestamp",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "endTimestamp",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Array of OHLCV candlestick data for the specified market and time range",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ChartOhlcvResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid marketId, interval, or timestamp range"
+                    }
+                },
+                "tags": [
+                    "Charts"
+                ]
+            }
+        },
+        "/v1/agents/expiry-time": {
+            "get": {
+                "operationId": "AgentsController_getAgentExpiryTime",
+                "summary": "Get agent expiry time",
+                "description": "Returns the expiry timestamp of an agent's authorization for a specific user account. Agents are external addresses approved to execute non-sensitive trading operations on behalf of a user. The expiry time indicates when the agent's approval will expire and need to be renewed.\n\nSee [Agent Trading guide](https://docs.pendle.finance/boros-dev/Backend/agent) for the full agent lifecycle.",
+                "parameters": [
+                    {
+                        "name": "userAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "accountId",
+                        "required": true,
+                        "in": "query",
+                        "description": "Account ID (0-255)",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "agentAddress",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The Unix timestamp when the agent authorization expires. Returns 0 if the agent is not approved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AgentExpiryTimeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid user address, account ID, or agent address"
+                    }
+                },
+                "tags": [
+                    "Agents"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "Boros Open API Docs",
+        "description": "Boros Open API documentation",
+        "version": "1.0",
+        "contact": {
+            "name": "Pendle Finance",
+            "url": "https://pendle.finance",
+            "email": "hello@pendle.finance"
+        }
+    },
+    "tags": [],
+    "servers": [
+        {
+            "url": "https://api.boros.finance/open-api"
+        }
+    ],
+    "components": {
+        "schemas": {
+            "AssetMetadataResponse": {
+                "type": "object",
+                "properties": {
+                    "proSymbol": {
+                        "type": "string",
+                        "description": "Asset name used in the pro trading interface",
+                        "example": "stETH"
+                    }
+                },
+                "required": [
+                    "proSymbol"
+                ]
+            },
+            "AssetResponse": {
+                "type": "object",
+                "properties": {
+                    "address": {
+                        "type": "string"
+                    },
+                    "tokenId": {
+                        "type": "number",
+                        "description": "Asset tokenId used for MarketAcc packing"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "symbol": {
+                        "type": "string"
+                    },
+                    "decimals": {
+                        "type": "number"
+                    },
+                    "usdPrice": {
+                        "type": "string",
+                        "example": "3500.25"
+                    },
+                    "isCollateral": {
+                        "type": "boolean"
+                    },
+                    "metadata": {
+                        "$ref": "#/components/schemas/AssetMetadataResponse"
+                    }
+                },
+                "required": [
+                    "address",
+                    "tokenId",
+                    "name",
+                    "symbol",
+                    "decimals",
+                    "usdPrice",
+                    "isCollateral",
+                    "metadata"
+                ]
+            },
+            "AssetsResponse": {
+                "type": "object",
+                "properties": {
+                    "assets": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AssetResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "assets"
+                ]
+            },
+            "MarketIMDataResponse": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "symbol": {
+                        "type": "string"
+                    },
+                    "isIsolatedOnly": {
+                        "type": "boolean"
+                    },
+                    "maturity": {
+                        "type": "number"
+                    },
+                    "tickStep": {
+                        "type": "number"
+                    },
+                    "iTickThresh": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "name",
+                    "symbol",
+                    "isIsolatedOnly",
+                    "maturity",
+                    "tickStep",
+                    "iTickThresh"
+                ]
+            },
+            "LiqSettingsResponse": {
+                "type": "object",
+                "properties": {
+                    "base": {
+                        "type": "string",
+                        "description": "Base liquidation incentive factor (bigint string, 18 decimals). See docs: https://docs.pendle.finance/boros-dev/Contracts/CustomTypes#liqsettings"
+                    },
+                    "slope": {
+                        "type": "string",
+                        "description": "Slope factor that scales liquidation incentive as health ratio decreases (bigint string, 18 decimals)"
+                    },
+                    "feeRate": {
+                        "type": "string",
+                        "description": "Liquidation fee rate charged to the liquidated account and collected by protocol treasury (bigint string, 18 decimals)"
+                    }
+                },
+                "required": [
+                    "base",
+                    "slope",
+                    "feeRate"
+                ]
+            },
+            "MarketConfigResponse": {
+                "type": "object",
+                "properties": {
+                    "maxOpenOrders": {
+                        "type": "number",
+                        "description": "Maximum number of open orders allowed per account on this market",
+                        "example": 20
+                    },
+                    "markRateOracle": {
+                        "type": "string",
+                        "example": "0x1234567890abcdef1234567890abcdef12345678"
+                    },
+                    "fIndexOracle": {
+                        "type": "string",
+                        "example": "0xabcdefabcdefabcdefabcdefabcdefabcdefabcd"
+                    },
+                    "hardOICap": {
+                        "type": "string",
+                        "description": "Hard open interest cap for the market (bigint string)"
+                    },
+                    "takerFee": {
+                        "type": "string",
+                        "description": "Taker fee rate applied to market orders (bigint string)"
+                    },
+                    "otcFee": {
+                        "type": "string",
+                        "description": "OTC trade fee rate (bigint string)"
+                    },
+                    "liqSettings": {
+                        "$ref": "#/components/schemas/LiqSettingsResponse"
+                    },
+                    "kIM": {
+                        "type": "string",
+                        "description": "Initial margin factor (bigint string). Higher values require more margin."
+                    },
+                    "kMM": {
+                        "type": "string",
+                        "description": "Maintenance margin factor (bigint string). Account is liquidated below this threshold."
+                    },
+                    "tThresh": {
+                        "type": "number",
+                        "example": 1000
+                    },
+                    "maxRateDeviationFactorBase1e4": {
+                        "type": "number",
+                        "description": "Maximum rate deviation factor in basis points (base 1e4)",
+                        "example": 500
+                    },
+                    "closingOrderBoundBase1e4": {
+                        "type": "number",
+                        "description": "Closing order bound in basis points (base 1e4)",
+                        "example": 100
+                    },
+                    "loUpperConstBase1e4": {
+                        "type": "number",
+                        "description": "Limit order upper constant bound in basis points (base 1e4)",
+                        "example": 200
+                    },
+                    "loUpperSlopeBase1e4": {
+                        "type": "number",
+                        "description": "Limit order upper slope bound in basis points (base 1e4)",
+                        "example": 50
+                    },
+                    "loLowerConstBase1e4": {
+                        "type": "number",
+                        "description": "Limit order lower constant bound in basis points (base 1e4)",
+                        "example": 200
+                    },
+                    "loLowerSlopeBase1e4": {
+                        "type": "number",
+                        "description": "Limit order lower slope bound in basis points (base 1e4)",
+                        "example": 50
+                    },
+                    "status": {
+                        "type": "number",
+                        "description": "On-chain MarketStatus enum: 0=PAUSED (no trading), 1=CLO (close-only, position-reducing orders only), 2=GOOD (normal operations). See docs: https://docs.pendle.finance/boros-dev/Contracts/CustomTypes#marketstatus",
+                        "example": 2
+                    },
+                    "useImpliedAsMarkRate": {
+                        "type": "boolean",
+                        "description": "Whether to use implied rate as the mark rate instead of oracle rate"
+                    },
+                    "softOICap": {
+                        "type": "number"
+                    },
+                    "cloLowerThresh": {
+                        "type": "number"
+                    },
+                    "cloUpperThresh": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "maxOpenOrders",
+                    "markRateOracle",
+                    "fIndexOracle",
+                    "hardOICap",
+                    "takerFee",
+                    "otcFee",
+                    "liqSettings",
+                    "kIM",
+                    "kMM",
+                    "tThresh",
+                    "maxRateDeviationFactorBase1e4",
+                    "closingOrderBoundBase1e4",
+                    "loUpperConstBase1e4",
+                    "loUpperSlopeBase1e4",
+                    "loLowerConstBase1e4",
+                    "loLowerSlopeBase1e4",
+                    "status",
+                    "useImpliedAsMarkRate"
+                ]
+            },
+            "MarketExtendedConfigResponse": {
+                "type": "object",
+                "properties": {
+                    "ammAddress": {
+                        "type": "string",
+                        "deprecated": true
+                    },
+                    "ammId": {
+                        "type": "number",
+                        "deprecated": true
+                    },
+                    "isPositiveAMM": {
+                        "type": "boolean",
+                        "deprecated": true
+                    },
+                    "settleFeeRate": {
+                        "type": "string"
+                    },
+                    "paymentPeriod": {
+                        "type": "number"
+                    },
+                    "maxUpdateDelay": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "settleFeeRate",
+                    "paymentPeriod",
+                    "maxUpdateDelay"
+                ]
+            },
+            "MarketMetadataResponse": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "maxLeverage": {
+                        "type": "number",
+                        "description": "Maximum leverage of the market. For example: 20"
+                    },
+                    "defaultLeverage": {
+                        "type": "number",
+                        "description": "Default leverage of the market. For example: 10"
+                    },
+                    "ammAddress": {
+                        "type": "string"
+                    },
+                    "ammId": {
+                        "type": "number"
+                    },
+                    "isPositiveAMM": {
+                        "type": "boolean"
+                    },
+                    "assetSymbol": {
+                        "type": "string"
+                    },
+                    "platformName": {
+                        "type": "string"
+                    },
+                    "settlementDelayTime": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "name",
+                    "maxLeverage",
+                    "defaultLeverage",
+                    "assetSymbol",
+                    "platformName",
+                    "settlementDelayTime"
+                ]
+            },
+            "MarketDataResponse": {
+                "type": "object",
+                "properties": {
+                    "volume24h": {
+                        "type": "number",
+                        "description": "Rolling 24-hour trading volume in USD",
+                        "example": 1500000.5
+                    },
+                    "notionalOI": {
+                        "type": "number",
+                        "description": "Total notional open interest across all positions in USD",
+                        "example": 5000000
+                    },
+                    "markApr": {
+                        "type": "number",
+                        "description": "TWAP (Time-Weighted Average Price) APR of the market, used as the mark rate",
+                        "example": 0.085
+                    },
+                    "lastTradedApr": {
+                        "type": "number",
+                        "description": "APR of the most recent executed trade on this market",
+                        "example": 0.082
+                    },
+                    "midApr": {
+                        "type": "number",
+                        "example": 0.083
+                    },
+                    "bestBid": {
+                        "type": "number",
+                        "description": "Best bid (highest buy) APR from the order book",
+                        "example": 0.081
+                    },
+                    "bestAsk": {
+                        "type": "number",
+                        "description": "Best ask (lowest sell) APR from the order book",
+                        "example": 0.085
+                    },
+                    "ammImpliedApr": {
+                        "type": "number",
+                        "description": "AMM implied APR derived from the current AMM pool state",
+                        "example": 0.084
+                    },
+                    "floatingApr": {
+                        "type": "number",
+                        "example": 0.079
+                    },
+                    "longYieldApr": {
+                        "type": "number",
+                        "description": "Long yield APR (mark APR minus floating APR)",
+                        "example": 0.006
+                    },
+                    "nextSettlementTime": {
+                        "type": "number",
+                        "example": 1709164800
+                    },
+                    "timeToMaturity": {
+                        "type": "number",
+                        "example": 2592000
+                    },
+                    "assetMarkPrice": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "volume24h",
+                    "notionalOI",
+                    "markApr",
+                    "lastTradedApr",
+                    "midApr",
+                    "floatingApr",
+                    "assetMarkPrice"
+                ]
+            },
+            "MarketResponse": {
+                "type": "object",
+                "properties": {
+                    "marketId": {
+                        "type": "number",
+                        "description": "Numeric market identifier used for MarketAcc address packing"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "tokenId": {
+                        "type": "number",
+                        "description": "Collateral token ID used by this market"
+                    },
+                    "imData": {
+                        "description": "Immutable market data set at creation (name, symbol, maturity, tick parameters)",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/MarketIMDataResponse"
+                            }
+                        ]
+                    },
+                    "config": {
+                        "description": "Current market configuration including fees, margin parameters, and oracle settings",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/MarketConfigResponse"
+                            }
+                        ]
+                    },
+                    "extConfig": {
+                        "description": "Extended configuration including AMM settings and settlement parameters",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/MarketExtendedConfigResponse"
+                            }
+                        ]
+                    },
+                    "metadata": {
+                        "description": "Market metadata including display name, leverage settings, and asset info",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/MarketMetadataResponse"
+                            }
+                        ]
+                    },
+                    "data": {
+                        "description": "Real-time market data including volume, open interest, and pricing",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/MarketDataResponse"
+                            }
+                        ]
+                    },
+                    "state": {
+                        "type": "string",
+                        "enum": [
+                            "Paused",
+                            "Capped",
+                            "Normal",
+                            "Halted"
+                        ]
+                    }
+                },
+                "required": [
+                    "marketId",
+                    "address",
+                    "tokenId",
+                    "imData",
+                    "config",
+                    "extConfig",
+                    "state"
+                ]
+            },
+            "MarketsResponse": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MarketResponse"
+                        }
+                    },
+                    "total": {
+                        "type": "number",
+                        "example": 25
+                    },
+                    "skip": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "results",
+                    "total",
+                    "skip"
+                ]
+            },
+            "MarketTradeResponse": {
+                "type": "object",
+                "properties": {
+                    "size": {
+                        "type": "number",
+                        "description": "Trade notional size in USD. Positive for long (buy), negative for short (sell)",
+                        "example": 50000
+                    },
+                    "rate": {
+                        "type": "number"
+                    },
+                    "txHash": {
+                        "type": "string"
+                    },
+                    "blockTimestamp": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "size",
+                    "rate",
+                    "txHash",
+                    "blockTimestamp"
+                ]
+            },
+            "MarketTradesResponse": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MarketTradeResponse"
+                        }
+                    },
+                    "total": {
+                        "type": "number",
+                        "example": 150
+                    },
+                    "skip": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "results",
+                    "total",
+                    "skip"
+                ]
+            },
+            "CandleResponse": {
+                "type": "object",
+                "properties": {
+                    "ts": {
+                        "type": "number"
+                    },
+                    "o": {
+                        "type": "number",
+                        "description": "Open APR value for the candlestick period",
+                        "example": 0.085
+                    },
+                    "h": {
+                        "type": "number",
+                        "description": "Highest APR value during the candlestick period",
+                        "example": 0.092
+                    },
+                    "l": {
+                        "type": "number",
+                        "description": "Lowest APR value during the candlestick period",
+                        "example": 0.078
+                    },
+                    "c": {
+                        "type": "number",
+                        "description": "Close APR value for the candlestick period",
+                        "example": 0.088
+                    },
+                    "v": {
+                        "type": "number",
+                        "description": "Trading volume in USD during the candlestick period",
+                        "example": 150000.5
+                    },
+                    "u": {
+                        "type": "number",
+                        "description": "Underlying APR from the reference oracle",
+                        "example": 0.075
+                    },
+                    "mr": {
+                        "type": "number",
+                        "description": "Mark rate (fair value APR) used for margin calculations",
+                        "example": 0.086
+                    },
+                    "ofr": {
+                        "type": "number",
+                        "description": "Oracle funding rate from the external data feed",
+                        "example": 0.0001
+                    },
+                    "b7dmafr": {
+                        "type": "number",
+                        "description": "7-day moving average of the realtime funding rate",
+                        "example": 0.00015
+                    },
+                    "b30dmafr": {
+                        "type": "number",
+                        "description": "30-day moving average of the realtime funding rate",
+                        "example": 0.00012
+                    },
+                    "fp": {
+                        "type": "number",
+                        "description": "Future premium (difference between market APR and underlying APR)",
+                        "example": 0.01
+                    }
+                },
+                "required": [
+                    "ts",
+                    "o",
+                    "h",
+                    "l",
+                    "c",
+                    "v",
+                    "u",
+                    "mr",
+                    "ofr",
+                    "b7dmafr",
+                    "b30dmafr",
+                    "fp"
+                ]
+            },
+            "ChartResponse": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "description": "Array of candlestick data with OHLCV, mark rate, underlying APR, and funding rate metrics",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CandleResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "results"
+                ]
+            },
+            "SideTickResponse": {
+                "type": "object",
+                "properties": {
+                    "ia": {
+                        "description": "Implied APR values at each tick level in the order book",
+                        "example": [
+                            0.085,
+                            0.086,
+                            0.087
+                        ],
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "sz": {
+                        "description": "Notional size as bigint strings at each corresponding tick level",
+                        "example": [
+                            "1000000000000000000",
+                            "2000000000000000000",
+                            "500000000000000000"
+                        ],
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "ia",
+                    "sz"
+                ]
+            },
+            "OrderBooksResponse": {
+                "type": "object",
+                "properties": {
+                    "long": {
+                        "$ref": "#/components/schemas/SideTickResponse"
+                    },
+                    "short": {
+                        "$ref": "#/components/schemas/SideTickResponse"
+                    }
+                },
+                "required": [
+                    "long",
+                    "short"
+                ]
+            },
+            "GetCalldataResponse": {
+                "type": "object",
+                "properties": {
+                    "data": {
+                        "type": "string",
+                        "description": "ABI-encoded transaction calldata to be included in the transaction data field",
+                        "example": "0xa9059cbb000000000000000000000000..."
+                    },
+                    "from": {
+                        "type": "string",
+                        "description": "The sender address that should sign and submit this transaction"
+                    },
+                    "to": {
+                        "type": "string",
+                        "description": "The target contract address to send this transaction to"
+                    },
+                    "gas": {
+                        "type": "string",
+                        "description": "Estimated gas limit for the transaction as a decimal string"
+                    }
+                },
+                "required": [
+                    "data",
+                    "from",
+                    "to",
+                    "gas"
+                ]
+            },
+            "BulkAgentExecuteParamsResponse": {
+                "type": "object",
+                "properties": {
+                    "calldatas": {
+                        "description": "Array of ABI-encoded calldata strings to be executed sequentially by the approved agent",
+                        "example": [
+                            "0xa9059cbb...",
+                            "0x23b872dd..."
+                        ],
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "calldatas"
+                ]
+            },
+            "SingleOrder": {
+                "type": "object",
+                "properties": {
+                    "marketAcc": {
+                        "type": "string"
+                    },
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "side": {
+                        "type": "number",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "description": "Side { LONG : 0, SHORT : 1 }"
+                    },
+                    "size": {
+                        "type": "string",
+                        "description": "BigInt string of the order size"
+                    },
+                    "limitTick": {
+                        "type": "number",
+                        "example": 1000
+                    },
+                    "tif": {
+                        "type": "number",
+                        "enum": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4
+                        ],
+                        "description": "TimeInForce { GOOD_TIL_CANCELLED : 0, IMMEDIATE_OR_CANCEL : 1, FILL_OR_KILL : 2, ADD_LIQUIDITY_ONLY : 3, SOFT_ADD_LIQUIDITY_ONLY : 4 }"
+                    },
+                    "ammId": {
+                        "type": "number"
+                    },
+                    "slippage": {
+                        "type": "number",
+                        "description": "Slippage tolerance as a decimal (0 to 1)",
+                        "example": 0.05
+                    }
+                },
+                "required": [
+                    "marketAcc",
+                    "marketId",
+                    "side",
+                    "size",
+                    "limitTick",
+                    "tif"
+                ]
+            },
+            "CancelData": {
+                "type": "object",
+                "properties": {
+                    "ids": {
+                        "description": "BigInt string order ids to cancel",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "isAll": {
+                        "type": "boolean",
+                        "description": "Whether to cancel all orders",
+                        "example": false
+                    },
+                    "isStrict": {
+                        "type": "boolean",
+                        "description": "Whether to enforce strict cancellation (fail if any order cannot be cancelled)",
+                        "example": true
+                    }
+                },
+                "required": [
+                    "ids",
+                    "isAll",
+                    "isStrict"
+                ]
+            },
+            "LongShortData": {
+                "type": "object",
+                "properties": {
+                    "sizes": {
+                        "description": "BigInt string array of order sizes",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "limitTicks": {
+                        "example": [
+                            1000,
+                            2000
+                        ],
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "tif": {
+                        "type": "number",
+                        "enum": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4
+                        ],
+                        "description": "TimeInForce { GOOD_TIL_CANCELLED : 0, IMMEDIATE_OR_CANCEL : 1, FILL_OR_KILL : 2, ADD_LIQUIDITY_ONLY : 3, SOFT_ADD_LIQUIDITY_ONLY : 4 }"
+                    },
+                    "side": {
+                        "type": "number",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "description": "Side { LONG : 0, SHORT : 1 }"
+                    }
+                },
+                "required": [
+                    "sizes",
+                    "limitTicks",
+                    "tif",
+                    "side"
+                ]
+            },
+            "BulkOrder": {
+                "type": "object",
+                "properties": {
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "cancelData": {
+                        "$ref": "#/components/schemas/CancelData"
+                    },
+                    "orders": {
+                        "$ref": "#/components/schemas/LongShortData"
+                    }
+                },
+                "required": [
+                    "marketId",
+                    "cancelData",
+                    "orders"
+                ]
+            },
+            "BulkOrders": {
+                "type": "object",
+                "properties": {
+                    "cross": {
+                        "type": "boolean"
+                    },
+                    "bulks": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BulkOrder"
+                        }
+                    },
+                    "slippage": {
+                        "type": "number",
+                        "description": "Slippage tolerance as a decimal (0 to 1)",
+                        "example": 0.05
+                    }
+                },
+                "required": [
+                    "cross",
+                    "bulks"
+                ]
+            },
+            "OrderRequest": {
+                "type": "object",
+                "properties": {
+                    "singleOrder": {
+                        "$ref": "#/components/schemas/SingleOrder"
+                    },
+                    "bulkOrder": {
+                        "$ref": "#/components/schemas/BulkOrders"
+                    }
+                }
+            },
+            "BulkPlaceOrderQueryDto": {
+                "type": "object",
+                "properties": {
+                    "orderRequests": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderRequest"
+                        }
+                    }
+                }
+            },
+            "AgentExecuteParams": {
+                "type": "object",
+                "properties": {
+                    "calldata": {
+                        "type": "string",
+                        "description": "ABI-encoded calldata for the agent to execute on the target contract",
+                        "example": "0xa9059cbb000000000000000000000000..."
+                    },
+                    "accountId": {
+                        "type": "number",
+                        "description": "The account ID that this calldata should be executed against. The agent uses this to route the call to the correct margin account."
+                    }
+                },
+                "required": [
+                    "calldata",
+                    "accountId"
+                ]
+            },
+            "BulkAgentExecuteParamsResponseV2": {
+                "type": "object",
+                "properties": {
+                    "executeParams": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AgentExecuteParams"
+                        }
+                    }
+                },
+                "required": [
+                    "executeParams"
+                ]
+            },
+            "FundingRateSymbolResponse": {
+                "type": "object",
+                "properties": {
+                    "fundingRateSymbol": {
+                        "type": "string",
+                        "example": "BTCUSDT"
+                    },
+                    "assetSymbol": {
+                        "type": "string",
+                        "example": "BTC"
+                    },
+                    "exchange": {
+                        "type": "string",
+                        "example": "binance"
+                    }
+                },
+                "required": [
+                    "fundingRateSymbol",
+                    "assetSymbol",
+                    "exchange"
+                ]
+            },
+            "FundingRateSymbolListResponse": {
+                "type": "object",
+                "properties": {
+                    "fundingRateSymbols": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/FundingRateSymbolResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "fundingRateSymbols"
+                ]
+            },
+            "GetSettlementSummaryByMarketQueryDto": {
+                "type": "object",
+                "properties": {
+                    "marketIds": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    },
+                    "fromTimestamp": {
+                        "type": "number"
+                    },
+                    "toTimestamp": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "fromTimestamp",
+                    "toTimestamp"
+                ]
+            },
+            "SettlementMarketSummaryResponse": {
+                "type": "object",
+                "properties": {
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "marketName": {
+                        "type": "string",
+                        "example": "stETH 26DEC2025"
+                    },
+                    "fundingRateSymbol": {
+                        "type": "string",
+                        "example": "BTCUSDT"
+                    },
+                    "periodTimestamp": {
+                        "type": "number",
+                        "description": "Settlement timestamp in seconds (always aligned to the hour, modulo 3600 = 0)"
+                    },
+                    "eventIndex": {
+                        "type": "number"
+                    },
+                    "blockTimestamp": {
+                        "type": "number"
+                    },
+                    "settlementApr": {
+                        "type": "number",
+                        "example": 0.085
+                    },
+                    "totalFee": {
+                        "type": "number",
+                        "example": 125.5
+                    },
+                    "totalNotionalSize": {
+                        "type": "number",
+                        "example": 500000
+                    },
+                    "totalSettledValue": {
+                        "type": "number",
+                        "example": 1250.75
+                    }
+                },
+                "required": [
+                    "marketId",
+                    "marketName",
+                    "fundingRateSymbol",
+                    "periodTimestamp",
+                    "eventIndex",
+                    "blockTimestamp",
+                    "settlementApr",
+                    "totalFee",
+                    "totalNotionalSize",
+                    "totalSettledValue"
+                ]
+            },
+            "SettlementMarketSummaryListResponse": {
+                "type": "object",
+                "properties": {
+                    "settlementMarketSummaries": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SettlementMarketSummaryResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "settlementMarketSummaries"
+                ]
+            },
+            "LiquidateMarketAccPositionResponse": {
+                "type": "object",
+                "properties": {
+                    "marketAcc": {
+                        "type": "string",
+                        "description": "The market account identifier (packed address and tokenId)"
+                    },
+                    "prevPositionRate": {
+                        "type": "number",
+                        "description": "The position APR rate before liquidation",
+                        "example": 0.085
+                    },
+                    "prevPositionSize": {
+                        "type": "number",
+                        "description": "The position notional size before liquidation",
+                        "example": 50000
+                    },
+                    "postPositionRate": {
+                        "type": "number",
+                        "description": "The position APR rate after liquidation",
+                        "example": 0.082
+                    },
+                    "postPositionSize": {
+                        "type": "number",
+                        "description": "The position notional size after liquidation",
+                        "example": 25000
+                    }
+                },
+                "required": [
+                    "marketAcc",
+                    "prevPositionRate",
+                    "prevPositionSize",
+                    "postPositionRate",
+                    "postPositionSize"
+                ]
+            },
+            "LiquidationEventResponse": {
+                "type": "object",
+                "properties": {
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "blockNumber": {
+                        "type": "number",
+                        "description": "The block number when the liquidation occurred"
+                    },
+                    "timestamp": {
+                        "type": "number"
+                    },
+                    "txHash": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "type": "number",
+                        "description": "The notional size of the liquidated position",
+                        "example": 50000
+                    },
+                    "rate": {
+                        "type": "number",
+                        "description": "The mark APR rate at liquidation time",
+                        "example": 0.085
+                    },
+                    "tradeRate": {
+                        "type": "number",
+                        "description": "The APR rate at which the liquidation trade was executed",
+                        "example": 0.083
+                    },
+                    "violator": {
+                        "$ref": "#/components/schemas/LiquidateMarketAccPositionResponse"
+                    },
+                    "liquidator": {
+                        "$ref": "#/components/schemas/LiquidateMarketAccPositionResponse"
+                    }
+                },
+                "required": [
+                    "marketId",
+                    "blockNumber",
+                    "timestamp",
+                    "txHash",
+                    "size",
+                    "rate",
+                    "tradeRate",
+                    "violator",
+                    "liquidator"
+                ]
+            },
+            "LiquidationEventListResponse": {
+                "type": "object",
+                "properties": {
+                    "liquidationEvents": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/LiquidationEventResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "liquidationEvents"
+                ]
+            },
+            "DepositStateResponse": {
+                "type": "object",
+                "properties": {
+                    "collateralBalance": {
+                        "type": "string",
+                        "description": "Bigint string representing the collateral balance of the account"
+                    },
+                    "maintenanceMargin": {
+                        "type": "string",
+                        "description": "Bigint string representing the maintenance margin requirement"
+                    },
+                    "marginRatio": {
+                        "type": "number",
+                        "description": "Margin ratio of the account (collateral / maintenance margin)",
+                        "example": 2.5
+                    }
+                },
+                "required": [
+                    "collateralBalance",
+                    "maintenanceMargin",
+                    "marginRatio"
+                ]
+            },
+            "DepositSimulationResponse": {
+                "type": "object",
+                "properties": {
+                    "minReceived": {
+                        "type": "string",
+                        "description": "Bigint string representing the minimum amount of collateral received after deposit"
+                    },
+                    "preUserState": {
+                        "$ref": "#/components/schemas/DepositStateResponse"
+                    },
+                    "postUserState": {
+                        "$ref": "#/components/schemas/DepositStateResponse"
+                    }
+                },
+                "required": [
+                    "minReceived",
+                    "preUserState",
+                    "postUserState"
+                ]
+            },
+            "WithdrawStateResponse": {
+                "type": "object",
+                "properties": {
+                    "collateralBalance": {
+                        "type": "string",
+                        "description": "Bigint string representing the collateral balance of the account"
+                    },
+                    "marginRatio": {
+                        "type": "number",
+                        "description": "Margin ratio of the account (collateral / maintenance margin)",
+                        "example": 2.5
+                    }
+                },
+                "required": [
+                    "collateralBalance",
+                    "marginRatio"
+                ]
+            },
+            "WithdrawSimulationResponse": {
+                "type": "object",
+                "properties": {
+                    "preUserState": {
+                        "$ref": "#/components/schemas/WithdrawStateResponse"
+                    },
+                    "postUserState": {
+                        "$ref": "#/components/schemas/WithdrawStateResponse"
+                    }
+                },
+                "required": [
+                    "preUserState",
+                    "postUserState"
+                ]
+            },
+            "CashTransferStateResponse": {
+                "type": "object",
+                "properties": {
+                    "collateralBalance": {
+                        "type": "string",
+                        "description": "Bigint string representing the collateral balance of the account"
+                    },
+                    "maintenanceMargin": {
+                        "type": "string",
+                        "description": "Bigint string representing the maintenance margin requirement"
+                    },
+                    "marginRatio": {
+                        "type": "number",
+                        "description": "Margin ratio of the account (collateral / maintenance margin)",
+                        "example": 2.5
+                    }
+                },
+                "required": [
+                    "collateralBalance",
+                    "maintenanceMargin",
+                    "marginRatio"
+                ]
+            },
+            "CashTransferPrePostSimulationResponse": {
+                "type": "object",
+                "properties": {
+                    "preUserState": {
+                        "$ref": "#/components/schemas/CashTransferStateResponse"
+                    },
+                    "postUserState": {
+                        "$ref": "#/components/schemas/CashTransferStateResponse"
+                    }
+                },
+                "required": [
+                    "preUserState",
+                    "postUserState"
+                ]
+            },
+            "FeeBreakdownResponse": {
+                "type": "object",
+                "properties": {
+                    "marketEntranceFee": {
+                        "type": "string",
+                        "description": "Bigint string representing the market entrance fee charged for entering a market"
+                    },
+                    "takerOtcFee": {
+                        "type": "string",
+                        "description": "Bigint string representing the taker OTC fee charged for taker-side trades"
+                    },
+                    "vaultDepositFee": {
+                        "type": "string",
+                        "description": "Bigint string representing the vault deposit fee charged when depositing into the vault"
+                    },
+                    "vaultWithdrawalFee": {
+                        "type": "string",
+                        "description": "Bigint string representing the vault withdrawal fee charged when withdrawing from the vault"
+                    },
+                    "opsFee": {
+                        "type": "string"
+                    },
+                    "marketEntranceFeeInUSD": {
+                        "type": "number",
+                        "example": 0.15
+                    },
+                    "takerOtcFeeInUSD": {
+                        "type": "number",
+                        "example": 0.08
+                    },
+                    "vaultDepositFeeInUSD": {
+                        "type": "number",
+                        "example": 0.03
+                    },
+                    "vaultWithdrawalFeeInUSD": {
+                        "type": "number",
+                        "example": 0.03
+                    },
+                    "opsFeeInUSD": {
+                        "type": "number",
+                        "example": 0.01
+                    }
+                }
+            },
+            "CashTransferSimulationResponse": {
+                "type": "object",
+                "properties": {
+                    "crossAccState": {
+                        "description": "Pre/post state of the cross-margin account during the cash transfer",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/CashTransferPrePostSimulationResponse"
+                            }
+                        ]
+                    },
+                    "isolatedAccState": {
+                        "description": "Pre/post state of the isolated-margin account during the cash transfer",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/CashTransferPrePostSimulationResponse"
+                            }
+                        ]
+                    },
+                    "feeBreakdown": {
+                        "$ref": "#/components/schemas/FeeBreakdownResponse"
+                    }
+                },
+                "required": [
+                    "crossAccState",
+                    "isolatedAccState",
+                    "feeBreakdown"
+                ]
+            },
+            "ContractSwapPositionResponse": {
+                "type": "object",
+                "properties": {
+                    "size": {
+                        "type": "string",
+                        "description": "Bigint string representing the matched position size"
+                    },
+                    "cost": {
+                        "type": "string",
+                        "description": "Bigint string representing the cost of the matched position"
+                    },
+                    "rate": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "size",
+                    "cost",
+                    "rate"
+                ]
+            },
+            "MakerIncentiveSimulationResponse": {
+                "type": "object",
+                "properties": {
+                    "filledVolumeIncentiveReward": {
+                        "type": "number",
+                        "description": "Incentive reward earned from filled order volume, denominated in PENDLE",
+                        "example": 1.25
+                    },
+                    "provideLiquidityIncentiveReward": {
+                        "type": "number",
+                        "description": "Incentive reward earned from providing liquidity, denominated in PENDLE",
+                        "example": 0.75
+                    }
+                },
+                "required": [
+                    "filledVolumeIncentiveReward",
+                    "provideLiquidityIncentiveReward"
+                ]
+            },
+            "PlaceOrderSimulationResponse": {
+                "type": "object",
+                "properties": {
+                    "preUserInfoActivePositionSize": {
+                        "type": "string",
+                        "description": "Bigint string representing the active position size before placing the order"
+                    },
+                    "matched": {
+                        "$ref": "#/components/schemas/ContractSwapPositionResponse"
+                    },
+                    "marginRequired": {
+                        "type": "string",
+                        "description": "Bigint string representing the margin required to place this order"
+                    },
+                    "liquidationApr": {
+                        "type": "number",
+                        "description": "APR at which the position would be liquidated. Undefined if no liquidation threshold exists",
+                        "example": 0.12
+                    },
+                    "priceImpact": {
+                        "type": "number",
+                        "description": "Price impact of the order as a decimal fraction",
+                        "example": 0.003
+                    },
+                    "feeBreakdown": {
+                        "$ref": "#/components/schemas/FeeBreakdownResponse"
+                    },
+                    "actualLeverage": {
+                        "type": "number",
+                        "description": "Actual leverage of the position after the order is placed",
+                        "example": 5.2
+                    },
+                    "status": {
+                        "type": "string"
+                    },
+                    "makerOrderReward": {
+                        "type": "number",
+                        "description": "Maker order rewards earned in PENDLE tokens"
+                    },
+                    "makerIncentive": {
+                        "$ref": "#/components/schemas/MakerIncentiveSimulationResponse"
+                    },
+                    "longYieldApr": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "preUserInfoActivePositionSize",
+                    "matched",
+                    "marginRequired",
+                    "priceImpact",
+                    "feeBreakdown",
+                    "actualLeverage",
+                    "status",
+                    "makerOrderReward",
+                    "makerIncentive",
+                    "longYieldApr"
+                ]
+            },
+            "AddLiquiditySingleCashStateResponse": {
+                "type": "object",
+                "properties": {
+                    "collateralBalance": {
+                        "type": "string",
+                        "description": "Bigint string representing the collateral balance of the account"
+                    },
+                    "marginRatio": {
+                        "type": "number",
+                        "description": "Margin ratio of the account (collateral / maintenance margin)",
+                        "example": 2.5
+                    },
+                    "totalLp": {
+                        "type": "string",
+                        "description": "Bigint string representing the total LP token balance"
+                    },
+                    "lpAmountInCollateral": {
+                        "type": "number",
+                        "description": "Corresponding collateral amount of LP tokens denominated in collateral units"
+                    }
+                },
+                "required": [
+                    "collateralBalance",
+                    "marginRatio",
+                    "totalLp",
+                    "lpAmountInCollateral"
+                ]
+            },
+            "AddLiquiditySingleCashMatchedResponse": {
+                "type": "object",
+                "properties": {
+                    "netLpOut": {
+                        "type": "string",
+                        "description": "Bigint string representing the net LP tokens received from adding liquidity"
+                    },
+                    "netCashUsed": {
+                        "type": "string",
+                        "description": "Bigint string representing the net cash amount used to add liquidity"
+                    },
+                    "fees": {
+                        "type": "string",
+                        "description": "Bigint string representing the total fees charged for adding liquidity"
+                    }
+                },
+                "required": [
+                    "netLpOut",
+                    "netCashUsed",
+                    "fees"
+                ]
+            },
+            "AddLiquiditySingleCashSimulationResponse": {
+                "type": "object",
+                "properties": {
+                    "preUserInfo": {
+                        "$ref": "#/components/schemas/AddLiquiditySingleCashStateResponse"
+                    },
+                    "postUserInfo": {
+                        "$ref": "#/components/schemas/AddLiquiditySingleCashStateResponse"
+                    },
+                    "matched": {
+                        "$ref": "#/components/schemas/AddLiquiditySingleCashMatchedResponse"
+                    },
+                    "feeBreakdown": {
+                        "$ref": "#/components/schemas/FeeBreakdownResponse"
+                    }
+                },
+                "required": [
+                    "preUserInfo",
+                    "postUserInfo",
+                    "matched",
+                    "feeBreakdown"
+                ]
+            },
+            "RemoveLiquiditySingleCashStateResponse": {
+                "type": "object",
+                "properties": {
+                    "collateralBalance": {
+                        "type": "string",
+                        "description": "Bigint string representing the collateral balance of the account"
+                    },
+                    "marginRatio": {
+                        "type": "number",
+                        "description": "Margin ratio of the account (collateral / maintenance margin)",
+                        "example": 2.5
+                    },
+                    "totalLp": {
+                        "type": "string",
+                        "description": "Bigint string representing the total LP token balance"
+                    },
+                    "lpAmountInCollateral": {
+                        "type": "number",
+                        "description": "Corresponding collateral amount of LP tokens denominated in collateral units"
+                    }
+                },
+                "required": [
+                    "collateralBalance",
+                    "marginRatio",
+                    "totalLp",
+                    "lpAmountInCollateral"
+                ]
+            },
+            "RemoveLiquiditySingleCashMatchedResponse": {
+                "type": "object",
+                "properties": {
+                    "netCashOut": {
+                        "type": "string",
+                        "description": "Bigint string representing the net cash received from removing liquidity"
+                    },
+                    "fees": {
+                        "type": "string",
+                        "description": "Bigint string representing the total fees charged for removing liquidity"
+                    }
+                },
+                "required": [
+                    "netCashOut",
+                    "fees"
+                ]
+            },
+            "RemoveLiquiditySingleCashSimulationResponse": {
+                "type": "object",
+                "properties": {
+                    "preUserInfo": {
+                        "$ref": "#/components/schemas/RemoveLiquiditySingleCashStateResponse"
+                    },
+                    "postUserInfo": {
+                        "$ref": "#/components/schemas/RemoveLiquiditySingleCashStateResponse"
+                    },
+                    "matched": {
+                        "$ref": "#/components/schemas/RemoveLiquiditySingleCashMatchedResponse"
+                    },
+                    "feeBreakdown": {
+                        "$ref": "#/components/schemas/FeeBreakdownResponse"
+                    }
+                },
+                "required": [
+                    "preUserInfo",
+                    "postUserInfo",
+                    "matched",
+                    "feeBreakdown"
+                ]
+            },
+            "SettingsByMarketResponse": {
+                "type": "object",
+                "properties": {
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "crossLeverage": {
+                        "type": "number"
+                    },
+                    "isolatedLeverage": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "marketId"
+                ]
+            },
+            "AccountSettingsResponse": {
+                "type": "object",
+                "properties": {
+                    "settingsByMarket": {
+                        "description": "Per-market leverage settings for the account",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SettingsByMarketResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "settingsByMarket"
+                ]
+            },
+            "UpdateAccountSettingBodyDto": {
+                "type": "object",
+                "properties": {
+                    "marketAcc": {
+                        "type": "string"
+                    },
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "leverage": {
+                        "type": "number",
+                        "description": "Leverage multiplier (1-100)",
+                        "example": 10
+                    },
+                    "signature": {
+                        "type": "string"
+                    },
+                    "agent": {
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "marketAcc",
+                    "marketId",
+                    "leverage",
+                    "signature",
+                    "agent",
+                    "timestamp"
+                ]
+            },
+            "AccountGasBalanceResponse": {
+                "type": "object",
+                "properties": {
+                    "balanceInUSD": {
+                        "type": "number",
+                        "example": 12.5
+                    }
+                },
+                "required": [
+                    "balanceInUSD"
+                ]
+            },
+            "GasConsumptionResponse": {
+                "type": "object",
+                "properties": {
+                    "actionType": {
+                        "type": "string",
+                        "description": "Action type that consumed gas (e.g. deposit, withdraw, trade)",
+                        "example": "deposit"
+                    },
+                    "userAddress": {
+                        "type": "string"
+                    },
+                    "gasFee": {
+                        "type": "number",
+                        "description": "Gas fee in USD (always positive)",
+                        "example": 0.35
+                    },
+                    "txHash": {
+                        "type": "string"
+                    },
+                    "blockTimestamp": {
+                        "type": "number"
+                    },
+                    "chainId": {
+                        "type": "number"
+                    },
+                    "gasFeeV2": {
+                        "type": "number",
+                        "description": "Gas fee in USD (always positive), same as gasFee",
+                        "example": 0.35
+                    }
+                },
+                "required": [
+                    "actionType",
+                    "userAddress",
+                    "gasFee",
+                    "txHash",
+                    "blockTimestamp",
+                    "chainId",
+                    "gasFeeV2"
+                ]
+            },
+            "AccountGasConsumptionHistoryResponse": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/GasConsumptionResponse"
+                        }
+                    },
+                    "total": {
+                        "type": "number",
+                        "example": 42
+                    }
+                },
+                "required": [
+                    "results",
+                    "total"
+                ]
+            },
+            "FundLocationResponse": {
+                "type": "object",
+                "properties": {
+                    "fundType": {
+                        "type": "string",
+                        "enum": [
+                            "wallet",
+                            "cross_account",
+                            "isolated_account",
+                            "amm"
+                        ],
+                        "description": "FundType { Wallet : wallet, CrossAccount : cross_account, IsolatedAccount : isolated_account, AMM : amm }"
+                    },
+                    "marketId": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "fundType"
+                ]
+            },
+            "TransferLogResponse": {
+                "type": "object",
+                "properties": {
+                    "transferLogId": {
+                        "type": "string"
+                    },
+                    "blockTimestamp": {
+                        "type": "number"
+                    },
+                    "root": {
+                        "type": "string"
+                    },
+                    "accountId": {
+                        "type": "number"
+                    },
+                    "tokenId": {
+                        "type": "number"
+                    },
+                    "amount": {
+                        "type": "string",
+                        "description": "The transfer amount as a bigint string in the settlement token"
+                    },
+                    "fromFundLocation": {
+                        "$ref": "#/components/schemas/FundLocationResponse"
+                    },
+                    "toFundLocation": {
+                        "$ref": "#/components/schemas/FundLocationResponse"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "pending",
+                            "success",
+                            "failed"
+                        ],
+                        "description": "Transfer status { Pending : pending, Success : success, Failed : failed }"
+                    }
+                },
+                "required": [
+                    "transferLogId",
+                    "blockTimestamp",
+                    "root",
+                    "accountId",
+                    "tokenId",
+                    "amount",
+                    "fromFundLocation",
+                    "toFundLocation",
+                    "status"
+                ]
+            },
+            "TransferLogsResponse": {
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "type": "number",
+                        "example": 15
+                    },
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TransferLogResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "total",
+                    "results"
+                ]
+            },
+            "LimitOrderMetadataResponse": {
+                "type": "object",
+                "properties": {
+                    "isRateImproved": {
+                        "type": "boolean",
+                        "description": "Whether the order was filled at a better rate than the limit price",
+                        "example": true
+                    },
+                    "isClosePosition": {
+                        "type": "boolean",
+                        "description": "Whether the order is intended to close an existing position",
+                        "example": false
+                    }
+                },
+                "required": [
+                    "isRateImproved",
+                    "isClosePosition"
+                ]
+            },
+            "LimitOrderResponseV2": {
+                "type": "object",
+                "properties": {
+                    "side": {
+                        "type": "number",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "description": "Side { LONG : 0, SHORT : 1 }"
+                    },
+                    "placedSize": {
+                        "type": "string",
+                        "description": "Original notional size of the order as a bigint string"
+                    },
+                    "unfilledSize": {
+                        "type": "string",
+                        "description": "Remaining unfilled notional size of the order as a bigint string"
+                    },
+                    "impliedApr": {
+                        "type": "number",
+                        "description": "The fixed APR of the order (deprecated, use tick instead)",
+                        "deprecated": true,
+                        "example": 0.05
+                    },
+                    "tick": {
+                        "type": "number",
+                        "description": "The price tick of the order on the order book, representing the discrete rate level"
+                    },
+                    "marginRequired": {
+                        "type": "string",
+                        "description": "Margin required to maintain this order as a bigint string"
+                    },
+                    "orderId": {
+                        "type": "string"
+                    },
+                    "root": {
+                        "type": "string"
+                    },
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "accountId": {
+                        "type": "number"
+                    },
+                    "isCross": {
+                        "type": "boolean",
+                        "description": "Whether the order uses cross-margin mode"
+                    },
+                    "status": {
+                        "type": "number",
+                        "enum": [
+                            1,
+                            2,
+                            3,
+                            4,
+                            0,
+                            5,
+                            6,
+                            7,
+                            8
+                        ],
+                        "description": "Limit order status { Cancelled : 1, FullyFilled : 2, Expired : 3, Purged : 4, Filling : 0, Pending : 5, Executing : 6, Retrying : 7, Failed : 8 }"
+                    },
+                    "orderType": {
+                        "type": "number",
+                        "enum": [
+                            0,
+                            1,
+                            2,
+                            3
+                        ],
+                        "description": "Order type { LIMIT : 0, MARKET : 1, TAKE_PROFIT_MARKET : 2, STOP_LOSS_MARKET : 3 }"
+                    },
+                    "blockTimestamp": {
+                        "type": "number"
+                    },
+                    "eventIndex": {
+                        "type": "number"
+                    },
+                    "placedEventIndex": {
+                        "type": "number"
+                    },
+                    "placedTimestamp": {
+                        "type": "number"
+                    },
+                    "marketAcc": {
+                        "type": "string",
+                        "description": "Encoded account position identifier combining root, accountId, marketId, and tokenId",
+                        "example": "0x9dcf85824e024fea9e3ef583dccbea68edbc37b8000002ffffff"
+                    },
+                    "metadata": {
+                        "$ref": "#/components/schemas/LimitOrderMetadataResponse"
+                    }
+                },
+                "required": [
+                    "side",
+                    "placedSize",
+                    "unfilledSize",
+                    "impliedApr",
+                    "tick",
+                    "marginRequired",
+                    "orderId",
+                    "root",
+                    "marketId",
+                    "accountId",
+                    "isCross",
+                    "status",
+                    "orderType",
+                    "blockTimestamp",
+                    "eventIndex",
+                    "placedEventIndex",
+                    "placedTimestamp",
+                    "marketAcc"
+                ]
+            },
+            "LimitOrdersResponse": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/LimitOrderResponseV2"
+                        }
+                    },
+                    "total": {
+                        "type": "number",
+                        "example": 25
+                    }
+                },
+                "required": [
+                    "results",
+                    "total"
+                ]
+            },
+            "TransactionResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "type": "number"
+                    },
+                    "side": {
+                        "type": "number",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "description": "The trade side: long or short. { LONG : 0, SHORT : 1 }"
+                    },
+                    "tradeSize": {
+                        "type": "string",
+                        "description": "Absolute bigint string of notional size (always positive)"
+                    },
+                    "tradeRate": {
+                        "type": "number",
+                        "description": "The implied fixed rate (APR) at which the trade was executed",
+                        "example": 0.05
+                    },
+                    "tradeValue": {
+                        "type": "string",
+                        "description": "Bigint string of the total trade value in the settlement token"
+                    },
+                    "fee": {
+                        "type": "string",
+                        "description": "Bigint string of the trading fee charged"
+                    },
+                    "pnl": {
+                        "type": "string",
+                        "description": "Bigint string of realized profit and loss from the trade",
+                        "example": "-250000000000000"
+                    },
+                    "txHash": {
+                        "type": "string"
+                    },
+                    "isLimitOrderTrade": {
+                        "type": "boolean",
+                        "description": "Whether this trade was executed as a maker via a limit order"
+                    },
+                    "blockNumber": {
+                        "type": "number"
+                    },
+                    "orderId": {
+                        "type": "string",
+                        "description": "The order id, only present for limit order filled/partially filled trades"
+                    }
+                },
+                "required": [
+                    "id",
+                    "timestamp",
+                    "side",
+                    "tradeSize",
+                    "tradeRate",
+                    "tradeValue",
+                    "fee",
+                    "pnl",
+                    "txHash",
+                    "isLimitOrderTrade",
+                    "blockNumber",
+                    "orderId"
+                ]
+            },
+            "TransactionsResponse": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TransactionResponse"
+                        }
+                    },
+                    "total": {
+                        "type": "number",
+                        "example": 100
+                    }
+                },
+                "required": [
+                    "results",
+                    "total"
+                ]
+            },
+            "SettlementResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "type": "number"
+                    },
+                    "marketAcc": {
+                        "type": "string",
+                        "description": "Encoded account position identifier combining root, accountId, marketId, and tokenId",
+                        "example": "0x9dcf85824e024fea9e3ef583dccbea68edbc37b8000002ffffff"
+                    },
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "side": {
+                        "type": "number",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "description": "The position side at time of settlement { LONG : 0, SHORT : 1 }"
+                    },
+                    "positionSize": {
+                        "type": "string",
+                        "description": "Bigint string of the position size at time of settlement"
+                    },
+                    "positionValue": {
+                        "type": "string",
+                        "description": "Bigint string of the position value at time of settlement in the settlement token"
+                    },
+                    "yieldPaid": {
+                        "type": "string",
+                        "description": "Bigint string of the yield amount paid by the position holder during this settlement period"
+                    },
+                    "yieldReceived": {
+                        "type": "string",
+                        "description": "Bigint string of the yield amount received by the position holder during this settlement period"
+                    },
+                    "settlement": {
+                        "type": "string",
+                        "description": "Bigint string of the net settlement amount (yieldReceived - yieldPaid)"
+                    },
+                    "settlementRate": {
+                        "type": "number",
+                        "description": "The annualized settlement rate applied during this settlement period",
+                        "example": 0.05
+                    }
+                },
+                "required": [
+                    "id",
+                    "timestamp",
+                    "marketAcc",
+                    "marketId",
+                    "side",
+                    "positionSize",
+                    "positionValue",
+                    "yieldPaid",
+                    "yieldReceived",
+                    "settlement",
+                    "settlementRate"
+                ]
+            },
+            "SettlementsResponse": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SettlementResponse"
+                        }
+                    },
+                    "total": {
+                        "type": "number",
+                        "example": 50
+                    }
+                },
+                "required": [
+                    "results",
+                    "total"
+                ]
+            },
+            "GetMarketAccInfos": {
+                "type": "object",
+                "properties": {
+                    "marketAccs": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": [
+                    "marketAccs"
+                ]
+            },
+            "OrderResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "maker": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "type": "string",
+                        "description": "The remaining unfilled order size as a bigint string"
+                    },
+                    "rate": {
+                        "type": "string",
+                        "description": "The limit rate (APR) of the order as a bigint string"
+                    }
+                },
+                "required": [
+                    "id",
+                    "maker",
+                    "size",
+                    "rate"
+                ]
+            },
+            "PositionResponse": {
+                "type": "object",
+                "properties": {
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "signedSize": {
+                        "type": "string",
+                        "description": "The signed position size as a bigint string (positive for long, negative for short)"
+                    },
+                    "positionValue": {
+                        "type": "string",
+                        "description": "The current position value as a bigint string in the settlement token"
+                    },
+                    "liquidationApr": {
+                        "type": "string",
+                        "description": "The APR at which the position would be liquidated, as a bigint string"
+                    },
+                    "initialMargin": {
+                        "type": "string",
+                        "description": "The initial margin requirement as a bigint string in the settlement token"
+                    },
+                    "maintMargin": {
+                        "type": "string",
+                        "description": "The maintenance margin requirement as a bigint string in the settlement token"
+                    },
+                    "orders": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/OrderResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "marketId",
+                    "signedSize",
+                    "positionValue",
+                    "liquidationApr",
+                    "initialMargin",
+                    "maintMargin",
+                    "orders"
+                ]
+            },
+            "MarketAccInfoResponse": {
+                "type": "object",
+                "properties": {
+                    "totalCash": {
+                        "type": "string",
+                        "description": "Total cash balance in the account as a bigint string in the settlement token"
+                    },
+                    "positions": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/PositionResponse"
+                        }
+                    },
+                    "availableInitialMargin": {
+                        "type": "string",
+                        "description": "Remaining margin available for opening new positions as a bigint string"
+                    },
+                    "availableMaintMargin": {
+                        "type": "string",
+                        "description": "Remaining margin before liquidation as a bigint string. When this reaches zero, health ratio = 1.0 and the account is eligible for liquidation. See https://docs.pendle.finance/boros-dev/Mechanics/Margin#health-ratio for threshold details"
+                    }
+                },
+                "required": [
+                    "totalCash",
+                    "positions",
+                    "availableInitialMargin",
+                    "availableMaintMargin"
+                ]
+            },
+            "MarketAccInfosResponse": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MarketAccInfoResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "results"
+                ]
+            },
+            "EnteredMarketResponse": {
+                "type": "object",
+                "properties": {
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "isMatured": {
+                        "type": "boolean",
+                        "description": "Whether the market has reached its maturity date"
+                    }
+                },
+                "required": [
+                    "marketId",
+                    "isMatured"
+                ]
+            },
+            "EnteredMarketsResponse": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/EnteredMarketResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "results"
+                ]
+            },
+            "ChartOhlcvResponse": {
+                "type": "object",
+                "properties": {
+                    "results": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CandleResponse"
+                        }
+                    }
+                },
+                "required": [
+                    "results"
+                ]
+            },
+            "AgentExpiryTimeResponse": {
+                "type": "object",
+                "properties": {
+                    "expiryTime": {
+                        "type": "number"
+                    }
+                },
+                "required": [
+                    "expiryTime"
+                ]
+            }
+        }
+    }
+}

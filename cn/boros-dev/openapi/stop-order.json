@@ -1,0 +1,502 @@
+{
+    "openapi": "3.0.0",
+    "paths": {
+        "/v1/orders/tpsl/prepare": {
+            "get": {
+                "operationId": "OrdersController_prepareTakeProfitStopLossOrder",
+                "summary": "Prepare a TPSL stop order request",
+                "description": "Prepares the parameters needed to place a take-profit or stop-loss order. Returns the pre-computed order request object and offchain condition that must be signed by the agent before submitting via the place endpoint. The offchain condition encodes the trigger APR threshold.\n\nSee [Stop Orders guide](https://docs.pendle.finance/boros-dev/Backend/stop-orders) for the full TP/SL workflow.",
+                "parameters": [
+                    {
+                        "name": "marketAcc",
+                        "required": true,
+                        "in": "query",
+                        "description": "Packed market account identifier (market ID + account info)",
+                        "schema": {
+                            "example": "0x9dcf85824e024fea9e3ef583dccbea68edbc37b8000002ffffff",
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "marketId",
+                        "required": true,
+                        "in": "query",
+                        "schema": {
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "side",
+                        "required": true,
+                        "in": "query",
+                        "description": "Side { LONG : 0, SHORT : 1 }",
+                        "schema": {
+                            "enum": [
+                                0,
+                                1
+                            ],
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "required": true,
+                        "in": "query",
+                        "description": "StopAprOrderType { TAKE_PROFIT_MARKET : 2, STOP_LOSS_MARKET : 3 }",
+                        "schema": {
+                            "enum": [
+                                2,
+                                3
+                            ],
+                            "type": "number"
+                        }
+                    },
+                    {
+                        "name": "closePosition",
+                        "required": true,
+                        "in": "query",
+                        "description": "If true, the stop order will close the entire position when triggered. If false, only the specified size is used.",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "required": true,
+                        "in": "query",
+                        "description": "Order size in notional units as a bigint string. Ignored if closePosition is true. Must be >= 0.",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "stopApr",
+                        "required": true,
+                        "in": "query",
+                        "description": "APR threshold that triggers the stop order. For take-profit on long, this is the upper bound. For stop-loss on long, this is the lower bound.",
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returned TPSL stop order request parameters",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PrepareTpslStopOrderResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid parameters (e.g. invalid marketAcc, zero size)"
+                    }
+                },
+                "tags": [
+                    "Stop Orders"
+                ]
+            }
+        },
+        "/v2/orders/place": {
+            "post": {
+                "operationId": "OrdersController_placeTakeProfitStopLossOrderV2",
+                "summary": "Place a new stop order",
+                "description": "Places a new stop order (take-profit or stop-loss) on the specified market. Requires an agent signature and valid session. The order will be monitored and automatically executed when the market APR crosses the stop threshold. The placeMsg contains the signed action hash, and the request contains the full order parameters.\n\nSee [Stop Orders guide](https://docs.pendle.finance/boros-dev/Backend/stop-orders) for order types and trigger logic.",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PlaceStopOrderV2Dto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Stop order placed successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PlaceStopOrderResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid session, market expired, or invalid signature"
+                    }
+                },
+                "tags": [
+                    "Stop Orders"
+                ]
+            }
+        },
+        "/v3/orders/cancel": {
+            "delete": {
+                "operationId": "OrdersController_cancelStopOrdersV3",
+                "summary": "Cancel multiple stop orders",
+                "description": "Cancels one or more existing stop orders. Requires agent authorization with a valid cancel signature and session. Up to 50 orders can be cancelled in a single request. The cancellation is verified against the agent session to prevent unauthorized cancellations.",
+                "parameters": [],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CancelStopOrderV3Dto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Stop orders cancelled successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CancelStopOrderResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid session, invalid signature, or too many orders"
+                    }
+                },
+                "tags": [
+                    "Stop Orders"
+                ]
+            }
+        }
+    },
+    "info": {
+        "title": "Stop Order Service API Docs",
+        "description": "Stop Order Service for Boros. Manages conditional stop orders including take-profit (TP) and stop-loss (SL) orders. These orders are automatically triggered and executed when the market APR reaches the specified threshold. Supports preparation, placement, and cancellation of stop orders with agent-based authorization.\n\nFor conceptual overview, see https://docs.pendle.finance/boros-dev/Backend/stop-orders",
+        "version": "1.0",
+        "contact": {
+            "name": "Pendle Finance",
+            "url": "https://pendle.finance",
+            "email": "hello@pendle.finance"
+        }
+    },
+    "tags": [],
+    "servers": [
+        {
+            "url": "https://api.boros.finance/stop-order"
+        }
+    ],
+    "components": {
+        "securitySchemes": {
+            "admin-api-key": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "admin-api-key"
+            }
+        },
+        "schemas": {
+            "StopOrderRequest": {
+                "type": "object",
+                "properties": {
+                    "account": {
+                        "type": "string",
+                        "description": "Packed Boros account identifier",
+                        "example": "0x009dcf85824e024fea9e3ef583dccbea68edbc37b8"
+                    },
+                    "cross": {
+                        "type": "boolean",
+                        "description": "Whether this order uses cross-margin (true) or isolated-margin (false)"
+                    },
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "side": {
+                        "type": "number",
+                        "description": "Order side: 0 = Long, 1 = Short"
+                    },
+                    "tif": {
+                        "type": "number",
+                        "description": "Time-in-force policy: 0 = GoodTilCancel, 1 = ImmediateOrCancel, 2 = FillOrKill"
+                    },
+                    "size": {
+                        "type": "string",
+                        "description": "Order size in notional units (returned as string from bigint)"
+                    },
+                    "tick": {
+                        "type": "number"
+                    },
+                    "reduceOnly": {
+                        "type": "boolean",
+                        "description": "If true, order can only reduce an existing position"
+                    },
+                    "salt": {
+                        "type": "string",
+                        "description": "Random salt for order uniqueness (returned as string from bigint)"
+                    },
+                    "expiry": {
+                        "type": "string",
+                        "description": "Order expiry timestamp in unix seconds (returned as string from bigint)"
+                    },
+                    "offchainCondition": {
+                        "type": "string",
+                        "description": "Raw offchain condition encoding the APR trigger threshold"
+                    }
+                },
+                "required": [
+                    "account",
+                    "cross",
+                    "marketId",
+                    "side",
+                    "tif",
+                    "size",
+                    "tick",
+                    "reduceOnly",
+                    "salt",
+                    "expiry",
+                    "offchainCondition"
+                ]
+            },
+            "PrepareTpslStopOrderResponse": {
+                "type": "object",
+                "properties": {
+                    "req": {
+                        "$ref": "#/components/schemas/StopOrderRequest"
+                    },
+                    "offchainCondition": {
+                        "type": "string",
+                        "description": "Raw offchain condition data that encodes the APR trigger. Must be hashed with keccak256 and included in the order request."
+                    }
+                },
+                "required": [
+                    "req",
+                    "offchainCondition"
+                ]
+            },
+            "PlaceMsgDto": {
+                "type": "object",
+                "properties": {
+                    "actionHash": {
+                        "type": "string",
+                        "description": "Hash of the order placement action, signed by the agent to authorize the order",
+                        "example": "0xabcdef..."
+                    }
+                },
+                "required": [
+                    "actionHash"
+                ]
+            },
+            "StopOrderRequestDto": {
+                "type": "object",
+                "properties": {
+                    "account": {
+                        "type": "string",
+                        "description": "Packed Boros account identifier (root address + account ID)",
+                        "example": "0x009dcf85824e024fea9e3ef583dccbea68edbc37b8"
+                    },
+                    "cross": {
+                        "type": "boolean",
+                        "description": "Whether the order uses cross-margin (true) or isolated-margin (false) mode"
+                    },
+                    "marketId": {
+                        "type": "number"
+                    },
+                    "side": {
+                        "type": "number",
+                        "enum": [
+                            0,
+                            1
+                        ],
+                        "description": "Side { LONG : 0, SHORT : 1 }"
+                    },
+                    "tif": {
+                        "type": "number",
+                        "enum": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4
+                        ],
+                        "description": "TimeInForce { GOOD_TIL_CANCELLED : 0, IMMEDIATE_OR_CANCEL : 1, FILL_OR_KILL : 2, ADD_LIQUIDITY_ONLY : 3, SOFT_ADD_LIQUIDITY_ONLY : 4 }"
+                    },
+                    "size": {
+                        "type": "string",
+                        "description": "Order size in notional units as a bigint string"
+                    },
+                    "tick": {
+                        "type": "number",
+                        "minimum": -32768,
+                        "maximum": 32767
+                    },
+                    "reduceOnly": {
+                        "type": "boolean",
+                        "description": "If true, the order can only reduce an existing position, never increase it"
+                    },
+                    "salt": {
+                        "type": "string",
+                        "description": "Random salt for order uniqueness (bigint string)"
+                    },
+                    "expiry": {
+                        "type": "string",
+                        "description": "Order expiry timestamp in unix seconds (bigint string). The order is invalid after this time."
+                    },
+                    "hashedOffchainCondition": {
+                        "type": "string",
+                        "description": "Keccak256 hash of the offchain condition that encodes the APR trigger threshold"
+                    }
+                },
+                "required": [
+                    "account",
+                    "cross",
+                    "marketId",
+                    "side",
+                    "tif",
+                    "size",
+                    "tick",
+                    "reduceOnly",
+                    "salt",
+                    "expiry",
+                    "hashedOffchainCondition"
+                ]
+            },
+            "AgentSessionQueryDto": {
+                "type": "object",
+                "properties": {
+                    "root": {
+                        "type": "string",
+                        "description": "Root address"
+                    },
+                    "agent": {
+                        "type": "string",
+                        "description": "Agent address"
+                    },
+                    "timestamp": {
+                        "type": "number",
+                        "description": "Timestamp in seconds"
+                    },
+                    "signature": {
+                        "type": "string",
+                        "description": "Signature"
+                    }
+                },
+                "required": [
+                    "root",
+                    "agent",
+                    "timestamp",
+                    "signature"
+                ]
+            },
+            "PlaceStopOrderV2Dto": {
+                "type": "object",
+                "properties": {
+                    "agent": {
+                        "type": "string"
+                    },
+                    "placeMsg": {
+                        "$ref": "#/components/schemas/PlaceMsgDto"
+                    },
+                    "placeSignature": {
+                        "type": "string",
+                        "description": "EIP-712 signature from the agent authorizing this order placement"
+                    },
+                    "request": {
+                        "$ref": "#/components/schemas/StopOrderRequestDto"
+                    },
+                    "offchainCondition": {
+                        "type": "string",
+                        "description": "Raw offchain condition data encoding the APR trigger threshold (unhashed)"
+                    },
+                    "type": {
+                        "type": "number",
+                        "enum": [
+                            2,
+                            3
+                        ],
+                        "description": "StopAprOrderType { TAKE_PROFIT_MARKET : 2, STOP_LOSS_MARKET : 3 }"
+                    },
+                    "closePosition": {
+                        "type": "boolean",
+                        "description": "If true, the stop order will close the entire position when triggered"
+                    },
+                    "agentSession": {
+                        "$ref": "#/components/schemas/AgentSessionQueryDto"
+                    }
+                },
+                "required": [
+                    "agent",
+                    "placeMsg",
+                    "placeSignature",
+                    "request",
+                    "offchainCondition",
+                    "type",
+                    "closePosition",
+                    "agentSession"
+                ]
+            },
+            "PlaceStopOrderResponse": {
+                "type": "object",
+                "properties": {
+                    "orderHash": {
+                        "type": "string",
+                        "description": "Unique hash identifying the placed stop order. Use this to cancel or track the order.",
+                        "example": "0xabcdef1234567890..."
+                    }
+                },
+                "required": [
+                    "orderHash"
+                ]
+            },
+            "CancelStopOrderV3Dto": {
+                "type": "object",
+                "properties": {
+                    "account": {
+                        "type": "string",
+                        "description": "Packed Boros account identifier whose stop orders are being cancelled",
+                        "example": "0x009dcf85824e024fea9e3ef583dccbea68edbc37b8"
+                    },
+                    "agent": {
+                        "type": "string"
+                    },
+                    "orderIds": {
+                        "description": "Array of order hashes to cancel. Must contain 1-50 order IDs.",
+                        "example": [
+                            "0xabc123..."
+                        ],
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "cancelSignature": {
+                        "type": "string",
+                        "description": "EIP-712 signature from the agent authorizing the cancellation of these orders"
+                    },
+                    "agentSession": {
+                        "$ref": "#/components/schemas/AgentSessionQueryDto"
+                    }
+                },
+                "required": [
+                    "account",
+                    "agent",
+                    "orderIds",
+                    "cancelSignature",
+                    "agentSession"
+                ]
+            },
+            "CancelStopOrderResponse": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "Orders cancelled successfully"
+                    }
+                },
+                "required": [
+                    "message"
+                ]
+            }
+        }
+    }
+}

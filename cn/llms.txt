@@ -1,0 +1,99 @@
+# Pendle Developer Documentation
+
+> Pendle Finance is a DeFi yield infrastructure protocol. This index covers two products:
+> - **Pendle V2**: Yield tokenization — split any yield-bearing asset into PT (fixed yield) and YT (variable yield) for trading
+> - **Boros**: Interest rate swap DEX — trade funding rates with leverage on Arbitrum
+
+---
+
+## Pendle V2
+
+### Getting Started
+- [Introduction](https://docs.pendle.finance/pendle-v2/Introduction): What is Pendle, yield tokenization overview
+- [Developer Overview](https://docs.pendle.finance/pendle-v2/Developers/Overview): Support channels, Telegram, Discord, and AI knowledge base
+- [High Level Architecture](https://docs.pendle.finance/pendle-v2/Developers/HighLevelArchitecture): SY, PT, YT, Market, and Router contract roles
+
+### Protocol Concepts
+- [Glossary](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/Glossary): Key terms (SY, PT, YT, Implied APY, Accounting Asset)
+- [SY — Standardized Yield](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/YieldTokenization/SY): Wrapper standard for yield-bearing tokens
+- [PT — Principal Token](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/YieldTokenization/PT): Fixed yield, zero-coupon bond mechanics
+- [YT — Yield Token](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/YieldTokenization/YT): Leveraged yield exposure
+- [Minting](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/YieldTokenization/Minting): How PT and YT are minted from SY
+- [AMM](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/LiquidityEngines/AMM): Pendle's custom AMM for yield trading
+- [Fees](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/Mechanisms/Fees): Protocol fee structure
+
+### API Integration (recommended for most users)
+- [API Overview](https://docs.pendle.finance/pendle-v2/Developers/Backend/ApiOverview): Hosted SDK vs data APIs, rate limits, authentication, and API entry points
+- [Hosted SDK](https://docs.pendle.finance/pendle-v2/Developers/Backend/HostedSdk): The Convert API — unified endpoint for all Pendle transactions (swap, mint, redeem, liquidity)
+- [RouterStatic](https://docs.pendle.finance/pendle-v2/Developers/Backend/RouterStatic): Read-only view functions for pricing and simulation
+
+### Limit Orders
+- [Overview](https://docs.pendle.finance/pendle-v2/Developers/LimitOrder/Overview): Gasless off-chain order creation with on-chain settlement
+- [Create a Limit Order](https://docs.pendle.finance/pendle-v2/Developers/LimitOrder/CreateALimitOrder): Order struct, EIP-712 signing, and submission
+- [Fill a Limit Order](https://docs.pendle.finance/pendle-v2/Developers/LimitOrder/FillALimitOrder): Querying and filling orders on-chain
+- [Cancel Orders](https://docs.pendle.finance/pendle-v2/Developers/LimitOrder/CancelOrders): Order cancellation mechanisms
+- [Limit Order Contract](https://docs.pendle.finance/pendle-v2/Developers/LimitOrder/LimitOrderContract): Contract reference and ABI
+
+### Smart Contracts (direct integration)
+- [Yield Tokenization Contracts](https://docs.pendle.finance/pendle-v2/Developers/Contracts/YieldTokenization): SY/PT/YT minting, redemption, and yield accounting internals
+- [Standardized Yield](https://docs.pendle.finance/pendle-v2/Developers/Contracts/StandardizedYield): SY interface specification for integrators
+- [PendleMarket](https://docs.pendle.finance/pendle-v2/Developers/Contracts/PendleMarket): LP token, AMM state, and reward distribution
+- [PendleRouter Overview](https://docs.pendle.finance/pendle-v2/Developers/Contracts/PendleRouter/PendleRouterOverview): Entry point for all on-chain trading operations
+- [Contract Integration Guide](https://docs.pendle.finance/pendle-v2/Developers/Contracts/PendleRouter/ContractIntegrationGuide): Step-by-step on-chain integration
+- [sPENDLE](https://docs.pendle.finance/pendle-v2/Developers/Contracts/sPENDLE): Staked PENDLE — voting power and protocol rewards
+- [Units and Decimals](https://docs.pendle.finance/pendle-v2/Developers/Contracts/UnitAndDecimals): Decimal conventions across Pendle contracts
+
+### Oracles
+- [PT Oracle Introduction](https://docs.pendle.finance/pendle-v2/Developers/Oracles/IntroductionOfPtOracle): TWAP-based PT price oracle
+- [LP Oracle Introduction](https://docs.pendle.finance/pendle-v2/Developers/Oracles/IntroductionOfLpOracle): LP price oracle design and manipulation resistance
+- [How to Integrate PT and LP Oracle](https://docs.pendle.finance/pendle-v2/Developers/Oracles/HowToIntegratePtAndLpOracle): Step-by-step integration guide
+- [PT as Collateral](https://docs.pendle.finance/pendle-v2/Developers/Oracles/PTAsCollateral): Security considerations for money market integrations
+- [LP as Collateral](https://docs.pendle.finance/pendle-v2/Developers/Oracles/LPAsCollateral): Security considerations for LP collateral
+- [Linear Discount Oracle](https://docs.pendle.finance/pendle-v2/Developers/Oracles/DeterministicOracles/LinearDiscountOracle): Deterministic, manipulation-resistant PT pricing
+
+### Reference
+- [Deployments](https://docs.pendle.finance/pendle-v2/Developers/Deployments): Contract addresses by chain
+- [Developer FAQ](https://docs.pendle.finance/pendle-v2/Developers/FAQ): Common contract and integration questions
+- [Troubleshooting](https://docs.pendle.finance/pendle-v2/Developers/Troubleshooting): Common errors and debugging guidance
+- [Points & Rewards Tracking](https://docs.pendle.finance/pendle-v2/Developers/Integration/PointsTracking): Partner integration for points and rewards distribution
+
+### Machine-Readable Specs
+- [Full Documentation (Markdown)](https://docs.pendle.finance/llms-full.txt): All Pendle V2 + Boros docs concatenated for AI ingestion
+- [V2 API Spec (JSON)](https://docs.pendle.finance/pendle-v2/openapi/open-api.json): OpenAPI spec for the Pendle V2 backend (120 endpoints)
+
+---
+
+## Boros
+
+### Getting Started
+- [Introduction](https://docs.pendle.finance/boros-dev/Introduction): What is Boros and how it works
+- [Lite Paper](https://docs.pendle.finance/boros-dev/LitePaper): Protocol design overview
+- [High Level Architecture](https://docs.pendle.finance/boros-dev/HighLevelArchitecture): Core contracts (Router → MarketHub → Market)
+
+### API Integration (recommended for most users)
+- [Backend Overview](https://docs.pendle.finance/boros-dev/Backend/overview): SDK setup and quickstart
+- [Glossary](https://docs.pendle.finance/boros-dev/Backend/glossary): Key terms and enum values
+- [Agent Trading](https://docs.pendle.finance/boros-dev/Backend/agent): Delegated trading with agent wallets
+- [API Reference](https://docs.pendle.finance/boros-dev/Backend/api): REST endpoints and integration workflows
+- [WebSocket](https://docs.pendle.finance/boros-dev/Backend/websocket): Real-time streaming
+- [Stop Orders](https://docs.pendle.finance/boros-dev/Backend/stop-orders): Take-profit and stop-loss orders
+- [Best Practices](https://docs.pendle.finance/boros-dev/Backend/best-practices): Performance and reliability tips
+
+### Trading Mechanics
+- [Order Book](https://docs.pendle.finance/boros-dev/Mechanics/OrderBook): CLOB structure, tick system, matching rules
+- [Margin](https://docs.pendle.finance/boros-dev/Mechanics/Margin): Cross/isolated margin, health ratio, liquidation
+- [Settlement](https://docs.pendle.finance/boros-dev/Mechanics/Settlement): Lazy settlement and floating rate payments
+- [Fees](https://docs.pendle.finance/boros-dev/Mechanics/Fees): Taker, OTC, settlement, entrance, liquidation fees
+
+### Smart Contracts (reference only — use the API)
+- [Custom Types](https://docs.pendle.finance/boros-dev/Contracts/CustomTypes): Solidity type definitions and bit-packing
+- [Router](https://docs.pendle.finance/boros-dev/Contracts/Router): Entry point, order placement, AMM operations
+- [Market](https://docs.pendle.finance/boros-dev/Contracts/Market): View functions for positions, orders, rates
+- [MarketHub](https://docs.pendle.finance/boros-dev/Contracts/MarketHub): Balances, withdrawals, settlement
+
+### Machine-Readable Specs
+- [Full Documentation (Markdown)](https://docs.pendle.finance/llms-full.txt): All Pendle V2 + Boros docs concatenated for AI ingestion
+- Boros OpenAPI Spec (JSON): Static copies hosted at `/boros-dev/openapi/open-api.json`, `/boros-dev/openapi/send-txs-bot.json`, `/boros-dev/openapi/stop-order.json`
+
+### FAQ
+- [FAQ](https://docs.pendle.finance/boros-dev/FAQ): Common questions about trading, margins, fees, and troubleshooting
