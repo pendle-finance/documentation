@@ -22,7 +22,7 @@ The full tutorial source code is available in [RouterSample.sol](https://github.
 - [PT Trading](#pt-trading)
 - [YT Trading](#yt-trading)
 
-### Liquidity Operations  
+### Liquidity Operations
 - [Add Liquidity (Zap In) & Remove Liquidity (Zap Out)](#liquidity-management)
 - [Add Liquidity (Keep YT)](#add-liquidity-keep-yt)
 
@@ -94,7 +94,7 @@ address tokenReceiver = address(this);
 IERC20(PT).approve(address(router), ptAmount);
 (uint256 netTokenOut, , ) = router.swapExactPtForToken(
     tokenReceiver,              // receiver
-    address(market),            // market address  
+    address(market),            // market address
     ptAmount,                   // exact PT amount to sell
     createTokenOutputStruct(wstETH, 0),  // token output (0 = no minimum)
     emptyLimit                  // limit order data

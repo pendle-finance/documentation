@@ -36,7 +36,7 @@ Traditional AMMs like Uniswap use constant product formulas (`x × y = k`) that 
 ## Core Logic
 
 ### [`readState`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L272-L292)
-Returns the current market state and pricing metadata. 
+Returns the current market state and pricing metadata.
 
 ```solidity
 struct MarketState {
@@ -58,8 +58,8 @@ struct MarketState {
 function readState(address router) external view returns (MarketState memory market);
 ```
 
-**Note:** 
-- `lnFeeRateRoot` and `lastLnImpliedRate` are stored/returned as natural-log values in fixed-point form. 
+**Note:**
+- `lnFeeRateRoot` and `lastLnImpliedRate` are stored/returned as natural-log values in fixed-point form.
 - The router parameter allows the function to reflect router-specific settings (e.g., fee discounts if applicable).
 
 ### [`mint`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L85-L125)
@@ -81,11 +81,11 @@ function mint(
 ) external returns (uint256 netLpOut, uint256 netSyUsed, uint256 netPtUsed);
 ```
 
-**Note:** 
+**Note:**
 - Caller must transfer PT and SY to the Market before calling. The function mints as many LPs as possible without exceeding `netSyDesired`/`netPtDesired`.
 
 ### [`burn`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L127-L148)
-Removes liquidity by burning LP shares for pro-rata SY and PT. 
+Removes liquidity by burning LP shares for pro-rata SY and PT.
 
 ```solidity
 /**
@@ -102,7 +102,7 @@ function burn(
 **Note:** caller must transfer LP to the Market before calling.
 
 ### [`swapExactPtForSy`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L150-L184)
-Swaps an exact amount of PT for SY. 
+Swaps an exact amount of PT for SY.
 
 ```solidity
 /**
@@ -126,7 +126,7 @@ function swapExactPtForSy(
 **Note:** caller must transfer PT to the Market first; the Market then sends out the computed SY and (optionally) invokes a callback if data is non-empty. For a deeper understanding of the math behind it, refer to the [`Pendle V2 AMM Whitepaper`](https://github.com/pendle-finance/pendle-v2-resources/blob/main/whitepapers/V2_AMM.pdf) and [`MarketMathCore Contract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/MarketMathCore.sol#L193-L217).
 
 ### [`swapSyForExactPt`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L186-L220)
-Swaps SY for an exact amount of PT. 
+Swaps SY for an exact amount of PT.
 
 ```solidity
 /**
@@ -203,14 +203,14 @@ Because Ethereum transactions are atomic, the entire swap reverts if the Market 
 
 ### Flash Swap Example
 :::danger Example code only
-The snippets below are simplified for illustration and **are not audited**.  
+The snippets below are simplified for illustration and **are not audited**.
 **Do not** use them in production or with real funds. If you adapt any example,
 conduct a full review, add comprehensive tests, and obtain an independent **security audit**.
 :::
 ```solidity
 contract FlashSwapExample is IPMarketSwapCallback {
     IPendleMarket public market;
-    
+
     function flashSwap(uint256 ptAmount) external {
         // Market will send SY first, then callback to this contract
         market.swapExactPtForSy(
@@ -219,18 +219,18 @@ contract FlashSwapExample is IPMarketSwapCallback {
             abi.encode(msg.sender) // data for callback
         );
     }
-    
+
     // Callback - Market has already sent SY to this contract
     function swapCallback(
         int256 ptToAccount,   // negative = we owe PT to market
-        int256 syToAccount,   // positive = we received SY from market  
+        int256 syToAccount,   // positive = we received SY from market
         bytes calldata data
     ) external {
         require(msg.sender == address(market));
-        
+
         // Your custom logic here (arbitrage, liquidation, etc.)
         // ...
-        
+
         // Must transfer required PT to market before callback ends
         uint256 ptOwed = uint256(-ptToAccount);
         IERC20(market.PT()).transfer(address(market), ptOwed);
@@ -244,7 +244,7 @@ contract FlashSwapExample is IPMarketSwapCallback {
 interface IPMarketSwapCallback {
     function swapCallback(int256 ptToAccount, int256 syToAccount, bytes calldata data) external;
 }
-``` 
+```
 
 ## Oracle
 
@@ -257,8 +257,8 @@ The oracle stores **implied rate observations** over time, which are then used t
 **Key Formula:**
 
 $$
-\text{lnImpliedRateCumulative}_i 
-= \text{lnImpliedRateCumulative}_{i-1} 
+\text{lnImpliedRateCumulative}_i
+= \text{lnImpliedRateCumulative}_{i-1}
 + \text{lnImpliedRate} \times \Delta t
 $$
 
