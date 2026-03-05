@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros developer documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2/Developers | https://docs.pendle.finance/boros-dev
-> Generated: 2026-03-04
+> Generated: 2026-03-05
 
 ---
 
@@ -647,25 +647,25 @@ Pendle's API consists of two complementary components:
 
 All public endpoints are served under `https://api-v2.pendle.finance/core` and follow one of two routing patterns:
 
-### Chain-scoped endpoints — `/v1/{chainId}/...`
+### Cross-chain endpoints (recommended)
 
-These are the original per-chain routes. They remain fully functional and are a safe choice for chain-specific integrations:
-
-| Example | Description |
-|---------|-------------|
-| `GET /v1/{chainId}/markets` | Markets on a specific chain |
-| `GET /v1/{chainId}/prices/assets/all` | Asset prices on a specific chain |
-| `GET /v1/{chainId}/sdk/swap` | Swap transaction payload for a specific chain |
-
-### Cross-chain endpoints — `/v1/...`
-
-Newer endpoints that return data across all chains in a single request. Preferred for new integrations:
+These endpoints return data across all chains in a single request. Preferred for new integrations:
 
 | Example | Description |
 |---------|-------------|
 | `GET /v1/markets/all` | All markets across all chains |
 | `GET /v1/assets/all` | All assets across all chains |
 | `GET /v1/prices/assets` | Asset prices across all chains |
+
+### Chain-scoped endpoints — `/{version}/{chainId}/...`
+
+Some endpoints are scoped to a specific chain:
+
+| Example | Description |
+|---------|-------------|
+| `GET /v2/{chainId}/markets/{address}/data` | Market data for a specific address |
+| `GET /v2/sdk/{chainId}/convert` | Generate transaction payload for a specific chain |
+| `GET /v5/{chainId}/transactions/{address}` | Transaction history for an address |
 
 For new integrations, prefer cross-chain endpoints where available — they reduce the number of calls needed when working with multiple chains.
 
@@ -692,7 +692,7 @@ Both limits apply simultaneously. You must stay within both the per-minute AND w
 
 #### Computing Unit Costs
 
-Most RESTful API endpoints have fixed costs (typically 1-5 CU), whereas the Hosted SDK has dynamic costs depending on the number of aggregators used. Check the swagger documentation for specific costs - they're displayed in the "CU" box before each endpoint description.
+Most RESTful API endpoints have fixed costs (typically 1-5 CU), whereas the Hosted SDK has dynamic costs depending on the number of aggregators used. Check the [API documentation](https://api-v2.pendle.finance/core/docs) for specific costs — they're displayed in the "CU" box before each endpoint description.
 
 More on computing unit costs for HostedSdk can be found in [HostedSdk.mdx](./HostedSdk.mdx#select-aggregators).
 
@@ -808,7 +808,7 @@ The `X-Ratelimit-Limit: 100` value in this case is simply a default header from 
 
 ### vePENDLE Deprecation
 
-vePENDLE has been deprecated and replaced by **sPENDLE**. All endpoints listed under the **Ve Pendle** tag in the [Swagger documentation](https://api-v2.pendle.finance/core/docs) are deprecated — they remain accessible but will not be updated to reflect the new sPENDLE staking system.
+vePENDLE has been deprecated and replaced by **sPENDLE**. All endpoints listed under the **Ve Pendle** tag in the [API documentation](https://api-v2.pendle.finance/core/docs) are deprecated — they remain accessible but will not be updated to reflect the new sPENDLE staking system.
 
 ## Code Examples and Resources
 
@@ -819,7 +819,7 @@ vePENDLE has been deprecated and replaced by **sPENDLE**. All endpoints listed u
 ## Getting Help
 
 1. **Documentation**: Start with [API Overview](./ApiOverview.mdx), [Hosted SDK](./HostedSdk.mdx) or [Backend API](https://api-v2.pendle.finance/core/docs) docs
-2. **API Reference**: Explore endpoints at [Swagger UI](https://api-v2.pendle.finance/core/docs)
+2. **API Reference**: Explore endpoints at [API Reference](https://api-v2.pendle.finance/core/docs)
 3. **Examples**: Check [GitHub examples](https://github.com/pendle-finance/pendle-examples-public)
 
 
@@ -1385,7 +1385,7 @@ When an endpoint has an `additionalData` field, users can pass in some fields to
 
 For example, the **swap** action has `additionalData` with two available fields: `impliedApy` and `effectiveApy`. If the query parameters have `additionalData=impliedApy`, the response will have the implied APY before and after the swap action.
 
-For additional usage, please refer to our external swagger to explore more.
+For additional usage, please refer to the [API documentation](https://api-v2.pendle.finance/core/docs) to explore more.
 
 ## Migrating from individual endpoints to Convert
 
@@ -6157,18 +6157,18 @@ No, the contract address used for the `pendleSwap` parameter (e.g., in `swapExac
 
 To preview the amount you'll receive before submitting transactions, you can use:
 
-- Pendle API method (recommended): [Pendle Hosted SDK API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_addLiquidity)
+- Pendle API method (recommended): [Pendle Hosted SDK — Convert API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_convert)
 - On-chain method: [PendleRouter Contract](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPActionAddRemoveLiqV3.sol). The detailed guide can be found in the [Contract Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide)
 
 ### How do I fetch the PT price?
 You can get the PT (Principal Token) price via:
-- Pendle API method (recommended): [Pendle price API](https://api-v2.pendle.finance/core/docs#/Assets/AssetsSimplifiedController_getAllAssetPricesByAddresses)
+- Pendle API method (recommended): [Pendle price API](https://api-v2.pendle.finance/core/docs#/Assets/PricesCrossChainController_getAllAssetPricesByAddressesCrossChains)
 - On-chain method: `getPtToAssetRate` of RouterStatic — see [RouterStatic](./Backend/RouterStatic)
 
 ### How can I retrieve historical PT and YT prices?
 You can track historical PT/YT prices using:
 
-- Pendle API method: [Pendle ohlcv API](https://api-v2.pendle.finance/core/docs#/Prices/PricesController_ohlcv_v4). Note that shorter timeframes (e.g., minute-by-minute updates) are not yet available.
+- Pendle API method: [Pendle ohlcv API](https://api-v2.pendle.finance/core/docs#/Assets/PricesController_ohlcv_v4). Note that shorter timeframes (e.g., minute-by-minute updates) are not yet available.
 
 ### How can I retrieve market data such as TVL and APR?
 
@@ -6180,7 +6180,7 @@ Use the [`getMarketSpotSwappingPrice`](https://api-v2.pendle.finance/core/docs#/
 
 ### How can I retrieve a list of market categories?
 
-Use the [`findAllMarketCategories`](https://api-v2.pendle.finance/core/docs#/Market%20Categories/MarketCategoriesController_findAllMarketCategories) API endpoint.
+Use the markets API endpoints. You can fetch all markets via [`getAllMarkets`](https://api-v2.pendle.finance/core/docs#/Markets/MarketsCrossChainController_getAllMarkets) and filter by category client-side.
 
 ### How can I calculate the implied APY for a transaction?
 

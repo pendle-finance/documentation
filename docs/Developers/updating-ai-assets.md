@@ -22,12 +22,10 @@ Run after any backend deployment that adds or changes endpoints:
 ```bash
 curl -s https://api-v2.pendle.finance/core/docs-json \
   | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin), indent=2))" \
-  > docs/Developers/api-spec.json
-
-cp docs/Developers/api-spec.json static/pendle-v2/openapi/open-api.json
+  > static/pendle-v2/openapi/open-api.json
 ```
 
-Then update the endpoint count in `static/llms.txt` (search for `120 endpoints`) and in `README.md`.
+Then verify the endpoint description in `static/llms.txt` (search for `V2 API Spec`) is still accurate.
 
 ## 3. Sync Boros API specs
 
