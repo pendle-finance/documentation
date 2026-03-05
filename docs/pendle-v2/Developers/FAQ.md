@@ -40,18 +40,18 @@ No, the contract address used for the `pendleSwap` parameter (e.g., in `swapExac
 
 To preview the amount you'll receive before submitting transactions, you can use:
 
-- Pendle API method (recommended): [Pendle Hosted SDK API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_addLiquidity)
+- Pendle API method (recommended): [Pendle Hosted SDK — Convert API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_convert)
 - On-chain method: [PendleRouter Contract](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPActionAddRemoveLiqV3.sol). The detailed guide can be found in the [Contract Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide)
 
 ### How do I fetch the PT price?
 You can get the PT (Principal Token) price via:
-- Pendle API method (recommended): [Pendle price API](https://api-v2.pendle.finance/core/docs#/Assets/AssetsSimplifiedController_getAllAssetPricesByAddresses)
+- Pendle API method (recommended): [Pendle price API](https://api-v2.pendle.finance/core/docs#/Assets/PricesCrossChainController_getAllAssetPricesByAddressesCrossChains)
 - On-chain method: `getPtToAssetRate` of RouterStatic — see [RouterStatic](./Backend/RouterStatic)
 
 ### How can I retrieve historical PT and YT prices?
 You can track historical PT/YT prices using:
 
-- Pendle API method: [Pendle ohlcv API](https://api-v2.pendle.finance/core/docs#/Prices/PricesController_ohlcv_v4). Note that shorter timeframes (e.g., minute-by-minute updates) are not yet available.
+- Pendle API method: [Pendle ohlcv API](https://api-v2.pendle.finance/core/docs#/Assets/PricesController_ohlcv_v4). Note that shorter timeframes (e.g., minute-by-minute updates) are not yet available.
 
 ### How can I retrieve market data such as TVL and APR?
 
@@ -63,7 +63,7 @@ Use the [`getMarketSpotSwappingPrice`](https://api-v2.pendle.finance/core/docs#/
 
 ### How can I retrieve a list of market categories?
 
-Use the [`findAllMarketCategories`](https://api-v2.pendle.finance/core/docs#/Market%20Categories/MarketCategoriesController_findAllMarketCategories) API endpoint.
+Use the markets API endpoints. You can fetch all markets via [`getAllMarkets`](https://api-v2.pendle.finance/core/docs#/Markets/MarketsCrossChainController_getAllMarkets) and filter by category client-side.
 
 ### How can I calculate the implied APY for a transaction?
 
@@ -223,7 +223,4 @@ This means the `answer` has `18 + OutputToken.decimals` total decimals. For exam
 
 **Q: How can I retrieve sPENDLE monthly revenue data?**
 
-Use the API endpoint: [`getMonthlyRevenue`](https://api-v2.pendle.finance/core/docs#/Ve%20Pendle/VePendleController_getMonthlyRevenue). The response contains:
-- `revenues`: Array of monthly revenues in USD
-- `timestamps`: Corresponding month timestamps (first epoch's start timestamp, in seconds)
-- `accumulatedRevenue`: Sum of all revenues
+The vePENDLE system has been deprecated and replaced by **sPENDLE**. The previous `getMonthlyRevenue` endpoint under the Ve Pendle tag is deprecated and may be removed. For current staking and revenue data, refer to the [sPENDLE documentation](./Contracts/sPENDLE).

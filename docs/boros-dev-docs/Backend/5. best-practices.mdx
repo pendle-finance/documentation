@@ -22,12 +22,47 @@ When placing multiple orders simultaneously, **always use the bulk order endpoin
 3. **Better Performance** — Reduces network overhead and speeds up execution
 4. **Complex Strategies** — Combine cancellations and new orders in one operation
 
-> **Note:** Unlike single order placement, bulk placed orders do NOT match with the AMM. They are placed directly into the order book.
+:::caution
+Unlike single order placement (`placeSingleOrder`), **bulk orders do NOT match with the AMM**. They are placed directly into the order book. If you need to take liquidity from both the order book and the AMM, use single order placement with `IOC` or `FOK` time-in-force.
+:::
 
 ### Examples
 
 - [Bulk Place Orders Example](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/11-bulk-place-orders.ts)
 - [Place Orders API](https://api.boros.finance/open-api/docs)
+
+---
+
+## Transaction Submission
+
+### `direct-call` vs `bulk-direct-call`
+
+The Send Txs Bot provides two submission endpoints:
+
+| Endpoint | Use case |
+|----------|----------|
+| `POST /v2/agent/direct-call` | Submit a **single** calldata |
+| `POST /v3/agent/bulk-direct-call` | Submit **one or more** calldatas with sequential execution |
+
+**When to use `bulk-direct-call`:** The calldata generation endpoints (e.g., `POST /calldata/place-orders`) may return **multiple calldatas** in the `calldatas` array — for example, `[exit-market, place-order]` when `autoExitMarket=true`. You **must** submit all calldatas together using `bulk-direct-call` to ensure correct execution order.
+
+:::caution Common pitfall
+If you use `direct-call` with only the first element of a multi-calldata response, only the exit-market transaction executes — your order will not be placed. Always check the length of the `calldatas` array and use `bulk-direct-call` when there are multiple entries.
+:::
+
+### `autoExitMarket` Parameter
+
+When calling `POST /calldata/place-orders`, the `autoExitMarket` parameter (default: `true`) controls whether the API automatically generates an exit-market calldata for expired/unused markets:
+
+- `autoExitMarket=true` → API may return 1 or 2 calldatas: `[exit-market (optional), place-order]`. The last element is always the place-order calldata.
+- `autoExitMarket=false` → API always returns exactly 1 calldata (place-order only). Use this if you manage market entry/exit yourself.
+
+### `skipReceipt` Parameter
+
+Controls whether the Send Txs Bot waits for block confirmation:
+
+- `skipReceipt=false` (default): Waits for the transaction to be included in a block, then returns `status` and `error` fields. Higher latency but gives immediate confirmation.
+- `skipReceipt=true`: Returns the `txHash` immediately after broadcasting. Lower latency but you must track the transaction status yourself.
 
 ---
 
@@ -40,9 +75,13 @@ If you have entered markets that are no longer in use, **exit them to reduce gas
 When you enter a market, the system tracks your participation for margin calculations. Each entered market adds overhead to the margin tracker, making it **more expensive in gas** for every subsequent transaction.
 
 **Important limitations:**
-- **Maximum 10 entered markets** per `marketAcc` (market account)
-- **Maximum 100 active limit orders** per `marketAcc` per market
+- **Maximum 10 entered markets** per `marketAcc` (market account). This limit is per combination of **(address, accountId, tokenId)** — i.e., per collateral type.
+- **Maximum active limit orders** per `marketAcc` per market (configurable per market via `maxOpenOrders`, typically 100)
 - Entering more markets = heavier margin calculations = higher gas costs
+
+:::tip
+If you trade many markets over time (e.g., weekly expiry markets), you will hit the 10-market limit. **You must exit expired/matured markets** to free up slots for new ones. The `autoExitMarket` parameter in the place-orders API can handle this automatically.
+:::
 
 Exiting unused markets helps:
 - Reduce gas consumption on all subsequent transactions
@@ -142,7 +181,7 @@ The Send Txs Bot and Stop Order services use a legacy format:
 | Agent expired | Agent approval has expired | Re-approve agent via `GET /calldata/approve-agent` |
 | Invalid signature | Signature doesn't match the expected signer | Verify you're signing with the correct agent key |
 | Market not entered | Trying to trade on a market you haven't entered | Use `GET /calldata/enter-exit-markets` to enter first |
-| Order limit reached | Over 100 open orders on a market | Cancel some existing orders before placing new ones |
+| Order limit reached | Exceeded `maxOpenOrders` for the market | Cancel some existing orders before placing new ones |
 | Market limit reached | Over 10 entered markets | Exit unused markets to free up slots |
 
 ### Retry Strategy
@@ -174,6 +213,33 @@ Simulations are free (no gas) and return the projected account state. The key si
 ---
 
 ## Real-Time Data
+
+### Market Data Latency
+
+Not all REST endpoints have the same latency characteristics. For latency-sensitive indicators, use the correct endpoint:
+
+| Data | Best endpoint | Latency |
+|------|---------------|---------|
+| `midApr`, `bestBid`, `bestAsk`, `ammImpliedApr`, `markApr` | `GET /open-api/v1/markets/{marketId}` | Real-time |
+| Order book depth | `GET /core/orderbooks/{marketId}` | < 1 second |
+| AMM state | `GET /core/amm/{ammId}` | < 1 second |
+| Market list / overview | `GET /open-api/v1/markets` | May have several seconds of delay |
+
+:::tip
+For market making or any use case requiring live mid/mark rates, always use the **single market endpoint** (`GET /v1/markets/{marketId}`) rather than the bulk markets list. The bulk endpoint may have a delay of several seconds on sensitive indicators.
+:::
+
+### Combined Order Book (AMM + Order Book)
+
+The order book displayed in the Boros UI and returned by `GET /v2/markets/order-books` (with AMM enabled) is a **combined** order book that merges:
+- **Order book liquidity**: Discrete maker orders at specific tick levels
+- **AMM liquidity**: Continuous liquidity from the AMM, discretized into tick levels for display
+
+**Important:** The AMM has a minimum and maximum APR range. When the market rate moves outside this range, the AMM stops providing liquidity. In this case, the combined order book may show a wider spread since only order book liquidity remains.
+
+**Note:** Some markets may have **no AMM** at all. In these markets, all liquidity comes from the order book only, and `placeSingleOrder` behaves the same as `bulkOrders` (no AMM to route through). Check the market's `ammId` — if absent or null, there is no AMM.
+
+The AMM implied rate should normally be within the range `(bestBid - ε, bestAsk + ε)` where ε is a small amount to prevent arbitrage between the AMM and the order book.
 
 ### Use WebSocket for Streaming
 
@@ -218,7 +284,10 @@ Don't poll REST endpoints for real-time data. Use [WebSocket](./4.%20websocket.m
 | Best Practice | Why |
 |---------------|-----|
 | Use bulk orders for multiple operations | Lower gas, atomic execution |
-| Exit unused markets (max 10 per account) | Reduce gas overhead, free up slots |
+| Use `bulk-direct-call` for multi-calldata responses | Ensures all calldatas (exit-market + place-order) are submitted |
+| Set `autoExitMarket=false` if managing markets yourself | Avoids unexpected multi-calldata responses |
+| Exit unused/expired markets (max 10 per account) | Reduce gas overhead, free up slots |
+| Use `GET /v1/markets/{marketId}` for real-time rates | Guaranteed real-time midApr, markApr, bestBid, bestAsk |
 | Use correct `marketAcc` for isolated-only markets | Required for trading isolated-only markets |
 | Monitor gas balance | Avoid failed transactions |
 | Simulate before executing | Preview margin impact and catch errors |

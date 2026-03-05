@@ -40,7 +40,9 @@ The pre-scaling initial margin (PIM) for each component is calculated as:
 Pre-scaling IM = |Size| × max(|Rate|, Rate Threshold)
 ```
 
-Where `Rate Threshold` is a market parameter that sets the minimum rate used for margin calculations.
+Where `Rate Threshold` (also known as the **rate floor**) is a market parameter that sets the minimum rate used for margin calculations. This prevents artificially low margin requirements on orders placed near 0% rate.
+
+The rate floor can be derived from the market's `imData.iTickThresh` field — convert this tick value to a rate using the standard [tick-to-rate formula](/boros-dev/Mechanics/OrderBook#tick-to-rate-conversion). If a limit order's absolute rate is less than the rate floor, the margin formula uses the rate floor instead of the order's actual rate.
 
 ### Combined Initial Margin
 

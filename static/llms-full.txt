@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros developer documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2/Developers | https://docs.pendle.finance/boros-dev
-> Generated: 2026-03-04
+> Generated: 2026-03-05
 
 ---
 
@@ -647,25 +647,25 @@ Pendle's API consists of two complementary components:
 
 All public endpoints are served under `https://api-v2.pendle.finance/core` and follow one of two routing patterns:
 
-### Chain-scoped endpoints — `/v1/{chainId}/...`
+### Cross-chain endpoints (recommended)
 
-These are the original per-chain routes. They remain fully functional and are a safe choice for chain-specific integrations:
-
-| Example | Description |
-|---------|-------------|
-| `GET /v1/{chainId}/markets` | Markets on a specific chain |
-| `GET /v1/{chainId}/prices/assets/all` | Asset prices on a specific chain |
-| `GET /v1/{chainId}/sdk/swap` | Swap transaction payload for a specific chain |
-
-### Cross-chain endpoints — `/v1/...`
-
-Newer endpoints that return data across all chains in a single request. Preferred for new integrations:
+These endpoints return data across all chains in a single request. Preferred for new integrations:
 
 | Example | Description |
 |---------|-------------|
 | `GET /v1/markets/all` | All markets across all chains |
 | `GET /v1/assets/all` | All assets across all chains |
 | `GET /v1/prices/assets` | Asset prices across all chains |
+
+### Chain-scoped endpoints — `/{version}/{chainId}/...`
+
+Some endpoints are scoped to a specific chain:
+
+| Example | Description |
+|---------|-------------|
+| `GET /v2/{chainId}/markets/{address}/data` | Market data for a specific address |
+| `GET /v2/sdk/{chainId}/convert` | Generate transaction payload for a specific chain |
+| `GET /v5/{chainId}/transactions/{address}` | Transaction history for an address |
 
 For new integrations, prefer cross-chain endpoints where available — they reduce the number of calls needed when working with multiple chains.
 
@@ -692,7 +692,7 @@ Both limits apply simultaneously. You must stay within both the per-minute AND w
 
 #### Computing Unit Costs
 
-Most RESTful API endpoints have fixed costs (typically 1-5 CU), whereas the Hosted SDK has dynamic costs depending on the number of aggregators used. Check the swagger documentation for specific costs - they're displayed in the "CU" box before each endpoint description.
+Most RESTful API endpoints have fixed costs (typically 1-5 CU), whereas the Hosted SDK has dynamic costs depending on the number of aggregators used. Check the [API documentation](https://api-v2.pendle.finance/core/docs) for specific costs — they're displayed in the "CU" box before each endpoint description.
 
 More on computing unit costs for HostedSdk can be found in [HostedSdk.mdx](./HostedSdk.mdx#select-aggregators).
 
@@ -808,7 +808,7 @@ The `X-Ratelimit-Limit: 100` value in this case is simply a default header from 
 
 ### vePENDLE Deprecation
 
-vePENDLE has been deprecated and replaced by **sPENDLE**. All endpoints listed under the **Ve Pendle** tag in the [Swagger documentation](https://api-v2.pendle.finance/core/docs) are deprecated — they remain accessible but will not be updated to reflect the new sPENDLE staking system.
+vePENDLE has been deprecated and replaced by **sPENDLE**. All endpoints listed under the **Ve Pendle** tag in the [API documentation](https://api-v2.pendle.finance/core/docs) are deprecated — they remain accessible but will not be updated to reflect the new sPENDLE staking system.
 
 ## Code Examples and Resources
 
@@ -819,7 +819,7 @@ vePENDLE has been deprecated and replaced by **sPENDLE**. All endpoints listed u
 ## Getting Help
 
 1. **Documentation**: Start with [API Overview](./ApiOverview.mdx), [Hosted SDK](./HostedSdk.mdx) or [Backend API](https://api-v2.pendle.finance/core/docs) docs
-2. **API Reference**: Explore endpoints at [Swagger UI](https://api-v2.pendle.finance/core/docs)
+2. **API Reference**: Explore endpoints at [API Reference](https://api-v2.pendle.finance/core/docs)
 3. **Examples**: Check [GitHub examples](https://github.com/pendle-finance/pendle-examples-public)
 
 
@@ -1385,7 +1385,7 @@ When an endpoint has an `additionalData` field, users can pass in some fields to
 
 For example, the **swap** action has `additionalData` with two available fields: `impliedApy` and `effectiveApy`. If the query parameters have `additionalData=impliedApy`, the response will have the implied APY before and after the swap action.
 
-For additional usage, please refer to our external swagger to explore more.
+For additional usage, please refer to the [API documentation](https://api-v2.pendle.finance/core/docs) to explore more.
 
 ## Migrating from individual endpoints to Convert
 
@@ -6157,18 +6157,18 @@ No, the contract address used for the `pendleSwap` parameter (e.g., in `swapExac
 
 To preview the amount you'll receive before submitting transactions, you can use:
 
-- Pendle API method (recommended): [Pendle Hosted SDK API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_addLiquidity)
+- Pendle API method (recommended): [Pendle Hosted SDK — Convert API](https://api-v2.pendle.finance/core/docs#/SDK/SdkController_convert)
 - On-chain method: [PendleRouter Contract](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPActionAddRemoveLiqV3.sol). The detailed guide can be found in the [Contract Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide)
 
 ### How do I fetch the PT price?
 You can get the PT (Principal Token) price via:
-- Pendle API method (recommended): [Pendle price API](https://api-v2.pendle.finance/core/docs#/Assets/AssetsSimplifiedController_getAllAssetPricesByAddresses)
+- Pendle API method (recommended): [Pendle price API](https://api-v2.pendle.finance/core/docs#/Assets/PricesCrossChainController_getAllAssetPricesByAddressesCrossChains)
 - On-chain method: `getPtToAssetRate` of RouterStatic — see [RouterStatic](./Backend/RouterStatic)
 
 ### How can I retrieve historical PT and YT prices?
 You can track historical PT/YT prices using:
 
-- Pendle API method: [Pendle ohlcv API](https://api-v2.pendle.finance/core/docs#/Prices/PricesController_ohlcv_v4). Note that shorter timeframes (e.g., minute-by-minute updates) are not yet available.
+- Pendle API method: [Pendle ohlcv API](https://api-v2.pendle.finance/core/docs#/Assets/PricesController_ohlcv_v4). Note that shorter timeframes (e.g., minute-by-minute updates) are not yet available.
 
 ### How can I retrieve market data such as TVL and APR?
 
@@ -6180,7 +6180,7 @@ Use the [`getMarketSpotSwappingPrice`](https://api-v2.pendle.finance/core/docs#/
 
 ### How can I retrieve a list of market categories?
 
-Use the [`findAllMarketCategories`](https://api-v2.pendle.finance/core/docs#/Market%20Categories/MarketCategoriesController_findAllMarketCategories) API endpoint.
+Use the markets API endpoints. You can fetch all markets via [`getAllMarkets`](https://api-v2.pendle.finance/core/docs#/Markets/MarketsCrossChainController_getAllMarkets) and filter by category client-side.
 
 ### How can I calculate the implied APY for a transaction?
 
@@ -6599,6 +6599,16 @@ Each market has an associated FIndex Oracle that provides the floating rate data
 
 Deposit Boxes are deterministic per-user contracts created by the `DepositBoxFactory`. They serve as intermediary wallets for receiving cross-chain deposits and performing token swaps (via external DEX routers) before depositing into Boros. Funds in Deposit Boxes are managed by Pendle's backend — users do not interact with them directly. The factory computes a deterministic address from `(root, boxId)` so senders can pre-calculate the deposit target.
 
+### Bot Infrastructure
+
+Pendle operates permissioned bots that perform automated risk management on behalf of the protocol. These bots can affect user positions and orders:
+
+- **Liquidation Bot**: Liquidates accounts whose [health ratio](./Mechanics/Margin.mdx#health-ratio) drops to 1.0 or below
+- **Force-Cancel Bot**: Cancels open orders for accounts approaching liquidation, or orders with rates that deviate too far from the mark rate (see [Risk Management Actions](./Mechanics/Margin.mdx#risk-management-actions))
+- **CLO Bot**: Toggles markets into [Close-Only mode](./Mechanics/Margin.mdx#closing-only-mode) when open interest approaches risk limits
+
+Users should monitor their [order status](/boros-dev/Contracts/CustomTypes#orderstatus) and account health, especially during volatile market conditions, as these bots may modify open orders or trigger liquidations.
+
 ## Token Decimals
 
 Internally, Boros uses 18-decimals fixed point for all numerical values, including position size, payment, fees, etc.
@@ -6629,6 +6639,15 @@ The tick system uses an exponential function to map discrete tick indices to int
 - **Symmetry**: Equal precision for positive and negative rates
 
 The tick spacing is configurable per market via the `tickStep` parameter. A larger `tickStep` creates wider rate intervals between ticks, suitable for more volatile markets.
+
+## Tick vs Rate
+
+**Ticks are for the order book only.** The order book uses integer tick values to represent discrete rate levels. The AMM, on the other hand, operates with continuous **rates** (not ticks). This distinction is important:
+
+- **Order placement** requires an integer `tick` value — you cannot place orders at arbitrary rates
+- **AMM implied rate** is a continuous value and does not correspond to any specific tick
+- **Mid APR** is typically `(bestBid + bestAsk) / 2` or the AMM implied rate, which is a continuous value that generally cannot be expressed as an integer tick
+- When converting a rate to a tick for order placement, you must **round** to the nearest valid tick — this introduces a small rounding difference
 
 ## Tick to Rate Conversion
 
@@ -6672,7 +6691,9 @@ Boros order book follows the standard **rate-time priority** matching:
 
 ## Order Id
 
-Each order in Boros has a unique order Id, which is a 64-bit packed value containing order metadata:
+Each order in Boros has a unique order Id **within its market**. The combination of **(Market ID, Order ID)** is the globally unique identifier. Order IDs may be reused across different markets — do not use the Order ID alone as a unique key.
+
+The order Id is a 64-bit packed value containing order metadata:
 
 ```text
 OrderId structure (64 bits):
@@ -6721,20 +6742,23 @@ Boros prevents self-trading by checking if an incoming order would match against
 
 **Order Limits**:
 
-- Maximum **100 open orders** per account across all sides
+- Maximum open orders per account across all sides (configurable per market via `maxOpenOrders`, typically 100)
 - Exceeding this limit will cause the transaction to revert
 
-**Rate Bounds**:
+**Rate Bounds (Taker Orders) — "Large Rate Deviation"**:
 
-- Orders with rates significantly deviating from the mark rate will be rejected:
-  - **Buy/Long orders**: Rejected if rate is too far above the mark rate
-  - **Sell/Short orders**: Rejected if rate is too far below the mark rate
+- When an order matches and executes (taker fill), the resulting trade rate is checked against the mark rate
+- If the rate deviates too much from the mark rate, the transaction reverts with **`Large Rate Deviation`**
+  - **Buy/Long orders**: Rejected if executed rate is too far above the mark rate
+  - **Sell/Short orders**: Rejected if executed rate is too far below the mark rate
 - The acceptable deviation is governed by `maxRateDeviationFactorBase1e4` in the market config
 - When placing **closing orders** (reducing position), a separate, more lenient bound `closingOrderBoundBase1e4` applies
 
-**Limit Order Rate Bounds**:
+**Limit Order Rate Bounds (Maker Orders) — "Rate too far off"**:
 
-Limit orders have additional rate constraints controlled by four parameters in the market config:
+- Limit orders placed on the book have additional rate constraints
+- If a maker order's rate is too far from the mark rate, it is rejected with **`Rate too far off`**
+- The bounds are controlled by four parameters in the market config:
 
 ```
 Upper Bound = Mark Rate × (1 + loUpperConst + loUpperSlope × Time to Maturity)
@@ -6743,21 +6767,30 @@ Lower Bound = Mark Rate × (1 - loLowerConst - loLowerSlope × Time to Maturity)
 
 These parameters ensure limit orders remain within a reasonable range of the current mark rate, scaling with time to maturity.
 
+:::tip Understanding the two rate errors
+- **`Large Rate Deviation`** → applies to **taker fills** (IOC, FOK, or the matched portion of GTC). Your trade's execution rate is too far from the mark rate.
+- **`Rate too far off`** → applies to **maker orders** (the resting portion placed on the book). Your order's rate is too far from the mark rate to be placed.
+:::
+
 ## Order Lifecycle
 
 Beyond normal cancellation, orders can be removed by the protocol's risk management system — including force-cancellation of risky accounts' orders and purging of out-of-bound orders (which receive the [`PURGED`](/boros-dev/Contracts/CustomTypes#orderstatus) status). See [Risk Management Actions](./Margin.mdx#risk-management-actions) for details.
 
 For order status values, see [Custom Types — OrderStatus](/boros-dev/Contracts/CustomTypes#orderstatus).
 
-## TWAP Oracle
+## TWAP Oracle (Mark Rate)
 
-Boros maintains a Time-Weighted Average Price (TWAP) oracle to calculate the **mark rate** — the reference rate used for margining and liquidations. Each time an order is matched against the order book, the rate of the last matched tick is incorporated into the TWAP calculation based on time elapsed.
+Boros maintains a Time-Weighted Average Price (TWAP) oracle to calculate the **mark rate** — the reference rate used for margining, liquidations, and order rate bounds. The mark rate is essentially the **TWAP of historical trades**.
+
+Each time an order is matched against the order book, the rate of the last matched tick is incorporated into the TWAP calculation based on time elapsed.
 
 The oracle uses a fixed-window observation approach:
 
 ```
 markRate = (lastTradedRate × timeElapsed + prevOracleRate × (window - timeElapsed)) / window
 ```
+
+The mark rate is distinct from the **mid rate** (midpoint of best bid and best ask) and the **AMM implied rate**. In normal conditions, these values should be close, but they can diverge in thin markets or when the AMM operates outside its active range.
 
 ---
 
@@ -6803,7 +6836,9 @@ The pre-scaling initial margin (PIM) for each component is calculated as:
 Pre-scaling IM = |Size| × max(|Rate|, Rate Threshold)
 ```
 
-Where `Rate Threshold` is a market parameter that sets the minimum rate used for margin calculations.
+Where `Rate Threshold` (also known as the **rate floor**) is a market parameter that sets the minimum rate used for margin calculations. This prevents artificially low margin requirements on orders placed near 0% rate.
+
+The rate floor can be derived from the market's `imData.iTickThresh` field — convert this tick value to a rate using the standard [tick-to-rate formula](/boros-dev/Mechanics/OrderBook#tick-to-rate-conversion). If a limit order's absolute rate is less than the rate floor, the margin formula uses the rate floor instead of the order's actual rate.
 
 ### Combined Initial Margin
 
@@ -7145,12 +7180,20 @@ Floating payments are calculated based on your position size at the exact paymen
 - **Payment Timing**: Payments occur at regular intervals (e.g., every 8 hours)
 - **Position Size Matters**: Only the position size at the payment timestamp is used for calculation
 
+**Settlement Timing:**
+
+Floating rate settlements are triggered by off-chain oracle updates and occur at regular intervals:
+
+- **Settlement frequency**: Typically every hour (but varies by market)
+- **Expected settlement time**: Approximately **30 seconds after the hour** (e.g., 08:00:30 UTC)
+- **Exceptional cases**: During extreme market volatility or high/low settlement values that could push users' health ratios near zero, settlements may be delayed while the system runs additional risk management operations (e.g., liquidation bots)
+
 **Oracle Update Delays:**
 
 In practice, floating payments don't occur at the exact period boundaries due to off-chain oracle update delays:
 
 - **Expected Time**: Payment for 8:00:00 boundary
-- **Actual Time**: Usually occurs ~10 seconds later (e.g., 8:00:10)
+- **Actual Time**: Usually occurs ~30 seconds later (e.g., 8:00:30)
 
 ---
 
@@ -7371,11 +7414,11 @@ int16 endTick = side.endTick();          // Boundary tick values
 
 **Definition**: `enum TimeInForce { GTC, IOC, FOK, ALO, SOFT_ALO }`
 
-- **GTC (Good Till Cancel)**: Standard limit order that remains on the order book until fully filled or manually canceled
-- **IOC (Immediate or Cancel)**: Executes against available liquidity immediately, cancels any unfilled portion
-- **FOK (Fill or Kill)**: Must fill entire order size immediately or the transaction reverts
-- **ALO (Add Liquidity Only)**: Post-only order that adds liquidity to the book, transaction reverts if it would match existing orders
-- **SOFT_ALO**: Post-only order similar to ALO, but skips matching without reverting the transaction
+- **GTC (Good Till Cancel)**: Standard limit order that remains on the order book until fully filled or manually canceled. With `placeSingleOrder`, a GTC order can match against existing order book and AMM liquidity; any unfilled remainder stays on the book as a maker order. With `bulkOrders`, GTC orders are placed directly on the book without AMM matching.
+- **IOC (Immediate or Cancel)**: Executes against available liquidity (order book + AMM) immediately, cancels any unfilled portion. **Best for taker orders** — guarantees no residual maker orders remain on the book.
+- **FOK (Fill or Kill)**: Must fill entire order size immediately (from order book + AMM) or the transaction reverts. Use when partial fills are unacceptable.
+- **ALO (Add Liquidity Only)**: Also known as **Post-Only**. Ensures the order is placed as a maker order only — the transaction reverts if it would immediately match against existing orders or the AMM. Ideal for market makers who want to guarantee maker status.
+- **SOFT_ALO**: Similar to ALO (Post-Only), but instead of reverting, it silently skips any portion that would match and places the rest on the book. Useful for market makers who prefer no-revert behavior.
 
 ### OrderStatus
 
@@ -7618,7 +7661,7 @@ EnterExitMarketsReq memory req = EnterExitMarketsReq({
 router.enterExitMarkets(req);
 ```
 
-**Market Entry Limits**: Each account can enter a maximum of **10 markets** simultaneously. Exceeding this limit will cause transactions to revert.
+**Market Entry Limits**: Each market account (`marketAcc`) can enter a maximum of **10 markets** simultaneously. This limit is per combination of `(address, accountId, tokenId)` — i.e., per collateral type. Exceeding this limit will cause transactions to revert. You must **exit expired or matured markets** to free up slots before entering new ones.
 
 **Market Entrance Fees**: A one-time entrance fee is charged when you first interact with any market. See [Fees — Market Entrance Fees](/boros-dev/Mechanics/Fees#market-entrance-fees) for amounts.
 
@@ -7686,6 +7729,10 @@ router.placeSingleOrder(req);
 ```
 
 ### Bulk Orders
+
+:::caution bulkOrders does NOT match with the AMM
+Orders placed via `bulkOrders` are placed directly into the order book and **cannot match with AMM liquidity**. If you need to take liquidity from both the order book and the AMM (e.g., for taker orders), use [`placeSingleOrder`](#place-single-order) instead. For taker-only execution without any residual maker orders, set `tif` to `IOC` (Immediate or Cancel) or `FOK` (Fill or Kill).
+:::
 
 **Optimal for Market Makers**: `bulkOrders` is designed for professional market makers and offers:
 
@@ -8355,8 +8402,11 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 | **Slippage** | Max acceptable price impact as a percentage (market orders only). Protects against unfavorable fills when the order book is thin. | `GET /simulations/place-order` |
 | **AMM** | Automated market maker providing continuous liquidity alongside the order book. The Router routes between AMM and order book for optimal execution. AMM liquidity can be optionally included in order book queries. | `GET /v2/markets/order-books`, AMM simulation/calldata endpoints |
 | **OTC Trade** | Direct swap between two accounts bypassing the order book, typically routed through the AMM. Has a separate fee rate (`otcFee`). See [Fees](/boros-dev/Mechanics/Fees). | AMM swap/liquidity endpoints |
-| **Mark Rate** | TWAP of recent order book trades, used as the reference rate for margin and liquidation. Distinct from implied rate and oracle rate. See [TWAP Oracle](/boros-dev/Mechanics/OrderBook#twap-oracle). | `GET /markets/{marketId}` (in market state) |
+| **Mark Rate** | TWAP of historical order book trades, used as the reference rate for margin, liquidation, and order rate bounds. Distinct from mid rate and AMM implied rate. See [TWAP Oracle](/boros-dev/Mechanics/OrderBook#twap-oracle-mark-rate). | `GET /markets/{marketId}` (in market state) |
+| **Mid Rate (midApr)** | Midpoint of the best bid and best ask rates: `(bestBid + bestAsk) / 2`. When the AMM provides the tightest spread, this may equal the AMM implied rate. Can diverge from the mark rate in thin markets. | `GET /markets/{marketId}` |
+| **AMM Implied Rate** | The current rate implied by the AMM's internal state. Represents the rate at which the AMM would trade. Should normally be near the order book's best bid/ask. The AMM has a min/max APR range — outside this range, it stops serving trades. | `GET /markets/{marketId}` |
 | **Implied Rate** | Current interest rate implied by order book trading, consisting of the last traded rate and a TWAP component. | `GET /markets/{marketId}` |
+| **Rate Floor** | Minimum absolute rate used in margin calculations (derived from `market.imData.iTickThresh`). If an order's rate is below the rate floor, the floor value is used for margin instead. See [Margin — Pre-scaling IM](/boros-dev/Mechanics/Margin#pre-scaling-initial-margin). | Market config |
 | **Settlement** | Periodic floating rate payment exchange (typically every 8 hours) using [lazy settlement](../Mechanics/Settlement.mdx). See [Settlement Mechanics](/boros-dev/Mechanics/Settlement). | `GET /accounts/settlements`, `POST /funding-rate/settlement-summary` |
 | **Conditional Order** | On-chain order with an off-chain trigger condition, executed by a permissioned validator when conditions are met. Stop orders are built on this. See [Conditional Orders](/boros-dev/Contracts/Router#conditional-orders). | Stop Order Service endpoints |
 | **Stop Order** | Conditional off-chain order (take-profit or stop-loss) that triggers when market APR crosses a threshold. Managed by the Stop Order Service. See [Stop Orders](./6.%20stop-orders.mdx). | `GET /stop-order/v1/orders/tpsl/prepare`, `POST /stop-order/v2/orders/place` |
@@ -8378,8 +8428,8 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 | `0` | `GOOD_TIL_CANCELLED` | Limit orders | Remains on book until filled or canceled |
 | `1` | `IMMEDIATE_OR_CANCEL` | Market orders | Fills against available liquidity, cancels remainder |
 | `2` | `FILL_OR_KILL` | All-or-nothing | Must fill entire size immediately or reverts |
-| `3` | `ALO` | Market making | Post-only; reverts if it would match existing orders |
-| `4` | `SOFT_ALO` | Market making | Post-only; skips matching without reverting |
+| `3` | `ALO` | Market making | Post-only (Add Liquidity Only); reverts if it would match existing orders. Guarantees maker-only status. |
+| `4` | `SOFT_ALO` | Market making | Post-only (soft); skips matching without reverting. Preferred over ALO for no-revert behavior. |
 
 ### Market Status
 
@@ -8925,139 +8975,94 @@ const tracker = new AccountTracker('0xdAC17F958D2ee523a2206206994597C13D831ec7',
 This guide provides recommendations and common patterns for integrating with the Boros API efficiently.
 
 
-## Market Management
+## Transaction Submission
 
-### Exit Unused Markets
+### `direct-call` vs `bulk-direct-call`
 
-If you have entered markets that are no longer in use, **exit them to reduce gas costs** on future operations.
+The Send Txs Bot provides two submission endpoints:
 
-When you enter a market, the system tracks your participation for margin calculations. Each entered market adds overhead to the margin tracker, making it **more expensive in gas** for every subsequent transaction.
+| Endpoint | Use case |
+|----------|----------|
+| `POST /v2/agent/direct-call` | Submit a **single** calldata |
+| `POST /v3/agent/bulk-direct-call` | Submit **one or more** calldatas with sequential execution |
 
-**Important limitations:**
-- **Maximum 10 entered markets** per `marketAcc` (market account)
-- **Maximum 100 active limit orders** per `marketAcc` per market
-- Entering more markets = heavier margin calculations = higher gas costs
+**When to use `bulk-direct-call`:** The calldata generation endpoints (e.g., `POST /calldata/place-orders`) may return **multiple calldatas** in the `calldatas` array — for example, `[exit-market, place-order]` when `autoExitMarket=true`. You **must** submit all calldatas together using `bulk-direct-call` to ensure correct execution order.
 
-Exiting unused markets helps:
-- Reduce gas consumption on all subsequent transactions
-- Free up slots for new markets (10 market limit)
-- Improve transaction performance
+:::caution Common pitfall
+If you use `direct-call` with only the first element of a multi-calldata response, only the exit-market transaction executes — your order will not be placed. Always check the length of the `calldatas` array and use `bulk-direct-call` when there are multiple entries.
+:::
 
-### When to Exit Markets
+### `autoExitMarket` Parameter
 
-- After closing all positions in a market
-- When you no longer plan to trade a specific market
-- During account cleanup/maintenance
-- Before market expiry (for dated markets)
+When calling `POST /calldata/place-orders`, the `autoExitMarket` parameter (default: `true`) controls whether the API automatically generates an exit-market calldata for expired/unused markets:
 
-To exit a market, you must first:
-1. Close all positions (zero position size)
-2. Cancel all open orders
-3. Have no pending settlements
+- `autoExitMarket=true` → API may return 1 or 2 calldatas: `[exit-market (optional), place-order]`. The last element is always the place-order calldata.
+- `autoExitMarket=false` → API always returns exactly 1 calldata (place-order only). Use this if you manage market entry/exit yourself.
 
-### Isolated-Only Markets
+### `skipReceipt` Parameter
 
-Some markets are **isolated-only**, meaning they cannot be traded from a cross-margin account. For these markets:
+Controls whether the Send Txs Bot waits for block confirmation:
 
-1. **Deposit to the isolated account** — You must transfer collateral specifically to the isolated market account, not the cross-margin account
-2. **Use the correct `marketAcc`** — Pack the `marketAcc` with the specific `marketId` instead of `CROSS_MARKET_ID`
-
-```typescript
-import { MarketAccLib } from "@pendle/sdk-boros";
-
-// For isolated-only markets, use the specific marketId
-const isolatedMarketAcc = MarketAccLib.pack(
-  walletAddress,
-  accountId,
-  tokenId,
-  marketId  // Use the specific market ID, NOT CROSS_MARKET_ID
-);
-```
-
-To fund an isolated account, either:
-- **Direct deposit**: Deposit directly to the isolated market using the `marketId` in the deposit calldata
-- **Cash transfer**: Transfer from cross-margin to isolated using the `/calldata/cash-transfer` endpoint with `isDeposit: true`
-
-**Example:** [Top Up Isolated Account](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/13-top-up-isolated-account.ts)
+- `skipReceipt=false` (default): Waits for the transaction to be included in a block, then returns `status` and `error` fields. Higher latency but gives immediate confirmation.
+- `skipReceipt=true`: Returns the `txHash` immediately after broadcasting. Lower latency but you must track the transaction status yourself.
 
 
-## Error Handling
+## Gas Usage and Estimation
 
-### Error Response Formats
+### Monitor Gas Balance
 
-The Open API uses a structured error format:
+Boros uses a gas account system for executing agent-signed transactions. Always monitor your gas balance to avoid failed transactions.
 
-```json
-{
-  "errorCode": "INVALID_MARKET_ID",
-  "message": "Market with ID 999 not found",
-  "data": {}
-}
-```
+**Key endpoints:**
+- `GET /accounts/gas-balance` — Check current balance
+- `GET /accounts/gas-consumption-history` — Review usage patterns
+- `GET /calldata/vault-pay-treasury` — Top up gas balance (sensitive, root-signed)
 
-The Send Txs Bot and Stop Order services use a legacy format:
+### Arbitrum Gas Spikes
 
-```json
-{
-  "statusCode": 400,
-  "message": "Invalid signature"
-}
-```
+Arbitrum gas prices can spike significantly during high network activity. Consider:
 
-### Handling Common Errors
+1. **Monitor gas prices** before submitting transactions
+2. **Maintain buffer** in your gas account for unexpected spikes
+3. **Check gas consumption history** to understand your usage patterns
 
-| Error | Cause | Solution |
-|-------|-------|----------|
-| Insufficient margin | Not enough collateral for the position | Deposit more, reduce size, or close other positions |
-| Agent expired | Agent approval has expired | Re-approve agent via `GET /calldata/approve-agent` |
-| Invalid signature | Signature doesn't match the expected signer | Verify you're signing with the correct agent key |
-| Market not entered | Trying to trade on a market you haven't entered | Use `GET /calldata/enter-exit-markets` to enter first |
-| Order limit reached | Over 100 open orders on a market | Cancel some existing orders before placing new ones |
-| Market limit reached | Over 10 entered markets | Exit unused markets to free up slots |
-
-### Retry Strategy
-
-- **Don't retry immediately** on validation errors (bad parameters, insufficient margin) — fix the root cause
-- **Retry with backoff** on transient errors (network timeouts, 503s)
-- **Check transaction status** before retrying submissions to the Send Txs Bot — the original may have succeeded
+**Example:** [Top Up Gas Account](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/12-top-up-gas-account.ts)
 
 
-## Real-Time Data
+## Simulation Before Execution
 
-### Use WebSocket for Streaming
+Always use the simulation endpoints before executing trades, especially for:
 
-Don't poll REST endpoints for real-time data. Use [WebSocket](./4.%20websocket.mdx) for:
+- **Large orders** — preview margin impact and fees
+- **Close positions** — verify the counter-order parameters
+- **Deposits/withdrawals** — check that the operation won't cause under-margining
 
-- **Order book updates**: `orderbook:MARKET_ID:TICK_SIZE`
-- **Trade events**: `market-trade:MARKET_ID`
-- **Market statistics**: `statistics:MARKET_ID`
-- **Account changes**: `account:ADDRESS:ACCOUNT_ID`
+Simulations are free (no gas) and return the projected account state. The key simulation endpoints:
 
-### Caching Strategy
-
-| Data | Cache duration | Refresh trigger |
-|------|---------------|-----------------|
-| Assets list | Long (hours) | Rarely changes |
-| Market list | Medium (minutes) | New markets added infrequently |
-| Market state / order book | Don't cache | Use WebSocket |
-| Account positions | Don't cache | Use WebSocket account channel |
-| Gas balance | Short (seconds) | After each transaction |
+| Endpoint | Use case |
+|----------|----------|
+| `GET /simulations/place-order` | Preview order placement |
+| `GET /simulations/close-active-position` | Preview closing a position |
+| `GET /simulations/deposit` | Preview deposit effect |
+| `GET /simulations/withdraw` | Preview withdrawal effect |
+| `GET /simulations/cash-transfer` | Preview cross ↔ isolated transfer |
 
 
-## Summary
+## Security
 
-| Best Practice | Why |
-|---------------|-----|
-| Use bulk orders for multiple operations | Lower gas, atomic execution |
-| Exit unused markets (max 10 per account) | Reduce gas overhead, free up slots |
-| Use correct `marketAcc` for isolated-only markets | Required for trading isolated-only markets |
-| Monitor gas balance | Avoid failed transactions |
-| Simulate before executing | Preview margin impact and catch errors |
-| Use WebSocket for real-time data | Lower latency, less overhead than polling |
-| Handle errors by format (Open API vs legacy) | Different services use different formats |
-| Never expose root key; use agents | Security best practice |
+### Key Management
 
-For complete working examples, visit: [https://github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples)
+- **Never expose your root private key** in client-side code or logs
+- **Use the agent system** — the agent key has limited permissions and cannot withdraw funds
+- **Rotate agent keys** periodically by revoking the old agent and approving a new one
+- **Set reasonable expiry times** on agent approvals
+
+### Transaction Verification
+
+- Always **simulate before executing** to verify expected outcomes
+- Check the `to` address in calldata responses matches the expected Router contract
+- Verify transaction status after submission — don't assume success
+
 
 ---
 
@@ -9228,11 +9233,22 @@ See the [API integration workflow](./Backend/3.%20api.mdx#2-placing-a-trade-agen
 
 ### What's the difference between single orders and bulk orders?
 
-**Single orders** (`placeSingleOrder` on-chain) can match with the AMM for potentially better execution but cost more gas if placing multiple.
+**Single orders** (`placeSingleOrder` on-chain) can match with both the **AMM and the order book** for potentially better execution. They support all TIF types. Use single orders when you want to take liquidity from both venues.
 
-**Bulk orders** are batched into one transaction — lower gas, atomic execution, but they go directly to the order book and do **not** match with the AMM.
+**Bulk orders** are batched into one transaction — lower gas, atomic execution, but they go directly to the order book and do **not** match with the AMM. Ideal for market makers placing or adjusting multiple orders at once.
 
-Use bulk orders when placing or adjusting multiple orders at once. See [Best Practices](./Backend/5.%20best-practices.mdx#bulk-order-placement).
+**Key difference:** If you place a GTC order via `bulkOrders` at a rate that crosses the AMM's implied rate, the order will **not** match the AMM — it will be placed on the book as a maker order. To take AMM liquidity, use `placeSingleOrder` instead.
+
+See [Best Practices](./Backend/5.%20best-practices.mdx#bulk-order-placement).
+
+### How do I ensure my order is taker-only (no residual maker order)?
+
+Use `IOC` (Immediate or Cancel) or `FOK` (Fill or Kill) as the time-in-force:
+
+- **IOC**: Fills as much as possible against order book + AMM, cancels the rest. You may get a partial fill.
+- **FOK**: Must fill the entire order size, otherwise the transaction reverts. All-or-nothing.
+
+Both guarantee no residual maker orders are left on the book. These must be placed via `placeSingleOrder` (not `bulkOrders`) to access AMM liquidity.
 
 ### What is a tick? How do I convert APR to tick?
 
@@ -9259,6 +9275,29 @@ Stop orders are off-chain conditional orders monitored by the Stop Order Service
 ### Can I close a position partially?
 
 Yes. Use the `place-orders` calldata endpoint to place a counter-order (opposite side) with a smaller size than your current position. For a full close, use the `simulations/close-active-position` endpoint to get the exact parameters.
+
+### Are order IDs globally unique?
+
+No. Order IDs are unique **per market**, not globally. The combination of **(Market ID, Order ID)** is the globally unique identifier. If you track orders across multiple markets, always use both fields as the key.
+
+### What is `direct-call` vs `bulk-direct-call`?
+
+- **`direct-call`**: Submits a single calldata. Use when the calldata API returns exactly one entry.
+- **`bulk-direct-call`**: Submits one or more calldatas with guaranteed sequential execution (based on nonce). **You must use this** when the calldata API returns multiple entries (e.g., `[exit-market, place-order]` when `autoExitMarket=true`).
+
+If you use `direct-call` with only the first element of a multi-calldata response, only the first operation executes (e.g., only the exit-market happens, and your order is never placed).
+
+### What does `autoExitMarket` do?
+
+When set to `true` (default) in the place-orders calldata API, the system automatically exits expired/unused markets to free up slots (max 10 per account). This may add an extra calldata to the response array. Set `autoExitMarket=false` if you manage market entry/exit yourself.
+
+### What is the "Rate too far off" error?
+
+This means your **maker order** rate is too far from the current mark rate. The market has bounds on how far limit orders can deviate from the mark rate. This is different from "Large Rate Deviation", which applies to **taker fills** (the execution rate deviating from the mark rate). See [Order Book — Rate Bounds](/boros-dev/Mechanics/OrderBook#restrictions).
+
+### What is the rate floor?
+
+A minimum absolute rate used in margin calculations, derived from `market.imData.iTickThresh`. Orders with rates below the floor use the floor value for margin instead, preventing unrealistically low margin requirements near 0%. See [Margin — Pre-scaling IM](/boros-dev/Mechanics/Margin#pre-scaling-initial-margin).
 
 
 ## Gas & Fees
@@ -9294,7 +9333,11 @@ Use `GET /simulations/place-order` to preview margin requirements before placing
 
 ### I'm getting "agent expired" errors
 
-Agent approvals have an expiry time. Check it with `GET /agents/expiry-time` and re-approve if needed using `GET /calldata/approve-agent`.
+Agent approvals have an expiry time. Check it with `GET /agents/expiry-time` and re-approve if needed using `GET /calldata/approve-agent`. Don't assume a fixed expiry duration — always query the endpoint to get the actual expiry timestamp.
+
+### I'm getting `MMIsolatedMarketDenied()` on an isolated-only market
+
+You're using a cross-margin `marketAcc` on a market that only supports isolated margin. Use `MarketAccLib.pack(address, accountId, tokenId, marketId)` with the **specific market ID** instead of `CROSS_MARKET_ID`. You also need to deposit collateral to the isolated account specifically. See [Best Practices — Isolated-Only Markets](./Backend/5.%20best-practices.mdx#isolated-only-markets).
 
 ---
 

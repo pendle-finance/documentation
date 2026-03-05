@@ -50,7 +50,7 @@ See [Margin Mechanics](./Mechanics/Margin.mdx) for details.
 
 ### How many markets can I enter?
 
-Up to **10 markets** per market account. If you've hit the limit, exit markets you're no longer trading. See [Best Practices](./Backend/5.%20best-practices.mdx) for why exiting unused markets also saves gas.
+Up to **10 markets** per market account. This limit is per combination of `(address, accountId, tokenId)` — i.e., per collateral type. If you trade many short-dated markets over time, you **must exit expired markets** to free up slots. The `autoExitMarket` parameter in the place-orders API can handle this automatically. See [Best Practices](./Backend/5.%20best-practices.mdx) for why exiting unused markets also saves gas.
 
 ### How many open orders can I have?
 
@@ -74,11 +74,22 @@ See the [API integration workflow](./Backend/3.%20api.mdx#2-placing-a-trade-agen
 
 ### What's the difference between single orders and bulk orders?
 
-**Single orders** (`placeSingleOrder` on-chain) can match with the AMM for potentially better execution but cost more gas if placing multiple.
+**Single orders** (`placeSingleOrder` on-chain) can match with both the **AMM and the order book** for potentially better execution. They support all TIF types. Use single orders when you want to take liquidity from both venues.
 
-**Bulk orders** are batched into one transaction — lower gas, atomic execution, but they go directly to the order book and do **not** match with the AMM.
+**Bulk orders** are batched into one transaction — lower gas, atomic execution, but they go directly to the order book and do **not** match with the AMM. Ideal for market makers placing or adjusting multiple orders at once.
 
-Use bulk orders when placing or adjusting multiple orders at once. See [Best Practices](./Backend/5.%20best-practices.mdx#bulk-order-placement).
+**Key difference:** If you place a GTC order via `bulkOrders` at a rate that crosses the AMM's implied rate, the order will **not** match the AMM — it will be placed on the book as a maker order. To take AMM liquidity, use `placeSingleOrder` instead.
+
+See [Best Practices](./Backend/5.%20best-practices.mdx#bulk-order-placement).
+
+### How do I ensure my order is taker-only (no residual maker order)?
+
+Use `IOC` (Immediate or Cancel) or `FOK` (Fill or Kill) as the time-in-force:
+
+- **IOC**: Fills as much as possible against order book + AMM, cancels the rest. You may get a partial fill.
+- **FOK**: Must fill the entire order size, otherwise the transaction reverts. All-or-nothing.
+
+Both guarantee no residual maker orders are left on the book. These must be placed via `placeSingleOrder` (not `bulkOrders`) to access AMM liquidity.
 
 ### What is a tick? How do I convert APR to tick?
 
@@ -105,6 +116,29 @@ Stop orders are off-chain conditional orders monitored by the Stop Order Service
 ### Can I close a position partially?
 
 Yes. Use the `place-orders` calldata endpoint to place a counter-order (opposite side) with a smaller size than your current position. For a full close, use the `simulations/close-active-position` endpoint to get the exact parameters.
+
+### Are order IDs globally unique?
+
+No. Order IDs are unique **per market**, not globally. The combination of **(Market ID, Order ID)** is the globally unique identifier. If you track orders across multiple markets, always use both fields as the key.
+
+### What is `direct-call` vs `bulk-direct-call`?
+
+- **`direct-call`**: Submits a single calldata. Use when the calldata API returns exactly one entry.
+- **`bulk-direct-call`**: Submits one or more calldatas with guaranteed sequential execution (based on nonce). **You must use this** when the calldata API returns multiple entries (e.g., `[exit-market, place-order]` when `autoExitMarket=true`).
+
+If you use `direct-call` with only the first element of a multi-calldata response, only the first operation executes (e.g., only the exit-market happens, and your order is never placed).
+
+### What does `autoExitMarket` do?
+
+When set to `true` (default) in the place-orders calldata API, the system automatically exits expired/unused markets to free up slots (max 10 per account). This may add an extra calldata to the response array. Set `autoExitMarket=false` if you manage market entry/exit yourself.
+
+### What is the "Rate too far off" error?
+
+This means your **maker order** rate is too far from the current mark rate. The market has bounds on how far limit orders can deviate from the mark rate. This is different from "Large Rate Deviation", which applies to **taker fills** (the execution rate deviating from the mark rate). See [Order Book — Rate Bounds](/boros-dev/Mechanics/OrderBook#restrictions).
+
+### What is the rate floor?
+
+A minimum absolute rate used in margin calculations, derived from `market.imData.iTickThresh`. Orders with rates below the floor use the floor value for margin instead, preventing unrealistically low margin requirements near 0%. See [Margin — Pre-scaling IM](/boros-dev/Mechanics/Margin#pre-scaling-initial-margin).
 
 ---
 
@@ -166,4 +200,8 @@ Use `GET /simulations/place-order` to preview margin requirements before placing
 
 ### I'm getting "agent expired" errors
 
-Agent approvals have an expiry time. Check it with `GET /agents/expiry-time` and re-approve if needed using `GET /calldata/approve-agent`.
+Agent approvals have an expiry time. Check it with `GET /agents/expiry-time` and re-approve if needed using `GET /calldata/approve-agent`. Don't assume a fixed expiry duration — always query the endpoint to get the actual expiry timestamp.
+
+### I'm getting `MMIsolatedMarketDenied()` on an isolated-only market
+
+You're using a cross-margin `marketAcc` on a market that only supports isolated margin. Use `MarketAccLib.pack(address, accountId, tokenId, marketId)` with the **specific market ID** instead of `CROSS_MARKET_ID`. You also need to deposit collateral to the isolated account specifically. See [Best Practices — Isolated-Only Markets](./Backend/5.%20best-practices.mdx#isolated-only-markets).

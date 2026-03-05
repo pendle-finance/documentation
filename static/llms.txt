@@ -59,7 +59,7 @@
 
 ### Machine-Readable Specs
 - [Full Documentation (Markdown)](https://docs.pendle.finance/llms-full.txt): All Pendle V2 + Boros docs concatenated for AI ingestion
-- [V2 API Spec (JSON)](https://docs.pendle.finance/pendle-v2/openapi/open-api.json): OpenAPI spec for the Pendle V2 backend (120 endpoints)
+- [V2 API Spec (JSON)](https://docs.pendle.finance/pendle-v2/openapi/open-api.json): OpenAPI spec for the Pendle V2 backend (non-deprecated endpoints only)
 
 ---
 
