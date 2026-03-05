@@ -18,7 +18,7 @@
 
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous"><link rel="stylesheet" href="/cn/assets/css/styles.0805199b.css">
-<script src="/cn/assets/js/runtime~main.68d873fb.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.fb19ec7d.js" defer="defer"></script>
 <script src="/cn/assets/js/main.6395e9e1.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -52,11 +52,11 @@
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="timeinforce">TimeInForce<a href="#timeinforce" class="hash-link" aria-label="Direct link to TimeInForce" title="Direct link to TimeInForce">​</a></h3>
 <p><strong>Definition</strong>: <code>enum TimeInForce { GTC, IOC, FOK, ALO, SOFT_ALO }</code></p>
 <ul>
-<li><strong>GTC (Good Till Cancel)</strong>: Standard limit order that remains on the order book until fully filled or manually canceled</li>
-<li><strong>IOC (Immediate or Cancel)</strong>: Executes against available liquidity immediately, cancels any unfilled portion</li>
-<li><strong>FOK (Fill or Kill)</strong>: Must fill entire order size immediately or the transaction reverts</li>
-<li><strong>ALO (Add Liquidity Only)</strong>: Post-only order that adds liquidity to the book, transaction reverts if it would match existing orders</li>
-<li><strong>SOFT_ALO</strong>: Post-only order similar to ALO, but skips matching without reverting the transaction</li>
+<li><strong>GTC (Good Till Cancel)</strong>: Standard limit order that remains on the order book until fully filled or manually canceled. With <code>placeSingleOrder</code>, a GTC order can match against existing order book and AMM liquidity; any unfilled remainder stays on the book as a maker order. With <code>bulkOrders</code>, GTC orders are placed directly on the book without AMM matching.</li>
+<li><strong>IOC (Immediate or Cancel)</strong>: Executes against available liquidity (order book + AMM) immediately, cancels any unfilled portion. <strong>Best for taker orders</strong> — guarantees no residual maker orders remain on the book.</li>
+<li><strong>FOK (Fill or Kill)</strong>: Must fill entire order size immediately (from order book + AMM) or the transaction reverts. Use when partial fills are unacceptable.</li>
+<li><strong>ALO (Add Liquidity Only)</strong>: Also known as <strong>Post-Only</strong>. Ensures the order is placed as a maker order only — the transaction reverts if it would immediately match against existing orders or the AMM. Ideal for market makers who want to guarantee maker status.</li>
+<li><strong>SOFT_ALO</strong>: Similar to ALO (Post-Only), but instead of reverting, it silently skips any portion that would match and places the rest on the book. Useful for market makers who prefer no-revert behavior.</li>
 </ul>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="orderstatus">OrderStatus<a href="#orderstatus" class="hash-link" aria-label="Direct link to OrderStatus" title="Direct link to OrderStatus">​</a></h3>
 <p><strong>Definition</strong>: <code>enum OrderStatus { NOT_EXIST, OPEN, PENDING_SETTLE, PURGED }</code></p>

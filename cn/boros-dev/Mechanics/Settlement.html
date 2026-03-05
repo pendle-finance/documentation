@@ -18,7 +18,7 @@
 
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous"><link rel="stylesheet" href="/cn/assets/css/styles.0805199b.css">
-<script src="/cn/assets/js/runtime~main.68d873fb.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.fb19ec7d.js" defer="defer"></script>
 <script src="/cn/assets/js/main.6395e9e1.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -121,11 +121,18 @@ Floating payments are subject to settlement fees. For detailed fee structure, se
 <li><strong>Payment Timing</strong>: Payments occur at regular intervals (e.g., every 8 hours)</li>
 <li><strong>Position Size Matters</strong>: Only the position size at the payment timestamp is used for calculation</li>
 </ul>
+<p><strong>Settlement Timing:</strong></p>
+<p>Floating rate settlements are triggered by off-chain oracle updates and occur at regular intervals:</p>
+<ul>
+<li><strong>Settlement frequency</strong>: Typically every hour (but varies by market)</li>
+<li><strong>Expected settlement time</strong>: Approximately <strong>30 seconds after the hour</strong> (e.g., 08:00:30 UTC)</li>
+<li><strong>Exceptional cases</strong>: During extreme market volatility or high/low settlement values that could push users&#x27; health ratios near zero, settlements may be delayed while the system runs additional risk management operations (e.g., liquidation bots)</li>
+</ul>
 <p><strong>Oracle Update Delays:</strong></p>
 <p>In practice, floating payments don&#x27;t occur at the exact period boundaries due to off-chain oracle update delays:</p>
 <ul>
 <li><strong>Expected Time</strong>: Payment for 8:00:00 boundary</li>
-<li><strong>Actual Time</strong>: Usually occurs ~10 seconds later (e.g., 8:00:10)</li>
+<li><strong>Actual Time</strong>: Usually occurs ~30 seconds later (e.g., 8:00:30)</li>
 </ul></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages navigation"><a class="pagination-nav__link pagination-nav__link--prev" href="/cn/boros-dev/Mechanics/Margin"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">💰 Margin</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/cn/boros-dev/Mechanics/Fees"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">💵 Fees</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#trade-settlement" class="table-of-contents__link toc-highlight">Trade Settlement</a></li><li><a href="#floating-rate-settlement" class="table-of-contents__link toc-highlight">Floating Rate Settlement</a></li><li><a href="#algorithm" class="table-of-contents__link toc-highlight">Algorithm</a></li><li><a href="#notes" class="table-of-contents__link toc-highlight">Notes</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.com/invite/EAujvncY2R" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://pendle.finance/brandguide" target="_blank">Media Kit</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
 </body>
 </html>
