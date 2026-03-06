@@ -62,3 +62,14 @@ hide_table_of_contents: true
 
 
 **Please make sure to keep both the placing limit order browser tab and the Safe Wallet browser tab always open throughout the placing limit order process.**
+
+
+## FAQ
+
+**Why is there a large gap between the AMM spot APY and the best bid in the orderbook, but no arbitrage is happening?**
+
+Arbitrageurs factor in fees from both the AMM and the orderbook when deciding whether to act. A trade is only profitable if the spread between the two exceeds the combined fees of both systems. For example, if the orderbook fee is 0.2% and the AMM fee is 0.15%, arbitrage will only occur when the spread exceeds 0.35%. Below that threshold, the trade would be unprofitable after fees, so no arbitrage takes place.
+
+**Why is only ~90% of my swap routed through the orderbook, even though it offers a better price?**
+
+This is by design. A small portion of every swap is always routed through the AMM as a safety buffer. Orderbook execution can occasionally result in dust amounts — tiny leftovers that are too small to process further. Without the AMM fallback, those dust amounts would either need to be returned to you (requiring an additional swap) or burned. By routing a small slice through the AMM, all funds are guaranteed to be fully utilized, since the AMM provides continuous liquidity at all times.
