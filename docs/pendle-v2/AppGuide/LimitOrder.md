@@ -68,7 +68,7 @@ hide_table_of_contents: true
 
 **Why is there a large gap between the AMM spot APY and the best bid in the orderbook, but no arbitrage is happening?**
 
-Arbitrageurs factor in fees from both the AMM and the orderbook when deciding whether to act. A trade is only profitable if the spread between the two exceeds the combined fees of both systems. For example, if the orderbook fee is 0.2% and the AMM fee is 0.15%, arbitrage will only occur when the spread exceeds 0.35%. Below that threshold, the trade would be unprofitable after fees, so no arbitrage takes place.
+Arbitrage bot factor in fees from both the AMM and the orderbook when deciding whether to act. A trade is only profitable if the spread between the two exceeds the combined fees of both systems. For example, if the orderbook fee is 0.2% and the AMM fee is 0.15%, arbitrage will only occur when the spread exceeds 0.35%. Below that threshold, the trade would be unprofitable after fees, so no arbitrage takes place.
 
 **Why is only ~90% of my swap routed through the orderbook, even though it offers a better price?**
 
