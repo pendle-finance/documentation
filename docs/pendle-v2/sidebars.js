@@ -55,9 +55,11 @@ module.exports = {
         { type: "doc", id: "AppGuide/Mint", label: "🪙 Mint" },
         { type: "doc", id: "AppGuide/Swap", label: "🔄 Swap" },
         { type: "doc", id: "AppGuide/LimitOrder", label: "📊 Limit Order" },
+        { type: "doc", id: "AppGuide/CrossChainPT", label: "🌐 Cross-Chain PT" },
         { type: "doc", id: "AppGuide/Pool", label: "🏊 Pool" },
         { type: "doc", id: "AppGuide/Claim", label: "💎 Claim" },
         { type: "doc", id: "AppGuide/Dashboard", label: "📈 Dashboard" },
+        { type: "doc", id: "AppGuide/Pencosystem", label: "🔗 Pencosystem" },
         { type: "doc", id: "AppGuide/BridgePendle", label: "🌉 Bridge PENDLE"}
       ],
     },
