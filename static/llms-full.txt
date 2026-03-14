@@ -8730,8 +8730,8 @@ function cleanup() {
 |---------|-------|-------------|
 | `account:ACCOUNT` | `account:ACCOUNT:update` | Legacy notification (type: Position/LimitOrder/Collateral). Requires REST refetch. |
 | `account-updates:ROOT_ADDRESS` | `position-update` | Detailed: `ei`, `bn`, `bt`, `tx`, `mId`, `ma`, `prf`/`prs` (prev), `ptf`/`pts` (post) |
-| `account-updates:ROOT_ADDRESS` | `order-update` | Detailed: `ei`, `bn`, `bt`, `tx`, `mId`, `oId`, `sd`, `ps`, `us`, `tk`, `ot`, `os`, `efs` |
-| `account-updates:ROOT_ADDRESS` | `settlement-update` | Detailed: `ei`, `bn`, `bt`, `tx`, `ma`, `mId`, `ps`, `yp`, `yr`, `pa`, `ra`, `fee` |
+| `account-updates:ROOT_ADDRESS` | `order-update` | Detailed: `ei`, `bn`, `bt`, `tx`, `mId`, `oId`, `sd` (0=Long/1=Short), `ps`, `us`, `tk`, `ot` (OrderType: 0=Limit, 1=Market, 2=TakeProfitMarket, 3=StopLossMarket), `os` (LimitOrderStatus: 0=Filling, 1=Cancelled, 2=FullyFilled, 3=Expired, 4=Purged), `efs` |
+| `account-updates:ROOT_ADDRESS` | `settlement-update` | Detailed: `ei`, `bn`, `bt`, `tx`, `ma`, `mId`, `ps`, `yp`, `yr`, `pa`, `ra`, `fee`. **Note: currently only emitted for a few active market makers, not for all users.** |
 
 Prefer `account-updates:ROOT_ADDRESS` over `account:ACCOUNT` — it includes full event payloads, eliminating the need for REST API refetch.
 

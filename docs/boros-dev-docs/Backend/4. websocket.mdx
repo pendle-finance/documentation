@@ -315,13 +315,17 @@ Emitted when an order is placed, partially filled, fully filled, cancelled, or p
 | `ps` | string | Original placed size (FixedX18 raw) |
 | `us` | string | Remaining unfilled size (FixedX18 raw) |
 | `tk` | number | Tick (price level) |
-| `ot` | OrderType | Order type (Limit, Market) |
-| `os` | LimitOrderStatus | Status: `Filling`, `Cancelled`, `FullyFilled`, `Expired`, `Purged` |
+| `ot` | OrderType | Order type: `0` = Limit, `1` = Market, `2` = TakeProfitMarket, `3` = StopLossMarket |
+| `os` | LimitOrderStatus | Order status: `0` = Filling (unfilled/partially filled), `1` = Cancelled, `2` = FullyFilled, `3` = Expired (market matured), `4` = Purged |
 | `efs` | string? | Size filled by this specific event (undefined if no fill) |
 
 ### Settlement Update (`settlement-update`)
 
 Emitted when a funding rate settlement is processed for a position. Only emitted for positions with non-zero size.
+
+:::caution Limited Availability
+`settlement-update` events are currently only emitted for a few active market makers, not for all users. General user support will be added in the future. For now, use `GET /accounts/settlements` or the legacy `account:ACCOUNT` channel to track settlements.
+:::
 
 | Field | Type | Description |
 |-------|------|-------------|
