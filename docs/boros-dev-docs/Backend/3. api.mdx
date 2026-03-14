@@ -159,6 +159,16 @@ Query available collateral tokens with metadata and current prices.
 |----------|-------------|
 | `GET /assets/all` | List all supported collateral assets |
 
+### Collaterals
+Query collateral summaries for a user's account, including cross-margin and isolated positions with PnL, margins, and balances.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /collaterals/summary/` | All collateral summaries for an account. Returns per-token breakdown of cross/isolated positions, net balances, margins, PnL (trade + settlement + unrealised), and withdrawal info. Includes `syncStatus`. |
+| `GET /collaterals/summary/single` | Single collateral summary by `tokenId`. Same response shape as above but for one token. Includes `syncStatus`. |
+
+Both endpoints require `userAddress` and `accountId` query parameters. The `/single` endpoint additionally requires `tokenId`.
+
 ### Markets
 Query market configurations, order books, and trade history.
 
@@ -176,10 +186,10 @@ Query and manage user account state.
 
 | Endpoint | Description |
 |----------|-------------|
-| `POST /accounts/market-acc-infos` | Positions, margins, balances for market accounts |
+| `POST /accounts/market-acc-infos` | Positions, margins, balances for market accounts. See [details below](#market-acc-infos). |
 | `GET /accounts/entered-markets` | Markets entered by a cross-margin account |
-| `GET /accounts/active-positions` | All active positions for a user |
-| `GET /accounts/latest-settlements` | Latest settlement info per position |
+| `GET /accounts/active-positions` | All active positions for a user. See [details below](#active-positions). |
+| `GET /accounts/latest-settlements` | Latest settlement per market position. See [details below](#latest-settlements). |
 | `GET /accounts/limit-orders` | Active/inactive limit orders. _(Deprecated — use v2)_ |
 | `GET /accounts/transactions` | Trade history. _(Deprecated — use v2)_ |
 | `GET /accounts/settlements` | Funding rate settlement history |
@@ -188,6 +198,67 @@ Query and manage user account state.
 | `GET /accounts/gas-consumption-history` | Gas usage history. _(Deprecated — use v2)_ |
 | `GET /accounts/settings` | User account settings |
 | `POST /accounts/settings` | Update settings (agent-signed) |
+
+#### Market Acc Infos
+
+`POST /accounts/market-acc-infos` — Returns detailed account information for one or more market accounts. Accepts an array of up to **100** `marketAccs` in the request body.
+
+**Response fields (per market account):**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `totalCash` | string | Total cash balance (bigint string in settlement token) |
+| `netBalance` | string | Equity = totalCash + sum of all position values |
+| `positions` | array | List of active positions (size, rate, entry block, etc.) |
+| `initialMargin` | string | Raw initial margin without leverage |
+| `initialMarginWithLeverage` | string | Initial margin with leverage applied |
+| `availableInitialMargin` | string | Remaining margin available for new positions |
+| `availableMaintMargin` | string | Remaining margin before liquidation (health ratio = 1.0 when zero) |
+
+Response includes `syncStatus` (`blockNumber` + `timestamp`).
+
+#### Active Positions
+
+`GET /accounts/active-positions` — Returns all active (non-zero size) positions for a user's account. Query params: `userAddress`, `accountId`.
+
+**Response fields (per position):**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `marketId` | number | Market identifier |
+| `marketAcc` | MarketAcc | Packed account position identifier |
+| `isCross` | boolean | Whether the position uses cross-margin mode |
+| `fixedApr` | number | The fixed APR of the position (e.g. `0.05` = 5%) |
+| `signedSize` | string | Bigint string of signed position size (negative = short) |
+| `side` | Side | `0` = Long, `1` = Short |
+| `cumulativePnl` | string | Bigint string of all-time cumulative trade PnL |
+| `isMatured` | boolean | Whether the market has reached its maturity date |
+
+Response includes `syncStatus` (`blockNumber` + `timestamp`).
+
+#### Latest Settlements
+
+`GET /accounts/latest-settlements` — Returns the most recent settlement for each market that a user's account has participated in. Query params: `userAddress`, `accountId`.
+
+**Response fields (per settlement):**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `marketId` | number | Market identifier |
+| `marketAcc` | MarketAcc | Packed account position identifier |
+| `isCross` | boolean | Whether the position uses cross-margin mode |
+| `isMatured` | boolean | Whether the market has reached maturity |
+| `timestamp` | number | Timestamp of the latest settlement |
+| `side` | Side | Position side at time of settlement (`0` = Long, `1` = Short) |
+| `positionSize` | string | Bigint string of position size at settlement |
+| `yieldPaid` | string | Bigint string of yield paid in the latest settlement period |
+| `yieldReceived` | string | Bigint string of yield received in the latest settlement period |
+| `settlement` | string | Net settlement = yieldReceived − yieldPaid |
+| `settlementRate` | number | Annualized settlement rate of the latest period (e.g. `0.05` = 5%) |
+| `cumulativeSettlementPnl` | string | All-time cumulative settlement PnL |
+| `sinceOpenSettlementPnl` | string | Cumulative settlement PnL since position was opened |
+
+Response includes `syncStatus` (`blockNumber` + `timestamp`).
 
 #### V2 Accounts (Cursor-Based Pagination)
 
@@ -237,6 +308,7 @@ Generate transaction calldata for on-chain operations.
 | `POST /calldata/place-orders` | Place one or more limit orders |
 | `GET /calldata/cancel-order` | Cancel orders |
 | `GET /calldata/cash-transfer` | Transfer between cross and isolated accounts |
+| `POST /send-txs-bot/v1/agent/cash-swap` | Swap collateral between different token types (agent-signed, EIP-712). Requires `fromTokenId`, `fromMarketId`, `toTokenId`, `toMarketId`, `unscaledSpent`, `minUnscaledReceived`, and `nonce`. |
 | `GET /calldata/enter-exit-markets` | Enter or exit markets |
 | `GET /calldata/pay-treasury` | Pay accrued treasury fees |
 | `GET /calldata/add-liquidity-single-cash-to-amm` | Add AMM liquidity |
@@ -254,6 +326,7 @@ Preview operations before executing them. All simulation endpoints return the pr
 | `GET /simulations/close-active-position` | Preview closing a position |
 | `GET /simulations/add-liquidity-single-cash` | Preview adding AMM liquidity |
 | `GET /simulations/remove-liquidity-single-cash` | Preview removing AMM liquidity |
+| `GET /simulations/cash-swap` | Preview collateral swap between token types. Returns `fromAccState` and `toAccState` with pre/post simulation. Requires `userAddress`, `accountId`, `fromTokenId`, `fromMarketId`, `toTokenId`, `toMarketId`, `unscaledSpent`, `estimatedReceived`. |
 
 ### Funding Rate
 Access funding rate data and settlement history.
