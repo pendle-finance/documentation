@@ -8715,16 +8715,27 @@ function cleanup() {
 
 ## Channel Types
 
-Common channel patterns:
+### Market Channels
 
-| Channel | Description |
-|---------|-------------|
-| `orderbook:MARKET_ID:TICK_SIZE` | Orderbook updates for the given market. Accepted TICK_SIZE values: `0.1`, `0.01`, `0.001`, `0.0001`, `0.00001` |
-| `market-trade:MARKET_ID` | Market trade updates |
-| `statistics:MARKET_ID` | Market statistics updates |
-| `account:ACCOUNT` | Account state change notifications (orders, positions, balances) |
+| Channel | Event | Description |
+|---------|-------|-------------|
+| `orderbook:MARKET_ID:TICK_SIZE` | `orderbook:MARKET_ID:TICK_SIZE:update` | Orderbook updates. TICK_SIZE: `0.1`, `0.01`, `0.001`, `0.0001`, `0.00001` |
+| `market-trade:MARKET_ID` | `market-trade:MARKET_ID:update` | Trade executions with `rate`, `size`, `blockTimestamp`, `txHash` |
+| `statistics:MARKET_ID` | `statistics:MARKET_ID:update` | Market stats: `markApr`, `midApr`, `lastTradedApr`, `floatingApr`, `volume24h`, `notionalOI`, `nextSettlementTime`, `longYieldApr` |
+| `market-data:MARKET_ID` | `market-data-update` | Real-time on-chain market data: `mId`, `bn`, `bt`, `oi`, `mid`, `mk`, `lt`, `nst`, `bb` (bestBid), `ba` (bestAsk), `ai` (ammImpliedApr) |
 
-Replace `MARKET_ID` with your specific market identifier. For `ACCOUNT`, use the format `USER_ADDRESS:ACCOUNT_ID` (e.g., `0xYourWalletAddress:0` where `0` is the default sub-account ID).
+### Account Channels
+
+| Channel | Event | Description |
+|---------|-------|-------------|
+| `account:ACCOUNT` | `account:ACCOUNT:update` | Legacy notification (type: Position/LimitOrder/Collateral). Requires REST refetch. |
+| `account-updates:ROOT_ADDRESS` | `position-update` | Detailed: `ei`, `bn`, `bt`, `tx`, `mId`, `ma`, `prf`/`prs` (prev), `ptf`/`pts` (post) |
+| `account-updates:ROOT_ADDRESS` | `order-update` | Detailed: `ei`, `bn`, `bt`, `tx`, `mId`, `oId`, `sd`, `ps`, `us`, `tk`, `ot`, `os`, `efs` |
+| `account-updates:ROOT_ADDRESS` | `settlement-update` | Detailed: `ei`, `bn`, `bt`, `tx`, `ma`, `mId`, `ps`, `yp`, `yr`, `pa`, `ra`, `fee` |
+
+Prefer `account-updates:ROOT_ADDRESS` over `account:ACCOUNT` — it includes full event payloads, eliminating the need for REST API refetch.
+
+Replace `MARKET_ID` with your market identifier. For `ACCOUNT`, use `AccountLib.pack(address, accountId)`. For `ROOT_ADDRESS`, use lowercased wallet address.
 
 ## Best Practices
 
@@ -8880,11 +8891,11 @@ async function refreshAccountData() {
 }
 ```
 
-### Current Limitations
+### Legacy vs Detailed Account Events
 
-> **Note:** Currently, account update events serve as notifications that *something* has changed, but do not include the full details of the change in the event payload. You need to call the REST API to fetch the updated data.
->
-> We are planning to enhance these WebSocket events to include more detailed data in future updates, reducing the need for additional API calls.
+The legacy `account:ACCOUNT` channel only notifies that something changed (type: `Position`, `LimitOrder`, or `Collateral`). You must call the REST API to get updated data.
+
+The new `account-updates:ROOT_ADDRESS` channel provides full event details in the payload (position pre/post state, order status, settlement amounts), eliminating REST API refetch. Use this channel for new integrations.
 
 ### Complete Account Tracking Example
 

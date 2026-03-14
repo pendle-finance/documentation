@@ -71,16 +71,29 @@ function cleanup() {
 
 ## Channel Types
 
-Common channel patterns:
+### Market Channels
 
-| Channel | Description |
-|---------|-------------|
-| `orderbook:MARKET_ID:TICK_SIZE` | Orderbook updates for the given market. Accepted TICK_SIZE values: `0.1`, `0.01`, `0.001`, `0.0001`, `0.00001` |
-| `market-trade:MARKET_ID` | Market trade updates |
-| `statistics:MARKET_ID` | Market statistics updates |
-| `account:ACCOUNT` | Account state change notifications (orders, positions, balances) |
+| Channel | Event | Description |
+|---------|-------|-------------|
+| `orderbook:MARKET_ID:TICK_SIZE` | `orderbook:MARKET_ID:TICK_SIZE:update` | Orderbook updates. Accepted TICK_SIZE: `0.1`, `0.01`, `0.001`, `0.0001`, `0.00001` |
+| `market-trade:MARKET_ID` | `market-trade:MARKET_ID:update` | Individual trade executions with `rate`, `size`, `blockTimestamp`, `txHash` |
+| `statistics:MARKET_ID` | `statistics:MARKET_ID:update` | Market statistics: `markApr`, `midApr`, `lastTradedApr`, `floatingApr`, `volume24h`, `notionalOI`, `nextSettlementTime`, `longYieldApr` |
+| `market-data:MARKET_ID` | `market-data-update` | Real-time market data from on-chain events. See [Market Data Events](#market-data-events) below. |
 
-Replace `MARKET_ID` with your specific market identifier. For `ACCOUNT`, use the format `USER_ADDRESS:ACCOUNT_ID` (e.g., `0xYourWalletAddress:0` where `0` is the default sub-account ID).
+### Account Channels
+
+| Channel | Event | Description |
+|---------|-------|-------------|
+| `account:ACCOUNT` | `account:ACCOUNT:update` | Legacy notification — tells you *something* changed (type: `Position`, `LimitOrder`, or `Collateral`). Requires REST API refetch. |
+| `account-updates:ROOT_ADDRESS` | `position-update` | Detailed position changes with pre/post state. See [Account Update Events](#account-update-events). |
+| `account-updates:ROOT_ADDRESS` | `order-update` | Detailed order state changes (placed, filled, cancelled, purged). |
+| `account-updates:ROOT_ADDRESS` | `settlement-update` | Detailed settlement data (yield paid/received, APR rates, fees). |
+
+Replace `MARKET_ID` with your market identifier. For `ACCOUNT`, use `AccountLib.pack(address, accountId)`. For `ROOT_ADDRESS`, use your lowercased wallet address (e.g., `0xdac17...`).
+
+:::tip Prefer `account-updates` over `account`
+The legacy `account:ACCOUNT` channel only tells you *that* something changed — you still need to call the REST API to find out *what*. The new `account-updates:ROOT_ADDRESS` channel includes full event details in the payload, eliminating the need for follow-up API calls.
+:::
 
 ## Best Practices
 
@@ -236,11 +249,121 @@ async function refreshAccountData() {
 }
 ```
 
-### Current Limitations
+## Market Data Events
 
-> **Note:** Currently, account update events serve as notifications that *something* has changed, but do not include the full details of the change in the event payload. You need to call the REST API to fetch the updated data.
->
-> We are planning to enhance these WebSocket events to include more detailed data in future updates, reducing the need for additional API calls.
+Subscribe to `market-data:MARKET_ID` to receive real-time market data derived from on-chain events. The event name is `market-data-update`.
+
+**Payload fields:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `mId` | number | Market ID |
+| `bn` | number | Block number of the on-chain event |
+| `bt` | number | Block timestamp (unix) |
+| `oi` | number | Notional open interest |
+| `mid` | number | Mid APR (from implied rate, AMM rate, or bid/ask average) |
+| `mk` | number | Mark APR (from contract) |
+| `lt` | number | Last traded APR |
+| `nst` | number | Next settlement time (unix) |
+| `bb` | number? | Best bid APR (undefined if no bids) |
+| `ba` | number? | Best ask APR (undefined if no asks) |
+| `ai` | number? | AMM implied APR (undefined if no AMM) |
+
+```typescript
+socket.emit('subscribe', `market-data:${marketId}`);
+socket.on('market-data-update', (data) => {
+  console.log(`Market ${data.mId}: mark=${data.mk}, mid=${data.mid}, OI=${data.oi}`);
+});
+```
+
+## Account Update Events
+
+Subscribe to `account-updates:ROOT_ADDRESS` (lowercased wallet address) to receive detailed, structured events when your positions, orders, or settlements change.
+
+Unlike the legacy `account:ACCOUNT` channel which only notifies you that *something* changed, these events include the full details — no REST API refetch needed.
+
+### Position Update (`position-update`)
+
+Emitted when a position size or rate changes (trade fill, liquidation).
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `ei` | number | Event index (on-chain sequence number) |
+| `bn` | number | Block number |
+| `bt` | number | Block timestamp (unix) |
+| `tx` | Hex | Transaction hash |
+| `mId` | number | Market ID |
+| `ma` | MarketAcc | Packed market account |
+| `prf` | string | Previous fixed rate (FixedX18 raw) |
+| `prs` | string | Previous position size (FixedX18 raw) |
+| `ptf` | string | Post-trade fixed rate (FixedX18 raw) |
+| `pts` | string | Post-trade position size (FixedX18 raw) |
+
+### Order Update (`order-update`)
+
+Emitted when an order is placed, partially filled, fully filled, cancelled, or purged.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `ei` | number | Event index |
+| `bn` | number | Block number |
+| `bt` | number | Block timestamp (unix) |
+| `tx` | Hex | Transaction hash |
+| `mId` | number | Market ID |
+| `oId` | string | Order ID |
+| `sd` | Side | `0` = Long, `1` = Short |
+| `ps` | string | Original placed size (FixedX18 raw) |
+| `us` | string | Remaining unfilled size (FixedX18 raw) |
+| `tk` | number | Tick (price level) |
+| `ot` | OrderType | Order type (Limit, Market) |
+| `os` | LimitOrderStatus | Status: `Filling`, `Cancelled`, `FullyFilled`, `Expired`, `Purged` |
+| `efs` | string? | Size filled by this specific event (undefined if no fill) |
+
+### Settlement Update (`settlement-update`)
+
+Emitted when a funding rate settlement is processed for a position. Only emitted for positions with non-zero size.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `ei` | number | Event index |
+| `bn` | number | Block number |
+| `bt` | number | Block timestamp (unix) |
+| `tx` | Hex | Transaction hash |
+| `ma` | MarketAcc | Packed market account |
+| `mId` | number | Market ID |
+| `ps` | string | Position size (negative = short) |
+| `yp` | string | Yield paid |
+| `yr` | string | Yield received |
+| `pa` | number | Annualized fixed rate paid |
+| `ra` | number | Annualized floating rate received |
+| `fee` | string | Settlement fee |
+
+### Example: Subscribing to Account Updates
+
+```typescript
+const root = walletAddress.toLowerCase();
+socket.emit('subscribe', `account-updates:${root}`);
+
+socket.on('position-update', (data) => {
+  console.log(`Position changed on market ${data.mId}:`);
+  console.log(`  Size: ${data.prs} → ${data.pts}`);
+  console.log(`  Rate: ${data.prf} → ${data.ptf}`);
+  console.log(`  Tx: ${data.tx}`);
+});
+
+socket.on('order-update', (data) => {
+  console.log(`Order ${data.oId} on market ${data.mId}: status=${data.os}`);
+  if (data.efs) console.log(`  Filled: ${data.efs}`);
+});
+
+socket.on('settlement-update', (data) => {
+  console.log(`Settlement on market ${data.mId}: paid=${data.yp}, received=${data.yr}`);
+});
+```
+
+:::note All numeric values use FixedX18 raw format
+Position sizes, rates, yields, and fees are returned as FixedX18 raw string values (18-decimal fixed-point). Use `FixedX18.fromBigIntString(value).toNumber()` from `@pendle/boros-offchain-math` to convert to human-readable numbers.
+:::
 
 ### Complete Account Tracking Example
 

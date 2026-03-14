@@ -66,5 +66,4 @@ typechain
 
 .claude
 
-backend-repo
-contract-repo
+local-*
