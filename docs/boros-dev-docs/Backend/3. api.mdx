@@ -164,10 +164,10 @@ Query market configurations, order books, and trade history.
 
 | Endpoint | Description |
 |----------|-------------|
-| `GET /markets` | List all markets with current state and pricing |
+| `GET /markets` | List all markets with current state and pricing. Includes `isWhitelisted` field. |
 | `GET /markets/{marketId}` | Get a single market's details |
-| `GET /markets/order-books` | Aggregated order book by tick size |
-| `GET /v2/markets/order-books` | Order book with optional AMM liquidity |
+| `GET /markets/order-books` | Aggregated order book by tick size. _(Deprecated — use v2)_ |
+| `GET /v2/markets/order-books` | Order book with optional AMM liquidity. Response includes `syncStatus` (`blockNumber` + `timestamp`). |
 | `GET /markets/market-trades` | Recent executed trades |
 | `GET /markets/chart` | OHLCV candlestick data |
 
@@ -178,14 +178,43 @@ Query and manage user account state.
 |----------|-------------|
 | `POST /accounts/market-acc-infos` | Positions, margins, balances for market accounts |
 | `GET /accounts/entered-markets` | Markets entered by a cross-margin account |
-| `GET /accounts/limit-orders` | Active/inactive limit orders |
-| `GET /accounts/transactions` | Trade history for your account on a market (includes both maker and taker fills, with size, rate, PnL, and maker/taker indicator). Supports `skip`, `limit`, and `total` for pagination. |
+| `GET /accounts/active-positions` | All active positions for a user |
+| `GET /accounts/latest-settlements` | Latest settlement info per position |
+| `GET /accounts/limit-orders` | Active/inactive limit orders. _(Deprecated — use v2)_ |
+| `GET /accounts/transactions` | Trade history. _(Deprecated — use v2)_ |
 | `GET /accounts/settlements` | Funding rate settlement history |
-| `GET /accounts/transfer-logs` | Deposit/withdrawal transfer logs |
+| `GET /accounts/transfer-logs` | Deposit/withdrawal transfer logs. _(Deprecated — use v2)_ |
 | `GET /accounts/gas-balance` | Current gas balance |
-| `GET /accounts/gas-consumption-history` | Gas usage history |
+| `GET /accounts/gas-consumption-history` | Gas usage history. _(Deprecated — use v2)_ |
 | `GET /accounts/settings` | User account settings |
 | `POST /accounts/settings` | Update settings (agent-signed) |
+
+#### V2 Accounts (Cursor-Based Pagination)
+
+The v2 endpoints replace the v1 offset-based pagination (`skip`/`limit`/`total`) with **cursor-based pagination** using a `resumeToken`. This is significantly more efficient for large datasets — no `countDocuments()` overhead and no performance degradation on later pages.
+
+**How it works:**
+1. Make the initial request with `limit` (no `resumeToken`)
+2. The response includes a `resumeToken` string — pass it as a query parameter on the next request to get the next page
+3. When `resumeToken` is `null`, there are no more pages
+
+All v2 responses also include a `syncStatus` field (`blockNumber` + `timestamp`) indicating how up-to-date the backend data is.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v2/accounts/limit-orders` | Limit orders sorted by last updated. Supports `marketId`, `isActive`, `orderType` filters. Max `limit`: 2000. |
+| `GET /v2/accounts/all-limit-orders` | All limit orders sorted by placed order. **Guarantees no missed orders** during pagination — use this for syncing/indexing. |
+| `GET /v2/accounts/transactions` | Trade history with cursor pagination. Supports `fromBlockNumber`, `toBlockNumber`, `isLimitOrderTrade` filters. Max `limit`: 2000. |
+| `GET /v2/accounts/transfer-logs` | Deposit/withdrawal logs with cursor pagination. Max `limit`: 100. |
+| `GET /v2/accounts/gas-consumption-history` | Gas usage history with cursor pagination. Max `limit`: 100. |
+
+:::tip Which limit-orders endpoint to use?
+- **`/v2/accounts/limit-orders`** — sorted by last updated (`eventIndex`). Best for showing recent activity in a UI. Note: orders updated during pagination may shift position, so you might miss or duplicate some entries.
+- **`/v2/accounts/all-limit-orders`** — sorted by immutable placed timestamp (`placedEventIndex`). Guarantees stable pagination — **use this for syncing all orders**.
+:::
+
+**New response fields on limit orders:**
+- `placedTxHash` — the transaction hash where the order was originally placed
 
 ### Calldata Generation
 Generate transaction calldata for on-chain operations.
@@ -254,6 +283,22 @@ Charting data for trading UIs.
 | Endpoint | Description |
 |----------|-------------|
 | `GET /charts/ohlcv` | OHLCV candlestick data |
+
+### Leaderboard
+Query trading leaderboard data.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /leaderboard` | Trading leaderboard with rankings |
+| `GET /leaderboard/search` | Search for a specific user on the leaderboard |
+
+### Transaction Status (Send Txs Bot)
+Query transaction status with detailed on-chain event data.
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /send-txs-bot/v2/agent/dedicated/tx-status` | Transaction status with block info |
+| `POST /send-txs-bot/v2/agent/dedicated/tx-status-with-events` | Transaction status with parsed limit order events (placed, cancelled, market order executed). Each status item includes `limitOrdersPlaced` (orderIds + sizes), `limitOrdersCancelled` (orderIds), and `marketOrdersExecuted` (orderId, side, size). |
 
 ---
 
