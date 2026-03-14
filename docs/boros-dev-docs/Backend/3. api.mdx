@@ -90,6 +90,7 @@ Once your agent is approved, this is the typical order placement flow:
 When submitting via the Send Txs Bot, you can set `skipReceipt=true` to get the `txHash` returned immediately without waiting for block inclusion. With `skipReceipt=false` (default), the bot waits for the transaction to be included in a block and returns the full `status` and any `error` message. Use `skipReceipt=true` for lower latency when you can track the transaction status yourself.
 :::
 
+
 ### 3. Closing a Position
 
 ```text
@@ -158,16 +159,6 @@ Query available collateral tokens with metadata and current prices.
 | Endpoint | Description |
 |----------|-------------|
 | `GET /assets/all` | List all supported collateral assets |
-
-### Collaterals
-Query collateral summaries for a user's account, including cross-margin and isolated positions with PnL, margins, and balances.
-
-| Endpoint | Description |
-|----------|-------------|
-| `GET /collaterals/summary/` | All collateral summaries for an account. Returns per-token breakdown of cross/isolated positions, net balances, margins, PnL (trade + settlement + unrealised), and withdrawal info. Includes `syncStatus`. |
-| `GET /collaterals/summary/single` | Single collateral summary by `tokenId`. Same response shape as above but for one token. Includes `syncStatus`. |
-
-Both endpoints require `userAddress` and `accountId` query parameters. The `/single` endpoint additionally requires `tokenId`.
 
 ### Markets
 Query market configurations, order books, and trade history.
@@ -262,7 +253,7 @@ Response includes `syncStatus` (`blockNumber` + `timestamp`).
 
 #### V2 Accounts (Cursor-Based Pagination)
 
-The v2 endpoints replace the v1 offset-based pagination (`skip`/`limit`/`total`) with **cursor-based pagination** using a `resumeToken`. This is significantly more efficient for large datasets — no `countDocuments()` overhead and no performance degradation on later pages.
+The v2 endpoints replace the v1 offset-based pagination (`skip`/`limit`/`total`) with **cursor-based pagination** using a `resumeToken`. This is significantly more efficient for large datasets.
 
 **How it works:**
 1. Make the initial request with `limit` (no `resumeToken`)
@@ -306,6 +297,7 @@ Generate transaction calldata for on-chain operations.
 | Endpoint | Description |
 |----------|-------------|
 | `POST /calldata/place-orders` | Place one or more limit orders |
+| `POST /calldata/place-orders-with-rate` | Place orders with an explicit desired rate (instead of slippage) |
 | `GET /calldata/cancel-order` | Cancel orders |
 | `GET /calldata/cash-transfer` | Transfer between cross and isolated accounts |
 | `POST /send-txs-bot/v1/agent/cash-swap` | Swap collateral between different token types (agent-signed, EIP-712). Requires `fromTokenId`, `fromMarketId`, `toTokenId`, `toMarketId`, `unscaledSpent`, `minUnscaledReceived`, and `nonce`. |
