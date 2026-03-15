@@ -262,6 +262,40 @@ Don't poll REST endpoints for real-time data. Use [WebSocket](./4.%20websocket.m
 
 ---
 
+## Market Maker Order Flow
+
+The calldata endpoints (e.g., `POST /calldata/place-orders`) return a list of calldatas. You sign each calldata with your agent key, then send them to `POST /send-txs-bot/v2/agent/bulk-direct-call`.
+
+When submitting, set the `requireSuccess` parameter to control atomicity:
+- **`requireSuccess=true`** — All calldatas are placed atomically (all succeed or all revert).
+- **`requireSuccess=false`** — Each calldata is placed independently; some may succeed while others fail.
+
+### Full Flow
+
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│  1. POST /calldata/place-orders          → calldatas[]              │
+│  2. Sign each calldata with agent key                               │
+│  3. POST /send-txs-bot/v2/agent/bulk-direct-call                   │
+│     with requireSuccess=true or false    → tx results               │
+└──────────────────────────────────────────────────────────────────────┘
+```
+
+### `requireSuccess` Parameter (Send Txs Bot)
+
+The `requireSuccess` parameter on `bulk-direct-call` controls whether the calldatas execute atomically:
+
+| Value | Behavior | Use case |
+|-------|----------|----------|
+| `true` (default) | All calldatas succeed together or all revert | Place multiple orders atomically |
+| `false` | Each calldata executes independently; some may succeed while others fail | Placing multiple independent orders (e.g., market making quotes on both sides) |
+
+:::tip When to use `requireSuccess=false`
+If you are a market maker placing multiple orders across different markets or at different price levels, use `requireSuccess=false`. This way, if one order fails (e.g., due to insufficient margin for that specific order), the remaining orders can still be placed successfully.
+:::
+
+---
+
 ## Security
 
 ### Key Management
@@ -285,6 +319,7 @@ Don't poll REST endpoints for real-time data. Use [WebSocket](./4.%20websocket.m
 |---------------|-----|
 | Use bulk orders for multiple operations | Lower gas, atomic execution |
 | Use `bulk-direct-call` for multi-calldata responses | Ensures all calldatas (exit-market + place-order) are submitted |
+| Use `requireSuccess=false` for independent orders | Lets each order succeed/fail independently (market making) |
 | Set `autoExitMarket=false` if managing markets yourself | Avoids unexpected multi-calldata responses |
 | Exit unused/expired markets (max 10 per account) | Reduce gas overhead, free up slots |
 | Use `GET /v1/markets/{marketId}` for real-time rates | Guaranteed real-time midApr, markApr, bestBid, bestAsk |
