@@ -90,6 +90,15 @@ Once your agent is approved, this is the typical order placement flow:
 When submitting via the Send Txs Bot, you can set `skipReceipt=true` to get the `txHash` returned immediately without waiting for block inclusion. With `skipReceipt=false` (default), the bot waits for the transaction to be included in a block and returns the full `status` and any `error` message. Use `skipReceipt=true` for lower latency when you can track the transaction status yourself.
 :::
 
+:::info Calldata and requireSuccess
+The calldata endpoints return a **list of calldatas** that execute the intended action. These calldatas should be sent to the `bulk-direct-call` endpoint of the Send Txs Bot.
+
+When submitting via `bulk-direct-call`, use the `requireSuccess` parameter to control atomicity:
+
+- **`requireSuccess=true` (recommended for most actions)** — All calldatas either succeed together or fail together. Use this for actions like place-order with `autoExitMarket`, where the exit-market and place-order calldatas must both execute or neither should.
+- **`requireSuccess=false`** — Each calldata is executed independently; some may succeed while others fail. This is useful specifically for `place-orders` when you want to place multiple orders and don't need them to be atomic (e.g., if one order fails due to insufficient margin, the others can still go through).
+:::
+
 
 ### 3. Closing a Position
 
@@ -300,7 +309,6 @@ Generate transaction calldata for on-chain operations.
 | `POST /calldata/place-orders-with-rate` | Place orders with an explicit desired rate (instead of slippage) |
 | `GET /calldata/cancel-order` | Cancel orders |
 | `GET /calldata/cash-transfer` | Transfer between cross and isolated accounts |
-| `POST /send-txs-bot/v1/agent/cash-swap` | Swap collateral between different token types (agent-signed, EIP-712). Requires `fromTokenId`, `fromMarketId`, `toTokenId`, `toMarketId`, `unscaledSpent`, `minUnscaledReceived`, and `nonce`. |
 | `GET /calldata/enter-exit-markets` | Enter or exit markets |
 | `GET /calldata/pay-treasury` | Pay accrued treasury fees |
 | `GET /calldata/add-liquidity-single-cash-to-amm` | Add AMM liquidity |
@@ -318,7 +326,6 @@ Preview operations before executing them. All simulation endpoints return the pr
 | `GET /simulations/close-active-position` | Preview closing a position |
 | `GET /simulations/add-liquidity-single-cash` | Preview adding AMM liquidity |
 | `GET /simulations/remove-liquidity-single-cash` | Preview removing AMM liquidity |
-| `GET /simulations/cash-swap` | Preview collateral swap between token types. Returns `fromAccState` and `toAccState` with pre/post simulation. Requires `userAddress`, `accountId`, `fromTokenId`, `fromMarketId`, `toTokenId`, `toMarketId`, `unscaledSpent`, `estimatedReceived`. |
 
 ### Funding Rate
 Access funding rate data and settlement history.
