@@ -127,7 +127,7 @@ function redeemDueInterestAndRewards(
 
   * Pre-expiry: interest and rewards continue accruing; this function pays whatever is due up to the call.
   * Post-expiry: YT no longer earns new yield. Calling still pays any **remaining** pre-expiry interest/rewards, if any.
-* **Zero-flag calls:** If both flags are `false`, no tokens are transferred (effectively a no-op, except for index synchronization)
+* **Zero-flag calls:** If both flags are `false`, the call **reverts** with `YCNothingToRedeem`. At least one flag must be `true`.
 * **Token order:** `rewardsOut[i]` corresponds to `getRewardTokens()[i]`. Always read the list first.
 
 **Examples:**
@@ -137,6 +137,51 @@ function redeemDueInterestAndRewards(
 * *Claim rewards only:*
   Calling `(false, true)` transfers only rewards. Due interest remains in SY terms and continues to count toward reward-share until it’s eventually claimed or the user redeems PY.
 
+
+### `mintPYMulti`
+
+```solidity
+/**
+ * @notice Tokenize SY into PT + YT for multiple receivers in a single transaction.
+ * @dev SY must be transferred to this contract prior to calling.
+ * The sum of `amountSyToMints` must not exceed the floating SY balance.
+ */
+function mintPYMulti(
+    address[] calldata receiverPTs,
+    address[] calldata receiverYTs,
+    uint256[] calldata amountSyToMints
+) external returns (uint256[] memory amountPYOuts);
+```
+
+**Purpose:** Batch version of `mintPY`. Mints PT and YT for multiple receivers in a single transaction, saving gas when distributing to many addresses.
+
+**How it works:**
+- Transfer the total required SY to the YT contract before calling.
+- Pass parallel arrays: each `(receiverPTs[i], receiverYTs[i])` pair receives `amountPYOuts[i]` PT and YT minted from `amountSyToMints[i]` SY.
+- The sum of `amountSyToMints` must equal the floating SY balance (total SY transferred in).
+
+---
+
+### `redeemPYMulti`
+
+```solidity
+/**
+ * @notice Redeem PT (+YT) for multiple users in a single transaction.
+ * @dev PT/YT must be transferred to this contract prior to calling.
+ */
+function redeemPYMulti(
+    address[] calldata receivers,
+    uint256[] calldata amountPYToRedeems
+) external returns (uint256[] memory amountSyOuts);
+```
+
+**Purpose:** Batch version of `redeemPY`. Redeems PT (and YT pre-expiry) for multiple users in one transaction.
+
+**How it works:**
+- Transfer the total required PT (and YT, if pre-expiry) to the YT contract before calling.
+- Each `receivers[i]` receives SY from redeeming `amountPYToRedeems[i]` PY.
+
+---
 
 ### [`pyIndexCurrent`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/YieldContracts/PendleYieldToken.sol#L226-L236)
 
@@ -172,9 +217,117 @@ function pyIndexCurrent() external returns (uint256 currentIndex);
     At maturity, if each SY equals `1.15 USDe`, they redeem `100 × 1.15 = 115 USDe` (less than 120 USDe), reflecting the underlying negative yield.
 
 
+### `setPostExpiryData`
+
+```solidity
+/**
+ * @notice Triggers the post-expiry data initialization if the market has expired.
+ * @dev Has no effect if called pre-expiry.
+ */
+function setPostExpiryData() external;
+```
+
+**Purpose:** Manually triggers the post-expiry settlement. Normally this is called automatically on the first interaction after expiry (via the `updateData` modifier), but this can be called explicitly to ensure the post-expiry index is snapshotted before further redemptions.
+
+---
+
+### `pyIndexStored`
+
+```solidity
+/// @notice returns the last-updated PY index (view function, no state changes)
+function pyIndexStored() external view returns (uint256);
+```
+
+**Purpose:** Returns the last cached PY index without updating state. Use this for read-only queries when you don't need the latest value. For the current (possibly updated) value, use `pyIndexCurrent()`.
+
+---
+
+### `getPostExpiryData`
+
+```solidity
+/**
+ * @notice Returns the post-expiry data snapshot.
+ * @dev Reverts if post-expiry data has not been set yet (see `setPostExpiryData()`).
+ */
+function getPostExpiryData()
+    external
+    view
+    returns (
+        uint256 firstPYIndex,
+        uint256 totalSyInterestForTreasury,
+        uint256[] memory firstRewardIndexes,
+        uint256[] memory userRewardOwed
+    );
+```
+
+**Purpose:** Returns the post-expiry data snapshot. Useful for understanding what index was locked in at expiry and verifying post-expiry redemption amounts.
+
+**Returns:**
+- `firstPYIndex`: The PY index snapshotted at expiry. PT redemptions post-expiry use this index.
+- `totalSyInterestForTreasury`: Accumulated SY interest accrued after expiry (goes to treasury, not users).
+- `firstRewardIndexes`: Per-reward-token indexes snapshotted at expiry.
+- `userRewardOwed`: Total unclaimed user reward balances at time of snapshot.
+
+---
+
+## Yield Contract Factory
+
+**Contract:** [`PendleYieldContractFactoryUpg`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/YieldContracts/PendleYieldContractFactoryUpg.sol)
+
+The factory is the canonical registry for all Pendle PT/YT pairs. It deploys new yield contracts and tracks existing ones.
+
+### [`createYieldContract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/YieldContracts/PendleYieldContractFactoryUpg.sol#L108-L166)
+
+```solidity
+/**
+ * @notice Create a pair of (PT, YT) from any SY and valid expiry.
+ * Anyone can create a yield contract.
+ */
+function createYieldContract(
+    address SY,
+    uint32 expiry,
+    bool doCacheIndexSameBlock
+) external returns (address PT, address YT);
+```
+
+**Parameters:**
+- `SY` — Address of the Standardized Yield token to tokenize.
+- `expiry` — Unix timestamp for the PT/YT expiry. Must be in the future and divisible by `expiryDivisor` (e.g., 86400 enforces day-boundary expirations).
+- `doCacheIndexSameBlock` — If `true`, the PY index updates at most once per block (gas optimization). This trades a small amount of real-time precision for reduced write costs on high-frequency blocks.
+
+**Notes:**
+- Anyone can call this — yield contract creation is permissionless.
+- Reverts if the `(SY, expiry)` pair already exists (`YCFactoryYieldContractExisted`).
+- Reverts if `expiry` is in the past or not divisible by `expiryDivisor` (`YCFactoryInvalidExpiry`).
+
+### Query Functions
+
+```solidity
+// Look up existing PT/YT addresses for a given SY and expiry
+mapping(address => mapping(uint256 => address)) public getPT;  // getPT[sy][expiry]
+mapping(address => mapping(uint256 => address)) public getYT;  // getYT[sy][expiry]
+
+// Validate whether an address is a Pendle-deployed PT or YT
+mapping(address => bool) public isPT;
+mapping(address => bool) public isYT;
+```
+
+**Usage:** Before creating a yield contract, check `getPT[sy][expiry]` — if it returns a non-zero address, the pair already exists and you should use that address directly.
+
+### Protocol Fee Parameters
+
+These are set by the factory owner and applied to all yield contracts at redemption time:
+
+- `interestFeeRate` — Fraction of YT interest sent to treasury (max 20%, expressed as a fixed-point number with 1e18 = 100%).
+- `rewardFeeRate` — Fraction of external reward tokens sent to treasury (max 20%).
+
+These are read-only from an integrator's perspective; they are deducted automatically on `redeemDueInterestAndRewards` calls.
+
+---
+
 ## Integration Example
 :::danger Example code only
-The snippets below are simplified for illustration and **are not audited**.  
+The snippets below are simplified for illustration and **are not audited**.
 **Do not** use them in production or with real funds. If you adapt any example,
 conduct a full review, add comprehensive tests, and obtain an independent **security audit**.
 :::
@@ -183,29 +336,45 @@ conduct a full review, add comprehensive tests, and obtain an independent **secu
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-IPYieldToken yt;
-IStandardizedYield sy = IStandardizedYield(yt.SY());
-IPrincipalToken pt = IPrincipalToken(yt.PT());
-
+IPYieldContractFactory factory; // PendleYieldContractFactoryUpg
+address SY;
+uint32 expiry;
 address receiver;
 
+// --- Step 1: Look up or create a PT/YT pair ---
 
-// Minting PT + YT by depositing SY
+// Check if the pair already exists
+address PT = factory.getPT(SY, expiry);
+address YT = factory.getYT(SY, expiry);
+
+if (PT == address(0)) {
+    // Create a new yield contract if it doesn't exist yet
+    (PT, YT) = factory.createYieldContract(SY, expiry, true);
+}
+
+IPYieldToken yt = IPYieldToken(YT);
+IStandardizedYield sy = IStandardizedYield(SY);
+IPrincipalToken pt = IPrincipalToken(PT);
+
+
+// --- Step 2: Mint PT + YT by depositing SY ---
 IERC20(address(sy)).transfer(address(yt), 100e18); // deposit 100 SY
 uint256 amountPYOut = yt.mintPY(receiver, receiver); // receive PT + YT
 
 
-// Redeeming SY by burning PT + YT (pre-expiry)
+// --- Step 3a: Redeem SY by burning PT + YT (pre-expiry) ---
 IERC20(address(pt)).transfer(address(yt), amountPYOut); // send PT
 IERC20(address(yt)).transfer(address(yt), amountPYOut); // send YT
 uint256 amountSyOut = yt.redeemPY(receiver); // receive SY
 
-// Redeeming SY by burning PT only (post-expiry)
-IERC20(address(pt)).transfer(address(yt), amountPYOut); // send PT
+
+// --- Step 3b: Redeem SY by burning PT only (post-expiry) ---
+// After expiry, YT has no remaining value; only PT is required.
+IERC20(address(pt)).transfer(address(yt), amountPYOut); // send PT only
 uint256 amountSyOut = yt.redeemPY(receiver); // receive SY
 
 
-// Claiming accrued interest (in SY) and rewards (in reward tokens)
+// --- Step 4: Claim accrued interest (in SY) and rewards ---
 (uint256 interestOut, uint256[] memory rewardsOut) = yt.redeemDueInterestAndRewards(
     receiver,
     true,  // claim interest
