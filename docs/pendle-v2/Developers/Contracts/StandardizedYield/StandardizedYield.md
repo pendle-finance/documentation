@@ -91,31 +91,6 @@ Other SYs that are not 1-1 wrap of yieldToken:
 
 For aUSDT and aUSDC, similar considerations apply as for sDAI, scrvUSD, and gDAI. Value them directly in their underlying asset.
 
-## SY Adapters
-
-An SY Adapter is an optional contract that enhances the user experience by enabling **native minting and redemption** through the Pendle Router. Without an adapter, the Router must rely on DEX swaps to convert between a base token and the underlying yield-bearing token, which introduces price impact and fees. An adapter allows the Router to perform this conversion natively.
-
-**Example:** An adapter for SY-sUSDe can handle the conversion `USDC → USDe → sUSDe` directly, avoiding a DEX swap.
-
-### Architecture
-
-An adapter is a **separate contract** that can be plugged into an existing SY contract after deployment by calling `SY.setAdapter()`. This modular design means adapters can be added or updated without redeploying the SY or its associated market.
-
-### Required Functions
-
-A SY adapter must implement four key functions:
-
-| Function | Description |
-|---|---|
-| `convertToDeposit(address tokenIn, uint256 amount)` | Converts a deposit token to the SY's native mint token |
-| `convertToRedeem(address tokenOut, uint256 amount)` | Converts the SY's native redeem token to the desired output token |
-| `previewConvertToDeposit(address tokenIn, uint256 amount)` | Preview (estimate) the result of `convertToDeposit` |
-| `previewConvertToRedeem(address tokenOut, uint256 amount)` | Preview (estimate) the result of `convertToRedeem` |
-
-### Development
-
-Partners are responsible for writing, testing, and auditing their own adapters. For a comprehensive implementation guide, see [How to write a SY adapter](https://github.com/pendle-finance/pendle-core-v2-public) in the Pendle public repository.
-
 ## Extended StandardizedYield
 
 The following are _optional_ methods that a SY can have. They are not the standard methods, but they can help with calculation for better accuracy.
@@ -129,17 +104,48 @@ The following are _optional_ methods that a SY can have. They are not the standa
 function pricingInfo() external view returns (address refToken, bool refStrictlyEqual);
 ```
 
-This function contains information to describe recommended pricing method for this SY
-- `refToken` the token should be referred to when pricing this SY
-- `refStrictlyEqual` whether the price of SY is strictly equal to refToken
+This optional function describes the recommended pricing method for this SY:
+- `refToken`: the reference token to use when pricing this SY
+- `refStrictlyEqual`: whether `1 natural unit of SY == 1 natural unit of refToken`
 
-For pricing PT & YT of this SY, it's recommended that:
-- `refStrictlyEqual` = `true` : (1 natural unit of SY = 1 natural unit of refToken). `Use PYLpOracle.get{Token}ToSyRate()` and multiply with `refToken`'s according price.
-- `refStrictlyEqual` = `false`: use `PYLpOracle.get{Token}ToAssetRate()` and multiply with `refToken`'s according price.
+Not all SYs implement `pricingInfo()` — it is an optional extension defined in `IStandardizedYieldExtended`. For pricing PT & YT:
+- `refStrictlyEqual = true`: use `PYLpOracle.get{Token}ToSyRate()` and multiply by `refToken`'s price.
+  _Note: SY and refToken may have different decimals. See [Unit and Decimals](./UnitAndDecimals.md)._
+- `refStrictlyEqual = false`: use `PYLpOracle.get{Token}ToAssetRate()` and multiply by `refToken`'s price.
 
-Please see documentation about [unit and decimals](./UnitAndDecimals.md) on notes about decimals differences between PT/YT and the assets.
+Two common cases where `pricingInfo()` is overridden:
+
+#### Rebasing yield tokens
+
+Rebasing tokens (e.g. stETH, stHYPE) adjust holder balances on every rebase, so the SY's `exchangeRate` does **not** track 1:1 with the yield token in raw-unit terms. In this case `refStrictlyEqual = false`, signalling the asset-rate oracle path.
+
+[`PendleStakedHYPESY`](https://github.com/pendle-finance/pendle-sy-public/blob/main/contracts/core/StandardizedYield/implementations/PendleStakedHYPESY.sol):
+
+```solidity
+// yieldToken = stHYPE (rebasing)
+function pricingInfo() external view override returns (address refToken, bool refStrictlyEqual) {
+    return (yieldToken, false);
+}
+```
+
+#### Scaled18 SY
+
+For assets with fewer than 18 decimals (e.g. LBTC at 8 decimals), Pendle deploys a decimal-wrapping contract and a corresponding `Scaled18` SY. Because 1 natural unit of the SY equals 1 natural unit of the original (unscaled) token, `refStrictlyEqual = true` and the original token address is returned directly as `refToken`.
+
+[`PendleLBTCBaseSYScaled18`](https://github.com/pendle-finance/pendle-sy-public/blob/main/contracts/core/StandardizedYield/implementations/Lombard/PendleLBTCBaseSYScaled18.sol):
+
+```solidity
+address public constant LBTC = 0xecAc9C5F704e954931349Da37F60E39f515c11c1;
+
+// refToken = original LBTC (8 decimals), not the scaled18 wrapper
+function pricingInfo() external pure returns (address refToken, bool refStrictlyEqual) {
+    return (LBTC, true);
+}
+```
+
+Please see documentation about [unit and decimals](../UnitAndDecimals.md) on notes about decimals differences between PT/YT and the assets.
 
 :::tip
-It is also highly recommended to contact us for discussion on this type of token.
+It is highly recommended to contact the Pendle team for discussion when implementing `pricingInfo()` for a new token type.
 :::
 
