@@ -168,7 +168,7 @@ Claims interest and/or rewards for `user`. To claim only rewards, pass `redeemIn
 
 The reward update **must** happen before the interest transfer (since interest redemption changes reward shares). The contract enforces this ordering internally.
 
-See [YieldTokenization](./YieldTokenization/YieldTokenization) for the full API including interest redemption.
+See [YieldTokenization](../YieldTokenization/YieldTokenization) for the full API including interest redemption.
 
 ---
 

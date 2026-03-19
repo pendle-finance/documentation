@@ -355,4 +355,4 @@ this fact is important to remember.
 * The money market contracts will need to redeem these rewards by calling the `redeemRewards` function and implement logic to distribute these rewards to their users
 
 [Pendle Discord]: https://pendle.finance/discord
-[StandardizedYield docs]: ../Contracts/StandardizedYield.md
+[StandardizedYield docs]: ../Contracts/StandardizedYield/StandardizedYield.md

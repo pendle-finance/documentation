@@ -20,7 +20,7 @@ hide_table_of_contents: true
 ## Core Documentation
 
 - [High Level Architecture](./HighLevelArchitecture.md)
-- [StandardizedYield (SY)](./Contracts/StandardizedYield.md)
+- [StandardizedYield (SY)](./Contracts/StandardizedYield/StandardizedYield.md)
 - [Common Questions](./FAQ.md)
 
 ## Integration Guides
