@@ -52,9 +52,7 @@ Merkle proofs and `totalAccrued` values are available from the Pendle API. Query
 
 ## Functions
 
-### Claim / Verify
-
-#### `claim`
+### `claim`
 
 Verifies proofs and transfers the unclaimed delta for each token to `receiver` in one transaction.
 
@@ -82,7 +80,7 @@ function claim(
 - `receiver` can differ from `msg.sender` (useful for smart contract wallets)
 - Reverts with `InvalidMerkleProof` if any proof is invalid
 
-#### `verify`
+### `verify`
 
 Validates proofs and records the verified amounts **without transferring tokens**. Allows a third party (e.g. a relayer) to pre-verify a user's entitlement so the user can later call `claimVerified` without needing to supply proofs again.
 
@@ -108,7 +106,7 @@ function verify(
 
 Sets `verified[token][user] = totalAccrued` for each token. Does **not** transfer any tokens.
 
-#### `claimVerified`
+### `claimVerified`
 
 Transfers all previously verified but unclaimed amounts to `receiver`. No proof required — relies on a prior `verify` call.
 
@@ -130,9 +128,7 @@ function claimVerified(
 
 No-ops silently for tokens where nothing new has been verified.
 
-### View Functions
-
-#### `merkleRoot`
+### `merkleRoot`
 
 Returns the current Merkle root.
 
@@ -140,7 +136,7 @@ Returns the current Merkle root.
 function merkleRoot() external view returns (bytes32);
 ```
 
-#### `claimed`
+### `claimed`
 
 Returns the total amount already paid out to `user` for `token`.
 
@@ -148,7 +144,7 @@ Returns the total amount already paid out to `user` for `token`.
 function claimed(address token, address user) external view returns (uint256);
 ```
 
-#### `verified`
+### `verified`
 
 Returns the total amount verified (but not necessarily claimed) for `user` for `token`.
 
@@ -156,9 +152,7 @@ Returns the total amount verified (but not necessarily claimed) for `user` for `
 function verified(address token, address user) external view returns (uint256);
 ```
 
-### Admin
-
-#### `setMerkleRoot`
+### `setMerkleRoot`
 
 Updates the Merkle root. Called by the owner at the start of each new reward cycle after computing off-chain accruals.
 
@@ -233,10 +227,6 @@ await claimTx.wait();
 ```
 
 ## FAQ
-
-### How often is the Merkle root updated?
-
-The Merkle root is updated periodically by the protocol owner — typically once per reward cycle (weekly). The exact cadence depends on the reward program.
 
 ### Can I claim for another user?
 

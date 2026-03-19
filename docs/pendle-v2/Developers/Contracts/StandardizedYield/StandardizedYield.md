@@ -55,9 +55,7 @@ The asset address is a **best estimation** — it aims to enable rough on-chain 
 
 ## Functions
 
-### Mint / Redeem
-
-#### `deposit`
+### `deposit`
 
 Wraps `tokenIn` into SY and sends the minted shares to `receiver`.
 
@@ -88,7 +86,7 @@ SY wraps the underlying yield protocol, so minting/redeeming behavior varies by 
 The most reliable deposit token is the protocol's yield token itself, but hardcoding this is not recommended — always check `getTokensIn()`.
 :::
 
-#### `redeem`
+### `redeem`
 
 Burns SY shares and sends the underlying `tokenOut` to `receiver`.
 
@@ -112,7 +110,7 @@ function redeem(
 
 **Returns:** `amountTokenOut` — the amount of `tokenOut` received.
 
-#### `previewDeposit`
+### `previewDeposit`
 
 Estimates the amount of SY that would be minted for a given deposit. Best-effort approximation — **not audited for on-chain use**.
 
@@ -128,7 +126,7 @@ function previewDeposit(
 | `tokenIn` | `address` | Token to deposit |
 | `amountTokenToDeposit` | `uint256` | Amount to deposit |
 
-#### `previewRedeem`
+### `previewRedeem`
 
 Estimates the amount of `tokenOut` received for burning a given amount of SY. Best-effort approximation — **not audited for on-chain use**.
 
@@ -148,9 +146,7 @@ function previewRedeem(
 The underlying protocols often lack explicit preview functions. SY's `previewDeposit` and `previewRedeem` are best-effort approximations by the Pendle team. While verified through testing, they are **not audited** and should not be relied upon on-chain. Use them via `eth_call` / `staticCall` for off-chain estimation only.
 :::
 
-### Token Discovery
-
-#### `getTokensIn`
+### `getTokensIn`
 
 Returns all tokens that can be used to mint this SY.
 
@@ -158,7 +154,7 @@ Returns all tokens that can be used to mint this SY.
 function getTokensIn() external view returns (address[] memory res);
 ```
 
-#### `getTokensOut`
+### `getTokensOut`
 
 Returns all tokens that can be received when redeeming this SY.
 
@@ -166,9 +162,7 @@ Returns all tokens that can be received when redeeming this SY.
 function getTokensOut() external view returns (address[] memory res);
 ```
 
-### Exchange Rate and Asset Info
-
-#### `exchangeRate`
+### `exchangeRate`
 
 Returns the current exchange rate: how much asset 1 SY is worth (scaled by `1e18`).
 
@@ -176,7 +170,7 @@ Returns the current exchange rate: how much asset 1 SY is worth (scaled by `1e18
 function exchangeRate() external view returns (uint256 res);
 ```
 
-#### `assetInfo`
+### `assetInfo`
 
 Returns the asset type, address, and decimals that the SY appreciates against.
 
@@ -189,9 +183,7 @@ function assetInfo()
 
 See [Core Concepts — Asset Info and Pricing](#asset-info-and-pricing) above for field descriptions.
 
-### Rewards
-
-#### `claimRewards`
+### `claimRewards`
 
 Claims all accrued external protocol rewards for `user` and transfers them.
 
@@ -199,7 +191,7 @@ Claims all accrued external protocol rewards for `user` and transfers them.
 function claimRewards(address user) external returns (uint256[] memory rewardAmounts);
 ```
 
-#### `accruedRewards`
+### `accruedRewards`
 
 Returns the currently credited reward amounts for `user` **without** triggering a state update. To get the latest results, simulate `claimRewards(user)` via `eth_call` or `staticCall`.
 

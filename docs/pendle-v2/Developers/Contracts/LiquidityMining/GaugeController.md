@@ -59,9 +59,7 @@ Once `block.timestamp >= incentiveEndsAt`, accumulation stops and no further PEN
 
 ## Functions
 
-### Queries
-
-#### `rewardData`
+### `rewardData`
 
 Returns the raw on-chain reward state for a given market.
 
@@ -87,7 +85,7 @@ function rewardData(address market)
 `accumulatedPendle` reflects the settled balance as of the last update. Add the pending accumulation (formula above) to get the full current claimable amount.
 :::
 
-#### `isWhitelisted`
+### `isWhitelisted`
 
 Returns whether a market is eligible to receive PENDLE incentives.
 
@@ -101,9 +99,7 @@ function isWhitelisted(address market) external view returns (bool);
 
 Markets must be whitelisted before `setRewardDatas` can configure emissions for them.
 
-### Internal
-
-#### `redeemMarketReward`
+### `redeemMarketReward`
 
 Transfers all accumulated PENDLE to the calling market and resets `accumulatedPendle` to zero.
 
