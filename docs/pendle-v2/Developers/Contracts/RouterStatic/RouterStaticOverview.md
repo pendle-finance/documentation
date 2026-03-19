@@ -83,7 +83,7 @@ Returned by `getUserMarketInfo`. Contains LP balance, the underlying PT and SY v
 
 ### MarketState
 
-`MarketState` is the low-level AMM state struct returned by `getMarketState` and `readMarketState`. See [PendleMarket](../PendleMarket) for field-level documentation.
+`MarketState` is the low-level AMM state struct returned by `getMarketState` and `readMarketState`. See [PendleMarket](../PendleMarket/PendleMarket) for field-level documentation.
 
 ### ApproxParams
 

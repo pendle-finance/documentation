@@ -528,7 +528,7 @@ function readMarketState(address market) external view returns (MarketState memo
 
 | Type | Description |
 |------|-------------|
-| `MarketState` | Full AMM state (see [PendleMarket](../../PendleMarket) for field details) |
+| `MarketState` | Full AMM state (see [PendleMarket](../../PendleMarket/PendleMarket) for field details) |
 
 **Use Case**
 Use to pass a pre-fetched `MarketState` into `getTradeExchangeRateExcludeFee` or other functions that accept it as a parameter, avoiding redundant on-chain reads.

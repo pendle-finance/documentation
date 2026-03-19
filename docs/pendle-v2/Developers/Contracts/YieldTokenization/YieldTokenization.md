@@ -11,8 +11,8 @@ This guide explains how Pendle tokenizes yield by splitting assets into PT (Prin
 
 ## Key Concepts
 Yield tokenization takes a yield-bearing asset, then splits that value into two claims with a fixed expiry:
-- [PT (Principal Token)](../../ProtocolMechanics/YieldTokenization/PT): represents the principal of the underlying yield-bearing token.
-- [YT (Yield Token)](../../ProtocolMechanics/YieldTokenization/YT): represents entitlement to all yield, rewards, and points of the asset until expiry.
+- [PT (Principal Token)](../../../ProtocolMechanics/YieldTokenization/PT): represents the principal of the underlying yield-bearing token.
+- [YT (Yield Token)](../../../ProtocolMechanics/YieldTokenization/YT): represents entitlement to all yield, rewards, and points of the asset until expiry.
 
 Example: A user stakes 100 USDe in Ethena and, via Pendle, tokenizes it into 100 PT-USDe and 100 YT-USDe with a 3-month expiry. They can sell the YT-USDe to someone who wants the next three months of yield and points while keeping the PT-USDe to redeem the principal at maturity; assuming a 12% APY (~3% over three months), the position would accrue about 3 USDe - so at expiry the YT-USDe holder is entitled to ~3 USDe of accrued yield (plus any program points earned during that period), and the PT-USDe holder redeems the 100 USDe principal.
 
@@ -118,11 +118,11 @@ function redeemDueInterestAndRewards(
 ) external returns (uint256 interestOut, uint256[] memory rewardsOut);
 ```
 
-**Purpose:** Allows a YT holder to claim accrued earnings: interest (in SY) and any external reward tokens. Interest for YT is **always paid in SY**, but it can be swapped into your preferred token through the [router](./PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
+**Purpose:** Allows a YT holder to claim accrued earnings: interest (in SY) and any external reward tokens. Interest for YT is **always paid in SY**, but it can be swapped into your preferred token through the [router](../PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
 
 **Behavior notes:**
 
-* **Interest unit:** Always **SY**. If you want the underlying/base asset, unwrap or swap through the [router](./PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
+* **Interest unit:** Always **SY**. If you want the underlying/base asset, unwrap or swap through the [router](../PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
 * **Pre- vs post-expiry:**
 
   * Pre-expiry: interest and rewards continue accruing; this function pays whatever is due up to the call.
@@ -135,7 +135,7 @@ function redeemDueInterestAndRewards(
 * *Claim both:*
   User has accrued `2.5 SY` of interest and `[10 X, 0.3 Y]` rewards. Calling with `(true, true)` returns `(2.5, [10, 0.3])`, transfers those amounts, and resets baselines.
 * *Claim rewards only:*
-  Calling `(false, true)` transfers only rewards. Due interest remains in SY terms and continues to count toward reward-share until it’s eventually claimed or the user redeems PY.
+  Calling `(false, true)` transfers only rewards. Due interest remains in SY terms and continues to count toward reward-share until it's eventually claimed or the user redeems PY.
 
 
 ### `mintPYMulti`
@@ -207,7 +207,7 @@ function pyIndexCurrent() external returns (uint256 currentIndex);
 
     * Pre-expiry redemptions return **less SY per PY** until `SY.exchangeRate()` recovers above the stored index.
     * YT accrual effectively **pauses** (no new interest) until recovery.
-    * In sustained drawdowns, even PT’s eventual redemption (valued in the accounting asset) can be **less than previously expected** because the SY backing has shrunk. See [Negative Yield](../../ProtocolMechanics/NegativeYield).
+    * In sustained drawdowns, even PT's eventual redemption (valued in the accounting asset) can be **less than previously expected** because the SY backing has shrunk. See [Negative Yield](../../../ProtocolMechanics/NegativeYield).
 
 * **Examples:**
 
@@ -267,61 +267,6 @@ function getPostExpiryData()
 - `totalSyInterestForTreasury`: Accumulated SY interest accrued after expiry (goes to treasury, not users).
 - `firstRewardIndexes`: Per-reward-token indexes snapshotted at expiry.
 - `userRewardOwed`: Total unclaimed user reward balances at time of snapshot.
-
----
-
-## Yield Contract Factory
-
-**Contract:** [`PendleYieldContractFactoryUpg`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/YieldContracts/PendleYieldContractFactoryUpg.sol)
-
-The factory is the canonical registry for all Pendle PT/YT pairs. It deploys new yield contracts and tracks existing ones.
-
-### [`createYieldContract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/YieldContracts/PendleYieldContractFactoryUpg.sol#L108-L166)
-
-```solidity
-/**
- * @notice Create a pair of (PT, YT) from any SY and valid expiry.
- * Anyone can create a yield contract.
- */
-function createYieldContract(
-    address SY,
-    uint32 expiry,
-    bool doCacheIndexSameBlock
-) external returns (address PT, address YT);
-```
-
-**Parameters:**
-- `SY` — Address of the Standardized Yield token to tokenize.
-- `expiry` — Unix timestamp for the PT/YT expiry. Must be in the future and divisible by `expiryDivisor` (e.g., 86400 enforces day-boundary expirations).
-- `doCacheIndexSameBlock` — If `true`, the PY index updates at most once per block (gas optimization). This trades a small amount of real-time precision for reduced write costs on high-frequency blocks.
-
-**Notes:**
-- Anyone can call this — yield contract creation is permissionless.
-- Reverts if the `(SY, expiry)` pair already exists (`YCFactoryYieldContractExisted`).
-- Reverts if `expiry` is in the past or not divisible by `expiryDivisor` (`YCFactoryInvalidExpiry`).
-
-### Query Functions
-
-```solidity
-// Look up existing PT/YT addresses for a given SY and expiry
-mapping(address => mapping(uint256 => address)) public getPT;  // getPT[sy][expiry]
-mapping(address => mapping(uint256 => address)) public getYT;  // getYT[sy][expiry]
-
-// Validate whether an address is a Pendle-deployed PT or YT
-mapping(address => bool) public isPT;
-mapping(address => bool) public isYT;
-```
-
-**Usage:** Before creating a yield contract, check `getPT[sy][expiry]` — if it returns a non-zero address, the pair already exists and you should use that address directly.
-
-### Protocol Fee Parameters
-
-These are set by the factory owner and applied to all yield contracts at redemption time:
-
-- `interestFeeRate` — Fraction of YT interest sent to treasury (max 20%, expressed as a fixed-point number with 1e18 = 100%).
-- `rewardFeeRate` — Fraction of external reward tokens sent to treasury (max 20%).
-
-These are read-only from an integrator's perspective; they are deducted automatically on `redeemDueInterestAndRewards` calls.
 
 ---
 
@@ -385,9 +330,9 @@ uint256 amountSyOut = yt.redeemPY(receiver); // receive SY
 
 ## FAQ
 
-### When the underlying asset’s exchange rate increases, does Pendle buy more of the asset on the market and distribute it to YT holders?
+### When the underlying asset's exchange rate increases, does Pendle buy more of the asset on the market and distribute it to YT holders?
 
-No. Pendle’s accounting is **index-based**: yield accrues inside the **SY** balance held by the contracts as `exchangeRate` rises. **YT** holders are entitled to the yield portion of that **existing SY collateral** (paid in SY), while **PT** holders claim principal at/after maturity; users can then unwrap or swap SY to the base asset if they wish. No open-market purchases are required.
+No. Pendle's accounting is **index-based**: yield accrues inside the **SY** balance held by the contracts as `exchangeRate` rises. **YT** holders are entitled to the yield portion of that **existing SY collateral** (paid in SY), while **PT** holders claim principal at/after maturity; users can then unwrap or swap SY to the base asset if they wish. No open-market purchases are required.
 
 ### Is 1 SY always equal to 1 PT + 1 YT?
 

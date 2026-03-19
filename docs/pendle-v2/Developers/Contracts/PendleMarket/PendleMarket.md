@@ -219,7 +219,7 @@ function observe(uint32[] memory secondsAgos)
     returns (uint216[] memory lnImpliedRateCumulative);
 ```
 
-**Note:** Each element of `secondsAgos` is a lookback in seconds from the current block (e.g., `[300, 0]` = 5 minutes ago and now). Returns the cumulative `lnImpliedRate` at each point, from which a TWAP can be derived. See the [Oracle section](#oracle) below and [Introduction to PT Oracle](../Oracles/IntroductionOfPtOracle) for details.
+**Note:** Each element of `secondsAgos` is a lookback in seconds from the current block (e.g., `[300, 0]` = 5 minutes ago and now). Returns the cumulative `lnImpliedRate` at each point, from which a TWAP can be derived. See the [Oracle section](#oracle) below and [Introduction to PT Oracle](../../Oracles/IntroductionOfPtOracle) for details.
 
 ### [`getNonOverrideLnFeeRateRoot`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/PendleMarketV7.sol#L340-L342)
 Returns the base fee rate before any router-specific override.
@@ -387,83 +387,26 @@ $$
 
 where **lnImpliedRate** is the natural logarithm of the implied interest rate at the current market state, and **Δt** is the time elapsed.
 
-From these cumulative values, you can compute the **geometric mean price of PT** over a given interval (see [Introduction to PT Oracle](../Oracles/IntroductionOfPtOracle) for details).
+From these cumulative values, you can compute the **geometric mean price of PT** over a given interval (see [Introduction to PT Oracle](../../Oracles/IntroductionOfPtOracle) for details).
 
 ### Integration Guide
 
-See [How to Integrate PT and LP Oracles](../Oracles/HowToIntegratePtAndLpOracle) for implementation details.
-
-## Market Factory
-
-**Contract:** [`PendleMarketFactoryV7Upg`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/PendleMarketFactoryV7Upg.sol)
-
-The factory is the canonical registry for Pendle markets. It deploys new markets and manages protocol-wide fee configuration.
-
-### [`createNewMarket`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/PendleMarketFactoryV7Upg.sol#L70-L103)
-
-```solidity
-/**
- * @notice Create a market between PT and its corresponding SY with scalar & anchor config.
- * Anyone is allowed to create a market on their own.
- */
-function createNewMarket(
-    address PT,
-    int256 scalarRoot,
-    int256 initialAnchor,
-    uint80 lnFeeRateRoot
-) external returns (address market);
-```
-
-**Parameters:**
-- `PT` — Address of the Principal Token. Must be a valid PT registered by the yield contract factory and not yet expired.
-- `scalarRoot` — Capital efficiency vs. rate range trade-off. Higher values concentrate liquidity more tightly around the anchor rate, providing greater efficiency but a narrower tradeable range. Must be positive.
-- `initialAnchor` — The implied rate at which the market is most capital-efficient at launch. Should be set close to the expected current implied APY of the underlying asset. Must be ≥ 1 (expressed as a fixed-point number).
-- `lnFeeRateRoot` — Fee rate as a natural log value. Maximum is `ln(1.05) ≈ 0.0488`. Fee per swap scales with the interest rate impact of the trade.
-
-**Notes:**
-- Anyone can call this — market creation is permissionless.
-- Multiple markets for the same PT (with different `scalarRoot`, `initialAnchor`, or `lnFeeRateRoot`) are valid and can coexist.
-- Reverts if the exact combination of `(PT, scalarRoot, initialAnchor, lnFeeRateRoot)` already exists.
-
-### [`isValidMarket`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/PendleMarketFactoryV7Upg.sol#L115-L117)
-
-```solidity
-/// @dev for gas-efficient verification of market
-function isValidMarket(address market) external view returns (bool);
-```
-
-Returns `true` if the address was deployed by this factory. Use this to verify that a market address is a legitimate Pendle market before interacting with it.
-
-### [`getMarketConfig`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/PendleMarketFactoryV7Upg.sol#L105-L112)
-
-```solidity
-function getMarketConfig(address market, address router)
-    external
-    view
-    returns (
-        address treasury,
-        uint80 overriddenFee,
-        uint8 reserveFeePercent
-    );
-```
-
-Returns the protocol fee configuration for a given market and router combination. `overriddenFee == 0` means no override is active for that router (the market's base fee applies). This is called internally by `readState(router)` on every market interaction.
-
+See [How to Integrate PT and LP Oracles](../../Oracles/HowToIntegratePtAndLpOracle) for implementation details.
 
 ## FAQ
 
 ### Why is there no swapExactSy function?
 
-Unlike standard AMMs, Pendle's AMM only allows swapping exact PT in/out. Therefore, functions like `swapExactSyForPt` and `swapPtForExactSy` should generally be avoided. If necessary, use PendleRouter's `swapExactSyForPt` with approx parameters. Refer to the [PendleRouter documentation](./PendleRouter/ApiReference/PtFunctions#swapexactsyforpt) for details.
+Unlike standard AMMs, Pendle's AMM only allows swapping exact PT in/out. Therefore, functions like `swapExactSyForPt` and `swapPtForExactSy` should generally be avoided. If necessary, use PendleRouter's `swapExactSyForPt` with approx parameters. Refer to the [PendleRouter documentation](../PendleRouter/ApiReference/PtFunctions#swapexactsyforpt) for details.
 
 ### How can I trade YT tokens when the Market only contains PT and SY?
 
-YT tokens can be traded via [flash swaps](../../ProtocolMechanics/LiquidityEngines/AMM#flash-swaps). Use the PendleRouter's `swapExactTokenForYt` or `swapExactYtForToken` functions, which handle the necessary flash swap logic and token transfers. Refer to the [PendleRouter documentation](./PendleRouter/ApiReference/YtFunctions#swapexacttokenforyt) for details.
+YT tokens can be traded via [flash swaps](../../../ProtocolMechanics/LiquidityEngines/AMM#flash-swaps). Use the PendleRouter's `swapExactTokenForYt` or `swapExactYtForToken` functions, which handle the necessary flash swap logic and token transfers. Refer to the [PendleRouter documentation](../PendleRouter/ApiReference/YtFunctions#swapexacttokenforyt) for details.
 
 
 ### Why can't I swap PT after expiry?
 
-At expiry, PT can be redeemed for the underlying asset. Market-making no longer makes economic sense at this point and would enable circular arbitrage. To redeem PT post-expiry, use the [Router](./PendleRouter/ApiReference/LiquidityFunctions#removeliquiditysingletoken).
+At expiry, PT can be redeemed for the underlying asset. Market-making no longer makes economic sense at this point and would enable circular arbitrage. To redeem PT post-expiry, use the [Router](../PendleRouter/ApiReference/LiquidityFunctions#removeliquiditysingletoken).
 
 ### Should I use the Router or interact with the Market directly?
 

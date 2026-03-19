@@ -368,4 +368,4 @@ function deployCommonMarketById(
 ) external returns (PoolDeploymentAddrs memory);
 ```
 
-This deploys the SY (via `deployUpgradableSY`), then immediately calls `deploy5115MarketAndSeedLiquidity` to create the Pendle market and seed initial liquidity. See [Market Common Deploy](./MarketCommonDeploy.md) for full details on `PoolConfig` and the seeding flow.
+This deploys the SY (via `deployUpgradableSY`), then immediately calls `deploy5115MarketAndSeedLiquidity` to create the Pendle market and seed initial liquidity. See [Common Market Deployments](../PendleMarket/CommonMarketDeployments.md) for full details on `PoolConfig` and the seeding flow.
