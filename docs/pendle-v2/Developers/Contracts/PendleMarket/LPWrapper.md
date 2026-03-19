@@ -16,8 +16,6 @@ hide_table_of_contents: true
 
 **Exchange rate:** Always 1:1. `wrap` and `unwrap` involve no fees, slippage, or exchange rate.
 
----
-
 ## Finding a Wrapper
 
 Wrappers are deployed and tracked by `PendleLPWrapperFactory`. Look up the wrapper address for any LP token before interacting:
@@ -28,8 +26,6 @@ function wrappers(address LP) external view returns (address wrapper);
 ```
 
 Returns the wrapper address for the given LP token, or `address(0)` if no wrapper exists for it yet. Wrapper creation is owner-gated — contact the Pendle team to have one deployed for a new LP.
-
----
 
 ## Wrapping & Unwrapping
 
@@ -59,8 +55,6 @@ function LP() external view returns (address);
 
 Returns the address of the underlying Pendle LP token this wrapper is backed by.
 
----
-
 ## Reward Handling
 
 On every token transfer, the wrapper calls `IPMarket(LP).redeemRewards(address(this))` before updating balances. This snapshots accrued rewards into the wrapper contract itself rather than letting them accrue unevenly across holders.
@@ -81,8 +75,6 @@ function rewardReceiver() external view returns (address);
 
 **LP wrapper holders do not receive rewards directly.** Rewards are claimed by the designated `rewardReceiver` and later distributed to holders off-chain. Integrators building on top of the wrapper should be aware of this trade-off.
 
----
-
 ## Admin Functions
 
 ```solidity
@@ -101,8 +93,6 @@ function setRewardRedemptionDisabled(address _wrapper, bool _isRewardRedemptionD
 // PendleLPWrapper
 function isRewardRedemptionDisabled() external view returns (bool);
 ```
-
----
 
 ## Integration Notes
 

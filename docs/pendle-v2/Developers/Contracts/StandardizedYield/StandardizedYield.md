@@ -1,44 +1,266 @@
 ---
-
 hide_table_of_contents: true
-
 ---
 
 # StandardizedYield (SY)
 
+**Contract:** [`IStandardizedYield`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IStandardizedYield.sol)
+
 ## Overview
 
-SY is a wrapped version of an yieldToken that can also be staked into other protocols to earn even more interest. In the Pendle system, SY is used instead of the yieldToken for all operations, including trading on PendleMarket or minting Principal Tokens (PT) and Yield Tokens (YT).
+StandardizedYield (SY) is Pendle's **adapter layer** for heterogeneous yield-bearing tokens. Every yield source integrated into Pendle — whether it's Aave aTokens, Lido wstETH, or GMX GLP — is wrapped into an SY contract that exposes a uniform interface for depositing, redeeming, querying exchange rates, and claiming rewards.
 
-## Minting and Redeeming SY
+SY is the foundational token of the Pendle system. All other Pendle primitives build on top of it:
 
-SY can usually be minted using `tokenIn`, with some exceptions. Remember, SY simply wraps the underlying yield token. Minting SY essentially buys the underlying token. Consequently, minting/redeeming behavior varies based on the underlying protocol. Here are some examples of quirks:
+- **PT and YT** are minted by splitting SY (see [YieldTokenization](../YieldTokenization/YieldTokenization))
+- **PendleMarket** trades PT against SY
+- **PYLpOracle** prices PT, YT, and LP in SY or asset terms
 
-- **GLP**: While purchasable with ETH, USDC, USDT, UNI, etc., caps on ETH & USDC are frequently reached, preventing their use for GLP acquisition. Therefore, SY-GLP, despite offering these tokens as `tokenIn`, may not guarantee their use for minting.
-- **ankrBNB**: Requires a minimum mint amount of 0.1 BNB. Minting SY-ankrBNB with less than 0.1 BNB will revert. Similarly, ankrBNB can only be withdrawn to BNB through a quick withdrawal pool with sufficient liquidity. Redeeming SY-ankrBNB might occasionally fail.
-- **wstETH**: Allows minting by staking ETH, but not vice versa. Consequently, SY-wstETH's `getTokensIn` includes ETH, but `getTokensOut` does not.
+Integrators interact with SY when wrapping/unwrapping yield tokens, querying supported deposit/withdrawal tokens, reading exchange rates for pricing, or claiming external protocol rewards.
 
-The most reliable way to mint/redeem SY is by using the protocol's yield token. However, hardcoding this is not recommended.
+## Core Concepts
 
-## Preview Functions
+### Exchange Rate Model
 
-The underlying protocol often lacks an explicit function for previewing the amount of mintable/redeemable tokens. SY's preview function, a best effort by the Pendle team, approximates the actual mint/redeem results. While its correctness is verified through testing, it is not audited, and on-chain use is discouraged.
+Every SY has an **exchange rate** that represents how much of the underlying asset one unit of SY is worth:
 
-## Accrued Rewards Function
+```
+value_in_asset = amountSY × exchangeRate / 1e18
+```
 
-Similar to preview functions, the underlying protocol might not offer a way to preview a user's redeemable rewards. Therefore, SY's `accruedRewards` function only reflects accrued rewards for the user. To get the latest results, simulate `claimRewards(user)` through `eth_call` or `staticCall`.
+For appreciating yield tokens (e.g. wstETH, sDAI), the exchange rate increases over time as yield accrues. A 2× increase in exchange rate means 1 SY is now worth double the underlying asset.
 
-## Asset of SY / AssetInfo Function
+The exchange rate is central to:
+- **PT/YT pricing** — PT converges to `1 / exchangeRate` at expiry
+- **Oracle rates** — `PYLpOracle` uses this to convert between SY and asset denominations
+- **Reward share accounting** — YT reward shares are calculated using the SY exchange rate
 
-Pendle is a derivative protocol that integrates a wide range of underlying protocols, each with its own unique mechanism. SY acts as an adapter for these protocols, and hence SY's metadata standard (AssetInfo function, what SY is wrapping) is not consistent and doesn't follow a strict standard, though Pendle tries its best to make it so.
+### Asset Info and Pricing
 
-The AssetInfo function returns the asset that represents the best estimation of what asset SY appreciates against and aims to enable a rough estimation of SY's value on-chain. It's important to note that it's an estimation because more often than not the asset doesn't exist. The address may not be on the same chain as the SY. For example, SY-wstETH on Arbitrum appreciates against stETH, but stETH doesn't exist on Arbitrum, so we set the address to be stETH's address on Ethereum instead.
+`assetInfo()` returns metadata about what asset the SY appreciates against:
 
-SY's exchange rate represents how much asset a SY is worth. A 2x increase in the exchange rate means a SY is now worth double the amount of the underlying asset.
+```solidity
+(AssetType assetType, address assetAddress, uint8 assetDecimals) = sy.assetInfo();
+```
+
+| Field | Description |
+|-------|-------------|
+| `assetType` | `0` = TOKEN, `1` = LIQUIDITY |
+| `assetAddress` | The reference asset the SY appreciates against. May not exist on the current chain (e.g. stETH address on Ethereum returned for SY-wstETH on Arbitrum). |
+| `assetDecimals` | Decimal precision of the asset |
+
+:::note
+The asset address is a **best estimation** — it aims to enable rough on-chain valuation. For many SYs, a true 1:1 asset doesn't exist or isn't on the same chain.
+:::
+
+## Functions
+
+### Mint / Redeem
+
+#### `deposit`
+
+Wraps `tokenIn` into SY and sends the minted shares to `receiver`.
+
+```solidity
+function deposit(
+    address receiver,
+    address tokenIn,
+    uint256 amountTokenToDeposit,
+    uint256 minSharesOut
+) external payable returns (uint256 amountSharesOut);
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `receiver` | `address` | Address to receive the minted SY |
+| `tokenIn` | `address` | Token to deposit (must be in `getTokensIn()`) |
+| `amountTokenToDeposit` | `uint256` | Amount of `tokenIn` to deposit |
+| `minSharesOut` | `uint256` | Minimum SY to mint (reverts if output is less) |
+
+**Returns:** `amountSharesOut` — the amount of SY minted.
+
+:::note Minting quirks
+SY wraps the underlying yield protocol, so minting/redeeming behavior varies by protocol:
+- **GLP**: Caps on certain tokens (ETH, USDC) are frequently reached, preventing their use despite being listed in `getTokensIn()`
+- **ankrBNB**: Minimum mint of 0.1 BNB — smaller amounts revert. Redemption may fail if the quick-withdrawal pool lacks liquidity
+- **wstETH**: ETH is in `getTokensIn()` (stake ETH → wstETH), but not in `getTokensOut()` (no direct unstake)
+
+The most reliable deposit token is the protocol's yield token itself, but hardcoding this is not recommended — always check `getTokensIn()`.
+:::
+
+#### `redeem`
+
+Burns SY shares and sends the underlying `tokenOut` to `receiver`.
+
+```solidity
+function redeem(
+    address receiver,
+    uint256 amountSharesToRedeem,
+    address tokenOut,
+    uint256 minTokenOut,
+    bool burnFromInternalBalance
+) external returns (uint256 amountTokenOut);
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `receiver` | `address` | Address to receive the redeemed tokens |
+| `amountSharesToRedeem` | `uint256` | Amount of SY to burn |
+| `tokenOut` | `address` | Token to receive (must be in `getTokensOut()`) |
+| `minTokenOut` | `uint256` | Minimum output amount (reverts if less) |
+| `burnFromInternalBalance` | `bool` | If `true`, burns from SY transferred to the contract; if `false`, burns from `msg.sender`'s balance |
+
+**Returns:** `amountTokenOut` — the amount of `tokenOut` received.
+
+#### `previewDeposit`
+
+Estimates the amount of SY that would be minted for a given deposit. Best-effort approximation — **not audited for on-chain use**.
+
+```solidity
+function previewDeposit(
+    address tokenIn,
+    uint256 amountTokenToDeposit
+) external view returns (uint256 amountSharesOut);
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `tokenIn` | `address` | Token to deposit |
+| `amountTokenToDeposit` | `uint256` | Amount to deposit |
+
+#### `previewRedeem`
+
+Estimates the amount of `tokenOut` received for burning a given amount of SY. Best-effort approximation — **not audited for on-chain use**.
+
+```solidity
+function previewRedeem(
+    address tokenOut,
+    uint256 amountSharesToRedeem
+) external view returns (uint256 amountTokenOut);
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `tokenOut` | `address` | Token to receive |
+| `amountSharesToRedeem` | `uint256` | Amount of SY to burn |
+
+:::warning Preview functions — off-chain only
+The underlying protocols often lack explicit preview functions. SY's `previewDeposit` and `previewRedeem` are best-effort approximations by the Pendle team. While verified through testing, they are **not audited** and should not be relied upon on-chain. Use them via `eth_call` / `staticCall` for off-chain estimation only.
+:::
+
+### Token Discovery
+
+#### `getTokensIn`
+
+Returns all tokens that can be used to mint this SY.
+
+```solidity
+function getTokensIn() external view returns (address[] memory res);
+```
+
+#### `getTokensOut`
+
+Returns all tokens that can be received when redeeming this SY.
+
+```solidity
+function getTokensOut() external view returns (address[] memory res);
+```
+
+### Exchange Rate and Asset Info
+
+#### `exchangeRate`
+
+Returns the current exchange rate: how much asset 1 SY is worth (scaled by `1e18`).
+
+```solidity
+function exchangeRate() external view returns (uint256 res);
+```
+
+#### `assetInfo`
+
+Returns the asset type, address, and decimals that the SY appreciates against.
+
+```solidity
+function assetInfo()
+    external
+    view
+    returns (AssetType assetType, address assetAddress, uint8 assetDecimals);
+```
+
+See [Core Concepts — Asset Info and Pricing](#asset-info-and-pricing) above for field descriptions.
+
+### Rewards
+
+#### `claimRewards`
+
+Claims all accrued external protocol rewards for `user` and transfers them.
+
+```solidity
+function claimRewards(address user) external returns (uint256[] memory rewardAmounts);
+```
+
+#### `accruedRewards`
+
+Returns the currently credited reward amounts for `user` **without** triggering a state update. To get the latest results, simulate `claimRewards(user)` via `eth_call` or `staticCall`.
+
+```solidity
+function accruedRewards(address user) external view returns (uint256[] memory rewardAmounts);
+```
+
+:::note
+`accruedRewards` only reflects rewards credited as of the last on-chain interaction. It does **not** include rewards pending since the last block update. For accurate off-chain reads, simulate `claimRewards` instead.
+:::
+
+### Extended: `pricingInfo()`
+
+```solidity
+function pricingInfo() external view returns (address refToken, bool refStrictlyEqual);
+```
+
+This optional function (defined in `IStandardizedYieldExtended`) describes the recommended pricing method for this SY:
+
+| Return Value | Description |
+|--------------|-------------|
+| `refToken` | The reference token to use when pricing this SY |
+| `refStrictlyEqual` | Whether `1 natural unit of SY == 1 natural unit of refToken` |
+
+**How to use for pricing PT & YT:**
+- `refStrictlyEqual = true`: use `PYLpOracle.get{Token}ToSyRate()` and multiply by `refToken`'s price. _Note: SY and refToken may have different decimals — see [Unit and Decimals](../UnitAndDecimals)._
+- `refStrictlyEqual = false`: use `PYLpOracle.get{Token}ToAssetRate()` and multiply by `refToken`'s price.
+
+Not all SYs implement `pricingInfo()`. Two common cases where it is overridden:
+
+**Rebasing yield tokens** — Rebasing tokens (e.g. stETH, stHYPE) adjust holder balances on every rebase, so the SY's `exchangeRate` does not track 1:1 with the yield token in raw-unit terms. In this case `refStrictlyEqual = false`.
+
+```solidity
+// PendleStakedHYPESY — yieldToken = stHYPE (rebasing)
+function pricingInfo() external view override returns (address refToken, bool refStrictlyEqual) {
+    return (yieldToken, false);
+}
+```
+
+**Scaled18 SY** — For assets with fewer than 18 decimals (e.g. LBTC at 8 decimals), Pendle deploys a decimal-wrapping contract and a corresponding `Scaled18` SY. Because 1 natural unit of the SY equals 1 natural unit of the original token, `refStrictlyEqual = true`.
+
+```solidity
+// PendleLBTCBaseSYScaled18
+address public constant LBTC = 0xecAc9C5F704e954931349Da37F60E39f515c11c1;
+
+function pricingInfo() external pure returns (address refToken, bool refStrictlyEqual) {
+    return (LBTC, true);  // original LBTC (8 decimals), not the scaled18 wrapper
+}
+```
+
+:::tip
+If you're building a money market or lending protocol, check whether the SY implements `pricingInfo()` before choosing your oracle path. Contact the Pendle team for discussion when integrating a new token type.
+:::
+
+## Pricing Guide
+
+When pricing PT/YT/LP positions, the choice between `getPtToSy` and `getPtToAsset` depends on the SY type.
 
 ### Standard SYs
 
-Most SYs in Pendle are standard, 1-1 wrap of yieldToken. It's best to value PT/YT/LP by yieldToken (getPtToSy / getLpToSy). If not possible, value it by Asset but take into account the risk of not being able to withdraw from yieldToken to Asset (getPtToAsset / getLpToAsset). This is not to be considered an official security advisory in any way.
+Most SYs are a 1:1 wrap of the yield token. **Value PT/YT/LP by yield token** (`getPtToSy` / `getLpToSy`). If not possible, value by asset but account for the withdrawal risk from yield token to asset (`getPtToAsset` / `getLpToAsset`).
 
 | Market          | Recommended way to get price | Unit of price | yieldToken of SY (1-1 wrap) | Note                             | Asset of SY                      |
 | --------------- | ---------------------------- | ------------- | --------------------------- | -------------------------------- | -------------------------------- |
@@ -91,61 +313,29 @@ Other SYs that are not 1-1 wrap of yieldToken:
 
 For aUSDT and aUSDC, similar considerations apply as for sDAI, scrvUSD, and gDAI. Value them directly in their underlying asset.
 
-## Extended StandardizedYield
+## FAQ
 
-The following are _optional_ methods that a SY can have. They are not the standard methods, but they can help with calculation for better accuracy.
+### What does `exchangeRate()` represent?
 
-<!-- We might need to do documentation generation. -->
-<!-- Though this is an exception so it can be fine to include it here. -->
+It returns the amount of the underlying asset that 1 SY is worth, scaled by `1e18`. For example, if `exchangeRate()` returns `1.05e18`, then 1 SY = 1.05 units of the asset. The rate increases over time as yield accrues.
 
-### `pricingInfo()`
+### Why can't I always deposit with any token listed in `getTokensIn()`?
 
-```solidity
-function pricingInfo() external view returns (address refToken, bool refStrictlyEqual);
-```
+`getTokensIn()` lists tokens that the SY *can* accept, but the underlying protocol may have dynamic constraints — capacity caps (GLP), minimum amounts (ankrBNB), or liquidity limits — that cause deposits to revert at any given time. Always handle reverts gracefully.
 
-This optional function describes the recommended pricing method for this SY:
-- `refToken`: the reference token to use when pricing this SY
-- `refStrictlyEqual`: whether `1 natural unit of SY == 1 natural unit of refToken`
+### How do I price PT/YT if my SY is non-standard?
 
-Not all SYs implement `pricingInfo()` — it is an optional extension defined in `IStandardizedYieldExtended`. For pricing PT & YT:
-- `refStrictlyEqual = true`: use `PYLpOracle.get{Token}ToSyRate()` and multiply by `refToken`'s price.
-  _Note: SY and refToken may have different decimals. See [Unit and Decimals](./UnitAndDecimals.md)._
-- `refStrictlyEqual = false`: use `PYLpOracle.get{Token}ToAssetRate()` and multiply by `refToken`'s price.
+For non-standard SYs (not a 1:1 wrap of the yield token), use `getPtToAsset` / `getLpToAsset` instead of the SY-denominated variants. Check the [Pricing Guide](#pricing-guide) tables above. If the SY implements `pricingInfo()`, follow the `refStrictlyEqual` flag to choose the correct oracle path.
 
-Two common cases where `pricingInfo()` is overridden:
+### Should I use `getPtToSy` or `getPtToAsset`?
 
-#### Rebasing yield tokens
+Prefer `getPtToSy` for maximum trustlessness — the PT→SY rate is natively guaranteed by the Pendle AMM. Use `getPtToAsset` only when your protocol explicitly needs asset-denominated pricing and you understand the additional SY→asset conversion risk (exchange rate dependency, potential depegs). See [PYLpOracle](../Oracle/PYLpOracle) for details.
 
-Rebasing tokens (e.g. stETH, stHYPE) adjust holder balances on every rebase, so the SY's `exchangeRate` does **not** track 1:1 with the yield token in raw-unit terms. In this case `refStrictlyEqual = false`, signalling the asset-rate oracle path.
+## Further Reading
 
-[`PendleStakedHYPESY`](https://github.com/pendle-finance/pendle-sy-public/blob/main/contracts/core/StandardizedYield/implementations/PendleStakedHYPESY.sol):
-
-```solidity
-// yieldToken = stHYPE (rebasing)
-function pricingInfo() external view override returns (address refToken, bool refStrictlyEqual) {
-    return (yieldToken, false);
-}
-```
-
-#### Scaled18 SY
-
-For assets with fewer than 18 decimals (e.g. LBTC at 8 decimals), Pendle deploys a decimal-wrapping contract and a corresponding `Scaled18` SY. Because 1 natural unit of the SY equals 1 natural unit of the original (unscaled) token, `refStrictlyEqual = true` and the original token address is returned directly as `refToken`.
-
-[`PendleLBTCBaseSYScaled18`](https://github.com/pendle-finance/pendle-sy-public/blob/main/contracts/core/StandardizedYield/implementations/Lombard/PendleLBTCBaseSYScaled18.sol):
-
-```solidity
-address public constant LBTC = 0xecAc9C5F704e954931349Da37F60E39f515c11c1;
-
-// refToken = original LBTC (8 decimals), not the scaled18 wrapper
-function pricingInfo() external pure returns (address refToken, bool refStrictlyEqual) {
-    return (LBTC, true);
-}
-```
-
-Please see documentation about [unit and decimals](../UnitAndDecimals.md) on notes about decimals differences between PT/YT and the assets.
-
-:::tip
-It is highly recommended to contact the Pendle team for discussion when implementing `pricingInfo()` for a new token type.
-:::
-
+- [CommonSY](./CommonSY) — deployed SY addresses per chain
+- [DecimalsWrapper](./DecimalsWrapper) — how Pendle handles tokens with non-18 decimals
+- [Unit and Decimals](../UnitAndDecimals) — decimal handling across PT, YT, SY, and asset
+- [YieldTokenization](../YieldTokenization/YieldTokenization) — how SY is split into PT and YT
+- [PYLpOracle](../Oracle/PYLpOracle) — TWAP oracle for pricing PT, YT, and LP
+- [Rewards](../LiquidityMining/Rewards) — full reward accounting model for SY, YT, and LP holders

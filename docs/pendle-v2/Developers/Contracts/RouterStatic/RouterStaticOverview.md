@@ -4,6 +4,8 @@ hide_table_of_contents: true
 
 # RouterStatic Overview
 
+**Interface:** [`IPRouterStatic`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPRouterStatic.sol)
+
 :::info
 RouterStatic is designed for **off-chain simulation only** and should not be used for fund-sensitive or on-chain transactions. If you need to call any of these functions on-chain, please contact the Pendle team.
 :::

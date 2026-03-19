@@ -14,7 +14,7 @@ hide_table_of_contents: true
 
 The returned value is a **multiplier in 18 decimals**, not a USD price. It implements `IPChainlinkOracleEssential` and is cardinality-free (no ring-buffer setup required).
 
-For use cases and integration examples, see the [integration guide](../../../../Oracles/DeterministicOracles/LPLinearDiscountOracle.md).
+For use cases and integration examples, see the [integration guide](../../../Oracles/DeterministicOracles/LPLinearDiscountOracle.md).
 
 ---
 
@@ -36,7 +36,7 @@ function create(
 | `baseLpDiscountPerYear` | Annual discount slope in wad (`1e18 = 100%/year`) |
 | `lpMaturedPrice` | Target LP price at maturity in wad; must be `>= 1e18`. Set slightly above `1e18` to reflect SY yield accrued in the pool by maturity. |
 
-See [Choosing Linear Discount Parameters](../../../../Oracles/DeterministicOracles/ChoosingLinearDiscountParams.md) for guidance on selecting these values.
+See [Choosing Linear Discount Parameters](../../../Oracles/DeterministicOracles/ChoosingLinearDiscountParams.md) for guidance on selecting these values.
 
 :::warning No factory wrapper for LP
 
@@ -116,5 +116,5 @@ lpDiscount = timeLeft × baseLpDiscountPerYear / SECONDS_PER_YEAR
 
 - [`LinearDiscountOracleWrapper`](./LinearDiscountOracleWrapper.md) — applying the `updatedAt` wrapper manually
 - [Spark Linear Discount Oracle](./SparkLinearDiscountOracle.md) — deterministic pricing for PT tokens
-- [Choosing Linear Discount Parameters](../../../../Oracles/DeterministicOracles/ChoosingLinearDiscountParams.md) — guidance on selecting `baseLpDiscountPerYear` and `lpMaturedPrice`
-- [Integration Guide](../../../../Oracles/DeterministicOracles/LPLinearDiscountOracle.md) — use cases and integration walkthrough
+- [Choosing Linear Discount Parameters](../../../Oracles/DeterministicOracles/ChoosingLinearDiscountParams.md) — guidance on selecting `baseLpDiscountPerYear` and `lpMaturedPrice`
+- [Integration Guide](../../../Oracles/DeterministicOracles/LPLinearDiscountOracle.md) — use cases and integration walkthrough

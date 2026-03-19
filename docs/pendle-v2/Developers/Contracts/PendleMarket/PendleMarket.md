@@ -4,6 +4,8 @@ hide_table_of_contents: true
 
 # Pendle Market Smart Contracts
 
+**Contract:** [`PendleMarketV3`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol)
+
 ## Introduction
 
 Pendle Market is a specialized Automated Market Maker (AMM) pool designed for trading yields. Each market enables efficient trading between:

@@ -311,6 +311,6 @@ address oracleUsd = factory.createOracleWithQuote(
 ## Further Reading
 
 - [PendlePYLpOracle](./PYLpOracle.md) — the underlying TWAP oracle, including oracle initialization, `getOracleState`, and direct rate function specs
-- [How to Integrate PT and LP Oracle](../Oracles/HowToIntegratePtAndLpOracle.md) — step-by-step integration guide with runnable examples
-- [PT as Collateral — Risk Analysis](../Oracles/PTAsCollateral.md)
-- [LP as Collateral — Risk Analysis](../Oracles/LPAsCollateral.md)
+- [How to Integrate PT and LP Oracle](../../Oracles/HowToIntegratePtAndLpOracle.md) — step-by-step integration guide with runnable examples
+- [PT as Collateral — Risk Analysis](../../Oracles/PTAsCollateral.md)
+- [LP as Collateral — Risk Analysis](../../Oracles/LPAsCollateral.md)

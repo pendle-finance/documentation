@@ -134,4 +134,4 @@ Wraps an already-deployed `IPChainlinkOracleEssential`-compatible oracle in a ne
 
 - [Spark Linear Discount Oracle](./SparkLinearDiscountOracle.md) — full contract reference for the PT oracle
 - [LP Linear Discount Oracle](./LpLinearDiscountOracle.md) — full contract reference for the LP oracle
-- [Choosing Linear Discount Parameters](../../../../Oracles/DeterministicOracles/ChoosingLinearDiscountParams.md) — guidance on setting `baseDiscountPerYear`
+- [Choosing Linear Discount Parameters](../../../Oracles/DeterministicOracles/ChoosingLinearDiscountParams.md) — guidance on setting `baseDiscountPerYear`

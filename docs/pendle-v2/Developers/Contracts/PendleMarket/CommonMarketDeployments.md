@@ -21,8 +21,6 @@ There are two deployment paths depending on whether you are using a [Common SY](
 
 **Prerequisite:** Approve `tokenToSeedLiquidity` spending by `PendleCommonPoolDeployHelperV2` before calling. ETH is accepted natively.
 
----
-
 ## Path 1: Deploy Common Market
 
 Use this path when your asset fits one of the [pre-built Common SY types](../StandardizedYield/CommonSY.md). The helper deploys the SY for you alongside the market.
@@ -48,8 +46,6 @@ function deployCommonMarketById(
 
 Returns `PoolDeploymentAddrs { SY, PT, YT, market }`.
 
----
-
 ## Path 2: Deploy Normal Market
 
 Use this path when you have already deployed a custom SY (i.e., not a Common SY type) and want to create the PT/YT pair and market around it.
@@ -68,8 +64,6 @@ function deploy5115MarketAndSeedLiquidity(
 - `tokenToSeedLiquidity` / `amountToSeed` — token and amount for initial liquidity seeding
 
 This is callable by anyone (not owner-gated), making it suitable for permissionlessly listing a custom SY. Returns `PoolDeploymentAddrs { SY, PT, YT, market }`.
-
----
 
 ## `PoolConfig` Struct
 
@@ -90,8 +84,6 @@ struct PoolConfig {
 | `rateMax` | Maximum implied APR, 1e18-scaled (e.g., `0.30e18` = 30%) |
 | `desiredImpliedRate` | Target implied APR for seeding; must be between `rateMin` and `rateMax` |
 | `fee` | Swap fee, 1e18-scaled (e.g., `0.001e18` = 0.1%) |
-
----
 
 ## Further Reading
 

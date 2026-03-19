@@ -14,7 +14,7 @@ hide_table_of_contents: true
 
 The returned value is a **multiplier in 18 decimals**, not a USD price. It implements `IPChainlinkOracleEssential` and is cardinality-free (no ring-buffer setup required).
 
-For pricing formulas, use cases, and integration examples, see the [integration guide](../../../../Oracles/DeterministicOracles/LinearDiscountOracle.md).
+For pricing formulas, use cases, and integration examples, see the [integration guide](../../../Oracles/DeterministicOracles/LinearDiscountOracle.md).
 
 ---
 
@@ -28,7 +28,7 @@ For pricing formulas, use cases, and integration examples, see the [integration 
 | Post-expiry | Clamps to target price | PT → 1.0 exactly |
 | Setup | Deploy and go | Initialize cardinality, wait, then deploy |
 
-This oracle is best for newly listed markets or protocols that prefer a predictable, auditable pricing function over market-derived rates. See [Choosing Linear Discount Parameters](../../../../Oracles/DeterministicOracles/ChoosingLinearDiscountParams.md) for guidance on selecting `baseDiscountPerYear`.
+This oracle is best for newly listed markets or protocols that prefer a predictable, auditable pricing function over market-derived rates. See [Choosing Linear Discount Parameters](../../../Oracles/DeterministicOracles/ChoosingLinearDiscountParams.md) for guidance on selecting `baseDiscountPerYear`.
 
 ---
 
@@ -107,5 +107,5 @@ Returns the raw discount amount for a given `timeLeft` in seconds. The `answer` 
 
 - [`LinearDiscountOracleWrapper`](./LinearDiscountOracleWrapper.md) — when and how to apply the `updatedAt` wrapper
 - [LP Linear Discount Oracle](./LpLinearDiscountOracle.md) — deterministic pricing for LP tokens
-- [Choosing Linear Discount Parameters](../../../../Oracles/DeterministicOracles/ChoosingLinearDiscountParams.md) — guidance on selecting `baseDiscountPerYear`
-- [Integration Guide](../../../../Oracles/DeterministicOracles/LinearDiscountOracle.md) — pricing formulas, examples, and use cases
+- [Choosing Linear Discount Parameters](../../../Oracles/DeterministicOracles/ChoosingLinearDiscountParams.md) — guidance on selecting `baseDiscountPerYear`
+- [Integration Guide](../../../Oracles/DeterministicOracles/LinearDiscountOracle.md) — pricing formulas, examples, and use cases

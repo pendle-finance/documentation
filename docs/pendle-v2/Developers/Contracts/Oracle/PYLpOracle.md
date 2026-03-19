@@ -51,7 +51,7 @@ ytToAssetRate  = 1 - ptToAssetRate
 
 ### LP Pricing
 
-LP token pricing uses a **hypothetical-trade simulation**: the oracle calculates what the total pool asset value would be after a simulated rebalancing trade that prices all PT in the pool at the TWAP-implied rate. See [`IntroductionOfLpOracle`](../Oracles/IntroductionOfLpOracle.md) for the full derivation.
+LP token pricing uses a **hypothetical-trade simulation**: the oracle calculates what the total pool asset value would be after a simulated rebalancing trade that prices all PT in the pool at the TWAP-implied rate. See [`IntroductionOfLpOracle`](../../Oracles/IntroductionOfLpOracle.md) for the full derivation.
 
 ### SY Solvency Adjustment
 
@@ -302,9 +302,9 @@ For protocols that consume prices via the standard `AggregatorV3Interface`, see 
 
 ## Further Reading
 
-- [How to Integrate PT and LP Oracle](../Oracles/HowToIntegratePtAndLpOracle.md) — step-by-step integration guide with runnable examples
-- [Introduction of PT Oracle](../Oracles/IntroductionOfPtOracle.md) — TWAP math and cumulative rate derivation
-- [Introduction of LP Oracle](../Oracles/IntroductionOfLpOracle.md) — hypothetical-trade simulation methodology
-- [PT as Collateral — Risk Analysis](../Oracles/PTAsCollateral.md)
-- [LP as Collateral — Risk Analysis](../Oracles/LPAsCollateral.md)
+- [How to Integrate PT and LP Oracle](../../Oracles/HowToIntegratePtAndLpOracle.md) — step-by-step integration guide with runnable examples
+- [Introduction of PT Oracle](../../Oracles/IntroductionOfPtOracle.md) — TWAP math and cumulative rate derivation
+- [Introduction of LP Oracle](../../Oracles/IntroductionOfLpOracle.md) — hypothetical-trade simulation methodology
+- [PT as Collateral — Risk Analysis](../../Oracles/PTAsCollateral.md)
+- [LP as Collateral — Risk Analysis](../../Oracles/LPAsCollateral.md)
 - [Deployments](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments) — full list of deployed addresses per chain

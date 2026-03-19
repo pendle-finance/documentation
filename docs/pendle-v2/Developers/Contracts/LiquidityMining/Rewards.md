@@ -229,6 +229,10 @@ See [MerkleDistributor](./MerkleDistributor) for full documentation.
 
 The Pendle Router provides a convenience function to claim rewards across multiple SY, YT, and market positions in a single transaction:
 
+:::danger Important
+The code below is for illustration only. In production, always interact through the Pendle Router to ensure correct token approvals, slippage protection, and callback handling.
+:::
+
 ```solidity
 router.redeemDueInterestAndRewards(
     user,
@@ -238,7 +242,7 @@ router.redeemDueInterestAndRewards(
 );
 ```
 
-See [MiscFunctions — redeemDueInterestAndRewards](./PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewards) for full parameter documentation.
+See [MiscFunctions — redeemDueInterestAndRewards](../PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewards) for full parameter documentation.
 
 ### Example
 
