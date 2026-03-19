@@ -81,9 +81,33 @@ module.exports = {
           type: "category",
           label: "📜 Contracts",
           items: [
-            { type: "doc", id: "Developers/Contracts/StandardizedYield" },
-            { type: "doc", label: "Yield Tokenization", id: "Developers/Contracts/YieldTokenization"},
-            { type: "doc", label: "PendleMarket", id: "Developers/Contracts/PendleMarket"},
+            {
+              type: "category",
+              label: "StandardizedYield",
+              items: [
+                { type: "doc", id: "Developers/Contracts/StandardizedYield/StandardizedYield" },
+                { type: "doc", id: "Developers/Contracts/StandardizedYield/CommonSY", label: "Common SY Contracts" },
+                { type: "doc", id: "Developers/Contracts/StandardizedYield/DecimalsWrapper", label: "Decimals Wrapper" },
+              ],
+            },
+            {
+              type: "category",
+              label: "Yield Tokenization",
+              items: [
+                { type: "doc", label: "Yield Tokenization", id: "Developers/Contracts/YieldTokenization/YieldTokenization" },
+                { type: "doc", label: "Yield Contract Factory", id: "Developers/Contracts/YieldTokenization/YieldContractFactory" },
+              ],
+            },
+            {
+              type: "category",
+              label: "PendleMarket",
+              items: [
+                { type: "doc", label: "PendleMarket", id: "Developers/Contracts/PendleMarket/PendleMarket" },
+                { type: "doc", label: "Market Factory", id: "Developers/Contracts/PendleMarket/MarketFactory" },
+                { type: "doc", label: "Common Market Deployments", id: "Developers/Contracts/PendleMarket/CommonMarketDeployments" },
+                { type: "doc", label: "LP Wrapper", id: "Developers/Contracts/PendleMarket/LPWrapper" },
+              ],
+            },
             {
               type: "category",
               label: "PendleRouter",
@@ -102,8 +126,51 @@ module.exports = {
                     { type: "doc", id: "Developers/Contracts/PendleRouter/ApiReference/SimpleFunctions" },
                   ]
                 }
-                
               ],
+            },
+            {
+              type: "category",
+              label: "Liquidity Mining",
+              items: [
+                { type: "doc", label: "Rewards", id: "Developers/Contracts/LiquidityMining/Rewards" },
+                { type: "doc", label: "GaugeController", id: "Developers/Contracts/LiquidityMining/GaugeController" },
+                { type: "doc", label: "MerkleDistributor", id: "Developers/Contracts/LiquidityMining/MerkleDistributor" },
+              ],
+            },
+            {
+              type: "category",
+              label: "Oracles",
+              items: [
+                { type: "doc", id: "Developers/Contracts/Oracle/PYLpOracle", label: "PendlePYLpOracle" },
+                { type: "doc", id: "Developers/Contracts/Oracle/ChainlinkOracle", label: "Chainlink Oracle Wrappers" },
+                {
+                  type: "category",
+                  label: "Linear Discount Oracle",
+                  items: [
+                    { type: "doc", id: "Developers/Contracts/Oracle/LinearDiscountOracle/SparkLinearDiscountOracle", label: "Spark Linear Discount Oracle" },
+                    { type: "doc", id: "Developers/Contracts/Oracle/LinearDiscountOracle/LpLinearDiscountOracle", label: "LP Linear Discount Oracle" },
+                    { type: "doc", id: "Developers/Contracts/Oracle/LinearDiscountOracle/LinearDiscountOracleWrapper", label: "Oracle Wrapper" },
+                  ],
+                },
+              ],
+            },
+            {
+              type: "category",
+              label: "RouterStatic",
+              items: [
+                { type: "doc", id: "Developers/Contracts/RouterStatic/RouterStaticOverview" },
+                {
+                  type: "category",
+                  label: "API Reference",
+                  items: [
+                    { type: "doc", id: "Developers/Contracts/RouterStatic/ApiReference/InfoFunctions" },
+                    { type: "doc", id: "Developers/Contracts/RouterStatic/ApiReference/RateFunctions" },
+                    { type: "doc", id: "Developers/Contracts/RouterStatic/ApiReference/SwapFunctions" },
+                    { type: "doc", id: "Developers/Contracts/RouterStatic/ApiReference/LiquidityFunctions" },
+                    { type: "doc", id: "Developers/Contracts/RouterStatic/ApiReference/MintRedeemFunctions" },
+                  ]
+                }
+              ]
             },
             { type: "doc", id: "Developers/Contracts/sPENDLE" },
             { type: "doc", id: "Developers/Contracts/UnitAndDecimals" },
