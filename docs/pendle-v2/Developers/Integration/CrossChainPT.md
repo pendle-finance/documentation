@@ -121,7 +121,7 @@ To bootstrap the Liquidation AMM with initial liquidity:
 - **Rebalancing after liquidation events** — when liquidations consume AMM liquidity, the pool needs to be replenished to maintain liquidation capacity
 - **Flashloan-based liquidation flow** — liquidators can use flashloans to execute liquidations, selling the PT through the Discount Rate AMM and repaying the flashloan from the proceeds. After liquidation, the consumed liquidity should be replenished by the managing protocol
 
-### Liquidation bot
+### Liquidation Bot
 
 Pendle runs liquidation bot for this AMM to help with liquidation on Morpho.
 
