@@ -120,3 +120,9 @@ To bootstrap the Liquidation AMM with initial liquidity:
 - **Who manages it** — the protocol listing PT as collateral is responsible for ensuring adequate liquidation AMM liquidity on the spoke chain
 - **Rebalancing after liquidation events** — when liquidations consume AMM liquidity, the pool needs to be replenished to maintain liquidation capacity
 - **Flashloan-based liquidation flow** — liquidators can use flashloans to execute liquidations, selling the PT through the Discount Rate AMM and repaying the flashloan from the proceeds. After liquidation, the consumed liquidity should be replenished by the managing protocol
+
+### Liquidation bot
+
+Pendle runs liquidation bot for this AMM to help with liquidation on Morpho.
+
+Please reach out if you want Pendle to support the liquidation bot system for your market.
