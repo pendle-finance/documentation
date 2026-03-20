@@ -4,6 +4,13 @@ hide_table_of_contents: true
 
 # Cross-Chain PT
 
+## Terminology
+
+- Hub chain — the chain that the PT is originated from.
+- Spoke chain — the chain that the bridged PT is deployed onto.
+
+There is only 1 hub chain, but there can be multiple spoke chains. The terms "hub PT" and "spoke PT" are also used for the PT on the corresponding chain.
+
 ## 1. Why Cross-Chain PT?
 
 Cross-chain PT enables protocols and money markets on spoke chains to list Pendle PT assets while leveraging the deep liquidity of hub chain markets:
@@ -49,21 +56,56 @@ For programmatic or automated flows (e.g., liquidation bots), use the **pt-bridg
 
 ## 4. Risks of Cross-Chain PT in Money Markets
 
-Protocols listing cross-chain PT as collateral should be aware of the following risks:
+Protocols listing cross-chain PT as collateral should be aware of the following risks if the AMM on the <u>**hub chain**</u> is chosen for liquidation:
 
 - **PT price can decrease before maturity** — changes in the yield rate can cause PT price to drop, even though it converges to 1:1 at maturity
 - **Price drops may trigger liquidation** — if PT is used as collateral in a money market, a price decrease can push positions below the liquidation threshold
-- **Liquidation on spoke chains** — if AMM depth on the spoke chain is sufficient, Pendle will run the liquidation trigger flow automatically. If AMM depth is not enough, liquidators can use their own tokens to liquidate the position first, then use the [pt-bridger script](#using-pt-bridger-script-programmatic) to bridge the PT to the hub chain, sell it, and bridge proceeds back
+- **Bridging time** — there is a deplay to bridge PT and token back and fort, up to a few minutes. Liquidator is adviced to prepare their own tokens to liquidate the position first then use the [pt-bridger script](#using-pt-bridger-script-programmatic) to bridge the PT to the hub chain, sell it, and bridge proceeds back
 
 ## 5. Liquidation AMM
 
-To address the liquidation risk on spoke chains, Pendle provides a **Discount Rate AMM** — a specialized AMM designed to facilitate PT liquidations.
+To address the liquidation risk on spoke chains, Pendle provides a **FixedPricePTAMM**.
 
-### What is the Discount Rate AMM?
+- This AMM is deployed on **spoke chain**, enabling fast and direct liquidation with flash loan. There is no bridging deplay.
+- This AMM allows to swap PT to token with a **fixed** price, which is provided by a [Linear discount oracle](../Oracles/DeterministicOracles/LinearDiscountOracle.md). The price feed by this oracle is **deterministic**, and is **linearly** converged to 1 at PT's maturity. The convergence rate is called the _discounted rate_.
 
-The Discount Rate AMM is a mechanism deployed on spoke chains that provides liquidity specifically for PT liquidation scenarios. It enables liquidators to swap PT for the underlying asset at a discount.
+Because the AMM is **fast** and **deterministic**, it is suitable for the liquidation application on spoke chain. We also refer to this AMM as the liquidation AMM.
 
-### What is a Discount Rate and the Recommendation?
+Pendle can help deploy a **FixedPricePTAMM** with a Linear discount oracle of your **desired** _discounted rate_.
+
+### The Recommended Discounted Rate for the Oracle
+
+The oracle's _discounted rate_ is defined as the PT price **one year** before the PT's maturity (so it is also called the _annually discounted rate_).
+
+It is **recommended** to choose the discounted rate to satisfy the **suboptimal price** condition: the _discounted price_ should **always** be smaller than PT market price on hub chain.
+
+The _discounted rate_ can be derived from the maximum yield of the market on the hub chain with the following formula:
+
+$$
+\ln (1 + \textrm{max yield})
+$$
+
+For example, if the maximum yield of a market is 27%, the the recommended _discounted rate_ is $\ln(1 + 27\%) \approx 0.239 \approx 24\%$.
+
+This formula guarantees the above condition about the suboptimal price.
+
+The maximum yield of the market can be seen in the Specs section on Pendle DApp.
+
+:::note Example for the USDe 2025Sep market.
+
+| Click the spec button                                                       | Getting the yield range                                                           |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| ![image.png](/img/Oracles/ChoosingLinearDiscountParams/ui-market-specs.png) | ![image.png](/img/Oracles/ChoosingLinearDiscountParams/ui-market-yield-range.png) |
+
+Here the liquidity yield range is 5% - 27%. So the maximum yield is 27%.
+
+:::
+
+:::tip
+
+The specs page shows the maximum _possible_ yield that the market allows to trade. If the implied yield is low and is not likely to hit this maximum yield, lower _max yield_ can be chosen to increase the capital efficiency of the **FixedPricePTAMM**.
+
+:::
 
 ### How to Seed Liquidity
 
