@@ -4,6 +4,10 @@ hide_table_of_contents: true
 
 # Misc Functions
 
+:::caution Interface Stability
+Some functions on this page have interfaces that may change in the future. Check with the Pendle team before using in production.
+:::
+
 This document covers core functions for SY/PY operations, reward claiming, exit strategies, and utility functions in Pendle Router.
 
 ## SY Operations
@@ -227,10 +231,6 @@ Batch claim all rewards across multiple positions. This is the most gas-efficien
 
 ### redeemDueInterestAndRewardsV2
 
-:::caution Interface Stability
-This function's interface may change in the future. Check with the Pendle team before using in production.
-:::
-
 Advanced reward claiming with token swapping capabilities.
 
 ```solidity
@@ -267,10 +267,6 @@ Advanced reward claiming that can automatically swap reward tokens to desired to
 
 ### swapTokensToTokens
 
-:::caution Interface Stability
-This function's interface may change in the future. Check with the Pendle team before using in production.
-:::
-
 Performs multiple token-to-token swaps using external aggregators.
 
 ```solidity
@@ -299,10 +295,6 @@ function swapTokensToTokens(
 Batch multiple token swaps for gas efficiency.
 
 ### swapTokenToTokenViaSy
-
-:::caution Interface Stability
-This function's interface may change in the future. Check with the Pendle team before using in production.
-:::
 
 Swaps tokens using SY as an intermediate step.
 
@@ -449,10 +441,6 @@ Clean exit after maturity when PT tokens are worth face value. Much simpler than
 
 ### exitPostExpToSy
 
-:::caution Interface Stability
-This function's interface may change in the future. Check with the Pendle team before using in production.
-:::
-
 Position exit after market expiry, converting to SY tokens.
 
 ```solidity
@@ -528,7 +516,11 @@ Batch multiple operations for gas efficiency and atomic execution.
 
 ### simulate
 
-Simulates function execution without state changes.
+:::caution Off-chain use only
+`simulate` always reverts — it executes the call and surfaces the return data through a revert. It must be called via `eth_call` / `staticCall`, never as an on-chain transaction.
+:::
+
+Simulates function execution and returns the output data without committing state changes.
 
 ```solidity
 function simulate(address target, bytes calldata data) external payable
@@ -540,9 +532,6 @@ function simulate(address target, bytes calldata data) external payable
 |------|------|-------------|
 | target | `address` | Contract address to simulate |
 | data | `bytes` | Encoded function call data |
-
-**Use Case**
-Test function execution and get return values without actually executing the transaction.
 
 ## Integration Examples
 

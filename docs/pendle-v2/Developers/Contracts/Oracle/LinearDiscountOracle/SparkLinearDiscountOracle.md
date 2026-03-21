@@ -20,15 +20,16 @@ For pricing formulas, use cases, and integration examples, see the [integration 
 
 ## Should I use this oracle?
 
-| Consideration | Deterministic (this oracle) | TWAP ([`PendlePYLpOracle`](../PYLpOracle.md)) |
-|---|---|---|
-| Market maturity requirement | None — works on day 1 | Requires cardinality initialization + waiting `duration` seconds |
-| Manipulation resistance | Fully manipulation-proof (no on-chain market data used) | Resistant proportional to TWAP duration |
-| Price accuracy | Conservative by design — tracks a fixed discount slope | Tracks actual market-implied rate |
-| Post-expiry | Clamps to target price | PT → 1.0 exactly |
-| Setup | Deploy and go | Initialize cardinality, wait, then deploy |
+**Use this oracle if:**
+- The market is newly listed and has no TWAP history yet
+- Your protocol requires a manipulation-proof, fully deterministic price feed
+- You prefer a predictable, auditable pricing function over market-derived rates
 
-This oracle is best for newly listed markets or protocols that prefer a predictable, auditable pricing function over market-derived rates. See [Choosing Linear Discount Parameters](../../../Oracles/DeterministicOracles/ChoosingLinearDiscountParams.md) for guidance on selecting `baseDiscountPerYear`.
+**Use [`PendlePYLpOracle`](../PYLpOracle.md) instead if:**
+- The market is established and has sufficient TWAP cardinality
+- You need prices that track the actual market-implied rate
+
+See [Choosing Linear Discount Parameters](../../../Oracles/DeterministicOracles/ChoosingLinearDiscountParams.md) for guidance on selecting `baseDiscountPerYear`.
 
 ---
 
@@ -46,13 +47,11 @@ function createWithMarket(address market, uint256 baseDiscountPerYear) external 
 
 Emits `OracleCreated(address indexed pt, uint256 baseDiscountPerYear, address oracle)`.
 
-:::tip Does your protocol check `updatedAt` staleness?
+## `updatedAt` Staleness Compatibility
 
-Most lending protocols reject feeds where `block.timestamp - updatedAt` exceeds a threshold. This oracle always returns `updatedAt = 0` (it is stateless — price is computed live from `block.timestamp`).
+Most lending protocols reject feeds where `block.timestamp - updatedAt` exceeds a threshold. This oracle always returns `updatedAt = 0` — it is stateless and computes the price live from `block.timestamp`, so it is never stale by design.
 
-Use `PendleSparkLinearDiscountOracleFactoryWrapper` instead — it deploys and wraps the oracle in one step, returning `updatedAt = block.timestamp`. Find it under `"sparkLinearDiscountOracleFactoryWrapper"` in deployments. See [`LinearDiscountOracleWrapper`](./LinearDiscountOracleWrapper.md) for details.
-
-:::
+If your protocol enforces a staleness check, use `PendleSparkLinearDiscountOracleFactoryWrapper` instead — it deploys and wraps the oracle in one step, returning `updatedAt = block.timestamp`. Find it under `"sparkLinearDiscountOracleFactoryWrapper"` in deployments. See [`LinearDiscountOracleWrapper`](./LinearDiscountOracleWrapper.md) for details.
 
 ---
 
@@ -85,7 +84,7 @@ function decimals() external pure returns (uint8);   // returns 18
 
 ## Contract Reference
 
-### Immutable Variables
+### Public Variables
 
 | Variable | Type | Description |
 |---|---|---|

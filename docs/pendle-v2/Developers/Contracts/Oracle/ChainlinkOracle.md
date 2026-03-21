@@ -10,11 +10,9 @@ Pendle provides a set of Chainlink-compatible oracle contracts that wrap `Pendle
 
 **Contracts covered here:**
 
-| Contract | Role |
-|---|---|
-| `PendleChainlinkOracle` | Immutable per-market wrapper; returns PT or LP price in SY or asset |
-| `PendleChainlinkOracleWithQuote` | Extends the base wrapper; multiplies the Pendle rate by an external quote feed |
-| `PendleChainlinkOracleFactory` | Permissionless factory; deploys and registers both oracle variants |
+- **`PendleChainlinkOracle`** — Immutable per-market wrapper; returns PT or LP price in SY or asset
+- **`PendleChainlinkOracleWithQuote`** — Extends the base wrapper; multiplies the Pendle rate by an external quote feed
+- **`PendleChainlinkOracleFactory`** — Permissionless factory; deploys and registers both oracle variants
 
 **Sources:**
 - [`PendleChainlinkOracle.sol`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/oracles/PtYtLpOracle/chainlink/PendleChainlinkOracle.sol)
@@ -93,7 +91,7 @@ function latestRoundData()
 **`answer` semantics:**
 > 1 natural unit of the Pendle token = `answer / 1e18` natural units of the output token.
 
-In other words, `10^(PendleToken.decimals) raw units` of the input token is worth `(answer / 1e18) × 10^(outputToken.decimals) raw units` of the output token.
+In other words, `10^(PendleToken.decimals) raw units` of the input token is worth `(answer / 1e18) × 10^(outputToken.decimals) raw units` of the output token. See [Unit and Decimals](/pendle-v2/Developers/Contracts/UnitAndDecimals) for full decimal and scaling conventions.
 
 **Examples:**
 - `baseOracleType = PT_TO_SY`, `answer = 0.95e18` → 1 PT = 0.95 SY (in human/natural units)

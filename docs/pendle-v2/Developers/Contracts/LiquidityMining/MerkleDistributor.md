@@ -48,7 +48,7 @@ The contract verifies the proof, then transfers `totalAccrued - claimed[token][u
 
 ### Where to Get Merkle Proofs
 
-Merkle proofs and `totalAccrued` values are available from the Pendle API. Query the API with the user's address to get the proof data needed for the `claim` call.
+Merkle proofs and `totalAccrued` values are available from the Pendle API. Query the API with the user's address to get the proof data needed for the `claim` call. See the [BFF API](../../Backend/ApiOverview#bff-api--httpsapi-v2pendlefinancebff) for endpoint details.
 
 ## Functions
 

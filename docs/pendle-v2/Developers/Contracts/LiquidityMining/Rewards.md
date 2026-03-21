@@ -78,45 +78,73 @@ SY calculates reward indexes locally: it tracks the raw token balance of each re
 
 Each SY holder's reward share equals their SY token balance. Total shares = total SY supply.
 
-### `getRewardTokens() → address[]`
+### `getRewardTokens`
 
 Returns the list of external reward tokens that this SY distributes.
 
 ```solidity
-address[] memory tokens = sy.getRewardTokens();
+function getRewardTokens() external view returns (address[] memory tokens);
 ```
 
-### `accruedRewards(address user) → uint256[]`
+| Return Value | Type | Description |
+|--------------|------|-------------|
+| `tokens` | `address[]` | List of reward token addresses |
 
-View function. Returns the amount of each reward token currently credited to `user` without triggering a state change. Returns `userReward[token][user].accrued` for each token — does **not** include rewards pending since the last block update.
+### `accruedRewards`
+
+View function. Returns the amount of each reward token currently credited to `user` without triggering a state change. Does **not** include rewards pending since the last block update.
 
 ```solidity
-uint256[] memory amounts = sy.accruedRewards(user);
+function accruedRewards(address user) external view returns (uint256[] memory amounts);
 ```
 
-### `rewardIndexesCurrent() → uint256[]`
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `user` | `address` | The user address |
+
+| Return Value | Type | Description |
+|--------------|------|-------------|
+| `amounts` | `uint256[]` | Accrued reward amounts, one per `getRewardTokens()` entry |
+
+### `rewardIndexesCurrent`
 
 Updates reward indexes for the current block and returns them. State-changing.
 
 ```solidity
-uint256[] memory indexes = sy.rewardIndexesCurrent();
+function rewardIndexesCurrent() external returns (uint256[] memory indexes);
 ```
 
-### `rewardIndexesStored() → uint256[]`
+| Return Value | Type | Description |
+|--------------|------|-------------|
+| `indexes` | `uint256[]` | Current reward indexes, one per `getRewardTokens()` entry |
+
+### `rewardIndexesStored`
 
 View function. Returns the cached reward indexes without triggering an update.
 
 ```solidity
-uint256[] memory indexes = sy.rewardIndexesStored();
+function rewardIndexesStored() external view returns (uint256[] memory indexes);
 ```
 
-### `claimRewards(address user) → uint256[]`
+| Return Value | Type | Description |
+|--------------|------|-------------|
+| `indexes` | `uint256[]` | Stored reward indexes, one per `getRewardTokens()` entry |
+
+### `claimRewards`
 
 Updates the global index, credits the user's accrued rewards, and transfers them to `user`.
 
 ```solidity
-uint256[] memory rewardAmounts = sy.claimRewards(user);
+function claimRewards(address user) external returns (uint256[] memory rewardAmounts);
 ```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `user` | `address` | The user to claim rewards for |
+
+| Return Value | Type | Description |
+|--------------|------|-------------|
+| `rewardAmounts` | `uint256[]` | Amounts transferred, one per `getRewardTokens()` entry |
 
 ---
 
@@ -149,22 +177,40 @@ When a YT expires, `_setPostExpiryData()` snapshots the reward indexes at the mo
 
 A `rewardFeeRate` (set by `IPYieldContractFactory`, max 20%) is deducted from rewards before transfer. The fee amount is sent to the treasury.
 
-### `getRewardTokens() → address[]`
+### `getRewardTokens`
 
 Delegates to `SY.getRewardTokens()`.
 
 ```solidity
-address[] memory tokens = yt.getRewardTokens();
+function getRewardTokens() external view returns (address[] memory tokens);
 ```
 
-### `redeemDueInterestAndRewards(address user, bool redeemInterest, bool redeemRewards) → (uint256 interestOut, uint256[] rewardsOut)`
+| Return Value | Type | Description |
+|--------------|------|-------------|
+| `tokens` | `address[]` | List of reward token addresses |
+
+### `redeemDueInterestAndRewards`
 
 Claims interest and/or rewards for `user`. To claim only rewards, pass `redeemInterest = false, redeemRewards = true`.
 
 ```solidity
-(uint256 interestOut, uint256[] memory rewardsOut) =
-    yt.redeemDueInterestAndRewards(user, false, true);
+function redeemDueInterestAndRewards(
+    address user,
+    bool redeemInterest,
+    bool redeemRewards
+) external returns (uint256 interestOut, uint256[] memory rewardsOut);
 ```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `user` | `address` | The user to claim for |
+| `redeemInterest` | `bool` | Whether to claim accrued interest |
+| `redeemRewards` | `bool` | Whether to claim accrued rewards |
+
+| Return Value | Type | Description |
+|--------------|------|-------------|
+| `interestOut` | `uint256` | Interest amount transferred (0 if `redeemInterest = false`) |
+| `rewardsOut` | `uint256[]` | Reward amounts transferred, one per `getRewardTokens()` entry |
 
 The reward update **must** happen before the interest transfer (since interest redemption changes reward shares). The contract enforces this ordering internally.
 
@@ -196,22 +242,33 @@ function _redeemExternalReward() internal override {
 }
 ```
 
-### `getRewardTokens() → address[]`
+### `getRewardTokens`
 
 Returns the SY's reward tokens with PENDLE appended (if not already present).
 
 ```solidity
-address[] memory tokens = market.getRewardTokens();
-// returns [...SY reward tokens, PENDLE]
+function getRewardTokens() external view returns (address[] memory tokens);
 ```
 
-### `redeemRewards(address user) → uint256[]`
+| Return Value | Type | Description |
+|--------------|------|-------------|
+| `tokens` | `address[]` | List of reward token addresses ([...SY reward tokens, PENDLE]) |
+
+### `redeemRewards`
 
 Updates the global reward index, credits the user, and transfers all accumulated rewards to `user`.
 
 ```solidity
-uint256[] memory rewardAmounts = market.redeemRewards(user);
+function redeemRewards(address user) external returns (uint256[] memory rewardAmounts);
 ```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `user` | `address` | The user to claim rewards for |
+
+| Return Value | Type | Description |
+|--------------|------|-------------|
+| `rewardAmounts` | `uint256[]` | Amounts transferred, one per `getRewardTokens()` entry |
 
 ---
 
@@ -227,7 +284,7 @@ See [MerkleDistributor](./MerkleDistributor) for full documentation.
 
 ## Batch Claiming via Router
 
-The Pendle Router provides a convenience function to claim rewards across multiple SY, YT, and market positions in a single transaction:
+The Pendle Router provides a convenience function to claim rewards across multiple SY, YT, and market positions in a single transaction. For a higher-level interface that handles routing complexity for you, see the [Hosted SDK](../../Backend/HostedSdk).
 
 :::danger Important
 The code below is for illustration only. In production, always interact through the Pendle Router to ensure correct token approvals, slippage protection, and callback handling.

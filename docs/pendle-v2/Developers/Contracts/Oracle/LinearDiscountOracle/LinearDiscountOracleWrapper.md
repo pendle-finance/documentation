@@ -20,11 +20,11 @@ The wrapper solves this by forwarding all fields from the inner oracle unchanged
 
 ## When to Use the Wrapper
 
-| Scenario | What to deploy |
-|---|---|
-| Protocol does **not** check `updatedAt` staleness | Deploy `PendleSparkLinearDiscountOracle` directly via `PendleSparkLinearDiscountOracleFactory` |
-| Protocol **does** check `updatedAt` staleness (most lending protocols) | Deploy via `PendleSparkLinearDiscountOracleFactoryWrapper` — the wrapper always returns `updatedAt = block.timestamp` |
-| You already have a bare oracle and need to add the wrapper | Call `PendleSparkLinearDiscountOracleFactoryWrapper.wrap(existingOracle)` |
+**Does your protocol check `updatedAt` staleness?**
+
+- **No** — Deploy `PendleSparkLinearDiscountOracle` directly via `PendleSparkLinearDiscountOracleFactory`.
+- **Yes** (most lending protocols) — Deploy via `PendleSparkLinearDiscountOracleFactoryWrapper`. The wrapper always returns `updatedAt = block.timestamp`, satisfying any staleness threshold.
+- **You already have a bare oracle** — Call `PendleSparkLinearDiscountOracleFactoryWrapper.wrap(existingOracle)` to add the wrapper without redeploying.
 
 :::note LP oracle has no factory wrapper
 

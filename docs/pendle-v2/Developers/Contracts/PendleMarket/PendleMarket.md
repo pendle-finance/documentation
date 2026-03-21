@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 # Pendle Market Smart Contracts
 
-**Contract:** [`PendleMarketV3`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol)
+**Contract:** [`PendleMarketV7`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/PendleMarketV7.sol)
 
 ## Introduction
 

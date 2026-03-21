@@ -341,7 +341,7 @@ Deploys an implementation contract and wraps it in a `TransparentUpgradeableProx
 
 ### Registered Type IDs
 
-These are the `bytes32 id` values registered in the factory for each common SY type:
+These are the `bytes32 id` values registered in the factory for each common SY type. Each `bytes32` value is the `keccak256` hash of the corresponding ID string.
 
 | SY Type | ID string | `bytes32` value |
 |---|---|---|

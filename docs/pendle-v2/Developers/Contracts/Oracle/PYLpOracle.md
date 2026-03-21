@@ -6,15 +6,11 @@ hide_table_of_contents: true
 
 ## Overview
 
-`PendlePYLpOracle` is the canonical on-chain price oracle for Pendle's PT, YT, and LP tokens. It reads from the TWAP observation ring buffer stored inside each `PendleMarket` contract and exposes six rate functions denominated in either the market's underlying **asset** or its **SY** token.
+`PendlePYLpOracle` is the canonical on-chain TWAP price oracle for Pendle's PT, YT, and LP tokens, modelled after the UniswapV3 oracle design.
 
 > All rates are expressed as `1e18`-scaled fixed-point numbers. A return value of `0.95e18` means 1 unit of the queried token is worth 0.95 units of the denominator token.
 
-The contract is deployed to the **same address on every supported network**:
-
-| Contract | Address |
-|---|---|
-| `PendlePYLpOracle` | [`0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2`](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments) |
+The contract is deployed to the same address on every supported network. Find it under `"pendlePYLpOracle"` in the [Deployments on GitHub](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments).
 
 **Interface**: [`IPPYLpOracle`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/interfaces/IPPYLpOracle.sol)
 **Source**: [`PendlePYLpOracle.sol`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/oracles/PtYtLpOracle/PendlePYLpOracle.sol)

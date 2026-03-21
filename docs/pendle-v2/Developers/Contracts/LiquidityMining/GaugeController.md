@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 # GaugeController
 
-**Contract:** [`PendleGaugeControllerUpg`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/LiquidityMining/PendleGaugeControllerUpg.sol)
+**Contract:** [`PendleGaugeControllerUpg`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/LiquidityMining/GaugeController/PendleGaugeControllerUpg.sol)
 
 ## Overview
 
@@ -21,7 +21,7 @@ GaugeController handles **PENDLE incentives only**. SY-native external rewards (
 - **Verifying market eligibility** — call `isWhitelisted(market)` to check if a market receives PENDLE incentives
 
 :::note
-You do **not** call `redeemMarketReward()` directly. It is called internally by the market contract when users interact with rewards. To claim PENDLE incentives as an LP holder, call `redeemRewards(user)` on the [PendleMarket](../PendleMarket/PendleMarket) contract.
+To claim PENDLE incentives as an LP holder, call `redeemRewards(user)` on the [PendleMarket](../PendleMarket/PendleMarket) contract.
 :::
 
 ## Core Concepts
@@ -107,7 +107,7 @@ Transfers all accumulated PENDLE to the calling market and resets `accumulatedPe
 function redeemMarketReward() external;
 ```
 
-This function is called internally by the market contract (`PendleGauge._redeemExternalReward`) on every reward interaction. **Users and integrators do not call this directly** — it is automatically triggered when users call `redeemRewards` on a market.
+This function is called internally by the market contract (`PendleGauge._redeemExternalReward`) on every reward interaction. **Users and integrators do not need to call this directly** — it is automatically triggered when users call `redeemRewards` on a market.
 
 ## Integration Examples
 

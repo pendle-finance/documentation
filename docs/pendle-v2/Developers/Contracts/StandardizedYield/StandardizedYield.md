@@ -12,7 +12,7 @@ StandardizedYield (SY) is Pendle's **adapter layer** for heterogeneous yield-bea
 
 SY is the foundational token of the Pendle system. All other Pendle primitives build on top of it:
 
-- **PT and YT** are minted by splitting SY (see [YieldTokenization](../YieldTokenization/YieldTokenization))
+- **PT and YT** are minted by splitting SY (see [YieldTokenization](/pendle-v2/Developers/Contracts/YieldTokenization))
 - **PendleMarket** trades PT against SY
 - **PYLpOracle** prices PT, YT, and LP in SY or asset terms
 
@@ -164,7 +164,7 @@ function getTokensOut() external view returns (address[] memory res);
 
 ### `exchangeRate`
 
-Returns the current exchange rate: how much asset 1 SY is worth (scaled by `1e18`).
+Returns the current exchange rate: how much asset 1 SY is worth (scaled by `1e18`). See [Unit and Decimals](/pendle-v2/Developers/Contracts/UnitAndDecimals) for decimal handling details.
 
 ```solidity
 function exchangeRate() external view returns (uint256 res);
@@ -217,7 +217,7 @@ This optional function (defined in `IStandardizedYieldExtended`) describes the r
 | `refStrictlyEqual` | Whether `1 natural unit of SY == 1 natural unit of refToken` |
 
 **How to use for pricing PT & YT:**
-- `refStrictlyEqual = true`: use `PYLpOracle.get{Token}ToSyRate()` and multiply by `refToken`'s price. _Note: SY and refToken may have different decimals — see [Unit and Decimals](../UnitAndDecimals)._
+- `refStrictlyEqual = true`: use `PYLpOracle.get{Token}ToSyRate()` and multiply by `refToken`'s price. _Note: SY and refToken may have different decimals — see [Unit and Decimals](/pendle-v2/Developers/Contracts/UnitAndDecimals)._
 - `refStrictlyEqual = false`: use `PYLpOracle.get{Token}ToAssetRate()` and multiply by `refToken`'s price.
 
 Not all SYs implement `pricingInfo()`. Two common cases where it is overridden:
@@ -321,13 +321,13 @@ For non-standard SYs (not a 1:1 wrap of the yield token), use `getPtToAsset` / `
 
 ### Should I use `getPtToSy` or `getPtToAsset`?
 
-Prefer `getPtToSy` for maximum trustlessness — the PT→SY rate is natively guaranteed by the Pendle AMM. Use `getPtToAsset` only when your protocol explicitly needs asset-denominated pricing and you understand the additional SY→asset conversion risk (exchange rate dependency, potential depegs). See [PYLpOracle](../Oracle/PYLpOracle) for details.
+Prefer `getPtToSy` for maximum trustlessness — the PT→SY rate is natively guaranteed by the Pendle AMM. Use `getPtToAsset` only when your protocol explicitly needs asset-denominated pricing and you understand the additional SY→asset conversion risk (exchange rate dependency, potential depegs). See [PYLpOracle](/pendle-v2/Developers/Contracts/Oracle/PYLpOracle) for details.
 
 ## Further Reading
 
-- [CommonSY](./CommonSY) — deployed SY addresses per chain
-- [DecimalsWrapper](./DecimalsWrapper) — how Pendle handles tokens with non-18 decimals
-- [Unit and Decimals](../UnitAndDecimals) — decimal handling across PT, YT, SY, and asset
-- [YieldTokenization](../YieldTokenization/YieldTokenization) — how SY is split into PT and YT
-- [PYLpOracle](../Oracle/PYLpOracle) — TWAP oracle for pricing PT, YT, and LP
-- [Rewards](../LiquidityMining/Rewards) — full reward accounting model for SY, YT, and LP holders
+- [CommonSY](/pendle-v2/Developers/Contracts/StandardizedYield/CommonSY) — deployed SY addresses per chain
+- [DecimalsWrapper](/pendle-v2/Developers/Contracts/StandardizedYield/DecimalsWrapper) — how Pendle handles tokens with non-18 decimals
+- [Unit and Decimals](/pendle-v2/Developers/Contracts/UnitAndDecimals) — decimal handling across PT, YT, SY, and asset
+- [YieldTokenization](/pendle-v2/Developers/Contracts/YieldTokenization) — how SY is split into PT and YT
+- [PYLpOracle](/pendle-v2/Developers/Contracts/Oracle/PYLpOracle) — TWAP oracle for pricing PT, YT, and LP
+- [Rewards](/pendle-v2/Developers/Contracts/LiquidityMining/Rewards) — full reward accounting model for SY, YT, and LP holders
