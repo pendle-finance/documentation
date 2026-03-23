@@ -112,6 +112,7 @@
   /* Layout */
   --ifm-container-width-xl: 1280px;
   --doc-sidebar-width: 300px;
+  --ifm-navbar-height: 80px;
 
   /* Borders */
   --ifm-global-border-width: 1px;
@@ -582,8 +583,8 @@ article {
 }
 
 .menu__link--active {
-  background: var(--section-accent-muted, rgba(27, 227, 194, 0.08));
-  color: var(--section-accent, #1BE3C2) !important;
+  background: var(--section-accent-muted, linear-gradient(90deg, rgba(27, 227, 194, 0.15) 0%, transparent 100%));
+  color: #ffffff !important;
   font-weight: 600;
   position: relative;
   border-left: none;
@@ -595,17 +596,16 @@ article {
   content: '';
   position: absolute;
   left: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 3px;
-  height: 20px;
+  top: 0;
+  width: 2px;
+  height: 100%;
   background: var(--section-accent, #1BE3C2);
-  border-radius: 0 2px 2px 0;
+  border-radius: 0;
 }
 
 .menu__link--active:hover {
-  background: var(--section-accent-muted, rgba(27, 227, 194, 0.12));
-  color: var(--section-accent, #1BE3C2) !important;
+  background: var(--section-accent-muted, linear-gradient(90deg, rgba(27, 227, 194, 0.25) 0%, transparent 100%));
+  color: #ffffff !important;
 }
 
 .menu__link--active:before {
@@ -1145,7 +1145,7 @@ table tbody tr:last-child td {
 /* Active — filled, accent color */
 .menu__link--active .sidebar-icon {
   font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
-  color: var(--section-accent, #1BE3C2);
+  color: #ffffff;
 }
 
 /* Category headers — bolder base weight */
@@ -1165,7 +1165,7 @@ table tbody tr:last-child td {
 /* Pendle V2 + Academy: grass (#1BE3C2) and sky (#7AB7FF) */
 [data-section='v2']{
   --color-primary: #1BE3C2;
-  --color-primary-hover: #7AB7FF;
+  --color-primary-hover: #1BE3C2;
   --ifm-color-primary: #1BE3C2;
   --ifm-color-primary-dark: #13C9AC;
   --ifm-color-primary-darker: #0FB89C;
@@ -1174,17 +1174,17 @@ table tbody tr:last-child td {
   --ifm-color-primary-lighter: #65EFDA;
   --ifm-color-primary-lightest: #9AF5E8;
   --ifm-link-color: #1BE3C2;
-  --ifm-link-hover-color: #7AB7FF;
+  --ifm-link-hover-color: #1BE3C2;
   --section-accent: #1BE3C2;
-  --section-accent-secondary: #7AB7FF;
-  --section-accent-muted: rgba(27, 227, 194, 0.12);
+  --section-accent-secondary: #1BE3C2;
+  --section-accent-muted: linear-gradient(90deg, rgba(27, 227, 194, 0.20) 0%, transparent 100%);
   --section-accent-border: rgba(27, 227, 194, 0.25);
 }
 
 /* Active sidebar link */
 [data-section='v2'] .menu__link--active {
-  background: rgba(27, 227, 194, 0.08) !important;
-  color: #1BE3C2 !important;
+  background: var(--section-accent-muted) !important;
+  color: #ffffff !important;
 }
 
 [data-section='v2'] .menu__link--active::after {
@@ -1192,8 +1192,8 @@ table tbody tr:last-child td {
 }
 
 [data-section='v2'] .menu__link--active:hover {
-  background: rgba(27, 227, 194, 0.12) !important;
-  color: #1BE3C2 !important;
+  background: linear-gradient(90deg, rgba(27, 227, 194, 0.25) 0%, transparent 100%) !important;
+  color: #ffffff !important;
 }
 
 /* TOC active links */
@@ -1225,7 +1225,33 @@ table tbody tr:last-child td {
 
 /* Links in content */
 [data-section='v2'] .markdown a {
-  background-image: linear-gradient(#1BE3C2, #7AB7FF);
+  background-image: linear-gradient(#1BE3C2, #1BE3C2);
+}
+
+/* Pagination Nav overrides */
+[data-section='v2'] .pagination-nav__link {
+  border-color: rgba(27, 227, 194, 0.3) !important;
+  transition: all 0.2s ease;
+}
+
+[data-section='v2'] .pagination-nav__link--prev {
+  background: linear-gradient(to right, rgba(27, 227, 194, 0.15) 0%, transparent 100%) !important;
+}
+
+[data-section='v2'] .pagination-nav__link--next {
+  background: linear-gradient(to left, rgba(27, 227, 194, 0.15) 0%, transparent 100%) !important;
+}
+
+[data-section='v2'] .pagination-nav__link:hover {
+  border-color: #1BE3C2 !important;
+}
+
+[data-section='v2'] .pagination-nav__link--prev:hover {
+  background: linear-gradient(to right, rgba(27, 227, 194, 0.25) 0%, transparent 100%) !important;
+}
+
+[data-section='v2'] .pagination-nav__link--next:hover {
+  background: linear-gradient(to left, rgba(27, 227, 194, 0.25) 0%, transparent 100%) !important;
 }
 
 /* Boros: info blue-purple (#6079FF) — matches global default */
@@ -1243,13 +1269,13 @@ table tbody tr:last-child td {
   --ifm-link-hover-color: #8396FF;
   --section-accent: #6079FF;
   --section-accent-secondary: #8396FF;
-  --section-accent-muted: rgba(96, 121, 255, 0.12);
+  --section-accent-muted: linear-gradient(90deg, rgba(96, 121, 255, 0.20) 0%, transparent 100%);
   --section-accent-border: rgba(96, 121, 255, 0.25);
 }
 
 [data-section='boros'] .menu__link--active {
-  background: rgba(96, 121, 255, 0.10) !important;
-  color: #6079FF !important;
+  background: var(--section-accent-muted) !important;
+  color: #ffffff !important;
 }
 
 [data-section='boros'] .menu__link--active::after {
@@ -1257,8 +1283,8 @@ table tbody tr:last-child td {
 }
 
 [data-section='boros'] .menu__link--active:hover {
-  background: rgba(96, 121, 255, 0.15) !important;
-  color: #8396FF !important;
+  background: linear-gradient(90deg, rgba(96, 121, 255, 0.25) 0%, transparent 100%) !important;
+  color: #ffffff !important;
 }
 
 [data-section='boros'] .table-of-contents__link--active,
@@ -1289,13 +1315,39 @@ table tbody tr:last-child td {
   background-image: linear-gradient(#6079FF, #8396FF);
 }
 
+/* Boros Pagination Nav overrides */
+[data-section='boros'] .pagination-nav__link {
+  border-color: rgba(96, 121, 255, 0.3) !important;
+  transition: all 0.2s ease;
+}
+
+[data-section='boros'] .pagination-nav__link--prev {
+  background: linear-gradient(to right, rgba(96, 121, 255, 0.15) 0%, transparent 100%) !important;
+}
+
+[data-section='boros'] .pagination-nav__link--next {
+  background: linear-gradient(to left, rgba(96, 121, 255, 0.15) 0%, transparent 100%) !important;
+}
+
+[data-section='boros'] .pagination-nav__link:hover {
+  border-color: #6079FF !important;
+}
+
+[data-section='boros'] .pagination-nav__link--prev:hover {
+  background: linear-gradient(to right, rgba(96, 121, 255, 0.25) 0%, transparent 100%) !important;
+}
+
+[data-section='boros'] .pagination-nav__link--next:hover {
+  background: linear-gradient(to left, rgba(96, 121, 255, 0.25) 0%, transparent 100%) !important;
+}
+
 /* ============================================
    Navbar — Material Design 3
    ============================================ */
 
 /* Container */
 .navbar {
-  height: 60px;
+  height: var(--ifm-navbar-height);
   padding: 0 16px;
   background: rgba(9, 13, 24, 0.92) !important;
   backdrop-filter: blur(24px) saturate(1.4);
@@ -1313,6 +1365,8 @@ table tbody tr:last-child td {
 
 /* Brand / Logo */
 .navbar__brand {
+  display: flex !important;
+  align-items: center !important;
   gap: 10px;
   margin-right: 8px;
   padding: 6px 10px;
@@ -1325,9 +1379,15 @@ table tbody tr:last-child td {
   text-decoration: none;
 }
 
+.navbar__logo {
+  display: flex !important;
+  align-items: center !important;
+}
+
 .navbar__logo img {
-  height: 26px;
+  height: 52px;
   width: auto;
+  display: block;
 }
 
 .navbar__title {
@@ -1373,25 +1433,22 @@ table tbody tr:last-child td {
 .dropdown > .navbar__link:after {
   content: '' !important;
   display: inline-block !important;
-  width: 5px !important;
-  height: 5px !important;
+  width: 4px !important;
+  height: 4px !important;
   border: none !important;
   border-right: 1.5px solid currentColor !important;
   border-bottom: 1.5px solid currentColor !important;
-  transform: rotate(45deg) !important;
+  transform: translateY(-2px) rotate(45deg) !important;
   margin-left: 6px !important;
-  margin-bottom: 2px !important;
+  margin-bottom: 0 !important;
   vertical-align: middle !important;
   opacity: 0.6;
-  transition: opacity 150ms ease !important;
   flex-shrink: 0;
 }
 
 .dropdown:hover > .navbar__link:after,
 .dropdown > .navbar__link[aria-expanded='true']:after {
   opacity: 1;
-  transform: rotate(225deg) !important;
-  margin-bottom: -2px !important;
 }
 
 /* Extend dropdown container downward so the gap between trigger and menu
