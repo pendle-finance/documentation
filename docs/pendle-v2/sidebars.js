@@ -76,6 +76,7 @@ module.exports = {
           label: "🤝 Integration Guides",
           items: [
             { type: "doc", id: "Developers/Integration/CommunityListing", label: "Community Listing" },
+            { type: "doc", id: "Developers/Integration/CrossChainPT", label: "Cross-Chain PT" },
             { type: "doc", id: "Developers/Integration/PointsTracking", label: "Points & Rewards Tracking" },
           ],
         },
