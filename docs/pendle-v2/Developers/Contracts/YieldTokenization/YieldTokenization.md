@@ -11,8 +11,8 @@ This guide explains how Pendle tokenizes yield by splitting assets into PT (Prin
 
 ## Key Concepts
 Yield tokenization takes a yield-bearing asset, then splits that value into two claims with a fixed expiry:
-- [PT (Principal Token)](../../ProtocolMechanics/YieldTokenization/PT): represents the principal of the underlying yield-bearing token.
-- [YT (Yield Token)](../../ProtocolMechanics/YieldTokenization/YT): represents entitlement to all yield, rewards, and points of the asset until expiry.
+- [PT (Principal Token)](../../../ProtocolMechanics/YieldTokenization/PT): represents the principal of the underlying yield-bearing token.
+- [YT (Yield Token)](../../../ProtocolMechanics/YieldTokenization/YT): represents entitlement to all yield, rewards, and points of the asset until expiry.
 
 Example: A user stakes 100 USDe in Ethena and, via Pendle, tokenizes it into 100 PT-USDe and 100 YT-USDe with a 3-month expiry. They can sell the YT-USDe to someone who wants the next three months of yield and points while keeping the PT-USDe to redeem the principal at maturity; assuming a 12% APY (~3% over three months), the position would accrue about 3 USDe - so at expiry the YT-USDe holder is entitled to ~3 USDe of accrued yield (plus any program points earned during that period), and the PT-USDe holder redeems the 100 USDe principal.
 
@@ -118,16 +118,16 @@ function redeemDueInterestAndRewards(
 ) external returns (uint256 interestOut, uint256[] memory rewardsOut);
 ```
 
-**Purpose:** Allows a YT holder to claim accrued earnings: interest (in SY) and any external reward tokens. Interest for YT is **always paid in SY**, but it can be swapped into your preferred token through the [router](./PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
+**Purpose:** Allows a YT holder to claim accrued earnings: interest (in SY) and any external reward tokens. Interest for YT is **always paid in SY**, but it can be swapped into your preferred token through the [router](../PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
 
 **Behavior notes:**
 
-* **Interest unit:** Always **SY**. If you want the underlying/base asset, unwrap or swap through the [router](./PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
+* **Interest unit:** Always **SY**. If you want the underlying/base asset, unwrap or swap through the [router](../PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
 * **Pre- vs post-expiry:**
 
   * Pre-expiry: interest and rewards continue accruing; this function pays whatever is due up to the call.
   * Post-expiry: YT no longer earns new yield. Calling still pays any **remaining** pre-expiry interest/rewards, if any.
-* **Zero-flag calls:** If both flags are `false`, no tokens are transferred (effectively a no-op, except for index synchronization)
+* **Zero-flag calls:** If both flags are `false`, the call **reverts** with `YCNothingToRedeem`. At least one flag must be `true`.
 * **Token order:** `rewardsOut[i]` corresponds to `getRewardTokens()[i]`. Always read the list first.
 
 **Examples:**
@@ -135,8 +135,53 @@ function redeemDueInterestAndRewards(
 * *Claim both:*
   User has accrued `2.5 SY` of interest and `[10 X, 0.3 Y]` rewards. Calling with `(true, true)` returns `(2.5, [10, 0.3])`, transfers those amounts, and resets baselines.
 * *Claim rewards only:*
-  Calling `(false, true)` transfers only rewards. Due interest remains in SY terms and continues to count toward reward-share until it’s eventually claimed or the user redeems PY.
+  Calling `(false, true)` transfers only rewards. Due interest remains in SY terms and continues to count toward reward-share until it's eventually claimed or the user redeems PY.
 
+
+### `mintPYMulti`
+
+```solidity
+/**
+ * @notice Tokenize SY into PT + YT for multiple receivers in a single transaction.
+ * @dev SY must be transferred to this contract prior to calling.
+ * The sum of `amountSyToMints` must not exceed the floating SY balance.
+ */
+function mintPYMulti(
+    address[] calldata receiverPTs,
+    address[] calldata receiverYTs,
+    uint256[] calldata amountSyToMints
+) external returns (uint256[] memory amountPYOuts);
+```
+
+**Purpose:** Batch version of `mintPY`. Mints PT and YT for multiple receivers in a single transaction, saving gas when distributing to many addresses.
+
+**How it works:**
+- Transfer the total required SY to the YT contract before calling.
+- Pass parallel arrays: each `(receiverPTs[i], receiverYTs[i])` pair receives `amountPYOuts[i]` PT and YT minted from `amountSyToMints[i]` SY.
+- The sum of `amountSyToMints` must equal the floating SY balance (total SY transferred in).
+
+---
+
+### `redeemPYMulti`
+
+```solidity
+/**
+ * @notice Redeem PT (+YT) for multiple users in a single transaction.
+ * @dev PT/YT must be transferred to this contract prior to calling.
+ */
+function redeemPYMulti(
+    address[] calldata receivers,
+    uint256[] calldata amountPYToRedeems
+) external returns (uint256[] memory amountSyOuts);
+```
+
+**Purpose:** Batch version of `redeemPY`. Redeems PT (and YT pre-expiry) for multiple users in one transaction.
+
+**How it works:**
+- Transfer the total required PT (and YT, if pre-expiry) to the YT contract before calling.
+- Each `receivers[i]` receives SY from redeeming `amountPYToRedeems[i]` PY.
+
+---
 
 ### [`pyIndexCurrent`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/YieldContracts/PendleYieldToken.sol#L226-L236)
 
@@ -162,7 +207,7 @@ function pyIndexCurrent() external returns (uint256 currentIndex);
 
     * Pre-expiry redemptions return **less SY per PY** until `SY.exchangeRate()` recovers above the stored index.
     * YT accrual effectively **pauses** (no new interest) until recovery.
-    * In sustained drawdowns, even PT’s eventual redemption (valued in the accounting asset) can be **less than previously expected** because the SY backing has shrunk. See [Negative Yield](../../ProtocolMechanics/NegativeYield).
+    * In sustained drawdowns, even PT's eventual redemption (valued in the accounting asset) can be **less than previously expected** because the SY backing has shrunk. See [Negative Yield](../../../ProtocolMechanics/NegativeYield).
 
 * **Examples:**
 
@@ -172,9 +217,62 @@ function pyIndexCurrent() external returns (uint256 currentIndex);
     At maturity, if each SY equals `1.15 USDe`, they redeem `100 × 1.15 = 115 USDe` (less than 120 USDe), reflecting the underlying negative yield.
 
 
+### `setPostExpiryData`
+
+```solidity
+/**
+ * @notice Triggers the post-expiry data initialization if the market has expired.
+ * @dev Has no effect if called pre-expiry.
+ */
+function setPostExpiryData() external;
+```
+
+**Purpose:** Manually triggers the post-expiry settlement. Normally this is called automatically on the first interaction after expiry (via the `updateData` modifier), but this can be called explicitly to ensure the post-expiry index is snapshotted before further redemptions.
+
+---
+
+### `pyIndexStored`
+
+```solidity
+/// @notice returns the last-updated PY index (view function, no state changes)
+function pyIndexStored() external view returns (uint256);
+```
+
+**Purpose:** Returns the last cached PY index without updating state. Use this for read-only queries when you don't need the latest value. For the current (possibly updated) value, use `pyIndexCurrent()`.
+
+---
+
+### `getPostExpiryData`
+
+```solidity
+/**
+ * @notice Returns the post-expiry data snapshot.
+ * @dev Reverts if post-expiry data has not been set yet (see `setPostExpiryData()`).
+ */
+function getPostExpiryData()
+    external
+    view
+    returns (
+        uint256 firstPYIndex,
+        uint256 totalSyInterestForTreasury,
+        uint256[] memory firstRewardIndexes,
+        uint256[] memory userRewardOwed
+    );
+```
+
+**Purpose:** Returns the post-expiry data snapshot. Useful for understanding what index was locked in at expiry and verifying post-expiry redemption amounts.
+
+**Returns:**
+- `firstPYIndex`: The PY index snapshotted at expiry. PT redemptions post-expiry use this index.
+- `totalSyInterestForTreasury`: Accumulated SY interest accrued after expiry (goes to treasury, not users).
+- `firstRewardIndexes`: Per-reward-token indexes snapshotted at expiry.
+- `userRewardOwed`: Total unclaimed user reward balances at time of snapshot.
+
+---
+
 ## Integration Example
 :::danger Example code only
-The snippets below are simplified for illustration and **are not audited**.  
+The snippets below are simplified for illustration and **are not audited**.
 **Do not** use them in production or with real funds. If you adapt any example,
 conduct a full review, add comprehensive tests, and obtain an independent **security audit**.
 :::
@@ -183,29 +281,45 @@ conduct a full review, add comprehensive tests, and obtain an independent **secu
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-IPYieldToken yt;
-IStandardizedYield sy = IStandardizedYield(yt.SY());
-IPrincipalToken pt = IPrincipalToken(yt.PT());
-
+IPYieldContractFactory factory; // PendleYieldContractFactoryUpg
+address SY;
+uint32 expiry;
 address receiver;
 
+// --- Step 1: Look up or create a PT/YT pair ---
 
-// Minting PT + YT by depositing SY
+// Check if the pair already exists
+address PT = factory.getPT(SY, expiry);
+address YT = factory.getYT(SY, expiry);
+
+if (PT == address(0)) {
+    // Create a new yield contract if it doesn't exist yet
+    (PT, YT) = factory.createYieldContract(SY, expiry, true);
+}
+
+IPYieldToken yt = IPYieldToken(YT);
+IStandardizedYield sy = IStandardizedYield(SY);
+IPrincipalToken pt = IPrincipalToken(PT);
+
+
+// --- Step 2: Mint PT + YT by depositing SY ---
 IERC20(address(sy)).transfer(address(yt), 100e18); // deposit 100 SY
 uint256 amountPYOut = yt.mintPY(receiver, receiver); // receive PT + YT
 
 
-// Redeeming SY by burning PT + YT (pre-expiry)
+// --- Step 3a: Redeem SY by burning PT + YT (pre-expiry) ---
 IERC20(address(pt)).transfer(address(yt), amountPYOut); // send PT
 IERC20(address(yt)).transfer(address(yt), amountPYOut); // send YT
 uint256 amountSyOut = yt.redeemPY(receiver); // receive SY
 
-// Redeeming SY by burning PT only (post-expiry)
-IERC20(address(pt)).transfer(address(yt), amountPYOut); // send PT
+
+// --- Step 3b: Redeem SY by burning PT only (post-expiry) ---
+// After expiry, YT has no remaining value; only PT is required.
+IERC20(address(pt)).transfer(address(yt), amountPYOut); // send PT only
 uint256 amountSyOut = yt.redeemPY(receiver); // receive SY
 
 
-// Claiming accrued interest (in SY) and rewards (in reward tokens)
+// --- Step 4: Claim accrued interest (in SY) and rewards ---
 (uint256 interestOut, uint256[] memory rewardsOut) = yt.redeemDueInterestAndRewards(
     receiver,
     true,  // claim interest
@@ -216,9 +330,9 @@ uint256 amountSyOut = yt.redeemPY(receiver); // receive SY
 
 ## FAQ
 
-### When the underlying asset’s exchange rate increases, does Pendle buy more of the asset on the market and distribute it to YT holders?
+### When the underlying asset's exchange rate increases, does Pendle buy more of the asset on the market and distribute it to YT holders?
 
-No. Pendle’s accounting is **index-based**: yield accrues inside the **SY** balance held by the contracts as `exchangeRate` rises. **YT** holders are entitled to the yield portion of that **existing SY collateral** (paid in SY), while **PT** holders claim principal at/after maturity; users can then unwrap or swap SY to the base asset if they wish. No open-market purchases are required.
+No. Pendle's accounting is **index-based**: yield accrues inside the **SY** balance held by the contracts as `exchangeRate` rises. **YT** holders are entitled to the yield portion of that **existing SY collateral** (paid in SY), while **PT** holders claim principal at/after maturity; users can then unwrap or swap SY to the base asset if they wish. No open-market purchases are required.
 
 ### Is 1 SY always equal to 1 PT + 1 YT?
 

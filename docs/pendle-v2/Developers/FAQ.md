@@ -14,7 +14,7 @@ For Hosted SDK, rate limiting, and Backend API questions, see the **[API Overvie
 ## Contract
 
 ### How can I deploy a new SY Token on Pendle?
-Pendle's smart contracts are permissionless, meaning anyone can deploy a new Standardized Yield (SY) Token without requiring approval from the Pendle team. To implement an SY Token, you must follow the Pendle SY Token standard, ensuring compatibility with the ecosystem. Detailed guidance, including contract structure and best practices, can be found in the [StandardizedYield documentation](./Contracts/StandardizedYield).
+Pendle's smart contracts are permissionless, meaning anyone can deploy a new Standardized Yield (SY) Token without requiring approval from the Pendle team. To implement an SY Token, you must follow the Pendle SY Token standard, ensuring compatibility with the ecosystem. Detailed guidance, including contract structure and best practices, can be found in the [StandardizedYield documentation](./Contracts/StandardizedYield/StandardizedYield).
 
 To community-list a new asset, see the [Community Listing guide](./Integration/CommunityListing) and the [SY writing guide](https://pendle.notion.site/How-to-write-a-SY-A-guide-207567a21d378069aecbf20176591d93).
 
