@@ -1,11 +1,8 @@
 .background{
   width: 100%;
-  background-color: #D6E1EF;
+  background-color: #090D18;
   padding: 4rem 12rem;
   display: flex;
-  background-image: url("../../../static/img/footer.png");
-  background-size: contain;
-  background-repeat: no-repeat;
   justify-content: center;
 }
 .root{
@@ -18,7 +15,7 @@
   display: flex;
   flex-direction: column;
   margin-left: 6rem;
-  color: #374B6D;
+  color: #9DAFCD;
 }
 .linkGroupTitle{
   font-weight: 600;
@@ -27,14 +24,9 @@
 @media screen and (max-width: 1024px) {
   .root{
     padding: 0rem;
-    background-image: none;
-    background-color: #D6E1EF;
     justify-content: space-evenly;
   }
   .linkGroup{
     margin: 2rem 1rem;
-  }
-  .background{
-    background-image: none;
   }
 }

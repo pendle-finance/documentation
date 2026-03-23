@@ -84,9 +84,9 @@
 
   /* Backgrounds */
   --ifm-background-color: #090D18;
-  --ifm-background-surface-color: #1C212D;
+  --ifm-background-surface-color: #090D18;
   --ifm-navbar-background-color: transparent;
-  --ifm-sidebar-background: rgb(191 203 223 / 0.05);
+  --ifm-sidebar-background: transparent;
 
   /* Text */
   --ifm-font-color-base: #ffffff;
@@ -162,16 +162,17 @@ html {
   text-rendering: optimizeLegibility;
   scroll-behavior: smooth;
   overflow-x: hidden;
+  background-color: var(--surface-page) !important;
+  min-height: 100vh;
 }
 
 body {
   font-family: var(--ifm-font-family-base);
   font-weight: var(--ifm-font-weight-normal);
   color: var(--ifm-font-color-base);
-  background: var(--surface-page);
-  background-attachment: fixed;
-  overflow-x: hidden;
-  max-width: 100vw;
+  background-color: var(--surface-page) !important;
+  min-height: 100vh;
+  margin: 0;
 }
 
 /* Selection colors */
@@ -429,7 +430,7 @@ li code:hover {
 .theme-doc-sidebar-container {
   width: var(--doc-sidebar-width, 300px);
   border-right: 1px solid var(--border-default);
-  background: var(--surface-card-faint);
+  background: transparent;
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;
@@ -790,6 +791,11 @@ article {
 .theme-doc-toc-desktop {
   -ms-overflow-style: none;
   scrollbar-width: none;
+  background: transparent !important;
+}
+
+.col.col--3 {
+  background: transparent !important;
 }
 
 [class*="docItemCol"],
