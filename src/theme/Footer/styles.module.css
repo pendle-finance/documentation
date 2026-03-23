@@ -1,9 +1,33 @@
-.background{
+.background {
   width: 100%;
-  background-color: #090D18;
+  background-color: transparent;
+  background-image: linear-gradient(to top, rgba(27, 227, 194, 0.04) 0%, transparent 100%); /* Baseline faint glow for edge cases */
+  border-top: 1px solid rgba(55, 75, 109, 0.6);
   padding: 4rem 12rem;
   display: flex;
   justify-content: center;
+  font-size: 14px;
+}
+
+.background a {
+  font-size: 14px;
+  color: #9DAFCD !important;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.background a:hover {
+  color: #ffffff !important;
+}
+
+:global(html[data-section='v2']) .background,
+:global([data-section='v2']) .background {
+  background-image: linear-gradient(to top, rgba(27, 227, 194, 0.15) 0%, transparent 100%);
+}
+
+:global(html[data-section='boros']) .background,
+:global([data-section='boros']) .background {
+  background-image: linear-gradient(to top, rgba(96, 121, 255, 0.15) 0%, transparent 100%);
 }
 .root{
   width: 1280px;
@@ -15,10 +39,10 @@
   display: flex;
   flex-direction: column;
   margin-left: 6rem;
-  color: #9DAFCD;
 }
 .linkGroupTitle{
   font-weight: 600;
+  color: var(--section-accent, var(--ifm-color-primary));
 }
 
 @media screen and (max-width: 1024px) {

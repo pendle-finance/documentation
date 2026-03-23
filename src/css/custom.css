@@ -1560,3 +1560,89 @@ input[class*='search-input'] {
   padding: 1px 5px !important;
   box-shadow: none !important;
 }
+
+/* ============================================
+   Table Styling overrides
+   ============================================ */
+.markdown table {
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 0 1px #374B6D !important;
+  border: none !important;
+  overflow: hidden !important;
+  background: transparent !important;
+  margin-bottom: 24px !important;
+  width: auto !important;
+  min-width: 100% !important;
+}
+
+.markdown thead {
+  background: transparent !important;
+}
+
+.markdown thead tr {
+  background: transparent !important;
+  border: none !important;
+}
+
+.markdown tr {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Remove default Docusaurus row striping */
+html[data-theme='dark'] .markdown tr:nth-child(2n),
+.markdown tr:nth-child(2n) {
+  background: transparent !important;
+}
+
+.markdown th,
+.markdown td {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid #374B6D !important;
+  border-right: 1px solid #374B6D !important;
+  padding: 16px 20px !important;
+  color: #ffffff !important;
+}
+
+.markdown th {
+  color: var(--section-accent, var(--ifm-color-primary)) !important;
+  font-weight: 600 !important;
+  font-size: 1rem !important;
+}
+
+.markdown td {
+  font-size: 0.9375rem !important;
+  opacity: 0.9;
+}
+
+.markdown th:last-child,
+.markdown td:last-child {
+  border-right: none !important;
+}
+
+.markdown tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+/* ============================================
+   Footer Styling overrides
+   ============================================ */
+.footer {
+  border-top: 1px solid rgba(55, 75, 109, 0.6) !important;
+  background-color: transparent !important;
+}
+
+html[data-section='v2'] .footer,
+[data-section='v2'] .footer {
+  background-image: linear-gradient(to top, rgba(27, 227, 194, 0.15) 0%, transparent 100%) !important;
+  background-color: transparent !important;
+}
+
+html[data-section='boros'] .footer,
+[data-section='boros'] .footer {
+  background-image: linear-gradient(to top, rgba(96, 121, 255, 0.15) 0%, transparent 100%) !important;
+  background-color: transparent !important;
+}
