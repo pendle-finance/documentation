@@ -139,6 +139,10 @@ const config = {
       integrity: "sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc",
       crossorigin: "anonymous",
     },
+    {
+      href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block",
+      rel: "stylesheet",
+    },
   ],
 
   themeConfig:
@@ -151,8 +155,8 @@ const config = {
       contextualSearch: true,
     },
     colorMode: {
-      defaultMode: 'light',
-      disableSwitch: false,
+      defaultMode: 'dark',
+      disableSwitch: true,
       respectPrefersColorScheme: false,
     },
     docs:{
@@ -201,7 +205,11 @@ const config = {
               label: 'Boros Academy',
             },
           ],
-        }
+        },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
       ],
     },
     footer: {

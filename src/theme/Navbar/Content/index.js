@@ -8,7 +8,6 @@ import NavbarItem from "@theme/NavbarItem";
 import NavbarColorModeToggle from "@theme/Navbar/ColorModeToggle";
 import SearchBar from "@theme/SearchBar";
 import NavbarMobileSidebarToggle from "@theme/Navbar/MobileSidebar/Toggle";
-import LanguageSwitcher from "../../DocItem/Layout/LanguageSwitcher";
 import styles from "./styles.module.css";
 import Link from "@docusaurus/Link";
 
@@ -59,7 +58,6 @@ export default function NavbarContent() {
           {/* <NavbarColorModeToggle className={styles.colorModeToggle} /> */}
           <div className={styles.searchContainer}>
             {!searchBarItem && <SearchBar />}
-            <LanguageSwitcher />
           </div>
         </>
       }
