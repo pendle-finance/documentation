@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "@docusaurus/router";
 import { useNavbarMobileSidebar } from "@docusaurus/theme-common/internal";
 import NavbarItem from "@theme/NavbarItem";
@@ -8,15 +8,15 @@ import styles from "./styles.module.css";
 import Link from "@docusaurus/Link";
 
 const PENDLE_ITEMS = [
-  { label: "Docs", to: "/pendle-v2/Introduction", position: "left" },
-  { label: "Academy", to: "/pendle-academy/Introduction", position: "left" },
-  { label: "API", to: "/pendle-v2/Developers/Backend/ApiOverview", position: "left" },
+  { label: "Pendle Docs", to: "/pendle-v2/Introduction", position: "left" },
+  { label: "Pendle Academy", to: "/pendle-academy/Introduction", position: "left" },
+  { label: "Pendle API", to: "/pendle-v2/Developers/Backend/ApiOverview", position: "left" },
 ];
 
 const BOROS_ITEMS = [
-  { label: "Dev Docs", to: "/boros-dev", position: "left" },
-  { label: "Docs", to: "/boros-docs/Introduction", position: "left" },
-  { label: "Academy", to: "/boros-academy/Introduction", position: "left" },
+  { label: "Boros Docs", to: "/boros-docs/Introduction", position: "left" },
+  { label: "Boros Academy", to: "/boros-academy/Introduction", position: "left" },
+  { label: "Boros Dev Docs", to: "/boros-dev", position: "left" },
 ];
 
 function isBoros(pathname) {
@@ -50,16 +50,21 @@ function NavbarContentLayout({ left, right }) {
 export default function NavbarContent() {
   const mobileSidebar = useNavbarMobileSidebar();
   const { pathname } = useLocation();
-  const navItems = isBoros(pathname) ? BOROS_ITEMS : PENDLE_ITEMS;
+  const borosActive = isBoros(pathname);
+  const navItems = borosActive ? BOROS_ITEMS : PENDLE_ITEMS;
+
+  useEffect(() => {
+    document.documentElement.dataset.site = borosActive ? "boros" : "pendle";
+  }, [borosActive]);
 
   return (
     <NavbarContentLayout
       left={
         <>
           <NavbarMobileSidebarToggle />
-          <Link to="/">
+          <Link to={borosActive ? "/boros" : "/pendle-v2"}>
             <div className="navbar__logo">
-              <img src="/img/logo.svg" alt="Pendle" />
+               <img src="/img/logo.svg" alt="Pendle" />
             </div>
           </Link>
           <NavbarItems items={navItems} />

@@ -44,4 +44,4 @@ By creating a yield market in DeFi, Pendle unlocks the full potential of yield, 
 - Fixed yield (e.g. earn fixed yield on stETH)
 - Long yield (e.g. bet on stETH yield going up by purchasing more yield)
 - Earn more yield without additional risks (e.g. provide liquidity with your stETH)
-- A mix of any of the above strategies, learn more on how to execute these strategies at our [Pendle Academy](https://pendle.gitbook.io/pendle-academy)
+- A mix of any of the above strategies, learn more on how to execute these strategies at our [Pendle Academy](/pendle-academy/Introduction)

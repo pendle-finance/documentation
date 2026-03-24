@@ -92,25 +92,25 @@ export default function BorosHome() {
           <div className={`${styles.section} ${styles.borosSection}`}>
             <div className={styles.docCardsContainer}>
               <DocCard
-                title="Dev Docs"
-                description="Explore Boros, Pendle's interest rate swaps platform with order book mechanics, margin trading, and advanced settlement features."
-                link="/boros-dev"
-                animationData={AppguideAnim}
-                bannerImage="/img/Boros Developer Docs.svg"
-              />
-              <DocCard
-                title="Docs"
+                title="Boros Docs"
                 description="Comprehensive documentation for Boros platform features and functionality."
                 link="/boros-docs/Introduction"
                 animationData={WhitepaperAnim}
                 bannerImage="/img/Boros Docs.svg"
               />
               <DocCard
-                title="Academy"
+                title="Boros Academy"
                 description="Learn how to become a Boros trader."
                 link="/boros-academy/Introduction"
                 animationData={FAQAnim}
                 bannerImage="/img/Boros Academy.svg"
+              />
+              <DocCard
+                title="Boros Dev Docs"
+                description="Explore Boros, Pendle's interest rate swaps platform with order book mechanics, margin trading, and advanced settlement features."
+                link="/boros-dev"
+                animationData={AppguideAnim}
+                bannerImage="/img/Boros Developer Docs.svg"
               />
             </div>
           </div>

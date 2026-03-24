@@ -147,6 +147,39 @@
   --ifm-footer-title-color: #ffffff;
 }
 
+/* ============================================================
+   Site-specific accent colours (set via data-site on <html>)
+   Pendle = #1BE3C2 (teal/green)
+   Boros   = #6079FF (indigo/blue)
+   ============================================================ */
+
+/* --- Pendle (default) --- */
+[data-site="pendle"],
+:root {
+  --navbar-accent:           #1BE3C2;
+  --navbar-accent-rgb:       27, 227, 194;
+  --section-accent:          #1BE3C2;
+  --section-accent-muted:    linear-gradient(90deg, rgba(27, 227, 194, 0.15) 0%, transparent 100%);
+  --section-accent-muted-hv: linear-gradient(90deg, rgba(27, 227, 194, 0.25) 0%, transparent 100%);
+}
+
+/* --- Boros --- */
+[data-site="boros"] {
+  --navbar-accent:           #6079FF;
+  --navbar-accent-rgb:       96, 121, 255;
+  --section-accent:          #6079FF;
+  --section-accent-muted:    linear-gradient(90deg, rgba(96, 121, 255, 0.15) 0%, transparent 100%);
+  --section-accent-muted-hv: linear-gradient(90deg, rgba(96, 121, 255, 0.25) 0%, transparent 100%);
+}
+
+/* --- Navbar top-bar active link accent --- */
+[data-site] .navbar__link--active,
+[data-site] .navbar__link--active:hover {
+  color: var(--navbar-accent) !important;
+}
+
+
+
 /* Global styles */
 * {
   box-sizing: border-box;
@@ -1428,8 +1461,8 @@ table tbody tr:last-child td {
 
 .navbar__item.navbar__link--active,
 .navbar__item.navbar__link.navbar__link--active {
-  background: rgba(27, 227, 194, 0.12);
-  color: #1BE3C2;
+  background: rgba(var(--navbar-accent-rgb), 0.12);
+  color: var(--navbar-accent);
 }
 
 /* Dropdown caret — V-chevron, no animation */

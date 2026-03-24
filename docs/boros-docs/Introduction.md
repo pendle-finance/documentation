@@ -4,7 +4,6 @@ import Hint from '@site/src/components/Hint';
 
 Boros is a yield-trading platform on margin by Pendle. Currently, Boros offers the trading of funding-rates from various avenues, including off-chain funding-rates from centralized exchanges. In the future, Boros will expand to support trading yields of different categories.
 
-<figure><img src=".gitbook/assets/image (9).png" alt="" /><figcaption></figcaption></figure>
 
 Boros enables traders to express their view on funding rates. Those bullish on funding rates can open a long position whereas bears can open a short position. Boros also enables those with a floating funding rate exposure to hedge their funding rates payment / receivables.
 

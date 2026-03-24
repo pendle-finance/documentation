@@ -92,21 +92,21 @@ export default function PendleV2Home() {
           <div className={`${styles.section} ${styles.pendleSection}`}>
             <div className={styles.docCardsContainer}>
               <DocCard
-                title="Docs"
+                title="Pendle Docs"
                 description="Learn about Pendle's yield tokenization protocol, AMM mechanics, sPENDLE system, and integration guides for developers."
                 link="/pendle-v2/Introduction"
                 animationData={IntroductionAnim}
                 bannerImage="/img/Pendle v2 docs.svg"
               />
               <DocCard
-                title="Academy"
+                title="Pendle Academy"
                 description="Learn how to use Pendle products with Pendle Academy."
                 link="/pendle-academy/Introduction"
                 animationData={AcademyAnim}
                 bannerImage="/img/Pendle Academy.svg"
               />
               <DocCard
-                title="API"
+                title="Pendle API"
                 description="For developers to integrate Pendle products into their own applications."
                 link="/pendle-v2/Developers/Backend/ApiOverview"
                 animationData={DevelopersAnim}
