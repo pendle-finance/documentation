@@ -46,6 +46,7 @@ module.exports = {
         { type: "doc", id: "Backend/websocket", label: "📡 WebSocket" },
         { type: "doc", id: "Backend/stop-orders", label: "🎯 Stop Orders" },
         { type: "doc", id: "Backend/best-practices", label: "✨ Best Practices" },
+        { type: "doc", id: "Backend/historical-data", label: "📊 Historical Data" },
       ],
     },
     {
