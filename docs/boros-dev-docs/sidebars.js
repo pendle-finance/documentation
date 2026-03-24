@@ -50,6 +50,11 @@ module.exports = {
     },
     {
       type: "doc",
+      id: "Backend/historical-data",
+      label: "📊 Historical Data",
+    },
+    {
+      type: "doc",
       id: "FAQ",
       label: "❓ FAQ",
     },
