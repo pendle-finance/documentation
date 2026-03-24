@@ -3,10 +3,8 @@ import Hint from '@site/src/components/Hint';
 # Points Trading
 
 <Hint style="info">
-Facing problems? Head to our [Support](./points-trading/points-support-page) page!
+Facing problems? Head to our [Support](points-support-page) page!
 </Hint>
-
-Assets with Points on Pendle are consolidated into our Points UI: [https://app.pendle.finance/points](https://app.pendle.finance/points)
 
 Get leveraged points, yields or get the highest fixed yields on Pendle supercharged by points trading!
 
@@ -16,10 +14,10 @@ Points trading on Pendle works the same way as yield-trading where:
 
 * YT buyers receive underlying floating yields and points
 * PT buyers receive a fixed yield in exchange for foregoing all floating yields and points
-* Liquidity Providers receive additional yields from swap fees and Pendle incentives while retaining points exposure (with zero price impact enabled)
+* Liquidity Providers receive additional yields from swap fees and Pendle incentives while retaining points exposure (with **Keep YT Mode** enabled)
 
 <Hint style="info">
-In other words, underlying points are treated the same way as the underlying yields. This includes 5% YT fees incurred on underlying yields and points.
+In other words, underlying points are treated the same way as the underlying yields. This includes 3% YT fees incurred on underlying yields and points.
 </Hint>
 
 ## YT
@@ -63,16 +61,16 @@ Where to provide liquidity: [https://app.pendle.finance/points](https://app.pend
 Liquidity Providers on Pendle retain all points exposure while earning additional yield from Pendle.&#x20;
 
 <Hint style="warning">
-**Turn on Zero price impact mode to retain the majority of your points exposure**.
+**Turn on Keep YT mode to retain the majority of your points exposure**.
 </Hint>
 
 <div align="left"><figure><img src="..//pendle-academy/imgs/image (20).png" alt="" width="375" /><figcaption></figcaption></figure></div>
 
 LP position on Pendle consists of PT and a wrapped version of its underlying, e.g.  PT-eETH/SY-eETH, PT-USDe/SY-USDe (SY is simply a wrapped version of its underlying to be compatible with Pendle's architecture).
 
-If Zero Price Impact mode is turned off, your YT position will be sold for a bigger LP position (hence incurring some price impact). This gives more yield but sacrifices points as the PTs in the LP position do not earn points.
+If **Keep YT** mode is turned off, your YT position will be sold for a bigger LP position (hence incurring some price impact). This gives more yield but sacrifices points as the PTs in the LP position do not earn points.
 
-To retain most of your points exposure, toggle Zero Price Impact Mode to retain your YT position. While YT goes to zero at maturity, its value is offset by PT’s price gain inside the LP position. Note that points are affected by vePENDLE boosts too (i.e. Those that are unboosted might earn slightly less than those that are max boosted).
+To retain most of your points exposure, toggle Keep YT Mode to retain your YT position. While YT goes to zero at maturity, its value is offset by PT’s price gain inside the LP position. Note that points are affected by vePENDLE boosts too (i.e. Those that are unboosted might earn slightly less than those that are max boosted).
 
 In conclusion: LPs on Pendle retain all yield exposure and points while earning additional yields from swap fees and \$PENDLE incentives.
 

@@ -278,13 +278,16 @@ h4 {
   letter-spacing: 0.05em;
 }
 
-p {
-  margin-bottom: 1.75rem;
+p, li {
   line-height: 1.7;
   color: var(--color-text-secondary);
   font-size: 0.9375rem;
   font-weight: 400;
   letter-spacing: -0.01em;
+}
+
+p {
+  margin-bottom: 1.75rem;
 }
 
 ol {

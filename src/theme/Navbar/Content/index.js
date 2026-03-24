@@ -1,20 +1,33 @@
 import React from "react";
-import { useThemeConfig } from "@docusaurus/theme-common";
-import {
-  splitNavbarItems,
-  useNavbarMobileSidebar,
-} from "@docusaurus/theme-common/internal";
+import { useLocation } from "@docusaurus/router";
+import { useNavbarMobileSidebar } from "@docusaurus/theme-common/internal";
 import NavbarItem from "@theme/NavbarItem";
-import NavbarColorModeToggle from "@theme/Navbar/ColorModeToggle";
 import SearchBar from "@theme/SearchBar";
 import NavbarMobileSidebarToggle from "@theme/Navbar/MobileSidebar/Toggle";
 import styles from "./styles.module.css";
 import Link from "@docusaurus/Link";
 
-function useNavbarItems() {
-  // TODO temporary casting until ThemeConfig type is improved
-  return useThemeConfig().navbar.items;
+const PENDLE_ITEMS = [
+  { label: "Docs", to: "/pendle-v2/Introduction", position: "left" },
+  { label: "Academy", to: "/pendle-academy/Introduction", position: "left" },
+  { label: "API", to: "/pendle-v2/Developers/Backend/ApiOverview", position: "left" },
+];
+
+const BOROS_ITEMS = [
+  { label: "Dev Docs", to: "/boros-dev", position: "left" },
+  { label: "Docs", to: "/boros-docs/Introduction", position: "left" },
+  { label: "Academy", to: "/boros-academy/Introduction", position: "left" },
+];
+
+function isBoros(pathname) {
+  return (
+    pathname.startsWith("/boros-dev") ||
+    pathname.startsWith("/boros-docs") ||
+    pathname.startsWith("/boros-academy") ||
+    pathname.startsWith("/boros")
+  );
 }
+
 function NavbarItems({ items }) {
   return (
     <>
@@ -24,6 +37,7 @@ function NavbarItems({ items }) {
     </>
   );
 }
+
 function NavbarContentLayout({ left, right }) {
   return (
     <div className="navbar__inner">
@@ -32,32 +46,29 @@ function NavbarContentLayout({ left, right }) {
     </div>
   );
 }
+
 export default function NavbarContent() {
   const mobileSidebar = useNavbarMobileSidebar();
-  const items = useNavbarItems();
-  const [leftItems, rightItems] = splitNavbarItems(items);
-  const searchBarItem = items.find((item) => item.type === "search");
+  const { pathname } = useLocation();
+  const navItems = isBoros(pathname) ? BOROS_ITEMS : PENDLE_ITEMS;
 
   return (
     <NavbarContentLayout
       left={
         <>
           <NavbarMobileSidebarToggle />
-          {/* Logo similar to ThinTopBar */}
           <Link to="/">
             <div className="navbar__logo">
               <img src="/img/logo.svg" alt="Pendle" />
             </div>
           </Link>
-          <NavbarItems items={leftItems} />
+          <NavbarItems items={navItems} />
         </>
       }
       right={
         <>
-          <NavbarItems items={rightItems} />
-          {/* <NavbarColorModeToggle className={styles.colorModeToggle} /> */}
           <div className={styles.searchContainer}>
-            {!searchBarItem && <SearchBar />}
+            <SearchBar />
           </div>
         </>
       }

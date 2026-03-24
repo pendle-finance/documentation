@@ -46,8 +46,6 @@ module.exports = {
       type: "category",
       label: "4️⃣ Ecosystem & Resources",
       items: [
-      { type: "doc", id: "ecosystem-and-resources/pendle-wars-and-bribes", label: "Pendle Wars & \"Bribes\"" },
-      { type: "doc", id: "ecosystem-and-resources/usdpendle-farms", label: "$PENDLE Farms" },
       {
         type: "category",
         label: "Points Trading",
@@ -57,6 +55,8 @@ module.exports = {
         ],
       },
       { type: "doc", id: "ecosystem-and-resources/withdrawals-deposits-from-other-chains", label: "Withdrawals / Deposits from Other Chains" },
+      { type: "doc", id: "ecosystem-and-resources/usdpendle-farms", label: "$PENDLE Farms" },
+      { type: "doc", id: "ecosystem-and-resources/pendle-wars-and-bribes", label: "Pendle Wars & \"Bribes\"" },
       ],
     },
   ],

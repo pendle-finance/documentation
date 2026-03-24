@@ -64,7 +64,7 @@ const config = {
 
         // For Docs using Chinese, it is recomended to set:
         language: ["en", "zh"],
-        docsRouteBasePath: ["/pendle-v2", "/boros-dev"],
+        docsRouteBasePath: ["/pendle-v2", "/boros-dev", "/pendle-academy", "/boros-docs", "/boros-academy"],
 
         // Customize the keyboard shortcut to focus search bar (default is "mod+k"):
         // searchBarShortcutKeymap: "s", // Use 'S' key
@@ -110,6 +110,30 @@ const config = {
         path: 'docs/pendle-academy',
         routeBasePath: 'pendle-academy',
         sidebarPath: './docs/pendle-academy/sidebars.js',
+        breadcrumbs: true,
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'boros-docs',
+        path: 'docs/boros-docs',
+        routeBasePath: 'boros-docs',
+        sidebarPath: './docs/boros-docs/sidebars.js',
+        breadcrumbs: true,
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'boros-academy',
+        path: 'docs/boros-academy',
+        routeBasePath: 'boros-academy',
+        sidebarPath: './docs/boros-academy/sidebars.js',
         breadcrumbs: true,
         remarkPlugins: [remarkMath],
         rehypePlugins: [rehypeKatex],
@@ -172,40 +196,6 @@ const config = {
       },
       title: 'Pendle Documentation',
       items: [
-        {
-          type: 'dropdown',
-          label: 'Pendle V2',
-          position: 'left',
-          items: [
-            {
-              to: '/pendle-v2/Introduction',
-              label: 'Pendle V2 Docs',
-            },
-            {
-              href: 'https://pendle.gitbook.io/pendle-academy/',
-              label: 'Pendle Academy',
-            }
-          ]
-        },
-        {
-          type: 'dropdown',
-          label: 'Boros',
-          position: 'left',
-          items: [
-            {
-              to: '/boros-dev',
-              label: 'Boros Dev Docs',
-            },
-            {
-              href: 'https://pendle.gitbook.io/boros/boros-docs',
-              label: 'Boros Docs',
-            },
-            {
-              href: 'https://pendle.gitbook.io/boros',
-              label: 'Boros Academy',
-            },
-          ],
-        },
         {
           type: 'localeDropdown',
           position: 'right',

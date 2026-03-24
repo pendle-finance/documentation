@@ -41,10 +41,6 @@ import Hint from '@site/src/components/Hint';
     * **ultimately no impermanent-loss (IL) concern at maturity**
 * **You are&#x20;**_**not**_**&#x20;locked** and **can exit at any time**, even before the maturity date. The APY you earn from liquidity provision is also independent of the maturity date.
 
-<Hint style="info">
-💡 Lock PENDLE for vePENDLE to boost LP incentives (optional). vePENDLE holders can also boost their Liquidity Provision APY up to 2.5X. Click [here](https://docs.pendle.finance/ProtocolMechanics/Mechanisms/vePENDLE) to learn more.
-</Hint>
-
 ***
 
 ## Yield Trading Basics

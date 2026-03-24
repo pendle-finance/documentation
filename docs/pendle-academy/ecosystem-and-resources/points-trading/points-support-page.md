@@ -19,7 +19,7 @@ import CardGrid, { Card } from '@site/src/components/CardGrid';
     title="Points Related" link="points-support-page#points-related"
   />
   <Card
-    title="Zero Price Impact LP" link="points-support-page#zero-price-impact-lp"
+    title="Keep YT Mode LP" link="points-support-page#zero-price-impact-lp"
   />
   <Card
     title="LRT on Arbitrum" link="points-support-page#lrt-on-arbitrum"
@@ -34,7 +34,7 @@ import CardGrid, { Card } from '@site/src/components/CardGrid';
 
 ## FAQ
 
-### YT / PT / LP {#yt-pt-lp}
+### YT / PT / LP
 
 #### 1. What are the differences between YT, PT and LP?
 
@@ -97,15 +97,15 @@ No. It depends on the underlying protocols to decide what to grant the points fo
 
 #### 1. My YT balance is down, what is going on?
 
-That means YT's price is down. See [#id-1.-what-are-the-risks](points-support-page#1-what-are-the-risks "mention") for a list of risks.
+That means YT's price is down. See [#id-1.-what-are-the-risks](points-support-page#id-1.-what-are-the-risks "mention") for a list of risks.
 
 YT's price fluctuates based on market valuation. YT's value is derived from its yields and points receivables. If the market thinks its future yields and points are worth more than what YT is trading at, YT should see demand, driving its price up, and vice-versa.
 
-That said, YT price naturally declines to zero at maturity while it earns yields and points from the underlying LRT. Because the \$ value of points is unknown, Pendle assumes 0 value, hence your YT PnL will be deep in the negatives in the Pendle dashboard. Learn more at [#id-3.-why-does-yt-have-a-negative-long-yield-apy](points-support-page#3-why-does-yt-have-a-negative-long-yield-apy "mention")
+That said, YT price naturally declines to zero at maturity while it earns yields and points from the underlying LRT. Because the \$ value of points is unknown, Pendle assumes 0 value, hence your YT PnL will be deep in the negatives in the Pendle dashboard. Learn more at [#id-3.-why-does-yt-have-a-negative-long-yield-apy](points-support-page#id-3.-why-does-yt-have-a-negative-long-yield-apy "mention")
 
 #### 2. My PT balance is down, what is going on?
 
-That means PT's price is down. See [#id-1.-what-are-the-risks](points-support-page#1-what-are-the-risks "mention") for a list of risks.
+That means PT's price is down. See [#id-1.-what-are-the-risks](points-support-page#id-1.-what-are-the-risks "mention") for a list of risks.
 
 PT's price fluctuates based on market valuation. **However, at maturity PTs will be worth its guaranteed value**. This means that over time, each PT will appreciate toward that value, with some fluctuations in between. PT price gain is guaranteed at maturity, barring any smart contract risk.
 
@@ -121,17 +121,9 @@ If PT's value declines, LP's balance declines alongside it as well as it compris
 
 ### Points Related
 
-#### 1. Do I get points when I deposit my LP tokens to Penpie and Equilibria?
+#### 1. Where can I see my points? How do I know it is accruing?
 
-Yes. Points are boosted as well if you deposit to liquid lockers like Penpie and Equilibria.
-
-#### 2. Where can I see my points? How do I know it is accruing?
-
-You can track your EigenLayer and native protocol points over at the respective protocol's dashboard:
-
-* eETH Ether.fi (ETH network): [https://app.ether.fi/portfolio](https://app.ether.fi/portfolio)
-* rsETH - KelpDAO: [https://kelpdao.xyz/dashboard/](https://kelpdao.xyz/dashboard/)
-* ezETH - Renzo [https://app.renzoprotocol.com/portfolio](https://app.renzoprotocol.com/portfolio)
+You can track your EigenLayer and native protocol points over at the respective protocol's dashboard.
 
 New pool launches might take a while for the respective teams to build the dashboard. Please be patient, your points are accruing in the meantime, just not showing in the dashboard at the moment.
 
@@ -159,9 +151,9 @@ Yes. However, it is up to the underlying protocol to continue streaming rewards 
 
 ***
 
-### Zero Price Impact LP
+### **Keep YT** Mode - LP
 
-#### 1. What is the difference between when I provide liquidity with Zero Price Impact on vs off?
+#### 1. What is the difference between when I provide liquidity with **Keep YT Mode** on vs off?
 
 Learn more on how liquidity provision works: [https://docs.pendle.finance/AppGuide/Trade/Guides/Pool](https://docs.pendle.finance/AppGuide/Trade/Guides/Pool)
 
