@@ -6,9 +6,9 @@ function SectionSetter() {
 
   useLayoutEffect(() => {
     const html = document.documentElement;
-    if (pathname.startsWith('/pendle-v2') || pathname.startsWith('/pendle-academy')) {
+    if (pathname.startsWith('/pendle')) {
       html.setAttribute('data-section', 'v2');
-    } else if (pathname.startsWith('/boros-dev')) {
+    } else if (pathname.startsWith('/boros')) {
       html.setAttribute('data-section', 'boros');
     } else {
       html.removeAttribute('data-section');
