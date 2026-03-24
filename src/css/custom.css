@@ -1682,3 +1682,12 @@ html[data-section='boros'] .footer,
   background-image: linear-gradient(to top, rgba(96, 121, 255, 0.15) 0%, transparent 100%) !important;
   background-color: transparent !important;
 }
+
+/* Fix for weird grey box appearing behind sidebar categories when sub-items are active */
+html body .menu__link--sublist-caret.menu__link--active::after,
+html body .menu__link--sublist-caret::after,
+html body .menu__caret {
+  background-color: transparent !important;
+}
+
+
