@@ -1,4 +1,4 @@
-# TERMS OF USE (THESE “TERMS”)
+﻿# TERMS OF USE (THESE “TERMS”)
 
 Date Last Revised: 9 December 2025 (“**Date Last Revised**”)
 
@@ -12,7 +12,7 @@ For purposes of these Terms, the Website, the Smart Contracts, Content, and all 
 
 **~~Pendle Protocol is not intended for (a) access and/or use by Excluded Persons (as defined below); or (b) access and/or use by any person or entity in, or accessing or using Pendle Protocol from, an Excluded Jurisdiction. Accordingly, Excluded Persons (as defined below) must not access and/or use Pendle Protocol.~~**
 
-You acknowledge that you shall be deemed to have accepted these Terms by accessing and/or using Pendle Protocol–whether by Website Access or Direct Access and/or accessing or retaining Content. 
+You acknowledge that you shall be deemed to have accepted these Terms by accessing and/or using Pendle Protocol-whether by Website Access or Direct Access and/or accessing or retaining Content. 
 
 Company reserves the right to change these Terms in its sole discretion from time to time. The “**Date Last Revised**” specified on these Terms indicates the date on which the Terms were last changed. Your acceptance of, and/or your access or continued access and/or use of Pendle Protocol following notice of, the updated Terms shall indicate your acknowledgement of, and agreement to be bound by, the updated Terms.
 
