@@ -27,6 +27,9 @@ Each chain's deployment file follows the naming pattern: `/deployments/{chainId}
 | Base | 8453 | [`8453-core.json`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/8453-core.json) |
 | Arbitrum | 42161 | [`42161-core.json`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/42161-core.json) |
 | Berachain | 80094 | [`80094-core.json`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/80094-core.json) |
+| Monad | 143 | [`143-core.json`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/143-core.json) |
+| Katana | 747474 | [`747474-core.json`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/747474-core.json) |
+| Ink | 57073 | [`57073-core.json`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/deployments/57073-core.json) |
 
 To access deployment information for any chain, simply reference the deployment file corresponding to its chain ID in the repository.
 

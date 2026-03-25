@@ -17,6 +17,7 @@ V2_FILES=(
   # Getting started
   "$V2_DOCS_DIR/Introduction.md"
   "$V2_DOCS_DIR/Developers/Overview.md"
+  "$V2_DOCS_DIR/Developers/Quickstart.md"
   "$V2_DOCS_DIR/Developers/HighLevelArchitecture.md"
   # Protocol concepts
   "$V2_DOCS_DIR/ProtocolMechanics/Glossary.md"
@@ -37,9 +38,9 @@ V2_FILES=(
   "$V2_DOCS_DIR/Developers/LimitOrder/CancelOrders.mdx"
   "$V2_DOCS_DIR/Developers/LimitOrder/LimitOrderContract.md"
   # Smart contracts
-  "$V2_DOCS_DIR/Developers/Contracts/YieldTokenization.md"
-  "$V2_DOCS_DIR/Developers/Contracts/StandardizedYield.md"
-  "$V2_DOCS_DIR/Developers/Contracts/PendleMarket.md"
+  "$V2_DOCS_DIR/Developers/Contracts/YieldTokenization/YieldTokenization.md"
+  "$V2_DOCS_DIR/Developers/Contracts/StandardizedYield/StandardizedYield.md"
+  "$V2_DOCS_DIR/Developers/Contracts/PendleMarket/PendleMarket.md"
   "$V2_DOCS_DIR/Developers/Contracts/PendleRouter/PendleRouterOverview.md"
   "$V2_DOCS_DIR/Developers/Contracts/PendleRouter/ContractIntegrationGuide.md"
   "$V2_DOCS_DIR/Developers/Contracts/PendleRouter/ApiReference/Types.md"
@@ -51,8 +52,7 @@ V2_FILES=(
   "$V2_DOCS_DIR/Developers/Contracts/sPENDLE.md"
   "$V2_DOCS_DIR/Developers/Contracts/UnitAndDecimals.md"
   # Oracles
-  "$V2_DOCS_DIR/Developers/Oracles/IntroductionOfPtOracle.md"
-  "$V2_DOCS_DIR/Developers/Oracles/IntroductionOfLpOracle.md"
+  "$V2_DOCS_DIR/Developers/Oracles/OracleOverview.md"
   "$V2_DOCS_DIR/Developers/Oracles/HowToIntegratePtAndLpOracle.md"
   "$V2_DOCS_DIR/Developers/Oracles/PTAsCollateral.md"
   "$V2_DOCS_DIR/Developers/Oracles/LPAsCollateral.md"

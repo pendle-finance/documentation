@@ -68,6 +68,7 @@ module.exports = {
       label: "👨‍💻 Developers",
       items: [
         { type: "doc", id: "Developers/Overview" },
+        { type: "doc", id: "Developers/Quickstart", label: "🚀 Quickstart" },
         { type: "doc", id: "Developers/HighLevelArchitecture" },
         { type: "doc", id: "Developers/FAQ" },
         { type: "doc", id: "Developers/Troubleshooting", label: "🔧 Troubleshooting" },
@@ -201,9 +202,8 @@ module.exports = {
           type: "category",
           label: "🔮 Oracles",
           items: [
+            { type: "doc", id: "Developers/Oracles/OracleOverview", label: "Overview" },
             { type: "doc", id: "Developers/Oracles/HowToIntegratePtAndLpOracle" },
-            { type: "doc", id: "Developers/Oracles/IntroductionOfLpOracle" },
-            { type: "doc", id: "Developers/Oracles/IntroductionOfPtOracle" },
             { type: "doc", id: "Developers/Oracles/LPAsCollateral" },
             { type: "doc", id: "Developers/Oracles/PTAsCollateral" },
             { type: "doc", id: "Developers/Oracles/PTSanityChecks" },

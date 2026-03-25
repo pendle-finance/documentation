@@ -34,3 +34,26 @@ Limit orders are also integrated into the [Pendle Hosted SDK](../Backend/HostedS
 
 - [Maker APIs](https://api-v2.pendle.finance/limit-order/docs#/Maker) — Generate order data, submit orders, view active orders
 - [Taker APIs](https://api-v2.pendle.finance/limit-order/docs#/Taker) — Query available orders for filling
+
+## Maker Incentives
+
+Certain markets offer token rewards to makers who provide liquidity through limit orders.
+
+### How Incentives Work
+
+- **Epochs**: Incentives are distributed on a weekly basis.
+- **Qualifying orders**: To be eligible, an order must be placed within the market's configured APY range and remain active for a minimum period. Orders that are placed and immediately canceled do not qualify.
+- **Reward calculation**: Rewards are proportional to your order's effective making amount relative to the total qualifying volume within the epoch.
+
+### Incentive Modes
+
+| Mode | Description |
+|------|-------------|
+| `RELATIVE` | Rewards apply to orders placed within a configured APY range relative to the current market rate |
+| `ABSOLUTE` | Rewards apply to orders placed within a fixed APY range |
+
+### Qualifying for Rewards
+
+1. Check whether the market has an active incentive program.
+2. Place an order within the market's configured APY range.
+3. Keep the order active — rewards accumulate proportionally to your share of total qualifying making volume within the epoch.

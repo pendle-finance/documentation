@@ -6,6 +6,10 @@ import TabItem from '@theme/TabItem';
 
 # How to Integrate PT and LP Oracle
 
+:::tip Looking for the recommended oracle?
+For most new integrations, Pendle now recommends the **[Linear Discount Oracle](./DeterministicOracles/LinearDiscountOracle.md)** — adopted by top Aave and Morpho curators (Gauntlet, Steakhouse) for its manipulation-resistant, AMM-independent design. This page covers the TWAP oracle, which remains fully supported for integrations that require a market-derived price.
+:::
+
 Integrating PT and LP oracles into your system can be accomplished in the following steps. This document provides detailed instructions along with runnable examples.
 
 If you need personalized assistance, don't hesitate to contact us via our Developers channel on [Pendle Discord].
