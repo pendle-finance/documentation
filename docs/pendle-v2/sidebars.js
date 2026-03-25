@@ -60,7 +60,8 @@ module.exports = {
         { type: "doc", id: "AppGuide/Claim", label: "💎 Claim" },
         { type: "doc", id: "AppGuide/Dashboard", label: "📈 Dashboard" },
         { type: "doc", id: "AppGuide/Pencosystem", label: "🔗 Pencosystem" },
-        { type: "doc", id: "AppGuide/BridgePendle", label: "🌉 Bridge PENDLE"}
+        { type: "doc", id: "AppGuide/BridgePendle", label: "🌉 Bridge PENDLE"},
+        { type: "doc", id: "AppGuide/PendleAI", label: "🤖 Pendle AI Plugin" }
       ],
     },
     {
