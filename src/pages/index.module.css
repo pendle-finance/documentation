@@ -91,6 +91,11 @@
   box-shadow: 0 0 8px rgba(27, 227, 194, 0.4);
 }
 
+.borosRoot .heroBanner h1::after {
+  background: linear-gradient(90deg, transparent 0%, rgba(96, 121, 255, 0.6) 30%, rgba(96, 121, 255, 0.9) 50%, rgba(96, 121, 255, 0.6) 70%, transparent 100%);
+  box-shadow: 0 0 8px rgba(96, 121, 255, 0.4);
+}
+
 .subtitle {
   color: #9DAFCD;
   font-size: 1.0625rem;

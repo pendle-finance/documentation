@@ -64,7 +64,7 @@ export default function NavbarContent() {
           <NavbarMobileSidebarToggle />
           <Link to={borosActive ? "/boros" : "/pendle-v2"}>
             <div className="navbar__logo">
-               <img src="/img/logo.svg" alt="Pendle" />
+               <img src={borosActive ? "/img/boros-logo.svg" : "/img/logo.svg"} alt={borosActive ? "Boros" : "Pendle"} />
             </div>
           </Link>
           <NavbarItems items={navItems} />
