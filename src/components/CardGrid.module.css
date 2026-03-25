@@ -23,7 +23,6 @@
 .selfService .card {
   flex-direction: column;
   align-items: flex-start;
-  min-height: 171px;
   border-color: rgba(27, 227, 194, 0.50);
   background: linear-gradient(0deg, rgba(27, 227, 194, 0.00) 0%, rgba(27, 227, 194, 0.15) 100%);
 }
@@ -53,7 +52,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  min-height: 75px;
   border-color: rgba(96, 121, 255, 0.50);
   background: linear-gradient(90deg, rgba(96, 121, 255, 0.00) 0%, rgba(96, 121, 255, 0.15) 100%);
 }
@@ -66,17 +64,19 @@
 
 .theme-boros .svgWrapper {
   order: 1;
-  width: 56px;
-  height: 56px;
+  width: 84px;
+  height: 84px;
   flex-shrink: 0;
+  transform: scale(1.5);
 }
 
 /* ─── Card base (shared) ─── */
 .card {
   position: relative;
   display: flex;
+  flex: 1;
   gap: 0.5rem;
-  padding: 8px;
+  padding: 20px 16px 20px 16px;
   border-radius: 8px;
   border: 0.8px solid;
   overflow: hidden;
@@ -92,7 +92,8 @@
 .cardGrid .cardLink:active {
   text-decoration: none;
   color: inherit;
-  display: block;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ─── Text ─── */

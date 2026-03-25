@@ -61,7 +61,7 @@ export function Card({ title, description, link, icon, hasSMIL = false }) {
       <a
         href={link}
         className={styles.cardLink}
-        onMouseEnter={handleMouseEnter}
+onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
         {inner}

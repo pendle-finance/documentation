@@ -114,6 +114,17 @@
   --ifm-link-color: #6079FF;
   --ifm-link-hover-color: #8396FF;
 
+  /* Tip / success admonition — #51A69A */
+  --ifm-color-success:                     #51A69A;
+  --ifm-color-success-dark:                #489690;
+  --ifm-color-success-darker:              #428d87;
+  --ifm-color-success-darkest:             #36736f;
+  --ifm-color-success-light:               #5db6aa;
+  --ifm-color-success-lighter:             #6abfb4;
+  --ifm-color-success-lightest:            #84ccc7;
+  --ifm-color-success-contrast-background: rgba(81, 166, 154, 0.12);
+  --ifm-color-success-contrast-foreground: #d0eeeb;
+
   /* Typography */
   --ifm-font-family-base: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --ifm-font-family-monospace: 'JetBrains Mono', 'Courier New', Courier, monospace;
@@ -191,6 +202,12 @@
   --section-accent-bg:       rgba(96, 121, 255, 0.10);
   --section-accent-muted:    linear-gradient(90deg, rgba(96, 121, 255, 0.15) 0%, transparent 100%);
   --section-accent-muted-hv: linear-gradient(90deg, rgba(96, 121, 255, 0.25) 0%, transparent 100%);
+}
+
+/* Tip / success admonition — force background colour in dark mode */
+.alert--success {
+  --ifm-alert-background-color: rgba(81, 166, 154, 0.12) !important;
+  --ifm-alert-border-color: #51A69A !important;
 }
 
 /* --- Navbar top-bar active link accent --- */
@@ -1442,6 +1459,7 @@ table tbody tr:last-child td {
 .navbar__logo {
   display: flex !important;
   align-items: center !important;
+  margin-right: 40px;
 }
 
 .navbar__logo img {

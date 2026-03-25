@@ -19,9 +19,9 @@ export default function BorosSimple() {
           35%      { transform: scaleX(1.35) scaleY(0.72); }
           65%      { transform: scaleX(0.72) scaleY(1.35); }
         }
-        .bs-star       { transform-origin: 39px 37.5px; animation: bsStarBreathe  5s ease-in-out infinite; }
-        .bs-ring-solid { transform-origin: 39px 37.5px; animation: bsRingDiag     5s ease-in-out infinite; }
-        .bs-ring-dash  { transform-origin: 39px 37.5px; animation: bsRingDiagInv  5s ease-in-out infinite; }
+        .bs-star       { transform-origin: 39px 37.5px; animation: bsStarBreathe  2.5s ease-in-out infinite; }
+        .bs-ring-solid { transform-origin: 39px 37.5px; animation: bsRingDiag     2.5s ease-in-out infinite; }
+        .bs-ring-dash  { transform-origin: 39px 37.5px; animation: bsRingDiagInv  2.5s ease-in-out infinite; }
       `}</style>
       <g className="bs-star">
         <path d="M58.2467 18.0836L45.5978 31.4509C42.387 34.844 42.3871 40.1546 45.5978 43.5477L58.2467 56.9149L44.8795 44.266C41.4863 41.0553 36.1758 41.0553 32.7826 44.266L19.4154 56.9149L32.0643 43.5477C35.2751 40.1546 35.2751 34.844 32.0643 31.4509L19.4154 18.0836L32.7826 30.7325C36.1758 33.9433 41.4864 33.9433 44.8795 30.7325L58.2467 18.0836Z" fill="#A2B1FF"/>
