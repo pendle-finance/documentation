@@ -88,6 +88,7 @@ BOROS_FILES=(
   "$BOROS_DOCS_DIR/Backend/4. websocket.mdx"
   "$BOROS_DOCS_DIR/Backend/5. best-practices.mdx"
   "$BOROS_DOCS_DIR/Backend/6. stop-orders.mdx"
+  "$BOROS_DOCS_DIR/Backend/7. historical-data.mdx"
   "$BOROS_DOCS_DIR/FAQ.mdx"
 )
 
