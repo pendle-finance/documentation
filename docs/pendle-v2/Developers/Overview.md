@@ -15,7 +15,17 @@ hide_table_of_contents: true
 ## For AI users
 - As many of us increasingly rely on AI tools to read and understand project documentation, we’ve added a new folder to the repository: [docs/Developers](https://github.com/pendle-finance/documentation/tree/master/docs/Developers). It contains a list of questions and answers about our system and our API, useful for AI to better understand our system and provide more accurate answers when you query them. Our in-house AI is also using these knowledge bases!
 
-- Follow the instructions in [README.md](https://github.com/pendle-finance/documentation/tree/master?tab=readme-ov-file#ai-knowledge-bases) to index the knowledge bases for your AI. 
+- Follow the instructions in [README.md](https://github.com/pendle-finance/documentation/tree/master?tab=readme-ov-file#ai-knowledge-bases) to index the knowledge bases for your AI.
+
+## What do you want to do?
+
+| Goal | Start here |
+|---|---|
+| **Build a trading bot or data aggregator** | [Quickstart](./Quickstart.md) → [Backend API Overview](./Backend/ApiOverview.mdx) |
+| **Integrate PT/YT into your protocol (on-chain)** | [Router Overview](./Contracts/PendleRouter/PendleRouterOverview.md) → [Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide.md) |
+| **Price PT or LP (oracle / collateral)** | [Oracle Overview](./Oracles/OracleOverview.md) → [How to Integrate](./Oracles/HowToIntegratePtAndLpOracle.md) |
+| **Work with Limit Orders** | [Limit Order Overview](./LimitOrder/Overview.md) |
+| **Track sPENDLE rewards** | [sPENDLE API](./Backend/ApiOverview.mdx#spendle-api-endpoints) |
 
 ## Core Documentation
 
@@ -28,7 +38,7 @@ hide_table_of_contents: true
 ### On-chain Integration
 
 - **Router**: [Documentation](./Contracts/PendleRouter/PendleRouterOverview.md) | [Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide.md)
-- **Oracles**: [Integration Guide](./Oracles/HowToIntegratePtAndLpOracle.md) | [PT as Collateral](./Oracles/PTAsCollateral.md) | [LP as Collateral](./Oracles/LPAsCollateral.md)
+- **Oracles**: [Overview](./Oracles/OracleOverview.md) | [Integration Guide](./Oracles/HowToIntegratePtAndLpOracle.md) | [PT as Collateral](./Oracles/PTAsCollateral.md) | [LP as Collateral](./Oracles/LPAsCollateral.md)
 - [Example Repository](https://github.com/pendle-finance/pendle-examples-public) - Various contract interaction examples
 
 ### Off-chain Integration

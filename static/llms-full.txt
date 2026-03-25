@@ -69,7 +69,17 @@ By creating a yield market in DeFi, Pendle unlocks the full potential of yield, 
 ## For AI users
 - As many of us increasingly rely on AI tools to read and understand project documentation, we’ve added a new folder to the repository: [docs/Developers](https://github.com/pendle-finance/documentation/tree/master/docs/Developers). It contains a list of questions and answers about our system and our API, useful for AI to better understand our system and provide more accurate answers when you query them. Our in-house AI is also using these knowledge bases!
 
-- Follow the instructions in [README.md](https://github.com/pendle-finance/documentation/tree/master?tab=readme-ov-file#ai-knowledge-bases) to index the knowledge bases for your AI. 
+- Follow the instructions in [README.md](https://github.com/pendle-finance/documentation/tree/master?tab=readme-ov-file#ai-knowledge-bases) to index the knowledge bases for your AI.
+
+## What do you want to do?
+
+| Goal | Start here |
+|---|---|
+| **Build a trading bot or data aggregator** | [Quickstart](./Quickstart.md) → [Backend API Overview](./Backend/ApiOverview.mdx) |
+| **Integrate PT/YT into your protocol (on-chain)** | [Router Overview](./Contracts/PendleRouter/PendleRouterOverview.md) → [Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide.md) |
+| **Price PT or LP (oracle / collateral)** | [Oracle Overview](./Oracles/OracleOverview.md) → [How to Integrate](./Oracles/HowToIntegratePtAndLpOracle.md) |
+| **Work with Limit Orders** | [Limit Order Overview](./LimitOrder/Overview.md) |
+| **Track sPENDLE rewards** | [sPENDLE API](./Backend/ApiOverview.mdx#spendle-api-endpoints) |
 
 ## Core Documentation
 
@@ -82,7 +92,7 @@ By creating a yield market in DeFi, Pendle unlocks the full potential of yield, 
 ### On-chain Integration
 
 - **Router**: [Documentation](./Contracts/PendleRouter/PendleRouterOverview.md) | [Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide.md)
-- **Oracles**: [Integration Guide](./Oracles/HowToIntegratePtAndLpOracle.md) | [PT as Collateral](./Oracles/PTAsCollateral.md) | [LP as Collateral](./Oracles/LPAsCollateral.md)
+- **Oracles**: [Overview](./Oracles/OracleOverview.md) | [Integration Guide](./Oracles/HowToIntegratePtAndLpOracle.md) | [PT as Collateral](./Oracles/PTAsCollateral.md) | [LP as Collateral](./Oracles/LPAsCollateral.md)
 - [Example Repository](https://github.com/pendle-finance/pendle-examples-public) - Various contract interaction examples
 
 ### Off-chain Integration
@@ -102,6 +112,81 @@ By creating a yield market in DeFi, Pendle unlocks the full potential of yield, 
 - [SY Contract Repository](https://github.com/pendle-finance/Pendle-SY-Public)
 - [Example Repository](https://github.com/pendle-finance/pendle-examples-public)
 - [Whitepapers](https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers)
+
+---
+
+
+# Quickstart
+
+Pendle V2 is a yield-trading protocol that lets users split yield-bearing assets into Principal Tokens (PT) and Yield Tokens (YT), trade them on AMM markets, and provide liquidity — all on-chain. The fastest way to start is the off-chain Backend API — no wallet required.
+
+## Prerequisites
+
+- `curl` or any HTTP client (browser, `fetch`, `axios`, etc.)
+
+## Step 1 — Browse available markets
+
+**Endpoint:** `GET https://api-v2.pendle.finance/core/v2/markets/all`
+
+Returns all Pendle markets across every supported chain. Supports `skip` and `limit` for pagination (default `limit` is 10, maximum is 100).
+
+```bash
+curl "https://api-v2.pendle.finance/core/v2/markets/all?limit=10&skip=0"
+```
+
+```js
+const res = await fetch(
+  "https://api-v2.pendle.finance/core/v2/markets/all?limit=10&skip=0"
+);
+const { markets } = await res.json();
+console.log(markets);
+```
+
+Key fields in each market object:
+
+| Field | Description |
+|-------|-------------|
+| `chainId` | Chain the market is deployed on (e.g., `1` for Ethereum, `42161` for Arbitrum) |
+| `address` | Market contract address |
+| `expiry` | Unix timestamp when the market matures |
+| `impliedApy` | Current implied fixed APY of the market |
+| `pt.price.usd` | Current PT price in USD |
+
+## Step 2 — Get market data
+
+**Endpoint:** `GET https://api-v2.pendle.finance/core/v2/markets/all`
+
+Use the `address` field from Step 1 to identify markets of interest. For filtering and additional query options (e.g., by chain, by asset category), see the [full API reference](./Backend/ApiOverview.mdx).
+
+The example below fetches all markets on Arbitrum (chainId `42161`) and filters client-side for a known market address:
+
+```bash
+curl "https://api-v2.pendle.finance/core/v2/markets/all?limit=100&skip=0" \
+  | jq '[.markets[] | select(.chainId == 42161 and .address == "{MARKET_ADDRESS}")]'
+```
+
+Replace `{MARKET_ADDRESS}` with the address of the market you want to inspect (obtained from Step 1).
+
+## Step 3 — Get sPENDLE staking data (optional)
+
+**Endpoint:** `GET https://api-v2.pendle.finance/core/v1/spendle/data`
+
+```bash
+curl "https://api-v2.pendle.finance/core/v1/spendle/data"
+```
+
+Returns aggregate sPENDLE staking statistics including total PENDLE staked, historical APRs, per-epoch revenues, and airdrop breakdowns for the last 12 epochs.
+
+## Next steps
+
+:::tip
+
+- **Full API reference** — endpoint details, query parameters, response schemas: [Backend API Overview](./Backend/ApiOverview.mdx)
+- **On-chain Router** (swaps, add/remove liquidity, mint/redeem): [Pendle Router Overview](./Contracts/PendleRouter/PendleRouterOverview.md)
+- **Deployed contract addresses** — all chains and environments: [Deployments](./Deployments.md)
+- **Developer support** — questions, announcements, deprecation notices: [t.me/pendledevelopers](https://t.me/pendledevelopers)
+
+:::
 
 ---
 
@@ -652,15 +737,21 @@ All public endpoints are served under `https://api-v2.pendle.finance/core` and f
 
 These endpoints return data across all chains in a single request. Preferred for new integrations:
 
-| Example | Description |
+| Endpoint | Description |
 |---------|-------------|
-| `GET /v1/markets/all` | All markets across all chains |
+| `GET /v2/markets/all` | All markets across all chains — includes pagination, points, and external protocol data |
 | `GET /v1/assets/all` | All assets across all chains |
 | `GET /v1/prices/assets` | Asset prices across all chains |
 
+:::note Deprecated
+
+`GET /v1/markets/all` and `GET /v1/markets/points-market` are deprecated. Use `GET /v2/markets/all` instead — it returns the same markets with pagination support and points data included in each market object.
+
+:::
+
 #### Markets — Pagination
 
-The `/v1/markets/all` and related market listing endpoints support `skip` and `limit` query parameters for pagination:
+`GET /v2/markets/all` supports `skip` and `limit` query parameters for pagination:
 
 | Parameter | Default | Maximum | Description |
 |-----------|---------|---------|-------------|
@@ -681,11 +772,18 @@ Non-fatal pricing errors (e.g., assets not found for a given timestamp) are retu
 
 Some endpoints are scoped to a specific chain:
 
-| Example | Description |
+| Endpoint | Description |
 |---------|-------------|
-| `GET /v2/{chainId}/markets/{address}/data` | Market data for a specific address |
-| `GET /v2/sdk/{chainId}/convert` | Generate transaction payload for a specific chain |
+| ~~`GET /v2/{chainId}/markets/{address}/data`~~ | *(Deprecated)* Market data for a specific address |
+| ~~`GET /v2/sdk/{chainId}/convert`~~ | *(Deprecated)* Generate transaction payload — use `POST /v3/sdk/{chainId}/convert` instead |
 | `GET /v5/{chainId}/transactions/{address}` | Transaction history for an address |
+
+:::note Deprecated
+
+- `GET /v2/{chainId}/markets/{address}/data` is deprecated.
+- `GET /v2/sdk/{chainId}/convert` (GET) is deprecated. Use `POST /v3/sdk/{chainId}/convert` instead, which accepts a JSON body and supports typed inputs.
+
+:::
 
 For new integrations, prefer cross-chain endpoints where available — they reduce the number of calls needed when working with multiple chains.
 
@@ -829,6 +927,11 @@ The `X-Ratelimit-Limit: 100` value in this case is simply a default header from 
 ### vePENDLE Deprecation
 
 vePENDLE has been deprecated and replaced by **sPENDLE**. All endpoints listed under the **Ve Pendle** tag in the [API documentation](https://api-v2.pendle.finance/core/docs) are deprecated — they remain accessible but will not be updated to reflect the new sPENDLE staking system.
+
+The following endpoints are specifically deprecated:
+
+- `GET /v1/ve-pendle/data` — use [`GET /v1/spendle/data`](#get-v1spendledata) instead
+- `GET /v1/ve-pendle/market-fees-chart` — no replacement; fees data is now included in the sPENDLE historical data response
 
 ## sPENDLE API Endpoints
 
@@ -2809,7 +2912,7 @@ function observe(uint32[] memory secondsAgos)
     returns (uint216[] memory lnImpliedRateCumulative);
 ```
 
-**Note:** Each element of `secondsAgos` is a lookback in seconds from the current block (e.g., `[300, 0]` = 5 minutes ago and now). Returns the cumulative `lnImpliedRate` at each point, from which a TWAP can be derived. See the [Oracle section](#oracle) below and [Introduction to PT Oracle](../../Oracles/IntroductionOfPtOracle) for details.
+**Note:** Each element of `secondsAgos` is a lookback in seconds from the current block (e.g., `[300, 0]` = 5 minutes ago and now). Returns the cumulative `lnImpliedRate` at each point, from which a TWAP can be derived. See the [Oracle section](#oracle) below and [About the PT Oracle](../../Oracles/OracleOverview.md#about-the-pt-oracle) for details.
 
 ### [`getNonOverrideLnFeeRateRoot`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/PendleMarketV7.sol#L340-L342)
 Returns the base fee rate before any router-specific override.
@@ -2977,7 +3080,7 @@ $$
 
 where **lnImpliedRate** is the natural logarithm of the implied interest rate at the current market state, and **Δt** is the time elapsed.
 
-From these cumulative values, you can compute the **geometric mean price of PT** over a given interval (see [Introduction to PT Oracle](../../Oracles/IntroductionOfPtOracle) for details).
+From these cumulative values, you can compute the **geometric mean price of PT** over a given interval (see [About the PT Oracle](../../Oracles/OracleOverview.md#about-the-pt-oracle) for details).
 
 ### Integration Guide
 
@@ -5602,14 +5705,33 @@ To convert scaled SY of wrapped asset to the **original** underlying asset, we c
 ---
 
 
-# Introduction of PT Oracle
+# Pendle Oracle Overview
 
-In the Pendle system, $PT$ can be freely traded from and to $SY$ utilizing our AMM. With the built-in TWAP oracle library, the geometric mean price of $PT$ in terms of SY or asset can be derived from our `PendleMarket` contracts fully on-chain. Please refer to the [StandardizedYield doc](../Contracts/StandardizedYield/StandardizedYield) for more details of SY & asset
-## Oracle design
+Pendle offers two oracle types for pricing PT and LP tokens. For most new integrations, **the Linear Discount Oracle is the recommended choice** — it has been widely adopted by top Aave and Morpho curators including Gauntlet and Steakhouse due to its manipulation-resistant design and alignment with PT's guaranteed 1:1 redemption to underlying at maturity. The TWAP oracle remains available for integrations that require a market-derived price.
+
+## Which oracle should I use?
+
+| Oracle type | Status | Best for | Docs |
+|---|---|---|---|
+| **Deterministic (Linear Discount)** | ✅ **Recommended** | Money markets, lending protocols, collateral pricing | [LinearDiscountOracle](./DeterministicOracles/LinearDiscountOracle.md) · [LP variant](./DeterministicOracles/LPLinearDiscountOracle.md) · [Choosing params](./DeterministicOracles/ChoosingLinearDiscountParams.md) |
+| TWAP PT/LP Oracle | Available | Integrations requiring a live market-derived price | [HowToIntegratePtAndLpOracle](./HowToIntegratePtAndLpOracle.md) |
+
+## Why the Linear Discount Oracle is recommended
+
+PT is **guaranteed to redeem 1:1 to its underlying asset at maturity**. This hard floor means a linear discount model — which prices PT as a fraction that converges to 1.0 at expiry — is fundamentally sound and tightly tracks fair value. In contrast, TWAP oracles derive price from AMM activity, which introduces AMM manipulation surface and requires careful initialization and liquidity depth assessment.
+
+The Linear Discount Oracle has no external dependencies during reads (`block.timestamp` only), making it liveness-risk-free and manipulation-resistant. This is why it has become the oracle of choice for top risk curators integrating PT across Aave and Morpho markets.
+
+## About the PT Oracle
+
+In the Pendle system, $PT$ can be freely traded from and to $SY$ utilizing our AMM. With the built-in TWAP oracle library, the geometric mean price of $PT$ in terms of SY or asset can be derived from our `PendleMarket` contracts fully on-chain. Please refer to the [StandardizedYield doc](../Contracts/StandardizedYield/StandardizedYield) for more details of SY & asset.
+
+### Oracle design
 
 Pendle's oracle implementation is inspired by the idea of the UniswapV3 Oracle (see [here](https://docs.uniswap.org/concepts/protocol/oracle)) with a slight difference in how we define the cumulative rate. In short, our oracle stores the cumulative logarithm of implied APY (the interest rate implied by $PT/asset$ pricing). From the cumulative logarithm of Implied APY, we can calculate the geometric mean of Implied APY, which will be used to derive the mean $PT$ price.
 
 In a way, the Pendle AMM contract has a built-in oracle of interest rate, which can be used to derive $PT$ prices.
+
 ### Formulas
 
 Our oracle storage is in the following form:
@@ -5642,20 +5764,14 @@ $$
 $$
 ptToAssetPrice = 1 / assetToPtPrice
 $$
----
 
+See [How to Integrate](./HowToIntegratePtAndLpOracle.md) for a step-by-step guide.
 
-# Introduction of LP Oracle
-
-:::info
-Please make sure you have a good understanding of how Pendle prices PT before learning more about LP oracle (see more about PT oracles [here](./IntroductionOfPtOracle.md))
-:::
+## About the LP Oracle
 
 Pendle's LP token represents a user's share in Pendle AMM which pairs up PT and SY.
 
 SY is the interest-bearing token wrapper which enables depositing from and redeeming from underlying asset with no additional fee or price impact. PT can be traded to and from SY/underlying asset using our AMM, with a built-in geometric mean pricing module.
-
-## About LP Oracle
 
 LP oracle returns the estimated TWAP exchange rate between LP token and underlying asset. Our approach for LP pricing is to simulate a hypothetical trade on the AMM so that its PT spot price (and the implied rate) matches PT price (and the implied rate) from PT oracle before using market state to calculate LP price.
 
@@ -5667,6 +5783,22 @@ For example:
 
 Detailed documentation on the math for this approach can be found [here](https://github.com/pendle-finance/pendle-v2-resources/blob/main/docs/LP_Oracle_Doc.pdf).
 
+See [How to Integrate](./HowToIntegratePtAndLpOracle.md) for a step-by-step guide.
+
+## Recommended reading order
+
+### If using the Linear Discount Oracle (recommended)
+1. This page — understand which oracle type fits your use case
+2. [Linear Discount Oracle](./DeterministicOracles/LinearDiscountOracle.md) — how the oracle works and how to deploy it
+3. [Choosing Linear Discount Parameters](./DeterministicOracles/ChoosingLinearDiscountParams.md) — how to select the right discount rate
+4. If pricing LP tokens: [LP Linear Discount Oracle](./DeterministicOracles/LPLinearDiscountOracle.md)
+5. If using as collateral: [PT as Collateral](./PTAsCollateral.md) or [LP as Collateral](./LPAsCollateral.md)
+
+### If using the TWAP Oracle
+1. This page — understand which oracle type fits your use case
+2. [How to Integrate PT and LP Oracle](./HowToIntegratePtAndLpOracle.md) — hands-on TWAP integration with code
+3. [PT Sanity Checks](./PTSanityChecks.md) — validate your integration before going live
+4. If using as collateral: [PT as Collateral](./PTAsCollateral.md) or [LP as Collateral](./LPAsCollateral.md)
 
 ---
 
@@ -5674,6 +5806,10 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # How to Integrate PT and LP Oracle
+
+:::tip Looking for the recommended oracle?
+For most new integrations, Pendle now recommends the **[Linear Discount Oracle](./DeterministicOracles/LinearDiscountOracle.md)** — adopted by top Aave and Morpho curators (Gauntlet, Steakhouse) for its manipulation-resistant, AMM-independent design. This page covers the TWAP oracle, which remains fully supported for integrations that require a market-derived price.
+:::
 
 Integrating PT and LP oracles into your system can be accomplished in the following steps. This document provides detailed instructions along with runnable examples.
 

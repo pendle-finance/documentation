@@ -221,7 +221,7 @@ function observe(uint32[] memory secondsAgos)
     returns (uint216[] memory lnImpliedRateCumulative);
 ```
 
-**Note:** Each element of `secondsAgos` is a lookback in seconds from the current block (e.g., `[300, 0]` = 5 minutes ago and now). Returns the cumulative `lnImpliedRate` at each point, from which a TWAP can be derived. See the [Oracle section](#oracle) below and [Introduction to PT Oracle](../../Oracles/IntroductionOfPtOracle) for details.
+**Note:** Each element of `secondsAgos` is a lookback in seconds from the current block (e.g., `[300, 0]` = 5 minutes ago and now). Returns the cumulative `lnImpliedRate` at each point, from which a TWAP can be derived. See the [Oracle section](#oracle) below and [About the PT Oracle](../../Oracles/OracleOverview.md#about-the-pt-oracle) for details.
 
 ### [`getNonOverrideLnFeeRateRoot`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/PendleMarketV7.sol#L340-L342)
 Returns the base fee rate before any router-specific override.
@@ -389,7 +389,7 @@ $$
 
 where **lnImpliedRate** is the natural logarithm of the implied interest rate at the current market state, and **Δt** is the time elapsed.
 
-From these cumulative values, you can compute the **geometric mean price of PT** over a given interval (see [Introduction to PT Oracle](../../Oracles/IntroductionOfPtOracle) for details).
+From these cumulative values, you can compute the **geometric mean price of PT** over a given interval (see [About the PT Oracle](../../Oracles/OracleOverview.md#about-the-pt-oracle) for details).
 
 ### Integration Guide
 

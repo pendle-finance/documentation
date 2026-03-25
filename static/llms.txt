@@ -11,6 +11,7 @@
 ### Getting Started
 - [Introduction](https://docs.pendle.finance/pendle-v2/Introduction): What is Pendle, yield tokenization overview
 - [Developer Overview](https://docs.pendle.finance/pendle-v2/Developers/Overview): Support channels, Telegram, Discord, and AI knowledge base
+- [Quickstart](https://docs.pendle.finance/pendle-v2/Developers/Quickstart): Make your first Backend API call in under 5 minutes — no wallet required
 - [High Level Architecture](https://docs.pendle.finance/pendle-v2/Developers/HighLevelArchitecture): SY, PT, YT, Market, and Router contract roles
 
 ### Protocol Concepts
@@ -45,12 +46,13 @@
 - [Units and Decimals](https://docs.pendle.finance/pendle-v2/Developers/Contracts/UnitAndDecimals): Decimal conventions across Pendle contracts
 
 ### Oracles
-- [PT Oracle Introduction](https://docs.pendle.finance/pendle-v2/Developers/Oracles/IntroductionOfPtOracle): TWAP-based PT price oracle
-- [LP Oracle Introduction](https://docs.pendle.finance/pendle-v2/Developers/Oracles/IntroductionOfLpOracle): LP price oracle design and manipulation resistance
-- [How to Integrate PT and LP Oracle](https://docs.pendle.finance/pendle-v2/Developers/Oracles/HowToIntegratePtAndLpOracle): Step-by-step integration guide
+- [Oracle Overview](https://docs.pendle.finance/pendle-v2/Developers/Oracles/OracleOverview): Oracle type comparison — Linear Discount Oracle (recommended) vs TWAP Oracle, with reading paths for each
+- [Linear Discount Oracle](https://docs.pendle.finance/pendle-v2/Developers/Oracles/DeterministicOracles/LinearDiscountOracle): **Recommended.** Deterministic, manipulation-resistant PT pricing — adopted by Aave/Morpho curators Gauntlet and Steakhouse
+- [LP Linear Discount Oracle](https://docs.pendle.finance/pendle-v2/Developers/Oracles/DeterministicOracles/LPLinearDiscountOracle): Deterministic pricing for Pendle LP tokens
+- [Choosing Linear Discount Parameters](https://docs.pendle.finance/pendle-v2/Developers/Oracles/DeterministicOracles/ChoosingLinearDiscountParams): How to select the right discount rate using Desmos tooling
+- [How to Integrate PT and LP Oracle](https://docs.pendle.finance/pendle-v2/Developers/Oracles/HowToIntegratePtAndLpOracle): Step-by-step TWAP oracle integration guide (alternative to Linear Discount)
 - [PT as Collateral](https://docs.pendle.finance/pendle-v2/Developers/Oracles/PTAsCollateral): Security considerations for money market integrations
 - [LP as Collateral](https://docs.pendle.finance/pendle-v2/Developers/Oracles/LPAsCollateral): Security considerations for LP collateral
-- [Linear Discount Oracle](https://docs.pendle.finance/pendle-v2/Developers/Oracles/DeterministicOracles/LinearDiscountOracle): Deterministic, manipulation-resistant PT pricing
 
 ### Reference
 - [Deployments](https://docs.pendle.finance/pendle-v2/Developers/Deployments): Contract addresses by chain

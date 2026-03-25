@@ -45,15 +45,21 @@ All public endpoints are served under `https://api-v2.pendle.finance/core` and f
 
 These endpoints return data across all chains in a single request. Preferred for new integrations:
 
-| Example | Description |
+| Endpoint | Description |
 |---------|-------------|
-| `GET /v1/markets/all` | All markets across all chains |
+| `GET /v2/markets/all` | All markets across all chains — includes pagination, points, and external protocol data |
 | `GET /v1/assets/all` | All assets across all chains |
 | `GET /v1/prices/assets` | Asset prices across all chains |
 
+:::note Deprecated
+
+`GET /v1/markets/all` and `GET /v1/markets/points-market` are deprecated. Use `GET /v2/markets/all` instead — it returns the same markets with pagination support and points data included in each market object.
+
+:::
+
 #### Markets — Pagination
 
-The `/v1/markets/all` and related market listing endpoints support `skip` and `limit` query parameters for pagination:
+`GET /v2/markets/all` supports `skip` and `limit` query parameters for pagination:
 
 | Parameter | Default | Maximum | Description |
 |-----------|---------|---------|-------------|
@@ -74,11 +80,18 @@ Non-fatal pricing errors (e.g., assets not found for a given timestamp) are retu
 
 Some endpoints are scoped to a specific chain:
 
-| Example | Description |
+| Endpoint | Description |
 |---------|-------------|
-| `GET /v2/{chainId}/markets/{address}/data` | Market data for a specific address |
-| `GET /v2/sdk/{chainId}/convert` | Generate transaction payload for a specific chain |
+| ~~`GET /v2/{chainId}/markets/{address}/data`~~ | *(Deprecated)* Market data for a specific address |
+| ~~`GET /v2/sdk/{chainId}/convert`~~ | *(Deprecated)* Generate transaction payload — use `POST /v3/sdk/{chainId}/convert` instead |
 | `GET /v5/{chainId}/transactions/{address}` | Transaction history for an address |
+
+:::note Deprecated
+
+- `GET /v2/{chainId}/markets/{address}/data` is deprecated.
+- `GET /v2/sdk/{chainId}/convert` (GET) is deprecated. Use `POST /v3/sdk/{chainId}/convert` instead, which accepts a JSON body and supports typed inputs.
+
+:::
 
 For new integrations, prefer cross-chain endpoints where available — they reduce the number of calls needed when working with multiple chains.
 
@@ -222,6 +235,11 @@ The `X-Ratelimit-Limit: 100` value in this case is simply a default header from 
 ### vePENDLE Deprecation
 
 vePENDLE has been deprecated and replaced by **sPENDLE**. All endpoints listed under the **Ve Pendle** tag in the [API documentation](https://api-v2.pendle.finance/core/docs) are deprecated — they remain accessible but will not be updated to reflect the new sPENDLE staking system.
+
+The following endpoints are specifically deprecated:
+
+- `GET /v1/ve-pendle/data` — use [`GET /v1/spendle/data`](#get-v1spendledata) instead
+- `GET /v1/ve-pendle/market-fees-chart` — no replacement; fees data is now included in the sPENDLE historical data response
 
 ## sPENDLE API Endpoints
 
