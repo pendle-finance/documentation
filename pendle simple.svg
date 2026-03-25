@@ -1,0 +1,75 @@
+<svg width="78" height="78" viewBox="0 0 78 78" fill="none" xmlns="http://www.w3.org/2000/svg">
+<style>
+  /* Translation animations */
+  @keyframes moveEllipse {
+    0%  { transform: translate(0, 0); }
+    10% { transform: translate(0, 0); animation-timing-function: cubic-bezier(0.4,0,0.2,1); }
+    30% { transform: translate(22px, 24.5px); }
+    70% { transform: translate(22px, 24.5px); animation-timing-function: cubic-bezier(0.4,0,0.2,1); }
+    90% { transform: translate(0, 0); }
+    100%{ transform: translate(0, 0); }
+  }
+  @keyframes moveCircle {
+    0%  { transform: translate(0, 0); }
+    10% { transform: translate(0, 0); animation-timing-function: cubic-bezier(0.4,0,0.2,1); }
+    30% { transform: translate(-22px, -24.5px); }
+    70% { transform: translate(-22px, -24.5px); animation-timing-function: cubic-bezier(0.4,0,0.2,1); }
+    90% { transform: translate(0, 0); }
+    100%{ transform: translate(0, 0); }
+  }
+  @keyframes moveTriangle {
+    0%  { transform: translate(0, 0); }
+    10% { transform: translate(0, 0); animation-timing-function: cubic-bezier(0.4,0,0.2,1); }
+    30% { transform: translate(-22px, 21.7px); }
+    70% { transform: translate(-22px, 21.7px); animation-timing-function: cubic-bezier(0.4,0,0.2,1); }
+    90% { transform: translate(0, 0); }
+    100%{ transform: translate(0, 0); }
+  }
+  @keyframes moveRect {
+    0%  { transform: translate(0, 0); }
+    10% { transform: translate(0, 0); animation-timing-function: cubic-bezier(0.4,0,0.2,1); }
+    30% { transform: translate(22px, -21.7px); }
+    70% { transform: translate(22px, -21.7px); animation-timing-function: cubic-bezier(0.4,0,0.2,1); }
+    90% { transform: translate(0, 0); }
+    100%{ transform: translate(0, 0); }
+  }
+
+  /* Spin 180 simultaneously with translation out, back with translation in */
+  @keyframes spinShape {
+    0%  { transform: rotate(0deg); }
+    10% { transform: rotate(0deg); animation-timing-function: cubic-bezier(0.4,0,0.2,1); }
+    30% { transform: rotate(180deg); }
+    70% { transform: rotate(180deg); animation-timing-function: cubic-bezier(0.4,0,0.2,1); }
+    90% { transform: rotate(0deg); }
+    100%{ transform: rotate(0deg); }
+  }
+
+  .e { animation: moveEllipse  5s linear infinite; }
+  .c { animation: moveCircle   5s linear infinite; }
+  .t { animation: moveTriangle 5s linear infinite; }
+  .r { animation: moveRect     5s linear infinite; }
+
+  .spin {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: spinShape 5s linear infinite;
+  }
+</style>
+
+<g class="c">
+  <circle cx="53.8621" cy="49.2406" r="11.3691" stroke="#7AB7FF" stroke-width="1.2"/>
+</g>
+<g class="e">
+  <ellipse cx="31.6781" cy="24.7465" rx="12.5258" ry="12.5258" fill="#1BE3C2"/>
+</g>
+<g class="r">
+  <g class="spin">
+    <rect x="16.0735" y="42.917" width="22.8464" height="22.8464" transform="rotate(-30 16.0735 42.917)" fill="#7AB7FF" fill-opacity="0.1" stroke="#EBEFF5" stroke-width="0.4"/>
+  </g>
+</g>
+<g class="t">
+  <g class="spin">
+    <path d="M57.3888 17.9326L62.6716 32.7723L52.1134 27.7043L52.1118 27.7028L42.5492 23.2154L57.3888 17.9326Z" fill="#7AB7FF" fill-opacity="0.1" stroke="#EBEFF5" stroke-width="0.5"/>
+  </g>
+</g>
+</svg>

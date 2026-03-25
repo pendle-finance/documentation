@@ -1,54 +1,77 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from './CardGrid.module.css';
 
-export default function CardGrid({ children, type = 'default' }) {
-  const gridClass = `${styles.cardGrid} ${styles[type] || styles.default}`;
+export default function CardGrid({ children, type = 'default', theme }) {
+  const classes = [
+    styles.cardGrid,
+    styles[type] || styles.default,
+    theme ? styles[`theme-${theme}`] : null,
+  ].filter(Boolean).join(' ');
 
-  return (
-    <div className={gridClass}>
-      {children}
-    </div>
-  );
+  return <div className={classes}>{children}</div>;
 }
 
-export function Card({ title, description, link, icon, level }) {
-  const cardClass = level ? `${styles.card} ${styles[level]}` : styles.card;
+export function Card({ title, description, link, icon, hasSMIL = false }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const svgWrapperRef = useRef(null);
 
-  const CardContent = () => (
-    <div className={cardClass}>
-      {icon && <div className={styles.icon}>{icon}</div>}
-      <div className={styles.content}>
+  // Reset SMIL to frame 1 and pause on mount
+  useEffect(() => {
+    if (!hasSMIL || !svgWrapperRef.current) return;
+    const svgEl = svgWrapperRef.current.querySelector('svg');
+    if (svgEl) { svgEl.setCurrentTime(0); svgEl.pauseAnimations(); }
+  }, [hasSMIL]);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (hasSMIL && svgWrapperRef.current) {
+      const svgEl = svgWrapperRef.current.querySelector('svg');
+      if (svgEl) svgEl.unpauseAnimations();
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+    if (hasSMIL && svgWrapperRef.current) {
+      const svgEl = svgWrapperRef.current.querySelector('svg');
+      // Reset to frame 1 then pause
+      if (svgEl) { svgEl.setCurrentTime(0); svgEl.pauseAnimations(); }
+    }
+  };
+
+  const inner = (
+    <div className={`${styles.card} ${isHovered ? styles.hovered : ''}`}>
+      <div className={styles.cardText}>
         {title && <h3 className={styles.title}>{title}</h3>}
         {description && <p className={styles.description}>{description}</p>}
       </div>
+      {icon && (
+        <div
+          ref={svgWrapperRef}
+          className={`${styles.svgWrapper} ${!isHovered ? styles.svgPaused : ''}`}
+        >
+          {icon}
+        </div>
+      )}
     </div>
   );
 
   if (link) {
-    // Handle both external links and internal anchors
-    const isExternal = link.startsWith('http');
-    const isAnchor = link.startsWith('#');
-
-    if (isExternal) {
-      return (
-        <a href={link} className={styles.cardLink} target="_blank" rel="noopener noreferrer">
-          <CardContent />
-        </a>
-      );
-    } else if (isAnchor) {
-      return (
-        <a href={link} className={styles.cardLink}>
-          <CardContent />
-        </a>
-      );
-    } else {
-      return (
-        <a href={link} className={styles.cardLink}>
-          <CardContent />
-        </a>
-      );
-    }
+    return (
+      <a
+        href={link}
+        className={styles.cardLink}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        {inner}
+      </a>
+    );
   }
 
-  return <CardContent />;
+  return (
+    <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      {inner}
+    </div>
+  );
 }
