@@ -84,9 +84,12 @@ export default function BorosHome() {
       noFooter={true}
     >
       <main className="main--landing">
-        <div className={styles.root}>
+        <div className={`${styles.root} ${styles.borosRoot}`}>
+          <div className={styles.heroIllustration}>
+            <img src="/img/cube-boros.png" alt="Boros" />
+          </div>
           <header className={styles.heroBanner}>
-            <h1 className="hero__title">Boros Documentation</h1>
+            <h1 className="hero__title">Boros Documentation Hub</h1>
           </header>
 
           <div className={`${styles.section} ${styles.borosSection}`}>

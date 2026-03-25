@@ -12,30 +12,50 @@
   overflow: hidden;
 }
 
-.root::before {
+.pendleRoot::before {
   content: '';
   position: absolute;
-  top: 15%;
-  left: -200px;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(27, 227, 194, 0.18) 0%, rgba(122, 183, 255, 0.08) 40%, transparent 70%);
-  filter: blur(120px);
+  bottom: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140vw;
+  height: 80vh;
+  background: radial-gradient(ellipse at bottom, rgba(27, 227, 194, 0.45) 0%, rgba(27, 227, 194, 0.15) 50%, transparent 75%);
+  filter: blur(80px);
   pointer-events: none;
   z-index: 0;
 }
 
-.root::after {
+.borosRoot::before {
   content: '';
   position: absolute;
-  top: 60%;
-  right: -200px;
-  width: 800px;
-  height: 800px;
-  background: radial-gradient(circle, rgba(96, 121, 255, 0.18) 0%, transparent 70%);
-  filter: blur(120px);
+  bottom: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140vw;
+  height: 80vh;
+  background: radial-gradient(ellipse at bottom, rgba(96, 121, 255, 0.45) 0%, rgba(96, 121, 255, 0.15) 50%, transparent 75%);
+  filter: blur(80px);
   pointer-events: none;
   z-index: 0;
+}
+
+.heroIllustration {
+  margin-bottom: 2rem;
+  z-index: 1;
+  position: relative;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.heroIllustration img {
+  max-width: 96px;
+  height: auto;
+  display: inline-block;
+  z-index: 1;
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.1));
 }
 
 .heroBanner {

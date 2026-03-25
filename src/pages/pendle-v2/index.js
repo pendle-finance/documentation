@@ -84,9 +84,12 @@ export default function PendleV2Home() {
       noFooter={true}
     >
       <main className="main--landing">
-        <div className={styles.root}>
+        <div className={`${styles.root} ${styles.pendleRoot}`}>
+          <div className={styles.heroIllustration}>
+            <img src="/img/cube-v2.png" alt="Pendle V2" />
+          </div>
           <header className={styles.heroBanner}>
-            <h1 className="hero__title">Pendle V2 Documentation</h1>
+            <h1 className="hero__title">Pendle V2 Documentation Hub</h1>
           </header>
 
           <div className={`${styles.section} ${styles.pendleSection}`}>
