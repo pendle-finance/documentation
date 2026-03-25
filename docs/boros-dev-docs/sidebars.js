@@ -6,14 +6,22 @@ module.exports = {
       label: "📖 Introduction",
     },
     {
-      type: "doc",
-      id: "LitePaper",
-      label: "📄 Lite Paper",
+      type: "category",
+      label: "🔌 Backend Integration",
+      items: [
+        { type: "doc", id: "Backend/overview", label: "📖 Overview" },
+        { type: "doc", id: "Backend/glossary", label: "📚 Glossary" },
+        { type: "doc", id: "Backend/agent", label: "🤖 Agent" },
+        { type: "doc", id: "Backend/api", label: "🌐 API" },
+        { type: "doc", id: "Backend/websocket", label: "📡 WebSocket" },
+        { type: "doc", id: "Backend/stop-orders", label: "🎯 Stop Orders" },
+        { type: "doc", id: "Backend/best-practices", label: "✨ Best Practices" },
+      ],
     },
     {
       type: "doc",
-      id: "HighLevelArchitecture",
-      label: "🏗️ High Level Architecture",
+      id: "Backend/historical-data",
+      label: "📊 Historical Data",
     },
     {
       type: "category",
@@ -36,17 +44,14 @@ module.exports = {
       ],
     },
     {
-      type: "category",
-      label: "🔌 Backend Integration",
-      items: [
-        { type: "doc", id: "Backend/overview", label: "📖 Overview" },
-        { type: "doc", id: "Backend/glossary", label: "📚 Glossary" },
-        { type: "doc", id: "Backend/agent", label: "🤖 Agent" },
-        { type: "doc", id: "Backend/api", label: "🌐 API" },
-        { type: "doc", id: "Backend/websocket", label: "📡 WebSocket" },
-        { type: "doc", id: "Backend/stop-orders", label: "🎯 Stop Orders" },
-        { type: "doc", id: "Backend/best-practices", label: "✨ Best Practices" },
-      ],
+      type: "doc",
+      id: "LitePaper",
+      label: "📄 Lite Paper",
+    },
+    {
+      type: "doc",
+      id: "HighLevelArchitecture",
+      label: "🏗️ High Level Architecture",
     },
     {
       type: "doc",

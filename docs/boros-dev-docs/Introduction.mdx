@@ -3,50 +3,39 @@ hide_table_of_contents: true
 slug: /
 ---
 
-# Introduction to Boros
+# Boros Developer Documentation
 
-Pendle Boros is an on-chain platform for trading interest rate swaps. The protocol enables users to take long or short positions on variable interest rates with leverage through a hybrid system combining a central limit order book and AMM. At launch, Boros only supports trading of funding rates, though Boros is designed to allow trading of any type of interest rate that has an index oracle.
+Boros is an on-chain interest rate swap (IRS) trading platform by Pendle, deployed on Arbitrum. It enables users to take leveraged long or short positions on variable interest rates — starting with funding rates — through a hybrid central limit order book (CLOB) and AMM architecture. These docs are for developers integrating with Boros programmatically, whether through the REST API and SDK, direct smart contract calls, or both.
 
-Boros is deployed on Arbitrum and the addresses can be found [here](https://github.com/pendle-finance/boros-core-public/tree/main/deployments).
+## Choose your path
 
-## Core Documentation
+:::tip Building a trading bot or API integration
+Use the REST API and SDK via the agent-based **Send Txs Bot** architecture. Start with [Backend Integration > Overview](./Backend/0.%20overview.mdx).
+:::
 
-- [Lite Paper](./LitePaper.mdx)
-- [High Level Architecture](./HighLevelArchitecture.mdx)
-- [Frequently Asked Questions](./FAQ.mdx)
+:::info Integrating smart contracts directly
+Call Boros contracts from your own on-chain or off-chain code. Start with [Contracts > Router](./Contracts/Router.mdx).
+:::
 
-## Protocol Mechanics
+:::note Learning how the protocol works
+Read the [LitePaper](./LitePaper.mdx) for a conceptual overview, or dive into [Mechanics](./Mechanics/OrderBook.mdx) for protocol-level detail.
+:::
 
-- [Order Book](./Mechanics/OrderBook.mdx)
-- [Settlement](./Mechanics/Settlement.mdx)
-- [Fees](./Mechanics/Fees.mdx)
-- [Margin](./Mechanics/Margin.mdx)
+## What's in these docs
 
-## Integration Guides
+| Section | Contents |
+|---|---|
+| **Backend Integration** | REST API, WebSocket, agent wallet setup, stop orders (TP/SL), transaction submission via Send Txs Bot, best practices |
+| **Historical Data** | Monthly NDJSON exports of trades, OHLCV candles, order book snapshots, settlement rates and market data |
+| **Mechanics** | Order book matching, margin system (cross vs isolated), settlement, fees |
+| **Contracts** | Router, MarketHub, Market, custom types reference, NPM package |
+| **LitePaper** | User-friendly explanation of interest rate swaps with worked examples |
+| **FAQ** | Common questions and troubleshooting |
 
-External parties can integrate with Boros through two primary methods:
-
-- **Direct Contract Integration** - Make direct calls to Boros smart contracts for maximum control and customization. This approach is ideal for sophisticated traders who want to implement custom trading logic on-chain.
-
-  - **Entry point**: [Router](./Contracts/Router.mdx)
-  - **Data query**: [MarketHub](./Contracts/MarketHub.mdx) | [Market](./Contracts/Market.mdx)
-  - **NPM package**: [@pendle/boros-core](https://www.npmjs.com/package/@pendle/boros-core)
-
-- **SDK Integration** - Use the Boros SDK for simplified integration through agent-based calls. The SDK handles transaction management, signature generation, and provides a high-level API for common trading operations.
-  - [Backend Integration Overview](./Backend/0.%20overview.mdx)
-  - **NPM package**: [@pendle/sdk-boros](https://www.npmjs.com/package/@pendle/sdk-boros)
-
-Additionally, Boros provides comprehensive data access through:
-
-- **REST API** - Query market data, order book snapshots, historical trades, and account information
-
-  - [API Documentation](./Backend/3.%20api.mdx)
-
-- **WebSocket** - Real-time data streaming for order book updates, trades, and market events
-  - [WebSocket Documentation](./Backend/4.%20websocket.mdx)
-
-## Resources
+## Quick resources
 
 - [Whitepapers](https://github.com/pendle-finance/boros-core-public/tree/main/whitepapers)
 - [Core Contracts Repository](https://github.com/pendle-finance/boros-core-public)
 - [Audit Reports](https://github.com/pendle-finance/boros-core-public/tree/main/audits/)
+- [Deployed Addresses](https://github.com/pendle-finance/boros-core-public/tree/main/deployments)
+- [Historical Data Browser](https://historical-data.boros.finance)

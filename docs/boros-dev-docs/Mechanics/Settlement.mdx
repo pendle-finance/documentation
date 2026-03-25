@@ -100,19 +100,20 @@ The settlement algorithm processes all pending events in chronological order to 
 **Example Timeline:**
 
 ```
-User last settled: 08:00
-Current time: 18:00
-
-Events to process:
-- 09:30: Limit order filled (100 units)
-- 16:00: Floating payment settlement
-- 17:15: Limit order filled (50 units)
+08:00              16:00 (fTime)         18:00 (now)
+  |─────────────────|──────────────────────|
+  │    Period 1     │       Period 2       │
+  │                 │                      │
+  ↓ 09:30           ↓ 16:00               ↓ 17:15
+  Fill              Float pay              Fill
+  (100 units)       settlement             (50 units)
+```
 
 Processing order:
-1. Process fills from 08:00-16:00 period (100 units)
-2. Process floating payment at 16:00
-3. Process fills from 16:00-24:00 period (50 units)
-```
+
+1. Process fills in Period 1 (08:00–16:00): apply fill at 09:30, updating position size to 100 units
+2. Process floating payment at 16:00 boundary: settle on the current position size (100 units)
+3. Process fills in Period 2 (16:00–18:00): apply fill at 17:15, updating position size to 150 units
 
 ## Notes
 

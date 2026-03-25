@@ -249,8 +249,8 @@ bulks[1] = BulkOrder({
     orders: LongShort({
         tif: TimeInForce.GTC,
         side: Side.SHORT,
-        sizes: [1000e18],
-        limitTicks: [140]
+        sizes: sizes1,
+        limitTicks: limitTicks1
     }),
     cancelData: CancelData({
         ids: new OrderId[](0),

@@ -160,7 +160,7 @@ No. Withdrawals are a **sensitive action** that only the root wallet can initiat
 
 1. **Position opening fees** (taker only): `size × 0.05% × time to maturity`. Makers pay zero fees.
 2. **Settlement fees**: Charged every 8 hours on open positions.
-3. **Market entrance fee**: One-time ~$1 fee when first entering a market.
+3. **Market entrance fee**: One-time fee when first entering a market, denominated in the market's base asset. See [Fee Structure](./Mechanics/Fees.mdx#market-entrance-fees) for exact amounts.
 4. **Gas fees**: Actual Arbitrum gas cost for agent-submitted transactions (no markup).
 
 See [Fee Structure](./Mechanics/Fees.mdx) for detailed formulas.
@@ -183,7 +183,16 @@ Use **WebSocket** for real-time streaming: order book updates, trade events, and
 
 ### Do WebSocket events include full data?
 
-Currently, account update events are **notifications only** — they tell you something changed but don't include the full updated state. When you receive an update, call the REST API (`POST /accounts/market-acc-infos`) to fetch the latest data. Richer event payloads are planned for a future update.
+It depends on which channel you use:
+
+- **`account-updates:ROOT_ADDRESS`** (recommended) — subscribe with your lowercased wallet address. Emits rich, structured events with full before/after state — no REST refetch needed:
+  - `position-update` — pre/post position size and rate on every fill
+  - `order-update` — full order state (placed, partially filled, cancelled, purged)
+  - `settlement-update` — yield paid/received, APR rates, fees per settlement
+
+- **`account:ACCOUNT`** (legacy) — notification-only. Tells you *something* changed (type: `Position`, `LimitOrder`, or `Collateral`) but carries no detail. You must call the REST API (`POST /accounts/market-acc-infos`) to find out what changed.
+
+Prefer `account-updates` for all new integrations. See [WebSocket — Account Update Events](./Backend/4.%20websocket.mdx#account-update-events) for the full payload schemas.
 
 ---
 
@@ -201,6 +210,12 @@ Use `GET /simulations/place-order` to preview margin requirements before placing
 ### I'm getting "agent expired" errors
 
 Agent approvals have an expiry time. Check it with `GET /agents/expiry-time` and re-approve if needed using `GET /calldata/approve-agent`. Don't assume a fixed expiry duration — always query the endpoint to get the actual expiry timestamp.
+
+### Why hasn't my position been settled yet?
+
+Floating rate settlements are triggered by off-chain oracle updates and typically land **~30 seconds after the hour** (e.g., 08:00:30 UTC rather than exactly 08:00:00). During periods of extreme volatility or when a settlement value would push accounts near liquidation, the system may delay settlement further while risk management operations (liquidation bots, force-cancel bots) run first.
+
+If your position hasn't settled after a few minutes past the expected boundary, this is normal. See [Settlement — Timing](./Mechanics/Settlement.mdx#notes) for full details.
 
 ### I'm getting `MMIsolatedMarketDenied()` on an isolated-only market
 

@@ -1,40 +1,67 @@
-# Boros Public API Documentation
+# Backend Integration
 
-## Overview
-
-Welcome to the Boros Public API documentation. This API provides programmatic access to Boros Finance's trading and analytics platform, enabling you to integrate Boros functionality into your applications.
-
-## Getting Started
-
-### API Documentation
-
-The complete API reference with all available endpoints, request/response schemas, and authentication details is available through our interactive OpenAPI documentation:
-
-**Interactive API Docs:** https://api.boros.finance/open-api/docs
-
-### SDKs
-
-We provide official SDKs to simplify integration with the Boros API:
-
-#### TypeScript SDK
-The TypeScript SDK offers full type safety and is ideal for Node.js and browser-based applications.
-
-- **Repository:** https://github.com/pendle-finance/sdk-boros-public
-- **Installation:** `npm install @pendle/sdk-boros`
-
-For detailed SDK documentation, API references, and advanced usage, refer to the SDK repository.
-
-### Code Examples
-
-For practical examples demonstrating common use cases and workflows, see our examples repository:
-
-**Examples Repository:** https://github.com/pendle-finance/boros-api-examples
-
-
-## Support
-
-For questions, issues, or feature requests, please refer to the relevant SDK repository or contact our support team. https://discord.gg/6BrmdyBkQ2
+Backend integration means interacting with Boros through its REST API and TypeScript SDK rather than calling contracts directly. This is the recommended path for most integrators: the API handles calldata generation, signature encoding, and on-chain submission, so you can build trading workflows without managing ABI encoding or gas mechanics yourself.
 
 ---
 
-**Base URL:** `https://api.boros.finance`
+## Services
+
+All services are hosted under `https://api.boros.finance`.
+
+| Service | Path prefix | Purpose |
+|---|---|---|
+| Open API | `/open-api/v1/` or `/v2/` | Market data, calldata generation, account queries, simulations |
+| Send Txs Bot | `/send-txs-bot/v2/` or `/v3/` | Receives agent-signed calldatas, submits them on-chain, charges gas from user's gas balance |
+| Stop Order | `/stop-order/v1/` to `/v3/` | Off-chain conditional order (take-profit/stop-loss) management |
+
+---
+
+## Request Flow
+
+Boros uses a two-track signing model. Sensitive account actions are signed by the root wallet and sent directly to the blockchain. Non-sensitive trading actions are signed by an agent wallet and routed through the Send Txs Bot, which manages gas, nonce, and submission.
+
+```
+Root wallet  ──[sensitive: deposit / withdraw / approve-agent]──▶  Blockchain (direct)
+Agent wallet ──[non-sensitive: place / cancel / transfer]──────▶  Send Txs Bot ──▶ Blockchain
+```
+
+The Send Txs Bot charges gas from the user's on-chain gas balance in USD at the actual Arbitrum cost, with no markup.
+
+---
+
+## SDK
+
+The official TypeScript SDK covers signature generation, calldata encoding, and type-safe API calls for all three services.
+
+**Install**
+
+```bash
+npm install @pendle/sdk-boros
+```
+
+**Packages**
+
+| Package | Purpose |
+|---|---|
+| `@pendle/sdk-boros` | Main SDK — API clients, calldata builders, signature helpers |
+| `@pendle/boros-offchain-math` | Math utilities — `FixedX18` type, tick/rate conversion |
+
+**Links**
+
+- SDK repository: https://github.com/pendle-finance/sdk-boros-public
+- Open API interactive docs: https://api.boros.finance/open-api/docs
+- Send Txs Bot interactive docs: https://api.boros.finance/send-txs-bot/docs
+- Stop Order interactive docs: https://api.boros.finance/stop-order/docs
+
+---
+
+## What's in This Section
+
+| Page | Contents |
+|---|---|
+| [Glossary](./1.%20glossary.mdx) | Key terms and type definitions used throughout the API |
+| [Agent](./2.%20agent.mdx) | Setting up and managing agent wallets |
+| [API](./3.%20api.mdx) | Full REST endpoint reference and integration workflows |
+| [WebSocket](./4.%20websocket.mdx) | Real-time market and account data streaming |
+| [Best Practices](./5.%20best-practices.mdx) | Patterns for gas efficiency, error handling, and market management |
+| [Stop Orders](./6.%20stop-orders.mdx) | Conditional take-profit and stop-loss order management |

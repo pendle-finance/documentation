@@ -1,0 +1,212 @@
+# Historical Data
+
+Historical market data exports for [Pendle Boros](https://boros.pendle.finance) on Arbitrum.
+
+All data is stored as **NDJSON** (newline-delimited JSON) compressed with **ZIP**. Each file covers one calendar month per market.
+
+**Browse data:** https://historical-data.boros.finance
+
+
+## Directory Structure
+
+```
+market-data/{market}/                     Hourly market snapshots
+settlement/{market}/                      On-chain settlement rate updates
+underlying-apr/                           Historical underlying funding rates
+market-trades/{market}/                   Individual trades
+ohlcv/{timeframe}/{market}/               OHLCV candles (5m, 1h, 1d)
+order-book/{market}/raw/                  Raw order book snapshots
+order-book/{market}/combined_{tickSize}/  Order book aggregated by tick size
+```
+
+**Market naming:** `{ID}-{EXCHANGE}-{PAIR}-{EXPIRY}` (e.g. `2-BINANCE-BTCUSDT-26SEP2025`)
+
+**File naming:** `YYYY-MM.ndjson.zip` (e.g. `2025-08.ndjson.zip`)
+
+## How to Decompress
+
+Files are compressed with ZIP. Decompress with any standard unzip tool:
+
+```bash
+# Decompress a single file
+unzip 2025-08.ndjson.zip
+
+# Decompress all files in place
+find . -name '*.ndjson.zip' -exec sh -c 'unzip -o -q "$1" -d "$(dirname "$1")"' _ {} \;
+```
+
+## How to Read the Data
+
+Each `.ndjson` file contains one JSON object per line. You can parse it with standard tools:
+
+```bash
+# Preview first 3 lines (pretty-printed)
+unzip -p 2025-08.ndjson.zip | head -3 | jq .
+
+# Count records
+unzip -p 2025-08.ndjson.zip | wc -l
+
+# Filter by timestamp range
+unzip -p 2025-08.ndjson.zip | jq -c 'select(.timestamp >= 1754006400 and .timestamp < 1754092800)'
+```
+
+### Python
+
+```python
+import json
+import zipfile
+
+# Read compressed file directly
+with zipfile.ZipFile('2025-08.ndjson.zip') as zf:
+    with zf.open(zf.namelist()[0]) as f:
+        records = [json.loads(line) for line in f]
+```
+
+### JavaScript / TypeScript
+
+```typescript
+import { execSync } from 'child_process';
+
+const output = execSync('unzip -p 2025-08.ndjson.zip', { encoding: 'utf-8' });
+const records = output.trim().split('\n').map(line => JSON.parse(line));
+```
+
+## Data Schemas
+
+### Market Data (`market-data/`)
+
+Hourly snapshots of market state.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `timestamp` | number | Unix timestamp |
+| `datetime` | string | ISO 8601 datetime |
+| `blockNumber` | number | Arbitrum block number |
+| `midApr` | number | Mid APR (average of best bid and best ask) |
+| `bestBid` | number \| null | Best bid rate (highest long order) |
+| `bestAsk` | number \| null | Best ask rate (lowest short order) |
+| `ammImpliedApr` | number \| null | AMM implied APR |
+| `markApr` | number | Mark APR (on-chain mark rate) |
+| `notionalOI` | number \| null | Notional open interest |
+| `lastTradedApr` | number \| null | Rate of the most recent trade |
+| `latestSettlementApr` | number \| null | Latest on-chain settlement APR (0 from market creation until first settlement) |
+
+```json
+{"timestamp":1754006400,"datetime":"2025-08-01T00:00:00.000Z","blockNumber":363657956,"midApr":0.07625,"bestBid":0.07605,"bestAsk":0.07637,"ammImpliedApr":0.07625,"markApr":0.07615,"notionalOI":51,"lastTradedApr":0.07615,"latestSettlementApr":0.07}
+```
+
+### Settlement Data (`settlement/`)
+
+On-chain settlement rate updates (FIndexUpdated events). Settlement APR is 0% from market creation until the first settlement event.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `timestamp` | number | Unix timestamp of the block |
+| `datetime` | string | ISO 8601 datetime |
+| `blockNumber` | number | Arbitrum block number |
+| `settlementApr` | number | Annualized settlement rate (0 until first settlement) |
+| `txHash` | string | Transaction hash |
+
+```json
+{"timestamp":1767211230,"datetime":"2025-12-31T20:00:30.000Z","blockNumber":416536437,"settlementApr":0.0990756,"txHash":"0x193c...2370"}
+```
+
+### Underlying Funding Rate (`underlying-apr/`)
+
+Historical underlying funding rates sourced from exchanges. One file per exchange-asset pair (e.g. `Binance-BTC.ndjson.zip`).
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `timestamp` | number | Unix timestamp (funding rate start time) |
+| `datetime` | string | ISO 8601 datetime |
+| `annualizedFundingRate` | number | Annualized funding rate |
+
+```json
+{"timestamp":1754006400,"datetime":"2025-08-01T00:00:00.000Z","annualizedFundingRate":0.05234}
+```
+
+:::note
+This data is carefully monitored to match the funding rates reported by each exchange. In rare cases, exchange API instability may cause minor discrepancies.
+:::
+
+### Trades (`market-trades/`)
+
+Individual trade events.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `eventIndex` | number | On-chain event index |
+| `blockTimestamp` | number | Unix timestamp of the block |
+| `datetime` | string | ISO 8601 datetime |
+| `rate` | number | Trade rate (implied APR) |
+| `side` | string | Taker side: `"long"` or `"short"` |
+| `size` | number | Absolute trade size |
+| `txHash` | string | Transaction hash |
+
+```json
+{"eventIndex":363716829000015,"blockTimestamp":1754021093,"datetime":"2025-08-01T04:04:53.000Z","rate":0.07332,"side":"short","size":0.005,"txHash":"0x2578..."}
+```
+
+### OHLCV Candles (`ohlcv/`)
+
+Available in three timeframes: `5m`, `1h`, `1d`.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `periodStartTimestamp` | number | Unix timestamp of candle start |
+| `datetime` | string | ISO 8601 datetime |
+| `open` | number | Opening rate (implied APR) |
+| `high` | number | Highest rate in the period |
+| `low` | number | Lowest rate in the period |
+| `close` | number | Closing rate |
+| `volume` | number | Total absolute trade size |
+
+```json
+{"periodStartTimestamp":1754020800,"datetime":"2025-08-01T04:00:00.000Z","open":0.07332,"high":0.07332,"low":0.07332,"close":0.07332,"volume":0.005}
+```
+
+### Order Book — Raw (`order-book/{market}/raw/`)
+
+Full order book snapshots with individual tick entries.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `blockNumber` | number | Arbitrum block number |
+| `blockTimestamp` | number | Unix timestamp |
+| `datetime` | string | ISO 8601 datetime |
+| `long` | object[] | Bid side entries (sorted by rate descending) |
+| `short` | object[] | Ask side entries (sorted by rate ascending) |
+
+Each entry in `long` / `short`:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `rate` | number | Implied APR at this tick |
+| `tick` | number | On-chain tick index |
+| `size` | number | Notional size at this tick |
+
+### Order Book — Combined (`order-book/{market}/combined_{tickSize}/`)
+
+Order book merged with AMM liquidity, aggregated by tick size. Available tick sizes: `0.00001`, `0.0001`, `0.001`, `0.01`, `0.1`.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `timestamp` | number | Unix timestamp |
+| `datetime` | string | ISO 8601 datetime |
+| `blockNumber` | number | Arbitrum block number |
+| `long` | object[] | Bid side entries, grouped by tick size |
+| `short` | object[] | Ask side entries, grouped by tick size |
+
+Each entry in `long` / `short`:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `rate` | number | Implied APR (tick index x tick size) |
+| `size` | number | Aggregated notional size at this level |
+
+## Notes
+
+- All rates are expressed as **implied APR** (annualized percentage rate as a decimal, e.g. `0.07` = 7%)
+- All timestamps are **Unix seconds** (UTC)
+- Data is exported monthly and only includes **fully completed periods** (e.g. an incomplete 1h candle at the time of export is excluded)
+- Data is updated every 2–3 days

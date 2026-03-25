@@ -42,7 +42,15 @@ The Send Txs Bot provides two submission endpoints:
 | Endpoint | Use case |
 |----------|----------|
 | `POST /v2/agent/direct-call` | Submit a **single** calldata |
-| `POST /v3/agent/bulk-direct-call` | Submit **one or more** calldatas with sequential execution |
+| `POST /v2/agent/bulk-direct-call` | Submit **one or more** calldatas with sequential execution |
+
+:::info v2 vs v3 Send Txs Bot
+Both v2 and v3 expose `bulk-direct-call`, but they have **different request schemas**:
+- **v2** (`BulkAgentExecuteDto`) — no session required. Use this for **programmatic / API integrations**.
+- **v3** (`BulkAgentExecuteV2Dto`) — requires a mandatory `agentSession` field (HTTP-only cookie / CSRF token). Use this for **browser-based UIs** only.
+
+Unless you are building a browser UI with session management, always use **v2**.
+:::
 
 **When to use `bulk-direct-call`:** The calldata generation endpoints (e.g., `POST /calldata/place-orders`) may return **multiple calldatas** in the `calldatas` array — for example, `[exit-market, place-order]` when `autoExitMarket=true`. You **must** submit all calldatas together using `bulk-direct-call` to ensure correct execution order.
 
@@ -221,12 +229,12 @@ Not all REST endpoints have the same latency characteristics. For latency-sensit
 | Data | Best endpoint | Latency |
 |------|---------------|---------|
 | `midApr`, `bestBid`, `bestAsk`, `ammImpliedApr`, `markApr` | `GET /open-api/v1/markets/{marketId}` | Real-time |
-| Order book depth | `GET /core/orderbooks/{marketId}` | < 1 second |
+| Order book depth | `GET /open-api/v2/markets/order-books?marketId={marketId}` | < 1 second |
 | AMM state | `GET /core/amm/{ammId}` | < 1 second |
 | Market list / overview | `GET /open-api/v1/markets` | May have several seconds of delay |
 
 :::tip
-For market making or any use case requiring live mid/mark rates, always use the **single market endpoint** (`GET /v1/markets/{marketId}`) rather than the bulk markets list. The bulk endpoint may have a delay of several seconds on sensitive indicators.
+For market making or any use case requiring live mid/mark rates, always use the **single market endpoint** (`GET /open-api/v1/markets/{marketId}`) rather than the bulk markets list. The bulk endpoint may have a delay of several seconds on sensitive indicators.
 :::
 
 ### Combined Order Book (AMM + Order Book)
@@ -322,7 +330,7 @@ If you are a market maker placing multiple orders across different markets or at
 | Use `requireSuccess=false` for independent orders | Lets each order succeed/fail independently (market making) |
 | Set `autoExitMarket=false` if managing markets yourself | Avoids unexpected multi-calldata responses |
 | Exit unused/expired markets (max 10 per account) | Reduce gas overhead, free up slots |
-| Use `GET /v1/markets/{marketId}` for real-time rates | Guaranteed real-time midApr, markApr, bestBid, bestAsk |
+| Use `GET /open-api/v1/markets/{marketId}` for real-time rates | Guaranteed real-time midApr, markApr, bestBid, bestAsk |
 | Use correct `marketAcc` for isolated-only markets | Required for trading isolated-only markets |
 | Monitor gas balance | Avoid failed transactions |
 | Simulate before executing | Preview margin impact and catch errors |

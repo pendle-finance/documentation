@@ -75,7 +75,7 @@ Once your agent is approved, this is the typical order placement flow:
 │  2. GET  /simulations/place-order         → preview trade    │
 │  3. POST /calldata/place-orders           → calldata[]       │
 │  4. Sign each calldata with agent key                        │
-│  5. POST /send-txs-bot/v3/agent/bulk-direct-call → tx hash  │
+│  5. POST /send-txs-bot/v2/agent/bulk-direct-call → tx hash  │
 │  6. Subscribe to WebSocket account channel for fill updates  │
 └──────────────────────────────────────────────────────────────┘
 ```

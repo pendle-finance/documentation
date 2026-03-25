@@ -169,4 +169,10 @@ The oracle uses a fixed-window observation approach:
 markRate = (lastTradedRate × timeElapsed + prevOracleRate × (window - timeElapsed)) / window
 ```
 
+Where:
+- **`lastTradedRate`**: the rate of the most recent matched tick
+- **`timeElapsed`**: seconds since the last trade
+- **`prevOracleRate`**: the mark rate before the latest trade
+- **`window`**: a per-market parameter controlling how quickly the mark rate responds to new trades — typically **5 minutes** (300 seconds). A smaller window makes the mark rate more reactive; a larger window smooths out short-term spikes. Query the exact value via [`getMarketConfig()`](./Market.mdx#getmarketconfig).
+
 The mark rate is distinct from the **mid rate** (midpoint of best bid and best ask) and the **AMM implied rate**. In normal conditions, these values should be close, but they can diverge in thin markets or when the AMM operates outside its active range.
