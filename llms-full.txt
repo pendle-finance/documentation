@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros developer documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2/Developers | https://docs.pendle.finance/boros-dev
-> Generated: 2026-03-05
+> Generated: 2026-03-25
 
 ---
 
@@ -74,7 +74,7 @@ By creating a yield market in DeFi, Pendle unlocks the full potential of yield, 
 ## Core Documentation
 
 - [High Level Architecture](./HighLevelArchitecture.md)
-- [StandardizedYield (SY)](./Contracts/StandardizedYield.md)
+- [StandardizedYield (SY)](./Contracts/StandardizedYield/StandardizedYield.md)
 - [Common Questions](./FAQ.md)
 
 ## Integration Guides
@@ -1890,672 +1890,6 @@ This flow allows for flexible and creative use of the `fill` function, providing
 ---
 
 
-# Yield Tokenization Smart Contracts
-
-
-## Overview
-This guide explains how Pendle tokenizes yield by splitting assets into PT (Principal Token) and YT (Yield Token), and how the YT contract handles minting and redeeming, index accounting, and the distribution of interest and rewards. This documentation is for developers and partners who want a deep dive into the Pendle yield mechanism and how it works under the hood.
-
-
-## Key Concepts
-Yield tokenization takes a yield-bearing asset, then splits that value into two claims with a fixed expiry:
-- [PT (Principal Token)](../../ProtocolMechanics/YieldTokenization/PT): represents the principal of the underlying yield-bearing token.
-- [YT (Yield Token)](../../ProtocolMechanics/YieldTokenization/YT): represents entitlement to all yield, rewards, and points of the asset until expiry.
-
-Example: A user stakes 100 USDe in Ethena and, via Pendle, tokenizes it into 100 PT-USDe and 100 YT-USDe with a 3-month expiry. They can sell the YT-USDe to someone who wants the next three months of yield and points while keeping the PT-USDe to redeem the principal at maturity; assuming a 12% APY (~3% over three months), the position would accrue about 3 USDe - so at expiry the YT-USDe holder is entitled to ~3 USDe of accrued yield (plus any program points earned during that period), and the PT-USDe holder redeems the 100 USDe principal.
-
-
-## Technical Details
-
-The Pendle yield-tokenization architecture comprises three core components:
-
-* **Standardized Yield (SY):** A unified wrapper interface for yield-bearing assets; underlying yield and rewards accrue to the SY contract.
-* **YT contract:** The core logic that splits SY into PT and YT, maintains index accounting, and accrues/distributes yield and rewards.
-* **PT contract:** The ERC-20 representing principal; PT is minted/burned by the YT contract and is redeemable for principal at/after maturity.
-
-
-![PT and YT Yield Stream](/img/Developers/sy_pt_yt_yield_stream.png)
-
-Before splitting, yield-bearing assets are wrapped into SY. To tokenize yield, users deposit SY into the YT contract, which mints PT and YT. The YT contract tracks yield and rewards accrued to the SY and distributes them to YT holders. At maturity, PT holders can redeem their principal from the YT contract.
-
-## Core Logic
-
-### [`mintPY`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/YieldContracts/PendleYieldToken.sol#L84-L100)
-```solidity
-/**
- * @notice Tokenize SY into PT + YT of equal qty. Every unit of asset of SY will create 1 PT + 1 YT
- * @dev SY must be transferred to this contract prior to calling
- */
-function mintPY(address receiverPT, address receiverYT) external returns (uint256 amountPYOut);
-```
-
-**Purpose**: Mints equal amounts of PT and YT by depositing SY into the YT contract.
-
-**How it works:**
-- The YT contract mints using its current SY balance. Therefore, you must transfer SY into the YT contract before calling the function. The amount of PT and YT minted is calculated as:
-
-$$
-PY \; minted = SY \; deposited \times current \; PY \; index
-$$
-
-- The YT contract mints equal quantities of PT and YT to the specified recipient addresses.
-
-**Example:**
-- If `1 SY-sUSDe = 1.2 USDe` (`PY index = 1.2`) and a user deposits `100 SY-sUSDe`, the contract mints `120 PT-sUSDe` and `120 YT-sUSDe`.
-- Since `100 SY-sUSDe` corresponds to `120 USDe` of underlying value, the user receives `120 PT-sUSDe` (principal exposure) and `120 YT-sUSDe` (pre-expiry yield claim).
-
-
-### [`redeemPY`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/YieldContracts/PendleYieldToken.sol#L120-L134)
-```solidity
-/**
- * @notice converts PT(+YT) tokens into SY, but interests & rewards are not redeemed at the
- * same time
- * @dev PT/YT must be transferred to this contract prior to calling
- */
-function redeemPY(address receiver) external returns (uint256 amountSyOut);
-```
-
-**Purpose:** Redeem SY by burning PT and YT. Think of this as converting back to the principal accounting unit, while **interest and rewards are claimed separately**.
-
-**How it works:**
-
-- You have to provide equal amounts of PT and YT to the YT contract before calling the function.
-- The contract burns the tokens and returns SY according to the current PY index:
-$$
-SY \; redeemed = PY \; burned \; \div current \; PY \; index
-$$
-- The redeemed SY is sent to the specified receiver. Note that interest and rewards accrued to YT are not included in this redemption.
-
-**Notes:**
-
-* **Pre-expiry:** both PT and YT are required to redeem SY.
-* **Post-expiry:** only PT is required (YT has no value after maturity).
-
-**Example:**
-
-**Pre-expiry**
-
-* Continuing the prior example: if the user holds `120 PT-sUSDe` and `120 YT-sUSDe`, and now the PY index is `1.25`, then
-  `SY_out = 120 / 1.25 = 96 SY-sUSDe` (which corresponds to **120 USDe**).
-  Interest and rewards accrued to YT are **not** included in this redemption.
-
-**Post-expiry**
-
-* After maturity, with `120 PT-sUSDe` and PY index `1.25`,
-  `SY_out = 120 / 1.25 = 96 SY-sUSDe` (again equal to **120 USDe**).
-  The user receives `96 SY-sUSDe`, which can be unwrapped or swapped back to the underlying **120 USDe** principal.
-
-
-### [`redeemDueInterestAndRewards`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/YieldContracts/PendleYieldToken.sol#L150-L186)
-
-```solidity
-/**
- * @notice Redeems interests and rewards for `user`
- * @param redeemInterest will only transfer out interest for user if true
- * @param redeemRewards will only transfer out rewards for user if true
- * @dev With YT yielding interest in the form of SY, which is redeemable by users, the reward
- * distribution should be based on the amount of SYs that their YT currently represent, plus
- * their dueInterest. It has been proven and tested that _rewardSharesUser will not change over
- * time, unless users redeem their dueInterest or redeemPY. Due to this, it is required to
- * update users' accruedReward STRICTLY BEFORE transferring out their interest.
- */
-function redeemDueInterestAndRewards(
-    address user,
-    bool redeemInterest,
-    bool redeemRewards
-) external returns (uint256 interestOut, uint256[] memory rewardsOut);
-```
-
-**Purpose:** Allows a YT holder to claim accrued earnings: interest (in SY) and any external reward tokens. Interest for YT is **always paid in SY**, but it can be swapped into your preferred token through the [router](./PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
-
-**Behavior notes:**
-
-* **Interest unit:** Always **SY**. If you want the underlying/base asset, unwrap or swap through the [router](./PendleRouter/ApiReference/MiscFunctions#redeemdueinterestandrewardsv2).
-* **Pre- vs post-expiry:**
-
-  * Pre-expiry: interest and rewards continue accruing; this function pays whatever is due up to the call.
-  * Post-expiry: YT no longer earns new yield. Calling still pays any **remaining** pre-expiry interest/rewards, if any.
-* **Zero-flag calls:** If both flags are `false`, no tokens are transferred (effectively a no-op, except for index synchronization)
-* **Token order:** `rewardsOut[i]` corresponds to `getRewardTokens()[i]`. Always read the list first.
-
-**Examples:**
-
-* *Claim both:*
-  User has accrued `2.5 SY` of interest and `[10 X, 0.3 Y]` rewards. Calling with `(true, true)` returns `(2.5, [10, 0.3])`, transfers those amounts, and resets baselines.
-* *Claim rewards only:*
-  Calling `(false, true)` transfers only rewards. Due interest remains in SY terms and continues to count toward reward-share until it’s eventually claimed or the user redeems PY.
-
-
-### [`pyIndexCurrent`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/YieldContracts/PendleYieldToken.sol#L226-L236)
-
-```solidity
-/**
- * @notice updates and returns the current PY index
- * @dev this function maximizes the current PY index with the previous index, guaranteeing
- * non-decreasing PY index
- * @dev if `doCacheIndexSameBlock` is true, PY index only updates at most once per block,
- * and has no state changes on the second call onwards (within the same block).
- * @dev see `pyIndexStored()` for view function for cached value.
- */
-function pyIndexCurrent() external returns (uint256 currentIndex);
-```
-
-* **Purpose:** Returns the **current PY index**, updating it if needed. The PY index tracks the SY exchange rate and is stored **monotonically** (never decreases).
-
-* **Behavior notes:**
-
-  * The PY index is **non-decreasing**: `pyIndexCurrent = max(SY.exchangeRate(), pyIndexStored)`.
-  * If `doCacheIndexSameBlock` is enabled, the index is updated **at most once per block**; subsequent calls in the same block are read-only (no further state changes).
-  * If `SY.exchangeRate()` falls below the stored index (negative yield), the PY index **does not** move down. Consequences:
-
-    * Pre-expiry redemptions return **less SY per PY** until `SY.exchangeRate()` recovers above the stored index.
-    * YT accrual effectively **pauses** (no new interest) until recovery.
-    * In sustained drawdowns, even PT’s eventual redemption (valued in the accounting asset) can be **less than previously expected** because the SY backing has shrunk. See [Negative Yield](../../ProtocolMechanics/NegativeYield).
-
-* **Examples:**
-
-  * **Up move:** Last stored `SY.exchangeRate()` = `1.20`; it rises to `1.25`. Calling `pyIndexCurrent()` updates the PY index to `1.25`.
-  * **Down move:** Last stored index = `1.20`; `SY.exchangeRate()` drops to `1.15`. The PY index **stays at `1.20`**.
-    If a user minted **120 PT** when the index was `1.20`, their claim on SY is `120 / 1.20 = 100 SY`.
-    At maturity, if each SY equals `1.15 USDe`, they redeem `100 × 1.15 = 115 USDe` (less than 120 USDe), reflecting the underlying negative yield.
-
-
-## Integration Example
-:::danger Example code only
-The snippets below are simplified for illustration and **are not audited**.  
-**Do not** use them in production or with real funds. If you adapt any example,
-conduct a full review, add comprehensive tests, and obtain an independent **security audit**.
-:::
-
-```solidity
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-IPYieldToken yt;
-IStandardizedYield sy = IStandardizedYield(yt.SY());
-IPrincipalToken pt = IPrincipalToken(yt.PT());
-
-address receiver;
-
-
-// Minting PT + YT by depositing SY
-IERC20(address(sy)).transfer(address(yt), 100e18); // deposit 100 SY
-uint256 amountPYOut = yt.mintPY(receiver, receiver); // receive PT + YT
-
-
-// Redeeming SY by burning PT + YT (pre-expiry)
-IERC20(address(pt)).transfer(address(yt), amountPYOut); // send PT
-IERC20(address(yt)).transfer(address(yt), amountPYOut); // send YT
-uint256 amountSyOut = yt.redeemPY(receiver); // receive SY
-
-// Redeeming SY by burning PT only (post-expiry)
-IERC20(address(pt)).transfer(address(yt), amountPYOut); // send PT
-uint256 amountSyOut = yt.redeemPY(receiver); // receive SY
-
-
-// Claiming accrued interest (in SY) and rewards (in reward tokens)
-(uint256 interestOut, uint256[] memory rewardsOut) = yt.redeemDueInterestAndRewards(
-    receiver,
-    true,  // claim interest
-    true   // claim rewards
-);
-```
-
-
-## FAQ
-
-### When the underlying asset’s exchange rate increases, does Pendle buy more of the asset on the market and distribute it to YT holders?
-
-No. Pendle’s accounting is **index-based**: yield accrues inside the **SY** balance held by the contracts as `exchangeRate` rises. **YT** holders are entitled to the yield portion of that **existing SY collateral** (paid in SY), while **PT** holders claim principal at/after maturity; users can then unwrap or swap SY to the base asset if they wish. No open-market purchases are required.
-
-### Is 1 SY always equal to 1 PT + 1 YT?
-
-No. **PT** is a principal claim **in units of the accounting asset at maturity**, whereas **SY** is a wrapper whose value floats with `exchangeRate`; **YT** represents the pre-expiry yield claim. The amounts of PT and YT you mint depend on the **current index** - they collectively replicate the economic exposure of the underlying, but **1 SY ≠ 1 PT + 1 YT** except in edge cases (e.g., `exchangeRate == 1`).
-
----
-
-
-# StandardizedYield (SY)
-
-## Overview
-
-SY is a wrapped version of an yieldToken that can also be staked into other protocols to earn even more interest. In the Pendle system, SY is used instead of the yieldToken for all operations, including trading on PendleMarket or minting Principal Tokens (PT) and Yield Tokens (YT).
-
-## Minting and Redeeming SY
-
-SY can usually be minted using `tokenIn`, with some exceptions. Remember, SY simply wraps the underlying yield token. Minting SY essentially buys the underlying token. Consequently, minting/redeeming behavior varies based on the underlying protocol. Here are some examples of quirks:
-
-- **GLP**: While purchasable with ETH, USDC, USDT, UNI, etc., caps on ETH & USDC are frequently reached, preventing their use for GLP acquisition. Therefore, SY-GLP, despite offering these tokens as `tokenIn`, may not guarantee their use for minting.
-- **ankrBNB**: Requires a minimum mint amount of 0.1 BNB. Minting SY-ankrBNB with less than 0.1 BNB will revert. Similarly, ankrBNB can only be withdrawn to BNB through a quick withdrawal pool with sufficient liquidity. Redeeming SY-ankrBNB might occasionally fail.
-- **wstETH**: Allows minting by staking ETH, but not vice versa. Consequently, SY-wstETH's `getTokensIn` includes ETH, but `getTokensOut` does not.
-
-The most reliable way to mint/redeem SY is by using the protocol's yield token. However, hardcoding this is not recommended.
-
-## Preview Functions
-
-The underlying protocol often lacks an explicit function for previewing the amount of mintable/redeemable tokens. SY's preview function, a best effort by the Pendle team, approximates the actual mint/redeem results. While its correctness is verified through testing, it is not audited, and on-chain use is discouraged.
-
-## Accrued Rewards Function
-
-Similar to preview functions, the underlying protocol might not offer a way to preview a user's redeemable rewards. Therefore, SY's `accruedRewards` function only reflects accrued rewards for the user. To get the latest results, simulate `claimRewards(user)` through `eth_call` or `staticCall`.
-
-## Asset of SY / AssetInfo Function
-
-Pendle is a derivative protocol that integrates a wide range of underlying protocols, each with its own unique mechanism. SY acts as an adapter for these protocols, and hence SY's metadata standard (AssetInfo function, what SY is wrapping) is not consistent and doesn't follow a strict standard, though Pendle tries its best to make it so.
-
-The AssetInfo function returns the asset that represents the best estimation of what asset SY appreciates against and aims to enable a rough estimation of SY's value on-chain. It's important to note that it's an estimation because more often than not the asset doesn't exist. The address may not be on the same chain as the SY. For example, SY-wstETH on Arbitrum appreciates against stETH, but stETH doesn't exist on Arbitrum, so we set the address to be stETH's address on Ethereum instead.
-
-SY's exchange rate represents how much asset a SY is worth. A 2x increase in the exchange rate means a SY is now worth double the amount of the underlying asset.
-
-### Standard SYs
-
-Most SYs in Pendle are standard, 1-1 wrap of yieldToken. It's best to value PT/YT/LP by yieldToken (getPtToSy / getLpToSy). If not possible, value it by Asset but take into account the risk of not being able to withdraw from yieldToken to Asset (getPtToAsset / getLpToAsset). This is not to be considered an official security advisory in any way.
-
-| Market          | Recommended way to get price | Unit of price | yieldToken of SY (1-1 wrap) | Note                             | Asset of SY                      |
-| --------------- | ---------------------------- | ------------- | --------------------------- | -------------------------------- | -------------------------------- |
-| LBTC            | getPtToSy                    | LBTC          | LBTC                        | -                                | BTC staked on  Lombard           |
-| sUSDe           | getPtToSy                    | sUSDe         | sUSDe                       | -                                | USDe                             |
-| USDe            | getPtToSy                    | USDe          | USDe                        | -                                | USDe                             |
-| eBTC            | getPtToSy                    | eBTC          | eBTC                        | -                                | eBTC (constant exchange rate)    |
-| USD0++          | getPtToSy                    | USD0++        | USD0++                      | -                                | USD0++ (constant exchange rate)  |
-| sENA            | getPtToSy                    | sENA          | sENA                        | -                                | ENA staked on Ethena             |
-| SolvBTC.BBN     | getPtToSy                    | SolvBTC.BBN   | SolvBTC.BBN                 | -                                | BTC staked on Solv               |
-| PumpBTC         | getPtToSy                    | PumpBTC       | PumpBTC                     | -                                | BTC staked on Pump               |
-| weETH           | getPtToSy                    | weETH         | weETH                       | -                                | eETH                             |
-| weETHs          | getPtToSy                    | weETHs        | weETHs                      | limited liquidity to market sell | weETHs (constant exchange rate)  |
-| weETHk          | getPtToSy                    | weETHk        | weETHk                      | limited liquidity to market sell | weETHk (constant exchange rate)  |
-| weETH (Karak)   | getPtToSy                    | weETH (Karak) | weETHk (Karak)              | can't market sell                | eETH                             |
-| pufETH          | getPtToSy                    | pufETH        | pufETH                      | -                                | ETH staked on Puffer             |
-| pzETH           | getPtToSy                    | pzETH         | pzETH                       | limited liquidity to market sell | pzETH (constant exchange rate)   |
-| wstETH          | getPtToSy                    | wstETH        | wstETH                      | -                                | stETH                            |
-| GLP             | getPtToSy                    | GLP           | GLP                         | -                                | GLP                              |
-| MUXLP           | getPtToSy                    | MUXLP         | MUXLP                       | can't market sell                | MUXLP                            |
-| HLP             | getPtToSy                    | HLP           | HLP                         | can't market sell                | HLP                              |
-| ezETH           | getPtToSy                    | ezETH         | ezETH                       | -                                | ETH staked on Renzo              |
-| rETH            | getPtToSy                    | rETH          | rETH                        | -                                | ETH staked on Rocket             |
-| ezETH (Zircuit) | getPtToSy                    | ezETH         | ezETH                       | -                                | ETH staked on Renzo then Zircuit |
-| uniETH          | getPtToSy                    | uniETH        | uniETH                      | -                                | ETH staked on Bedrock            |
-| rswETH          | getPtToSy                    | rswETH        | rswETH                      | -                                | ETH staked on Swell              |
-| rswETH Swell L2 | getPtToSy                    | rswETH        | rswETH                      | -                                | ETH staked on Swell              |
-| swETH           | getPtToSy                    | swETH         | swETH                       | -                                | ETH staked on Swell              |
-| ETHx            | getPtToSy                    | ETHx          | ETHx                        | -                                | ETH staked on Stadler            |
-| rsETH           | getPtToSy                    | rsETH         | rsETH                       | -                                | ETH staked on Kelp               |
-| sDAI            | **getPtToAsset**             | DAI           | sDAI                        | -                                | DAI                              |
-| crvUSD Silo     | **getPtToAsset**             | crvUSD        | scrvUSD                     | -                                | crvUSD                           |
-| gDAI            | **getPtToAsset**             | DAI           | gDAI                        | can't market sell                | DAI staked in Gains              |
-
-**Notes on Assets of SYs:**
-- All Liquid Staking Tokens (LRTs) except for weETH have assets listed as "ETH staked in xyz." This is different from ETH, as it takes 7 days or more to withdraw, and these staked ETH are subject to slashing if it occurs. As a result, LRT always trades at a slight depeg compared to the amount of ETH withdrawable from it. Hence, it's not safe to value these markets directly in ETH (which would not account for this depeg). Always value these in the original LRT form.
-- sDAI, scrvUSD, and gDAI tokens are not tradable, so they must be valued directly in their underlying asset. Similar to LRT, valuing them directly in the underlying asset will skip the protocol's risk of not being able to withdraw from yieldToken to Asset. Please keep that in mind!
-- All in all, it's safe to value tokens in yieldToken, whereas valuing them in assets carries additional conversion risk that you should be aware of.
-
-### Non-standard SYs
-
-Other SYs that are not 1-1 wrap of yieldToken:
-
-| Market  | Recommended way to get price | Unit of price | yieldToken of SY (NOT 1-1 Wrap) | Asset of SY |
-| ------- | ---------------------------- | ------------- | ------------------------------- | ----------- |
-| aUSDT   | getPtToAsset                 | USDT          | -                               | USDT        |
-| aUSDC   | getPtToAsset                 | USDC          | -                               | USDC        |
-| ePENDLE | getPtToAsset                 | ePENDLE       | -                               | ePENDLE     |
-| mPENDLE | getPtToAsset                 | mPENDLE       | -                               | mPENDLE     |
-
-For aUSDT and aUSDC, similar considerations apply as for sDAI, scrvUSD, and gDAI. Value them directly in their underlying asset.
-
-## SY Adapters
-
-An SY Adapter is an optional contract that enhances the user experience by enabling **native minting and redemption** through the Pendle Router. Without an adapter, the Router must rely on DEX swaps to convert between a base token and the underlying yield-bearing token, which introduces price impact and fees. An adapter allows the Router to perform this conversion natively.
-
-**Example:** An adapter for SY-sUSDe can handle the conversion `USDC → USDe → sUSDe` directly, avoiding a DEX swap.
-
-### Architecture
-
-An adapter is a **separate contract** that can be plugged into an existing SY contract after deployment by calling `SY.setAdapter()`. This modular design means adapters can be added or updated without redeploying the SY or its associated market.
-
-### Required Functions
-
-A SY adapter must implement four key functions:
-
-| Function | Description |
-|---|---|
-| `convertToDeposit(address tokenIn, uint256 amount)` | Converts a deposit token to the SY's native mint token |
-| `convertToRedeem(address tokenOut, uint256 amount)` | Converts the SY's native redeem token to the desired output token |
-| `previewConvertToDeposit(address tokenIn, uint256 amount)` | Preview (estimate) the result of `convertToDeposit` |
-| `previewConvertToRedeem(address tokenOut, uint256 amount)` | Preview (estimate) the result of `convertToRedeem` |
-
-### Development
-
-Partners are responsible for writing, testing, and auditing their own adapters. For a comprehensive implementation guide, see [How to write a SY adapter](https://github.com/pendle-finance/pendle-core-v2-public) in the Pendle public repository.
-
-## Extended StandardizedYield
-
-The following are _optional_ methods that a SY can have. They are not the standard methods, but they can help with calculation for better accuracy.
-
-<!-- We might need to do documentation generation. -->
-<!-- Though this is an exception so it can be fine to include it here. -->
-
-### `pricingInfo()`
-
-```solidity
-function pricingInfo() external view returns (address refToken, bool refStrictlyEqual);
-```
-
-This function contains information to describe recommended pricing method for this SY
-- `refToken` the token should be referred to when pricing this SY
-- `refStrictlyEqual` whether the price of SY is strictly equal to refToken
-
-For pricing PT & YT of this SY, it's recommended that:
-- `refStrictlyEqual` = `true` : (1 natural unit of SY = 1 natural unit of refToken). `Use PYLpOracle.get{Token}ToSyRate()` and multiply with `refToken`'s according price.
-- `refStrictlyEqual` = `false`: use `PYLpOracle.get{Token}ToAssetRate()` and multiply with `refToken`'s according price.
-
-Please see documentation about [unit and decimals](./UnitAndDecimals.md) on notes about decimals differences between PT/YT and the assets.
-
-:::tip
-It is also highly recommended to contact us for discussion on this type of token.
-:::
-
-
----
-
-
-# Pendle Market Smart Contracts
-
-## Introduction
-
-Pendle Market is a specialized Automated Market Maker (AMM) pool designed for trading yields. Each market enables efficient trading between:
-
-- **Principal Tokens (PT)** - Tokens that represent the principal component of yield-bearing assets
-- **Standardized Yield (SY)** - Wrapped yield-bearing assets that standardize yield mechanics
-
-## Pendle AMM Overview
-
-Traditional AMMs like Uniswap use constant product formulas (`x × y = k`) that do not account for the unique properties of fixed-yield assets. Pendle Markets implement a sophisticated time-aware AMM based on Notional Finance's AMM model that:
-
-- **Recognizes time decay**: PT prices naturally converge to 1 as they approach expiry
-- **Optimizes for yield trading**: Pricing curves are tailored for interest rate movements
-- **Maximizes capital efficiency**: Concentrates liquidity around expected yield ranges
-- **Minimizes Impermanent Loss (IL)**: Pendle’s AMM accounts for PT’s natural price appreciation by shifting the AMM curve to push PT price towards its underlying value as time passes, mitigating time-dependent IL (No IL at maturity).
-
-
-> **Deep Dive**: For complete mathematical analysis and comparisons, see the [Pendle V2 AMM Whitepaper](https://github.com/pendle-finance/pendle-v2-resources/blob/main/whitepapers/V2_AMM.pdf)
-
-## Market Parameters
-
-- **Expiry**: The timestamp when PT tokens can be redeemed 1:1 for underlying assets - drives PT price convergence to 1 as expiry approaches.
-
-- **Scalar Root**: Controls the trade-off between capital efficiency and tradeable interest rate range - higher values create tighter, more efficient markets.
-
-- **Initial Anchor**: Sets the interest rate around which trading is most capital efficient at market launch - centers liquidity around expected yield levels.
-
-- **Fee Rate Root**: Dynamic fees based on interest rate impact rather than token amounts - larger market movements incur proportionally higher fees.
-
-## Core Logic
-
-### [`readState`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L272-L292)
-Returns the current market state and pricing metadata.
-
-```solidity
-struct MarketState {
-    int256 totalPt; // total PT in the market
-    int256 totalSy; // total SY in the market
-    int256 totalLp; // total LP minted
-    address treasury; // treasury address to receive protocol fees
-    int256 scalarRoot; // variable to control the capital efficiency of the market
-    uint256 expiry; // timestamp when market expires
-    /// fee data ///
-    uint256 lnFeeRateRoot; // fee rate in ln
-    uint256 reserveFeePercent; // reserve fee in base 100
-    /// last trade data ///
-    uint256 lastLnImpliedRate; // last ln(implied rate) observed
-}
- /**
- * @notice read the state of the market from storage into memory for gas-efficient manipulation
- */
-function readState(address router) external view returns (MarketState memory market);
-```
-
-**Note:**
-- `lnFeeRateRoot` and `lastLnImpliedRate` are stored/returned as natural-log values in fixed-point form.
-- The router parameter allows the function to reflect router-specific settings (e.g., fee discounts if applicable).
-
-### [`mint`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L85-L125)
-Adds liquidity using PT & SY; mints LP shares proportional to the amounts used.
-
-```solidity
-/**
- * @notice PendleMarket allows users to provide in PT & SY in exchange for LPs, which
- * will grant LP holders more exchange fee over time
- * @dev will mint as much LP as possible such that the corresponding SY and PT used do
- * not exceed `netSyDesired` and `netPtDesired`, respectively
- * @dev PT and SY should be transferred to this contract prior to calling
- * @dev will revert if PT is expired
- */
-function mint(
-    address receiver,
-    uint256 netSyDesired,
-    uint256 netPtDesired
-) external returns (uint256 netLpOut, uint256 netSyUsed, uint256 netPtUsed);
-```
-
-**Note:**
-- Caller must transfer PT and SY to the Market before calling. The function mints as many LPs as possible without exceeding `netSyDesired`/`netPtDesired`.
-
-### [`burn`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L127-L148)
-Removes liquidity by burning LP shares for pro-rata SY and PT.
-
-```solidity
-/**
- * @notice LP Holders can burn their LP to receive back SY & PT proportionally
- * to their share of the market
- */
-function burn(
-    address receiverSy,
-    address receiverPt,
-    uint256 netLpToBurn
-) external returns (uint256 netSyOut, uint256 netPtOut);
-```
-
-**Note:** caller must transfer LP to the Market before calling.
-
-### [`swapExactPtForSy`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L150-L184)
-Swaps an exact amount of PT for SY.
-
-```solidity
-/**
- * @notice Pendle Market allows swaps between PT & SY it is holding. This function
- * aims to swap an exact amount of PT to SY.
- * @dev steps working of this contract
-     - The outcome amount of SY will be precomputed by MarketMathLib
-    - Release the calculated amount of SY to receiver
-    - Callback to msg.sender if data.length > 0
-    - Ensure exactPtIn amount of PT has been transferred to this address
-    * @dev will revert if PT is expired
-    * @param data bytes data to be sent in the callback (if any)
-    */
-function swapExactPtForSy(
-    address receiver,
-    uint256 exactPtIn,
-    bytes calldata data
-) external nonReentrant notExpired returns (uint256 netSyOut, uint256 netSyFee);
-```
-
-**Note:** caller must transfer PT to the Market first; the Market then sends out the computed SY and (optionally) invokes a callback if data is non-empty. For a deeper understanding of the math behind it, refer to the [`Pendle V2 AMM Whitepaper`](https://github.com/pendle-finance/pendle-v2-resources/blob/main/whitepapers/V2_AMM.pdf) and [`MarketMathCore Contract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/MarketMathCore.sol#L193-L217).
-
-### [`swapSyForExactPt`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L186-L220)
-Swaps SY for an exact amount of PT.
-
-```solidity
-/**
- * @notice Pendle Market allows swaps between PT & SY it is holding. This function
- * aims to swap SY for an exact amount of PT.
- * @dev steps working of this function
-     - The exact outcome amount of PT will be transferred to receiver
-    - Callback to msg.sender if data.length > 0
-    - Ensure the calculated required amount of SY is transferred to this address
-    * @dev will revert if PT is expired
-    * @param data bytes data to be sent in the callback (if any)
-    */
-function swapSyForExactPt(
-    address receiver,
-    uint256 exactPtOut,
-    bytes calldata data
-) external returns (uint256 netSyIn, uint256 netSyFee);
-```
-
-**Note:** the Market sends out exactPtOut to receiver, optionally callbacks msg.sender, and then enforces that the required SY has been provided (typically via `transfer` in the callback/Router). For a deeper understanding of the math behind it, refer to the [`Pendle V2 AMM Whitepaper`](https://github.com/pendle-finance/pendle-v2-resources/blob/main/whitepapers/V2_AMM.pdf) and [`MarketMathCore Contract`](https://github.com/pendle-finance/pendle-core-v2-public/blob/ba53685767bc16e070136b9dbfe02a5dd6258c61/contracts/core/Market/MarketMathCore.sol#L193-L217).
-
-
-### [`redeemRewards`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/core/Market/v3/PendleMarketV3.sol#L231-L237)
-Claims accumulated swap fees/protocol rewards for user (in the order of `getRewardTokens()`).
-
-```solidity
-/**
- * @notice redeems the user's reward
- * @return amount of reward token redeemed, in the same order as `getRewardTokens()`
- */
-function redeemRewards(address user) external returns (uint256[] memory);
-```
-
-## Integration Example
-
-### Basic Swap
-```solidity
-// Transfer PT to market first
-pt.transfer(address(market), ptAmount);
-
-// Execute swap (exact PT in → SY out)
-(uint256 syOut,) = market.swapExactPtForSy(
-    msg.sender,
-    ptAmount,
-    ""
-);
-```
-
-### Basic Mint
-```solidity
-// Transfer tokens first
-sy.transfer(address(market), syAmount);
-pt.transfer(address(market), ptAmount);
-
-// Mint LP tokens
-(uint256 lpOut,,) = market.mint(
-    msg.sender,
-    syAmount,
-    ptAmount
-);
-```
-
-## Flash Swap
-
-Similar to Uniswap V2, **all Pendle swaps are actually flash swaps**. The Market sends output tokens to the receiver first, then enforces that sufficient input tokens have been received by the end of the transaction. This facilitates advanced use cases like arbitrage, liquidation, and in Pendle specifically, YT trading.
-
-### How It Works
-
-1. **Market sends output tokens** to receiver immediately
-2. **Callback executed** (if data provided) - this is where you implement your logic. You can use the received tokens for arbitrage, liquidation, or other strategies, but you must ensure you transfer the required input tokens back to the Market before the callback ends.
-3. **Market checks input tokens** - verifies required tokens were transferred during the transaction
-
-Because Ethereum transactions are atomic, the entire swap reverts if the Market doesn't receive enough input tokens.
-
-### Flash Swap Example
-:::danger Example code only
-The snippets below are simplified for illustration and **are not audited**.
-**Do not** use them in production or with real funds. If you adapt any example,
-conduct a full review, add comprehensive tests, and obtain an independent **security audit**.
-:::
-```solidity
-contract FlashSwapExample is IPMarketSwapCallback {
-    IPendleMarket public market;
-
-    function flashSwap(uint256 ptAmount) external {
-        // Market will send SY first, then callback to this contract
-        market.swapExactPtForSy(
-            address(this),
-            ptAmount,
-            abi.encode(msg.sender) // data for callback
-        );
-    }
-
-    // Callback - Market has already sent SY to this contract
-    function swapCallback(
-        int256 ptToAccount,   // negative = we owe PT to market
-        int256 syToAccount,   // positive = we received SY from market
-        bytes calldata data
-    ) external {
-        require(msg.sender == address(market));
-
-        // Your custom logic here (arbitrage, liquidation, etc.)
-        // ...
-
-        // Must transfer required PT to market before callback ends
-        uint256 ptOwed = uint256(-ptToAccount);
-        IERC20(market.PT()).transfer(address(market), ptOwed);
-    }
-}
-```
-
-### Interface
-
-```solidity
-interface IPMarketSwapCallback {
-    function swapCallback(int256 ptToAccount, int256 syToAccount, bytes calldata data) external;
-}
-```
-
-## Oracle
-
-Pendle Markets provide oracle functionality for PT pricing and implied yield rates, adapted from Uniswap V3’s time-weighted average price (TWAP) oracle.
-
-### How It Works
-
-The oracle stores **implied rate observations** over time, which are then used to calculate manipulation-resistant PT prices and yields.
-
-**Key Formula:**
-
-$$
-\text{lnImpliedRateCumulative}_i
-= \text{lnImpliedRateCumulative}_{i-1}
-+ \text{lnImpliedRate} \times \Delta t
-$$
-
-where **lnImpliedRate** is the natural logarithm of the implied interest rate at the current market state, and **Δt** is the time elapsed.
-
-From these cumulative values, you can compute the **geometric mean price of PT** over a given interval (see [Introduction to PT Oracle](../Oracles/IntroductionOfPtOracle) for details).
-
-### Integration Guide
-
-See [How to Integrate PT and LP Oracles](../Oracles/HowToIntegratePtAndLpOracle) for implementation details.
-
-
-## FAQ
-
-### Why is there no swapExactSy function?
-
-Unlike standard AMMs, Pendle's AMM only allows swapping exact PT in/out. Therefore, functions like `swapExactSyForPt` and `swapPtForExactSy` should generally be avoided. If necessary, use PendleRouter's `swapExactSyForPt` with approx parameters. Refer to the [PendleRouter documentation](./PendleRouter/ApiReference/PtFunctions#swapexactsyforpt) for details.
-
-### How can I trade YT tokens when the Market only contains PT and SY?
-
-YT tokens can be traded via [flash swaps](../../ProtocolMechanics/LiquidityEngines/AMM#flash-swaps). Use the PendleRouter's `swapExactTokenForYt` or `swapExactYtForToken` functions, which handle the necessary flash swap logic and token transfers. Refer to the [PendleRouter documentation](./PendleRouter/ApiReference/YtFunctions#swapexacttokenforyt) for details.
-
-
-### Why can’t I swap PT after expiry?
-
-At expiry, PT can be redeemed for the underlying asset. Market-making no longer makes economic sense at this point and would enable circular arbitrage. To redeem PT post-expiry, use the [Router](./PendleRouter/ApiReference/LiquidityFunctions#removeliquiditysingletoken).
-
-### Should I use the Router or interact with the Market directly?
-
-* Use the Router for:
-  * Any operations involving YT.
-  * Swaps using tokens other than the underlying (since additional swaps are required).
-  * Fee discounts, slippage protection, etc.
-
-* Interact directly with the Market for:
-  * Simple PT ↔ SY swaps.
-  * Flash swaps.
-  * Highly gas-optimized integrations where you manage token transfers and slippage manually.
----
-
-
 # Pendle Router Overview
 
 ## Quick Start
@@ -4344,6 +3678,10 @@ router.swapExactSyForYt(
 
 # Misc Functions
 
+:::caution Interface Stability
+Some functions on this page have interfaces that may change in the future. Check with the Pendle team before using in production.
+:::
+
 This document covers core functions for SY/PY operations, reward claiming, exit strategies, and utility functions in Pendle Router.
 
 ## SY Operations
@@ -4852,7 +4190,11 @@ Batch multiple operations for gas efficiency and atomic execution.
 
 ### simulate
 
-Simulates function execution without state changes.
+:::caution Off-chain use only
+`simulate` always reverts — it executes the call and surfaces the return data through a revert. It must be called via `eth_call` / `staticCall`, never as an on-chain transaction.
+:::
+
+Simulates function execution and returns the output data without committing state changes.
 
 ```solidity
 function simulate(address target, bytes calldata data) external payable
@@ -4864,9 +4206,6 @@ function simulate(address target, bytes calldata data) external payable
 |------|------|-------------|
 | target | `address` | Contract address to simulate |
 | data | `bytes` | Encoded function call data |
-
-**Use Case**
-Test function execution and get return values without actually executing the transaction.
 
 ## Integration Examples
 
@@ -5142,7 +4481,7 @@ To convert scaled SY of wrapped asset to the **original** underlying asset, we c
 
 # Introduction of PT Oracle
 
-In the Pendle system, $PT$ can be freely traded from and to $SY$ utilizing our AMM. With the built-in TWAP oracle library, the geometric mean price of $PT$ in terms of SY or asset can be derived from our `PendleMarket` contracts fully on-chain. Please refer to the [StandardizedYield doc](../Contracts/StandardizedYield) for more details of SY & asset
+In the Pendle system, $PT$ can be freely traded from and to $SY$ utilizing our AMM. With the built-in TWAP oracle library, the geometric mean price of $PT$ in terms of SY or asset can be derived from our `PendleMarket` contracts fully on-chain. Please refer to the [StandardizedYield doc](../Contracts/StandardizedYield/StandardizedYield) for more details of SY & asset
 ## Oracle design
 
 Pendle's oracle implementation is inspired by the idea of the UniswapV3 Oracle (see [here](https://docs.uniswap.org/concepts/protocol/oracle)) with a slight difference in how we define the cumulative rate. In short, our oracle stores the cumulative logarithm of implied APY (the interest rate implied by $PT/asset$ pricing). From the cumulative logarithm of Implied APY, we can calculate the geometric mean of Implied APY, which will be used to derive the mean $PT$ price.
@@ -5703,7 +5042,7 @@ The PYIndex can be retrieved from the YT (Yield Token) contract:
 - **`pyIndexCurrent()`**: Returns the most up-to-date PY index. This is a state-changing function.
 - **`pyIndexStored()`**: Returns the cached PY index without updating. This is a view function.
 
-See the [Yield Tokenization documentation](../../Contracts/YieldTokenization) for more details on PY index behavior.
+See the [Yield Tokenization documentation](../../Contracts/YieldTokenization/YieldTokenization) for more details on PY index behavior.
 
 ### Simplified Formula
 If your use case does not require accounting for yield token depeg risks, you can ignore the PYIndex and use this simplified version:
@@ -5940,12 +5279,11 @@ $$
 \text{answer} = \text{lpMaturedPrice} \cdot
     \min\left(
         10^{18},
-        10^{18} - \frac{(\text{maturity} - t) \cdot \text{baseDiscountPerYear}}{365 \cdot 24 \cdot 60 \cdot 60} 
+        10^{18} - \frac{(\text{maturity} - t) \cdot \text{baseDiscountPerYear}}{365 \cdot 24 \cdot 60 \cdot 60}
     \right)
 $$
 
 </details>
-
 
 ---
 
@@ -6131,7 +5469,7 @@ For Hosted SDK, rate limiting, and Backend API questions, see the **[API Overvie
 ## Contract
 
 ### How can I deploy a new SY Token on Pendle?
-Pendle's smart contracts are permissionless, meaning anyone can deploy a new Standardized Yield (SY) Token without requiring approval from the Pendle team. To implement an SY Token, you must follow the Pendle SY Token standard, ensuring compatibility with the ecosystem. Detailed guidance, including contract structure and best practices, can be found in the [StandardizedYield documentation](./Contracts/StandardizedYield).
+Pendle's smart contracts are permissionless, meaning anyone can deploy a new Standardized Yield (SY) Token without requiring approval from the Pendle team. To implement an SY Token, you must follow the Pendle SY Token standard, ensuring compatibility with the ecosystem. Detailed guidance, including contract structure and best practices, can be found in the [StandardizedYield documentation](./Contracts/StandardizedYield/StandardizedYield).
 
 To community-list a new asset, see the [Community Listing guide](./Integration/CommunityListing) and the [SY writing guide](https://pendle.notion.site/How-to-write-a-SY-A-guide-207567a21d378069aecbf20176591d93).
 
@@ -6343,53 +5681,42 @@ In the event of a security compromise on an integrated protocol (e.g., Penpie, Z
 # Part 2: Pendle Boros — Interest Rate Swap DEX
 
 
-# Introduction to Boros
+# Boros Developer Documentation
 
-Pendle Boros is an on-chain platform for trading interest rate swaps. The protocol enables users to take long or short positions on variable interest rates with leverage through a hybrid system combining a central limit order book and AMM. At launch, Boros only supports trading of funding rates, though Boros is designed to allow trading of any type of interest rate that has an index oracle.
+Boros is an on-chain interest rate swap (IRS) trading platform by Pendle, deployed on Arbitrum. It enables users to take leveraged long or short positions on variable interest rates — starting with funding rates — through a hybrid central limit order book (CLOB) and AMM architecture. These docs are for developers integrating with Boros programmatically, whether through the REST API and SDK, direct smart contract calls, or both.
 
-Boros is deployed on Arbitrum and the addresses can be found [here](https://github.com/pendle-finance/boros-core-public/tree/main/deployments).
+## Choose your path
 
-## Core Documentation
+:::tip Building a trading bot or API integration
+Use the REST API and SDK via the agent-based **Send Txs Bot** architecture. Start with [Backend Integration > Overview](./Backend/0.%20overview.mdx).
+:::
 
-- [Lite Paper](./LitePaper.mdx)
-- [High Level Architecture](./HighLevelArchitecture.mdx)
-- [Frequently Asked Questions](./FAQ.mdx)
+:::info Integrating smart contracts directly
+Call Boros contracts from your own on-chain or off-chain code. Start with [Contracts > Router](./Contracts/Router.mdx).
+:::
 
-## Protocol Mechanics
+:::note Learning how the protocol works
+Read the [LitePaper](./LitePaper.mdx) for a conceptual overview, or dive into [Mechanics](./Mechanics/OrderBook.mdx) for protocol-level detail.
+:::
 
-- [Order Book](./Mechanics/OrderBook.mdx)
-- [Settlement](./Mechanics/Settlement.mdx)
-- [Fees](./Mechanics/Fees.mdx)
-- [Margin](./Mechanics/Margin.mdx)
+## What's in these docs
 
-## Integration Guides
+| Section | Contents |
+|---|---|
+| **Backend Integration** | REST API, WebSocket, agent wallet setup, stop orders (TP/SL), transaction submission via Send Txs Bot, best practices |
+| **Historical Data** | Monthly NDJSON exports of trades, OHLCV candles, order book snapshots, settlement rates and market data |
+| **Mechanics** | Order book matching, margin system (cross vs isolated), settlement, fees |
+| **Contracts** | Router, MarketHub, Market, custom types reference, NPM package |
+| **LitePaper** | User-friendly explanation of interest rate swaps with worked examples |
+| **FAQ** | Common questions and troubleshooting |
 
-External parties can integrate with Boros through two primary methods:
-
-- **Direct Contract Integration** - Make direct calls to Boros smart contracts for maximum control and customization. This approach is ideal for sophisticated traders who want to implement custom trading logic on-chain.
-
-  - **Entry point**: [Router](./Contracts/Router.mdx)
-  - **Data query**: [MarketHub](./Contracts/MarketHub.mdx) | [Market](./Contracts/Market.mdx)
-  - **NPM package**: [@pendle/boros-core](https://www.npmjs.com/package/@pendle/boros-core)
-
-- **SDK Integration** - Use the Boros SDK for simplified integration through agent-based calls. The SDK handles transaction management, signature generation, and provides a high-level API for common trading operations.
-  - [Backend Integration Overview](./Backend/0.%20overview.mdx)
-  - **NPM package**: [@pendle/sdk-boros](https://www.npmjs.com/package/@pendle/sdk-boros)
-
-Additionally, Boros provides comprehensive data access through:
-
-- **REST API** - Query market data, order book snapshots, historical trades, and account information
-
-  - [API Documentation](./Backend/3.%20api.mdx)
-
-- **WebSocket** - Real-time data streaming for order book updates, trades, and market events
-  - [WebSocket Documentation](./Backend/4.%20websocket.mdx)
-
-## Resources
+## Quick resources
 
 - [Whitepapers](https://github.com/pendle-finance/boros-core-public/tree/main/whitepapers)
 - [Core Contracts Repository](https://github.com/pendle-finance/boros-core-public)
 - [Audit Reports](https://github.com/pendle-finance/boros-core-public/tree/main/audits/)
+- [Deployed Addresses](https://github.com/pendle-finance/boros-core-public/tree/main/deployments)
+- [Historical Data Browser](https://historical-data.boros.finance)
 
 ---
 
@@ -6398,7 +5725,7 @@ Additionally, Boros provides comprehensive data access through:
 
 This document outlines how Boros works in a more high level and user-centric manner. Exact formal definitions and formulas can be found in the [whitepaper](https://github.com/pendle-finance/boros-core-public/blob/main/whitepapers/AMM.pdf).
 
-# How does Boros work from a user perspective?
+## How does Boros work from a user perspective?
 
 ### Interest rate swap mechanics
 
@@ -6525,7 +5852,7 @@ For most integrations, interact with Boros through the [REST API](/boros-dev/Bac
 
 ## Core Contracts
 
-```text
+```mermaid
 graph TD
     Router --> MarketHub
     MarketHub --> Market-1
@@ -6789,6 +6116,12 @@ The oracle uses a fixed-window observation approach:
 ```
 markRate = (lastTradedRate × timeElapsed + prevOracleRate × (window - timeElapsed)) / window
 ```
+
+Where:
+- **`lastTradedRate`**: the rate of the most recent matched tick
+- **`timeElapsed`**: seconds since the last trade
+- **`prevOracleRate`**: the mark rate before the latest trade
+- **`window`**: a per-market parameter controlling how quickly the mark rate responds to new trades — typically **5 minutes** (300 seconds). A smaller window makes the mark rate more reactive; a larger window smooths out short-term spikes. Query the exact value via [`getMarketConfig()`](./Market.mdx#getmarketconfig).
 
 The mark rate is distinct from the **mid rate** (midpoint of best bid and best ask) and the **AMM implied rate**. In normal conditions, these values should be close, but they can diverge in thin markets or when the AMM operates outside its active range.
 
@@ -7144,19 +6477,20 @@ The settlement algorithm processes all pending events in chronological order to 
 **Example Timeline:**
 
 ```
-User last settled: 08:00
-Current time: 18:00
-
-Events to process:
-- 09:30: Limit order filled (100 units)
-- 16:00: Floating payment settlement
-- 17:15: Limit order filled (50 units)
+08:00              16:00 (fTime)         18:00 (now)
+  |─────────────────|──────────────────────|
+  │    Period 1     │       Period 2       │
+  │                 │                      │
+  ↓ 09:30           ↓ 16:00               ↓ 17:15
+  Fill              Float pay              Fill
+  (100 units)       settlement             (50 units)
+```
 
 Processing order:
-1. Process fills from 08:00-16:00 period (100 units)
-2. Process floating payment at 16:00
-3. Process fills from 16:00-24:00 period (50 units)
-```
+
+1. Process fills in Period 1 (08:00–16:00): apply fill at 09:30, updating position size to 100 units
+2. Process floating payment at 16:00 boundary: settle on the current position size (100 units)
+3. Process fills in Period 2 (16:00–18:00): apply fill at 17:15, updating position size to 150 units
 
 ## Notes
 
@@ -7784,8 +7118,8 @@ bulks[1] = BulkOrder({
     orders: LongShort({
         tif: TimeInForce.GTC,
         side: Side.SHORT,
-        sizes: [1000e18],
-        limitTicks: [140]
+        sizes: sizes1,
+        limitTicks: limitTicks1
     }),
     cancelData: CancelData({
         ids: new OrderId[](0),
@@ -8347,43 +7681,33 @@ marketHub.simulateTransfer(fromAccount, transferAmount);
 
 ---
 
-# Boros Public API Documentation
+# Backend Integration
 
-## Overview
-
-Welcome to the Boros Public API documentation. This API provides programmatic access to Boros Finance's trading and analytics platform, enabling you to integrate Boros functionality into your applications.
-
-## Getting Started
-
-### API Documentation
-
-The complete API reference with all available endpoints, request/response schemas, and authentication details is available through our interactive OpenAPI documentation:
-
-**Interactive API Docs:** https://api.boros.finance/open-api/docs
-
-### SDKs
-
-We provide official SDKs to simplify integration with the Boros API:
-
-#### TypeScript SDK
-The TypeScript SDK offers full type safety and is ideal for Node.js and browser-based applications.
-
-- **Repository:** https://github.com/pendle-finance/sdk-boros-public
-- **Installation:** `npm install @pendle/sdk-boros`
-
-For detailed SDK documentation, API references, and advanced usage, refer to the SDK repository.
-
-### Code Examples
-
-For practical examples demonstrating common use cases and workflows, see our examples repository:
-
-**Examples Repository:** https://github.com/pendle-finance/boros-api-examples
+Backend integration means interacting with Boros through its REST API and TypeScript SDK rather than calling contracts directly. This is the recommended path for most integrators: the API handles calldata generation, signature encoding, and on-chain submission, so you can build trading workflows without managing ABI encoding or gas mechanics yourself.
 
 
-## Support
+## Request Flow
 
-For questions, issues, or feature requests, please refer to the relevant SDK repository or contact our support team. https://discord.gg/6BrmdyBkQ2
+Boros uses a two-track signing model. Sensitive account actions are signed by the root wallet and sent directly to the blockchain. Non-sensitive trading actions are signed by an agent wallet and routed through the Send Txs Bot, which manages gas, nonce, and submission.
 
+```
+Root wallet  ──[sensitive: deposit / withdraw / approve-agent]──▶  Blockchain (direct)
+Agent wallet ──[non-sensitive: place / cancel / transfer]──────▶  Send Txs Bot ──▶ Blockchain
+```
+
+The Send Txs Bot charges gas from the user's on-chain gas balance in USD at the actual Arbitrum cost, with no markup.
+
+
+## What's in This Section
+
+| Page | Contents |
+|---|---|
+| [Glossary](./1.%20glossary.mdx) | Key terms and type definitions used throughout the API |
+| [Agent](./2.%20agent.mdx) | Setting up and managing agent wallets |
+| [API](./3.%20api.mdx) | Full REST endpoint reference and integration workflows |
+| [WebSocket](./4.%20websocket.mdx) | Real-time market and account data streaming |
+| [Best Practices](./5.%20best-practices.mdx) | Patterns for gas efficiency, error handling, and market management |
+| [Stop Orders](./6.%20stop-orders.mdx) | Conditional take-profit and stop-loss order management |
 
 ---
 
@@ -8719,23 +8043,25 @@ function cleanup() {
 
 | Channel | Event | Description |
 |---------|-------|-------------|
-| `orderbook:MARKET_ID:TICK_SIZE` | `orderbook:MARKET_ID:TICK_SIZE:update` | Orderbook updates. TICK_SIZE: `0.1`, `0.01`, `0.001`, `0.0001`, `0.00001` |
-| `market-trade:MARKET_ID` | `market-trade:MARKET_ID:update` | Trade executions with `rate`, `size`, `blockTimestamp`, `txHash` |
-| `statistics:MARKET_ID` | `statistics:MARKET_ID:update` | Market stats: `markApr`, `midApr`, `lastTradedApr`, `floatingApr`, `volume24h`, `notionalOI`, `nextSettlementTime`, `longYieldApr` |
-| `market-data:MARKET_ID` | `market-data-update` | Real-time on-chain market data: `mId`, `bn`, `bt`, `oi`, `mid`, `mk`, `lt`, `nst`, `bb` (bestBid), `ba` (bestAsk), `ai` (ammImpliedApr) |
+| `orderbook:MARKET_ID:TICK_SIZE` | `orderbook:MARKET_ID:TICK_SIZE:update` | Orderbook updates. Accepted TICK_SIZE: `0.1`, `0.01`, `0.001`, `0.0001`, `0.00001` |
+| `market-trade:MARKET_ID` | `market-trade:MARKET_ID:update` | Individual trade executions with `rate`, `size`, `blockTimestamp`, `txHash` |
+| `statistics:MARKET_ID` | `statistics:MARKET_ID:update` | Market statistics: `markApr`, `midApr`, `lastTradedApr`, `floatingApr`, `volume24h`, `notionalOI`, `nextSettlementTime`, `longYieldApr` |
+| `market-data:MARKET_ID` | `market-data-update` | Real-time market data from on-chain events. See [Market Data Events](#market-data-events) below. |
 
 ### Account Channels
 
 | Channel | Event | Description |
 |---------|-------|-------------|
-| `account:ACCOUNT` | `account:ACCOUNT:update` | Legacy notification (type: Position/LimitOrder/Collateral). Requires REST refetch. |
-| `account-updates:ROOT_ADDRESS` | `position-update` | Detailed: `ei`, `bn`, `bt`, `tx`, `mId`, `ma`, `prf`/`prs` (prev), `ptf`/`pts` (post) |
-| `account-updates:ROOT_ADDRESS` | `order-update` | Detailed: `ei`, `bn`, `bt`, `tx`, `mId`, `oId`, `sd` (0=Long/1=Short), `ps`, `us`, `tk`, `ot` (OrderType: 0=Limit, 1=Market, 2=TakeProfitMarket, 3=StopLossMarket), `os` (LimitOrderStatus: 0=Filling, 1=Cancelled, 2=FullyFilled, 3=Expired, 4=Purged), `efs` |
-| `account-updates:ROOT_ADDRESS` | `settlement-update` | Detailed: `ei`, `bn`, `bt`, `tx`, `ma`, `mId`, `ps`, `yp`, `yr`, `pa`, `ra`, `fee`. **Note: currently only emitted for a few active market makers, not for all users.** |
+| `account:ACCOUNT` | `account:ACCOUNT:update` | Legacy notification — tells you *something* changed (type: `Position`, `LimitOrder`, or `Collateral`). Requires REST API refetch. |
+| `account-updates:ROOT_ADDRESS` | `position-update` | Detailed position changes with pre/post state. See [Account Update Events](#account-update-events). |
+| `account-updates:ROOT_ADDRESS` | `order-update` | Detailed order state changes (placed, filled, cancelled, purged). |
+| `account-updates:ROOT_ADDRESS` | `settlement-update` | Detailed settlement data (yield paid/received, APR rates, fees). |
 
-Prefer `account-updates:ROOT_ADDRESS` over `account:ACCOUNT` — it includes full event payloads, eliminating the need for REST API refetch.
+Replace `MARKET_ID` with your market identifier. For `ACCOUNT`, use `AccountLib.pack(address, accountId)`. For `ROOT_ADDRESS`, use your lowercased wallet address (e.g., `0xdac17...`).
 
-Replace `MARKET_ID` with your market identifier. For `ACCOUNT`, use `AccountLib.pack(address, accountId)`. For `ROOT_ADDRESS`, use lowercased wallet address.
+:::tip Prefer `account-updates` over `account`
+The legacy `account:ACCOUNT` channel only tells you *that* something changed — you still need to call the REST API to find out *what*. The new `account-updates:ROOT_ADDRESS` channel includes full event details in the payload, eliminating the need for follow-up API calls.
+:::
 
 ## Best Practices
 
@@ -8891,11 +8217,125 @@ async function refreshAccountData() {
 }
 ```
 
-### Legacy vs Detailed Account Events
+## Market Data Events
 
-The legacy `account:ACCOUNT` channel only notifies that something changed (type: `Position`, `LimitOrder`, or `Collateral`). You must call the REST API to get updated data.
+Subscribe to `market-data:MARKET_ID` to receive real-time market data derived from on-chain events. The event name is `market-data-update`.
 
-The new `account-updates:ROOT_ADDRESS` channel provides full event details in the payload (position pre/post state, order status, settlement amounts), eliminating REST API refetch. Use this channel for new integrations.
+**Payload fields:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `mId` | number | Market ID |
+| `bn` | number | Block number of the on-chain event |
+| `bt` | number | Block timestamp (unix) |
+| `oi` | number | Notional open interest |
+| `mid` | number | Mid APR (from implied rate, AMM rate, or bid/ask average) |
+| `mk` | number | Mark APR (from contract) |
+| `lt` | number | Last traded APR |
+| `nst` | number | Next settlement time (unix) |
+| `bb` | number? | Best bid APR (undefined if no bids) |
+| `ba` | number? | Best ask APR (undefined if no asks) |
+| `ai` | number? | AMM implied APR (undefined if no AMM) |
+
+```typescript
+socket.emit('subscribe', `market-data:${marketId}`);
+socket.on('market-data-update', (data) => {
+  console.log(`Market ${data.mId}: mark=${data.mk}, mid=${data.mid}, OI=${data.oi}`);
+});
+```
+
+## Account Update Events
+
+Subscribe to `account-updates:ROOT_ADDRESS` (lowercased wallet address) to receive detailed, structured events when your positions, orders, or settlements change.
+
+Unlike the legacy `account:ACCOUNT` channel which only notifies you that *something* changed, these events include the full details — no REST API refetch needed.
+
+### Position Update (`position-update`)
+
+Emitted when a position size or rate changes (trade fill, liquidation).
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `ei` | number | Event index (on-chain sequence number) |
+| `bn` | number | Block number |
+| `bt` | number | Block timestamp (unix) |
+| `tx` | Hex | Transaction hash |
+| `mId` | number | Market ID |
+| `ma` | MarketAcc | Packed market account |
+| `prf` | string | Previous fixed rate (FixedX18 raw) |
+| `prs` | string | Previous position size (FixedX18 raw) |
+| `ptf` | string | Post-trade fixed rate (FixedX18 raw) |
+| `pts` | string | Post-trade position size (FixedX18 raw) |
+
+### Order Update (`order-update`)
+
+Emitted when an order is placed, partially filled, fully filled, cancelled, or purged.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `ei` | number | Event index |
+| `bn` | number | Block number |
+| `bt` | number | Block timestamp (unix) |
+| `tx` | Hex | Transaction hash |
+| `mId` | number | Market ID |
+| `oId` | string | Order ID |
+| `sd` | Side | `0` = Long, `1` = Short |
+| `ps` | string | Original placed size (FixedX18 raw) |
+| `us` | string | Remaining unfilled size (FixedX18 raw) |
+| `tk` | number | Tick (price level) |
+| `ot` | OrderType | Order type: `0` = Limit, `1` = Market, `2` = TakeProfitMarket, `3` = StopLossMarket |
+| `os` | LimitOrderStatus | Order status: `0` = Filling (unfilled/partially filled), `1` = Cancelled, `2` = FullyFilled, `3` = Expired (market matured), `4` = Purged |
+| `efs` | string? | Size filled by this specific event (undefined if no fill) |
+
+### Settlement Update (`settlement-update`)
+
+Emitted when a funding rate settlement is processed for a position. Only emitted for positions with non-zero size.
+
+:::caution Limited Availability
+`settlement-update` events are currently only emitted for a few active market makers, not for all users. General user support will be added in the future. For now, use `GET /accounts/settlements` or the legacy `account:ACCOUNT` channel to track settlements.
+:::
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `ei` | number | Event index |
+| `bn` | number | Block number |
+| `bt` | number | Block timestamp (unix) |
+| `tx` | Hex | Transaction hash |
+| `ma` | MarketAcc | Packed market account |
+| `mId` | number | Market ID |
+| `ps` | string | Position size (negative = short) |
+| `yp` | string | Yield paid |
+| `yr` | string | Yield received |
+| `pa` | number | Annualized fixed rate paid |
+| `ra` | number | Annualized floating rate received |
+| `fee` | string | Settlement fee |
+
+### Example: Subscribing to Account Updates
+
+```typescript
+const root = walletAddress.toLowerCase();
+socket.emit('subscribe', `account-updates:${root}`);
+
+socket.on('position-update', (data) => {
+  console.log(`Position changed on market ${data.mId}:`);
+  console.log(`  Size: ${data.prs} → ${data.pts}`);
+  console.log(`  Rate: ${data.prf} → ${data.ptf}`);
+  console.log(`  Tx: ${data.tx}`);
+});
+
+socket.on('order-update', (data) => {
+  console.log(`Order ${data.oId} on market ${data.mId}: status=${data.os}`);
+  if (data.efs) console.log(`  Filled: ${data.efs}`);
+});
+
+socket.on('settlement-update', (data) => {
+  console.log(`Settlement on market ${data.mId}: paid=${data.yp}, received=${data.yr}`);
+});
+```
+
+:::note All numeric values use FixedX18 raw format
+Position sizes, rates, yields, and fees are returned as FixedX18 raw string values (18-decimal fixed-point). Use `FixedX18.fromBigIntString(value).toNumber()` from `@pendle/boros-offchain-math` to convert to human-readable numbers.
+:::
 
 ### Complete Account Tracking Example
 
@@ -8995,7 +8435,15 @@ The Send Txs Bot provides two submission endpoints:
 | Endpoint | Use case |
 |----------|----------|
 | `POST /v2/agent/direct-call` | Submit a **single** calldata |
-| `POST /v3/agent/bulk-direct-call` | Submit **one or more** calldatas with sequential execution |
+| `POST /v2/agent/bulk-direct-call` | Submit **one or more** calldatas with sequential execution |
+
+:::info v2 vs v3 Send Txs Bot
+Both v2 and v3 expose `bulk-direct-call`, but they have **different request schemas**:
+- **v2** (`BulkAgentExecuteDto`) — no session required. Use this for **programmatic / API integrations**.
+- **v3** (`BulkAgentExecuteV2Dto`) — requires a mandatory `agentSession` field (HTTP-only cookie / CSRF token). Use this for **browser-based UIs** only.
+
+Unless you are building a browser UI with session management, always use **v2**.
+:::
 
 **When to use `bulk-direct-call`:** The calldata generation endpoints (e.g., `POST /calldata/place-orders`) may return **multiple calldatas** in the `calldatas` array — for example, `[exit-market, place-order]` when `autoExitMarket=true`. You **must** submit all calldatas together using `bulk-direct-call` to ensure correct execution order.
 
@@ -9059,21 +8507,57 @@ Simulations are free (no gas) and return the projected account state. The key si
 | `GET /simulations/cash-transfer` | Preview cross ↔ isolated transfer |
 
 
-## Security
+## Market Maker Order Flow
 
-### Key Management
+The calldata endpoints (e.g., `POST /calldata/place-orders`) return a list of calldatas. You sign each calldata with your agent key, then send them to `POST /send-txs-bot/v2/agent/bulk-direct-call`.
 
-- **Never expose your root private key** in client-side code or logs
-- **Use the agent system** — the agent key has limited permissions and cannot withdraw funds
-- **Rotate agent keys** periodically by revoking the old agent and approving a new one
-- **Set reasonable expiry times** on agent approvals
+When submitting, set the `requireSuccess` parameter to control atomicity:
+- **`requireSuccess=true`** — All calldatas are placed atomically (all succeed or all revert).
+- **`requireSuccess=false`** — Each calldata is placed independently; some may succeed while others fail.
 
-### Transaction Verification
+### Full Flow
 
-- Always **simulate before executing** to verify expected outcomes
-- Check the `to` address in calldata responses matches the expected Router contract
-- Verify transaction status after submission — don't assume success
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│  1. POST /calldata/place-orders          → calldatas[]              │
+│  2. Sign each calldata with agent key                               │
+│  3. POST /send-txs-bot/v2/agent/bulk-direct-call                   │
+│     with requireSuccess=true or false    → tx results               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
+### `requireSuccess` Parameter (Send Txs Bot)
+
+The `requireSuccess` parameter on `bulk-direct-call` controls whether the calldatas execute atomically:
+
+| Value | Behavior | Use case |
+|-------|----------|----------|
+| `true` (default) | All calldatas succeed together or all revert | Place multiple orders atomically |
+| `false` | Each calldata executes independently; some may succeed while others fail | Placing multiple independent orders (e.g., market making quotes on both sides) |
+
+:::tip When to use `requireSuccess=false`
+If you are a market maker placing multiple orders across different markets or at different price levels, use `requireSuccess=false`. This way, if one order fails (e.g., due to insufficient margin for that specific order), the remaining orders can still be placed successfully.
+:::
+
+
+## Summary
+
+| Best Practice | Why |
+|---------------|-----|
+| Use bulk orders for multiple operations | Lower gas, atomic execution |
+| Use `bulk-direct-call` for multi-calldata responses | Ensures all calldatas (exit-market + place-order) are submitted |
+| Use `requireSuccess=false` for independent orders | Lets each order succeed/fail independently (market making) |
+| Set `autoExitMarket=false` if managing markets yourself | Avoids unexpected multi-calldata responses |
+| Exit unused/expired markets (max 10 per account) | Reduce gas overhead, free up slots |
+| Use `GET /open-api/v1/markets/{marketId}` for real-time rates | Guaranteed real-time midApr, markApr, bestBid, bestAsk |
+| Use correct `marketAcc` for isolated-only markets | Required for trading isolated-only markets |
+| Monitor gas balance | Avoid failed transactions |
+| Simulate before executing | Preview margin impact and catch errors |
+| Use WebSocket for real-time data | Lower latency, less overhead than polling |
+| Handle errors by format (Open API vs legacy) | Different services use different formats |
+| Never expose root key; use agents | Security best practice |
+
+For complete working examples, visit: [https://github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples)
 
 ---
 
@@ -9207,6 +8691,221 @@ For exact request/response schemas, see the interactive docs:
 
 ---
 
+# Historical Data
+
+Historical market data exports for [Pendle Boros](https://boros.pendle.finance) on Arbitrum.
+
+All data is stored as **NDJSON** (newline-delimited JSON) compressed with **ZIP**. Each file covers one calendar month per market.
+
+**Browse data:** https://historical-data.boros.finance
+
+
+## Directory Structure
+
+```
+market-data/{market}/                     Hourly market snapshots
+settlement/{market}/                      On-chain settlement rate updates
+underlying-apr/                           Historical underlying funding rates
+market-trades/{market}/                   Individual trades
+ohlcv/{timeframe}/{market}/               OHLCV candles (5m, 1h, 1d)
+order-book/{market}/raw/                  Raw order book snapshots
+order-book/{market}/combined_{tickSize}/  Order book aggregated by tick size
+```
+
+**Market naming:** `{ID}-{EXCHANGE}-{PAIR}-{EXPIRY}` (e.g. `2-BINANCE-BTCUSDT-26SEP2025`)
+
+**File naming:** `YYYY-MM.ndjson.zip` (e.g. `2025-08.ndjson.zip`)
+
+## How to Decompress
+
+Files are compressed with ZIP. Decompress with any standard unzip tool:
+
+```bash
+# Decompress a single file
+unzip 2025-08.ndjson.zip
+
+# Decompress all files in place
+find . -name '*.ndjson.zip' -exec sh -c 'unzip -o -q "$1" -d "$(dirname "$1")"' _ {} \;
+```
+
+## How to Read the Data
+
+Each `.ndjson` file contains one JSON object per line. You can parse it with standard tools:
+
+```bash
+# Preview first 3 lines (pretty-printed)
+unzip -p 2025-08.ndjson.zip | head -3 | jq .
+
+# Count records
+unzip -p 2025-08.ndjson.zip | wc -l
+
+# Filter by timestamp range
+unzip -p 2025-08.ndjson.zip | jq -c 'select(.timestamp >= 1754006400 and .timestamp < 1754092800)'
+```
+
+### Python
+
+```python
+import json
+import zipfile
+
+# Read compressed file directly
+with zipfile.ZipFile('2025-08.ndjson.zip') as zf:
+    with zf.open(zf.namelist()[0]) as f:
+        records = [json.loads(line) for line in f]
+```
+
+### JavaScript / TypeScript
+
+```typescript
+import { execSync } from 'child_process';
+
+const output = execSync('unzip -p 2025-08.ndjson.zip', { encoding: 'utf-8' });
+const records = output.trim().split('\n').map(line => JSON.parse(line));
+```
+
+## Data Schemas
+
+### Market Data (`market-data/`)
+
+Hourly snapshots of market state.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `timestamp` | number | Unix timestamp |
+| `datetime` | string | ISO 8601 datetime |
+| `blockNumber` | number | Arbitrum block number |
+| `midApr` | number | Mid APR (average of best bid and best ask) |
+| `bestBid` | number \| null | Best bid rate (highest long order) |
+| `bestAsk` | number \| null | Best ask rate (lowest short order) |
+| `ammImpliedApr` | number \| null | AMM implied APR |
+| `markApr` | number | Mark APR (on-chain mark rate) |
+| `notionalOI` | number \| null | Notional open interest |
+| `lastTradedApr` | number \| null | Rate of the most recent trade |
+| `latestSettlementApr` | number \| null | Latest on-chain settlement APR (0 from market creation until first settlement) |
+
+```json
+{"timestamp":1754006400,"datetime":"2025-08-01T00:00:00.000Z","blockNumber":363657956,"midApr":0.07625,"bestBid":0.07605,"bestAsk":0.07637,"ammImpliedApr":0.07625,"markApr":0.07615,"notionalOI":51,"lastTradedApr":0.07615,"latestSettlementApr":0.07}
+```
+
+### Settlement Data (`settlement/`)
+
+On-chain settlement rate updates (FIndexUpdated events). Settlement APR is 0% from market creation until the first settlement event.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `timestamp` | number | Unix timestamp of the block |
+| `datetime` | string | ISO 8601 datetime |
+| `blockNumber` | number | Arbitrum block number |
+| `settlementApr` | number | Annualized settlement rate (0 until first settlement) |
+| `txHash` | string | Transaction hash |
+
+```json
+{"timestamp":1767211230,"datetime":"2025-12-31T20:00:30.000Z","blockNumber":416536437,"settlementApr":0.0990756,"txHash":"0x193c...2370"}
+```
+
+### Underlying Funding Rate (`underlying-apr/`)
+
+Historical underlying funding rates sourced from exchanges. One file per exchange-asset pair (e.g. `Binance-BTC.ndjson.zip`).
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `timestamp` | number | Unix timestamp (funding rate start time) |
+| `datetime` | string | ISO 8601 datetime |
+| `annualizedFundingRate` | number | Annualized funding rate |
+
+```json
+{"timestamp":1754006400,"datetime":"2025-08-01T00:00:00.000Z","annualizedFundingRate":0.05234}
+```
+
+:::note
+This data is carefully monitored to match the funding rates reported by each exchange. In rare cases, exchange API instability may cause minor discrepancies.
+:::
+
+### Trades (`market-trades/`)
+
+Individual trade events.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `eventIndex` | number | On-chain event index |
+| `blockTimestamp` | number | Unix timestamp of the block |
+| `datetime` | string | ISO 8601 datetime |
+| `rate` | number | Trade rate (implied APR) |
+| `side` | string | Taker side: `"long"` or `"short"` |
+| `size` | number | Absolute trade size |
+| `txHash` | string | Transaction hash |
+
+```json
+{"eventIndex":363716829000015,"blockTimestamp":1754021093,"datetime":"2025-08-01T04:04:53.000Z","rate":0.07332,"side":"short","size":0.005,"txHash":"0x2578..."}
+```
+
+### OHLCV Candles (`ohlcv/`)
+
+Available in three timeframes: `5m`, `1h`, `1d`.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `periodStartTimestamp` | number | Unix timestamp of candle start |
+| `datetime` | string | ISO 8601 datetime |
+| `open` | number | Opening rate (implied APR) |
+| `high` | number | Highest rate in the period |
+| `low` | number | Lowest rate in the period |
+| `close` | number | Closing rate |
+| `volume` | number | Total absolute trade size |
+
+```json
+{"periodStartTimestamp":1754020800,"datetime":"2025-08-01T04:00:00.000Z","open":0.07332,"high":0.07332,"low":0.07332,"close":0.07332,"volume":0.005}
+```
+
+### Order Book — Raw (`order-book/{market}/raw/`)
+
+Full order book snapshots with individual tick entries.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `blockNumber` | number | Arbitrum block number |
+| `blockTimestamp` | number | Unix timestamp |
+| `datetime` | string | ISO 8601 datetime |
+| `long` | object[] | Bid side entries (sorted by rate descending) |
+| `short` | object[] | Ask side entries (sorted by rate ascending) |
+
+Each entry in `long` / `short`:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `rate` | number | Implied APR at this tick |
+| `tick` | number | On-chain tick index |
+| `size` | number | Notional size at this tick |
+
+### Order Book — Combined (`order-book/{market}/combined_{tickSize}/`)
+
+Order book merged with AMM liquidity, aggregated by tick size. Available tick sizes: `0.00001`, `0.0001`, `0.001`, `0.01`, `0.1`.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `timestamp` | number | Unix timestamp |
+| `datetime` | string | ISO 8601 datetime |
+| `blockNumber` | number | Arbitrum block number |
+| `long` | object[] | Bid side entries, grouped by tick size |
+| `short` | object[] | Ask side entries, grouped by tick size |
+
+Each entry in `long` / `short`:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `rate` | number | Implied APR (tick index x tick size) |
+| `size` | number | Aggregated notional size at this level |
+
+## Notes
+
+- All rates are expressed as **implied APR** (annualized percentage rate as a decimal, e.g. `0.07` = 7%)
+- All timestamps are **Unix seconds** (UTC)
+- Data is exported monthly and only includes **fully completed periods** (e.g. an incomplete 1h candle at the time of export is excluded)
+- Data is updated every 2–3 days
+
+---
+
 
 # Frequently Asked Questions
 
@@ -9317,7 +9016,7 @@ A minimum absolute rate used in margin calculations, derived from `market.imData
 
 1. **Position opening fees** (taker only): `size × 0.05% × time to maturity`. Makers pay zero fees.
 2. **Settlement fees**: Charged every 8 hours on open positions.
-3. **Market entrance fee**: One-time ~$1 fee when first entering a market.
+3. **Market entrance fee**: One-time fee when first entering a market, denominated in the market's base asset. See [Fee Structure](./Mechanics/Fees.mdx#market-entrance-fees) for exact amounts.
 4. **Gas fees**: Actual Arbitrum gas cost for agent-submitted transactions (no markup).
 
 See [Fee Structure](./Mechanics/Fees.mdx) for detailed formulas.
@@ -9345,6 +9044,12 @@ Use `GET /simulations/place-order` to preview margin requirements before placing
 ### I'm getting "agent expired" errors
 
 Agent approvals have an expiry time. Check it with `GET /agents/expiry-time` and re-approve if needed using `GET /calldata/approve-agent`. Don't assume a fixed expiry duration — always query the endpoint to get the actual expiry timestamp.
+
+### Why hasn't my position been settled yet?
+
+Floating rate settlements are triggered by off-chain oracle updates and typically land **~30 seconds after the hour** (e.g., 08:00:30 UTC rather than exactly 08:00:00). During periods of extreme volatility or when a settlement value would push accounts near liquidation, the system may delay settlement further while risk management operations (liquidation bots, force-cancel bots) run first.
+
+If your position hasn't settled after a few minutes past the expected boundary, this is normal. See [Settlement — Timing](./Mechanics/Settlement.mdx#notes) for full details.
 
 ### I'm getting `MMIsolatedMarketDenied()` on an isolated-only market
 

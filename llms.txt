@@ -78,6 +78,7 @@
 - [WebSocket](https://docs.pendle.finance/boros-dev/Backend/websocket): Real-time streaming
 - [Stop Orders](https://docs.pendle.finance/boros-dev/Backend/stop-orders): Take-profit and stop-loss orders
 - [Best Practices](https://docs.pendle.finance/boros-dev/Backend/best-practices): Performance and reliability tips
+- [Historical Data](https://docs.pendle.finance/boros-dev/Backend/historical-data): Monthly NDJSON exports — trades, OHLCV, order book snapshots, settlement rates
 
 ### Trading Mechanics
 - [Order Book](https://docs.pendle.finance/boros-dev/Mechanics/OrderBook): CLOB structure, tick system, matching rules
