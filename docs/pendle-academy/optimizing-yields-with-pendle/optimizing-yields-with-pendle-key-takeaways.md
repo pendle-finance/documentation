@@ -60,13 +60,13 @@ import Hint from '@site/src/components/Hint';
     <figure><img src="/pendle-academy/imgs/image (110).png" alt="" width="375" /><figcaption><p>With the cost of 1 stETH, you are buying yield exposure of 11.9 stETH. An 11.9x leverage in notional value in this case.</p></figcaption></figure>
 *   Here’s a table that quickly summarises what is going in favor or against you as a YT holder. Just flip the arrows’ directions if the indicators go the other way round.
 
-    | Indicators👇 / Effect 👉  | YT Price    | YT Yield Receivables |
-    | ------------------------- | ----------- | -------------------- |
-    | Underlying asset price ⤴️ | ⬆️          | ┄                    |
-    | Implied APY ⤴️            | ⬆️          | ┄                    |
-    | Underlying APY ⤴️         | ┄           | ⬆️                   |
-    | Long Yield APY ⤴️         | ┄           | ⬆️                   |
-    | Time to maturity ⤵️       | ⬇️ (slowly) | ┄                    |
+    | Indicators ↓ / Effect →    | YT Price    | YT Yield Receivables |
+    | -------------------------- | ----------- | -------------------- |
+    | Underlying asset price ↑   | ↑           | ┄                    |
+    | Implied APY ↑              | ↑           | ┄                    |
+    | Underlying APY ↑           | ┄           | ↑                    |
+    | Long Yield APY ↑           | ┄           | ↑                    |
+    | Time to maturity ↓         | ↓ (slowly)  | ┄                    |
 
 ***
 

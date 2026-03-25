@@ -8,15 +8,15 @@ import styles from "./styles.module.css";
 import Link from "@docusaurus/Link";
 
 const PENDLE_ITEMS = [
-  { label: "Pendle Docs", to: "/pendle-v2/Introduction", position: "left" },
-  { label: "Pendle Academy", to: "/pendle-academy/Introduction", position: "left" },
-  { label: "Pendle API", to: "/pendle-v2/Developers/Backend/ApiOverview", position: "left" },
+  { label: "Pendle Docs", to: "/pendle-v2/Introduction", activeBasePath: "/pendle-v2", position: "left" },
+  { label: "Pendle Academy", to: "/pendle-academy/Introduction", activeBasePath: "/pendle-academy", position: "left" },
+  { label: "Pendle API", to: "/pendle-v2/Developers/Backend/ApiOverview", activeBasePath: "/pendle-v2/Developers/Backend", position: "left" },
 ];
 
 const BOROS_ITEMS = [
-  { label: "Boros Docs", to: "/boros-docs/Introduction", position: "left" },
-  { label: "Boros Academy", to: "/boros-academy/Introduction", position: "left" },
-  { label: "Boros Dev Docs", to: "/boros-dev", position: "left" },
+  { label: "Boros Docs", to: "/boros-docs/Introduction", activeBasePath: "/boros-docs", position: "left" },
+  { label: "Boros Academy", to: "/boros-academy/Introduction", activeBasePath: "/boros-academy", position: "left" },
+  { label: "Boros Dev Docs", to: "/boros-dev", activeBasePath: "/boros-dev", position: "left" },
 ];
 
 function isBoros(pathname) {

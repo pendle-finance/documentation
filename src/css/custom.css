@@ -159,6 +159,7 @@
   --navbar-accent:           #1BE3C2;
   --navbar-accent-rgb:       27, 227, 194;
   --section-accent:          #1BE3C2;
+  --section-accent-bg:       rgba(27, 227, 194, 0.10);
   --section-accent-muted:    linear-gradient(90deg, rgba(27, 227, 194, 0.15) 0%, transparent 100%);
   --section-accent-muted-hv: linear-gradient(90deg, rgba(27, 227, 194, 0.25) 0%, transparent 100%);
 }
@@ -168,6 +169,7 @@
   --navbar-accent:           #6079FF;
   --navbar-accent-rgb:       96, 121, 255;
   --section-accent:          #6079FF;
+  --section-accent-bg:       rgba(96, 121, 255, 0.10);
   --section-accent-muted:    linear-gradient(90deg, rgba(96, 121, 255, 0.15) 0%, transparent 100%);
   --section-accent-muted-hv: linear-gradient(90deg, rgba(96, 121, 255, 0.25) 0%, transparent 100%);
 }
@@ -303,10 +305,10 @@ h3 {
 
 h4 {
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
-  color: var(--water-300);
+  color: #ffffff;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -938,7 +940,6 @@ table {
 }
 
 .markdown table {
-  display: inline-block;
   overflow: auto;
 }
 
@@ -959,7 +960,8 @@ table th {
   text-transform: none;
   letter-spacing: 0.01em;
   border-bottom: 1px solid var(--border-default);
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: break-word;
 }
 
 table td {
@@ -969,6 +971,7 @@ table td {
   line-height: 1.5;
   border-bottom: 1px solid rgba(55, 75, 109, 0.5);
   vertical-align: top;
+  overflow-wrap: break-word;
 }
 
 table tbody tr:last-child td {
@@ -1156,9 +1159,11 @@ table tbody tr:last-child td {
   line-height: 1;
   display: inline-flex;
   align-items: center;
+  align-self: flex-start;
   flex-shrink: 0;
   margin-right: 8px;
-  vertical-align: middle;
+  margin-top: 0.15em;
+  vertical-align: top;
   color: var(--water-400);
   font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' -25, 'opsz' 20;
   transition: font-variation-settings 200ms ease, color 200ms ease;
@@ -1609,8 +1614,14 @@ input[class*='search-input'] {
   overflow: hidden !important;
   background: transparent !important;
   margin-bottom: 24px !important;
-  width: auto !important;
+  display: table !important;
+  width: 100% !important;
   min-width: 100% !important;
+}
+
+/* Hide empty header rows from Gitbook data-header-hidden tables */
+table[data-header-hidden] thead {
+  display: none !important;
 }
 
 .markdown thead {
@@ -1641,6 +1652,7 @@ html[data-theme='dark'] .markdown tr:nth-child(2n),
   border-right: 1px solid #374B6D !important;
   padding: 16px 20px !important;
   color: #ffffff !important;
+  overflow-wrap: break-word !important;
 }
 
 .markdown th {
@@ -1681,6 +1693,25 @@ html[data-section='boros'] .footer,
 [data-section='boros'] .footer {
   background-image: linear-gradient(to top, rgba(96, 121, 255, 0.15) 0%, transparent 100%) !important;
   background-color: transparent !important;
+}
+
+/* Blockquotes — section-accent border */
+.theme-doc-markdown blockquote {
+  background-color: var(--section-accent-bg, rgba(27, 227, 194, 0.06));
+  border-left: 4px solid var(--section-accent, #1BE3C2);
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 16px 0;
+  color: #c9d1e0;
+}
+
+.theme-doc-markdown blockquote p {
+  margin: 0;
+}
+
+/* Glossary terms — white bold */
+.theme-doc-markdown strong {
+  color: #ffffff;
 }
 
 /* Fix for weird grey box appearing behind sidebar categories when sub-items are active */

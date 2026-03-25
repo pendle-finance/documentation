@@ -3,52 +3,59 @@ module.exports = {
     {
       type: "doc",
       id: "Introduction",
-      label: "📖 Introduction",
+      label: "Introduction",
+      customProps: { icon: "auto_stories" },
     },
     {
       type: "category",
       label: "About Boros",
+      customProps: { icon: "info" },
       items: [
-      { type: "doc", id: "about-boros/glossary", label: "Glossary" },
+        { type: "doc", id: "about-boros/glossary", label: "Glossary", customProps: { icon: "library_books" } },
       ],
     },
     {
       type: "category",
       label: "Interest Rate Accounting",
+      customProps: { icon: "calculate" },
       items: [
-      { type: "doc", id: "interest-rate-accounting/interest-rate-accounting-and-settlement", label: "Interest Rate Accounting and Settlement" },
+        { type: "doc", id: "interest-rate-accounting/interest-rate-accounting-and-settlement", label: "Interest Rate Accounting and Settlement", customProps: { icon: "receipt_long" } },
       ],
     },
     {
       type: "category",
       label: "Interest Rate Trading",
+      customProps: { icon: "candlestick_chart" },
       items: [
-      { type: "doc", id: "interest-rate-trading/interest-rate-trading-yu-trading", label: "Interest Rate Trading (YU Trading)" },
-      { type: "doc", id: "interest-rate-trading/order-book", label: "Order Book" },
-      { type: "doc", id: "interest-rate-trading/vaults", label: "Vaults" },
-      { type: "doc", id: "interest-rate-trading/fees", label: "Fees" },
+        { type: "doc", id: "interest-rate-trading/interest-rate-trading-yu-trading", label: "Interest Rate Trading (YU Trading)", customProps: { icon: "currency_exchange" } },
+        { type: "doc", id: "interest-rate-trading/order-book", label: "Order Book", customProps: { icon: "candlestick_chart" } },
+        { type: "doc", id: "interest-rate-trading/vaults", label: "Vaults", customProps: { icon: "savings" } },
+        { type: "doc", id: "interest-rate-trading/fees", label: "Fees", customProps: { icon: "payments" } },
       ],
     },
     {
       type: "category",
       label: "Risk Parameters",
+      customProps: { icon: "shield" },
       items: [
-      {
-        type: "category",
-        label: "Margin and Liquidations",
-        items: [
-        { type: "doc", id: "risk-parameters/margin-and-liquidations/README", label: "Margin and Liquidations" },
-        { type: "doc", id: "risk-parameters/margin-and-liquidations/detailed-calculations-on-margin-and-liquidations", label: "Detailed Calculations on Margin and Liquidations" },
-        { type: "doc", id: "risk-parameters/margin-and-liquidations/protective-mechanisms", label: "Protective mechanisms" },
-        ],
-      },
+        {
+          type: "category",
+          label: "Margin and Liquidations",
+          customProps: { icon: "account_balance" },
+          items: [
+            { type: "doc", id: "risk-parameters/margin-and-liquidations/README", label: "Margin and Liquidations", customProps: { icon: "account_balance" } },
+            { type: "doc", id: "risk-parameters/margin-and-liquidations/detailed-calculations-on-margin-and-liquidations", label: "Detailed Calculations on Margin and Liquidations", customProps: { icon: "calculate" } },
+            { type: "doc", id: "risk-parameters/margin-and-liquidations/protective-mechanisms", label: "Protective Mechanisms", customProps: { icon: "security" } },
+          ],
+        },
       ],
     },
     {
       type: "category",
       label: "Others",
+      customProps: { icon: "more_horiz" },
       items: [
-      { type: "doc", id: "others/boros-referral-program", label: "Boros Referral Program" },
+        { type: "doc", id: "others/boros-referral-program", label: "Boros Referral Program", customProps: { icon: "share" } },
       ],
     },
   ],
