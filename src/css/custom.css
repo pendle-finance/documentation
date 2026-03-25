@@ -33,6 +33,16 @@
 /* Monospace font for code */
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 
+/* Pendle Branding Font: Kyrial Sans Pro */
+@font-face {
+  font-family: 'Kyrial';
+  src: url('https://www.pendle.finance/fonts/KyrialSansPro-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 /* Import API endpoint and callout styles */
 @import './api-endpoints.css';
 
@@ -225,7 +235,9 @@
 
 .hero__title {
   padding-top: 48px;
+  font-family: 'Kyrial', sans-serif !important;
 }
+
 
 html {
   font-size: 16px;

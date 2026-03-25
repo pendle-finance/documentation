@@ -7,7 +7,7 @@
   justify-content: center;
   min-height: calc(100vh - 64px);
   background: #090D18;
-  padding: 3rem 0 4rem;
+  padding: 2rem 0 4rem;
   position: relative;
   overflow: hidden;
 }
@@ -41,7 +41,7 @@
 }
 
 .heroIllustration {
-  margin-bottom: 2rem;
+  margin-bottom: 0.67rem;
   z-index: 1;
   position: relative;
   text-align: center;
@@ -51,7 +51,7 @@
 }
 
 .heroIllustration img {
-  max-width: 96px;
+  max-width: 77px;
   height: auto;
   display: inline-block;
   z-index: 1;
@@ -177,7 +177,7 @@
 }
 
 .docCardBanner {
-  margin: 0.625rem 0.625rem 0;
+  margin: 0.5rem 0.625rem 0;
   border-radius: 6px;
   overflow: hidden;
   flex-shrink: 0;
@@ -190,7 +190,7 @@
 }
 
 .docCardContent {
-  padding: 1.25rem 1.5rem 1.5rem;
+  padding: 1rem 1.5rem 1.25rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -200,7 +200,7 @@
 
 .docCardTitle {
   color: #ffffff;
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: 600;
   margin-bottom: 0.75rem;
   letter-spacing: -0.01em;
@@ -213,7 +213,7 @@
   font-size: 0.875rem;
   line-height: 1.6;
   flex-grow: 1;
-  margin-bottom: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .docCardAction {
