@@ -26,6 +26,7 @@
 - [API Overview](https://docs.pendle.finance/pendle-v2/Developers/Backend/ApiOverview): Hosted SDK vs data APIs, rate limits, authentication, and API entry points
 - [Hosted SDK](https://docs.pendle.finance/pendle-v2/Developers/Backend/HostedSdk): The Convert API — unified endpoint for all Pendle transactions (swap, mint, redeem, liquidity)
 - [RouterStatic](https://docs.pendle.finance/pendle-v2/Developers/Backend/RouterStatic): Read-only view functions for pricing and simulation
+- [sPENDLE API](https://docs.pendle.finance/pendle-v2/Developers/Backend/ApiOverview#spendle-api-endpoints): Staking stats and per-user reward data (`GET /v1/spendle/data`, `GET /v1/spendle/:address`)
 
 ### Limit Orders
 - [Overview](https://docs.pendle.finance/pendle-v2/Developers/LimitOrder/Overview): Gasless off-chain order creation with on-chain settlement

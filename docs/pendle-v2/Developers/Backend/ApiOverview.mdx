@@ -51,6 +51,25 @@ These endpoints return data across all chains in a single request. Preferred for
 | `GET /v1/assets/all` | All assets across all chains |
 | `GET /v1/prices/assets` | Asset prices across all chains |
 
+#### Markets — Pagination
+
+The `/v1/markets/all` and related market listing endpoints support `skip` and `limit` query parameters for pagination:
+
+| Parameter | Default | Maximum | Description |
+|-----------|---------|---------|-------------|
+| `skip` | `0` | — | Number of records to skip |
+| `limit` | `10` | `100` | Maximum number of records to return |
+
+#### Prices — Error Handling
+
+The price response now includes an `errors` array alongside the price map:
+
+```
+{ priceMap: Record<string, PriceDto>, errors: Error[] }
+```
+
+Non-fatal pricing errors (e.g., assets not found for a given timestamp) are returned in `errors` rather than thrown. Callers should check and handle this field, as a partial result may be returned even when some assets could not be priced.
+
 ### Chain-scoped endpoints — `/{version}/{chainId}/...`
 
 Some endpoints are scoped to a specific chain:
@@ -203,6 +222,94 @@ The `X-Ratelimit-Limit: 100` value in this case is simply a default header from 
 ### vePENDLE Deprecation
 
 vePENDLE has been deprecated and replaced by **sPENDLE**. All endpoints listed under the **Ve Pendle** tag in the [API documentation](https://api-v2.pendle.finance/core/docs) are deprecated — they remain accessible but will not be updated to reflect the new sPENDLE staking system.
+
+## sPENDLE API Endpoints
+
+These endpoints provide sPENDLE staking statistics and per-user reward data.
+
+### GET /v1/spendle/data
+
+Returns aggregate sPENDLE staking statistics, including total PENDLE staked, historical APRs, revenues, fees, and airdrop breakdowns. Historical data covers the last 12 epochs.
+
+| Property | Value |
+|----------|-------|
+| Query parameters | None |
+| Cache TTL | 5 minutes |
+| CU cost | 1 |
+
+**Response fields:**
+
+| Field | Description |
+|-------|-------------|
+| `totalPendleStaked` | Total PENDLE currently staked |
+| `totalStakedInSpendle` | Total staked in the sPENDLE contract |
+| `virtualSpendleFromVependle` | Virtual sPENDLE balance derived from vePENDLE positions |
+| `sPendleHistoricalData` | Per-epoch historical data: `timestamps`, `revenues`, `aprs`, `fees`, `airdrops`, `buybackAmounts`, `airdropInUSDs`, `airdropBreakdowns`, `allTimeRevenues` |
+| `vependleHistoricalData` | Historical data for the legacy vePENDLE system |
+
+### GET /v1/spendle/:address
+
+Returns claimable and historical rewards for a specific sPENDLE holder, including ETH fee rewards, multi-token merkle proofs, and all-time reward totals.
+
+| Property | Value |
+|----------|-------|
+| Path parameter | `address` — the user's Ethereum address |
+| Query parameters | None |
+| Caching | Not cached |
+| CU cost | 3 |
+
+**Response fields:**
+
+| Field | Description |
+|-------|-------------|
+| `ethAccruedAmount` | Accrued ETH fee rewards claimable by the address |
+| `multiTokenProof` | Merkle proof data — `total` and `results[]` for multi-token rewards |
+| `allTimeRewards` | Cumulative rewards keyed by `"chainId-tokenAddress"`, with `lastDistributionAt` timestamp |
+| `vePendlePositionData` | *(Optional)* Legacy vePENDLE position data, if applicable |
+
+## Dashboard Endpoints
+
+### GET /v1/dashboard/merkle-rewards/:user
+
+Returns both claimable and claimed merkle-distributed rewards for a user in a single call.
+
+| Property | Value |
+|----------|-------|
+| Path parameter | `user` — the user's Ethereum address |
+| Query parameters | None |
+| CU cost | 4 |
+
+**Response:**
+
+```
+{
+  claimableRewards: [...],
+  claimedRewards: [...]
+}
+```
+
+Each item in `claimableRewards` and `claimedRewards` contains:
+
+| Field | Description |
+|-------|-------------|
+| `user` | Ethereum address of the user |
+| `token` | Token address |
+| `merkleRoot` | Merkle root for the distribution |
+| `chainId` | Chain ID of the distribution |
+| `assetId` | Asset identifier |
+| `amount` | Reward amount |
+| `toTimestamp` | *(Optional)* End of the distribution period |
+| `fromTimestamp` | *(Optional)* Start of the distribution period |
+
+:::note Deprecated endpoints
+
+The following endpoints are deprecated and will be removed in a future release. Use `GET /v1/dashboard/merkle-rewards/:user` instead:
+
+- `GET /v1/dashboard/merkle-claimable-rewards/:user`
+- `GET /v1/dashboard/merkle-claimed-rewards/:user`
+
+:::
+
 
 ## Code Examples and Resources
 

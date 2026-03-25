@@ -35,6 +35,7 @@ hide_table_of_contents: true
 
 - [Backend API overview](./Backend/ApiOverview.mdx)
 - [RouterStatic](./Backend/RouterStatic.md) - Extensively tested contract for off-chain calculations. Not audited; should not be used for on-chain fund-related operations.
+- [sPENDLE API](./Backend/ApiOverview.mdx#spendle-api-endpoints) - Staking stats and per-user reward data
 
 ### Limit Orders
 

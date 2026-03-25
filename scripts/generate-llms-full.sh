@@ -37,9 +37,9 @@ V2_FILES=(
   "$V2_DOCS_DIR/Developers/LimitOrder/CancelOrders.mdx"
   "$V2_DOCS_DIR/Developers/LimitOrder/LimitOrderContract.md"
   # Smart contracts
-  "$V2_DOCS_DIR/Developers/Contracts/YieldTokenization.md"
-  "$V2_DOCS_DIR/Developers/Contracts/StandardizedYield.md"
-  "$V2_DOCS_DIR/Developers/Contracts/PendleMarket.md"
+  "$V2_DOCS_DIR/Developers/Contracts/YieldTokenization/YieldTokenization.md"
+  "$V2_DOCS_DIR/Developers/Contracts/StandardizedYield/StandardizedYield.md"
+  "$V2_DOCS_DIR/Developers/Contracts/PendleMarket/PendleMarket.md"
   "$V2_DOCS_DIR/Developers/Contracts/PendleRouter/PendleRouterOverview.md"
   "$V2_DOCS_DIR/Developers/Contracts/PendleRouter/ContractIntegrationGuide.md"
   "$V2_DOCS_DIR/Developers/Contracts/PendleRouter/ApiReference/Types.md"
