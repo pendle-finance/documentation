@@ -76,3 +76,9 @@ Hide color mode toggle in small viewports
 .navbar__logo img {
   height: 48px !important;
 }
+
+@media (max-width: 996px) {
+  .navbar__logo img {
+    height: 62px !important;
+  }
+}

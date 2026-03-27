@@ -43,6 +43,11 @@
 .linkGroupTitle{
   font-weight: 600;
   color: var(--section-accent, var(--ifm-color-primary));
+  white-space: nowrap;
+}
+
+.linkGroup a {
+  white-space: nowrap;
 }
 
 @media screen and (max-width: 1024px) {

@@ -8,6 +8,11 @@
   display: none !important;
 }
 
+/* Remove background from "Back to main menu" button */
+.navbar-sidebar__back {
+  background: none !important;
+}
+
 /* Mobile sidebar: must sit above everything (portalled to body) */
 .navbar-sidebar {
   position: fixed !important;
@@ -753,6 +758,17 @@ article {
   position: relative;
 }
 
+/* Mobile "On this page" collapsible — more breathing room */
+.theme-doc-toc-mobile button {
+  padding-top: 0.85rem !important;
+  padding-bottom: 0.85rem !important;
+}
+
+.theme-doc-toc-mobile > div > div > ul {
+  padding-top: 0.6rem !important;
+  padding-bottom: 0.6rem !important;
+}
+
 .table-of-contents {
   font-size: 0.6875rem;
   padding: 0.5rem 0.125rem 0.5rem 0.5rem;
@@ -1468,6 +1484,13 @@ table tbody tr:last-child td {
   text-decoration: none;
 }
 
+/* No pill effect in mobile sidebar header */
+.navbar-sidebar__brand .navbar__brand {
+  padding: 0;
+  border-radius: 0;
+  background: none !important;
+}
+
 .navbar__logo {
   display: flex !important;
   align-items: center !important;
@@ -1485,6 +1508,12 @@ table tbody tr:last-child td {
   font-weight: 600;
   color: rgba(255, 255, 255, 0.9);
   letter-spacing: 0.01em;
+}
+
+@media (max-width: 996px) {
+  .navbar__title {
+    display: none !important;
+  }
 }
 
 /* Nav items — left */
