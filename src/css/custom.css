@@ -1284,6 +1284,7 @@ table tbody tr:last-child td {
   --section-accent-secondary: #1BE3C2;
   --section-accent-muted: linear-gradient(90deg, rgba(27, 227, 194, 0.20) 0%, transparent 100%);
   --section-accent-border: rgba(27, 227, 194, 0.25);
+  --search-local-hit-active-color: #0A0F1A;
 }
 
 /* Active sidebar link */
