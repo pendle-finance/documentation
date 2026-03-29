@@ -6,6 +6,7 @@ import SearchBar from "@theme/SearchBar";
 import NavbarMobileSidebarToggle from "@theme/Navbar/MobileSidebar/Toggle";
 import styles from "./styles.module.css";
 import Link from "@docusaurus/Link";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 const PENDLE_ITEMS = [
   { label: "Pendle Docs", to: "/pendle-v2/Introduction", activeBasePath: "/pendle-v2/", position: "left" },
@@ -52,6 +53,7 @@ export default function NavbarContent() {
   const { pathname } = useLocation();
   const borosActive = isBoros(pathname);
   const navItems = borosActive ? BOROS_ITEMS : PENDLE_ITEMS;
+  const logoSrc = useBaseUrl(borosActive ? "/img/boros-logo.svg" : "/img/logo.svg");
 
   useEffect(() => {
     document.documentElement.dataset.site = borosActive ? "boros" : "pendle";
@@ -64,7 +66,7 @@ export default function NavbarContent() {
           <NavbarMobileSidebarToggle />
           <Link to={borosActive ? "/boros" : "/pendle-v2/Introduction"}>
             <div className="navbar__logo">
-               <img src={borosActive ? "/img/boros-logo.svg" : "/img/logo.svg"} alt={borosActive ? "Boros" : "Pendle"} />
+               <img src={logoSrc} alt={borosActive ? "Boros" : "Pendle"} />
             </div>
           </Link>
           <NavbarItems items={navItems} />

@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import lottie from 'lottie-web';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from '../index.module.css';
 import IntroductionAnim from '../../lotties/icons/Introduction.json';
 import AcademyAnim from '../../lotties/icons/Academy.json';
@@ -77,6 +78,11 @@ function DocCard({ title, description, link, animationData, bannerImage, externa
 }
 
 export default function PendleV2Home() {
+  const cubeImg = useBaseUrl('/img/cube-v2.png');
+  const bannerDocs = useBaseUrl('/img/Pendle v2 docs.svg');
+  const bannerAcademy = useBaseUrl('/img/Pendle Academy.svg');
+  const bannerDev = useBaseUrl('/img/Pendle v2 api.svg');
+
   return (
     <Layout
       title="Pendle V2 Documentation"
@@ -86,7 +92,7 @@ export default function PendleV2Home() {
       <main className="main--landing">
         <div className={`${styles.root} ${styles.pendleRoot}`}>
           <div className={styles.heroIllustration}>
-            <img src="/img/cube-v2.png" alt="Pendle V2" />
+            <img src={cubeImg} alt="Pendle V2" />
           </div>
           <header className={styles.heroBanner}>
             <h1 className="hero__title">Pendle V2 Documentation Hub</h1>
@@ -99,21 +105,21 @@ export default function PendleV2Home() {
                 description="Learn about Pendle's yield tokenization protocol, AMM mechanics, sPENDLE system, and integration guides for developers."
                 link="/pendle-v2/Introduction"
                 animationData={IntroductionAnim}
-                bannerImage="/img/Pendle v2 docs.svg"
+                bannerImage={bannerDocs}
               />
               <DocCard
                 title="Pendle Academy"
                 description="Learn how to use Pendle products with Pendle Academy."
                 link="/pendle-academy/Introduction"
                 animationData={AcademyAnim}
-                bannerImage="/img/Pendle Academy.svg"
+                bannerImage={bannerAcademy}
               />
               <DocCard
                 title="Pendle Dev Docs"
                 description="For developers to integrate Pendle products into their own applications."
                 link="/pendle-v2-dev/Overview"
                 animationData={DevelopersAnim}
-                bannerImage="/img/Pendle v2 api.svg"
+                bannerImage={bannerDev}
               />
             </div>
           </div>

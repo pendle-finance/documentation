@@ -5,6 +5,7 @@ import { translate } from '@docusaurus/Translate';
 import NavbarColorModeToggle from '@theme/Navbar/ColorModeToggle';
 import IconClose from '@theme/Icon/Close';
 import Link from '@docusaurus/Link';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 function isBoros(pathname) {
   return (
@@ -35,13 +36,14 @@ function CloseButton() {
 export default function NavbarMobileSidebarHeader() {
   const { pathname } = useLocation();
   const borosActive = isBoros(pathname);
+  const logoSrc = useBaseUrl(borosActive ? '/img/boros-logo.svg' : '/img/logo.svg');
 
   return (
     <div className="navbar-sidebar__brand">
       <Link to={borosActive ? '/boros' : '/pendle-v2/Introduction'} className="navbar__brand">
         <div className="navbar__logo">
           <img
-            src={borosActive ? '/img/boros-logo.svg' : '/img/logo.svg'}
+            src={logoSrc}
             alt={borosActive ? 'Boros' : 'Pendle'}
           />
         </div>

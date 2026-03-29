@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import lottie from 'lottie-web';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from '../index.module.css';
 import AppguideAnim from '../../lotties/icons/Appguide.json';
 import WhitepaperAnim from '../../lotties/icons/Whitepaper.json';
@@ -77,6 +78,11 @@ function DocCard({ title, description, link, animationData, bannerImage, externa
 }
 
 export default function BorosHome() {
+  const cubeImg = useBaseUrl('/img/cube-boros.png');
+  const bannerDocs = useBaseUrl('/img/Boros Docs.svg');
+  const bannerAcademy = useBaseUrl('/img/Boros Academy.svg');
+  const bannerDev = useBaseUrl('/img/Boros Developer Docs.svg');
+
   return (
     <Layout
       title="Boros Documentation"
@@ -86,7 +92,7 @@ export default function BorosHome() {
       <main className="main--landing">
         <div className={`${styles.root} ${styles.borosRoot}`}>
           <div className={styles.heroIllustration}>
-            <img src="/img/cube-boros.png" alt="Boros" />
+            <img src={cubeImg} alt="Boros" />
           </div>
           <header className={styles.heroBanner}>
             <h1 className="hero__title">Boros Documentation Hub</h1>
@@ -99,21 +105,21 @@ export default function BorosHome() {
                 description="Comprehensive documentation for Boros platform features and functionality."
                 link="/boros-docs/Introduction"
                 animationData={WhitepaperAnim}
-                bannerImage="/img/Boros Docs.svg"
+                bannerImage={bannerDocs}
               />
               <DocCard
                 title="Boros Academy"
                 description="Learn how to become a Boros trader."
                 link="/boros-academy/Introduction"
                 animationData={FAQAnim}
-                bannerImage="/img/Boros Academy.svg"
+                bannerImage={bannerAcademy}
               />
               <DocCard
                 title="Boros Dev Docs"
                 description="Explore Boros, Pendle's interest rate swaps platform with order book mechanics, margin trading, and advanced settlement features."
                 link="/boros-dev"
                 animationData={AppguideAnim}
-                bannerImage="/img/Boros Developer Docs.svg"
+                bannerImage={bannerDev}
               />
             </div>
           </div>
