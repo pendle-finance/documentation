@@ -27,15 +27,15 @@ function propagateFrontmatterIcons(items, docs) {
 const config = {
   title: 'Pendle Documentation',
   tagline: 'Pendle is a protocol that liberates future yield. It enables the tokenization and trading of future yield on a novel AMM designed to support assets with time decay.',
-  url: 'https://april423-zhu.github.io',
-  baseUrl: '/pendle-doc-remake/',
+  url: 'https://huberthalim.github.io',
+  baseUrl: '/documentation/',
   trailingSlash: false,
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'ignore',
   onBrokenAnchors: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'April423-zhu',
-  projectName: 'pendle-doc-remake',
+  organizationName: 'HubertHalim',
+  projectName: 'documentation',
   deploymentBranch: 'gh-pages',
 
   headTags: [
