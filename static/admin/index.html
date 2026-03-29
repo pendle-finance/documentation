@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Pendle Docs — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/easymde@2.18.0/dist/easymde.min.css" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <script src="https://unpkg.com/easymde@2.18.0/dist/easymde.min.js"></script>
+</head>
+<body>
+<div id="app">
+
+  <!-- Top bar -->
+  <div id="topbar">
+    <a href="/" class="logo" target="_blank">
+      <span>Pendle Docs</span>
+      <span class="badge">Admin</span>
+    </a>
+    <div class="spacer"></div>
+    <span id="status-msg" class="status-msg"></span>
+    <span class="branch-label">
+      <span class="material-symbols-outlined" style="font-size:14px">fork_right</span>
+      Branch: preview
+    </span>
+    <button class="new-btn" id="revert-btn" onclick="revertPreview()" style="border-color:rgba(221,84,83,0.4);color:var(--color-error)" title="Reset preview branch to main">
+      <span class="material-symbols-outlined" style="font-size:16px">undo</span>
+      Revert
+    </button>
+    <button class="new-btn" id="publish-btn" onclick="publishPreview()" style="border-color:rgba(27,227,194,0.4);color:var(--color-grass)" title="Merge preview into main">
+      <span class="material-symbols-outlined" style="font-size:16px">publish</span>
+      Publish
+    </button>
+    <button class="new-btn" id="save-order-btn" onclick="saveSidebarOrder()" style="display:none;border-color:var(--color-info);color:var(--color-info)">
+      <span class="material-symbols-outlined" style="font-size:16px">reorder</span>
+      Save order
+    </button>
+    <button class="new-btn" id="new-link-btn" onclick="openNewLinkModal()" style="border-color:var(--water-600);color:var(--water-400)">
+      <span class="material-symbols-outlined" style="font-size:16px">add_link</span>
+      New link
+    </button>
+    <button class="new-btn" id="new-page-btn" onclick="openNewPageModal()">
+      <span class="material-symbols-outlined" style="font-size:16px">add</span>
+      New page
+    </button>
+    <button class="save-btn" id="save-btn" onclick="savePage()">
+      <span class="material-symbols-outlined" style="font-size:16px">save</span>
+      Save
+    </button>
+  </div>
+
+  <!-- Section tabs -->
+  <div id="section-tabs"></div>
+
+  <!-- Main -->
+  <div id="main">
+    <!-- Sidebar -->
+    <div id="sidebar"></div>
+
+    <!-- Content -->
+    <div id="content">
+      <div class="state-empty" id="empty-state">
+        <span class="material-symbols-outlined empty-icon">article</span>
+        <h3>Select a page to edit</h3>
+        <p>Choose a page from the sidebar, or create a new one.</p>
+      </div>
+      <div class="state-loading" id="loading-state" style="display:none">
+        <div class="spinner"></div>
+        Loading…
+      </div>
+      <div id="editor-pane">
+        <div class="editor-header">
+          <div class="editor-breadcrumb" id="editor-breadcrumb"></div>
+          <div class="editor-title-row">
+            <input type="text" class="editor-title-input" id="editor-title" placeholder="Page title…" oninput="markDirty()" />
+            <button class="delete-btn" id="delete-btn" onclick="deletePage()">
+              <span class="material-symbols-outlined" style="font-size:15px">delete</span>
+              Delete
+            </button>
+          </div>
+          <div class="editor-meta">
+            <div class="meta-field">
+              <label>Sidebar label</label>
+              <input type="text" id="meta-sidebar-label" placeholder="Same as title" oninput="markDirty()" />
+            </div>
+            <div class="meta-field">
+              <label>Visibility</label>
+              <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;font-weight:400;text-transform:none;letter-spacing:0;color:var(--color-text-primary)">
+                <input type="checkbox" id="meta-unlisted" onchange="markDirty()" style="width:14px;height:14px;cursor:pointer;accent-color:var(--color-info)" />
+                Hidden from sidebar
+              </label>
+            </div>
+            <div class="meta-field">
+              <label>Sidebar icon</label>
+              <div class="icon-preview">
+                <input type="text" id="meta-sidebar-icon" placeholder="e.g. rocket_launch"
+                  oninput="markDirty(); updateIconPreview()" style="flex:1" />
+                <span class="material-symbols-outlined preview-icon" id="icon-preview-el">label</span>
+              </div>
+            </div>
+            <div class="meta-field" style="justify-content:flex-end;align-self:flex-end">
+              <label>Move</label>
+              <button class="btn-secondary" style="padding:5px 12px;font-size:12px;display:flex;align-items:center;gap:5px" onclick="openMoveModal()">
+                <span class="material-symbols-outlined" style="font-size:14px">drive_file_move</span>
+                Move to…
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="editor-body">
+          <textarea id="md-editor"></textarea>
+        </div>
+      </div>
+      <div id="category-pane">
+        <div class="editor-header">
+          <div class="editor-breadcrumb" id="cat-breadcrumb"></div>
+          <div class="editor-title-row">
+            <span style="font-size:18px;font-weight:600;color:var(--color-text-primary)">Category Settings</span>
+          </div>
+          <div class="editor-meta">
+            <div class="meta-field">
+              <label>Label</label>
+              <input type="text" id="cat-label" placeholder="Category label" />
+            </div>
+            <div class="meta-field">
+              <label>Position</label>
+              <input type="number" id="cat-position" placeholder="e.g. 3" />
+            </div>
+            <div class="meta-field">
+              <label>Icon</label>
+              <input type="text" id="cat-icon" placeholder="e.g. folder" />
+            </div>
+          </div>
+          <div style="padding: 16px 0;">
+            <button class="btn-primary" onclick="saveCategorySettings()">Save category</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New page modal -->
+<div id="modal-overlay">
+  <div class="modal">
+    <h2>New page</h2>
+    <div class="modal-field">
+      <label>Title</label>
+      <input type="text" id="new-title" placeholder="My New Page" oninput="updateNewPageSlug()" />
+    </div>
+    <div class="modal-field">
+      <label>Folder</label>
+      <select id="new-folder"></select>
+      <div class="hint">Choose where in the section this page will live.</div>
+    </div>
+    <div class="modal-field">
+      <label>Filename <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--water-600)">(auto-generated, edit if needed)</span></label>
+      <input type="text" id="new-filename" placeholder="my-new-page" />
+      <div class="hint">No spaces, no extension. Use hyphens.</div>
+    </div>
+    <div class="modal-field">
+      <label>Sidebar icon <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--water-600)">(Material Symbols name, optional)</span></label>
+      <input type="text" id="new-icon" placeholder="e.g. rocket_launch" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn-primary" onclick="createPage()">Create page</button>
+    </div>
+  </div>
+</div>
+
+<!-- Hidden image upload input -->
+<input type="file" id="image-upload-input" accept="image/*" style="display:none" onchange="handleImageUpload(event)" />
+
+<!-- Move page modal -->
+<div id="move-modal-overlay" style="position:fixed;inset:0;background:rgba(9,13,24,0.7);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center">
+  <div class="modal">
+    <h2>Move page</h2>
+    <div class="modal-field">
+      <label>Destination folder</label>
+      <select id="move-folder"></select>
+    </div>
+    <div class="modal-field">
+      <label>Filename <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--water-600)">(edit to rename)</span></label>
+      <input type="text" id="move-filename" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeMoveModal()">Cancel</button>
+      <button class="btn-primary" onclick="confirmMove()">Move</button>
+    </div>
+  </div>
+</div>
+
+<!-- New link modal -->
+<div id="link-modal-overlay" style="position:fixed;inset:0;background:rgba(9,13,24,0.7);backdrop-filter:blur(4px);z-index:1000;display:none;align-items:center;justify-content:center">
+  <div class="modal">
+    <h2 id="link-modal-title">New link</h2>
+    <div class="modal-field">
+      <label>Label</label>
+      <input type="text" id="link-label" placeholder="e.g. API Reference" />
+    </div>
+    <div class="modal-field">
+      <label>URL</label>
+      <input type="text" id="link-href" placeholder="https://..." />
+    </div>
+    <div class="modal-field">
+      <label>Icon <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--water-600)">(Material Symbols name, optional)</span></label>
+      <input type="text" id="link-icon" placeholder="e.g. open_in_new" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeLinkModal()">Cancel</button>
+      <button class="btn-primary" onclick="confirmLink()">Save link</button>
+    </div>
+  </div>
+</div>
+
+<!-- Icon picker -->
+<div id="icon-picker" class="icon-picker-dropdown">
+  <div class="icon-picker-search">
+    <span class="material-symbols-outlined">search</span>
+    <input type="text" id="icon-picker-search" placeholder="Search icons…" autocomplete="off" />
+  </div>
+  <div class="icon-picker-grid" id="icon-picker-grid"></div>
+  <div class="icon-picker-footer">
+    <a href="https://fonts.google.com/icons" target="_blank" rel="noopener noreferrer">
+      <span class="material-symbols-outlined" style="font-size:13px">open_in_new</span>
+      Browse all icons
+    </a>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script src="/admin/admin.js"></script>
+</body>
+</html>

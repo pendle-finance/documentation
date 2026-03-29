@@ -8,9 +8,9 @@ import styles from "./styles.module.css";
 import Link from "@docusaurus/Link";
 
 const PENDLE_ITEMS = [
-  { label: "Pendle Docs", to: "/pendle-v2/Introduction", activeBasePath: "/pendle-v2", position: "left" },
+  { label: "Pendle Docs", to: "/pendle-v2/Introduction", activeBasePath: "/pendle-v2/", position: "left" },
   { label: "Pendle Academy", to: "/pendle-academy/Introduction", activeBasePath: "/pendle-academy", position: "left" },
-  { label: "Pendle API", to: "/pendle-v2/Developers/Backend/ApiOverview", activeBasePath: "/pendle-v2/Developers/Backend", position: "left" },
+  { label: "Pendle Dev Docs", to: "/pendle-v2-dev/Overview", activeBasePath: "/pendle-v2-dev", position: "left" },
 ];
 
 const BOROS_ITEMS = [
@@ -62,7 +62,7 @@ export default function NavbarContent() {
       left={
         <>
           <NavbarMobileSidebarToggle />
-          <Link to={borosActive ? "/boros" : "/pendle-v2"}>
+          <Link to={borosActive ? "/boros" : "/pendle-v2/Introduction"}>
             <div className="navbar__logo">
                <img src={borosActive ? "/img/boros-logo.svg" : "/img/logo.svg"} alt={borosActive ? "Boros" : "Pendle"} />
             </div>

@@ -1,19 +1,41 @@
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
+/**
+ * Recursively walk generated sidebar items and copy `sidebar_icon` frontmatter
+ * into `customProps.icon` so the sidebar rendering components pick it up.
+ * Only applies to items that don't already have a customProps.icon set.
+ */
+function propagateFrontmatterIcons(items, docs) {
+  return items.map(item => {
+    if (item.type === 'doc' || item.type === 'ref') {
+      const doc = docs.find(d => d.id === item.id || d.unversionedId === item.id);
+      const fmIcon = doc?.frontMatter?.sidebar_icon;
+      if (fmIcon && !item.customProps?.icon) {
+        return { ...item, customProps: { ...item.customProps, icon: fmIcon } };
+      }
+      return item;
+    }
+    if (item.type === 'category' && item.items) {
+      return { ...item, items: propagateFrontmatterIcons(item.items, docs) };
+    }
+    return item;
+  });
+}
+
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 const config = {
   title: 'Pendle Documentation',
   tagline: 'Pendle is a protocol that liberates future yield. It enables the tokenization and trading of future yield on a novel AMM designed to support assets with time decay.',
-  url: 'https://pendle.finance/',
-  baseUrl: '/',
+  url: 'https://april423-zhu.github.io',
+  baseUrl: '/pendle-doc-remake/',
   trailingSlash: false,
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'ignore',
   onBrokenAnchors: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'pendle-finance', // Usually your GitHub org/user name.
-  projectName: 'documentation', // Usually your repo name.
+  organizationName: 'April423-zhu',
+  projectName: 'pendle-doc-remake',
   deploymentBranch: 'gh-pages',
 
   headTags: [
@@ -33,13 +55,17 @@ const config = {
       ({
         docs: {
           id: 'default',
-          path: 'docs/pendle-v2',
+          path: 'docs/pendle-docs',
           breadcrumbs: true,
           routeBasePath: 'pendle-v2',
-          sidebarPath: './docs/pendle-v2/sidebars.js',
+          sidebarPath: './docs/pendle-docs/sidebars.js',
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
           exclude: ['**/Boros/**'],
+          async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+            const items = await defaultSidebarItemsGenerator(args);
+            return propagateFrontmatterIcons(items, args.docs);
+          },
         },
         gtag: {
           trackingID: 'G-6ZBS49V0YS',
@@ -64,7 +90,7 @@ const config = {
 
         // For Docs using Chinese, it is recomended to set:
         language: ["en", "zh"],
-        docsRouteBasePath: ["/pendle-v2", "/boros-dev", "/pendle-academy", "/boros-docs", "/boros-academy"],
+        docsRouteBasePath: ["/pendle-v2", "/pendle-v2-dev", "/boros-dev", "/pendle-academy", "/boros-docs", "/boros-academy"],
 
         // Customize the keyboard shortcut to focus search bar (default is "mod+k"):
         // searchBarShortcutKeymap: "s", // Use 'S' key
@@ -78,16 +104,18 @@ const config = {
 
   plugins: [
     [
-      '@docusaurus/plugin-client-redirects',
+      '@docusaurus/plugin-content-docs',
       {
-        createRedirects(existingPath) {
-          // For paths like /Developer/SomeDocs, redirect to /pendle-v2/Developer/SomeDocs
-          if (existingPath.includes('/pendle-v2/')) {
-            const pathWithoutPrefix = existingPath.replace('/pendle-v2/', '/');
-            return [pathWithoutPrefix];
-          }
-
-          return undefined;
+        id: 'pendle-v2-dev',
+        path: 'docs/pendle-dev-docs',
+        routeBasePath: 'pendle-v2-dev',
+        sidebarPath: './docs/pendle-dev-docs/sidebars.js',
+        breadcrumbs: true,
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+        async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+          const items = await defaultSidebarItemsGenerator(args);
+          return propagateFrontmatterIcons(items, args.docs);
         },
       },
     ],
@@ -101,6 +129,10 @@ const config = {
         breadcrumbs: true,
         remarkPlugins: [remarkMath],
         rehypePlugins: [rehypeKatex],
+        async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+          const items = await defaultSidebarItemsGenerator(args);
+          return propagateFrontmatterIcons(items, args.docs);
+        },
       },
     ],
     [
@@ -113,6 +145,10 @@ const config = {
         breadcrumbs: true,
         remarkPlugins: [remarkMath],
         rehypePlugins: [rehypeKatex],
+        async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+          const items = await defaultSidebarItemsGenerator(args);
+          return propagateFrontmatterIcons(items, args.docs);
+        },
       },
     ],
     [
@@ -125,6 +161,10 @@ const config = {
         breadcrumbs: true,
         remarkPlugins: [remarkMath],
         rehypePlugins: [rehypeKatex],
+        async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+          const items = await defaultSidebarItemsGenerator(args);
+          return propagateFrontmatterIcons(items, args.docs);
+        },
       },
     ],
     [
@@ -137,6 +177,10 @@ const config = {
         breadcrumbs: true,
         remarkPlugins: [remarkMath],
         rehypePlugins: [rehypeKatex],
+        async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+          const items = await defaultSidebarItemsGenerator(args);
+          return propagateFrontmatterIcons(items, args.docs);
+        },
       },
     ],
     [
@@ -196,10 +240,6 @@ const config = {
       },
       title: 'Pendle Documentation',
       items: [
-        {
-          type: 'localeDropdown',
-          position: 'right',
-        },
       ],
     },
     footer: {
@@ -271,22 +311,7 @@ const config = {
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en', 'cn'],
-    path: 'i18n',
-    localeConfigs: {
-      en: {
-        label: 'English',
-        direction: 'ltr',
-        htmlLang: 'en-US',
-        calendar: 'gregory',
-      },
-      cn: {
-        label: '中文（中国)',
-        direction: 'ltr',
-        htmlLang: 'zh-Hans',
-        calendar: 'gregory',
-      },
-    },
+    locales: ['en'],
   },
 };
 

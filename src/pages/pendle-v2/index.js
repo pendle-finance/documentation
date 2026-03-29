@@ -109,9 +109,9 @@ export default function PendleV2Home() {
                 bannerImage="/img/Pendle Academy.svg"
               />
               <DocCard
-                title="Pendle API"
+                title="Pendle Dev Docs"
                 description="For developers to integrate Pendle products into their own applications."
-                link="/pendle-v2/Developers/Backend/ApiOverview"
+                link="/pendle-v2-dev/Overview"
                 animationData={DevelopersAnim}
                 bannerImage="/img/Pendle v2 api.svg"
               />

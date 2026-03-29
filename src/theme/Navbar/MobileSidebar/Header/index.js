@@ -38,7 +38,7 @@ export default function NavbarMobileSidebarHeader() {
 
   return (
     <div className="navbar-sidebar__brand">
-      <Link to={borosActive ? '/boros' : '/pendle-v2'} className="navbar__brand">
+      <Link to={borosActive ? '/boros' : '/pendle-v2/Introduction'} className="navbar__brand">
         <div className="navbar__logo">
           <img
             src={borosActive ? '/img/boros-logo.svg' : '/img/logo.svg'}

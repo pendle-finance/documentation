@@ -3,7 +3,8 @@ import { useLocation } from '@docusaurus/router';
 import styles from './styles.module.css';
 
 const BANNERS = {
-  '/pendle-v2':      { label: 'Pendle Docs',     img: '/img/banners/pendle-docs.png',    theme: 'teal' },
+  '/pendle-v2-dev':  { label: 'Pendle V2 Dev',   img: '/img/banners/pendle-docs.png',    theme: 'teal' },
+  '/pendle-v2':      { label: 'Pendle Docs',      img: '/img/banners/pendle-docs.png',    theme: 'teal' },
   '/pendle-academy': { label: 'Pendle Academy',   img: '/img/banners/pendle-academy.png', theme: 'teal' },
   '/boros-academy':  { label: 'Boros Academy',    img: '/img/banners/boros-academy.png',  theme: 'blue' },
   '/boros-docs':     { label: 'Boros Docs',       img: '/img/banners/boros-docs.png',     theme: 'blue' },

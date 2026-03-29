@@ -4,9 +4,9 @@ import { useNavbarMobileSidebar } from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 
 const PENDLE_ITEMS = [
-  { label: 'Pendle Docs', to: '/pendle-v2/Introduction', activeBasePath: '/pendle-v2' },
+  { label: 'Pendle Docs', to: '/pendle-v2/Introduction', activeBasePath: '/pendle-v2/' },
   { label: 'Pendle Academy', to: '/pendle-academy/Introduction', activeBasePath: '/pendle-academy' },
-  { label: 'Pendle API', to: '/pendle-v2/Developers/Backend/ApiOverview', activeBasePath: '/pendle-v2/Developers/Backend' },
+  { label: 'Pendle Dev Docs', to: '/pendle-v2-dev/Overview', activeBasePath: '/pendle-v2-dev' },
 ];
 
 const BOROS_ITEMS = [

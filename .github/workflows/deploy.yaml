@@ -3,29 +3,31 @@ name: Deploy Docusaurus site with Yarn
 on:
   push:
     branches:
-      - master # Change to your default branch if it's different (e.g., master)
+      - production
   workflow_dispatch:
 
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20 # Use a recommended Node.js version (Docusaurus requires >= 18)
-          cache: 'yarn' # This enables caching of yarn dependencies
+          node-version: 20
+          cache: 'yarn'
 
       - name: Install dependencies
-        run: yarn install --frozen-lockfile # Installs dependencies using yarn
+        run: yarn install --frozen-lockfile
 
       - name: Build website
-        run: yarn build # Runs the build command defined in your package.json
+        run: yarn build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build # The directory where Docusaurus builds the static files
-          publish_branch: gh-pages # The branch to which the site will be deployed
+          publish_dir: ./build
+          publish_branch: gh-pages

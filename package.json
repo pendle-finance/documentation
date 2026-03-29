@@ -19,7 +19,8 @@
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
     "write-heading-ids": "docusaurus write-heading-ids",
-    "migrate-gitbook": "npx ts-node migrate-gitbook.ts"
+    "migrate-gitbook": "npx ts-node migrate-gitbook.ts",
+    "cms:proxy": "npx @staticcms/proxy-server"
   },
   "dependencies": {
     "@docusaurus/core": "^3.6.3",

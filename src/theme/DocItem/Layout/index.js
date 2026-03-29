@@ -49,7 +49,7 @@ export default function DocItemLayout({children}) {
       const currentPath = window.location.pathname;
 
       // Check if we need to add /docs prefix
-      if (!pathname.startsWith('/pendle-v2/') && !pathname.startsWith('/boros/')) {
+      if (!pathname.startsWith('/pendle-v2/') && !pathname.startsWith('/pendle-v2-dev/') && !pathname.startsWith('/boros/')) {
         const docPaths = [
           '/Developers/', '/ProtocolMechanics/', '/AppGuide/',
           '/Introduction', '/FAQ', '/LitePaper', '/HighLevelArchitecture',
