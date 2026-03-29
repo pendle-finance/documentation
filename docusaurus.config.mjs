@@ -28,14 +28,14 @@ const config = {
   title: 'Pendle Documentation',
   tagline: 'Pendle is a protocol that liberates future yield. It enables the tokenization and trading of future yield on a novel AMM designed to support assets with time decay.',
   url: 'https://huberthalim.github.io',
-  baseUrl: '/documentation/',
+  baseUrl: '/',
   trailingSlash: false,
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'ignore',
   onBrokenAnchors: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'HubertHalim',
-  projectName: 'documentation',
+  projectName: 'huberthalim.github.io',
   deploymentBranch: 'gh-pages',
 
   headTags: [

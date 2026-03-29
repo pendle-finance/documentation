@@ -1,7 +1,7 @@
 // ─── Config ───────────────────────────────────────────────────────────────────
 const PROXY = 'http://localhost:8081/api/v1';
 const BRANCH = 'cms/preview';
-const GH_REPO = 'HubertHalim/documentation';
+const GH_REPO = 'HubertHalim/huberthalim.github.io';
 const GH_MAIN = 'production';
 
 // Section definitions
