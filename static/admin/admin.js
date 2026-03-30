@@ -1518,7 +1518,10 @@ async function ghGetFile(path, ref) {
   const url = '/repos/' + GH_REPO + '/contents/' + encodeURIPath(path) + '?ref=' + encodeURIComponent(ref || BRANCH);
   try {
     const data = await ghFetch(url);
-    const content = atob(data.content.replace(/\n/g, ''));
+    const binary = atob(data.content.replace(/\n/g, ''));
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+    const content = new TextDecoder('utf-8').decode(bytes);
     return { data: content, sha: data.sha };
   } catch(e) {
     if (e.message && e.message.includes('404')) return { data: '', sha: null };
