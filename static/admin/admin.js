@@ -1606,7 +1606,7 @@ async function ghFetch(path, opts) {
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new Error(body.message || 'GitHub API error ' + res.status);
+    throw new Error((body.message || 'GitHub API error') + ' ' + res.status);
   }
   return res.json();
 }
