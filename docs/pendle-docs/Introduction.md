@@ -3,7 +3,7 @@ hide_table_of_contents: true
 title: Introduction
 ---
 
-# Introduction to Pendle
+# Introduction to Pendlee
 
 <iframe height="400" width="100%" src="https://www.youtube.com/embed/SyjPDpjU6-s" title="Chapter 1: Introduction to Pendle" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 
@@ -22,20 +22,20 @@ With Pendle, you can always maximise your yield: increase your yield exposure in
 
 We give users the reins to their yield.
 
-[Pendle](https://pendle.finance/) is a permissionless yield-trading protocol where users can execute various yield-management strategies. It acts as a second-order derivative layer, building upon and integrating with existing core yield-generating primitives in the DeFi ecosystem ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ Liquid Staking Tokens (LSTs), Liquid Restaking Tokens (LRTs), stablecoins, RWAs, and more.
+[Pendle](https://pendle.finance/) is a permissionless yield-trading protocol where users can execute various yield-management strategies. It acts as a second-order derivative layer, building upon and integrating with existing core yield-generating primitives in the DeFi ecosystem ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ Liquid Staking Tokens (LSTs), Liquid Restaking Tokens (LRTs), stablecoins, RWAs, and more.
 
-Pendle's smart contract architecture is **permissionless** ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ any user or protocol can create a new yield-trading market on-chain. While on-chain creation is open to all, the visibility of these markets on the official [Pendle UI](https://app.pendle.finance) is curated through a review process to ensure quality and safety. Community members can also leverage the [Community Listing Portal](https://listing.pendle.finance) for a streamlined listing process.
+Pendle's smart contract architecture is **permissionless** ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ any user or protocol can create a new yield-trading market on-chain. While on-chain creation is open to all, the visibility of these markets on the official [Pendle UI](https://app.pendle.finance) is curated through a review process to ensure quality and safety. Community members can also leverage the [Community Listing Portal](https://listing.pendle.finance) for a streamlined listing process.
 
 There are 2 main parts to fully understand Pendle:
 
 1. Yield Tokenization
 
-    First, Pendle wrap **yield-bearing tokens** into **SY**(standardized yield tokens), which is a wrapped version of the underlying yield-bearing token that is compatible with the Pendle AMM (e.g. stETH ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ SY-stETH).
+    First, Pendle wrap **yield-bearing tokens** into **SY**(standardized yield tokens), which is a wrapped version of the underlying yield-bearing token that is compatible with the Pendle AMM (e.g. stETH ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ SY-stETH).
     SY is then split into its principal and yield components, **PT** (principal token) and **YT** (yield token) respectively, this process is termed as yield-tokenization, where the yield is tokenized into a separate token.
 
 2. Pendle AMM
 
-    Both **PT** and **YT** can be traded via PendleÃÂÃÂ¢ÃÂÃÂÃÂÃÂs **AMM**. Even though this is the core engine of Pendle, understanding of the AMM is not required to trade PT and YT.
+    Both **PT** and **YT** can be traded via PendleÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂs **AMM**. Even though this is the core engine of Pendle, understanding of the AMM is not required to trade PT and YT.
 
 
 As a yield derivative protocol, we are bringing the TradFi interest derivative market ([worth over $400T in notional value](https://www.bis.org/publ/otc_hy2111/intgraphs/graphA3.htm)) into DeFi, making it accessible to all.
