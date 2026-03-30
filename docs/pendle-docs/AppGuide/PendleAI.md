@@ -1,5 +1,6 @@
 ---
 hide_table_of_contents: true
+title: PendleAI
 ---
 
 # Pendle AI Plugin
