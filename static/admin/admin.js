@@ -1669,9 +1669,9 @@ async function revertPreview() {
 // On localhost the proxy server is used directly — no token needed.
 
 // GH_CLIENT_ID is the public OAuth App client ID — safe to expose in browser
-const GH_CLIENT_ID = 'YOUR_GITHUB_OAUTH_CLIENT_ID';
+const GH_CLIENT_ID = 'Ov23liVWfNzdDqHti4b9';
 // Netlify function URL that exchanges the OAuth code for a token server-side
-const OAUTH_FUNCTION_URL = 'YOUR_NETLIFY_FUNCTION_URL'; // e.g. https://xxx.netlify.app/.netlify/functions/oauth
+const OAUTH_FUNCTION_URL = 'https://docs-proto.netlify.app/.netlify/functions/oauth';
 
 function showLoginScreen() {
   document.getElementById('login-overlay').style.display = 'flex';
