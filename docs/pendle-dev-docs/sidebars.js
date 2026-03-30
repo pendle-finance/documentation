@@ -19,9 +19,33 @@ module.exports = {
       label: "Contracts",
       customProps: { icon: "description" },
       items: [
-        { type: "doc", id: "Contracts/StandardizedYield", label: "Standardized Yield" },
-        { type: "doc", id: "Contracts/YieldTokenization", label: "Yield Tokenization" },
-        { type: "doc", id: "Contracts/PendleMarket", label: "PendleMarket" },
+        {
+          type: "category",
+          label: "Standardized Yield",
+          items: [
+            { type: "doc", id: "Contracts/StandardizedYield/StandardizedYield", label: "Overview" },
+            { type: "doc", id: "Contracts/StandardizedYield/CommonSY", label: "Common SY Contracts" },
+            { type: "doc", id: "Contracts/StandardizedYield/DecimalsWrapper", label: "Decimals Wrapper" },
+          ],
+        },
+        {
+          type: "category",
+          label: "Yield Tokenization",
+          items: [
+            { type: "doc", id: "Contracts/YieldTokenization/YieldTokenization", label: "Overview" },
+            { type: "doc", id: "Contracts/YieldTokenization/YieldContractFactory", label: "Yield Contract Factory" },
+          ],
+        },
+        {
+          type: "category",
+          label: "PendleMarket",
+          items: [
+            { type: "doc", id: "Contracts/PendleMarket/PendleMarket", label: "Overview" },
+            { type: "doc", id: "Contracts/PendleMarket/MarketFactory", label: "Market Factory" },
+            { type: "doc", id: "Contracts/PendleMarket/LPWrapper", label: "LP Wrapper" },
+            { type: "doc", id: "Contracts/PendleMarket/CommonMarketDeployments", label: "Common Market Deployments" },
+          ],
+        },
         {
           type: "category",
           label: "PendleRouter",
