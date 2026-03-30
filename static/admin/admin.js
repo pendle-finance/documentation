@@ -1668,45 +1668,53 @@ async function revertPreview() {
 // Only active on hosted (non-localhost) environments.
 // On localhost the proxy server is used directly — no token needed.
 
-function showLoginScreen(message) {
+// GH_CLIENT_ID is the public OAuth App client ID — safe to expose in browser
+const GH_CLIENT_ID = 'YOUR_GITHUB_OAUTH_CLIENT_ID';
+// Netlify function URL that exchanges the OAuth code for a token server-side
+const OAUTH_FUNCTION_URL = 'YOUR_NETLIFY_FUNCTION_URL'; // e.g. https://xxx.netlify.app/.netlify/functions/oauth
+
+function showLoginScreen() {
   document.getElementById('login-overlay').style.display = 'flex';
-  if (message) document.getElementById('login-message').textContent = message;
 }
 
 function hideLoginScreen() {
   document.getElementById('login-overlay').style.display = 'none';
 }
 
-async function submitPat() {
-  const input = document.getElementById('pat-input');
-  const errEl = document.getElementById('pat-error');
-  const btn = document.getElementById('login-btn');
-  const token = input.value.trim();
-  if (!token) { input.focus(); return; }
-  btn.disabled = true;
-  btn.textContent = 'Verifying…';
-  errEl.textContent = '';
-  try {
-    // Validate token against GitHub API
-    const res = await fetch('https://api.github.com/user', {
-      headers: {
-        'Accept': 'application/vnd.github+json',
-        'Authorization': 'Bearer ' + token,
-        'X-GitHub-Api-Version': '2022-11-28',
-      },
-    });
-    if (!res.ok) throw new Error('Invalid token — check it has repo scope');
-    const user = await res.json();
-    saveGhToken(token);
-    input.value = '';
-    hideLoginScreen();
-    setLogoutButton(user.login, user.avatar_url);
-    bootApp();
-  } catch(e) {
-    errEl.textContent = e.message;
-    btn.disabled = false;
-    btn.textContent = 'Save token';
+function startOAuth() {
+  // Store a random state value to verify the callback
+  const state = Math.random().toString(36).slice(2);
+  sessionStorage.setItem('oauth-state', state);
+  const params = new URLSearchParams({
+    client_id: GH_CLIENT_ID,
+    scope: 'repo',
+    state,
+    redirect_uri: OAUTH_FUNCTION_URL,
+  });
+  location.href = 'https://github.com/login/oauth/authorize?' + params;
+}
+
+// Called on page load — checks if we're returning from OAuth callback
+function handleOAuthCallback() {
+  const hash = location.hash;
+  if (!hash) return false;
+  const params = new URLSearchParams(hash.slice(1));
+  const token = params.get('token');
+  const error = params.get('error');
+  // Clear hash from URL
+  history.replaceState(null, '', location.pathname);
+  if (error) {
+    showLoginScreen();
+    const el = document.getElementById('login-error');
+    el.textContent = 'Login failed: ' + decodeURIComponent(error);
+    el.style.display = 'block';
+    return true;
   }
+  if (token) {
+    saveGhToken(token);
+    return false; // proceed to checkAuth normally
+  }
+  return false;
 }
 
 function logout() {
@@ -1719,7 +1727,6 @@ async function checkAuth() {
   if (IS_LOCAL) return true; // local proxy — no auth needed
   const token = getGhToken();
   if (!token) return false;
-  // Validate token is still working
   try {
     const user = await ghFetch('/user');
     setLogoutButton(user.login, user.avatar_url);
@@ -1755,6 +1762,8 @@ function bootApp() {
 }
 
 (async () => {
+  const wasCallback = handleOAuthCallback();
+  if (wasCallback) return; // login screen already shown with error
   const authed = await checkAuth();
   if (authed) {
     bootApp();
