@@ -514,8 +514,118 @@ li code:hover {
   border-color: rgba(96, 121, 255, 0.25);
 }
 
+/* DocSearch modal theming */
+:root,
+[data-theme='dark'] {
+  --docsearch-primary-color: #6079FF;
+  --docsearch-text-color: #ffffff;
+  --docsearch-spacing: 12px;
+  --docsearch-icon-stroke-width: 1.5;
+  --docsearch-highlight-color: var(--color-info);
+  --docsearch-muted-color: #9DAFCD;
+  --docsearch-container-background: rgba(9, 13, 24, 0.85);
+  --docsearch-modal-width: 560px;
+  --docsearch-modal-height: 480px;
+  --docsearch-modal-background: #0F1626;
+  --docsearch-modal-shadow: 0 0 0 1px #374B6D, 0 24px 48px rgba(0, 0, 0, 0.6);
+  --docsearch-searchbox-height: 48px;
+  --docsearch-searchbox-background: rgb(191 203 223 / 0.07);
+  --docsearch-searchbox-focus-background: rgb(191 203 223 / 0.10);
+  --docsearch-searchbox-shadow: inset 0 0 0 1px #6079FF;
+  --docsearch-hit-color: #9DAFCD;
+  --docsearch-hit-active-color: #ffffff;
+  --docsearch-hit-background: transparent;
+  --docsearch-hit-shadow: none;
+  --docsearch-key-gradient: none;
+  --docsearch-key-shadow: none;
+  --docsearch-key-pressed-shadow: none;
+  --docsearch-footer-height: 44px;
+  --docsearch-footer-background: #090D18;
+  --docsearch-footer-shadow: 0 -1px 0 #374B6D;
+}
+
+/* Override Algolia's hardcoded grass/teal focus border on search input */
+.DocSearch-Form {
+  box-shadow: inset 0 0 0 1px #6079FF !important;
+}
+
+/* Category headings: use info blue, not grass teal */
+.DocSearch-Hit-source {
+  color: #6079FF !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  padding: 8px 12px 4px !important;
+}
+
 .DocSearch-Hit a {
   text-decoration: none !important;
+}
+
+.DocSearch-Hit[aria-selected='true'] a {
+  background: rgb(96 121 255 / 0.12) !important;
+  border-radius: 6px !important;
+}
+
+.DocSearch-Hit-title {
+  color: #ffffff !important;
+}
+
+.DocSearch-Hit-path {
+  color: #9DAFCD !important;
+}
+
+.DocSearch-Hit mark {
+  color: #6079FF !important;
+  background: transparent !important;
+  text-decoration: underline !important;
+  text-decoration-color: rgba(96, 121, 255, 0.4) !important;
+}
+
+.DocSearch-MagnifierLabel,
+.DocSearch-Reset {
+  color: #9DAFCD !important;
+}
+
+.DocSearch-Reset:hover {
+  color: #ffffff !important;
+}
+
+.DocSearch-Form {
+  border-radius: 8px !important;
+}
+
+.DocSearch-Input {
+  color: #ffffff !important;
+  font-size: 15px !important;
+}
+
+.DocSearch-Input::placeholder {
+  color: #9DAFCD !important;
+}
+
+.DocSearch-Cancel {
+  color: #9DAFCD !important;
+  font-size: 13px !important;
+}
+
+.DocSearch-Help,
+.DocSearch-NoResults-Prefill-List .DocSearch-Help {
+  color: #9DAFCD !important;
+}
+
+.DocSearch-Footer {
+  border-radius: 0 0 8px 8px !important;
+}
+
+.DocSearch-Commands-Key {
+  background: transparent !important;
+  border: 1px solid rgb(55 75 109 / 0.6) !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  color: #9DAFCD !important;
+  padding: 2px 5px !important;
 }
 
 /* Sidebar container */
@@ -1634,52 +1744,6 @@ table tbody tr:last-child td {
   flex-shrink: 0;
 }
 
-/* Search — match language selector shape */
-.navbar__search,
-.navbar__search-input,
-[class*='searchBox'],
-[class*='search-bar'] {
-  border-radius: 8px !important;
-}
-
-.navbar__search input,
-input[class*='searchQueryInput'],
-input[class*='search-input'] {
-  background: rgba(255, 255, 255, 0.06) !important;
-  border: 1px solid rgba(55, 75, 109, 0.8) !important;
-  border-radius: 8px !important;
-  color: #9DAFCD !important;
-  font-size: 14px !important;
-  font-weight: 400 !important;
-  padding: 6px 16px 6px 18px !important;
-  transition: background 150ms ease, border-color 150ms ease !important;
-  height: 36px !important;
-  min-width: 160px !important;
-}
-
-.navbar__search input:hover {
-  background: rgba(255, 255, 255, 0.09) !important;
-  border-color: rgba(96, 121, 255, 0.5) !important;
-}
-
-.navbar__search input:focus {
-  background: rgba(255, 255, 255, 0.1) !important;
-  border-color: #6079FF !important;
-  box-shadow: 0 0 0 3px rgba(96, 121, 255, 0.15) !important;
-  outline: none !important;
-}
-
-/* Keyboard shortcut badge */
-.navbar__search kbd,
-[class*='searchBar'] kbd {
-  background: transparent !important;
-  border: 1px solid rgba(55, 75, 109, 0.4) !important;
-  border-radius: 5px !important;
-  color: rgba(255, 255, 255, 0.22) !important;
-  font-size: 0.68rem !important;
-  padding: 1px 5px !important;
-  box-shadow: none !important;
-}
 
 /* ============================================
    Table Styling overrides

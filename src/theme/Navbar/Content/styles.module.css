@@ -7,7 +7,7 @@ Hide color mode toggle in small viewports
   }
 }
 
-/* Transfer ThinTopBar search styling */
+/* Search bar */
 .searchContainer {
   flex: 0 0 auto;
   margin-left: auto;
@@ -17,20 +17,39 @@ Hide color mode toggle in small viewports
 }
 
 .searchContainer .DocSearch-Button {
-  background: var(--color-background-glass) !important;
-  border: 1px solid var(--color-border-light) !important;
+  background: rgb(191 203 223 / 0.07) !important;
+  border: 1px solid var(--border-default) !important;
   border-radius: 8px !important;
   height: 36px !important;
-  padding: 0 12px !important;
+  padding: 0 10px 0 12px !important;
   min-width: 200px !important;
-  transition: all 0.2s ease !important;
+  transition: background 150ms ease, border-color 150ms ease !important;
+  color: var(--color-text-secondary) !important;
 }
 
 .searchContainer .DocSearch-Button:hover {
-  background: rgba(255, 255, 255, 0.95) !important;
-  border-color: var(--color-border-primary) !important;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03), 0 0 0 3px rgba(0, 102, 255, 0.05) !important;
-  transform: translateY(-1px) !important;
+  background: rgb(191 203 223 / 0.11) !important;
+  border-color: rgba(96, 121, 255, 0.5) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.searchContainer .DocSearch-Button:focus-visible {
+  outline: none !important;
+  border-color: var(--color-info) !important;
+  box-shadow: 0 0 0 3px rgba(96, 121, 255, 0.15) !important;
+}
+
+.searchContainer .DocSearch-Search-Icon {
+  color: var(--color-text-secondary) !important;
+  width: 14px !important;
+  height: 14px !important;
+}
+
+.searchContainer .DocSearch-Button-Placeholder {
+  font-size: 13px !important;
+  color: var(--color-text-secondary) !important;
+  font-weight: 400 !important;
 }
 
 .searchContainer button {
@@ -41,15 +60,18 @@ Hide color mode toggle in small viewports
 .searchContainer .DocSearch-Button-Keys {
   display: flex !important;
   align-items: center !important;
-  gap: 2px !important;
+  gap: 3px !important;
 }
 
 .searchContainer .DocSearch-Button-Key {
-  background: white !important;
-  border: 1px solid #d0d0d0 !important;
-  border-radius: 3px !important;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08) !important;
-  color: #666 !important;
+  background: transparent !important;
+  border: 1px solid rgb(55 75 109 / 0.5) !important;
+  border-radius: 4px !important;
+  box-shadow: none !important;
+  color: rgb(157 175 205 / 0.5) !important;
+  font-size: 10px !important;
+  padding: 1px 4px !important;
+  min-width: 0 !important;
 }
 
 /* Responsive search bar */
