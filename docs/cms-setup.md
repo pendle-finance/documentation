@@ -1,59 +1,54 @@
 # CMS Setup Guide
 
-This documentation site uses [Static CMS](https://www.staticcms.org/) — a browser-based editor that lets authorised team members create, edit, and delete docs pages without touching `.md` files directly. Changes are committed to GitHub automatically, triggering a redeploy.
-
-The CMS is served at `/admin` on the docs site (e.g. `docs.pendle.finance/admin`).
+This documentation site has a custom browser-based admin panel at `/admin`. Editors can create, edit, and delete docs pages without touching `.md` files directly. Changes are committed to the `cms/preview` branch via the GitHub API, and promoted to `production` (triggering a deploy) via the **Publish** button.
 
 ---
 
 ## How it works
 
-1. Editor visits `/admin` and logs in with their GitHub account
-2. They create/edit/delete pages via a rich text editor
-3. On save, Static CMS commits the `.md` file changes directly to the `main` branch via the GitHub API
-4. GitHub Actions triggers, rebuilds the Docusaurus site, and deploys to GitHub Pages
+1. Editor visits `/admin` and logs in with their GitHub account (Device Flow — no redirect needed)
+2. They create/edit/delete pages via the admin panel
+3. On save, changes are committed to the `cms/preview` branch via the GitHub Contents API
+4. When ready to go live, click **Publish** — this fast-forwards `production` to the preview SHA
+5. GitHub Actions triggers, rebuilds the Docusaurus site, and deploys to GitHub Pages
 
-No new servers. No separate CMS database. Content lives in the repo as `.md` files, same as before.
+No separate CMS server on hosted. Content lives in the repo as `.md` files.
 
 ---
 
 ## One-time setup: Register a GitHub OAuth App
 
-This is required so editors can log in at `/admin` using GitHub. Takes ~2 minutes.
+Required so editors can log in at `/admin` using GitHub Device Flow. Takes ~2 minutes.
 
 1. Go to **GitHub → Settings → Developer settings → OAuth Apps → New OAuth App**
-   (or your org: **GitHub Org → Settings → Developer settings → OAuth Apps**)
 
 2. Fill in:
    | Field | Value |
    |---|---|
    | Application name | `Pendle Docs CMS` |
-   | Homepage URL | `https://docs.pendle.finance` |
-   | Authorization callback URL | `https://docs.pendle.finance/` |
+   | Homepage URL | `https://huberthalim.github.io` |
+   | Authorization callback URL | `https://huberthalim.github.io/admin/` |
 
 3. Click **Register application**
 
-4. Copy the **Client ID**
+4. On the next screen, set **Application type** to **Public** (this allows Device Flow without a client secret)
 
-5. Open [`static/admin/config.js`](../static/admin/config.js) and replace `YOUR_GITHUB_OAUTH_APP_CLIENT_ID` with it:
+5. Copy the **Client ID**
+
+6. Open [`static/admin/admin.js`](../static/admin/admin.js) and set:
    ```js
-   app_id: 'Iv1.xxxxxxxxxxxxxxxx',
+   const GH_CLIENT_ID = 'YOUR_CLIENT_ID_HERE';
    ```
 
-6. Also confirm `repo` matches your actual GitHub repo:
-   ```js
-   repo: 'pendle-finance/documentation',
-   ```
+7. Commit and push to `production` — the CMS login is now live
 
-7. Commit and push — the CMS is now live at `docs.pendle.finance/admin`
-
-> **Access control**: Only GitHub users with **write access** to the repo can save changes via the CMS. Manage access via GitHub repo collaborators or org team membership — no CMS-specific user management needed.
+> **Access control**: Only GitHub users with **write access** to the repo can save changes. Manage access via GitHub repo collaborators — no CMS-specific user management needed.
 
 ---
 
 ## Local development
 
-Test the CMS locally before pushing. The local proxy writes files directly to your filesystem instead of GitHub — no OAuth needed.
+The admin panel detects `localhost` automatically and skips GitHub auth, using the local proxy server instead (reads/writes your local filesystem directly).
 
 **Terminal 1 — run Docusaurus:**
 ```bash
@@ -67,52 +62,33 @@ yarn cms:proxy
 
 Then visit `http://localhost:3000/admin`
 
-The CMS will detect you're on localhost and use the local backend automatically. Any page you create/edit/save in the CMS will immediately write to your local `docs/` folder and Docusaurus hot-reload will pick it up.
+Any page you create/edit/save will immediately write to your local `docs/` folder and Docusaurus hot-reload will pick it up. No token needed.
+
+---
+
+## Branch topology
+
+| Branch | Purpose |
+|---|---|
+| `cms/preview` | All CMS edits land here |
+| `production` | Triggers GitHub Actions deploy — only updated via Publish button |
+| `main` | Dev work — merged to `production` manually |
 
 ---
 
 ## Managing sidebar order
 
-The sidebars are manually defined in each section's `sidebars.js` file. When you add a new page via the CMS:
-
-- Set **Sidebar Position** in the page editor — this writes `sidebar_position` frontmatter to the `.md` file
-- Then add the new page to the appropriate `sidebars.js` in the correct position
-
-For existing pages, the sidebar order is controlled by `sidebars.js`. The **Sidebar Label** field in the CMS editor overrides the label shown in the nav without changing the filename.
-
-> **Future improvement**: If sidebar management becomes a bottleneck, the individual `sidebars.js` files can be switched to Docusaurus `autogenerated` mode, which derives order entirely from `sidebar_position` frontmatter — eliminating the need to edit `sidebars.js` at all.
+Sidebars are defined in each section's `sidebars.js` file. The admin panel manages this automatically — reorder pages by dragging in the sidebar, then click **Save order**.
 
 ---
 
 ## Doc sections
 
-| CMS collection | Folder | Route |
+| Section | Folder | Route |
 |---|---|---|
-| Pendle V2 Docs | `docs/pendle-v2/` | `/pendle-v2/` |
-| Boros Developer Docs | `docs/boros-dev-docs/` | `/boros-dev/` |
+| Pendle V2 Docs | `docs/pendle-docs/` | `/pendle-v2/` |
 | Pendle Academy | `docs/pendle-academy/` | `/pendle-academy/` |
-| Boros Docs | `docs/boros-docs/` | `/boros-docs/` |
+| Pendle V2 Dev | `docs/pendle-dev-docs/` | `/pendle-dev/` |
+| Boros Docs | `docs/boros-docs/` | `/boros/` |
 | Boros Academy | `docs/boros-academy/` | `/boros-academy/` |
-
----
-
-## Creating a new page
-
-1. Visit `/admin` and log in
-2. Select the doc section from the left sidebar
-3. Click **New Page**
-4. Set the path (e.g. `AppGuide/NewFeature` — this becomes the file path within the section folder)
-5. Fill in title and content
-6. Click **Save** — this commits the `.md` file to GitHub and triggers a deploy
-
-## Editing an existing page
-
-1. Visit `/admin` → select the section → browse or search for the page
-2. Edit in the rich text or raw markdown editor
-3. Click **Save**
-
-## Deleting a page
-
-1. Find the page in the CMS
-2. Use the **Delete** option (three-dot menu on the entry)
-3. Also remove the entry from the section's `sidebars.js` to avoid a broken sidebar link
+| Boros Dev | `docs/boros-dev-docs/` | `/boros-dev/` |

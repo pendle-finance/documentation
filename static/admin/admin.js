@@ -1,8 +1,12 @@
 // ─── Config ───────────────────────────────────────────────────────────────────
+const IS_LOCAL = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
 const PROXY = 'http://localhost:8081/api/v1';
 const BRANCH = 'cms/preview';
 const GH_REPO = 'HubertHalim/huberthalim.github.io';
 const GH_MAIN = 'production';
+// GitHub OAuth Device Flow — create an OAuth App at github.com/settings/applications
+// Set "Application type" to "Public" — no client secret needed for device flow
+const GH_CLIENT_ID = 'Ov23liVWfNzdDqHti4b9'; // see docs/cms-setup.md
 
 // Section definitions
 const SECTIONS = [
@@ -1164,17 +1168,70 @@ async function confirmMove() {
   }
 }
 
-// ─── Proxy API ────────────────────────────────────────────────────────────────
+// ─── Proxy / GitHub API router ───────────────────────────────────────────────
+// On localhost: forward to the Static CMS proxy server (reads/writes local fs)
+// On hosted: call GitHub Contents API directly using the stored PAT
 async function proxyCall(action, params) {
-  const res = await fetch(PROXY, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ action, params }),
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const json = await res.json();
-  if (json.error) throw new Error(json.error);
-  return json;
+  if (IS_LOCAL) {
+    const res = await fetch(PROXY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action, params }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    if (json.error) throw new Error(json.error);
+    return json;
+  }
+
+  // Hosted — use GitHub Contents API directly
+  const branch = (params && params.branch) || BRANCH;
+  const opts = (params && params.options) || {};
+
+  if (action === 'getEntry') {
+    const result = await ghGetFile(params.path, branch);
+    return { data: result.data };
+  }
+
+  if (action === 'entriesByFolder') {
+    const items = await ghListFolder(params.folder, branch);
+    const ext = params.extension || 'md';
+    const filtered = items.filter(item => item.path.endsWith('.' + ext));
+    // Fetch each file's content in parallel (limit to avoid rate limits)
+    const entries = await Promise.all(filtered.map(async item => {
+      const result = await ghGetFile(item.path, branch);
+      return { path: item.path, data: result.data };
+    }));
+    return entries;
+  }
+
+  if (action === 'persistEntry') {
+    const entry = params.entry;
+    const msg = (opts && opts.commitMessage) || 'update ' + entry.path;
+    if (entry.newPath && entry.newPath !== entry.path) {
+      // Move: create at newPath, delete at old path
+      await ghPutFile(entry.newPath, entry.raw, msg, branch);
+      await ghDeleteFile(entry.path, 'delete ' + entry.path + ' (moved)', branch);
+    } else {
+      await ghPutFile(entry.path, entry.raw, msg, branch);
+    }
+    return {};
+  }
+
+  if (action === 'persistMedia') {
+    const asset = params.asset;
+    const msg = (opts && opts.commitMessage) || 'upload ' + asset.path;
+    await ghPutFileBase64(asset.path, asset.content, msg, branch);
+    return {};
+  }
+
+  if (action === 'deleteFile') {
+    const msg = (opts && opts.commitMessage) || 'delete ' + params.path;
+    await ghDeleteFile(params.path, msg, branch);
+    return {};
+  }
+
+  throw new Error('Unknown action: ' + action);
 }
 
 // ─── Frontmatter ─────────────────────────────────────────────────────────────
@@ -1448,25 +1505,91 @@ function wireIconInput(inputId, updateFn) {
 
 // ─── GitHub API helpers ───────────────────────────────────────────────────────
 function getGhToken() {
-  // Static CMS stores the token under various keys depending on backend config
-  const keys = [
-    'netlify-cms-user',
-    'static-cms-user',
-    'decap-cms-user',
-    'github-auth-token',
-  ];
-  for (const k of keys) {
-    try {
-      const raw = localStorage.getItem(k);
-      if (!raw) continue;
-      const parsed = JSON.parse(raw);
-      if (parsed && parsed.token) return parsed.token;
-    } catch (e) { /* ignore */ }
+  return localStorage.getItem('github-pat') || null;
+}
+
+function saveGhToken(token) {
+  localStorage.setItem('github-pat', token);
+}
+
+function clearGhToken() {
+  localStorage.removeItem('github-pat');
+}
+
+// Get a single file's content + SHA from GitHub Contents API
+async function ghGetFile(path, ref) {
+  const url = '/repos/' + GH_REPO + '/contents/' + encodeURIPath(path) + '?ref=' + encodeURIComponent(ref || BRANCH);
+  try {
+    const data = await ghFetch(url);
+    const content = atob(data.content.replace(/\n/g, ''));
+    return { data: content, sha: data.sha };
+  } catch(e) {
+    if (e.message && e.message.includes('404')) return { data: '', sha: null };
+    throw e;
   }
-  // Also try raw token key
-  const raw = localStorage.getItem('github-token') || localStorage.getItem('token');
-  if (raw) return raw;
-  return null;
+}
+
+// Create or update a file via GitHub Contents API
+async function ghPutFile(path, content, commitMessage, ref) {
+  // Get current SHA if file exists (required for updates)
+  const existing = await ghGetFile(path, ref || BRANCH);
+  const body = {
+    message: commitMessage || 'update ' + path,
+    content: btoa(new TextEncoder().encode(content).reduce((s, b) => s + String.fromCharCode(b), '')),
+    branch: ref || BRANCH,
+  };
+  if (existing.sha) body.sha = existing.sha;
+  return ghFetch('/repos/' + GH_REPO + '/contents/' + encodeURIPath(path), {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+}
+
+// Upload binary (base64-encoded) file
+async function ghPutFileBase64(path, base64Content, commitMessage, ref) {
+  const existing = await ghGetFile(path, ref || BRANCH);
+  const body = {
+    message: commitMessage || 'upload ' + path,
+    content: base64Content,
+    branch: ref || BRANCH,
+  };
+  if (existing.sha) body.sha = existing.sha;
+  return ghFetch('/repos/' + GH_REPO + '/contents/' + encodeURIPath(path), {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+}
+
+// Delete a file via GitHub Contents API
+async function ghDeleteFile(path, commitMessage, ref) {
+  const existing = await ghGetFile(path, ref || BRANCH);
+  if (!existing.sha) throw new Error('File not found: ' + path);
+  return ghFetch('/repos/' + GH_REPO + '/contents/' + encodeURIPath(path), {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      message: commitMessage || 'delete ' + path,
+      sha: existing.sha,
+      branch: ref || BRANCH,
+    }),
+  });
+}
+
+// List all files in a folder recursively using git tree API
+async function ghListFolder(folder, ref) {
+  // Get branch HEAD SHA
+  const refData = await ghFetch('/repos/' + GH_REPO + '/git/ref/heads/' + encodeURIComponent(ref || BRANCH));
+  const sha = refData.object.sha;
+  // Get recursive tree
+  const treeData = await ghFetch('/repos/' + GH_REPO + '/git/trees/' + sha + '?recursive=1');
+  const prefix = folder.replace(/\/$/, '') + '/';
+  return treeData.tree.filter(item => item.type === 'blob' && item.path.startsWith(prefix));
+}
+
+function encodeURIPath(path) {
+  return path.split('/').map(encodeURIComponent).join('/');
 }
 
 async function ghFetch(path, opts) {
@@ -1544,10 +1667,129 @@ async function revertPreview() {
   }
 }
 
+// ─── Auth (GitHub Device Flow) ────────────────────────────────────────────────
+// Only active on hosted (non-localhost) environments.
+// On localhost the proxy server is used directly — no token needed.
+
+function showLoginScreen(message) {
+  document.getElementById('login-overlay').style.display = 'flex';
+  if (message) document.getElementById('login-message').textContent = message;
+}
+
+function hideLoginScreen() {
+  document.getElementById('login-overlay').style.display = 'none';
+}
+
+async function startDeviceFlow() {
+  const btn = document.getElementById('login-btn');
+  const codeEl = document.getElementById('device-code-display');
+  const instrEl = document.getElementById('device-instructions');
+  btn.disabled = true;
+  btn.textContent = 'Starting…';
+  codeEl.style.display = 'none';
+  try {
+    // Step 1: request device & user codes
+    const r1 = await fetch('https://github.com/login/device/code', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify({ client_id: GH_CLIENT_ID, scope: 'repo' }),
+    });
+    const d1 = await r1.json();
+    if (!d1.device_code) throw new Error(d1.error_description || 'Device flow failed');
+
+    // Step 2: show user code + open GitHub
+    codeEl.textContent = d1.user_code;
+    codeEl.style.display = 'block';
+    instrEl.innerHTML = 'Enter this code at <a href="https://github.com/login/device" target="_blank" rel="noopener noreferrer" style="color:var(--color-info-light)">github.com/login/device</a> — then wait here.';
+    window.open('https://github.com/login/device', '_blank');
+    btn.textContent = 'Waiting for GitHub…';
+
+    // Step 3: poll for token
+    const interval = d1.interval || 5;
+    const expires = Date.now() + (d1.expires_in || 900) * 1000;
+    while (Date.now() < expires) {
+      await new Promise(r => setTimeout(r, interval * 1000));
+      const r2 = await fetch('https://github.com/login/oauth/access_token', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client_id: GH_CLIENT_ID,
+          device_code: d1.device_code,
+          grant_type: 'urn:ietf:params:oauth:grant-type:device_code',
+        }),
+      });
+      const d2 = await r2.json();
+      if (d2.access_token) {
+        saveGhToken(d2.access_token);
+        hideLoginScreen();
+        const user = await ghFetch('/user').catch(() => null);
+        if (user) setLogoutButton(user.login, user.avatar_url);
+        bootApp();
+        return;
+      }
+      if (d2.error === 'access_denied') throw new Error('Access denied');
+      // 'authorization_pending' or 'slow_down' — keep polling
+      if (d2.error === 'slow_down') await new Promise(r => setTimeout(r, (d2.interval || 5) * 1000));
+    }
+    throw new Error('Login timed out — please try again');
+  } catch(e) {
+    instrEl.textContent = 'Error: ' + e.message;
+    codeEl.style.display = 'none';
+    btn.disabled = false;
+    btn.textContent = 'Login with GitHub';
+  }
+}
+
+function logout() {
+  if (!confirm('Log out? You will need to log in again to make edits.')) return;
+  clearGhToken();
+  location.reload();
+}
+
+async function checkAuth() {
+  if (IS_LOCAL) return true; // local proxy — no auth needed
+  const token = getGhToken();
+  if (!token) return false;
+  // Validate token is still working
+  try {
+    const user = await ghFetch('/user');
+    setLogoutButton(user.login, user.avatar_url);
+    return true;
+  } catch(e) {
+    clearGhToken();
+    return false;
+  }
+}
+
+function setLogoutButton(login, avatarUrl) {
+  const btn = document.getElementById('logout-btn');
+  if (!btn) return;
+  btn.innerHTML = (avatarUrl
+    ? `<img src="${avatarUrl}" style="width:18px;height:18px;border-radius:50%;object-fit:cover" />`
+    : '<span class="material-symbols-outlined" style="font-size:16px">account_circle</span>'
+  ) + ` ${login}`;
+}
+
 // ─── Boot ─────────────────────────────────────────────────────────────────────
-init();
-initIconPicker();
-wireIconInput('meta-sidebar-icon', updateIconPreview);
-wireIconInput('new-icon', null);
-wireIconInput('link-icon', null);
-wireIconInput('cat-icon', null);
+function bootApp() {
+  if (IS_LOCAL) {
+    // Hide auth-related UI in local dev
+    const lb = document.getElementById('logout-btn');
+    if (lb) lb.style.display = 'none';
+  }
+  initIconPicker();
+  wireIconInput('meta-sidebar-icon', updateIconPreview);
+  wireIconInput('new-icon', null);
+  wireIconInput('link-icon', null);
+  wireIconInput('cat-icon', null);
+  init();
+}
+
+(async () => {
+  const authed = await checkAuth();
+  if (authed) {
+    bootApp();
+  } else {
+    showLoginScreen();
+  }
+})();
