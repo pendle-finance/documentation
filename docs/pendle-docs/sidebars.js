@@ -57,12 +57,12 @@ module.exports = {
         { type: "doc", id: "AppGuide/Dashboard", label: "Dashboard", customProps: { icon: "dashboard" } },
         { type: "doc", id: "AppGuide/Claim", label: "Claim", customProps: { icon: "redeem" } },
         { type: "doc", id: "AppGuide/Pencosystem", label: "Pencosystem", customProps: { icon: "hub" } },
-        { type: "doc", id: "AppGuide/BridgePendle", label: "Bridge PENDLE", customProps: { icon: "swap_horizontal_circle" } }
+        { type: "doc", id: "AppGuide/BridgePendle", label: "Bridge PENDLE", customProps: { icon: "swap_horizontal_circle" } },
+        { type: "doc", id: "AppGuide/PendleAI", label: "Pendle AI Plugin", customProps: { icon: "smart_toy" } }
       ],
     },
     { type: "doc", id: "Security", label: "Security", customProps: { icon: "security" } },
     { type: "link", label: "Whitepapers", href: "https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers", customProps: { icon: "article" } },
-    { type: "doc", id: "TestPage", label: "Test Page", customProps: { icon: "share" } },
-    { type: "doc", id: "AppGuide/PendleAI", label: "PendleAI" }
+    { type: "doc", id: "TestPage", label: "Test Page", customProps: { icon: "share" } }
   ],
 };
