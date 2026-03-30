@@ -1,5 +1,6 @@
 ---
 hide_table_of_contents: true
+title: APY Calculation
 ---
 
 # APY Calculation
@@ -37,7 +38,7 @@ $\text{interestMultiple} = \dfrac{\text{syIndex}}{\text{prevSyIndex}}$
 $\text{underlyingInterestApy} = \text{interestMultiple}^{\frac{365}{\text{days}}} - 1$
 
 - Explanation:
-    - $\text{underlyingInterestApy}$ estimates the current APY for the **interest** of the underlying protocol of the SY token. **Interest** = returns in the underlying asset, and it’s auto-compounding by default.
+    - $\text{underlyingInterestApy}$ estimates the current APY for the **interest** of the underlying protocol of the SY token. **Interest** = returns in the underlying asset, and itâs auto-compounding by default.
     - In this formula, we are taking the historical APY for the last 7 days, to extrapolate into the returns for the year.
 
 ### **UnderlyingRewardApr:**
@@ -54,7 +55,7 @@ $\text{underlyingInterestApy} = \text{interestMultiple}^{\frac{365}{\text{days}}
 - $\text{underlyingRewardApr} = \sum \text{tokenRewardApr}$
 
 - Explanation:
-    - $\text{underlyingRewardApr}$ estimates the current APr for the **rewards** of the underlying protocol of the SY token. **Rewards** = returns in the reward token, and it’s not auto-compounding by default.
+    - $\text{underlyingRewardApr}$ estimates the current APr for the **rewards** of the underlying protocol of the SY token. **Rewards** = returns in the reward token, and it's not auto-compounding by default.
 
     - In this formula, we are taking the historical rewards rate for the last 7 days, to extrapolate into the returns for the year.
     - Each reward token has its own reward rate, so they have their own APR. We sum them up to get the total APR for all reward tokens.
@@ -115,26 +116,26 @@ To calculate $\text{effectiveImpliedApy}$, we need to get the $\text{ptExchangeR
 
 
 There are 3 type of swaps:
-- PT ↔ any token except YT
-- YT ↔ any token except PT
-- PT ↔ YT
+- PT â any token except YT
+- YT â any token except PT
+- PT â YT
 
 Each of them has different way to calculate the $ptExchangeRate$
 
 
-### PT ↔ any token
+### PT â any token
 - $\text{underlying}$: input/output token amount in terms of the underlying token
 - $\text{ptAmount}$: PT input/output amount
 
 $$\text{ptExchangeRate} = \dfrac{\text{ptAmount}}{\text{underlying}}$$
 
-### YT ↔ any token
+### YT â any token
 - $\text{ytAmount}$: YT input/output amount
 
 $$\text{ptExchangeRate} = \dfrac{1}{1 - \dfrac{\text{underlying}}{\text{ytAmount}}}$$
 
 
-### PT ↔ YT
+### PT â YT
 $$\text{ptExchangeRate} = 1 + \dfrac{\text{ptAmount}}{\text{ytAmount}}$$
 
 
