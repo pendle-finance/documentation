@@ -1690,6 +1690,7 @@ function startOAuth() {
     scope: 'repo',
     state,
     redirect_uri: OAUTH_FUNCTION_URL,
+    prompt: 'select_account',
   });
   location.href = 'https://github.com/login/oauth/authorize?' + params;
 }
