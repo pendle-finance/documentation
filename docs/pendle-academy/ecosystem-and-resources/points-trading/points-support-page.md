@@ -64,7 +64,7 @@ No. But see [#risks](points-support-page#risks "mention"), might be relevant for
 
 It might differ by assets, refer to the asset description in the app (above its price chart) for its exact representation. See below for an example with Ethena's sUSDe.
 
-<figure><img src="..//pendle-academy/imgs/image (123).png" alt="" width="375" /><figcaption></figcaption></figure>
+<figure><img src="/pendle-academy/imgs/image (123).png" alt="" width="375" /><figcaption></figcaption></figure>
 
 ### Risks
 
@@ -169,7 +169,7 @@ You can buy an equivalent amount of YT to the PT in your LP position.&#x20;
 
 You can find the LP composition in the Pool page (eETH example: [https://app.pendle.finance/trade/pools/0xf32e58f92e60f4b0a37a69b95d642a471365eae8/zap/in?chain=ethereum](https://app.pendle.finance/trade/pools/0xf32e58f92e60f4b0a37a69b95d642a471365eae8/zap/in?chain=ethereum))
 
-<figure><img src="..//pendle-academy/imgs/image (122).png" alt="" width="375" /><figcaption></figcaption></figure>
+<figure><img src="/pendle-academy/imgs/image (122).png" alt="" width="375" /><figcaption></figcaption></figure>
 
 With basic math, you can calculate the amount of PT in your LP holdings and purchase an equivalent amount of YT to regain full points exposure.
 

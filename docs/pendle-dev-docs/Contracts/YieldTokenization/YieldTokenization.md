@@ -26,7 +26,7 @@ The Pendle yield-tokenization architecture comprises three core components:
 * **PT contract:** The ERC-20 representing principal; PT is minted/burned by the YT contract and is redeemable for principal at/after maturity.
 
 
-![PT and YT Yield Stream](/img/Developers/sy_pt_yt_yield_stream.png)
+![PT and YT Yield Stream](/pendle-dev-docs/imgs/Developers/sy_pt_yt_yield_stream.png)
 
 Before splitting, yield-bearing assets are wrapped into SY. To tokenize yield, users deposit SY into the YT contract, which mints PT and YT. The YT contract tracks yield and rewards accrued to the SY and distributes them to YT holders. At maturity, PT holders can redeem their principal from the YT contract.
 

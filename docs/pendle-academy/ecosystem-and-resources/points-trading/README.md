@@ -30,7 +30,7 @@ Where to buy YT: [https://app.pendle.finance/points](https://app.pendle.finance/
 YT is worth **ZERO at maturity** as it no longer generates any yield and points.
 </Hint>
 
-<div align="left"><figure><img src="..//pendle-academy/imgs/image (16).png" alt="" width="375" /><figcaption></figcaption></figure></div>
+<div align="left"><figure><img src="/pendle-academy/imgs/image (16).png" alt="" width="375" /><figcaption></figcaption></figure></div>
 
 In the image above, 1 ETH enables you to purchase 13.2 YT. In other words, you’re using 1 ETH to purchase 13.2 ETH worth of ezETH yield and points until maturity.
 
@@ -48,7 +48,7 @@ As the final value of PT is known, the difference between its current price and 
 
 Since PT holders forego all its underlying yields and points to its YT counterpart, PT’s value trades at a discount. At maturity when YT stops accruing yields and points, PT is made whole again, redeemable for the full value of its underlying (1 ETH, 1 USD, etc).
 
-<div align="left"><figure><img src="..//pendle-academy/imgs/image (19).png" alt="" width="375" /><figcaption></figcaption></figure></div>
+<div align="left"><figure><img src="/pendle-academy/imgs/image (19).png" alt="" width="375" /><figcaption></figcaption></figure></div>
 
 In the image above, 1 ETH enables you to purchase 1.15 PT. In other words, you’re foregoing points for a guaranteed 11.5% return until maturity. At the time of writing, that translates to \~30% APY.
 
@@ -64,7 +64,7 @@ Liquidity Providers on Pendle retain all points exposure while earning additiona
 **Turn on Keep YT mode to retain the majority of your points exposure**.
 </Hint>
 
-<div align="left"><figure><img src="..//pendle-academy/imgs/image (20).png" alt="" width="375" /><figcaption></figcaption></figure></div>
+<div align="left"><figure><img src="/pendle-academy/imgs/image (20).png" alt="" width="375" /><figcaption></figcaption></figure></div>
 
 LP position on Pendle consists of PT and a wrapped version of its underlying, e.g.  PT-eETH/SY-eETH, PT-USDe/SY-USDe (SY is simply a wrapped version of its underlying to be compatible with Pendle's architecture).
 
@@ -89,7 +89,7 @@ Refer to [this page](https://app.pendle.finance/trade/points) for the list of po
 The point multipliers are given by the respective protocols. Disputes should be forwarded to the respective teams, not Pendle.
 </Hint>
 
-<figure><img src="..//pendle-academy/imgs/image (21).png" alt="" width="375" /><figcaption></figcaption></figure>
+<figure><img src="/pendle-academy/imgs/image (21).png" alt="" width="375" /><figcaption></figcaption></figure>
 
 In the image above, 1 ETH enables you to purchase 9.3 ETH exposure of yields and points. Coupled with a 2x rsETH multiplier, 1 ETH purchases:
 

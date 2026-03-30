@@ -12,7 +12,7 @@ The Collateral and Notional size will always be denoted in the same asset. For e
 
 Liquidations within a collateral zone will not affect positions in other zones or isolated pools.
 
-<figure><img src="..//boros-docs/imgs/image (6).png" alt="" /><figcaption></figcaption></figure>
+<figure><img src="/boros-docs/imgs/image (6).png" alt="" /><figcaption></figcaption></figure>
 
 ## Leverage
 
@@ -97,7 +97,7 @@ This is because:
 2. As yields are settled, the effective position value declines overtime, hence maintenance margin required to maintain that position declines too.
 3. At maturity, the entire position is settled (realized). Total position value is zero and maintenance margin is also zero. The realized position is reflected in the collateral.
 
-<figure><img src="..//boros-docs/imgs/image (7).png" alt="" /><figcaption></figcaption></figure>
+<figure><img src="/boros-docs/imgs/image (7).png" alt="" /><figcaption></figcaption></figure>
 
 ### Margin Floor
 
@@ -107,7 +107,7 @@ There are 2 types of Margin Floors on Boros.
 
 #### **1. Margin Floor Near Maturity**
 
-<figure><img src="..//boros-docs/imgs/image (8).png" alt="" /><figcaption></figcaption></figure>
+<figure><img src="/boros-docs/imgs/image (8).png" alt="" /><figcaption></figcaption></figure>
 
 As a position approaches maturity, its required margin decreases. This reduction is due to the periodic settlement of yields, which lowers the effective value of the position and consequently the required margin as the maturity date nears.
 
