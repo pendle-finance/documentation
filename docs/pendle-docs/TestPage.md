@@ -1,7 +1,6 @@
 ---
 title: Test Page
-sidebar_icon: share
 ---
 # Test Page
 
-Start writing here.
+this is a test page, will delete soon
