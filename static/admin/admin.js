@@ -1729,10 +1729,10 @@ async function checkAuth() {
   if (!token) return false;
   try {
     const user = await ghFetch('/user');
-    // Check repo write access
-    const perm = await ghFetch('/repos/' + GH_REPO + '/collaborators/' + user.login + '/permission');
-    const level = perm.permission; // 'admin', 'write', 'read', 'none'
-    if (level !== 'admin' && level !== 'write') {
+    // Check write access by fetching repo metadata — returns permissions.push for the authed user
+    const repo = await ghFetch('/repos/' + GH_REPO);
+    const canWrite = repo.permissions && (repo.permissions.push || repo.permissions.admin);
+    if (!canWrite) {
       showAccessDenied(user.login);
       return 'denied';
     }
