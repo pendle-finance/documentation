@@ -62,6 +62,7 @@ module.exports = {
     },
     { type: "doc", id: "Security", label: "Security", customProps: { icon: "security" } },
     { type: "link", label: "Whitepapers", href: "https://github.com/pendle-finance/pendle-v2-resources/tree/main/whitepapers", customProps: { icon: "article" } },
-    { type: "doc", id: "TestPage", label: "Test Page", customProps: { icon: "share" } }
+    { type: "doc", id: "TestPage", label: "Test Page", customProps: { icon: "share" } },
+    { type: "doc", id: "AppGuide/PendleAI", label: "PendleAI" }
   ],
 };
