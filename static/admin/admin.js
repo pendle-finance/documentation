@@ -1729,12 +1729,40 @@ async function checkAuth() {
   if (!token) return false;
   try {
     const user = await ghFetch('/user');
+    // Check repo write access
+    const perm = await ghFetch('/repos/' + GH_REPO + '/collaborators/' + user.login + '/permission');
+    const level = perm.permission; // 'admin', 'write', 'read', 'none'
+    if (level !== 'admin' && level !== 'write') {
+      showAccessDenied(user.login);
+      return 'denied';
+    }
     setLogoutButton(user.login, user.avatar_url);
     return true;
   } catch(e) {
     clearGhToken();
     return false;
   }
+}
+
+function showAccessDenied(login) {
+  const overlay = document.getElementById('login-overlay');
+  overlay.style.display = 'flex';
+  overlay.innerHTML = `
+    <div style="text-align:center;max-width:380px;width:100%;padding:40px;background:var(--surface-opaque);border:1px solid var(--border-default);border-radius:12px;display:flex;flex-direction:column;gap:20px;align-items:center">
+      <span class="material-symbols-outlined" style="font-size:40px;color:var(--color-error)">block</span>
+      <div>
+        <h2 style="font-size:18px;font-weight:600;margin-bottom:8px">Access denied</h2>
+        <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6">
+          <strong style="color:var(--color-text-primary)">${login}</strong> doesn't have write access to this repo.<br/><br/>
+          Ask the repo admin to add you as a collaborator with write permission.
+        </p>
+      </div>
+      <button class="btn-secondary" onclick="logout()" style="width:100%;justify-content:center;display:flex;align-items:center;gap:8px;padding:10px 20px">
+        <span class="material-symbols-outlined" style="font-size:16px">logout</span>
+        Sign out
+      </button>
+    </div>
+  `;
 }
 
 function setLogoutButton(login, avatarUrl) {
@@ -1765,8 +1793,10 @@ function bootApp() {
   const wasCallback = handleOAuthCallback();
   if (wasCallback) return; // login screen already shown with error
   const authed = await checkAuth();
-  if (authed) {
+  if (authed === true) {
     bootApp();
+  } else if (authed === 'denied') {
+    // showAccessDenied already called inside checkAuth
   } else {
     showLoginScreen();
   }
