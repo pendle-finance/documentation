@@ -78,7 +78,21 @@ const config = {
     ],
   ],
 
-  themes: [],
+  themes: [
+    [
+      '@easyops-cn/docusaurus-search-local',
+      {
+        hashed: true,
+        indexBlog: false,
+        docsRouteBasePath: ['pendle-v2', 'pendle-v2-dev', 'pendle-academy', 'boros-docs', 'boros-dev', 'boros-academy'],
+        docsDir: ['docs/pendle-docs', 'docs/pendle-dev-docs', 'docs/pendle-academy', 'docs/boros-docs', 'docs/boros-dev-docs', 'docs/boros-academy'],
+        language: ['en'],
+        highlightSearchTermsOnTargetPage: true,
+        explicitSearchResultPath: true,
+        searchResultLimits: 8,
+      },
+    ],
+  ],
 
   plugins: [
     [
@@ -194,12 +208,6 @@ const config = {
   themeConfig:
   /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
   {
-    algolia: {
-      appId: "GFVY0GOMCR",
-      apiKey: "1e9c713dfca40c64b56217bb24d5c4cd",
-      indexName: "pendle",
-      contextualSearch: true,
-    },
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: true,
