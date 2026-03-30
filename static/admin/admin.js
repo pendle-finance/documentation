@@ -3,10 +3,7 @@ const IS_LOCAL = location.hostname === 'localhost' || location.hostname === '127
 const PROXY = 'http://localhost:8081/api/v1';
 const BRANCH = 'cms/preview';
 const GH_REPO = 'HubertHalim/huberthalim.github.io';
-const GH_MAIN = 'production';
-// GitHub OAuth Device Flow — create an OAuth App at github.com/settings/applications
-// Set "Application type" to "Public" — no client secret needed for device flow
-const GH_CLIENT_ID = 'Ov23liVWfNzdDqHti4b9'; // see docs/cms-setup.md
+const GH_MAIN = 'production'; // see docs/cms-setup.md
 
 // Section definitions
 const SECTIONS = [
@@ -1680,63 +1677,35 @@ function hideLoginScreen() {
   document.getElementById('login-overlay').style.display = 'none';
 }
 
-async function startDeviceFlow() {
+async function submitPat() {
+  const input = document.getElementById('pat-input');
+  const errEl = document.getElementById('pat-error');
   const btn = document.getElementById('login-btn');
-  const codeEl = document.getElementById('device-code-display');
-  const instrEl = document.getElementById('device-instructions');
+  const token = input.value.trim();
+  if (!token) { input.focus(); return; }
   btn.disabled = true;
-  btn.textContent = 'Starting…';
-  codeEl.style.display = 'none';
+  btn.textContent = 'Verifying…';
+  errEl.textContent = '';
   try {
-    // Step 1: request device & user codes
-    const r1 = await fetch('https://github.com/login/device/code', {
-      method: 'POST',
-      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-      body: JSON.stringify({ client_id: GH_CLIENT_ID, scope: 'repo' }),
+    // Validate token against GitHub API
+    const res = await fetch('https://api.github.com/user', {
+      headers: {
+        'Accept': 'application/vnd.github+json',
+        'Authorization': 'Bearer ' + token,
+        'X-GitHub-Api-Version': '2022-11-28',
+      },
     });
-    const d1 = await r1.json();
-    if (!d1.device_code) throw new Error(d1.error_description || 'Device flow failed');
-
-    // Step 2: show user code + open GitHub
-    codeEl.textContent = d1.user_code;
-    codeEl.style.display = 'block';
-    instrEl.innerHTML = 'Enter this code at <a href="https://github.com/login/device" target="_blank" rel="noopener noreferrer" style="color:var(--color-info-light)">github.com/login/device</a> — then wait here.';
-    window.open('https://github.com/login/device', '_blank');
-    btn.textContent = 'Waiting for GitHub…';
-
-    // Step 3: poll for token
-    const interval = d1.interval || 5;
-    const expires = Date.now() + (d1.expires_in || 900) * 1000;
-    while (Date.now() < expires) {
-      await new Promise(r => setTimeout(r, interval * 1000));
-      const r2 = await fetch('https://github.com/login/oauth/access_token', {
-        method: 'POST',
-        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          client_id: GH_CLIENT_ID,
-          device_code: d1.device_code,
-          grant_type: 'urn:ietf:params:oauth:grant-type:device_code',
-        }),
-      });
-      const d2 = await r2.json();
-      if (d2.access_token) {
-        saveGhToken(d2.access_token);
-        hideLoginScreen();
-        const user = await ghFetch('/user').catch(() => null);
-        if (user) setLogoutButton(user.login, user.avatar_url);
-        bootApp();
-        return;
-      }
-      if (d2.error === 'access_denied') throw new Error('Access denied');
-      // 'authorization_pending' or 'slow_down' — keep polling
-      if (d2.error === 'slow_down') await new Promise(r => setTimeout(r, (d2.interval || 5) * 1000));
-    }
-    throw new Error('Login timed out — please try again');
+    if (!res.ok) throw new Error('Invalid token — check it has repo scope');
+    const user = await res.json();
+    saveGhToken(token);
+    input.value = '';
+    hideLoginScreen();
+    setLogoutButton(user.login, user.avatar_url);
+    bootApp();
   } catch(e) {
-    instrEl.textContent = 'Error: ' + e.message;
-    codeEl.style.display = 'none';
+    errEl.textContent = e.message;
     btn.disabled = false;
-    btn.textContent = 'Login with GitHub';
+    btn.textContent = 'Save token';
   }
 }
 

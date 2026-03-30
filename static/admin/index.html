@@ -236,19 +236,24 @@
 
 <!-- Login overlay (shown on hosted when no token) -->
 <div id="login-overlay" style="display:none;position:fixed;inset:0;background:var(--water-900);z-index:2000;align-items:center;justify-content:center;flex-direction:column;gap:24px">
-  <div style="text-align:center;max-width:400px;padding:40px;background:var(--surface-opaque);border:1px solid var(--border-default);border-radius:12px;display:flex;flex-direction:column;gap:20px">
+  <div style="text-align:center;max-width:420px;width:100%;padding:40px;background:var(--surface-opaque);border:1px solid var(--border-default);border-radius:12px;display:flex;flex-direction:column;gap:20px">
     <div>
       <span class="material-symbols-outlined" style="font-size:40px;color:var(--color-info)">lock</span>
     </div>
-    <div>
+    <div style="text-align:left">
       <h2 style="font-size:18px;font-weight:600;margin-bottom:6px">Pendle Docs Admin</h2>
-      <p id="login-message" style="font-size:13px;color:var(--color-text-secondary);line-height:1.6">Sign in with your GitHub account to edit docs.<br/>You need write access to the repo.</p>
+      <p style="font-size:13px;color:var(--color-text-secondary);line-height:1.6">
+        Enter a GitHub Personal Access Token with <code style="background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px">repo</code> scope.<br/>
+        <a href="https://github.com/settings/tokens/new?scopes=repo&description=Pendle+Docs+Admin" target="_blank" rel="noopener noreferrer" style="color:var(--color-info-light)">Generate one here →</a>
+      </p>
     </div>
-    <div id="device-code-display" style="display:none;font-family:monospace;font-size:26px;font-weight:700;letter-spacing:6px;color:var(--color-grass);padding:16px;background:rgba(27,227,194,0.08);border:1px solid rgba(27,227,194,0.2);border-radius:8px;text-align:center"></div>
-    <p id="device-instructions" style="font-size:12px;color:var(--color-text-secondary);line-height:1.6"></p>
-    <button id="login-btn" class="btn-primary" onclick="startDeviceFlow()" style="width:100%;justify-content:center;display:flex;align-items:center;gap:8px;padding:10px 20px">
+    <input id="pat-input" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+      style="width:100%;background:var(--water-850);border:1px solid var(--border-default);border-radius:6px;padding:9px 12px;color:var(--color-text-primary);font-size:13px;font-family:monospace;outline:none"
+      onkeydown="if(event.key==='Enter')submitPat()" />
+    <p id="pat-error" style="font-size:12px;color:var(--color-error);min-height:16px;text-align:left;margin-top:-10px"></p>
+    <button id="login-btn" class="btn-primary" onclick="submitPat()" style="width:100%;justify-content:center;display:flex;align-items:center;gap:8px;padding:10px 20px">
       <span class="material-symbols-outlined" style="font-size:16px">login</span>
-      Login with GitHub
+      Save token
     </button>
   </div>
 </div>
