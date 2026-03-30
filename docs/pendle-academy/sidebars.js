@@ -8,8 +8,7 @@ module.exports = {
       items: [
         { type: "doc", id: "pendle-101/chapter-1-introduction-to-optimizing-yield", label: "Chapter 1 - Introduction to Optimizing Yield" },
         { type: "doc", id: "pendle-101/chapter-2-yield-tokenization-basics", label: "Chapter 2 - Yield Tokenization Basics" },
-        { type: "doc", id: "pendle-101/pendle-101-key-takeaways", label: "Pendle 101 - Key Takeaways", customProps: { icon: "key" } },
-        { type: "doc", id: "pendle-101/TestPage2", label: "Test Page 2", customProps: { icon: "photo" } }
+        { type: "doc", id: "pendle-101/pendle-101-key-takeaways", label: "Pendle 101 - Key Takeaways", customProps: { icon: "key" } }
       ],
     },
     {
