@@ -1,5 +1,6 @@
 ---
 hide_table_of_contents: true
+title: Negative Yield
 ---
 
 
@@ -7,7 +8,7 @@ hide_table_of_contents: true
 
 Interest-bearing tokens (IBTs) typically increase in value over time as they accrue rewards and yield. This leads to a rising [exchange rate](./Glossary#exchange-rate) between the IBT and its accounting asset. For example, 1 sUSDe (IBT) can be exchanged for more USDe over time.
 
-However, in scenarios where yield turns negative, the IBT’s value may decline instead. This can impact both PT and YT performance, especially if the exchange rate falls.
+However, in scenarios where yield turns negative, the IBT's value may decline instead. This can impact both PT and YT performance, especially if the exchange rate falls.
 
 ## What is the Watermark Rate?
 
@@ -20,6 +21,6 @@ When this happens:
 
 ![Watermark Chart](/pendle-docs/imgs/ProtocolMechanics/watermark_chart.png "Watermark Chart")
 
-You can track the Watermark Rate and current Exchange Rate by switching to the **Watermark Rate** view on any asset’s market page.
+You can track the Watermark Rate and current Exchange Rate by switching to the **Watermark Rate** view on any asset's market page.
 
-The Watermark Rate can become artificially elevated due to factors such as oracle mispricing or temporary spikes in the IBT’s share price. When this occurs, a new inflated Watermark Rate is recorded and remains in effect even after the Exchange Rate normalizes to reflect the asset’s true value. During this period, the pool may appear to be generating negative yield until the Exchange Rate catches up with the inflated Watermark Rate.
+The Watermark Rate can become artificially elevated due to factors such as oracle mispricing or temporary spikes in the IBT's share price. When this occurs, a new inflated Watermark Rate is recorded and remains in effect even after the Exchange Rate normalizes to reflect the asset's true value. During this period, the pool may appear to be generating negative yield until the Exchange Rate catches up with the inflated Watermark Rate.
