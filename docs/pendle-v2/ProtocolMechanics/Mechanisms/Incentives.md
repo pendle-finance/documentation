@@ -122,9 +122,9 @@ Pools receive Limit Order (LO) rewards based on their total TVL and recent swap 
 Each pool targets a baseline of 5% of its total TVL in orderbook depth with potential to grow to 15% of total TVL based on its 4 day recency adjusted swap volume (4D-RASW).
 
 For example, a pool with $10m total TVL will target $500k in orderbook depth as a baseline but may be adjusted based on 4D-RASW.
-- $400k 4D-RASW → $500k target depth (4D-RASW < Target Depth)
-- $1m 4D-RASW → $750k target depth (4D-RASW > Target Depth)
-- $2m 4D-RASW → $1.5m target depth (4D-RASW > Depth Cap)
+- $400k 4D-RASW → $500k target depth (4D-RASW \< Target Depth)
+- $1m 4D-RASW → $750k target depth (4D-RASW \> Target Depth)
+- $2m 4D-RASW → $1.5m target depth (4D-RASW \> Depth Cap)
 
 ### Decay-Adjusted Target Depth
 A pool’s target depth may be adjusted to reflect its days to maturity (DTM). The decay rate initializes at 25% for pools with DTM \> 120 and decreases to 0% for pools with DTM \< 60.
