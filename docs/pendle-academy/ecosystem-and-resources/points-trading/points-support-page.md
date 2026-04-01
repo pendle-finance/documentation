@@ -163,7 +163,7 @@ Yes. However, it is up to the underlying protocol to continue streaming rewards 
 
 #### 1. What is the difference between when I provide liquidity with Zero Price Impact on vs off?
 
-Learn more on how liquidity provision works: [https://docs.pendle.finance/AppGuide/Trade/Guides/Pool](https://docs.pendle.finance/AppGuide/Trade/Guides/Pool)
+Learn more on how liquidity provision works: [https://docs.pendle.finance/AppGuide/Pool](https://docs.pendle.finance/AppGuide/Pool)
 
 Without ZPI, you are providing liquidity with 100% of your capital. LPs consist of PT and its underlying (wrapped in [SY](https://docs.pendle.finance/ProtocolMechanics/YieldTokenization/SY)). Note that PT does not earn points.&#x20;
 

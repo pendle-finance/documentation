@@ -21,7 +21,7 @@ Total current, *active* positions on the selected chain in dollar terms
 
 #### My Claimable Yield & Rewards
 
-All of the accrued yield and rewards from YT and LP that can be [claimed](https://docs.pendle.finance/AppGuide/Trade/Guides/Claim) on the selected chain
+All of the accrued yield and rewards from YT and LP that can be [claimed](https://docs.pendle.finance/AppGuide/Claim) on the selected chain
 
 #### Leaderboard
 
