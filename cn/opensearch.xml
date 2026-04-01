@@ -4,8 +4,8 @@
   <ShortName>Pendle Documentation</ShortName>
   <Description>Search Pendle Documentation</Description>
   <InputEncoding>UTF-8</InputEncoding>
-  <Image width="16" height="16" type="image/x-icon">https://pendle.finance/cn/img/favicon.ico</Image>
-  <Url type="text/html" method="get" template="https://pendle.finance/cn/search?q={searchTerms}"/>
-  <Url type="application/opensearchdescription+xml" rel="self" template="https://pendle.finance/cn/opensearch.xml" />
-  <moz:SearchForm>https://pendle.finance/cn/</moz:SearchForm>
+  <Image width="16" height="16" type="image/x-icon">https://docs.pendle.finance/cn/img/favicon.ico</Image>
+  <Url type="text/html" method="get" template="https://docs.pendle.finance/cn/search?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://docs.pendle.finance/cn/opensearch.xml" />
+  <moz:SearchForm>https://docs.pendle.finance/cn/</moz:SearchForm>
 </OpenSearchDescription>
