@@ -122,10 +122,34 @@ let sectionOrder = [];    // ordered tree: [{ type:'doc', id, label, icon } | { 
 let sidebarDirty = false; // true when sectionOrder has changed but sidebars.js not yet written
 
 // ─── Init ─────────────────────────────────────────────────────────────────────
+async function syncBranchFromMaster() {
+  try {
+    // 201 = merged new commits in, 204 (null) = already up to date — both fine
+    await ghFetch('/repos/' + GH_REPO + '/merges', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ base: BRANCH, head: GH_MAIN, commit_message: 'chore: sync ' + BRANCH + ' from ' + GH_MAIN }),
+    });
+  } catch (e) {
+    if (e.status === 409) {
+      // Conflict: cms/preview has diverged from master — show actionable toast with Revert button
+      showToast(
+        BRANCH + ' conflicts with ' + GH_MAIN + '. ' +
+        '<a href="#" onclick="event.preventDefault();revertPreview()" style="color:inherit;font-weight:bold;text-decoration:underline">Revert to ' + GH_MAIN + '</a>',
+        'error',
+        0  // persist until dismissed
+      );
+    } else if (e.message !== 'no-token') {
+      console.warn('syncBranchFromMaster failed:', e.message);
+    }
+  }
+}
+
 async function init() {
   renderTabs();
   renderSidebar();
   initEditor();
+  await syncBranchFromMaster();
   await loadSectionFiles(currentSection);
   await loadSidebarJs(currentSection);
   renderSidebar();
@@ -1412,12 +1436,15 @@ function setStatus(msg, type) {
 }
 
 let toastTimer;
-function showToast(msg, type) {
+function showToast(msg, type, duration) {
   const el = document.getElementById('toast');
   el.innerHTML = `<span class="material-symbols-outlined" style="font-size:16px">${type === 'success' ? 'check_circle' : 'error'}</span> ${msg}`;
   el.className = `visible ${type || ''}`;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { el.className = ''; }, 3000);
+  // duration=0 means persist until the next toast or page reload
+  if (duration !== 0) {
+    toastTimer = setTimeout(() => { el.className = ''; }, duration || 3000);
+  }
 }
 
 // Keyboard shortcut: Cmd/Ctrl+S to save
@@ -1692,8 +1719,12 @@ async function ghFetch(path, opts) {
   });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
-    throw new Error((body.message || 'GitHub API error') + ' ' + res.status);
+    const err = new Error((body.message || 'GitHub API error') + ' ' + res.status);
+    err.status = res.status;
+    throw err;
   }
+  // 204 No Content (e.g. merge already up-to-date) has no body
+  if (res.status === 204) return null;
   return res.json();
 }
 
@@ -1740,7 +1771,8 @@ async function revertPreview() {
   try {
     const mainSha = await ghGetRefSha(GH_MAIN);
     await ghPatchRef('cms/preview', mainSha, true);
-    showToast('Preview branch reset to main', 'success');
+    showToast('Preview branch reset to ' + GH_MAIN + ' — reloading…', 'success');
+    setTimeout(() => location.reload(), 1500);
   } catch(e) {
     if (e.message === 'no-token') {
       showToast('GitHub auth required — not available in local dev mode', 'error');
