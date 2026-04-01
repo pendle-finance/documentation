@@ -20,7 +20,7 @@ hide_table_of_contents: true
 
 #### 我的可申领收益与奖励
 
-来自YT和LP的所有累积收益和奖励，可以在选定链上[申领](https://docs.pendle.finance/AppGuide/Trade/Guides/Claim)
+来自YT和LP的所有累积收益和奖励，可以在选定链上[申领](https://docs.pendle.finance/AppGuide/Claim)
 
 #### 排行榜
 
