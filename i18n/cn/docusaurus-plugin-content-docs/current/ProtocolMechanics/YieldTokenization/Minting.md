@@ -2,23 +2,22 @@
 hide_table_of_contents: true
 ---
 
-# 铸币
+# 铸造
 
-当用户在将资金存入收益来源时，会获得生息资产 (yield-bearing asset)。例如，在Compound中抵押的DAI将得到*cDAI*。在Lido中质押的ETH将得到*stETH*。
+<iframe width="860" height="615" src="https://www.youtube.com/embed/oDZ3JAkcFeM" title="Chapter 3: What is Yield Tokenization" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 
-*cDAI*和*stETH*就是**生息资产的示**例。
+用户在将资金存入收益来源时，会获得对应的生息资产。例如，存入 Compound 的 DAI 会被表示为 *cDAI*，存入 Lido 的 ETH 会被表示为 *stETH*。
 
-在Pendle中，生息资产可拆分为两个部分：**本金代币**（PT）**和收益代币**（YT）。PT代表底层生息代币的本金部份，而YT代表该资产的全部利息收益的权益。YT和PT均可以在Pendle上交易。
+*cDAI* 和 *stETH* 就是**生息资产**的典型例子。
 
-![Yield Splitting](/img/ProtocolMechanics/yield-splitting.png "Yield Splitting")
+在 Pendle 中，生息资产被拆分为两个组成部分：本金代币（**PT**）和收益代币（**YT**）。PT 代表底层生息代币的本金，YT 代表对资产全部收益的权利。YT 和 PT 均可在 Pendle 上交易。
 
-Pendle所做的与传统金融中的债券剥离类似 － 债券的本金和利息分离。在这里，PT等效于[零息债券](https://www.investopedia.com/terms/z/zero-couponbond.asp/)，而YT则是分离的[息票](https://www.investopedia.com/terms/c/coupon.asp/) (Coupon)。
+![Yield Splitting](/pendle-docs/imgs/ProtocolMechanics/yield-splitting.png "Yield Splitting")
 
-用户可以把生息资产（例如stETH）存入Pendle来铸造PT和YT。基础资产（例如ETH）将在铸造PT和YT之前，自动转换为生息资产。
+Pendle 的做法类似于传统金融中的债券剥离 (bond stripping)——将债券的本金与利息分离。在此类比下，PT 等同于[零息债券](https://www.investopedia.com/terms/z/zero-couponbond.asp)，而 YT 则等同于被剥离的[票息](https://www.investopedia.com/terms/c/coupon.asp)支付。
 
-例如，ETH → stETH → SY-stETH → (PT-stETH + YT-stETH)。在选择其中一种资产后，此功能可以在Pro UI中找到。
+用户可通过将生息资产（如 stETH）存入 Pendle 来铸造 PT 和 YT。基础资产（如 ETH）会被自动转换为生息资产，然后再铸造 PT 和 YT。
 
-![Yield Splitting UI](/img/ProtocolMechanics/yield-splitting-ui.png "Yield Splitting UI")
+例如：ETH → stETH → SY-stETH → PT-stETH + YT-stETH。此功能可在选择资产后的 Pendle App 中找到。
 
-
-
+![Yield Splitting UI](/pendle-docs/imgs/ProtocolMechanics/yield-splitting-ui.png "Yield Splitting UI")

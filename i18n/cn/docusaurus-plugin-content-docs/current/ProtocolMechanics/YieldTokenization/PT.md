@@ -4,35 +4,47 @@ hide_table_of_contents: true
 
 # PT
 
-主要代币（PT）代表底层产生收益资产的本金部分。到期时，PT 可以以 1:1 的比例兑换为会计资产。 这是部署在底层协议中的基础、本金资产，例如 Lido、Renzo 和 Aave（例如 stETH 中的 ETH、ezETH 中的 ETH、aUSDC 中的 USDC）。
+<iframe width="860" height="615" src="https://www.youtube.com/embed/kOErP_ZUncs" title="Chapter 4: What is Principle Token (PT)" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 
-![PT Mechanics](/img/ProtocolMechanics/pt-mechanics.png "PT Mechanics")
+本金代币（PT）代表底层生息资产的本金部分——本质上是底层资产的零息债券 (zero-coupon bond)。到期时，PT 可按 1:1 的比例兑换为会计资产，会计资产显示在每个 PT 名称末尾的括号中，即底层协议（如 Lido、Renzo、Aave）中实际部署的基础资产（例如 stETH 中的 stETH、ezETH 中的 ETH、aUSDC 中的 USDC）。
 
-由于其收益组成部分的总价值已分离，PT 可以以相对于其会计资产的折扣价值获得。假设没有交换，当兑换功能启用时，PT 的价值将逐渐接近并最终与到期时的会计资产的价值相匹配。
+![PT Mechanics](/pendle-docs/imgs/ProtocolMechanics/pt-mechanics.png "PT Mechanics")
 
-这种价值增值是建立其固定收益 APY 的基础。
+由于收益部分已被分离，PT 可以相对其会计资产以折价获得。在无交易的情况下，PT 的价值会随时间推移逐渐趋近并最终在到期时等于会计资产的价值。
+
+这种价值升值正是其固定收益 APY 的来源。
+
+:::info 核心特性
+- **无可变收益或积分：** PT 持有者放弃底层资产产生的所有可变收益和积分——这些全部重新分配给 YT 持有者。
+- **用作抵押品：** 由于 PT 在到期时具有可预测的价值，能有效降低清算风险，越来越多的货币市场（如 Morpho、Silo、Euler）将其作为抵押品接受。集成详情请参阅 [PT as Collateral](../../Developers/Oracles/PTAsCollateral)。
+:::
 
 # 兑换价值
 
-一般来说，产生收益资产可以大致分类为：
-1. 重新基准资产 - 随着时间的推移而增加数量/数量的代币
+一般而言，生息资产可大致分为以下两类：
 
-*示例：stETH、aUSDC*
-2. 带奖励的资产 - 随着时间的推移而增值的代币
+1. Rebasing 资产——随着收益累积，代币数量随时间增加
 
-*示例：ezETH、wstETH*
+   *示例：stETH、aUSDC*
 
-![Redemption Value](/img/ProtocolMechanics/redemption-value.png "Redemption Value")
+2. 生息资产——随着收益累积，代币价值随时间增加
 
-对于带奖励的资产，特别需要注意的是，PT 可以以 1:1 的比例兑换为会计资产，*而不是底层资产。
+   *示例：ezETH、wstETH*
 
-例如，Renzo 的 ezETH 的价值随着时间的推移相对于 ETH 增加，因为累积了质押和重新质押奖励。每拥有 1 个 PT-ezETH，您将能够在到期时兑换价值为 1 ETH 的 ezETH，*而不是具有更高价值的 1 ezETH**。
+![Redemption Value](/pendle-docs/imgs/ProtocolMechanics/redemption-value.png "Redemption Value")
 
-您可以在[Pendle App](https://app.pendle.finance/trade/markets)的个别资产页面上再次检查 PT 的兑换价值。
+对于增值型资产，需特别注意：PT 按 1:1 兑换的是**会计资产**，而非**底层资产**。
+
+例如，Renzo ezETH 的价值会随着质押和再质押奖励的累积而相对 ETH 不断升高。每持有 1 个 PT-ezETH，到期时可兑换价值 1 个 ETH 的 ezETH，而**不是**价值更高的 1 个 ezETH。
+
+可通过市场名称括号中的资产来识别会计资产（例如 PT-ezETH (ETH) 表示 1 个 PT 兑换 1 个 ETH 价值的 ezETH）。
+
+也可在 [Pendle App](https://app.pendle.finance/trade/markets) 各资产页面上核实 PT 的兑换价值。
 
 # 如何兑换 PT
 
-在到期时兑换您的 PT：
-1. 访问[Pendle App Markets](https://app.pendle.finance/trade/markets)，切换到“Inactive”市场页面
-2. 选择一个市场
-3. 选择一个输出资产。Pendle 将自动为您执行兑换 > 交换（如果需要）
+到期后兑换 PT 的步骤：
+
+1. 访问 [Pendle Markets](https://app.pendle.finance/trade/markets) 并进入仪表板（Dashboard）。
+2. 选择要兑换的仓位。
+3. 选择输出资产，Pendle 将自动为你完成「兑换 → 兑换（如需）」的全流程。

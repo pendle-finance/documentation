@@ -1,21 +1,34 @@
-import React from "react";
-import { useThemeConfig } from "@docusaurus/theme-common";
-import {
-  splitNavbarItems,
-  useNavbarMobileSidebar,
-} from "@docusaurus/theme-common/internal";
+import React, { useEffect } from "react";
+import { useLocation } from "@docusaurus/router";
+import { useNavbarMobileSidebar } from "@docusaurus/theme-common/internal";
 import NavbarItem from "@theme/NavbarItem";
-import NavbarColorModeToggle from "@theme/Navbar/ColorModeToggle";
 import SearchBar from "@theme/SearchBar";
 import NavbarMobileSidebarToggle from "@theme/Navbar/MobileSidebar/Toggle";
-import LanguageSwitcher from "../../DocItem/Layout/LanguageSwitcher";
 import styles from "./styles.module.css";
 import Link from "@docusaurus/Link";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
-function useNavbarItems() {
-  // TODO temporary casting until ThemeConfig type is improved
-  return useThemeConfig().navbar.items;
+const PENDLE_ITEMS = [
+  { label: "Pendle Docs", to: "/pendle-v2/Introduction", activeBasePath: "/pendle-v2/", position: "left" },
+  { label: "Pendle Academy", to: "/pendle-academy/Introduction", activeBasePath: "/pendle-academy", position: "left" },
+  { label: "Pendle Dev Docs", to: "/pendle-v2-dev/Overview", activeBasePath: "/pendle-v2-dev", position: "left" },
+];
+
+const BOROS_ITEMS = [
+  { label: "Boros Docs", to: "/boros-docs/Introduction", activeBasePath: "/boros-docs", position: "left" },
+  { label: "Boros Academy", to: "/boros-academy/Introduction", activeBasePath: "/boros-academy", position: "left" },
+  { label: "Boros Dev Docs", to: "/boros-dev", activeBasePath: "/boros-dev", position: "left" },
+];
+
+function isBoros(pathname) {
+  return (
+    pathname.startsWith("/boros-dev") ||
+    pathname.startsWith("/boros-docs") ||
+    pathname.startsWith("/boros-academy") ||
+    pathname.startsWith("/boros")
+  );
 }
+
 function NavbarItems({ items }) {
   return (
     <>
@@ -25,6 +38,7 @@ function NavbarItems({ items }) {
     </>
   );
 }
+
 function NavbarContentLayout({ left, right }) {
   return (
     <div className="navbar__inner">
@@ -33,34 +47,37 @@ function NavbarContentLayout({ left, right }) {
     </div>
   );
 }
+
 export default function NavbarContent() {
   const mobileSidebar = useNavbarMobileSidebar();
-  const items = useNavbarItems();
-  const [leftItems, rightItems] = splitNavbarItems(items);
-  const searchBarItem = items.find((item) => item.type === "search");
+  const { pathname } = useLocation();
+  const borosActive = isBoros(pathname);
+  const navItems = borosActive ? BOROS_ITEMS : PENDLE_ITEMS;
+  const logoSrc = useBaseUrl(borosActive ? "/img/boros-logo.svg" : "/img/logo.svg");
+
+  useEffect(() => {
+    document.documentElement.dataset.site = borosActive ? "boros" : "pendle";
+  }, [borosActive]);
 
   return (
     <NavbarContentLayout
       left={
         <>
           <NavbarMobileSidebarToggle />
-          {/* Logo similar to ThinTopBar */}
-          <Link to="/">
+          <Link to={borosActive ? "/boros" : "/pendle-v2/Introduction"}>
             <div className="navbar__logo">
-              <img src="/img/logo.svg" alt="Pendle" />
+               <img src={logoSrc} alt={borosActive ? "Boros" : "Pendle"} />
             </div>
           </Link>
-          <NavbarItems items={leftItems} />
+          <NavbarItems items={navItems} />
         </>
       }
       right={
         <>
-          <NavbarItems items={rightItems} />
-          {/* <NavbarColorModeToggle className={styles.colorModeToggle} /> */}
           <div className={styles.searchContainer}>
-            {!searchBarItem && <SearchBar />}
-            <LanguageSwitcher />
+            <SearchBar />
           </div>
+          <NavbarItem type="localeDropdown" position="right" />
         </>
       }
     />

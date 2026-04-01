@@ -21,7 +21,7 @@ A Pendle pool consists of PT and SY. Let’s use stETH as an example of our unde
 
 **The best of both worlds: Earn fixed yield and swap fees with PT liquidity pools**
 
-[Holding PT](chapter-7-providing-liquidity-while-trading-yield#2-how-to-be-yield-neutral-with-zero-price-impact-mode) gives you fixed yield that does not change with market conditions, and is a safe strategy that can still offer high returns.
+[Holding PT](chapter-7-providing-liquidity-while-trading-yield#2.-how-to-be-yield-neutral-with-zero-price-impact-mode) gives you fixed yield that does not change with market conditions, and is a safe strategy that can still offer high returns.
 
 PT can also be used to provide liquidity in our liquidity pools to earn extra yields. When you provide liquidity with PT and the underlying asset (e.g. PT-stETH + stETH), you can earn:
 
@@ -53,13 +53,13 @@ As we explained in [chapter-6-shorting-yield.md](chapter-6-shorting-yield.md "me
 
 If you want to maintain a yield-neutral LP position, you can read the next section.
 
-## 2. **How to be yield-neutral with “Zero price impact mode”**
+## 2. **How to be yield-neutral with “Keep YT mode”**
 
-If you want to provide liquidity without taking a net short-yield position, you can use the “Zero price impact mode” option when you Zap in.
+If you want to provide liquidity without taking a net short-yield position, you can use the “**Keep YT** mode” option when you Zap in.
 
 Recall that a Pendle liquidity pool is made up of PT and the underlying asset. By default, when you Zap to provide liquidity, some of the underlying assets are used to buy PT from the PT/SY pool, and the rest is wrapped into SY. However, this purchase of PT can affect the price and the yield.
 
-#### What is **“Zero price impact mode”?**
+#### What is **“Keep YT mode”?**
 
 If you enable this mode, the underlying asset is fully converted into SY, a portion of which is used to mint PT and YT. The PT and the remaining SY are then used for liquidity provision, while keeping the YT in your wallet. This avoids buying PT during the Zap, thus won’t cause any price impact.
 
@@ -69,7 +69,7 @@ This option is for intermediate or advanced users, because you will need to know
 
 By using this option, you balance out the effect of the PT in your LP position with the YT in your wallet. This means that you are yield-neutral instead of short-yield.
 
-#### **When not to use “Zero price impact” mode?**
+#### **When not to use “Keep YT” mode?**
 
 You may not want to use this option if:
 
@@ -110,17 +110,7 @@ See how Pendle LP historically fared well against impermanent losses in the stud
     * LP generally outperforms non-Pendle users, even when excluding PENDLE incentives
     * In the worst case, IL was observed to be 0.85% only
     * When including PENDLE incentives, there was zero IL in the stETH and gDAI pools
-    * The performance of an LP using Zero Price Impact Mode vs. without depends on the Underlying and Implied APY of the pool. Regardless, Pendle LPs still generally outperform non-Pendle users.
-</Hint>
-
-<Hint style="success">
-💡 **Boost your APY with vePENDLE**
-
-You can increase your APY (up to 2.5x) from your LP positions by locking PENDLE for vePENDLE. The zap interface shows you how much PENDLE you need to lock and for how long to get the maximum APY boost.
-
-With vePENDLE, you can also vote for pools to allocate more incentives to them and earn extra swap fees on top. Learn more [here](https://docs.pendle.finance/ProtocolMechanics/Mechanisms/vePENDLE).
-
-<img src="/pendle-academy/imgs/image (40).png" alt="Example of vePENDLE required to max boost APY" data-size="original" />
+    * The performance of an LP using **Keep YT** Mode vs. without depends on the Underlying and Implied APY of the pool. Regardless, Pendle LPs still generally outperform non-Pendle users.
 </Hint>
 
 <Hint style="info">

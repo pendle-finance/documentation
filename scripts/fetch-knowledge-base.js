@@ -1,8 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const TARGET_DIR = "docs/Developers/";
-const API_SPEC_DIR = "static/pendle-v2/openapi/";
+const TARGET_DIR = "docs/pendle-docs/Developers/";
+const API_SPEC_DIR = "static/pendle-dev-docs/openapi/";
 
 const V2_DEV_KNOWLEDGE_BASE_DOC_ID = "1GnE1PqqMrRy4hT6JJq86l6eLWbFEs2ubJwK_g8PSUH8";
 const V2_USER_KNOWLEDGE_BASE_DOC_ID = "1nMqsJGkNVw3ZxCZZ743PhzrWo6O8urlwMBESFalQSTw";

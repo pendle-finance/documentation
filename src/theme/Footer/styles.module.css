@@ -1,12 +1,33 @@
-.background{
+.background {
   width: 100%;
-  background-color: #D6E1EF;
+  background-color: transparent;
+  background-image: linear-gradient(to top, rgba(27, 227, 194, 0.04) 0%, transparent 100%); /* Baseline faint glow for edge cases */
+  border-top: 1px solid rgba(55, 75, 109, 0.6);
   padding: 4rem 12rem;
   display: flex;
-  background-image: url("../../../static/img/footer.png");
-  background-size: contain;
-  background-repeat: no-repeat;
   justify-content: center;
+  font-size: 14px;
+}
+
+.background a {
+  font-size: 14px;
+  color: #9DAFCD !important;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.background a:hover {
+  color: #ffffff !important;
+}
+
+:global(html[data-section='v2']) .background,
+:global([data-section='v2']) .background {
+  background-image: linear-gradient(to top, rgba(27, 227, 194, 0.15) 0%, transparent 100%);
+}
+
+:global(html[data-section='boros']) .background,
+:global([data-section='boros']) .background {
+  background-image: linear-gradient(to top, rgba(96, 121, 255, 0.15) 0%, transparent 100%);
 }
 .root{
   width: 1280px;
@@ -18,23 +39,23 @@
   display: flex;
   flex-direction: column;
   margin-left: 6rem;
-  color: #374B6D;
 }
 .linkGroupTitle{
   font-weight: 600;
+  color: var(--section-accent, var(--ifm-color-primary));
+  white-space: nowrap;
+}
+
+.linkGroup a {
+  white-space: nowrap;
 }
 
 @media screen and (max-width: 1024px) {
   .root{
     padding: 0rem;
-    background-image: none;
-    background-color: #D6E1EF;
     justify-content: space-evenly;
   }
   .linkGroup{
     margin: 2rem 1rem;
-  }
-  .background{
-    background-image: none;
   }
 }

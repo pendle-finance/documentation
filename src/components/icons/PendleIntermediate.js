@@ -1,0 +1,33 @@
+import React from 'react';
+
+export default function PendleIntermediate() {
+  return (
+    <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <clipPath id="pi-arrow-clip">
+          <rect x="16.6" y="31.7" height="10" transform="rotate(-43.5, 16.6, 36.7)">
+            <animate attributeName="width" values="0;31;31;0" keyTimes="0;0.4;0.65;1" calcMode="spline" keySplines="0.4 0 0.2 1; 0 0 1 1; 0.4 0 0.2 1" dur="5s" repeatCount="indefinite"/>
+          </rect>
+        </clipPath>
+      </defs>
+      <style>{`
+        @keyframes piSpinCW  { from { transform: rotate(0deg);    } to { transform: rotate(360deg);  } }
+        @keyframes piSpinCCW { from { transform: rotate(0deg);    } to { transform: rotate(-360deg); } }
+        .pi-spin-cw  { transform-origin: 26.9546px 27.2193px; animation: piSpinCW  5s linear infinite; }
+        .pi-spin-ccw { transform-origin: 26.9546px 27.2193px; animation: piSpinCCW 5s linear infinite; }
+      `}</style>
+      {/* Outer ring: static */}
+      <path d="M51.9981 28.3598C51.2224 42.1912 39.3814 52.7746 25.55 51.999C11.7186 51.2233 1.13517 39.3822 1.9108 25.5509C2.68646 11.7194 14.5275 1.13602 28.3589 1.91164C42.1904 2.68731 52.7738 14.5283 51.9981 28.3598Z" stroke="#7AB7FF" strokeWidth="0.96"/>
+      {/* Middle dashed circle: spins CCW */}
+      <g className="pi-spin-ccw">
+        <path d="M25.7175 49.0135C13.5347 48.3303 4.21243 37.9004 4.89565 25.7176C5.57886 13.5348 16.0088 4.21254 28.1916 4.89575C40.3744 5.57896 49.6966 16.0089 49.0134 28.1917C48.3302 40.3745 37.9003 49.6967 25.7175 49.0135Z" stroke="#1BE3C2" strokeWidth="0.5" strokeDasharray="2 2"/>
+      </g>
+      {/* Arrow: diagonal trace */}
+      <path clipPath="url(#pi-arrow-clip)" d="M29.5888 28.9618L29.3457 29.3756L29.754 29.6155L29.9994 29.2104L29.5888 28.9618ZM37.1236 17.1739C37.0604 16.9164 36.8004 16.759 36.543 16.8222L32.3477 17.8529C32.0903 17.9162 31.9329 18.1762 31.9961 18.4336C32.0594 18.691 32.3193 18.8485 32.5768 18.7852L36.3059 17.869L37.2221 21.5981C37.2853 21.8556 37.5453 22.013 37.8027 21.9498C38.0602 21.8865 38.2176 21.6265 38.1543 21.3691L37.1236 17.1739ZM16.6154 36.6685C16.4741 36.8928 16.5414 37.1892 16.7657 37.3305C16.99 37.4718 17.2864 37.4045 17.4277 37.1802L17.0215 36.9244L16.6154 36.6685ZM24.0765 25.7238L24.3196 25.3099L23.9184 25.0742L23.6704 25.468L24.0765 25.7238ZM29.5888 28.9618L29.9994 29.2104L37.0681 17.537L36.6575 17.2884L36.2469 17.0397L29.1782 28.7131L29.5888 28.9618ZM17.0215 36.9244L17.4277 37.1802L24.4827 25.9796L24.0765 25.7238L23.6704 25.468L16.6154 36.6685L17.0215 36.9244ZM24.0765 25.7238L23.8334 26.1377L29.3457 29.3756L29.5888 28.9618L29.8319 28.5479L24.3196 25.3099L24.0765 25.7238Z" fill="white"/>
+      {/* Inner dotted circle: spins CW */}
+      <g className="pi-spin-cw">
+        <circle cx="26.9546" cy="27.2193" r="18.4155" transform="rotate(45 26.9546 27.2193)" stroke="#7AB7FF" strokeWidth="0.5" strokeDasharray="2 2"/>
+      </g>
+    </svg>
+  );
+}

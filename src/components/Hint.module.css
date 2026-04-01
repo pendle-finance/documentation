@@ -58,9 +58,9 @@
 
 /* Dark mode support */
 [data-theme='dark'] .info {
-  background-color: #0d1117;
-  border-left-color: #58a6ff;
-  color: #79c0ff;
+  background-color: var(--section-accent-bg, rgba(27, 227, 194, 0.06));
+  border-left-color: var(--section-accent, #1BE3C2);
+  color: #c9d1e0;
 }
 
 [data-theme='dark'] .warning {

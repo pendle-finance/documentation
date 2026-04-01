@@ -67,3 +67,4 @@ typechain
 .claude
 
 local-*
+.vercel
