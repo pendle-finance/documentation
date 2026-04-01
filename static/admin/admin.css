@@ -133,6 +133,34 @@
       white-space: nowrap;
     }
 
+    /* ─── Locale toggle ──────────────────────────────────────── */
+    .locale-toggle {
+      display: flex;
+      align-items: center;
+      background: rgba(191,203,223,0.05);
+      border: 1px solid var(--border-default);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .locale-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--water-500);
+      padding: 4px 10px;
+      transition: background 0.15s, color 0.15s;
+    }
+    .locale-btn:hover { color: var(--color-text-primary); }
+    .locale-btn.active {
+      background: rgba(96,121,255,0.15);
+      color: #6079FF;
+    }
+    .locale-btn + .locale-btn {
+      border-left: 1px solid var(--border-default);
+    }
+
     /* ─── Section tabs ────────────────────────────────────────── */
     #section-tabs {
       height: var(--section-tabs-height);

@@ -27,6 +27,10 @@
       <span class="material-symbols-outlined" style="font-size:14px">fork_right</span>
       Branch: preview
     </span>
+    <div class="locale-toggle">
+      <button class="locale-btn active" data-locale="en" onclick="switchLocale('en')">EN</button>
+      <button class="locale-btn" data-locale="cn" onclick="switchLocale('cn')">中文</button>
+    </div>
     <button class="new-btn" id="revert-btn" onclick="revertPreview()" style="border-color:rgba(221,84,83,0.4);color:var(--color-error)" title="Reset preview branch to main">
       <span class="material-symbols-outlined" style="font-size:16px">undo</span>
       Revert

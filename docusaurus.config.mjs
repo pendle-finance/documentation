@@ -226,6 +226,10 @@ const config = {
       },
       title: 'Pendle Documentation',
       items: [
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
       ],
     },
     footer: {
@@ -297,7 +301,17 @@ const config = {
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'cn'],
+    localeConfigs: {
+      en: {
+        label: 'English',
+        htmlLang: 'en',
+      },
+      cn: {
+        label: '中文',
+        htmlLang: 'zh-CN',
+      },
+    },
   },
 };
 

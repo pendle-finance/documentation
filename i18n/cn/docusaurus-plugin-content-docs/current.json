@@ -1,0 +1,22 @@
+{
+  "sidebar.pendleSidebar.category.Protocol Mechanics": {
+    "message": "协议机制",
+    "description": "The label for the Protocol Mechanics sidebar category"
+  },
+  "sidebar.pendleSidebar.category.Yield Tokenization": {
+    "message": "收益代币化",
+    "description": "The label for the Yield Tokenization sidebar category"
+  },
+  "sidebar.pendleSidebar.category.Liquidity Engines": {
+    "message": "流动性引擎",
+    "description": "The label for the Liquidity Engines sidebar category"
+  },
+  "sidebar.pendleSidebar.category.Tokenomics and Fees": {
+    "message": "代币经济与费用",
+    "description": "The label for the Tokenomics and Fees sidebar category"
+  },
+  "sidebar.pendleSidebar.category.App Guide": {
+    "message": "应用指南",
+    "description": "The label for the App Guide sidebar category"
+  }
+}

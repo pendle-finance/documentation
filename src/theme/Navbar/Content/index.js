@@ -77,6 +77,7 @@ export default function NavbarContent() {
           <div className={styles.searchContainer}>
             <SearchBar />
           </div>
+          <NavbarItem type="localeDropdown" position="right" />
         </>
       }
     />
