@@ -5,7 +5,7 @@ import rehypeKatex from 'rehype-katex';
 const config = {
   title: 'Pendle Documentation',
   tagline: 'Pendle is a protocol that liberates future yield. It enables the tokenization and trading of future yield on a novel AMM designed to support assets with time decay.',
-  url: 'https://pendle.finance/',
+  url: 'https://docs.pendle.finance/',
   baseUrl: '/',
   trailingSlash: false,
   onBrokenLinks: 'warn',
