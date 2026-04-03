@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros developer documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2/Developers | https://docs.pendle.finance/boros-dev
-> Generated: 2026-04-02
+> Generated: 2026-04-03
 
 ---
 
@@ -940,7 +940,7 @@ The following endpoints are specifically deprecated:
 
 ## Market Data Endpoints
 
-### GET /v3/{chainId}/markets/{address}/historical-data
+### GET /v3/\{chainId\}/markets/\{address\}/historical-data
 
 Returns time-series data for a specific market, with optional detailed APY composition breakdown.
 
