@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros developer documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2/Developers | https://docs.pendle.finance/boros-dev
-> Generated: 2026-03-25
+> Generated: 2026-04-03
 
 ---
 
@@ -76,6 +76,7 @@ By creating a yield market in DeFi, Pendle unlocks the full potential of yield, 
 | Goal | Start here |
 |---|---|
 | **Build a trading bot or data aggregator** | [Quickstart](./Quickstart.md) → [Backend API Overview](./Backend/ApiOverview.mdx) |
+| **Analyze yields & APY composition** | [Market Historical Data API](./Backend/ApiOverview.mdx#market-data-endpoints) — Time-series data with detailed APY breakdown |
 | **Integrate PT/YT into your protocol (on-chain)** | [Router Overview](./Contracts/PendleRouter/PendleRouterOverview.md) → [Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide.md) |
 | **Price PT or LP (oracle / collateral)** | [Oracle Overview](./Oracles/OracleOverview.md) → [How to Integrate](./Oracles/HowToIntegratePtAndLpOracle.md) |
 | **Work with Limit Orders** | [Limit Order Overview](./LimitOrder/Overview.md) |
@@ -98,6 +99,7 @@ By creating a yield market in DeFi, Pendle unlocks the full potential of yield, 
 ### Off-chain Integration
 
 - [Backend API overview](./Backend/ApiOverview.mdx)
+- [Market Historical Data & APY Breakdown](./Backend/ApiOverview.mdx#market-data-endpoints) - Time-series data with detailed yield composition
 - [RouterStatic](./Backend/RouterStatic.md) - Extensively tested contract for off-chain calculations. Not audited; should not be used for on-chain fund-related operations.
 - [sPENDLE API](./Backend/ApiOverview.mdx#spendle-api-endpoints) - Staking stats and per-user reward data
 
@@ -774,12 +776,15 @@ Some endpoints are scoped to a specific chain:
 
 | Endpoint | Description |
 |---------|-------------|
+| `GET /v3/{chainId}/markets/{address}/historical-data` | **Market time-series data** with optional APY breakdown — [see Market Data Endpoints](#market-data-endpoints) |
+| ~~`GET /v2/{chainId}/markets/{address}/historical-data`~~ | *(Deprecated)* Use v3 instead for APY breakdown support |
 | ~~`GET /v2/{chainId}/markets/{address}/data`~~ | *(Deprecated)* Market data for a specific address |
 | ~~`GET /v2/sdk/{chainId}/convert`~~ | *(Deprecated)* Generate transaction payload — use `POST /v3/sdk/{chainId}/convert` instead |
 | `GET /v5/{chainId}/transactions/{address}` | Transaction history for an address |
 
 :::note Deprecated
 
+- `GET /v2/{chainId}/markets/{address}/historical-data` is deprecated. Use [`GET /v3/{chainId}/markets/{address}/historical-data`](#market-data-endpoints) instead, which supports `includeApyBreakdown` for detailed APY composition.
 - `GET /v2/{chainId}/markets/{address}/data` is deprecated.
 - `GET /v2/sdk/{chainId}/convert` (GET) is deprecated. Use `POST /v3/sdk/{chainId}/convert` instead, which accepts a JSON body and supports typed inputs.
 
@@ -932,6 +937,38 @@ The following endpoints are specifically deprecated:
 
 - `GET /v1/ve-pendle/data` — use [`GET /v1/spendle/data`](#get-v1spendledata) instead
 - `GET /v1/ve-pendle/market-fees-chart` — no replacement; fees data is now included in the sPENDLE historical data response
+
+## Market Data Endpoints
+
+### GET /v3/\{chainId\}/markets/\{address\}/historical-data
+
+Returns time-series data for a specific market, with optional detailed APY composition breakdown.
+
+| Property | Value |
+|----------|-------|
+| Path parameters | `chainId` (number), `address` (string) |
+| Query parameters | `time_frame`, `timestamp_start`, `timestamp_end`, `fields`, `includeFeeBreakdown`, `includeApyBreakdown` |
+| Cache TTL | Varies by time_frame |
+| CU cost | Dynamic: `max(1, ceil(total / 300))` base, `* 1.5 + 1` if `includeApyBreakdown=true`, `* 2 + 1` if `includeFeeBreakdown=true` |
+
+**Key features:**
+- **APY Breakdown**: Set `includeApyBreakdown=true` to get detailed yield composition for YT and LP positions, categorized by protocol yield, rewards, fixed yield, and incentives
+- **Flexible fields**: Select specific data fields or use `fields=all` for complete data (not recommended for large time ranges)
+- **Fee breakdown**: Include swap fee details with `includeFeeBreakdown=true` (daily/weekly timeframes only)
+
+**Response includes:**
+- Standard time-series fields: `timestamp`, `impliedApy`, `maxApy`, `tvl`, prices, liquidity metrics
+- Optional `ytApyBreakdown`: Structured APY breakdown for YT holders (categories: Protocol Yield, YT Bonus Rewards, YT Extra Rewards)
+- Optional `lpApyBreakdown`: Structured APY breakdown for LP providers (categories: Underlying Yield, External Rewards, PT Fixed Yield, LP Rewards)
+- Optional fee breakdown: `explicitSwapFee`, `implicitSwapFee`, `limitOrderFee`
+
+For detailed schemas, parameters, examples, and migration guide, see the [API Reference](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketHistoricalData_v3).
+
+:::tip New in v3
+
+The v3 endpoint adds support for detailed APY breakdowns while maintaining full backward compatibility with v2. All existing v2 functionality works identically in v3.
+
+:::
 
 ## sPENDLE API Endpoints
 
@@ -6772,7 +6809,9 @@ You can track historical PT/YT prices using:
 
 ### How can I retrieve market data such as TVL and APR?
 
-You can obtain market data by calling the Pendle API. For example, to get data for a specific pool: `https://api-v2.pendle.finance/core/v2/{chainId}/markets/{marketAddress}/data`. This returns relevant details for the specified market.
+You can obtain current market data (TVL, APY, liquidity metrics, etc.) by calling [`GET /v2/markets/all`](https://api-v2.pendle.finance/core/docs#/Markets/MarketsCrossChainController_getAllMarkets) and filtering for your desired market address.
+
+For historical time-series data, use the [Market Historical Data API](./Backend/ApiOverview.mdx#market-data-endpoints): `GET /v3/{chainId}/markets/{address}/historical-data`.
 
 ### How can I retrieve market spot prices?
 

@@ -18,7 +18,7 @@
 
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous"><link rel="stylesheet" href="/cn/assets/css/styles.0805199b.css">
-<script src="/cn/assets/js/runtime~main.37795b49.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.4d85cb8d.js" defer="defer"></script>
 <script src="/cn/assets/js/main.aaf08c6f.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -63,7 +63,8 @@
 <li>Pendle API method: <a href="https://api-v2.pendle.finance/core/docs#/Assets/PricesController_ohlcv_v4" target="_blank" rel="noopener noreferrer">Pendle ohlcv API</a>. Note that shorter timeframes (e.g., minute-by-minute updates) are not yet available.</li>
 </ul>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="how-can-i-retrieve-market-data-such-as-tvl-and-apr">How can I retrieve market data such as TVL and APR?<a href="#how-can-i-retrieve-market-data-such-as-tvl-and-apr" class="hash-link" aria-label="Direct link to How can I retrieve market data such as TVL and APR?" title="Direct link to How can I retrieve market data such as TVL and APR?">​</a></h3>
-<p>You can obtain market data by calling the Pendle API. For example, to get data for a specific pool: <code>https://api-v2.pendle.finance/core/v2/{chainId}/markets/{marketAddress}/data</code>. This returns relevant details for the specified market.</p>
+<p>You can obtain current market data (TVL, APY, liquidity metrics, etc.) by calling <a href="https://api-v2.pendle.finance/core/docs#/Markets/MarketsCrossChainController_getAllMarkets" target="_blank" rel="noopener noreferrer"><code>GET /v2/markets/all</code></a> and filtering for your desired market address.</p>
+<p>For historical time-series data, use the <a href="/cn/pendle-v2/Developers/Backend/ApiOverview#market-data-endpoints">Market Historical Data API</a>: <code>GET /v3/{chainId}/markets/{address}/historical-data</code>.</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="how-can-i-retrieve-market-spot-prices">How can I retrieve market spot prices?<a href="#how-can-i-retrieve-market-spot-prices" class="hash-link" aria-label="Direct link to How can I retrieve market spot prices?" title="Direct link to How can I retrieve market spot prices?">​</a></h3>
 <p>Use the <a href="https://api-v2.pendle.finance/core/docs#/SDK/SdkController_getMarketSpotSwappingPrice" target="_blank" rel="noopener noreferrer"><code>getMarketSpotSwappingPrice</code></a> endpoint. This is more suitable than calling the swap endpoint and offers a higher rate limit.</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="how-can-i-retrieve-a-list-of-market-categories">How can I retrieve a list of market categories?<a href="#how-can-i-retrieve-a-list-of-market-categories" class="hash-link" aria-label="Direct link to How can I retrieve a list of market categories?" title="Direct link to How can I retrieve a list of market categories?">​</a></h3>
