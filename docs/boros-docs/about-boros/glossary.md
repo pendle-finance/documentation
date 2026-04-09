@@ -28,7 +28,7 @@ For example: if a user opens a 200-YU-ETHUSDT(Binance) position that is worth 10
 
 **Net Balance**: Your portfolio’s total value in the position. Net Balance comprises of your collateral and unrealized PnL. Collateral value is affected at every yield settlement. Unrealized PnL is affected by the current implied APR of the market.
 
-**Maintenance Margin**: The amount of capital required to keep your position afloat. Your position is open for liquidation when the Net Balance falls below the Maintenance Margin. Maintenance margin is set at 50% of Initial Margin.
+**Maintenance Margin**: The amount of capital required to keep your position afloat. Your position is open for liquidation when the Net Balance falls below the Maintenance Margin. Maintenance margin is set at 66% of Initial Margin.
 
 **Initial Margin**: The margin required for the set max leverage. This margin is consumed from your collateral and cannot be withdrawn.
 

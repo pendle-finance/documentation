@@ -68,3 +68,5 @@ typechain
 
 local-*
 .vercel
+
+.playwright-mcp/

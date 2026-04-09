@@ -56,9 +56,7 @@ module.exports = {
             { type: "doc", id: "ecosystem-and-resources/points-trading/points-support-page", label: "Points Support Page", customProps: { icon: "support" } }
           ],
         },
-        { type: "doc", id: "ecosystem-and-resources/withdrawals-deposits-from-other-chains", label: "Withdrawals / Deposits from Other Chains", customProps: { icon: "swap_horizontal_circle" } },
-        { type: "doc", id: "ecosystem-and-resources/usdpendle-farms", label: "$PENDLE Farms", customProps: { icon: "agriculture" } },
-        { type: "doc", id: "ecosystem-and-resources/pendle-wars-and-bribes", label: "Pendle Wars & \"Bribes\"", customProps: { icon: "military_tech" } }
+        { type: "doc", id: "ecosystem-and-resources/withdrawals-deposits-from-other-chains", label: "Withdrawals / Deposits from Other Chains", customProps: { icon: "swap_horizontal_circle" } }
       ],
     }
   ],

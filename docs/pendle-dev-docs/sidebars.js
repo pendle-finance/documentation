@@ -1,6 +1,7 @@
 module.exports = {
   pendleDevSidebar: [
     { type: "doc", id: "Overview", label: "Overview", customProps: { icon: "auto_stories" } },
+    { type: "doc", id: "Quickstart", label: "Quickstart", customProps: { icon: "bolt" } },
     { type: "doc", id: "HighLevelArchitecture", label: "High Level Architecture", customProps: { icon: "account_tree" } },
     { type: "doc", id: "FAQ", label: "FAQ", customProps: { icon: "help" } },
     { type: "doc", id: "Troubleshooting", label: "Troubleshooting", customProps: { icon: "build" } },
@@ -66,6 +67,50 @@ module.exports = {
             },
           ],
         },
+        {
+          type: "category",
+          label: "RouterStatic",
+          items: [
+            { type: "doc", id: "Contracts/RouterStatic/RouterStaticOverview", label: "Overview" },
+            {
+              type: "category",
+              label: "API Reference",
+              items: [
+                { type: "doc", id: "Contracts/RouterStatic/ApiReference/InfoFunctions", label: "Info Functions" },
+                { type: "doc", id: "Contracts/RouterStatic/ApiReference/RateFunctions", label: "Rate Functions" },
+                { type: "doc", id: "Contracts/RouterStatic/ApiReference/SwapFunctions", label: "Swap Functions" },
+                { type: "doc", id: "Contracts/RouterStatic/ApiReference/LiquidityFunctions", label: "Liquidity Functions" },
+                { type: "doc", id: "Contracts/RouterStatic/ApiReference/MintRedeemFunctions", label: "Mint & Redeem Functions" },
+              ],
+            },
+          ],
+        },
+        {
+          type: "category",
+          label: "Oracle",
+          items: [
+            { type: "doc", id: "Contracts/Oracle/PYLpOracle", label: "PYLp Oracle" },
+            { type: "doc", id: "Contracts/Oracle/ChainlinkOracle", label: "Chainlink Oracle" },
+            {
+              type: "category",
+              label: "Linear Discount Oracle",
+              items: [
+                { type: "doc", id: "Contracts/Oracle/LinearDiscountOracle/LinearDiscountOracleWrapper", label: "Oracle Wrapper" },
+                { type: "doc", id: "Contracts/Oracle/LinearDiscountOracle/LpLinearDiscountOracle", label: "LP Linear Discount Oracle" },
+                { type: "doc", id: "Contracts/Oracle/LinearDiscountOracle/SparkLinearDiscountOracle", label: "Spark Linear Discount Oracle" },
+              ],
+            },
+          ],
+        },
+        {
+          type: "category",
+          label: "Liquidity Mining",
+          items: [
+            { type: "doc", id: "Contracts/LiquidityMining/GaugeController", label: "Gauge Controller" },
+            { type: "doc", id: "Contracts/LiquidityMining/MerkleDistributor", label: "Merkle Distributor" },
+            { type: "doc", id: "Contracts/LiquidityMining/Rewards", label: "Rewards" },
+          ],
+        },
         { type: "doc", id: "Contracts/sPENDLE", label: "sPENDLE" },
         { type: "doc", id: "Contracts/UnitAndDecimals", label: "Units and Decimals" },
       ],
@@ -87,6 +132,7 @@ module.exports = {
       label: "Oracles",
       customProps: { icon: "visibility" },
       items: [
+        { type: "doc", id: "Oracles/OracleOverview", label: "Oracle Overview" },
         { type: "doc", id: "Oracles/HowToIntegratePtAndLpOracle", label: "How to Integrate PT & LP Oracle" },
         { type: "doc", id: "Oracles/IntroductionOfLpOracle", label: "LP Oracle Introduction" },
         { type: "doc", id: "Oracles/IntroductionOfPtOracle", label: "PT Oracle Introduction" },
