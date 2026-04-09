@@ -24,6 +24,7 @@ hide_table_of_contents: true
 | **Build a trading bot or data aggregator** | [Quickstart](./Quickstart.md) → [Backend API Overview](./Backend/ApiOverview.mdx) |
 | **Integrate PT/YT into your protocol (on-chain)** | [Router Overview](./Contracts/PendleRouter/PendleRouterOverview.md) → [Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide.md) |
 | **Price PT or LP (oracle / collateral)** | [Oracle Overview](./Oracles/OracleOverview.md) → [How to Integrate](./Oracles/HowToIntegratePtAndLpOracle.md) |
+| **Analyze yields & APY composition** | [Market Historical Data API](./Backend/ApiOverview.mdx#market-data-endpoints) |
 | **Work with Limit Orders** | [Limit Order Overview](./LimitOrder/Overview.md) |
 | **Track sPENDLE rewards** | [sPENDLE API](./Backend/ApiOverview.mdx#spendle-api-endpoints) |
 
@@ -44,6 +45,7 @@ hide_table_of_contents: true
 ### Off-chain Integration
 
 - [Backend API overview](./Backend/ApiOverview.mdx)
+- [Market Historical Data & APY Breakdown](./Backend/ApiOverview.mdx#market-data-endpoints) - Time-series data with detailed APY and fee breakdowns
 - [RouterStatic](./Backend/RouterStatic.md) - Extensively tested contract for off-chain calculations. Not audited; should not be used for on-chain fund-related operations.
 - [sPENDLE API](./Backend/ApiOverview.mdx#spendle-api-endpoints) - Staking stats and per-user reward data
 

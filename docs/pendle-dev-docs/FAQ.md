@@ -55,7 +55,9 @@ You can track historical PT/YT prices using:
 
 ### How can I retrieve market data such as TVL and APR?
 
-You can obtain market data by calling the Pendle API. For example, to get data for a specific pool: `https://api-v2.pendle.finance/core/v2/{chainId}/markets/{marketAddress}/data`. This returns relevant details for the specified market.
+You can obtain current market data (TVL, APY, liquidity metrics, etc.) by calling [`GET /v2/markets/all`](https://api-v2.pendle.finance/core/docs#/Markets/MarketsCrossChainController_getAllMarkets) and filtering for your desired market address.
+
+For historical time-series data, use the [Market Historical Data API](./Backend/ApiOverview.mdx#market-data-endpoints): `GET /v3/{chainId}/markets/{address}/historical-data`.
 
 ### How can I retrieve market spot prices?
 
