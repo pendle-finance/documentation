@@ -16,7 +16,7 @@ There a few mechanisms in place to mitigate risks for the users and Boros' syste
 ### Max Rate Deviation
 
 * The system disallows any market trade that happens at a rate too far away from the current mark rate.
-* If a trade exceeds this limit, an error “Large Rate Deviation” will be displayed on the UI
+* If a trade exceeds this limit, an error “Executed Rate Out of Range” will be displayed on the UI
 * The exact requirement is as follows:
 
 $$

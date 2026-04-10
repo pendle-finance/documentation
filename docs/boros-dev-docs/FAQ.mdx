@@ -132,9 +132,9 @@ If you use `direct-call` with only the first element of a multi-calldata respons
 
 When set to `true` (default) in the place-orders calldata API, the system automatically exits expired/unused markets to free up slots (max 10 per account). This may add an extra calldata to the response array. Set `autoExitMarket=false` if you manage market entry/exit yourself.
 
-### What is the "Rate too far off" error?
+### What is the "Limit Rate Out of Bounds" error?
 
-This means your **maker order** rate is too far from the current mark rate. The market has bounds on how far limit orders can deviate from the mark rate. This is different from "Large Rate Deviation", which applies to **taker fills** (the execution rate deviating from the mark rate). See [Order Book — Rate Bounds](/boros-dev/Mechanics/OrderBook#restrictions).
+This means your **maker order** rate is too far from the current mark rate. The market has bounds on how far limit orders can deviate from the mark rate. This is different from "Executed Rate Out of Range", which applies to **taker fills** (the execution rate deviating from the mark rate). See [Order Book — Rate Bounds](/boros-dev/Mechanics/OrderBook#restrictions).
 
 ### What is the rate floor?
 

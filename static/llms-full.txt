@@ -7415,7 +7415,7 @@ There a few mechanisms in place to mitigate risks for the users and Boros' syste
 ### Max Rate Deviation
 
 * The system disallows any market trade that happens at a rate too far away from the current mark rate.
-* If a trade exceeds this limit, an error “Large Rate Deviation” will be displayed on the UI
+* If a trade exceeds this limit, an error “Executed Rate Out of Range” will be displayed on the UI
 * The exact requirement is as follows:
 
 $$
@@ -7866,19 +7866,19 @@ Boros prevents self-trading by checking if an incoming order would match against
 - Maximum open orders per account across all sides (configurable per market via `maxOpenOrders`, typically 100)
 - Exceeding this limit will cause the transaction to revert
 
-**Rate Bounds (Taker Orders) — "Large Rate Deviation"**:
+**Rate Bounds (Taker Orders) — "Executed Rate Out of Range"**:
 
 - When an order matches and executes (taker fill), the resulting trade rate is checked against the mark rate
-- If the rate deviates too much from the mark rate, the transaction reverts with **`Large Rate Deviation`**
+- If the rate deviates too much from the mark rate, the transaction reverts with **`Executed Rate Out of Range`**
   - **Buy/Long orders**: Rejected if executed rate is too far above the mark rate
   - **Sell/Short orders**: Rejected if executed rate is too far below the mark rate
 - The acceptable deviation is governed by `maxRateDeviationFactorBase1e4` in the market config
 - When placing **closing orders** (reducing position), a separate, more lenient bound `closingOrderBoundBase1e4` applies
 
-**Limit Order Rate Bounds (Maker Orders) — "Rate too far off"**:
+**Limit Order Rate Bounds (Maker Orders) — "Limit Rate Out of Bounds"**:
 
 - Limit orders placed on the book have additional rate constraints
-- If a maker order's rate is too far from the mark rate, it is rejected with **`Rate too far off`**
+- If a maker order's rate is too far from the mark rate, it is rejected with **`Limit Rate Out of Bounds`**
 - The bounds are controlled by four parameters in the market config:
 
 ```
@@ -7889,8 +7889,8 @@ Lower Bound = Mark Rate × (1 - loLowerConst - loLowerSlope × Time to Maturity)
 These parameters ensure limit orders remain within a reasonable range of the current mark rate, scaling with time to maturity.
 
 :::tip Understanding the two rate errors
-- **`Large Rate Deviation`** → applies to **taker fills** (IOC, FOK, or the matched portion of GTC). Your trade's execution rate is too far from the mark rate.
-- **`Rate too far off`** → applies to **maker orders** (the resting portion placed on the book). Your order's rate is too far from the mark rate to be placed.
+- **`Executed Rate Out of Range`** → applies to **taker fills** (IOC, FOK, or the matched portion of GTC). Your trade's execution rate is too far from the mark rate.
+- **`Limit Rate Out of Bounds`** → applies to **maker orders** (the resting portion placed on the book). Your order's rate is too far from the mark rate to be placed.
 :::
 
 ## Order Lifecycle
@@ -10795,9 +10795,9 @@ If you use `direct-call` with only the first element of a multi-calldata respons
 
 When set to `true` (default) in the place-orders calldata API, the system automatically exits expired/unused markets to free up slots (max 10 per account). This may add an extra calldata to the response array. Set `autoExitMarket=false` if you manage market entry/exit yourself.
 
-### What is the "Rate too far off" error?
+### What is the "Limit Rate Out of Bounds" error?
 
-This means your **maker order** rate is too far from the current mark rate. The market has bounds on how far limit orders can deviate from the mark rate. This is different from "Large Rate Deviation", which applies to **taker fills** (the execution rate deviating from the mark rate). See [Order Book — Rate Bounds](/boros-dev/Mechanics/OrderBook#restrictions).
+This means your **maker order** rate is too far from the current mark rate. The market has bounds on how far limit orders can deviate from the mark rate. This is different from "Executed Rate Out of Range", which applies to **taker fills** (the execution rate deviating from the mark rate). See [Order Book — Rate Bounds](/boros-dev/Mechanics/OrderBook#restrictions).
 
 ### What is the rate floor?
 
