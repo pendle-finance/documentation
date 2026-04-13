@@ -1,0 +1,98 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.borosSidebar.category.Mechanics": {
+    "message": "Mechanics",
+    "description": "The label for category Mechanics in sidebar borosSidebar"
+  },
+  "sidebar.borosSidebar.category.Contracts": {
+    "message": "Contracts",
+    "description": "The label for category Contracts in sidebar borosSidebar"
+  },
+  "sidebar.borosSidebar.category.Backend Integration": {
+    "message": "Backend Integration",
+    "description": "The label for category Backend Integration in sidebar borosSidebar"
+  },
+  "sidebar.borosSidebar.doc.Introduction": {
+    "message": "Introduction",
+    "description": "The label for the doc item Introduction in sidebar borosSidebar, linking to the doc Introduction"
+  },
+  "sidebar.borosSidebar.doc.Lite Paper": {
+    "message": "Lite Paper",
+    "description": "The label for the doc item Lite Paper in sidebar borosSidebar, linking to the doc LitePaper"
+  },
+  "sidebar.borosSidebar.doc.High Level Architecture": {
+    "message": "High Level Architecture",
+    "description": "The label for the doc item High Level Architecture in sidebar borosSidebar, linking to the doc HighLevelArchitecture"
+  },
+  "sidebar.borosSidebar.doc.Order Book": {
+    "message": "Order Book",
+    "description": "The label for the doc item Order Book in sidebar borosSidebar, linking to the doc Mechanics/OrderBook"
+  },
+  "sidebar.borosSidebar.doc.Margin": {
+    "message": "Margin",
+    "description": "The label for the doc item Margin in sidebar borosSidebar, linking to the doc Mechanics/Margin"
+  },
+  "sidebar.borosSidebar.doc.Settlement": {
+    "message": "Settlement",
+    "description": "The label for the doc item Settlement in sidebar borosSidebar, linking to the doc Mechanics/Settlement"
+  },
+  "sidebar.borosSidebar.doc.Fees": {
+    "message": "Fees",
+    "description": "The label for the doc item Fees in sidebar borosSidebar, linking to the doc Mechanics/Fees"
+  },
+  "sidebar.borosSidebar.doc.Router": {
+    "message": "Router",
+    "description": "The label for the doc item Router in sidebar borosSidebar, linking to the doc Contracts/Router"
+  },
+  "sidebar.borosSidebar.doc.MarketHub": {
+    "message": "MarketHub",
+    "description": "The label for the doc item MarketHub in sidebar borosSidebar, linking to the doc Contracts/MarketHub"
+  },
+  "sidebar.borosSidebar.doc.Market": {
+    "message": "Market",
+    "description": "The label for the doc item Market in sidebar borosSidebar, linking to the doc Contracts/Market"
+  },
+  "sidebar.borosSidebar.doc.Custom Types": {
+    "message": "Custom Types",
+    "description": "The label for the doc item Custom Types in sidebar borosSidebar, linking to the doc Contracts/CustomTypes"
+  },
+  "sidebar.borosSidebar.doc.Overview": {
+    "message": "Overview",
+    "description": "The label for the doc item Overview in sidebar borosSidebar, linking to the doc Backend/overview"
+  },
+  "sidebar.borosSidebar.doc.Glossary": {
+    "message": "Glossary",
+    "description": "The label for the doc item Glossary in sidebar borosSidebar, linking to the doc Backend/glossary"
+  },
+  "sidebar.borosSidebar.doc.Agent": {
+    "message": "Agent",
+    "description": "The label for the doc item Agent in sidebar borosSidebar, linking to the doc Backend/agent"
+  },
+  "sidebar.borosSidebar.doc.API": {
+    "message": "API",
+    "description": "The label for the doc item API in sidebar borosSidebar, linking to the doc Backend/api"
+  },
+  "sidebar.borosSidebar.doc.WebSocket": {
+    "message": "WebSocket",
+    "description": "The label for the doc item WebSocket in sidebar borosSidebar, linking to the doc Backend/websocket"
+  },
+  "sidebar.borosSidebar.doc.Stop Orders": {
+    "message": "Stop Orders",
+    "description": "The label for the doc item Stop Orders in sidebar borosSidebar, linking to the doc Backend/stop-orders"
+  },
+  "sidebar.borosSidebar.doc.Historical Data": {
+    "message": "Historical Data",
+    "description": "The label for the doc item Historical Data in sidebar borosSidebar, linking to the doc Backend/historical-data"
+  },
+  "sidebar.borosSidebar.doc.Best Practices": {
+    "message": "Best Practices",
+    "description": "The label for the doc item Best Practices in sidebar borosSidebar, linking to the doc Backend/best-practices"
+  },
+  "sidebar.borosSidebar.doc.FAQ": {
+    "message": "FAQ",
+    "description": "The label for the doc item FAQ in sidebar borosSidebar, linking to the doc FAQ"
+  }
+}

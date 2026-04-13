@@ -1,0 +1,10 @@
+{
+  "title": {
+    "message": "Pendle Documentation",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "Pendle Logo",
+    "description": "The alt text of navbar logo"
+  }
+}

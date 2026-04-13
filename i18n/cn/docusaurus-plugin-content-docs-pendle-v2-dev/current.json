@@ -1,0 +1,278 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.pendleDevSidebar.category.Integration Guides": {
+    "message": "Integration Guides",
+    "description": "The label for category Integration Guides in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.Contracts": {
+    "message": "Contracts",
+    "description": "The label for category Contracts in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.Standardized Yield": {
+    "message": "Standardized Yield",
+    "description": "The label for category Standardized Yield in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.Yield Tokenization": {
+    "message": "Yield Tokenization",
+    "description": "The label for category Yield Tokenization in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.PendleMarket": {
+    "message": "PendleMarket",
+    "description": "The label for category PendleMarket in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.PendleRouter": {
+    "message": "PendleRouter",
+    "description": "The label for category PendleRouter in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.API Reference": {
+    "message": "API Reference",
+    "description": "The label for category API Reference in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.RouterStatic": {
+    "message": "RouterStatic",
+    "description": "The label for category RouterStatic in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.Oracle": {
+    "message": "Oracle",
+    "description": "The label for category Oracle in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.Linear Discount Oracle": {
+    "message": "Linear Discount Oracle",
+    "description": "The label for category Linear Discount Oracle in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.Liquidity Mining": {
+    "message": "Liquidity Mining",
+    "description": "The label for category Liquidity Mining in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.Limit Orders": {
+    "message": "Limit Orders",
+    "description": "The label for category Limit Orders in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.Oracles": {
+    "message": "Oracles",
+    "description": "The label for category Oracles in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.Deterministic Oracles": {
+    "message": "Deterministic Oracles",
+    "description": "The label for category Deterministic Oracles in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.category.Off-chain Helpers": {
+    "message": "Off-chain Helpers",
+    "description": "The label for category Off-chain Helpers in sidebar pendleDevSidebar"
+  },
+  "sidebar.pendleDevSidebar.link.API Reference": {
+    "message": "API Reference",
+    "description": "The label for link API Reference in sidebar pendleDevSidebar, linking to https://api-v2.pendle.finance/core/docs"
+  },
+  "sidebar.pendleDevSidebar.doc.Overview": {
+    "message": "Overview",
+    "description": "The label for the doc item Overview in sidebar pendleDevSidebar, linking to the doc LimitOrder/Overview"
+  },
+  "sidebar.pendleDevSidebar.doc.Quickstart": {
+    "message": "Quickstart",
+    "description": "The label for the doc item Quickstart in sidebar pendleDevSidebar, linking to the doc Quickstart"
+  },
+  "sidebar.pendleDevSidebar.doc.High Level Architecture": {
+    "message": "High Level Architecture",
+    "description": "The label for the doc item High Level Architecture in sidebar pendleDevSidebar, linking to the doc HighLevelArchitecture"
+  },
+  "sidebar.pendleDevSidebar.doc.FAQ": {
+    "message": "FAQ",
+    "description": "The label for the doc item FAQ in sidebar pendleDevSidebar, linking to the doc FAQ"
+  },
+  "sidebar.pendleDevSidebar.doc.Troubleshooting": {
+    "message": "Troubleshooting",
+    "description": "The label for the doc item Troubleshooting in sidebar pendleDevSidebar, linking to the doc Troubleshooting"
+  },
+  "sidebar.pendleDevSidebar.doc.Community Listing": {
+    "message": "Community Listing",
+    "description": "The label for the doc item Community Listing in sidebar pendleDevSidebar, linking to the doc Integration/CommunityListing"
+  },
+  "sidebar.pendleDevSidebar.doc.Cross-Chain PT": {
+    "message": "Cross-Chain PT",
+    "description": "The label for the doc item Cross-Chain PT in sidebar pendleDevSidebar, linking to the doc Integration/CrossChainPT"
+  },
+  "sidebar.pendleDevSidebar.doc.Points & Rewards Tracking": {
+    "message": "Points & Rewards Tracking",
+    "description": "The label for the doc item Points & Rewards Tracking in sidebar pendleDevSidebar, linking to the doc Integration/PointsTracking"
+  },
+  "sidebar.pendleDevSidebar.doc.Common SY Contracts": {
+    "message": "Common SY Contracts",
+    "description": "The label for the doc item Common SY Contracts in sidebar pendleDevSidebar, linking to the doc Contracts/StandardizedYield/CommonSY"
+  },
+  "sidebar.pendleDevSidebar.doc.Decimals Wrapper": {
+    "message": "Decimals Wrapper",
+    "description": "The label for the doc item Decimals Wrapper in sidebar pendleDevSidebar, linking to the doc Contracts/StandardizedYield/DecimalsWrapper"
+  },
+  "sidebar.pendleDevSidebar.doc.Yield Contract Factory": {
+    "message": "Yield Contract Factory",
+    "description": "The label for the doc item Yield Contract Factory in sidebar pendleDevSidebar, linking to the doc Contracts/YieldTokenization/YieldContractFactory"
+  },
+  "sidebar.pendleDevSidebar.doc.Market Factory": {
+    "message": "Market Factory",
+    "description": "The label for the doc item Market Factory in sidebar pendleDevSidebar, linking to the doc Contracts/PendleMarket/MarketFactory"
+  },
+  "sidebar.pendleDevSidebar.doc.LP Wrapper": {
+    "message": "LP Wrapper",
+    "description": "The label for the doc item LP Wrapper in sidebar pendleDevSidebar, linking to the doc Contracts/PendleMarket/LPWrapper"
+  },
+  "sidebar.pendleDevSidebar.doc.Common Market Deployments": {
+    "message": "Common Market Deployments",
+    "description": "The label for the doc item Common Market Deployments in sidebar pendleDevSidebar, linking to the doc Contracts/PendleMarket/CommonMarketDeployments"
+  },
+  "sidebar.pendleDevSidebar.doc.Integration Guide": {
+    "message": "Integration Guide",
+    "description": "The label for the doc item Integration Guide in sidebar pendleDevSidebar, linking to the doc Contracts/PendleRouter/ContractIntegrationGuide"
+  },
+  "sidebar.pendleDevSidebar.doc.Types": {
+    "message": "Types",
+    "description": "The label for the doc item Types in sidebar pendleDevSidebar, linking to the doc Contracts/PendleRouter/ApiReference/Types"
+  },
+  "sidebar.pendleDevSidebar.doc.PT Functions": {
+    "message": "PT Functions",
+    "description": "The label for the doc item PT Functions in sidebar pendleDevSidebar, linking to the doc Contracts/PendleRouter/ApiReference/PtFunctions"
+  },
+  "sidebar.pendleDevSidebar.doc.YT Functions": {
+    "message": "YT Functions",
+    "description": "The label for the doc item YT Functions in sidebar pendleDevSidebar, linking to the doc Contracts/PendleRouter/ApiReference/YtFunctions"
+  },
+  "sidebar.pendleDevSidebar.doc.Liquidity Functions": {
+    "message": "Liquidity Functions",
+    "description": "The label for the doc item Liquidity Functions in sidebar pendleDevSidebar, linking to the doc Contracts/RouterStatic/ApiReference/LiquidityFunctions"
+  },
+  "sidebar.pendleDevSidebar.doc.Misc Functions": {
+    "message": "Misc Functions",
+    "description": "The label for the doc item Misc Functions in sidebar pendleDevSidebar, linking to the doc Contracts/PendleRouter/ApiReference/MiscFunctions"
+  },
+  "sidebar.pendleDevSidebar.doc.Simple Functions": {
+    "message": "Simple Functions",
+    "description": "The label for the doc item Simple Functions in sidebar pendleDevSidebar, linking to the doc Contracts/PendleRouter/ApiReference/SimpleFunctions"
+  },
+  "sidebar.pendleDevSidebar.doc.Info Functions": {
+    "message": "Info Functions",
+    "description": "The label for the doc item Info Functions in sidebar pendleDevSidebar, linking to the doc Contracts/RouterStatic/ApiReference/InfoFunctions"
+  },
+  "sidebar.pendleDevSidebar.doc.Rate Functions": {
+    "message": "Rate Functions",
+    "description": "The label for the doc item Rate Functions in sidebar pendleDevSidebar, linking to the doc Contracts/RouterStatic/ApiReference/RateFunctions"
+  },
+  "sidebar.pendleDevSidebar.doc.Swap Functions": {
+    "message": "Swap Functions",
+    "description": "The label for the doc item Swap Functions in sidebar pendleDevSidebar, linking to the doc Contracts/RouterStatic/ApiReference/SwapFunctions"
+  },
+  "sidebar.pendleDevSidebar.doc.Mint & Redeem Functions": {
+    "message": "Mint & Redeem Functions",
+    "description": "The label for the doc item Mint & Redeem Functions in sidebar pendleDevSidebar, linking to the doc Contracts/RouterStatic/ApiReference/MintRedeemFunctions"
+  },
+  "sidebar.pendleDevSidebar.doc.PYLp Oracle": {
+    "message": "PYLp Oracle",
+    "description": "The label for the doc item PYLp Oracle in sidebar pendleDevSidebar, linking to the doc Contracts/Oracle/PYLpOracle"
+  },
+  "sidebar.pendleDevSidebar.doc.Chainlink Oracle": {
+    "message": "Chainlink Oracle",
+    "description": "The label for the doc item Chainlink Oracle in sidebar pendleDevSidebar, linking to the doc Contracts/Oracle/ChainlinkOracle"
+  },
+  "sidebar.pendleDevSidebar.doc.Oracle Wrapper": {
+    "message": "Oracle Wrapper",
+    "description": "The label for the doc item Oracle Wrapper in sidebar pendleDevSidebar, linking to the doc Contracts/Oracle/LinearDiscountOracle/LinearDiscountOracleWrapper"
+  },
+  "sidebar.pendleDevSidebar.doc.LP Linear Discount Oracle": {
+    "message": "LP Linear Discount Oracle",
+    "description": "The label for the doc item LP Linear Discount Oracle in sidebar pendleDevSidebar, linking to the doc Oracles/DeterministicOracles/LPLinearDiscountOracle"
+  },
+  "sidebar.pendleDevSidebar.doc.Spark Linear Discount Oracle": {
+    "message": "Spark Linear Discount Oracle",
+    "description": "The label for the doc item Spark Linear Discount Oracle in sidebar pendleDevSidebar, linking to the doc Contracts/Oracle/LinearDiscountOracle/SparkLinearDiscountOracle"
+  },
+  "sidebar.pendleDevSidebar.doc.Gauge Controller": {
+    "message": "Gauge Controller",
+    "description": "The label for the doc item Gauge Controller in sidebar pendleDevSidebar, linking to the doc Contracts/LiquidityMining/GaugeController"
+  },
+  "sidebar.pendleDevSidebar.doc.Merkle Distributor": {
+    "message": "Merkle Distributor",
+    "description": "The label for the doc item Merkle Distributor in sidebar pendleDevSidebar, linking to the doc Contracts/LiquidityMining/MerkleDistributor"
+  },
+  "sidebar.pendleDevSidebar.doc.Rewards": {
+    "message": "Rewards",
+    "description": "The label for the doc item Rewards in sidebar pendleDevSidebar, linking to the doc Contracts/LiquidityMining/Rewards"
+  },
+  "sidebar.pendleDevSidebar.doc.sPENDLE": {
+    "message": "sPENDLE",
+    "description": "The label for the doc item sPENDLE in sidebar pendleDevSidebar, linking to the doc Contracts/sPENDLE"
+  },
+  "sidebar.pendleDevSidebar.doc.Units and Decimals": {
+    "message": "Units and Decimals",
+    "description": "The label for the doc item Units and Decimals in sidebar pendleDevSidebar, linking to the doc Contracts/UnitAndDecimals"
+  },
+  "sidebar.pendleDevSidebar.doc.Contract": {
+    "message": "Contract",
+    "description": "The label for the doc item Contract in sidebar pendleDevSidebar, linking to the doc LimitOrder/LimitOrderContract"
+  },
+  "sidebar.pendleDevSidebar.doc.Create a Limit Order": {
+    "message": "Create a Limit Order",
+    "description": "The label for the doc item Create a Limit Order in sidebar pendleDevSidebar, linking to the doc LimitOrder/CreateALimitOrder"
+  },
+  "sidebar.pendleDevSidebar.doc.Cancel Orders": {
+    "message": "Cancel Orders",
+    "description": "The label for the doc item Cancel Orders in sidebar pendleDevSidebar, linking to the doc LimitOrder/CancelOrders"
+  },
+  "sidebar.pendleDevSidebar.doc.Fill a Limit Order": {
+    "message": "Fill a Limit Order",
+    "description": "The label for the doc item Fill a Limit Order in sidebar pendleDevSidebar, linking to the doc LimitOrder/FillALimitOrder"
+  },
+  "sidebar.pendleDevSidebar.doc.Oracle Overview": {
+    "message": "Oracle Overview",
+    "description": "The label for the doc item Oracle Overview in sidebar pendleDevSidebar, linking to the doc Oracles/OracleOverview"
+  },
+  "sidebar.pendleDevSidebar.doc.How to Integrate PT & LP Oracle": {
+    "message": "How to Integrate PT & LP Oracle",
+    "description": "The label for the doc item How to Integrate PT & LP Oracle in sidebar pendleDevSidebar, linking to the doc Oracles/HowToIntegratePtAndLpOracle"
+  },
+  "sidebar.pendleDevSidebar.doc.LP Oracle Introduction": {
+    "message": "LP Oracle Introduction",
+    "description": "The label for the doc item LP Oracle Introduction in sidebar pendleDevSidebar, linking to the doc Oracles/IntroductionOfLpOracle"
+  },
+  "sidebar.pendleDevSidebar.doc.PT Oracle Introduction": {
+    "message": "PT Oracle Introduction",
+    "description": "The label for the doc item PT Oracle Introduction in sidebar pendleDevSidebar, linking to the doc Oracles/IntroductionOfPtOracle"
+  },
+  "sidebar.pendleDevSidebar.doc.LP as Collateral": {
+    "message": "LP as Collateral",
+    "description": "The label for the doc item LP as Collateral in sidebar pendleDevSidebar, linking to the doc Oracles/LPAsCollateral"
+  },
+  "sidebar.pendleDevSidebar.doc.PT as Collateral": {
+    "message": "PT as Collateral",
+    "description": "The label for the doc item PT as Collateral in sidebar pendleDevSidebar, linking to the doc Oracles/PTAsCollateral"
+  },
+  "sidebar.pendleDevSidebar.doc.PT Sanity Checks": {
+    "message": "PT Sanity Checks",
+    "description": "The label for the doc item PT Sanity Checks in sidebar pendleDevSidebar, linking to the doc Oracles/PTSanityChecks"
+  },
+  "sidebar.pendleDevSidebar.doc.Linear Discount Oracle": {
+    "message": "Linear Discount Oracle",
+    "description": "The label for the doc item Linear Discount Oracle in sidebar pendleDevSidebar, linking to the doc Oracles/DeterministicOracles/LinearDiscountOracle"
+  },
+  "sidebar.pendleDevSidebar.doc.Choosing Params": {
+    "message": "Choosing Params",
+    "description": "The label for the doc item Choosing Params in sidebar pendleDevSidebar, linking to the doc Oracles/DeterministicOracles/ChoosingLinearDiscountParams"
+  },
+  "sidebar.pendleDevSidebar.doc.API Overview": {
+    "message": "API Overview",
+    "description": "The label for the doc item API Overview in sidebar pendleDevSidebar, linking to the doc Backend/ApiOverview"
+  },
+  "sidebar.pendleDevSidebar.doc.Hosted SDK": {
+    "message": "Hosted SDK",
+    "description": "The label for the doc item Hosted SDK in sidebar pendleDevSidebar, linking to the doc Backend/HostedSdk"
+  },
+  "sidebar.pendleDevSidebar.doc.Router Static": {
+    "message": "Router Static",
+    "description": "The label for the doc item Router Static in sidebar pendleDevSidebar, linking to the doc Backend/RouterStatic"
+  },
+  "sidebar.pendleDevSidebar.doc.Deployments": {
+    "message": "Deployments",
+    "description": "The label for the doc item Deployments in sidebar pendleDevSidebar, linking to the doc Deployments"
+  }
+}
