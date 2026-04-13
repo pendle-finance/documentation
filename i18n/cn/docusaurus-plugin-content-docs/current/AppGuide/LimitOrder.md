@@ -1,4 +1,6 @@
 ---
+pagination_label: "限价订单"
+title: "限价订单"
 hide_table_of_contents: true
 ---
 

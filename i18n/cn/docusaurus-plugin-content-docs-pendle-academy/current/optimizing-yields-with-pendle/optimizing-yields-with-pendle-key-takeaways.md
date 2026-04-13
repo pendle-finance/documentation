@@ -1,3 +1,8 @@
+---
+pagination_label: "在 Pendle 上优化收益 - 核心要点"
+title: "在 Pendle 上优化收益 - 核心要点"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 在 Pendle 上优化收益 - 核心要点

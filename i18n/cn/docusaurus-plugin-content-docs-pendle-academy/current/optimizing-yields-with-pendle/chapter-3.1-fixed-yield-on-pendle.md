@@ -1,3 +1,8 @@
+---
+pagination_label: "第 3.1 章 - Pendle 上的固定收益"
+title: "第 3.1 章 - Pendle 上的固定收益"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第 3.1 章 - Pendle 上的固定收益

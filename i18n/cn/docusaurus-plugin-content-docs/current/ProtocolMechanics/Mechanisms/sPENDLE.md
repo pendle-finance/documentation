@@ -1,3 +1,8 @@
+---
+pagination_label: "sPENDLE"
+title: "sPENDLE"
+---
+
 # sPENDLE
 
 sPENDLE 是 Pendle 的原生治理代币，通过积极参与生态系统来分配协议奖励。作为 PENDLE 的质押版本，sPENDLE 协调各方利益，同时有助于代币稳定和 Pendle 协议的整体健壮性。

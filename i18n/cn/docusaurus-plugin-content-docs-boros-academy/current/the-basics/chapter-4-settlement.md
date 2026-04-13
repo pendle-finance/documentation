@@ -1,3 +1,8 @@
+---
+pagination_label: "第 4 章 - 结算"
+title: "第 4 章 - 结算"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第 4 章 - 结算

@@ -1,4 +1,6 @@
 ---
+pagination_label: "仪表盘"
+title: "仪表盘"
 hide_table_of_contents: true
 ---
 # 仪表盘

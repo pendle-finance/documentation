@@ -1,4 +1,6 @@
 ---
+pagination_label: "Pencosystem"
+title: "Pencosystem"
 hide_table_of_contents: true
 ---
 

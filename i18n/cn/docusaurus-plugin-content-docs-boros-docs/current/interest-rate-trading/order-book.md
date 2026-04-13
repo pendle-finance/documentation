@@ -1,3 +1,8 @@
+---
+pagination_label: "订单簿"
+title: "订单簿"
+---
+
 # 订单簿
 
 Boros 上的订单基于资产的隐含 APR 进行挂单，隐含 APR 是以收益为单位的资产价格。在[这里](interest-rate-trading-yu-trading#implied-apr-and-fixed-apr)了解更多。

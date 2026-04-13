@@ -1,3 +1,8 @@
+---
+pagination_label: "第 7 章 - 在交易收益的同时提供流动性"
+title: "第 7 章 - 在交易收益的同时提供流动性"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第七章 - 在交易收益的同时提供流动性

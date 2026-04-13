@@ -1,4 +1,6 @@
 ---
+pagination_label: "领取"
+title: "领取"
 hide_table_of_contents: true
 ---
 

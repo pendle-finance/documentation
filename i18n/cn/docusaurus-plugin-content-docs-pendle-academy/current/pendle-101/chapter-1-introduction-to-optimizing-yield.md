@@ -1,3 +1,8 @@
+---
+pagination_label: "第 1 章 - 收益优化入门"
+title: "第 1 章 - 收益优化入门"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第一章 - 优化收益入门

@@ -1,4 +1,6 @@
 ---
+pagination_label: "安全"
+title: "安全"
 hide_table_of_contents: true
 ---
 

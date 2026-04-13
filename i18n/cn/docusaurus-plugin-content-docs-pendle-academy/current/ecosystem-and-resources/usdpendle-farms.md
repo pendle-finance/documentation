@@ -1,3 +1,8 @@
+---
+pagination_label: "$PENDLE 农场"
+title: "$PENDLE 农场"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # $PENDLE 农场

@@ -1,4 +1,6 @@
 ---
+pagination_label: "PT"
+title: "PT"
 hide_table_of_contents: true
 ---
 

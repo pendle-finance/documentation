@@ -1,4 +1,6 @@
 ---
+pagination_label: "SY"
+title: "SY"
 hide_table_of_contents: true
 ---
 

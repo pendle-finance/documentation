@@ -1,4 +1,6 @@
 ---
+pagination_label: "使用交易"
+title: "使用交易"
 hide_table_of_contents: true
 ---
 

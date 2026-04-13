@@ -1,3 +1,8 @@
+---
+pagination_label: "积分交易"
+title: "积分交易"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 积分交易

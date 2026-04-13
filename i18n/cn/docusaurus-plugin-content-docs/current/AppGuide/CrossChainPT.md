@@ -1,4 +1,6 @@
 ---
+pagination_label: "跨链 PT"
+title: "跨链 PT"
 hide_table_of_contents: true
 ---
 

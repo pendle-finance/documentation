@@ -1,4 +1,5 @@
 ---
+pagination_label: "介绍"
 hide_table_of_contents: true
 title: 简介
 ---

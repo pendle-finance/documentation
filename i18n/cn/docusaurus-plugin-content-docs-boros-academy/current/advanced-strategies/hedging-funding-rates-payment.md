@@ -1,3 +1,8 @@
+---
+pagination_label: "对冲资金费率支付"
+title: "对冲资金费率支付"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 对冲资金费率支付

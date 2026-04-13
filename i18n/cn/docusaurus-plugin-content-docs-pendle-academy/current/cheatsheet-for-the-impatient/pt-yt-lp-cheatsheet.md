@@ -1,3 +1,8 @@
+---
+pagination_label: "PT / YT / LP 速查表"
+title: "PT / YT / LP 速查表"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # PT / YT / LP 速查手册

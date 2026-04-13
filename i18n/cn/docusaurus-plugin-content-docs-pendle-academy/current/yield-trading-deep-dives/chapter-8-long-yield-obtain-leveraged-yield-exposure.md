@@ -1,3 +1,8 @@
+---
+pagination_label: "第 8 章 - 做多收益（获取杠杆收益敞口）"
+title: "第 8 章 - 做多收益（获取杠杆收益敞口）"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第八章 - 做多收益（获得杠杆收益敞口）

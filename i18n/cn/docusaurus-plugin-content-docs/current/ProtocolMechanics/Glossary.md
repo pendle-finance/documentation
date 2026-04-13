@@ -1,4 +1,6 @@
 ---
+pagination_label: "术语表"
+title: "术语表"
 hide_table_of_contents: true
 ---
 

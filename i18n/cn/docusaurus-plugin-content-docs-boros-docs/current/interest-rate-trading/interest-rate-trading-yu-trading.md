@@ -1,3 +1,8 @@
+---
+pagination_label: "利率交易（YU 交易）"
+title: "利率交易（YU 交易）"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 利率交易（YU 交易）

@@ -1,3 +1,8 @@
+---
+pagination_label: "锁定固定资金费率收益"
+title: "锁定固定资金费率收益"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 锁定固定资金费率收益

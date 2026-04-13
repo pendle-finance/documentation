@@ -1,3 +1,8 @@
+---
+pagination_label: "第 1 章 - 收益单位（YU）"
+title: "第 1 章 - 收益单位（YU）"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第 1 章 - 收益单位（YU）

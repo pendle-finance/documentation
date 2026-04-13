@@ -1,4 +1,6 @@
 ---
+pagination_label: "铸造"
+title: "铸造"
 hide_table_of_contents: true
 ---
 

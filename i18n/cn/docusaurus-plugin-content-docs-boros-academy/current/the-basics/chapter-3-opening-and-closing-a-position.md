@@ -1,3 +1,8 @@
+---
+pagination_label: "第 3 章 - 开仓与平仓"
+title: "第 3 章 - 开仓与平仓"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第 3 章 - 开仓与平仓

@@ -1,3 +1,8 @@
+---
+pagination_label: "第 2 章 - 隐含 APR 与底层 APR"
+title: "第 2 章 - 隐含 APR 与底层 APR"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第 2 章 - 隐含 APR 与底层 APR

@@ -1,4 +1,6 @@
 ---
+pagination_label: "YT"
+title: "YT"
 hide_table_of_contents: true
 ---
 

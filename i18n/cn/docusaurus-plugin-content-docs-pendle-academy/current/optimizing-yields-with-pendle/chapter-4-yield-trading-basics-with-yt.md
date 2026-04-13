@@ -1,3 +1,8 @@
+---
+pagination_label: "第 4 章 - 使用 YT 进行收益交易基础"
+title: "第 4 章 - 使用 YT 进行收益交易基础"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第四章 - YT 收益交易基础

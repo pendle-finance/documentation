@@ -1,3 +1,8 @@
+---
+pagination_label: "积分支持页面"
+title: "积分支持页面"
+---
+
 import Hint from '@site/src/components/Hint';
 import CardGrid, { Card } from '@site/src/components/CardGrid';
 

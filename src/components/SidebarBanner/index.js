@@ -3,6 +3,8 @@ import { useLocation } from '@docusaurus/router';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 
+const LOCALE_PREFIX_RE = /^\/(cn)\//;
+
 const BANNERS = {
   '/pendle-v2-dev':  { label: 'Pendle V2 Dev',   img: '/img/banners/pendle-docs.png',    theme: 'teal' },
   '/pendle-v2':      { label: 'Pendle Docs',      img: '/img/banners/pendle-docs.png',    theme: 'teal' },
@@ -14,7 +16,8 @@ const BANNERS = {
 
 export default function SidebarBanner() {
   const { pathname } = useLocation();
-  const entry = Object.entries(BANNERS).find(([prefix]) => pathname.startsWith(prefix));
+  const stripped = pathname.replace(LOCALE_PREFIX_RE, '/');
+  const entry = Object.entries(BANNERS).find(([prefix]) => stripped.startsWith(prefix));
   const imgSrc = useBaseUrl(entry ? entry[1].img : '');
   if (!entry) return null;
   const [, { label, theme }] = entry;

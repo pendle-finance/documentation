@@ -1,4 +1,6 @@
 ---
+pagination_label: "订单簿"
+title: "订单簿"
 hide_table_of_contents: true
 ---
 

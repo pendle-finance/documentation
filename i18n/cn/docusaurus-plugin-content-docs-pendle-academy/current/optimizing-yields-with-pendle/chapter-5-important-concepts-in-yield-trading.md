@@ -1,3 +1,8 @@
+---
+pagination_label: "第 5 章 - 收益交易重要概念"
+title: "第 5 章 - 收益交易重要概念"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第五章 - 收益交易中的重要概念

@@ -1,3 +1,8 @@
+---
+pagination_label: "Boros 推荐计划"
+title: "Boros 推荐计划"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # Boros 推荐计划

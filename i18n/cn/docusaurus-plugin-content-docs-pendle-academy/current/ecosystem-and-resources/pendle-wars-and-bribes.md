@@ -1,3 +1,8 @@
+---
+pagination_label: "Pendle Wars 与「贿赂」"
+title: "Pendle Wars 与「贿赂」"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # Pendle 生态竞争与"贿赂"

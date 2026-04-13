@@ -86,7 +86,7 @@ const config = {
         indexBlog: false,
         docsRouteBasePath: ['pendle-v2', 'pendle-v2-dev', 'pendle-academy', 'boros-docs', 'boros-dev', 'boros-academy'],
         docsDir: ['docs/pendle-docs', 'docs/pendle-dev-docs', 'docs/pendle-academy', 'docs/boros-docs', 'docs/boros-dev-docs', 'docs/boros-academy'],
-        language: ['en'],
+        language: ['en', 'zh'],
         highlightSearchTermsOnTargetPage: true,
         explicitSearchResultPath: true,
         searchResultLimits: 8,

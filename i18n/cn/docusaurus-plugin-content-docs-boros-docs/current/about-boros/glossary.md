@@ -1,3 +1,8 @@
+---
+pagination_label: "术语表"
+title: "术语表"
+---
+
 # 术语表
 
 **YU（收益单位，Yield Units）**：每个 YU 代表底层资产中 1 单位抵押品的收益。例如，在 Boros 上以 BTC 为抵押品的 BTCUSDT（Hyperliquid）市场中，该市场中的每个 YU 代表 Hyperliquid 上 1 BTC 的资金费率。

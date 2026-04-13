@@ -1,3 +1,8 @@
+---
+pagination_label: "介绍"
+title: "介绍"
+---
+
 import CardGrid, { Card } from '@site/src/components/CardGrid';
 import BorosSimple from '@site/src/components/icons/BorosSimple';
 import BorosAdvance from '@site/src/components/icons/BorosAdvance';

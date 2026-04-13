@@ -1,4 +1,6 @@
 ---
+pagination_label: "负收益"
+title: "负收益"
 hide_table_of_contents: true
 ---
 

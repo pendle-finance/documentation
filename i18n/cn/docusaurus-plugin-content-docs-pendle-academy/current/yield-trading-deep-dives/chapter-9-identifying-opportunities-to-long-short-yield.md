@@ -1,3 +1,8 @@
+---
+pagination_label: "第 9 章 - 识别做多/做空收益的机会"
+title: "第 9 章 - 识别做多/做空收益的机会"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第九章 - 识别做多/做空收益的机会

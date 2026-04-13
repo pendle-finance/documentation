@@ -1,3 +1,8 @@
+---
+pagination_label: "介绍"
+title: "介绍"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # Boros 概览

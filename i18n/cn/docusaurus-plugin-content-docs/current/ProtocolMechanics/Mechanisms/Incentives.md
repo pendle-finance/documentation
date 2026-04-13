@@ -1,4 +1,6 @@
 ---
+pagination_label: "激励机制"
+title: "激励机制"
 hide_table_of_contents: true
 ---
 

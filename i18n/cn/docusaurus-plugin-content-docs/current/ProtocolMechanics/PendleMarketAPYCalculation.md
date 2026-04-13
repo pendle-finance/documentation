@@ -1,4 +1,6 @@
 ---
+pagination_label: "APY 计算"
+title: "APY 计算"
 hide_table_of_contents: true
 ---
 

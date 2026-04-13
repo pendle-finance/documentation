@@ -5,18 +5,27 @@ import { translate } from '@docusaurus/Translate';
 import IconHome from '@theme/Icon/Home';
 import styles from './styles.module.css';
 
+const LOCALE_PREFIX_RE = /^\/(cn)\//;
+
 function isBoros(pathname) {
+  const stripped = pathname.replace(LOCALE_PREFIX_RE, '/');
   return (
-    pathname.startsWith('/boros-dev') ||
-    pathname.startsWith('/boros-docs') ||
-    pathname.startsWith('/boros-academy') ||
-    pathname.startsWith('/boros')
+    stripped.startsWith('/boros-dev') ||
+    stripped.startsWith('/boros-docs') ||
+    stripped.startsWith('/boros-academy') ||
+    stripped.startsWith('/boros')
   );
+}
+
+function localePrefix(pathname) {
+  const m = pathname.match(LOCALE_PREFIX_RE);
+  return m ? `/${m[1]}` : '';
 }
 
 export default function HomeBreadcrumbItem() {
   const { pathname } = useLocation();
-  const homeHref = isBoros(pathname) ? '/boros' : '/';
+  const prefix = localePrefix(pathname);
+  const homeHref = isBoros(pathname) ? `${prefix}/boros` : `${prefix}/`;
 
   return (
     <li className="breadcrumbs__item">

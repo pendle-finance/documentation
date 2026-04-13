@@ -1,4 +1,6 @@
 ---
+pagination_label: "兑换"
+title: "兑换"
 hide_table_of_contents: true
 ---
 

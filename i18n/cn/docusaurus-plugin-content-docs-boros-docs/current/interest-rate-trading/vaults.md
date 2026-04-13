@@ -1,3 +1,8 @@
+---
+pagination_label: "金库"
+title: "金库"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 金库

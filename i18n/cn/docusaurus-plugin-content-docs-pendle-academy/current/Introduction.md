@@ -1,3 +1,8 @@
+---
+pagination_label: "介绍"
+title: "介绍"
+---
+
 import CardGrid, { Card } from '@site/src/components/CardGrid';
 import PendleSimple from '@site/src/components/icons/PendleSimple';
 import PendleIntermediate from '@site/src/components/icons/PendleIntermediate';

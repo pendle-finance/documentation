@@ -1,3 +1,8 @@
+---
+pagination_label: "第 3.2 章 - 通过流动性提供获取更多收益"
+title: "第 3.2 章 - 通过流动性提供获取更多收益"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第 3.2 章 - 通过流动性提供获得更多收益

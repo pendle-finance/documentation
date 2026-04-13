@@ -1,3 +1,8 @@
+---
+pagination_label: "Pendle 101 - 核心要点"
+title: "Pendle 101 - 核心要点"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # Pendle 101 - 核心要点

@@ -1,3 +1,8 @@
+---
+pagination_label: "费用"
+title: "费用"
+---
+
 # 费用
 
 Boros 有 2 种费用来源：

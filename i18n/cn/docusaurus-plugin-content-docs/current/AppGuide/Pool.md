@@ -1,4 +1,6 @@
 ---
+pagination_label: "流动性池"
+title: "流动性池"
 hide_table_of_contents: true
 ---
 

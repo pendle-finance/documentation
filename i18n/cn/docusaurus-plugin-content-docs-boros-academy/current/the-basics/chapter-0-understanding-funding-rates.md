@@ -1,3 +1,8 @@
+---
+pagination_label: "第 0 章 - 理解资金费率"
+title: "第 0 章 - 理解资金费率"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第 0 章 - 理解资金费率

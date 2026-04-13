@@ -1,3 +1,8 @@
+---
+pagination_label: "第 7 章 - 保证金与清算"
+title: "第 7 章 - 保证金与清算"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第 7 章 - 保证金与清算

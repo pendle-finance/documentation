@@ -1,4 +1,6 @@
 ---
+pagination_label: "代币经济"
+title: "代币经济"
 hide_table_of_contents: true
 ---
 

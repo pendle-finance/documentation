@@ -1,14 +1,17 @@
 import React, { useLayoutEffect } from 'react';
 import { useLocation } from '@docusaurus/router';
 
+const LOCALE_PREFIX_RE = /^\/(cn)\//;
+
 function SectionSetter() {
   const { pathname } = useLocation();
 
   useLayoutEffect(() => {
     const html = document.documentElement;
-    if (pathname.startsWith('/pendle')) {
+    const stripped = pathname.replace(LOCALE_PREFIX_RE, '/');
+    if (stripped.startsWith('/pendle')) {
       html.setAttribute('data-section', 'v2');
-    } else if (pathname.startsWith('/boros')) {
+    } else if (stripped.startsWith('/boros')) {
       html.setAttribute('data-section', 'boros');
     } else {
       html.removeAttribute('data-section');

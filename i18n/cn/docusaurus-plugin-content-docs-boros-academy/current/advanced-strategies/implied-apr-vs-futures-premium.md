@@ -1,3 +1,8 @@
+---
+pagination_label: "隐含 APR 与期货溢价"
+title: "隐含 APR 与期货溢价"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 隐含 APR 与期货溢价

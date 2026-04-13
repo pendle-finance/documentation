@@ -7,25 +7,52 @@ import NavbarMobileSidebarToggle from "@theme/Navbar/MobileSidebar/Toggle";
 import styles from "./styles.module.css";
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 
-const PENDLE_ITEMS = [
-  { label: "Pendle Docs", to: "/pendle-v2/Introduction", activeBasePath: "/pendle-v2/", position: "left" },
-  { label: "Pendle Academy", to: "/pendle-academy/Introduction", activeBasePath: "/pendle-academy", position: "left" },
-  { label: "Pendle Dev Docs", to: "/pendle-v2-dev/Overview", activeBasePath: "/pendle-v2-dev", position: "left" },
-];
+const NAV_LABELS = {
+  en: {
+    pendleDocs: "Pendle Docs",
+    pendleAcademy: "Pendle Academy",
+    pendleDev: "Pendle Dev Docs",
+    borosDocs: "Boros Docs",
+    borosAcademy: "Boros Academy",
+    borosDev: "Boros Dev Docs",
+  },
+  cn: {
+    pendleDocs: "Pendle 文档",
+    pendleAcademy: "Pendle 学院",
+    pendleDev: "Pendle 开发者文档",
+    borosDocs: "Boros 文档",
+    borosAcademy: "Boros 学院",
+    borosDev: "Boros 开发者文档",
+  },
+};
 
-const BOROS_ITEMS = [
-  { label: "Boros Docs", to: "/boros-docs/Introduction", activeBasePath: "/boros-docs", position: "left" },
-  { label: "Boros Academy", to: "/boros-academy/Introduction", activeBasePath: "/boros-academy", position: "left" },
-  { label: "Boros Dev Docs", to: "/boros-dev", activeBasePath: "/boros-dev", position: "left" },
-];
+function getNavItems(isBoros, locale) {
+  const l = NAV_LABELS[locale] ?? NAV_LABELS.en;
+  if (isBoros) {
+    return [
+      { label: l.borosDocs, to: "/boros-docs/Introduction", activeBaseRegex: "^(/[a-z]{2})?/boros-docs", position: "left" },
+      { label: l.borosAcademy, to: "/boros-academy/Introduction", activeBaseRegex: "^(/[a-z]{2})?/boros-academy", position: "left" },
+      { label: l.borosDev, to: "/boros-dev", activeBaseRegex: "^(/[a-z]{2})?/boros-dev", position: "left" },
+    ];
+  }
+  return [
+    { label: l.pendleDocs, to: "/pendle-v2/Introduction", activeBaseRegex: "^(/[a-z]{2})?/pendle-v2/", position: "left" },
+    { label: l.pendleAcademy, to: "/pendle-academy/Introduction", activeBaseRegex: "^(/[a-z]{2})?/pendle-academy", position: "left" },
+    { label: l.pendleDev, to: "/pendle-v2-dev/Overview", activeBaseRegex: "^(/[a-z]{2})?/pendle-v2-dev", position: "left" },
+  ];
+}
+
+const LOCALE_PREFIX_RE = /^\/(cn)\//;
 
 function isBoros(pathname) {
+  const stripped = pathname.replace(LOCALE_PREFIX_RE, "/");
   return (
-    pathname.startsWith("/boros-dev") ||
-    pathname.startsWith("/boros-docs") ||
-    pathname.startsWith("/boros-academy") ||
-    pathname.startsWith("/boros")
+    stripped.startsWith("/boros-dev") ||
+    stripped.startsWith("/boros-docs") ||
+    stripped.startsWith("/boros-academy") ||
+    stripped.startsWith("/boros")
   );
 }
 
@@ -51,8 +78,9 @@ function NavbarContentLayout({ left, right }) {
 export default function NavbarContent() {
   const mobileSidebar = useNavbarMobileSidebar();
   const { pathname } = useLocation();
+  const { i18n: { currentLocale } } = useDocusaurusContext();
   const borosActive = isBoros(pathname);
-  const navItems = borosActive ? BOROS_ITEMS : PENDLE_ITEMS;
+  const navItems = getNavItems(borosActive, currentLocale);
   const logoSrc = useBaseUrl(borosActive ? "/img/boros-logo.svg" : "/img/logo.svg");
 
   useEffect(() => {

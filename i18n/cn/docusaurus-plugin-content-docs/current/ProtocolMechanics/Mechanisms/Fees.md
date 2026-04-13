@@ -1,4 +1,6 @@
 ---
+pagination_label: "费用"
+title: "费用"
 hide_table_of_contents: true
 ---
 

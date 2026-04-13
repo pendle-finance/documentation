@@ -1,4 +1,6 @@
 ---
+pagination_label: "使用 Pendle"
+title: "使用 Pendle"
 hide_table_of_contents: true
 ---
 

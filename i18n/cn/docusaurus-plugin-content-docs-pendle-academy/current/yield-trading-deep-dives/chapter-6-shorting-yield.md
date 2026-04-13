@@ -1,3 +1,8 @@
+---
+pagination_label: "第 6 章 - 做空收益"
+title: "第 6 章 - 做空收益"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第六章 - 做空收益

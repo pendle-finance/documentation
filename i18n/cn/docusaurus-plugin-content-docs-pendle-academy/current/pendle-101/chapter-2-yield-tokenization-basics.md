@@ -1,3 +1,8 @@
+---
+pagination_label: "第 2 章 - 收益代币化基础"
+title: "第 2 章 - 收益代币化基础"
+---
+
 import Hint from '@site/src/components/Hint';
 
 # 第二章 - 收益代币化基础
