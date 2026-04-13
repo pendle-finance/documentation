@@ -2,6 +2,8 @@ import Hint from '@site/src/components/Hint';
 
 # 对冲资金费率支付
 
+<iframe height="400" width="100%" src="https://www.youtube.com/embed/1TqmwHJ2Mcg" title="Video" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+
 在资金费率为正的市场环境下，在永续合约交易所持有多头头寸的交易者，将在每个结算间隔支付资金费率（各交易所结算频率不同）。
 
 <figure><img src="/boros-academy/imgs/image (33).png" alt="" /><figcaption></figcaption></figure>
