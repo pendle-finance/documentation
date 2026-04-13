@@ -3,7 +3,6 @@ import { useLocation } from '@docusaurus/router';
 import { useNavbarMobileSidebar } from '@docusaurus/theme-common/internal';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
-import styles from './styles.module.css';
 
 const LOCALE_PREFIX_RE = /^\/(cn)\//;
 
@@ -32,15 +31,15 @@ function getItems(borosActive, locale) {
   const l = NAV_LABELS[locale] ?? NAV_LABELS.en;
   if (borosActive) {
     return [
-      { label: l.borosDocs,    to: '/boros-docs/Introduction', activeBaseRegex: /^(\/[a-z]{2})?\/boros-docs/ },
+      { label: l.borosDocs,    to: '/boros-docs/Introduction',   activeBaseRegex: /^(\/[a-z]{2})?\/boros-docs/ },
       { label: l.borosAcademy, to: '/boros-academy/Introduction', activeBaseRegex: /^(\/[a-z]{2})?\/boros-academy/ },
-      { label: l.borosDev,     to: '/boros-dev', activeBaseRegex: /^(\/[a-z]{2})?\/boros-dev/ },
+      { label: l.borosDev,     to: '/boros-dev',                  activeBaseRegex: /^(\/[a-z]{2})?\/boros-dev/ },
     ];
   }
   return [
-    { label: l.pendleDocs,    to: '/pendle-v2/Introduction', activeBaseRegex: /^(\/[a-z]{2})?\/pendle-v2\// },
+    { label: l.pendleDocs,    to: '/pendle-v2/Introduction',     activeBaseRegex: /^(\/[a-z]{2})?\/pendle-v2\// },
     { label: l.pendleAcademy, to: '/pendle-academy/Introduction', activeBaseRegex: /^(\/[a-z]{2})?\/pendle-academy/ },
-    { label: l.pendleDev,     to: '/pendle-v2-dev/Overview', activeBaseRegex: /^(\/[a-z]{2})?\/pendle-v2-dev/ },
+    { label: l.pendleDev,     to: '/pendle-v2-dev/Overview',     activeBaseRegex: /^(\/[a-z]{2})?\/pendle-v2-dev/ },
   ];
 }
 
@@ -61,22 +60,21 @@ export default function NavbarMobileSidebarPrimaryMenu() {
   const activeItem = getActiveItem(pathname, items);
 
   return (
-    <>
-      <div className={styles.pillRow}>
-        {items.map((item, i) => {
-          const isActive = activeItem === item;
-          return (
+    <ul className="menu__list">
+      {items.map((item, i) => {
+        const isActive = activeItem === item;
+        return (
+          <li key={i} className="menu__list-item">
             <Link
-              key={i}
               to={item.to}
-              className={`${styles.pill}${isActive ? ` ${styles.pillActive}` : ''}`}
+              className={`menu__link${isActive ? ' menu__link--active' : ''}`}
               onClick={() => mobileSidebar.toggle()}
             >
               {item.label}
             </Link>
-          );
-        })}
-      </div>
-    </>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
