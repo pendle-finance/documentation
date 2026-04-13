@@ -3,6 +3,7 @@ import { useLocation } from '@docusaurus/router';
 import { useNavbarMobileSidebar } from '@docusaurus/theme-common/internal';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Link from '@docusaurus/Link';
+import styles from './styles.module.css';
 
 const LOCALE_PREFIX_RE = /^\/(cn)\//;
 
@@ -60,21 +61,22 @@ export default function NavbarMobileSidebarPrimaryMenu() {
   const activeItem = getActiveItem(pathname, items);
 
   return (
-    <ul className="menu__list">
-      {items.map((item, i) => {
-        const isActive = activeItem === item;
-        return (
-          <li key={i} className="menu__list-item">
+    <>
+      <div className={styles.pillRow}>
+        {items.map((item, i) => {
+          const isActive = activeItem === item;
+          return (
             <Link
+              key={i}
               to={item.to}
-              className={`menu__link${isActive ? ' menu__link--active' : ''}`}
+              className={`${styles.pill}${isActive ? ` ${styles.pillActive}` : ''}`}
               onClick={() => mobileSidebar.toggle()}
             >
               {item.label}
             </Link>
-          </li>
-        );
-      })}
-    </ul>
+          );
+        })}
+      </div>
+    </>
   );
 }

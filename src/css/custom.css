@@ -544,14 +544,14 @@ input[class*='search-input'] {
 .navbar__search input:hover,
 input[class*='searchQueryInput']:hover {
   background: rgba(255, 255, 255, 0.09) !important;
-  border-color: rgba(96, 121, 255, 0.5) !important;
+  border-color: rgba(var(--navbar-accent-rgb), 0.5) !important;
 }
 
 .navbar__search input:focus,
 input[class*='searchQueryInput']:focus {
   background: rgba(255, 255, 255, 0.1) !important;
-  border-color: #6079FF !important;
-  box-shadow: 0 0 0 3px rgba(96, 121, 255, 0.15) !important;
+  border-color: var(--navbar-accent) !important;
+  box-shadow: 0 0 0 3px rgba(var(--navbar-accent-rgb), 0.15) !important;
   outline: none !important;
 }
 
@@ -1600,6 +1600,10 @@ table tbody tr:last-child td {
   height: 52px;
   width: auto;
   display: block;
+}
+
+.navbar-sidebar__brand .navbar__logo img {
+  height: 32px;
 }
 
 .navbar__title {
