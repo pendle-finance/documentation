@@ -1856,4 +1856,50 @@ html body .menu__caret {
   background-color: transparent !important;
 }
 
+/* ============================================
+   Mobile overflow: tables, iframes, code, math
+   (tables/iframes wrapped via JS in DocItem/Layout)
+   ============================================ */
+
+/* Responsive iframe wrapper — 16:9 on all screen sizes */
+.iframeWrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  overflow: hidden;
+}
+
+.iframeWrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+@media (max-width: 996px) {
+  /* Scrollable wrapper injected around tables by DocItem/Layout */
+  .tableScrollWrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+  }
+
+  /* Code blocks scroll horizontally */
+  .markdown pre,
+  [class*='codeBlockContainer'] {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Math/KaTeX blocks */
+  .katex-display,
+  .math-display {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+}
+
 
