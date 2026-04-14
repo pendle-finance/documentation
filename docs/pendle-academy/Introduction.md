@@ -19,6 +19,7 @@ This doc is your full guide to yield-trading on Pendle. To learn more about the 
     description="Learn the various features available on Pendle."
     link="optimizing-yields-with-pendle/chapter-3.1-fixed-yield-on-pendle"
     icon={<PendleIntermediate />}
+    hasSMIL
   />
   <Card
     title="Advanced"

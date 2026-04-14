@@ -25,7 +25,11 @@ function localePrefix(pathname) {
 export default function HomeBreadcrumbItem() {
   const { pathname } = useLocation();
   const prefix = localePrefix(pathname);
-  const homeHref = isBoros(pathname) ? `${prefix}/boros` : `${prefix}/`;
+  const homeHref = isBoros(pathname)
+    ? `${prefix}/boros`
+    : prefix
+      ? `${prefix}/pendle-v2/Introduction`
+      : `/`;
 
   return (
     <li className="breadcrumbs__item">
