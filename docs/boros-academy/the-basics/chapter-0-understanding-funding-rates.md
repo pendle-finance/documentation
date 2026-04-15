@@ -88,7 +88,7 @@ What you see here is essentially what the Ethena protocol does - delta neutral f
 
 On Boros, users are able to supplement their existing delta-neutral strategies by turning the variable fees from funding rates into a _**fixed**_ yield stream. This capability allows traders and protocols like Ethena to secure stable yields from delta-neutral farming, making their income streams more predictable and easier to manage, or even locking in higher rates.
 
-You can learn more about advanced strategies for Boros [here](/broken/pages/saP5y79RkhZutSr2jN3w).
+You can learn more about advanced strategies for Boros [here](/boros-academy/advanced-strategies/hedging-funding-rates-payment).
 
 ## Additional Resources
 

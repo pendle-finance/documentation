@@ -2,6 +2,8 @@ import Hint from '@site/src/components/Hint';
 
 # Fixed Funding Rates Receivables
 
+<iframe height="400" width="100%" src="https://www.youtube.com/embed/1TqmwHJ2Mcg" title="Video" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+
 Assuming a positive funding rate environment, traders with a SHORT position on perp exchanges will receive a funding rate payment at every interval (which can differ across exchanges).
 
 <figure><img src="/boros-academy/imgs/image (37).png" alt="" /><figcaption></figcaption></figure>
