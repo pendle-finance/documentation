@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpendle_documentation=self.webpackChunkpendle_documentation||[]).push([[8061],{323:e=>{e.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"pendle-v2-dev"}')}}]);

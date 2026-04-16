@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpendle_documentation=self.webpackChunkpendle_documentation||[]).push([[2634],{192:(e,n,t)=>{t.r(n),t.d(n,{default:()=>l});var u=t(6540),c=t(6347);function l(){const e=(0,c.W6)();return(0,u.useEffect)(()=>{e.replace("/pendle-v2/Introduction")},[]),null}}}]);

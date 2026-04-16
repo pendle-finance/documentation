@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkpendle_documentation=self.webpackChunkpendle_documentation||[]).push([[5737],{9368:e=>{e.exports=JSON.parse('{"name":"docusaurus-plugin-content-docs","id":"boros-academy"}')}}]);
