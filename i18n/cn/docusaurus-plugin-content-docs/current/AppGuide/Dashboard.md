@@ -1,4 +1,6 @@
 ---
+pagination_label: "仪表盘"
+title: "仪表盘"
 hide_table_of_contents: true
 ---
 # 仪表盘
@@ -10,7 +12,7 @@ hide_table_of_contents: true
 ## 概览
 
 <figure>
-  <img src="/img/AppGuide/dashboard.png" alt="仪表盘" />
+  <img src="/pendle-docs/imgs/AppGuide/dashboard.png" alt="仪表盘" />
   <figcaption>仪表盘的上部分提供了您头寸的概览。</figcaption>
 </figure>
 
@@ -30,15 +32,15 @@ hide_table_of_contents: true
 
 仪表盘的下半部分按资产细分您的Pendle头寸，包括您对该特定资产持有的活跃头寸（即PT、YT或LP）、其总头寸价值以及盈亏。
 
-![All My Positions](/img/AppGuide/all_my_positions.png "All My Positions")
+![All My Positions](/pendle-docs/imgs/AppGuide/all_my_positions.png "All My Positions")
 
 您可以点击“详情”以获得资产头寸的更全面视图，这将显示您的头寸按PT、YT和LP的进一步细分，以及动态盈亏图表（即将推出）。
 
-![My Position](/img/AppGuide/my_position.png "My Position")
+![My Position](/pendle-docs/imgs/AppGuide/my_position.png "My Position")
 
 “交易”标签显示与资产相关的所有交易，包括按交易实现的利润。点击列下的操作（例如“申领收益”或“LP转出”）将带您前往区块链浏览器上的交易页面。
 
-![My Transactions](/img/AppGuide/my_transactions.png "My Transactions")
+![My Transactions](/pendle-docs/imgs/AppGuide/my_transactions.png "My Transactions")
 
 ## 仪表板模式
 

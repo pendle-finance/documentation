@@ -67,3 +67,6 @@ typechain
 .claude
 
 local-*
+.vercel
+
+.playwright-mcp/

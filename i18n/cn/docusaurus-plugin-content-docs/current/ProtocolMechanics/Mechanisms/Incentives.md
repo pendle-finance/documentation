@@ -1,4 +1,6 @@
 ---
+pagination_label: "激励机制"
+title: "激励机制"
 hide_table_of_contents: true
 ---
 
@@ -29,7 +31,7 @@ hide_table_of_contents: true
 
 基于绩效的排放会根据资金池在其上线周期中不同阶段的实际需求进行调整：新上线的池子会根据流动性增长获得更强力的激励，而成熟的池子则主要根据交易手续费表现获得激励。
 
-![incentive timeline](/img/ProtocolMechanics/incentive_timeline.png "Incentive Timeline")
+![incentive timeline](/pendle-docs/imgs/ProtocolMechanics/incentive_timeline.png "Incentive Timeline")
 
 绩效激励的排放总量上限为每周最大奖励量减去联合激励和自主分配渠道已消耗的排放量。
 
@@ -48,7 +50,7 @@ hide_table_of_contents: true
 增长期（Growth）-> 上线后 14–28 天
 成熟期（Mature）-> 上线后 ≥28 天
 
-![Emission Curve](/img/ProtocolMechanics/emission_curve.png "Emission Curve")
+![Emission Curve](/pendle-docs/imgs/ProtocolMechanics/emission_curve.png "Emission Curve")
 
 启动期曲线拥有更激进的"每单位流动性奖励斜率"，以支持新池度过关键早期阶段。随着资金池逐渐成熟，这类补贴会逐步减少，激励更多由手续费收入驱动。
 
@@ -73,7 +75,7 @@ hide_table_of_contents: true
 2. 过渡阶段（Transitional）：原资金池到期后 0–7 天
 3. 到期后阶段（Post-Maturity）：原资金池到期后 \>7 天，或原资金池到期前 \>7 天
 
-![Renewal Curve](/img/ProtocolMechanics/renewal_curve.png "Renewal Curve")
+![Renewal Curve](/pendle-docs/imgs/ProtocolMechanics/renewal_curve.png "Renewal Curve")
 
 各阶段基于续期池流动性的排放如下：
 
@@ -86,7 +88,7 @@ hide_table_of_contents: true
 
 #### 示例
 
-![Renewal Emission](/img/ProtocolMechanics/renewal_emission.png "Renewal Emission")
+![Renewal Emission](/pendle-docs/imgs/ProtocolMechanics/renewal_emission.png "Renewal Emission")
 
 *假设 USDe 资金池即将到期，其续期池（下一个最近到期版本）的加权 TVL 为 1,000 万美元。在正常情况下，根据默认流动性曲线（启动期），该资金池将获得 1.5% 的排放份额*。
 

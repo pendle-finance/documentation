@@ -41,14 +41,14 @@
   },
   "link.item.label.Media Kit": {
     "message": "Media Kit",
-    "description": "The label of footer link with label=Media Kit linking to https://pendle.finance/brandguide"
+    "description": "The label of footer link with label=Media Kit linking to https://www.pendle.finance/brandguide"
   },
   "link.item.label.Audits": {
     "message": "Audits",
     "description": "The label of footer link with label=Audits linking to https://github.com/pendle-finance/pendle-core-v2-public/tree/main/audits"
   },
   "copyright": {
-    "message": "Copyright © 2023 Pendle Finance",
+    "message": "Copyright © 2026 Pendle Finance",
     "description": "The footer copyright"
   },
   "logo.alt": {

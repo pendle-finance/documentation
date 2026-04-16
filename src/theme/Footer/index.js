@@ -40,8 +40,8 @@ function Footer() {
           <a href="https://angel.co/company/pendle_finance/" target="_blank">
             Careers
           </a>
-          <a href="https://pendle.finance/brandguide" target="_blank">
-            Media Kit
+          <a href="https://www.pendle.finance/brand-guide" target="_blank">
+            Brand Guide
           </a>
           <a
             href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits"

@@ -1,4 +1,6 @@
 ---
+pagination_label: "Pendle AI 插件"
+title: "Pendle AI 插件"
 hide_table_of_contents: true
 ---
 

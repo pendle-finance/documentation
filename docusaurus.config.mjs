@@ -1,19 +1,41 @@
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
+/**
+ * Recursively walk generated sidebar items and copy `sidebar_icon` frontmatter
+ * into `customProps.icon` so the sidebar rendering components pick it up.
+ * Only applies to items that don't already have a customProps.icon set.
+ */
+function propagateFrontmatterIcons(items, docs) {
+  return items.map(item => {
+    if (item.type === 'doc' || item.type === 'ref') {
+      const doc = docs.find(d => d.id === item.id || d.unversionedId === item.id);
+      const fmIcon = doc?.frontMatter?.sidebar_icon;
+      if (fmIcon && !item.customProps?.icon) {
+        return { ...item, customProps: { ...item.customProps, icon: fmIcon } };
+      }
+      return item;
+    }
+    if (item.type === 'category' && item.items) {
+      return { ...item, items: propagateFrontmatterIcons(item.items, docs) };
+    }
+    return item;
+  });
+}
+
 /** @type {import('@docusaurus/types').DocusaurusConfig} */
 const config = {
   title: 'Pendle Documentation',
   tagline: 'Pendle is a protocol that liberates future yield. It enables the tokenization and trading of future yield on a novel AMM designed to support assets with time decay.',
-  url: 'https://docs.pendle.finance/',
+  url: 'https://docs.pendle.finance',
   baseUrl: '/',
   trailingSlash: false,
   onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'ignore',
   onBrokenAnchors: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'pendle-finance', // Usually your GitHub org/user name.
-  projectName: 'documentation', // Usually your repo name.
+  organizationName: 'pendle-finance',
+  projectName: 'documentation',
   deploymentBranch: 'gh-pages',
 
   headTags: [
@@ -33,13 +55,17 @@ const config = {
       ({
         docs: {
           id: 'default',
-          path: 'docs/pendle-v2',
+          path: 'docs/pendle-docs',
           breadcrumbs: true,
           routeBasePath: 'pendle-v2',
-          sidebarPath: './docs/pendle-v2/sidebars.js',
+          sidebarPath: './docs/pendle-docs/sidebars.js',
           remarkPlugins: [remarkMath],
           rehypePlugins: [rehypeKatex],
           exclude: ['**/Boros/**'],
+          async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+            const items = await defaultSidebarItemsGenerator(args);
+            return propagateFrontmatterIcons(items, args.docs);
+          },
         },
         gtag: {
           trackingID: 'G-6ZBS49V0YS',
@@ -53,41 +79,35 @@ const config = {
   ],
 
   themes: [
-    // ... Your other themes.
     [
-      require.resolve("@easyops-cn/docusaurus-search-local"),
-      /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
-      ({
-        // ... Your options.
-        // `hashed` is recommended as long-term-cache of index file is possible.
+      '@easyops-cn/docusaurus-search-local',
+      {
         hashed: true,
-
-        // For Docs using Chinese, it is recomended to set:
-        language: ["en", "zh"],
-        docsRouteBasePath: ["/pendle-v2", "/boros-dev"],
-
-        // Customize the keyboard shortcut to focus search bar (default is "mod+k"):
-        // searchBarShortcutKeymap: "s", // Use 'S' key
-        // searchBarShortcutKeymap: "ctrl+shift+f", // Use Ctrl+Shift+F
-
-        // If you're using `noIndex: true`, set `forceIgnoreNoIndex` to enable local index:
-        // forceIgnoreNoIndex: true,
-      }),
+        indexBlog: false,
+        docsRouteBasePath: ['pendle-v2', 'pendle-v2-dev', 'pendle-academy', 'boros-docs', 'boros-dev', 'boros-academy'],
+        docsDir: ['docs/pendle-docs', 'docs/pendle-dev-docs', 'docs/pendle-academy', 'docs/boros-docs', 'docs/boros-dev-docs', 'docs/boros-academy'],
+        language: ['en', 'zh'],
+        highlightSearchTermsOnTargetPage: true,
+        explicitSearchResultPath: true,
+        searchResultLimits: 8,
+      },
     ],
   ],
 
   plugins: [
     [
-      '@docusaurus/plugin-client-redirects',
+      '@docusaurus/plugin-content-docs',
       {
-        createRedirects(existingPath) {
-          // For paths like /Developer/SomeDocs, redirect to /pendle-v2/Developer/SomeDocs
-          if (existingPath.includes('/pendle-v2/')) {
-            const pathWithoutPrefix = existingPath.replace('/pendle-v2/', '/');
-            return [pathWithoutPrefix];
-          }
-
-          return undefined;
+        id: 'pendle-v2-dev',
+        path: 'docs/pendle-dev-docs',
+        routeBasePath: 'pendle-v2-dev',
+        sidebarPath: './docs/pendle-dev-docs/sidebars.js',
+        breadcrumbs: true,
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+        async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+          const items = await defaultSidebarItemsGenerator(args);
+          return propagateFrontmatterIcons(items, args.docs);
         },
       },
     ],
@@ -101,6 +121,10 @@ const config = {
         breadcrumbs: true,
         remarkPlugins: [remarkMath],
         rehypePlugins: [rehypeKatex],
+        async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+          const items = await defaultSidebarItemsGenerator(args);
+          return propagateFrontmatterIcons(items, args.docs);
+        },
       },
     ],
     [
@@ -113,13 +137,49 @@ const config = {
         breadcrumbs: true,
         remarkPlugins: [remarkMath],
         rehypePlugins: [rehypeKatex],
+        async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+          const items = await defaultSidebarItemsGenerator(args);
+          return propagateFrontmatterIcons(items, args.docs);
+        },
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'boros-docs',
+        path: 'docs/boros-docs',
+        routeBasePath: 'boros-docs',
+        sidebarPath: './docs/boros-docs/sidebars.js',
+        breadcrumbs: true,
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+        async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+          const items = await defaultSidebarItemsGenerator(args);
+          return propagateFrontmatterIcons(items, args.docs);
+        },
+      },
+    ],
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'boros-academy',
+        path: 'docs/boros-academy',
+        routeBasePath: 'boros-academy',
+        sidebarPath: './docs/boros-academy/sidebars.js',
+        breadcrumbs: true,
+        remarkPlugins: [remarkMath],
+        rehypePlugins: [rehypeKatex],
+        async sidebarItemsGenerator({ defaultSidebarItemsGenerator, ...args }) {
+          const items = await defaultSidebarItemsGenerator(args);
+          return propagateFrontmatterIcons(items, args.docs);
+        },
       },
     ],
     [
       '@docusaurus/plugin-sitemap',
       {
         id: 'sitemap',
-        lastmod: 'date',
+        lastmod: null,
         changefreq: 'weekly',
         priority: 0.5,
         ignorePatterns: ['/tags/**'],
@@ -139,20 +199,18 @@ const config = {
       integrity: "sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc",
       crossorigin: "anonymous",
     },
+    {
+      href: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block",
+      rel: "stylesheet",
+    },
   ],
 
   themeConfig:
   /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
   {
-    algolia: {
-      appId: "GFVY0GOMCR",
-      apiKey: "1e9c713dfca40c64b56217bb24d5c4cd",
-      indexName: "pendle",
-      contextualSearch: true,
-    },
     colorMode: {
-      defaultMode: 'light',
-      disableSwitch: false,
+      defaultMode: 'dark',
+      disableSwitch: true,
       respectPrefersColorScheme: false,
     },
     docs:{
@@ -169,39 +227,9 @@ const config = {
       title: 'Pendle Documentation',
       items: [
         {
-          type: 'dropdown',
-          label: 'Pendle V2',
-          position: 'left',
-          items: [
-            {
-              to: '/pendle-v2/Introduction',
-              label: 'Pendle V2 Docs',
-            },
-            {
-              href: 'https://pendle.gitbook.io/pendle-academy/',
-              label: 'Pendle Academy',
-            }
-          ]
+          type: 'localeDropdown',
+          position: 'right',
         },
-        {
-          type: 'dropdown',
-          label: 'Boros',
-          position: 'left',
-          items: [
-            {
-              to: '/boros-dev',
-              label: 'Boros Dev Docs',
-            },
-            {
-              href: 'https://pendle.gitbook.io/boros/boros-docs',
-              label: 'Boros Docs',
-            },
-            {
-              href: 'https://pendle.gitbook.io/boros',
-              label: 'Boros Academy',
-            },
-          ],
-        }
       ],
     },
     footer: {
@@ -274,19 +302,14 @@ const config = {
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'cn'],
-    path: 'i18n',
     localeConfigs: {
       en: {
         label: 'English',
-        direction: 'ltr',
-        htmlLang: 'en-US',
-        calendar: 'gregory',
+        htmlLang: 'en',
       },
       cn: {
-        label: '中文（中国)',
-        direction: 'ltr',
-        htmlLang: 'zh-Hans',
-        calendar: 'gregory',
+        label: '中文',
+        htmlLang: 'zh-CN',
       },
     },
   },

@@ -41,10 +41,6 @@ import Hint from '@site/src/components/Hint';
     * **ultimately no impermanent-loss (IL) concern at maturity**
 * **You are&#x20;**_**not**_**&#x20;locked** and **can exit at any time**, even before the maturity date. The APY you earn from liquidity provision is also independent of the maturity date.
 
-<Hint style="info">
-💡 Lock PENDLE for vePENDLE to boost LP incentives (optional). vePENDLE holders can also boost their Liquidity Provision APY up to 2.5X. Click [here](https://docs.pendle.finance/ProtocolMechanics/Mechanisms/vePENDLE) to learn more.
-</Hint>
-
 ***
 
 ## Yield Trading Basics
@@ -64,13 +60,13 @@ import Hint from '@site/src/components/Hint';
     <figure><img src="/pendle-academy/imgs/image (110).png" alt="" width="375" /><figcaption><p>With the cost of 1 stETH, you are buying yield exposure of 11.9 stETH. An 11.9x leverage in notional value in this case.</p></figcaption></figure>
 *   Here’s a table that quickly summarises what is going in favor or against you as a YT holder. Just flip the arrows’ directions if the indicators go the other way round.
 
-    | Indicators👇 / Effect 👉  | YT Price    | YT Yield Receivables |
-    | ------------------------- | ----------- | -------------------- |
-    | Underlying asset price ⤴️ | ⬆️          | ┄                    |
-    | Implied APY ⤴️            | ⬆️          | ┄                    |
-    | Underlying APY ⤴️         | ┄           | ⬆️                   |
-    | Long Yield APY ⤴️         | ┄           | ⬆️                   |
-    | Time to maturity ⤵️       | ⬇️ (slowly) | ┄                    |
+    | Indicators ↓ / Effect →    | YT Price    | YT Yield Receivables |
+    | -------------------------- | ----------- | -------------------- |
+    | Underlying asset price ↑   | ↑           | ┄                    |
+    | Implied APY ↑              | ↑           | ┄                    |
+    | Underlying APY ↑           | ┄           | ↑                    |
+    | Long Yield APY ↑           | ┄           | ↑                    |
+    | Time to maturity ↓         | ↓ (slowly)  | ┄                    |
 
 ***
 

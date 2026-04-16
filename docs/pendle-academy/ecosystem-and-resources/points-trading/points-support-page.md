@@ -19,7 +19,7 @@ import CardGrid, { Card } from '@site/src/components/CardGrid';
     title="Points Related" link="points-support-page#points-related"
   />
   <Card
-    title="Zero Price Impact LP" link="points-support-page#zero-price-impact-lp"
+    title="Keep YT Mode LP" link="points-support-page#zero-price-impact-lp"
   />
   <Card
     title="LRT on Arbitrum" link="points-support-page#lrt-on-arbitrum"
@@ -159,19 +159,19 @@ Yes. However, it is up to the underlying protocol to continue streaming rewards 
 
 ***
 
-### Zero Price Impact LP
+### **Keep YT** Mode - LP
 
-#### 1. What is the difference between when I provide liquidity with Zero Price Impact on vs off?
+#### 1. 1. What is the difference between when I provide liquidity with **Keep YT Mode** on vs off?
 
 Learn more on how liquidity provision works: [https://docs.pendle.finance/AppGuide/Pool](https://docs.pendle.finance/AppGuide/Pool)
 
-Without ZPI, you are providing liquidity with 100% of your capital. LPs consist of PT and its underlying (wrapped in [SY](https://docs.pendle.finance/ProtocolMechanics/YieldTokenization/SY)). Note that PT does not earn points.&#x20;
+Without Keep YT Mode, you are providing liquidity with 100% of your capital. LPs consist of PT and its underlying (wrapped in [SY](https://docs.pendle.finance/ProtocolMechanics/YieldTokenization/SY)). Note that PT does not earn points.&#x20;
 
-With ZPI toggled on, Pendle retains your YT exposure in your LP process. (i.e. YT is not sold for additional LP -> hence no price impact). This results in less yield as you have less position in LP (since some capital is retained in YT). The amount of YTs that is retained in this process is equivalent to the amount of PTs in your LP position. **This means that ZPI mode retains most of your points exposure while earning yields from swap fees and Pendle incentives.** Note that PT's fixed yield is offset by YT's price decay at maturity.
+With Keep YT Mode toggled on, Pendle retains your YT exposure in your LP process. (i.e. YT is not sold for additional LP -> hence no price impact). This results in less yield as you have less position in LP (since some capital is retained in YT). The amount of YTs that is retained in this process is equivalent to the amount of PTs in your LP position. **This means that Keep YT Mode mode retains most of your points exposure while earning yields from swap fees and Pendle incentives.** Note that PT's fixed yield is offset by YT's price decay at maturity.
 
-#### 2. I forgot to turn on ZPI when I provide liquidity, how do I earn the full points exposure?
+#### 2. I forgot to turn on Keep YT Mode when I provide liquidity, how do I earn the full points exposure?
 
-See FAQ #4, If you did not turn on ZPI, your YT is sold for more LPs. In this case, the most efficient way to obtain back your points exposure is to **buy more YT**.
+See FAQ #4, If you did not turn on Keep YT Mode, your YT is sold for more LPs. In this case, the most efficient way to obtain back your points exposure is to **buy more YT**.
 
 You can buy an equivalent amount of YT to the PT in your LP position.&#x20;
 

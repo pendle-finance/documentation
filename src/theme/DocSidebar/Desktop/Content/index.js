@@ -6,6 +6,7 @@ import {
   useScrollPosition,
 } from "@docusaurus/theme-common/internal";
 import DocSidebarItems from "@theme/DocSidebarItems";
+import SidebarBanner from "@site/src/components/SidebarBanner";
 import styles from "./styles.module.css";
 function useShowAnnouncementBar() {
   const { isActive } = useAnnouncementBar();
@@ -31,6 +32,7 @@ export default function DocSidebarDesktopContent({ path, sidebar, className }) {
         className
       )}
     >
+      <SidebarBanner />
       <ul className={clsx(ThemeClassNames.docs.docSidebarMenu, "menu__list")}>
         <DocSidebarItems items={sidebar} activePath={path} level={1} />
       </ul>

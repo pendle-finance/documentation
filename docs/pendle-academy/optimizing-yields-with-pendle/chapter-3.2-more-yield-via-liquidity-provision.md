@@ -20,14 +20,7 @@ Liquidity providers receive returns from multiple avenues:
   * Protocol yields/rewards from the underlying asset (e.g. yield from stETH, or ETH rewards distributed from GMX’s GLP)
   * Fixed yield from the PT component of the pool
 * Swap fees
-*   \$PENDLE incentives
-
-    <figure><img src="/pendle-academy/imgs/image (3).png" alt="" /><figcaption></figcaption></figure>
-
-<Hint style="warning">
-**Obtain vePENDLE to boost rewards further** \
-On top of all these rewards, vePENDLE holders can also boost their Liquidity Provision APY up to 2.5X! Click [here](https://docs.pendle.finance/ProtocolMechanics/Mechanisms/vePENDLE) to learn more.
-</Hint>
+* \$PENDLE incentives
 
 <figure><img src="/pendle-academy/imgs/image (6).png" alt="" /><figcaption><p>vePENDLE lock</p></figcaption></figure>
 
@@ -52,7 +45,6 @@ Providing liquidity on Pendle can be as simple as just a one-click transaction, 
    3.
 
        <figure><img src="/pendle-academy/imgs/image (8).png" alt="" /><figcaption></figcaption></figure>
-4. Lock PENDLE for vePENDLE to boost LP incentives (optional). Buy \$PENDLE and click “vePENDLE” on the top menu and click the “Lock PENDLE” button, or go to [this page](https://app.pendle.finance/vependle/lock/update). Learn more [here](https://docs.pendle.finance/Governance/vePENDLE).
 
 **Am I locked until the maturity date? Can I exit early?**
 
@@ -84,7 +76,7 @@ Providing liquidity on Pendle can be as simple as just a one-click transaction, 
 
 **What is the “Zero Price Impact Mode” in the “Zap” interface in “Pendle Trade”?**
 
-> Please check out [#2-how-to-be-yield-neutral-with-zero-price-impact-mode](../yield-trading-deep-dives/chapter-7-providing-liquidity-while-trading-yield#2-how-to-be-yield-neutral-with-zero-price-impact-mode "mention")
+> Please check out [#2.-how-to-be-yield-neutral-with-zero-price-impact-mode](../yield-trading-deep-dives/chapter-7-providing-liquidity-while-trading-yield#2.-how-to-be-yield-neutral-with-zero-price-impact-mode "mention")
 
 ### LP as part of your yield-trading strategy
 

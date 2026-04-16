@@ -64,7 +64,7 @@ The \$ value sum of PT and YT should equate to its underlying as they’re indiv
 
 <figure><img src="/pendle-academy/imgs/image (98).png" alt="" width="375" /><figcaption><p>Minting PT and YT (Yield Tokenization)</p></figcaption></figure>
 
-### **What are PT and YT exactly?** {#pt-and-yt-in-pendle}
+### **What are PT and YT exactly?**
 
 Here are the definitions of **PT** and **YT**:
 

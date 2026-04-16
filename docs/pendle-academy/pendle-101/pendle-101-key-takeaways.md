@@ -35,7 +35,7 @@ Pendle splits a yield-bearing token into two parts: **Principal Token (PT)** and
 * You [earn a fixed yield by buying and holding PT](../optimizing-yields-with-pendle/chapter-3.1-fixed-yield-on-pendle). The difference between the entry cost and the redemption value is your fixed yield.
 * PT is similar to [zero-coupon bond](https://www.investopedia.com/terms/z/zero-couponbond.asp) in traditional finance.
 
-#### Yield **Token (YT)**
+#### **Yield Token (YT)**
 
 * **YT lets you receive the yield of the underlying asset until its maturity date, claimable in real-time.**
 * You can buy only the yield, or more yield, by buying YT, at a much lower price than the principal. You profit if the yield you receive is more than what you paid for the YT.
