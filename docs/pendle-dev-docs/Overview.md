@@ -48,6 +48,7 @@ hide_table_of_contents: true
 - [Market Historical Data & APY Breakdown](./Backend/ApiOverview.mdx#market-data-endpoints) - Time-series data with detailed APY and fee breakdowns
 - [RouterStatic](./Backend/RouterStatic.md) - Extensively tested contract for off-chain calculations. Not audited; should not be used for on-chain fund-related operations.
 - [sPENDLE API](./Backend/ApiOverview.mdx#spendle-api-endpoints) - Staking stats and per-user reward data
+- [Socket.IO Real-time Feeds](./Backend/SocketIO.mdx) - Pushed real-time feeds
 
 ### Limit Orders
 
