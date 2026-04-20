@@ -65,6 +65,7 @@ typechain
 !.yarn/versions
 
 .claude
+CLAUDE.local.md
 
 local-*
 .vercel

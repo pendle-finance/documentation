@@ -34,6 +34,7 @@ Limit orders are also integrated into the [Pendle Hosted SDK](../Backend/HostedS
 
 - [Maker APIs](https://api-v2.pendle.finance/limit-order/docs#/Maker) — Generate order data, submit orders, view active orders
 - [Taker APIs](https://api-v2.pendle.finance/limit-order/docs#/Taker) — Query available orders for filling
+- [Order Book Socket.IO feed](../Backend/SocketIO.mdx#order-book) — Pushed order-book snapshots every 5s instead of polling REST
 
 ## Maker Incentives
 
