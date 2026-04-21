@@ -34,7 +34,7 @@ socket.emit('unsubscribe', roomId);
 
 ### Order Book
 
-Pushes an order-book snapshot every 5 seconds for every **whitelisted-pro, safe, non-expired** market, at 4 precision levels. The payload matches the REST endpoint `GET /limit-order/v2/order-book/:chainId`.
+Pushes an order-book snapshot every 5 seconds for every **whitelisted** market, at 4 precision levels. The payload matches the REST endpoint `GET /limit-order/v2/order-book/:chainId`.
 
 | | |
 |---|---|
