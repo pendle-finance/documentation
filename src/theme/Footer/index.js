@@ -22,7 +22,7 @@ function Footer() {
         </div>
         <div className={styles.linkGroup}>
           <div className={styles.linkGroupTitle}>Socials</div>
-          <a href="https://discord.com/invite/EAujvncY2R" target="_blank">
+          <a href="https://discord.gg/888FMyfsPC" target="_blank">
             Discord
           </a>
           <a href="https://twitter.com/pendle_fi/" target="_blank">
