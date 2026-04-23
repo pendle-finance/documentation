@@ -20,7 +20,7 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/assets/css/styles.d46f95c5.css">
-<script src="/assets/js/runtime~main.1b239e2f.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.a4fd6044.js" defer="defer"></script>
 <script src="/assets/js/main.73bef3d2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -36,7 +36,7 @@
 <li>Co-Incentives: Matching rewards for protocol-provided incentives</li>
 <li>Discretionary: Strategic allocations for high-potential pools</li>
 </ul>
-<p>The maximum rewards per week across all streams is 90,000 PENDLE. Each pool may receive up to 5,000 and 1,500 PENDLE from the performance and limit order streams respectively. Any PENDLE not distributed in a given week is returned to the protocol treasury and does not roll over to the next week&#x27;s budget.</p>
+<p>The maximum rewards per week across all streams is 90,000 PENDLE. Each pool may receive up to 3,000 and 1,000 PENDLE per week from the performance and limit order streams respectively. Any PENDLE not distributed in a given week is returned to the protocol treasury and does not roll over to the next week&#x27;s budget.</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="how-often-are-incentives-updated">How Often Are Incentives Updated?​<a href="#how-often-are-incentives-updated" class="hash-link" aria-label="Direct link to How Often Are Incentives Updated?​" title="Direct link to How Often Are Incentives Updated?​">​</a></h2>
 <p>Incentives are recalculated and updated every hour. When a new pool is whitelisted, it will begin receiving incentives within the next hour.</p>
 <p>Individual components update on different schedules:</p>
@@ -55,7 +55,7 @@
 <p>Pools receive PENDLE based on their weighted TVL which reflects:</p>
 <div class="language-Math language-math codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-math codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token plain">WeightedTVL = LP TVL + k x Floating TVL</span><br></span></code></pre></div></div>
 <p>Where k is currently set to 0.2.</p>
-<p>Weighted TVL determines a pool’s share of emissions depending on its phase which is defined by its days since launch::
+<p>Weighted TVL determines a pool’s share of emissions depending on its phase which is defined by its days since launch.
 Bootstrapping -&gt; &lt;14 days since deployment
 Growth -&gt; 14-28 days since deployment
 Mature -&gt; 28 days since deployment</p>
@@ -91,8 +91,10 @@ Mature -&gt; 28 days since deployment</p>
 <p>The objective is to calibrate incentives based on context. Renewal pools benefit from established liquidity and userbase, requiring less bootstrapping support than genuine new assets.</p>
 <p>This allows the protocol to focus stronger incentives on new asset launches, while still supporting smooth rollovers for maturing pools</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="fee-based-emission">Fee-Based Emission<a href="#fee-based-emission" class="hash-link" aria-label="Direct link to Fee-Based Emission" title="Direct link to Fee-Based Emission">​</a></h2>
+<p>Pools receive PENDLE based on their fee performance. The incentive rate is determined by the pool’s weighted TVL tier which enables smaller pools to receive more rewards for strong performance.</p>
+<table><thead><tr><th>Weighted TVL</th><th>Incentive Rate</th></tr></thead><tbody><tr><td>&lt;2m</td><td>2</td></tr><tr><td>2–5m</td><td>1–2</td></tr><tr><td>5–10m</td><td>0.5–1</td></tr><tr><td>&gt;10m</td><td>0.5</td></tr></tbody></table>
+<p>Linear interpolation is used to define the incentive rate for pools that sit within a weighted TVL range. After 28 days post-launch, all pools revert to a baseline incentive rate of 0.5.</p>
 <p>Fee-based Emissions have a weekly budget of 40,000 PENDLE.</p>
-<p>A pool’s share of <strong>total swap fees</strong> determines their pro-rata share of the fee-based emission budget with a maximum cap of <strong>four times</strong> its previous week’s fees from this stream.</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="eligibility-and-fee-measurement">Eligibility and Fee Measurement​<a href="#eligibility-and-fee-measurement" class="hash-link" aria-label="Direct link to Eligibility and Fee Measurement​" title="Direct link to Eligibility and Fee Measurement​">​</a></h3>
 <p><strong>Eligibility</strong>: Pools must be at least 2 days old to receive fee-based emissions. Newer pools can still receive liquidity-based emissions and other incentives.
 <strong>Fee Calculation</strong>: Fee performance uses a recency-weighted methodology that emphasizes recent activity:</p>
@@ -101,9 +103,9 @@ Mature -&gt; 28 days since deployment</p>
 <li>For younger pools: Special calculations account for limited trading history</li>
 </ul>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="limit-order-emissions">Limit Order Emissions<a href="#limit-order-emissions" class="hash-link" aria-label="Direct link to Limit Order Emissions" title="Direct link to Limit Order Emissions">​</a></h2>
-<p>Pools receive Limit Order (LO) rewards based on their total TVL and recent swap volume with a per pool cap of $1,500 per week. Incentives are distributed to LOs within a 4% range of the current IY on a time and notional value weighted basis.</p>
+<p>Pools receive Limit Order (LO) rewards based on their total TVL and recent swap volume with a per pool cap of $1,250 per week. Incentives are distributed to LOs within a 4% range of the current IY on a time and notional value weighted basis.</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="target-depth">Target Depth<a href="#target-depth" class="hash-link" aria-label="Direct link to Target Depth" title="Direct link to Target Depth">​</a></h3>
-<p>Each pool targets a baseline of 5% of its total TVL in orderbook depth with potential to grow to 15% of total TVL based on its 4 day recency adjusted swap volume (4D-RASW).</p>
+<p>Each pool targets a baseline of 10% of its total TVL in orderbook depth with potential to grow to 15% of total TVL based on its 4 day recency adjusted swap volume (4D-RASW).</p>
 <p>For example, a pool with <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn><mi>m</mi><mi>t</mi><mi>o</mi><mi>t</mi><mi>a</mi><mi>l</mi><mi>T</mi><mi>V</mi><mi>L</mi><mi>w</mi><mi>i</mi><mi>l</mi><mi>l</mi><mi>t</mi><mi>a</mi><mi>r</mi><mi>g</mi><mi>e</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">10m total TVL will target </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em"></span><span class="mord">10</span><span class="mord mathnormal">m</span><span class="mord mathnormal">t</span><span class="mord mathnormal">o</span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.13889em">lT</span><span class="mord mathnormal" style="margin-right:0.22222em">V</span><span class="mord mathnormal">L</span><span class="mord mathnormal" style="margin-right:0.02691em">w</span><span class="mord mathnormal">i</span><span class="mord mathnormal">llt</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.02778em">r</span><span class="mord mathnormal" style="margin-right:0.03588em">g</span><span class="mord mathnormal">e</span><span class="mord mathnormal">t</span></span></span></span>500k in orderbook depth as a baseline but may be adjusted based on 4D-RASW.</p>
 <ul>
 <li><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>400</mn><mi>k</mi><mn>4</mn><mi>D</mi><mo>−</mo><mi>R</mi><mi>A</mi><mi>S</mi><mi>W</mi><mo>→</mo></mrow><annotation encoding="application/x-tex">400k 4D-RASW → </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em"></span><span class="mord">400</span><span class="mord mathnormal" style="margin-right:0.03148em">k</span><span class="mord">4</span><span class="mord mathnormal" style="margin-right:0.02778em">D</span><span class="mspace" style="margin-right:0.2222em"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em"></span></span><span class="base"><span class="strut" style="height:0.6833em"></span><span class="mord mathnormal" style="margin-right:0.00773em">R</span><span class="mord mathnormal">A</span><span class="mord mathnormal" style="margin-right:0.05764em">S</span><span class="mord mathnormal" style="margin-right:0.13889em">W</span><span class="mspace" style="margin-right:0.2778em"></span><span class="mrel">→</span></span></span></span>500k target depth (4D-RASW &lt; Target Depth)</li>
