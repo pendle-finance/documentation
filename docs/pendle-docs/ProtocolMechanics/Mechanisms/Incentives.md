@@ -12,7 +12,7 @@ The algorithmic incentive model has four reward streams:
 - Co-Incentives: Matching rewards for protocol-provided incentives
 - Discretionary: Strategic allocations for high-potential pools
 
-The maximum rewards per week across all streams is 90,000 PENDLE. Each pool may receive up to 5,000 and 1,500 PENDLE from the performance and limit order streams respectively. Any PENDLE not distributed in a given week is returned to the protocol treasury and does not roll over to the next week's budget.
+The maximum rewards per week across all streams is 90,000 PENDLE. Each pool may receive up to 3,000 and 1,000 PENDLE per week from the performance and limit order streams respectively. Any PENDLE not distributed in a given week is returned to the protocol treasury and does not roll over to the next week's budget.
 
 ## How Often Are Incentives Updated?​
 
@@ -43,7 +43,7 @@ Pools receive PENDLE based on their weighted TVL which reflects:
 
 Where k is currently set to 0.2. 
 
-Weighted TVL determines a pool’s share of emissions depending on its phase which is defined by its days since launch::
+Weighted TVL determines a pool’s share of emissions depending on its phase which is defined by its days since launch.
 Bootstrapping -> \<14 days since deployment
 Growth -> 14-28 days since deployment
 Mature -> 28 days since deployment
@@ -102,9 +102,18 @@ This allows the protocol to focus stronger incentives on new asset launches, whi
 
 ## Fee-Based Emission
 
-Fee-based Emissions have a weekly budget of 40,000 PENDLE.
+Pools receive PENDLE based on their fee performance. The incentive rate is determined by the pool’s weighted TVL tier which enables smaller pools to receive more rewards for strong performance.
 
-A pool’s share of **total swap fees** determines their pro-rata share of the fee-based emission budget with a maximum cap of **four times** its previous week’s fees from this stream.
+| Weighted TVL | Incentive Rate |
+|---|---|
+| \<2m    | 2       |
+| 2–5m    | 1–2     |
+| 5–10m   | 0.5–1   |
+| \>10m   | 0.5     |
+
+Linear interpolation is used to define the incentive rate for pools that sit within a weighted TVL range. After 28 days post-launch, all pools revert to a baseline incentive rate of 0.5.
+
+Fee-based Emissions have a weekly budget of 40,000 PENDLE.
 
 ### Eligibility and Fee Measurement​
 
@@ -115,11 +124,11 @@ A pool’s share of **total swap fees** determines their pro-rata share of the f
 
 ## Limit Order Emissions
 
-Pools receive Limit Order (LO) rewards based on their total TVL and recent swap volume with a per pool cap of $1,500 per week. Incentives are distributed to LOs within a 4% range of the current IY on a time and notional value weighted basis.
+Pools receive Limit Order (LO) rewards based on their total TVL and recent swap volume with a per pool cap of $1,250 per week. Incentives are distributed to LOs within a 4% range of the current IY on a time and notional value weighted basis.
 
 ### Target Depth
 
-Each pool targets a baseline of 5% of its total TVL in orderbook depth with potential to grow to 15% of total TVL based on its 4 day recency adjusted swap volume (4D-RASW).
+Each pool targets a baseline of 10% of its total TVL in orderbook depth with potential to grow to 15% of total TVL based on its 4 day recency adjusted swap volume (4D-RASW).
 
 For example, a pool with $10m total TVL will target $500k in orderbook depth as a baseline but may be adjusted based on 4D-RASW.
 - $400k 4D-RASW → $500k target depth (4D-RASW \< Target Depth)
