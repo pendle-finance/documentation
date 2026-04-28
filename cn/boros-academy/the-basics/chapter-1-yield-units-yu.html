@@ -20,8 +20,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/cn/assets/css/styles.e2884bf6.css">
-<script src="/cn/assets/js/runtime~main.0b38d625.js" defer="defer"></script>
-<script src="/cn/assets/js/main.4ae839cb.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.e648911b.js" defer="defer"></script>
+<script src="/cn/assets/js/main.dc2d5a56.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -43,22 +43,17 @@
 <p>开仓时，入场的平均隐含 APR 构成固定利率支付的基础。</p>
 <p>隐含 APR 的另一种理解方式是：市场对从现在到到期日，该资产平均资金费率支付的预期。</p>
 <p>你可以在<a href="/cn/boros-academy/the-basics/chapter-2-implied-apr-and-underlying-apr">第 2 章</a>中了解更多关于隐含 APR 的内容。</p>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="yu-的到期日">YU 的到期日<a href="#yu-的到期日" class="hash-link" aria-label="YU 的到期日 的直接链接" title="YU 的到期日 的直接链接">​</a></h3>
-<p>每个 YU 都有一个到期日。到期后，YU 将不再产生任何收益，所有支付义务均已结清。</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="到期">到期<a href="#到期" class="hash-link" aria-label="到期 的直接链接" title="到期 的直接链接">​</a></h3>
+<p>每个市场都有一个到期日。到期后，你的头寸将不再产生任何收益，所有支付义务均已结清。</p>
 <p>示例：</p>
 <p>在到期日为 2026 年 12 月 25 日的 ETHUSDT-Binance 市场中，开设 5 个多头 YU 头寸的交易者将：</p>
 <ol>
 <li>从现在到 2026 年 12 月 25 日，持续收取相当于 Binance ETHUSDT 上 5 ETH 头寸的资金费率收益</li>
 <li>从现在到 2026 年 12 月 25 日，持续支付固定收益（即入场时的隐含 APR）</li>
 </ol>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="yu-价值--yu-价格">YU 价值 / YU 价格<a href="#yu-价值--yu-价格" class="hash-link" aria-label="YU 价值 / YU 价格 的直接链接" title="YU 价值 / YU 价格 的直接链接">​</a></h3>
-<p>YU 本质上代表资产的未来收益。因此，YU 的合理价值是你在到期前将收取的总收益之和。</p>
-<div align="center" data-full-width="true"><figure><img src="/boros-academy/imgs/image (18).png" alt=""><figcaption></figcaption></figure></div>
-<p>以持有 YU-ETHUSDT-Binance 多头头寸的交易者为例，每次结算后都会收取收益。因此，假设隐含 APR 不变，每次结算后 YU 的价值也会随之下降——因为需要计入的未来收益已经减少。你可以在<a href="/cn/boros-academy/the-basics/chapter-4-settlement">第 4 章</a>中了解更多关于结算的内容。</p>
-<p>到期时，由于不再  有任何收益义务，整个头寸将全部结清。届时，YU 的价值为零。</p>
 <hr>
 <p>补充说明：</p>
 <p>请注意，Boros 上所有收益均以 APR 形式表示（即以单利年化，非复利），以符合市场惯例。</p>
-<p>熟悉 Pendle V2 的用户可将 YU 类比为 YT：用户「支付」隐含收益，以换取底层收益。Boros 上的收益单位（YU）代表底层永续合约交易所（如 Hyperliquid、Binance、Deribit 等）中，1 单位抵押资产的资金费率收益。</p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文档页面导航"><a class="pagination-nav__link pagination-nav__link--prev" href="/cn/boros-academy/the-basics/chapter-0-understanding-funding-rates"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">第 0 章 - 理解资金费率</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/cn/boros-academy/the-basics/chapter-2-implied-apr-and-underlying-apr"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">第 2 章 - 隐含 APR 与底层 APR</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#理解-yu" class="table-of-contents__link toc-highlight">理解 YU</a><ul><li><a href="#隐含-apr" class="table-of-contents__link toc-highlight">隐含 APR</a></li><li><a href="#yu-的到期日" class="table-of-contents__link toc-highlight">YU 的到期日</a></li><li><a href="#yu-价值--yu-价格" class="table-of-contents__link toc-highlight">YU 价值 / YU 价格</a></li></ul></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.gg/888FMyfsPC" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://www.pendle.finance/brand-guide" target="_blank">Brand Guide</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
+<p>熟悉 Pendle V2 的用户可将 YU 类比为 YT：用户「支付」隐含收益，以换取底层收益。Boros 上的收益单位（YU）代表底层永续合约交易所（如 Hyperliquid、Binance、Deribit 等）中，1 单位抵押资产的资金费率收益。</p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文档页面导航"><a class="pagination-nav__link pagination-nav__link--prev" href="/cn/boros-academy/the-basics/chapter-0-understanding-funding-rates"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">第 0 章 - 理解资金费率</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/cn/boros-academy/the-basics/chapter-2-implied-apr-and-underlying-apr"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">第 2 章 - 隐含 APR、底层 APR 与利率敏感度</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#理解-yu" class="table-of-contents__link toc-highlight">理解 YU</a><ul><li><a href="#隐含-apr" class="table-of-contents__link toc-highlight">隐含 APR</a></li><li><a href="#到期" class="table-of-contents__link toc-highlight">到期</a></li></ul></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.gg/888FMyfsPC" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://www.pendle.finance/brand-guide" target="_blank">Brand Guide</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
 </body>
 </html>

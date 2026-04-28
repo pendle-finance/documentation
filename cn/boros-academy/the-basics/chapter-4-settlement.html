@@ -20,8 +20,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/cn/assets/css/styles.e2884bf6.css">
-<script src="/cn/assets/js/runtime~main.0b38d625.js" defer="defer"></script>
-<script src="/cn/assets/js/main.4ae839cb.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.e648911b.js" defer="defer"></script>
+<script src="/cn/assets/js/main.dc2d5a56.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -49,6 +49,21 @@
 <div class="hint_g1ws info_ye3t"><div class="content_JkbE"><p>在 Boros 上，结算与底层资金费率同步定期进行。每次结算时：</p><ul>
 <li>若你收取的利率高于支付的利率，<strong>抵押品增加</strong>。</li>
 <li>若你收取的利率低于支付的利率，<strong>抵押品减少</strong>。</li>
-</ul><p>上述调整将在每次结算时重复执行，直至头寸到期。</p></div></div></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文档页面导航"><a class="pagination-nav__link pagination-nav__link--prev" href="/cn/boros-academy/the-basics/chapter-3-opening-and-closing-a-position"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">第 3 章 - 开仓与平仓</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/cn/boros-academy/the-basics/chapter-5-long-rates"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">第 5 章 - 做多利率</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#收益结算" class="table-of-contents__link toc-highlight">收益结算</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.gg/888FMyfsPC" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://www.pendle.finance/brand-guide" target="_blank">Brand Guide</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
+</ul><p>上述调整将在每次结算时重复执行，直至头寸到期。</p></div></div>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="理解结算与隐含-apr-入场">理解结算与隐含 APR 入场<a href="#理解结算与隐含-apr-入场" class="hash-link" aria-label="理解结算与隐含 APR 入场 的直接链接" title="理解结算与隐含 APR 入场 的直接链接">​</a></h2>
+<p>结算和隐含 APR 是同时作用于头寸的两股独立力量，理解它们之间的相互作用，是管理 Boros 头寸的关键。</p>
+<p>每次结算时，你的抵押品会根据底层 APR 与固定 APR 之间的差额进行调整。</p>
+<p>与此同时，你的保证金也在持续响应隐含 APR 的变动。一个头寸可能在结算上盈利却在隐含 APR 上亏损，反之亦然。</p>
+<p><strong>因此，请始终关注利率敏感度，以了解头寸可能出现的价格波动。</strong></p>
+<p><strong>示例：</strong></p>
+<figure><img src="/boros-academy/imgs/settlement-example-ch4.png" alt=""><figcaption></figcaption></figure>
+<p>你以 3% 隐含 APR 开设 1000 YU-ETHUSDT-Hyperliquid 的多头头寸，距到期还有 60 天，当前底层 APR 为 -3.32%。</p>
+<ul>
+<li>保证金：4.9 ETH</li>
+<li>利率敏感度：1.64 ETH（隐含 APR 每变动 1%  ）</li>
+</ul>
+<p><strong>整个过程中，APR 都在很低的水平，低于你 3% 的固定 APR，因此每次结算都对你不利，抵押品持续减少。</strong></p>
+<p>随后，隐含 APR 突然上升至 5%。这 2% 的隐含 APR 上升使你的净余额增加 3.28 ETH（利率敏感度 × 2），即未实现盈利 3.28 ETH。</p>
+<p>这说明：即便每次结算都不利，一旦市场情绪发生转变，有利的隐含 APR 变动仍可能带来净盈利。</p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文档页面导航"><a class="pagination-nav__link pagination-nav__link--prev" href="/cn/boros-academy/the-basics/chapter-3-opening-and-closing-a-position"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">第 3 章 - 开仓与平仓</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/cn/boros-academy/the-basics/chapter-5-long-rates"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">第 5 章 - 做多利率</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#收益结算" class="table-of-contents__link toc-highlight">收益结算</a></li><li><a href="#理解结算与隐含-apr-入场" class="table-of-contents__link toc-highlight">理解结算与隐含 APR 入场</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.gg/888FMyfsPC" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://www.pendle.finance/brand-guide" target="_blank">Brand Guide</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
 </body>
 </html>

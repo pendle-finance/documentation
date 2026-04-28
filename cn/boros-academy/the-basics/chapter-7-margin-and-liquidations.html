@@ -20,8 +20,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/cn/assets/css/styles.e2884bf6.css">
-<script src="/cn/assets/js/runtime~main.0b38d625.js" defer="defer"></script>
-<script src="/cn/assets/js/main.4ae839cb.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.e648911b.js" defer="defer"></script>
+<script src="/cn/assets/js/main.dc2d5a56.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -47,18 +47,14 @@
 <li>
 <p><strong>名义规模</strong></p>
 <p>该头寸对底层资产的敞口大小（即你做多或做空的 YU 数量）。</p>
-<p>示例：5 YU-BTCUSDT-Binance = 名义规模为 5 YU，代表 Binance BTCUSDT 市场上 5 BTC 头寸的收益敞口。</p>
+<p>示例：100 YU-ETHUSDT-Binance = 名义规模为 100 YU，代表 Binance ETHUSDT 市场上 100 ETH 头寸的收益敞口。</p>
 </li>
 </ol>
-<figure><img src="/boros-academy/imgs/image (27).png" alt=""><figcaption></figcaption></figure>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="杠杆">杠杆<a href="#杠杆" class="hash-link" aria-label="杠杆 的直接链接" title="杠杆 的直接链接">​</a></h2>
-<p>与永续合约交易所类似，Boros 允许  交易者使用杠杆开仓。</p>
-<p>例如，在 2 倍杠杆市场中，持有 10 ETH 抵押品的交易者最多可开设价值 20 ETH 的头寸，将购买力翻倍。</p>
-<p>简而言之，杠杆可以让交易者用相同的资金做更多事，但请注意，杠杆越高，清算风险也越大。</p>
-<figure><img src="/boros-academy/imgs/image (28).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/boros-academy/imgs/notional-size-ch7.png" alt=""><figcaption></figcaption></figure>
+<p>（注：在以 USDT 为抵押品的市场中，1 YU = 对应永续合约市场上 1 USDT 名义规模的资金费率敞口）</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="清算">清算<a href="#清算" class="hash-link" aria-label="清算 的直接链接" title="清算 的直接链接">​</a></h2>
-<p>当你头寸的价值跌至指定阈值以下时，系统将自动平仓以防止进一步损失，这就是清算。</p>
-<p>你可以通过以下两种方式监控清算风险：</p>
+<p>清算是系统对头寸的自动平仓机制。一旦触发，你的头寸将以当前的标记隐含 APR 平仓，以防止进一步损失，并保护平台免受坏账风险。</p>
+<p>你可以通过以下几种方式监控清算风险：</p>
 <ol>
 <li>
 <p><strong>清算隐含 APR</strong></p>
@@ -67,13 +63,21 @@
 </li>
 <li>
 <p><strong>健康因子</strong></p>
-<p>健康因子是衡量 Boros 上头寸安全性的指标，帮助用户直观了解头寸距离清算的「健康」程度。当健康因子降至 0 时，你的头寸将被清算。保持健康因子高于零是避免清算的关键。</p>
+<p>健康因子是衡量 Boros 上头寸安全性的指标，帮助用户直观了解头寸距离清算的「健康」程度。</p>
+<div class="hint_g1ws info_ye3t"><div class="content_JkbE"><p>Health Factor = 1 - (Maintenance Margin / Net Balance)</p></div></div>
+<p>当健康因子降至 0 时，你的头寸将被清算。保持健康因子高于零是避免清算的关键。</p>
+</li>
+<li>
+<p><strong>利率敏感度 / 每日波动率</strong></p>
+<p>利率敏感度告诉你隐含 APR 每变动 1% 时，净余额的变化幅度。每日波动率（7 日移动平均）则反映隐含 APR 平均每日的波动幅度。两者结合，可帮助你前瞻性地评估清算风险。</p>
+<p>例如，你可以将清算隐含 APR 与每日波动率进行对比。若头寸的安全缓冲小于典型的单日波动幅度，则清算风险已显著上升，建议补充抵押品。</p>
 </li>
 </ol>
-<div class="hint_g1ws danger_n01U"><div class="content_JkbE"><p>请密切关注你头寸的健康因子或清算隐含 APR，以避免被清算。</p></div></div>
+<div class="hint_g1ws info_ye3t"><div class="content_JkbE"><p><strong>通过监控利率敏感度，了解隐含 APR 需变动多少才会触发清算；同时关注健康因子或清算隐含 APR。</strong></p></div></div>
 <p>总体而言，你头寸的整体健康状况对某些变化较为敏感，包括 YU 的「价格」（隐含 APR）以及抵押品数量——后者在每次结算后都可能发生变化（参见<a href="/cn/boros-academy/the-basics/chapter-4-settlement">第 4 章</a>）。</p>
+<p>若底层 APR 大幅逆向于你的头寸方向，可能迅速削减抵押品，加剧清算风险。</p>
 <p>定期监控并及时调整抵押品，对于维持头寸健康（健康因子）、避免清算至关重要。</p>
 <p>你可以在我们的文档<a href="https://pendle.gitbook.io/boros/boros-docs/risk-parameters/margin-and-liquidations" target="_blank" rel="noopener noreferrer">此处</a>了解更多关于保证金与清算的详细内容。</p>
-<hr></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文档页面导航"><a class="pagination-nav__link pagination-nav__link--prev" href="/cn/boros-academy/the-basics/chapter-6-short-rates"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">第 6 章 - 做空利率</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/cn/boros-academy/the-basics/tldr-how-to-win"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">速查：如何获利</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#保证金" class="table-of-contents__link toc-highlight">保证金</a></li><li><a href="#杠杆" class="table-of-contents__link toc-highlight">杠杆</a></li><li><a href="#清算" class="table-of-contents__link toc-highlight">清算</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.gg/888FMyfsPC" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://www.pendle.finance/brand-guide" target="_blank">Brand Guide</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
+<hr></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文档页面导航"><a class="pagination-nav__link pagination-nav__link--prev" href="/cn/boros-academy/the-basics/chapter-6-short-rates"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">第 6 章 - 做空利率</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/cn/boros-academy/the-basics/tldr-how-to-win"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">速查：如何在 Boros 上获利</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#保证金" class="table-of-contents__link toc-highlight">保证金</a></li><li><a href="#清算" class="table-of-contents__link toc-highlight">清算</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.gg/888FMyfsPC" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://www.pendle.finance/brand-guide" target="_blank">Brand Guide</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
 </body>
 </html>

@@ -20,8 +20,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/cn/assets/css/styles.e2884bf6.css">
-<script src="/cn/assets/js/runtime~main.0b38d625.js" defer="defer"></script>
-<script src="/cn/assets/js/main.4ae839cb.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.e648911b.js" defer="defer"></script>
+<script src="/cn/assets/js/main.dc2d5a56.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -34,7 +34,7 @@
 <li>任何市场的未平仓量（OI）有硬性上限</li>
 <li>从市场 API 获取该值：<!-- -->
 <ul>
-<li>未平仓上限 = <strong><code>hardOICap</code>/<code>1e18</code></strong></li>
+<li>OI Cap = <strong><code>hardOICap</code>/<code>1e18</code></strong></li>
 </ul>
 </li>
 </ul>
@@ -59,7 +59,7 @@
 </ul>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="限价单利率的最大边界max-bounds-on-limit-order-rates">限价单利率的最大边界（Max Bounds on Limit Order rates）<a href="#限价单利率的最大边界max-bounds-on-limit-order-rates" class="hash-link" aria-label="限价单利率的最大边界（Max Bounds on Limit Order rates） 的直接链接" title="限价单利率的最大边界（Max Bounds on Limit Order rates） 的直接链接">​</a></h3>
 <ul>
-<li>放置限价单时，用户不能在远高于标 记利率处做多，也不能在远低于标记利率处做空。</li>
+<li>放置限价单时，用户不能在远高于标记利率 处做多，也不能在远低于标记利率处做空。</li>
 <li>确切机制如下：<!-- -->
 <ul>
 <li>多头订单利率不得超过 <em>f</em><sup><em>u</em></sup></li>

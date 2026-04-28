@@ -20,8 +20,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/assets/css/styles.d46f95c5.css">
-<script src="/assets/js/runtime~main.55e03a2f.js" defer="defer"></script>
-<script src="/assets/js/main.d9e98f72.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.9ec5fc7d.js" defer="defer"></script>
+<script src="/assets/js/main.ff60d8d7.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -47,18 +47,14 @@
 <li>
 <p><strong>Notional Size</strong></p>
 <p>The amount of underlying asset exposure in this position (i.e. How much YU are you longing or shorting).</p>
-<p>Example: 5 YU-BTCUSDT-Binance = 5 YU notional size, indicating a yield from 5 BTC position in the BTCUSDT market on Binance</p>
+<p>Example: 100 YU-ETHUSDT-Binance = 100 YU notional size, indicating a yield from 100 ETH position in the ETHUSDT market on Binance</p>
 </li>
 </ol>
-<figure><img src="/boros-academy/imgs/image (27).png" alt=""><figcaption></figcaption></figure>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="leverage">Leverage<a href="#leverage" class="hash-link" aria-label="Direct link to Leverage" title="Direct link to Leverage">​</a></h2>
-<p>Just like perpetual exchanges, Boros allows traders to open positions on leverage.</p>
-<p>In a market with 2x leverage for instance, a trader with a 10 ETH collateral will be able to open a position worth up to 20 ETH, doubling their buying power.</p>
-<p>In short, leverage allows traders to do more with the same amount of capital but watch out, a higher leverage also means a higher risk of liquidation.</p>
-<figure><img src="/boros-academy/imgs/image (28).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/boros-academy/imgs/notional-size-ch7.png" alt=""><figcaption></figcaption></figure>
+<p>(Note: for USDT collateral markets, 1YU = 1USDT worth of funding on the equivalent perp market)</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="liquidation">Liquidation<a href="#liquidation" class="hash-link" aria-label="Direct link to Liquidation" title="Direct link to Liquidation">​</a></h2>
-<p>Liquidation occurs when the value of your position falls below a specified threshold, leading to an automatic closure by the system to prevent further losses.</p>
-<p>There are 2 different ways for you to monitor your liquidations:</p>
+<p>Liquidation is the automatic closure of your position by the system. When this happens, your position is closed at the current mark implied APR to prevent further losses and protect the platform from bad debt.</p>
+<p>There are several different ways for you to monitor your liquidations:</p>
 <ol>
 <li>
 <p><strong>Liquidation Implied APR</strong></p>
@@ -66,15 +62,21 @@
 <p>Note that the liquidation implied APR can change since your collateral balance is affected by the periodic yield settlements from your currently open position.</p>
 </li>
 <li>
-<p><strong>Health Factor</strong><br>
-<!-- -->The health factor is a metric that measures the safety of a position on Boros, it helps users visualize the “health” of a user’s position from liquidations.<br>
-<!-- -->Your position will be liquidated when health factor falls to 0. Maintaining a health factor above zero is crucial to avoid liquidation.</p>
+<p><strong>Health Factor</strong></p>
+<p>The health factor is a metric that measures the safety of a position on Boros, it helps users visualize the “health” of a user’s position from liquidations.</p>
+<div class="hint_g1ws info_ye3t"><div class="content_JkbE"><p>Health Factor = 1 - (Maintenance Margin / Net Balance)</p></div></div>
+<p>Your position will be liquidated when health factor falls to 0. Maintaining a health factor above zero is crucial to avoid liquidation.</p>
+</li>
+<li>
+<p><strong>Rate Sensitivity / Daily Volatility</strong></p>
+<p>Rate Sensitivity tells you how much your net balance moves per 1% shift in Implied APR. Daily Volatility tells you how much Implied APR has been swinging day to day on average (7DMA). Together, they give you a forward-looking view of your liquidation risk.</p>
+<p>For example, you can cross-reference Liquidation Implied APR against Daily Volatility. If your position&#x27;s buffer is smaller than a typical day&#x27;s swing, your position is at elevated risk and you should consider topping up your collateral.</p>
 </li>
 </ol>
-<div class="hint_g1ws danger_n01U"><div class="content_JkbE"><p>Watch your position&#x27;s health factor or liquidation implied APR to avoid getting liquidated.</p></div></div>
+<div class="hint_g1ws info_ye3t"><div class="content_JkbE"><p><strong>Monitor Rate Sensitivity to see how much Implied APR needs to move in order for your position to be liquidated, as well as your position’s health factor or liquidation Implied APR.</strong></p></div></div>
 <p>In short, your position’s overall health is sensitive to certain changes, including the “price” of YU (Implied APR) and the amount of collateral you have, which can fluctuate after every settlement (see <a href="/boros-academy/the-basics/chapter-4-settlement">Chapter 4</a>).</p>
+<p>If Underlying APR goes against your position&#x27;s direction heavily, it can rapidly reduce your collateral, increasing your liquidation risk.</p>
 <p>Regular monitoring and timely collateral adjustments are crucial to maintain position health (health factor) and avoid liquidation.</p>
-<p>You can learn more about Margin and Liquidations in detail from our docs <a href="https://pendle.gitbook.io/boros/boros-docs/risk-parameters/margin-and-liquidations" target="_blank" rel="noopener noreferrer">here</a>.</p>
-<hr></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/boros-academy/the-basics/chapter-6-short-rates"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Chapter 6 - Short Rates</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/boros-academy/the-basics/tldr-how-to-win"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">TLDR: How to Win</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#margin" class="table-of-contents__link toc-highlight">Margin</a></li><li><a href="#leverage" class="table-of-contents__link toc-highlight">Leverage</a></li><li><a href="#liquidation" class="table-of-contents__link toc-highlight">Liquidation</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.gg/888FMyfsPC" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://www.pendle.finance/brand-guide" target="_blank">Brand Guide</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
+<p>You can learn more about Margin and Liquidations in detail from our docs <a href="https://pendle.gitbook.io/boros/boros-docs/risk-parameters/margin-and-liquidations" target="_blank" rel="noopener noreferrer">here</a>.</p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/boros-academy/the-basics/chapter-6-short-rates"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Chapter 6 - Short Rates</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/boros-academy/the-basics/tldr-how-to-win"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">TLDR: How to Win</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#margin" class="table-of-contents__link toc-highlight">Margin</a></li><li><a href="#liquidation" class="table-of-contents__link toc-highlight">Liquidation</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.gg/888FMyfsPC" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://www.pendle.finance/brand-guide" target="_blank">Brand Guide</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
 </body>
 </html>
