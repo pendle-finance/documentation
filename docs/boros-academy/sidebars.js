@@ -6,7 +6,7 @@ module.exports = {
       items: [
         { type: "doc", id: "the-basics/chapter-0-understanding-funding-rates", label: "Chapter 0 - Understanding Funding Rates" },
         { type: "doc", id: "the-basics/chapter-1-yield-units-yu", label: "Chapter 1 - Yield Units (YU)" },
-        { type: "doc", id: "the-basics/chapter-2-implied-apr-and-underlying-apr", label: "Chapter 2 - Implied APR and Underlying APR" },
+        { type: "doc", id: "the-basics/chapter-2-implied-apr-and-underlying-apr", label: "Chapter 2 - Implied APR, Underlying APR, Rate Sensitivity" },
         { type: "doc", id: "the-basics/chapter-3-opening-and-closing-a-position", label: "Chapter 3 - Opening and Closing a Position" },
         { type: "doc", id: "the-basics/chapter-4-settlement", label: "Chapter 4 - Settlement" },
         { type: "doc", id: "the-basics/chapter-5-long-rates", label: "Chapter 5 - Long Rates" },
