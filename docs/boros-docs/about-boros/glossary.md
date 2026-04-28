@@ -6,7 +6,7 @@
 
 **Implied APR**: The “price” of the YU in yield percentage terms, essentially the market consensus on what the average future yield of YU will be. Upon entering a position, the implied yield at that point in time becomes the fixed rate payable / receivable (long / short position).
 
-**Mark APR (Mark Implied APR):** The Implied APR used for unrealized PnL and liquidation calculations. This is similar to "mark price" in a perpetual exchange and is used to avoid unwanted consequences from short term price manipulations.
+**Mark APR (Mark Implied APR):** A simple time-weighted average (TWAP) of the last traded implied APR on the order book. Mark APR is used for unrealized PnL and liquidation calculations. This is similar to "mark price" in a perpetual exchange and is used to avoid unwanted consequences from short term price manipulations.
 
 **Underlying APR**: The current APR of the underlying asset (i.e. the current funding rate of the underlying exchange).
 
@@ -16,9 +16,9 @@
 
 **Short YU**: A short position on the underlying rate. Short rate positions pay the underlying APR to receive a fixed APR. The fixed APR is determined by the average implied yields of opening the position.
 
-**Maturity**: The end of the pool. At maturity, total position value is zero as it has been settled and reflected in your collateral.
+**Maturity**: The end of the pool. At maturity, the position has been fully settled and reflected in your collateral.
 
-**Liquidation Implied APR**: If the market Implied APR reaches this level, your position will be open for liquidation. This happens as implied APR directly affects your total position value.
+**Liquidation Implied APR**: If the market Implied APR reaches this level, your position will be open for liquidation. This happens as implied APR movements directly affect your net balance.
 
 **Total Position Value**: The value of the currently open position. Total position value decays linearly over time (assuming implied APY does not change) as yields are settled and realized into your collateral.
 
