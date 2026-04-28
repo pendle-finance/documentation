@@ -59,9 +59,9 @@ Assume you are trying to arbitrage the spread between BTC rates on Hyperliquid a
 3. Long Binance BTC rates (on Boros)
 4. Long BTC on Binance
 
-A + B = Receive fixed funding on BTC on Hyperliquid
-C + D = Pay fixed funding on BTC on Binance
-B + D = Delta-neutral on BTC
+- A + B = Receive fixed funding on BTC on Hyperliquid
+- C + D = Pay fixed funding on BTC on Binance
+- B + D = Delta-neutral on BTC
 
 **A + B + C + D = Receive the fixed funding between Hyperliquid and Binance with no exposure to BTC price movements or funding rate volatility.**
 

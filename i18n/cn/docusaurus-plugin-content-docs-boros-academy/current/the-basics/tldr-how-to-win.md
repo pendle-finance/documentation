@@ -37,7 +37,7 @@ title: "速查：如何在 Boros 上获利"
 
 **举例说明：**
 
-<figure><img src="/boros-academy/imgs/rate-sensitivity-tldr.png" alt="" /><figcaption></figcaption></figure>
+<figure><img src="/boros-academy/imgs/rate-sensitivity-tldr.png" alt="" width="480" /><figcaption></figcaption></figure>
 
 * 你考虑以 3.83% 隐含 APR 做多 100 YU-ETHUSDC-Hyperliquid
 * 界面显示需要 1.65 ETH 作为保证金，1% 利率敏感度为 0.413 ETH

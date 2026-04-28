@@ -32,7 +32,7 @@ Rate sensitivity allows you to calculate your possible wins/losses based on Impl
 
 **For example:**
 
-<figure><img src="/boros-academy/imgs/rate-sensitivity-tldr.png" alt="" /><figcaption></figcaption></figure>
+<figure><img src="/boros-academy/imgs/rate-sensitivity-tldr.png" alt="" width="480" /><figcaption></figcaption></figure>
 
 * You are considering a Long 100 YU-ETHUSDC-Hyperliquid at 3.83% Implied APR
 * The UI indicates that you require 1.65 ETH as margin with a 1% rate sensitivity of 0.413 ETH.

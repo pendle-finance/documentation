@@ -64,9 +64,9 @@ import Hint from '@site/src/components/Hint';
 3. 在 Boros 上做多 Binance BTC 利率
 4. 在 Binance 上做多 BTC
 
-A + B = 收取 Hyperliquid 上 BTC 的固定资金费率
-C + D = 支付 Binance 上 BTC 的固定资金费率
-B + D = 对 BTC 实现 Delta 中性
+- A + B = 收取 Hyperliquid 上 BTC 的固定资金费率
+- C + D = 支付 Binance 上 BTC 的固定资金费率
+- B + D = 对 BTC 实现 Delta 中性
 
 **A + B + C + D = 收取 Hyperliquid 与 Binance 之间的固定资金费率价差，且不承担 BTC 价格变动或资金费率波动的风险。**
 
