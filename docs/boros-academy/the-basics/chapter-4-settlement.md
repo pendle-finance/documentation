@@ -38,3 +38,28 @@ On Boros, settlements are conducted periodically, just like the underlying fundi
 
 These adjustments repeat every settlement until the position reaches maturity.
 </Hint>
+
+## Understanding Settlement & Implied APR Entries
+
+Settlement and Implied APR are two separate forces acting on your position at the same time throughout maturity, and understanding how they interact is key to managing a Boros position well.
+
+At every settlement, your collateral is adjusted based on the difference between the Underlying APR and your Fixed APR.
+
+At the same time, your margin is also constantly responding to movements in Implied APR. A position can be winning on settlements while losing on Implied APR, or vice versa.
+
+**As such, always check Rate Sensitivity to understand the possible price swings of your position.**
+
+**Example:**
+
+<figure><img src="/boros-academy/imgs/settlement-example-ch4.png" alt="" /><figcaption></figcaption></figure>
+
+You entered a long 1000 YU-ETHUSDT-Hyperliquid at 3% Implied APR with 60 days to maturity, current underlying APR is -3.32%.
+
+* Margin: 4.9 ETH
+* Rate Sensitivity: 1.64 ETH (per 1% move of Implied APR)
+
+**Settlements are against you at very low APRs throughout, below your Fixed APR of 3%, so your collateral is decreasing each settlement.**
+
+Shortly after, suddenly Implied APR has increased to 5%. That 2% increase in Implied APR increases your net balance by 3.28 ETH (Rate Sensitivity × 2), or an unrealized profit of 3.28 ETH.
+
+This illustrates that while each settlement can be against you, if sentiments shift, a favorable implied APR movement can result in a net profit.

@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-04-01
+> Generated: 2026-04-28
 
 ---
 
@@ -78,6 +78,7 @@ By creating a yield market in DeFi, Pendle unlocks the full potential of yield, 
 | **Build a trading bot or data aggregator** | [Quickstart](./Quickstart.md) → [Backend API Overview](./Backend/ApiOverview.mdx) |
 | **Integrate PT/YT into your protocol (on-chain)** | [Router Overview](./Contracts/PendleRouter/PendleRouterOverview.md) → [Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide.md) |
 | **Price PT or LP (oracle / collateral)** | [Oracle Overview](./Oracles/OracleOverview.md) → [How to Integrate](./Oracles/HowToIntegratePtAndLpOracle.md) |
+| **Analyze yields & APY composition** | [Market Historical Data API](./Backend/ApiOverview.mdx#market-data-endpoints) |
 | **Work with Limit Orders** | [Limit Order Overview](./LimitOrder/Overview.md) |
 | **Track sPENDLE rewards** | [sPENDLE API](./Backend/ApiOverview.mdx#spendle-api-endpoints) |
 
@@ -98,8 +99,10 @@ By creating a yield market in DeFi, Pendle unlocks the full potential of yield, 
 ### Off-chain Integration
 
 - [Backend API overview](./Backend/ApiOverview.mdx)
+- [Market Historical Data & APY Breakdown](./Backend/ApiOverview.mdx#market-data-endpoints) - Time-series data with detailed APY and fee breakdowns
 - [RouterStatic](./Backend/RouterStatic.md) - Extensively tested contract for off-chain calculations. Not audited; should not be used for on-chain fund-related operations.
 - [sPENDLE API](./Backend/ApiOverview.mdx#spendle-api-endpoints) - Staking stats and per-user reward data
+- [Socket.IO Real-time Feeds](./Backend/SocketIO.mdx) - Pushed real-time feeds
 
 ### Limit Orders
 
@@ -774,12 +777,15 @@ Some endpoints are scoped to a specific chain:
 
 | Endpoint | Description |
 |---------|-------------|
+| `GET /v3/{chainId}/markets/{address}/historical-data` | **Market time-series data** with optional APY breakdown — [see Market Data Endpoints](#market-data-endpoints) |
+| ~~`GET /v2/{chainId}/markets/{address}/historical-data`~~ | *(Deprecated)* Use v3 instead for APY breakdown support |
 | ~~`GET /v2/{chainId}/markets/{address}/data`~~ | *(Deprecated)* Market data for a specific address |
 | ~~`GET /v2/sdk/{chainId}/convert`~~ | *(Deprecated)* Generate transaction payload — use `POST /v3/sdk/{chainId}/convert` instead |
 | `GET /v5/{chainId}/transactions/{address}` | Transaction history for an address |
 
 :::note Deprecated
 
+- `GET /v2/{chainId}/markets/{address}/historical-data` is deprecated. Use [`GET /v3/{chainId}/markets/{address}/historical-data`](#market-data-endpoints) instead, which supports `includeApyBreakdown` for detailed APY composition.
 - `GET /v2/{chainId}/markets/{address}/data` is deprecated.
 - `GET /v2/sdk/{chainId}/convert` (GET) is deprecated. Use `POST /v3/sdk/{chainId}/convert` instead, which accepts a JSON body and supports typed inputs.
 
@@ -932,6 +938,38 @@ The following endpoints are specifically deprecated:
 
 - `GET /v1/ve-pendle/data` — use [`GET /v1/spendle/data`](#get-v1spendledata) instead
 - `GET /v1/ve-pendle/market-fees-chart` — no replacement; fees data is now included in the sPENDLE historical data response
+
+## Market Data Endpoints
+
+### GET /v3/\{chainId\}/markets/\{address\}/historical-data
+
+Returns time-series data for a specific market, with optional detailed APY composition breakdown.
+
+| Property | Value |
+|----------|-------|
+| Path parameters | `chainId` (number), `address` (string) |
+| Query parameters | `time_frame`, `timestamp_start`, `timestamp_end`, `fields`, `includeFeeBreakdown`, `includeApyBreakdown` |
+| Cache TTL | Varies by time_frame |
+| CU cost | Dynamic: `max(1, ceil(total / 300))` base, `* 1.5 + 1` if `includeApyBreakdown=true`, `* 2 + 1` if `includeFeeBreakdown=true` |
+
+**Key features:**
+- **APY Breakdown**: Set `includeApyBreakdown=true` to get detailed yield composition for YT and LP positions, categorized by protocol yield, rewards, fixed yield, and incentives
+- **Flexible fields**: Select specific data fields or use `fields=all` for complete data (not recommended for large time ranges)
+- **Fee breakdown**: Include swap fee details with `includeFeeBreakdown=true` (daily/weekly timeframes only)
+
+**Response includes:**
+- Standard time-series fields: `timestamp`, `impliedApy`, `maxApy`, `tvl`, prices, liquidity metrics
+- Optional `ytApyBreakdown`: Structured APY breakdown for YT holders (categories: Protocol Yield, YT Bonus Rewards, YT Extra Rewards)
+- Optional `lpApyBreakdown`: Structured APY breakdown for LP providers (categories: Underlying Yield, External Rewards, PT Fixed Yield, LP Rewards)
+- Optional fee breakdown: `explicitSwapFee`, `implicitSwapFee`, `limitOrderFee`
+
+For detailed schemas, parameters, examples, and migration guide, see the [API Reference](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketHistoricalData_v3).
+
+:::tip New in v3
+
+The v3 endpoint adds support for detailed APY breakdowns while maintaining full backward compatibility with v2. All existing v2 functionality works identically in v3.
+
+:::
 
 ## sPENDLE API Endpoints
 
@@ -1704,6 +1742,7 @@ Limit orders are also integrated into the [Pendle Hosted SDK](../Backend/HostedS
 
 - [Maker APIs](https://api-v2.pendle.finance/limit-order/docs#/Maker) — Generate order data, submit orders, view active orders
 - [Taker APIs](https://api-v2.pendle.finance/limit-order/docs#/Taker) — Query available orders for filling
+- [Order Book Socket.IO feed](../Backend/SocketIO.mdx#order-book) — Pushed order-book snapshots every 5s instead of polling REST
 
 ## Maker Incentives
 
@@ -6772,7 +6811,9 @@ You can track historical PT/YT prices using:
 
 ### How can I retrieve market data such as TVL and APR?
 
-You can obtain market data by calling the Pendle API. For example, to get data for a specific pool: `https://api-v2.pendle.finance/core/v2/{chainId}/markets/{marketAddress}/data`. This returns relevant details for the specified market.
+You can obtain current market data (TVL, APY, liquidity metrics, etc.) by calling [`GET /v2/markets/all`](https://api-v2.pendle.finance/core/docs#/Markets/MarketsCrossChainController_getAllMarkets) and filtering for your desired market address.
+
+For historical time-series data, use the [Market Historical Data API](./Backend/ApiOverview.mdx#market-data-endpoints): `GET /v3/{chainId}/markets/{address}/historical-data`.
 
 ### How can I retrieve market spot prices?
 
@@ -6950,7 +6991,7 @@ Boros is a yield-trading platform on margin by Pendle. Currently, Boros offers t
 
 ![Boros Overview](/img/boros-overview.png)
 
-Boros enables traders to express their view on funding rates. Those bullish on funding rates can open a long position whereas bears can open a short position. Boros also enables those with a floating funding rate exposure to hedge their funding rates payment / receivables.
+While capturing funding rates via cash/carry trades has been a bread-and-butter trade in both TradFi and Crypto, Boros is the first protocol in the world to specifically allow the trading of funding rate movements, and to unlock entirely new categories of yield strategies through its Yield Unit (YU) markets.
 
 There are 3 main components within Boros:
 
@@ -6970,14 +7011,29 @@ For example, in a BTCUSDT(Hyperliquid) market on Boros with BTC as collateral, e
 
 Some use cases:
 
-1. A trader bullish on funding-rate can enter a long position on YU. This position is effectively paying the implied APR in a fixed-stream in exchange for the current funding-rate (i.e. the underlying APR of YU). If the funding-rate yield is higher than the fixed-stream payments, the trader is in profit.
-2. A BTC/USDT Binance perp trader can hedge their funding-rate payments by turning it into a fixed-stream payment. To achieve that, they can enter a long position on YU-BTCUSDT(Binance). This is achieved by paying a fixed stream to receive a floating stream of the underlying BTC/USDT funding rate. The results in the trader hedging the funding rate payment into a fixed payment until maturity.
-3. A trader with a cash and carry position via perps can lock-in the current rates offered on Boros by entering a short-yield position. A cash and carry position receives funding-rate yields from the perps market. The trader can receive fixed yield by paying the current floating-stream (of funding rates) in exchange for the current fixed-stream payment. The net result of the position is a fixed-yield position until maturity.
+1. 1. **Speculating on Funding Rate Direction** 
+A trader bullish on funding-rate can enter a long position on YU**.** This position is effectively paying the implied APR in a fixed-stream in exchange for the current funding-rate (i.e. the underlying APR of YU). If the funding-rate yield is higher than the fixed-stream payments, the trader is in profit.
+2. **Hedging Funding Rate Payments**
+A BTC/USDT Binance perp trader can hedge their funding-rate payments by turning it into a fixed-stream payment. To achieve that, they can enter a long position on YU-BTCUSDT(Binance). This is achieved by paying a fixed stream to receive a floating stream of the underlying BTC/USDT funding rate. **The results in the trader hedging the funding rate payment into a fixed payment until maturity.**
+3. **Locking in Fixed Yield for Cash and Carry**
+A trader with a cash and carry position via perps can lock-in the current rates offered on Boros by entering a short-yield position. A cash and carry position receives funding-rate yields from the perps market. The trader can receive fixed yield by paying the current floating-stream (of funding rates) in exchange for the current fixed-stream payment. The net result of the position is a fixed-yield position until maturity.
+4. **Arbitraging Funding Rate Spreads Between Platforms**
+Funding rates for the same asset often diverge across perp platforms. The classic approach is to short the higher-funding market, long the lower-funding one, collect the spread. Simple on paper, but operationally heavy with double the liquidation risk and no guarantee the differential holds.
+Boros enhances this. By pairing each perp leg with a Boros rate swap (short YU on the high-funding leg, long YU on the low-funding leg), the trader locks in the spread as a fixed differential, with no directional exposure and no dependency on rates staying put.
 
 ### 3. Margin, Liquidations and Risk Parameters
 
 To open a position on Boros, you have to place collaterals based on the desired asset. After which you can either open a long / short position on Boros. If your net balance falls under the maintenance margin, the position will be open for liquidation.
 
+## Why trade Funding Rates?
+
+Perpetual futures are among the most actively traded instruments in crypto. Yet until Boros, there was no dedicated venue to trade funding rates directly. Boros changes that with its Yield Unit (YU) markets, giving traders precise control over their funding rate exposure.
+
+**There are three main ways to use Boros:**
+
+- Long/short YU markets in order to express a directional view on where funding rates are headed
+- Pair a YU position with an existing perp position to convert floating funding rate payments or receivables into a fixed rate
+- Exploit rate differentials between exchanges by using Boros to lock in the spread as fixed yield
 ---
 
 # Glossary
@@ -6988,33 +7044,46 @@ To open a position on Boros, you have to place collaterals based on the desired 
 
 **Implied APR**: The “price” of the YU in yield percentage terms, essentially the market consensus on what the average future yield of YU will be. Upon entering a position, the implied yield at that point in time becomes the fixed rate payable / receivable (long / short position).
 
-**Mark APR (Mark Implied APR):** The Implied APR used for unrealized PnL and liquidation calculations. This is similar to "mark price" in a perpetual exchange and is used to avoid unwanted consequences from short term price manipulations.
+**Mark APR (Mark Implied APR):** A simple time-weighted average (TWAP) of the last traded implied APR on the order book. Mark APR is used for unrealized PnL and liquidation calculations. This is similar to "mark price" in a perpetual exchange and is used to avoid unwanted consequences from short term price manipulations.
 
 **Underlying APR**: The current APR of the underlying asset (i.e. the current funding rate of the underlying exchange).
 
 **My Fixed APR:** The fixed APR of the currently open position. This is established by the weighted average of the implied APRs during entry.
 
+**Rate Sensitivity**: How much your position gains or loses for every 1% change in APR, equivalent to 100x DV01 in TradFi interest rate swap conventions. Positions with more time to maturity carry higher Rate Sensitivity since each 1% shift represents more yield over a longer period.
+
+`Rate Sensitivity = Notional Size (YU) * DaysToMaturity/365 * 1%`
+
+**Daily Volatility**: The 7-day moving average of the market's Implied APR range, representing how much the rate has been swinging day-to-day (i.e. volatility) based on recent trading history.
+
 **Long YU**: A long position on the underlying rate. Long rate positions pay a fixed APR to receive the underlying APR. The fixed APR is determined by the average implied yields of opening the position.
 
 **Short YU**: A short position on the underlying rate. Short rate positions pay the underlying APR to receive a fixed APR. The fixed APR is determined by the average implied yields of opening the position.
 
-**Maturity**: The end of the pool. At maturity, total position value is zero as it has been settled and reflected in your collateral.
+**Maturity**: The end of the pool. At maturity, the position has been fully settled and reflected in your collateral.
 
-**Liquidation Implied APR**: If the market Implied APR reaches this level, your position will be open for liquidation. This happens as implied APR directly affects your total position value.
+**Liquidation Implied APR**: If the market Implied APR reaches this level, your position will be open for liquidation. This happens as implied APR movements directly affect your net balance.
 
 **Total Position Value**: The value of the currently open position. Total position value decays linearly over time (assuming implied APY does not change) as yields are settled and realized into your collateral.
 
 **Notional Size**: The equivalent underlying asset size that your YU position is earning yield from.
 
-For example: if a user opens a 200-YU-ETHUSDT(Binance) position that is worth 10 ETH, the Notional size is 200 ETH and the total position value is 10 ETH.
+For example: if a user opens a 200-YU-ETHUSDT(Binance) position, the Notional size is 200 ETH.
 
 **Net Balance**: Your portfolio’s total value in the position. Net Balance comprises of your collateral and unrealized PnL. Collateral value is affected at every yield settlement. Unrealized PnL is affected by the current implied APR of the market.
 
-**Maintenance Margin**: The amount of capital required to keep your position afloat. Your position is open for liquidation when the Net Balance falls below the Maintenance Margin. Maintenance margin is set at 50% of Initial Margin.
+**Maintenance Margin**: The amount of capital required to keep your position afloat. Your position is open for liquidation when the Net Balance falls below the Maintenance Margin. Maintenance margin is set at 66% of Initial Margin.
 
-**Initial Margin**: The margin required for the set max leverage. This margin is consumed from your collateral and cannot be withdrawn.
+**Initial Margin**: The margin consumed when opening a position, calculated based on notional size, time to maturity, and implied APR.
+
+```jsx
+InitialMargin=NotionalSize*YearsToMaturity*max(ImpliedAPR, MarginFloor)*ImRatio
+```
 
 **Margin Floor**: The minimal margin necessary to initiate a position when a pool nears maturity or when its Implied APR approaches 0%. This threshold prevents the required margin from falling below a certain level, safeguarding against bad debt risks due to high volatility.
+
+**IM Ratio**: Leverage ratio for the market, the lower the number, the lower the initial margin requirement is for that market.
+
 
 ---
 
@@ -7135,24 +7204,25 @@ Opening a Boros vault position is similar in risk profile to going **long YU**. 
 
 # Fees
 
-Boros has 2 fee sources:
+Positions on Boros can have different fees based on their behavior. Refer to the info tab of each pool for more details.
+
+![Market Info](/boros-docs/imgs/market_info.png "Market Info")
 
 ### 1. Swap Fees
 
 Boros collects a flat fee on top of the implied APR for every swap. Swap fee will be deducted from the position’s collateral.
 
-For example, in a market with a swap fee tier of 0.05%, the fee for opening a position equals 0.05% × YU amount × Years to Maturity. In other words, traders will pay 0.05% fee on the \$ value of their position.
+For example, in a market with a swap fee tier of 0.05%, the fee for opening a position equals 0.05% × YU amount × Years to Maturity. In other words, traders will pay 0.05% fee on the $ value of their position.
 
 In this scenario, traders will profit if implied APR changes by more than 0.1% in their favor (assuming no yield settlement happens throughout the period), as traders will have to open and close the position, incurring 2x the swap fee.
 
 ### 2. Open Interest Fees
 
-Boros collects a flat fee of 0.1% on the fixed APR side of every YU during settlement.
+Boros collects a flat fee on the fixed APR side of every YU during settlement.
 
-For example, pools with a 8% fixed rate:
-
-* Long YU positions effectively pay 8.1% in fixed APR.
-* Short YU positions effectively receive 7.9% in fixed APR.
+For example, positions at an 8% fixed rate with a fee tier of 0.1%:
+- Long YU positions effectively pay 8.1% in fixed APR.
+- Short YU positions effectively receive 7.9% in fixed APR.
 
 ### 3. Operation Fees
 
@@ -7162,7 +7232,7 @@ Boros charges a small fixed fee on your first transaction and then intermittentl
 
 # Interest Rate Accounting and Settlement
 
-Currently, Boros facilitates trading in Yield Units (YUs) of funding rates, with settlement intervals that mirror the underlying market’s schedule. For example:
+Boros facilitates trading in Yield Units (YUs) of funding rates, with settlement intervals that mirror the underlying market’s schedule. For example:
 
 * On Binance, funding rates are settled every 8 hours. Correspondingly, Binance YUs on Boros are settled on the same 8-hour schedule.
 * For Hyperliquid, funding rates are settled every hour, thus Hyperliquid YUs on Boros are also settled hourly.
@@ -7189,10 +7259,7 @@ Assuming the implied APR remains the same, the position’s value declines as a 
 
 The maintenance margin also declines as the position is now worth less than before the settlement (i.e. since the value of each YU is now lower, less margin is now required to maintain the same position). Maintenance margin will decline until the margin floor.
 
-### At maturity
-
-1. Total position value is zero as the whole position is already realized.
-2. Collateral is fully freed.
+At maturity, collateral is fully freed.
 
 ---
 
@@ -7200,43 +7267,62 @@ import Hint from '@site/src/components/Hint';
 
 # Margin and Liquidations
 
+## Understanding Positions on Boros
+
+**Positions on Boros are priced and monitored via Rate Sensitivity, Daily Volatility, and Margin.** 
+
+**Rate Sensitivity:** How much your position gains or loses for every 1% change in APR, equivalent to 100x DV01 in TradFi interest rate swap conventions. This is the primary way to understand your position's exposure.
+
+```jsx
+Rate Sensitivity = Notional Size (YU) * DaysToMaturity/365 * 1%
+```
+
+**Daily Volatility:** The 7-day moving average (7DMA) of the daily implied rate range, represents volatility by showing how much Implied APR swings in a day on average 
+
+> ***Rate Sensitivity x Daily Volatility = Daily P&L Range,** giving you sense of how much your position can gain or lose on any given day under normal market conditions*
+
+**Margin:**  The capital backing your position and your runway against adverse rate moves.
+
+## Trading Example
+
+A trader wishes to long BTCUSD-Hyperliquid rates with 59 days to maturity. Implied APR is at 1.18%, and he opens a long position of 10 YU.
+
+![image.png](/boros-docs/imgs/positions-overview.png)
+
+- Rate Sensitivity: 0.0163 BTC per 1% move
+- Margin Requirement: 0.024 BTC
+
+Comparing your Rate Sensitivity against Margin Requirement can provide a sense of scale on how much buffer you have before your position is at risk of liquidation.
+
+**Volatile assets with higher volatility will require higher margin requirement for the same rate sensitivity.**
+
 ## Cross Margin
 
-Boros allows for cross-margin with the same assets, allowing users to leverage the same collateral across multiple positions within the same collateral zone (e.g. Same BTC collateral utilized across all markets within the BTC zone).
+Boros allows for cross-margin with the same assets, allowing users to use the same collateral across multiple positions within the same collateral zone (e.g. Same BTC collateral utilized across all markets within the BTC zone).
 
 Additionally, Boros also offers isolated pools, where collateral is only confined to specific markets.
 
 The Collateral and Notional size will always be denoted in the same asset. For example, in the BTCUSDT-Binance market on Boros, each YU-BTCUSDT-Binance represents yield from funding rates of 1 BTC and the collateral required to back the position is in BTC.
 
-Liquidations within a collateral zone will not affect positions in other zones or isolated pools.
-
-<figure><img src="/boros-docs/imgs/image (6).png" alt="" /><figcaption></figcaption></figure>
-
-## Leverage
-
-Leverage is the ratio of the position value against the required collateral backing it.
-
-For example: A trader is looking to open a 10,000 YU-ETHUSDT, at current prices that position has a value of 20 ETH. If the market has a 2x leverage, the minimum amount of collateral the trader has to place will be 10 ETH. In other words, with 10 ETH collateral, the trader will be able to open a position of 20ETH.
+**Liquidations within a collateral zone will not affect positions in other zones or isolated pools.**
 
 ## **Initial Margin**
 
 Leverage can be set between 1 and the max leverage, which may vary by asset. The initial margin required to open a position is:
 
 ```jsx
-Initial Margin = (NotionalSize * YearsToMaturity * ImpliedAPR) / Leverage
+Initial Margin = NotionalSize*YearsToMaturity*max(ImpliedAPR, MarginFloor)*IMRatio
 ```
 
-The initial margin is consumed by the position and CANNOT be withdrawn or used for cross margin positions. The remaining margin in your collateral that is not consumed by the position is the “Available Margin”.
+The margin scales with notional size, time to maturity, and the implied APR of the position, floored at the market's Margin Floor (see below) to ensure adequate collateral even when rates are low or negative. Once consumed, the initial margin cannot be withdrawn or used to back other positions. The collateral remaining after margin consumption is your Available Margin.
 
-Example 1: If you have \$2000 in collateral and proceeds to open a \$6000 position in a 3x leverage market, the margin consumed is \$2000 (i.e. fully consumed). The available margin is zero and the same collateral cannot be reused to open a new position.
+Example: If you have 2000 USDT and proceed to open a 2000 USDT position, the margin consumed is 2000 USDT (i.e. fully consumed). The available margin becomes 0 USDT and the same collateral cannot be reused to open a new position.
 
-Example 2: If you have \$10000 in collateral and proceeds to open a \$8000 position in a 2x leverage market, the margin consumed is \$4000 (i.e. \$4000 collateral is used to back an \$8000 position in a 2x lev market) and the available margin remaining is \$6000.
-
-Unrealized profits from open positions are automatically added to the initial margin available for new positions, reflected by an increase in the "Available Margin" within the dApp. Conversely, unrealized losses will result in a decrease in "Available Margin.”
+Unrealized profits from open positions are automatically reflected as an increase in Available Margin. Conversely, unrealized losses reduce Available Margin.
 
 ## **Maintenance Margin and Liquidations**
 
-Positions can be liquidated when the position’s **Net Balance** falls below the maintenance margin requirement (i.e. Your total net worth in the position based on the current mark implied APR is less than the required maintenance margin).
+Positions can be liquidated when the position’s Net Balance falls below the maintenance margin requirement.
 
 ### Net Balance
 
@@ -7277,25 +7363,19 @@ Always monitor your Net Balance and Margin Ratio. Top up your collateral to incr
 
 The mark implied APR is a simple time-weighted average (TWAP) of the last traded implied APR on the order book.
 
-It serves as the reference rate for Boros’ margin system—meaning your position value and unrealized PnL is calculated based on the mark implied APR, not the last traded price. This helps prevent unnecessary liquidations caused by short-term price spikes or potential manipulation.
+It serves as the reference rate for Boros’ margin system, meaning your net balance is calculated based on the mark implied APR, not the last traded price. This helps prevent unnecessary liquidations caused by short-term price spikes or potential manipulation.
 
 ### Maintenance Margin
 
-The maintenance margin is set at 66% of the initial margin at max leverage upon opening a position. Positions can be liquidated when the their Net Balance falls below this maintenance margin.
+The maintenance margin is set at 66% of the initial margin upon opening a position. Positions can be liquidated when the their Net Balance falls below this maintenance margin.
 
 ```jsx
 Maintenance Margin = Initial Margin * 66%
 ```
 
-The maintenance margin on Boros declines linearly to the margin floor until maturity as the position approaches maturity, assuming all other factors remain constant.
+As yields are settled, the Rate Sensitivity of the position declines over time. **A 1% move in Implied APR produces a smaller P&L impact as maturity approaches, since the remaining yield period is shorter.** Consequently, the maintenance margin required to maintain the position declines too.
 
-This is because:
-
-1. As time passes, part of the position is settled at each settlement interval (e.g. In a long-rates position, part of the position is settled when the position pays a fixed yield in exchange for the underlying yield during settlement).
-2. As yields are settled, the effective position value declines overtime, hence maintenance margin required to maintain that position declines too.
-3. At maturity, the entire position is settled (realized). Total position value is zero and maintenance margin is also zero. The realized position is reflected in the collateral.
-
-<figure><img src="/boros-docs/imgs/image (7).png" alt="" /><figcaption></figcaption></figure>
+At maturity, the entire position is settled. Rate Sensitivity reaches zero (as there is no remaining yield to respond to rate movements) and maintenance margin is also zero. The realized position is reflected in the collateral.
 
 ### Margin Floor
 
@@ -7335,7 +7415,7 @@ Each market will only have ONE Margin Floor value, determined by the higher of t
 
 Boros has an option to trigger auto-deleveraging, a critical feature designed as a vital safeguard to protect against significant bad debt risks.
 
-The purpose of auto-deleveraging is strictly to ensure the platform stays solvent. If triggered, the users on the opposite side of the position at risk (ranked by unrealized P\&L and leverage used) will be forced to close their positions (i.e. take profit). These positions are closed at the current implied APR against the liquidated user, ensuring that the platform does not accrue bad debt.
+The purpose of auto-deleveraging is strictly to ensure the platform stays solvent. If triggered, the users on the opposite side of the position at risk, ranked by various metrics (e.g. unrealized P&L, margin usage, among others), will be forced to close their positions (i.e. take profit). These positions are closed at the current implied APR against the liquidated user, ensuring that the platform does not accrue bad debt.
 
 Audo-deleveraging is an important final safeguard, with the goal of ensuring that under all circumstances, the protocol and users can continue to operate with ease of mind.
 

@@ -1,6 +1,8 @@
+import Hint from '@site/src/components/Hint';
+
 # Chapter 5 - Long Rates
 
-When trading on Boros, if you expect the funding rate of, for instance, BTCUSDT-Binance to increase, you would enter a long position on its YU.
+If you're expecting funding rates of BTCUSDT-Binance to increase - you would long its YU market on Boros.
 
 Here’s how you can profit from a long position in YU:
 
@@ -35,17 +37,29 @@ This is akin to the principle of “buy low, sell high”. A trader with BTC, fo
 
 Similarly, you can also profit by closing your YU position and “selling off” when its Implied APR (essentially its price) increases.
 
+<Hint style="warning">
+**Important**
+
+Unlike token prices which floor at \$0, YUs do not have a price floor. Implied APR can go deeply negative. A long position entered at 10% Implied APR for instance can see its Implied APR drop to -100% or beyond, with no lower bound.
+
+Each percentage point of that decline works against your margin at the rate of your Rate Sensitivity. Always account for this when sizing your position and assessing your margin runway before entering.
+
+<figure><img src="/boros-academy/imgs/no-price-floor-ch5.png" alt="" /><figcaption></figcaption></figure>
+</Hint>
+
 **For example:**
 
-Peepo enters a long position in 2 YU-BTCUSDT-Binance at 10% Implied APR.
+<figure><img src="/boros-academy/imgs/long-rates-example-ch5.png" alt="" /><figcaption></figcaption></figure>
 
-After 3 rounds of settlement, Implied APR of YU-BTCUSDT-Binance increases to 15% Implied APR.
+Peepo enters a long position of 5 YU-BTCUSDT-Hyperliquid at 3.2% Implied APR.
+
+After a while, Implied APR increases by 2% to 5.2% Implied APR.
 
 At this point, Peepo could opt to sell off his YUs (i.e. close his position) before maturity at a higher price.
 
-_Total Profit = (Underlying Yield Collected - Fixed Yield Paid)+ Profit from YU Sale_
+_Total Profit = (Underlying APR Collected - Fixed APR Paid) + Profit from YU Sale (2 x Rate Sensitivity)_
 
-Instead of holding to maturity, this strategy leverages market timing to exit your position when the Implied APR (market value of YU) is higher than your entry, allowing you to capture both:
+**Instead of holding to maturity, this strategy leverages market timing to exit your position when the Implied APR (market value of YU) is higher than your entry, allowing you to capture both:**
 
 1. Yield Profits
 2. Capital Appreciation

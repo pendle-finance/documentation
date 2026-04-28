@@ -27,6 +27,7 @@ Traders with a long YU position benefit when the Underlying APR increases relati
 
 * Commits to paying a Fixed APR (i.e. Implied APR upon opening the position) to receive the Underlying APR.
 * Expects Underlying APR > Implied APR
+* Gains profit when Implied APR increases from position entry
 </Hint>
 
 ### Short YU
@@ -44,6 +45,5 @@ In simple terms, when you short YU, you are betting that the Fixed Rate you lock
 
 * Commits to paying the Underlying APR to receive a Fixed APR (i.e. Implied APR upon opening the position).
 * Expects Implied APR > Underlying APR
+* Gains profit when Implied APR decreases from position entry
 </Hint>
-
-To close an open position, Boros automatically opens an opposite position of the same size.

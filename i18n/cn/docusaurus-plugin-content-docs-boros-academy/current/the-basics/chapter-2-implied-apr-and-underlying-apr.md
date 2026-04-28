@@ -1,11 +1,11 @@
 ---
-pagination_label: "第 2 章 - 隐含 APR 与底层 APR"
-title: "第 2 章 - 隐含 APR 与底层 APR"
+pagination_label: "第 2 章 - 隐含 APR、底层 APR 与利率敏感度"
+title: "第 2 章 - 隐含 APR、底层 APR 与利率敏感度"
 ---
 
 import Hint from '@site/src/components/Hint';
 
-# 第 2 章 - 隐含 APR 与底层 APR
+# 第 2 章 - 隐含 APR、底层 APR 与利率敏感度
 
 在 Boros 上交易与在永续合约交易所（perps）交易有相似之处，但有一个关键区别：Boros 的交易者押注的是收益率的走向，而非资产价格的涨跌。
 
@@ -68,5 +68,19 @@ YU 的隐含 APR 也可以理解为：市场（在理性市场假设下）对该
 
 **做空 YU：** 反之，若当前隐含 APR 高于你对底层 APR 的预期，说明 YU 可能被高估或价格偏高。
 </Hint>
+
+## 理解利率敏感度
+
+<figure><img src="/boros-academy/imgs/rate-sensitivity-ch2.png" alt="" /><figcaption></figcaption></figure>
+
+**利率敏感度（Rate Sensitivity）** 显示隐含 APR 每变动 ±1% 时，你的头寸价值发生的 \$ 变化。
+
+`Rate Sensitivity = Notional Size (YU) * DaysToMaturity/365 * 1%`
+
+对于熟悉利率掉期的交易者，利率敏感度的逻辑与 DV01 相同（但缩放至 1% 而非 1 bps）：开仓时盯市盈亏从零开始，仅随利率波动而变化。
+
+**每日波动率（Daily Volatility）** 显示市场隐含 APR 的 7 日移动平均区间，用于反映市场的波动水平。
+
+**这两项指标连同隐含 APR，共同帮助你从市场的历史交易数据出发，理解 Boros 头寸潜在的盈亏空间。**
 
 ***

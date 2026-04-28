@@ -11,7 +11,7 @@ import BorosAdvance from '@site/src/components/icons/BorosAdvance';
 
 欢迎来到 Boros 学院！
 
-Boros 是 Pendle 旗下的保证金收益率交易平台。想知道如何利用 Boros 获益？继续阅读！本学院涵盖你理解和使用 Boros 所需的一切知识。
+Boros 是 Pendle 旗下的保证金收益率交易平台。想从永续合约市场锁定固定收益，或对资金费率进行投机？你来对地方了。本学院涵盖你理解和使用 Boros 所需的一切知识。
 
 如需了解更多协议机制，请查看[文档](/boros-docs/Introduction)。
 
