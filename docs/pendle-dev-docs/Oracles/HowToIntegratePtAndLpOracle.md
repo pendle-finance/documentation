@@ -127,7 +127,7 @@ The source code of the whole example can be found here:
 
 ### Step 1. Deploy the oracle (if not already deployed)
 
-If the oracle is not already deployed, you can deploy it yourself the same as this `setUp` function ([source](https://github.com/pendle-finance/pendle-examples-public/blob/642b1ab2784b3015691d6c26a2684cd5f7585b0d/test/ChainlinkOracleSample.sol#L30-L41)).
+If the oracle is not already deployed, you can self-deploy it via the [Pendle Public DApp](https://dapp-public.pendle.finance/), or deploy it yourself the same as this `setUp` function ([source](https://github.com/pendle-finance/pendle-examples-public/blob/642b1ab2784b3015691d6c26a2684cd5f7585b0d/test/ChainlinkOracleSample.sol#L30-L41)).
 
 ```solidity title="code fragment of setUp function"
 factory = new PendleChainlinkOracleFactory(0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2);

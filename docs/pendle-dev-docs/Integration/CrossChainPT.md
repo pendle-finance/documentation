@@ -71,7 +71,7 @@ To address the liquidation risk on spoke chains, Pendle provides a **FixedPriceP
 
 Because the AMM is **fast** and **deterministic**, it is suitable for the liquidation application on spoke chain. We also refer to this AMM as the liquidation AMM.
 
-Pendle can help deploy a **FixedPricePTAMM** with a Linear discount oracle of your **desired** _discounted rate_.
+Pendle can help deploy a **FixedPricePTAMM** with a Linear discount oracle of your **desired** _discounted rate_. Alternatively, you can self-deploy the Linear discount oracle via the [Pendle Public DApp](https://dapp-public.pendle.finance/).
 
 ### The Recommended Discounted Rate for the Oracle
 
