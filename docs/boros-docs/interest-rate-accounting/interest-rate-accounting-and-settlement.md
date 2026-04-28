@@ -1,6 +1,6 @@
 # Interest Rate Accounting and Settlement
 
-Currently, Boros facilitates trading in Yield Units (YUs) of funding rates, with settlement intervals that mirror the underlying market’s schedule. For example:
+Boros facilitates trading in Yield Units (YUs) of funding rates, with settlement intervals that mirror the underlying market’s schedule. For example:
 
 * On Binance, funding rates are settled every 8 hours. Correspondingly, Binance YUs on Boros are settled on the same 8-hour schedule.
 * For Hyperliquid, funding rates are settled every hour, thus Hyperliquid YUs on Boros are also settled hourly.
@@ -27,7 +27,4 @@ Assuming the implied APR remains the same, the position’s value declines as a 
 
 The maintenance margin also declines as the position is now worth less than before the settlement (i.e. since the value of each YU is now lower, less margin is now required to maintain the same position). Maintenance margin will decline until the margin floor.
 
-### At maturity
-
-1. Total position value is zero as the whole position is already realized.
-2. Collateral is fully freed.
+At maturity, collateral is fully freed.

@@ -6,7 +6,7 @@ import BorosAdvance from '@site/src/components/icons/BorosAdvance';
 
 Welcome to Boros Academy!
 
-Boros is a yield-trading platform on margin by Pendle. Curious how you can take advantage of Boros? Read on! This Academy covers all you need to know to understand and use Boros.
+Boros is a yield-trading platform on margin by Pendle. Want to unlock fixed yields from perpetuals markets or speculate on funding rates? You've come to the right place. This Academy covers all you need to know to understand and use Boros.
 
 To learn more about the protocol mechanics, check out the [docs](/boros-docs/Introduction).
 

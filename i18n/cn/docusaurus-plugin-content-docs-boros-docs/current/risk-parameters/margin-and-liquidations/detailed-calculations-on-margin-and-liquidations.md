@@ -50,7 +50,7 @@ $$
 * 当发生清算时，用户的头寸以标记利率平仓，用户将损失以下清算罚款：
 
 $$
-清算罚款 = k \times 被清算头寸的维持保证金
+LiquidationPenalty = k * maintenanceMarginOfLiquidatedPosition
 $$
 
 * 其中 k 在头寸刚刚可被清算时从 25% 开始，随着头寸变得越来越不健康（但仍未被清算），线性增加至 50%

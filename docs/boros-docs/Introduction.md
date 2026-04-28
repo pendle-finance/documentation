@@ -6,13 +6,13 @@ Boros is a yield-trading platform on margin by Pendle. Currently, Boros offers t
 
 ![Boros Overview](/img/boros-overview.png)
 
-Boros enables traders to express their view on funding rates. Those bullish on funding rates can open a long position whereas bears can open a short position. Boros also enables those with a floating funding rate exposure to hedge their funding rates payment / receivables.
+While capturing funding rates via cash/carry trades has been a bread-and-butter trade in both TradFi and Crypto, Boros is the first protocol in the world to specifically allow the trading of funding rate movements, and to unlock entirely new categories of yield strategies through its Yield Unit (YU) markets.
 
 There are 3 main components within Boros:
 
 ### 1. Interest Rate Accounting
 
-To trade a yield of a given asset, Boros has to first obtain its yield-rate via an oracle (e.g. Binance BTCUSDT funding rate, \$ATOM staking rate, etc). This yield is referred to as the “Underlying Yield” as the number is obtained from the yield of the underlying asset.
+To trade a yield of a given asset, Boros has to first obtain its yield-rate via an oracle (e.g. Binance BTCUSDT funding rate, Hyperliquid HYPEUSDC funding rate, etc). This yield is referred to as the “Underlying Yield” as the number is obtained from the yield of the underlying asset.
 
 <Hint style="info">
 As long as there is an oracle feed for a yield percentage, the asset can be supported on Boros.
@@ -26,10 +26,26 @@ For example, in a BTCUSDT(Hyperliquid) market on Boros with BTC as collateral, e
 
 Some use cases:
 
-1. A trader bullish on funding-rate can enter a long position on YU. This position is effectively paying the implied APR in a fixed-stream in exchange for the current funding-rate (i.e. the underlying APR of YU). If the funding-rate yield is higher than the fixed-stream payments, the trader is in profit.
-2. A BTC/USDT Binance perp trader can hedge their funding-rate payments by turning it into a fixed-stream payment. To achieve that, they can enter a long position on YU-BTCUSDT(Binance). This is achieved by paying a fixed stream to receive a floating stream of the underlying BTC/USDT funding rate. The results in the trader hedging the funding rate payment into a fixed payment until maturity.
-3. A trader with a cash and carry position via perps can lock-in the current rates offered on Boros by entering a short-yield position. A cash and carry position receives funding-rate yields from the perps market. The trader can receive fixed yield by paying the current floating-stream (of funding rates) in exchange for the current fixed-stream payment. The net result of the position is a fixed-yield position until maturity.
+1. **Speculating on Funding Rate Direction** 
+A trader bullish on funding-rate can enter a long position on YU**.** This position is effectively paying the implied APR in a fixed-stream in exchange for the current funding-rate (i.e. the underlying APR of YU). If the funding-rate yield is higher than the fixed-stream payments, the trader is in profit.
+2. **Hedging Funding Rate Payments**
+A BTC/USDT Binance perp trader can hedge their funding-rate payments by turning it into a fixed-stream payment. To achieve that, they can enter a long position on YU-BTCUSDT(Binance). This is achieved by paying a fixed stream to receive a floating stream of the underlying BTC/USDT funding rate. **The results in the trader hedging the funding rate payment into a fixed payment until maturity.**
+3. **Locking in Fixed Yield for Cash and Carry**
+A trader with a cash and carry position via perps can lock-in the current rates offered on Boros by entering a short-yield position. A cash and carry position receives funding-rate yields from the perps market. The trader can receive fixed yield by paying the current floating-stream (of funding rates) in exchange for the current fixed-stream payment. The net result of the position is a fixed-yield position until maturity.
+4. **Arbitraging Funding Rate Spreads Between Platforms**
+Funding rates for the same asset often diverge across perp platforms. The classic approach is to short the higher-funding market, long the lower-funding one, collect the spread. Simple on paper, but operationally heavy with double the liquidation risk and no guarantee the differential holds.
+Boros enhances this. By pairing each perp leg with a Boros rate swap (short YU on the high-funding leg, long YU on the low-funding leg), the trader locks in the spread as a fixed differential, with no directional exposure and no dependency on rates staying put.
 
 ### 3. Margin, Liquidations and Risk Parameters
 
 To open a position on Boros, you have to place collaterals based on the desired asset. After which you can either open a long / short position on Boros. If your net balance falls under the maintenance margin, the position will be open for liquidation.
+
+## Why trade Funding Rates?
+
+Perpetual futures are among the most actively traded instruments in crypto. Yet until Boros, there was no dedicated venue to trade funding rates directly. Boros changes that with its Yield Unit (YU) markets, giving traders precise control over their funding rate exposure.
+
+**There are three main ways to use Boros:**
+
+- Long/short YU markets in order to express a directional view on where funding rates are headed
+- Pair a YU position with an existing perp position to convert floating funding rate payments or receivables into a fixed rate
+- Exploit rate differentials between exchanges by using Boros to lock in the spread as fixed yield

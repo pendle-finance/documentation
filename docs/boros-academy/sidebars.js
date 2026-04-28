@@ -20,6 +20,7 @@ module.exports = {
       items: [
         { type: "doc", id: "advanced-strategies/hedging-funding-rates-payment", label: "Hedging Funding Rates Payment", customProps: { icon: "shield" } },
         { type: "doc", id: "advanced-strategies/fixed-funding-rates-receivables", label: "Fixed Funding Rates Receivables", customProps: { icon: "lock" } },
+        { type: "doc", id: "advanced-strategies/fixed-return-funding-arbitrage", label: "Fixed Return Funding Arbitrage", customProps: { icon: "swap_horiz" } },
         { type: "doc", id: "advanced-strategies/implied-apr-vs-futures-premium", label: "Implied APR vs Futures Premium", customProps: { icon: "compare_arrows" } },
       ],
     },

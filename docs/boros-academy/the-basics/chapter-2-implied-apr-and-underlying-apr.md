@@ -1,6 +1,6 @@
 import Hint from '@site/src/components/Hint';
 
-# Chapter 2 - Implied APR and Underlying APR
+# Chapter 2 - Implied APR, Underlying APR, Rate Sensitivity
 
 Trading on Boros shares similarities with trading on perpetuals exchanges (perps), but with a twist. Instead of betting on the price movements of assets, Boros traders bet on the movements of yield.
 
@@ -64,4 +64,16 @@ The key to trading YU effectively lies in comparing the current market's Implied
 **Short YU:** Conversely, if the current Implied APR is higher than your expectations Underlying APR, it suggests that the YU might be overvalued or expensive.
 </Hint>
 
-***
+## Understanding Rate Sensitivity
+
+<figure><img src="/boros-academy/imgs/rate-sensitivity-ch2.png" alt="" /><figcaption></figcaption></figure>
+
+**Rate Sensitivity** shows the \$ change in your position for every ±1% move in Implied APR.
+
+`Rate Sensitivity = Notional Size (YU) * DaysToMaturity/365 * 1%`
+
+For traders familiar with interest rate swaps, Rate Sensitivity follows the same logic as DV01 (scaled to 1% instead of 1 bps), where your mark-to-market P&L starts at zero upon entry and moves only with the rate.
+
+**Daily Volatility** shows the 7DMA range of the market's Implied APR, representing volatility of the market.
+
+**These alongside Implied APR, allow you to understand the potential losses/gains of your Boros position from the market's trading history.**

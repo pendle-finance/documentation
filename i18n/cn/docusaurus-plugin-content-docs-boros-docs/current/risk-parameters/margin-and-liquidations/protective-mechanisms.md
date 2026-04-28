@@ -11,7 +11,7 @@ Boros 设有几项机制来降低用户和系统的风险。
 
 * 任何市场的未平仓量（OI）有硬性上限
 * 从市场 API 获取该值：
-  * 未平仓上限 = **`hardOICap`/`1e18`**
+  * OI Cap = **`hardOICap`/`1e18`**
 
 ### 仅平仓模式（Closing Only Mode）
 
