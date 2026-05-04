@@ -79,7 +79,7 @@ Pendle 上的 LP 头寸由 PT 和底层资产的包装版本组成，例如 PT-e
 
 总结：Pendle 上的 LP 保留所有收益敞口和积分，同时从交换费和 $PENDLE 激励中获得额外收益。
 
-为了最大化收益和积分，通过锁定 vePENDLE 或使用 Penpie 和 Equilibria 等液态锁定器来提升收益。
+为了最大化收益和积分，通过锁定 vePENDLE 来提升收益。
 
 ## Pendle 上的积分乘数
 

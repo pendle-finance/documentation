@@ -8,7 +8,7 @@ This guide covers how partner protocols can track and distribute points-based re
 
 ## Overview
 
-Many Pendle pools offer additional rewards in the form of points from integrated protocols. Pendle provides standardized tools to help partners manage the complexity of tracking points across YT holders, LP positions, and liquid lockers.
+Many Pendle pools offer additional rewards in the form of points from integrated protocols. Pendle provides standardized tools to help partners manage the complexity of tracking points across YT holders and LP positions.
 
 ## The Balance Fetcher
 
@@ -26,7 +26,6 @@ The balance fetcher correctly accounts for all of Pendle's internal nuances:
 |--------|-----------------|
 | **LP Boosting** | Applies the yield boost (up to 2.5x) for eligible stakers |
 | **YT Fee** | Accounts for the 5% fee applied to YT yields, allocated to the protocol |
-| **Liquid Lockers** | Integrates with APIs from Penpie and Equilibria to track end-user balances within their contracts |
 | **Post-Expiry** | Correctly attributes points for expired but unredeemed positions |
 
 ### Partner Responsibility
@@ -103,7 +102,6 @@ Points are allocated to positions with exposure to the underlying yield:
 |--------------|--------------|-------|
 | **YT holders** | Yes | Full share (minus 5% fee) corresponding to 1 unit of the underlying asset per YT |
 | **LP holders** | Yes | Proportional to the SY portion of their LP position only |
-| **Liquid locker holders** | Yes | Via Penpie, Equilibria, etc. — their underlying position is still an LP token |
 | **PT holders** | No | PT holders forgo all variable yield and points |
 
 ## LP Boost on Points
@@ -120,4 +118,4 @@ For campaigns that use [Merkl](https://merkl.angle.money/) to distribute rewards
 
 ### Direct Airdrops
 
-Pendle can assist partners by providing necessary user balance data to facilitate direct airdrops. For rewards sent to liquid locker contracts, the liquid locker protocol is responsible for the final distribution.
+Pendle can assist partners by providing necessary user balance data to facilitate direct airdrops.
