@@ -146,7 +146,7 @@ Public RPCs (e.g., the default MetaMask Arbitrum RPC via Ankr) are prone to issu
 
 ### Protocol Pauses
 
-In the event of a security compromise on an integrated protocol (e.g., Penpie, Zerolend), Pendle may pause its own contracts as a precautionary measure. Once the attack is confirmed to be isolated and that protocol has been paused, Pendle will unpause its contracts.
+In the event of a security compromise on an integrated protocol (e.g., Zerolend), Pendle may pause its own contracts as a precautionary measure. Once the attack is confirmed to be isolated and that protocol has been paused, Pendle will unpause its contracts.
 
 ---
 

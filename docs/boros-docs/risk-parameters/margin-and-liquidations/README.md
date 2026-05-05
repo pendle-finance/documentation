@@ -2,43 +2,62 @@ import Hint from '@site/src/components/Hint';
 
 # Margin and Liquidations
 
+## Understanding Positions on Boros
+
+**Positions on Boros are priced and monitored via Rate Sensitivity, Daily Volatility, and Margin.** 
+
+**Rate Sensitivity:** How much your position gains or loses for every 1% change in APR, equivalent to 100x DV01 in TradFi interest rate swap conventions. This is the primary way to understand your position's exposure.
+
+```jsx
+Rate Sensitivity = Notional Size (YU) * DaysToMaturity/365 * 1%
+```
+
+**Daily Volatility:** The 7-day moving average (7DMA) of the daily implied rate range, represents volatility by showing how much Implied APR swings in a day on average 
+
+> ***Rate Sensitivity x Daily Volatility = Daily P&L Range,** giving you sense of how much your position can gain or lose on any given day under normal market conditions*
+
+**Margin:**  The capital backing your position and your runway against adverse rate moves.
+
+## Trading Example
+
+A trader wishes to long BTCUSD-Hyperliquid rates with 59 days to maturity. Implied APR is at 1.18%, and he opens a long position of 10 YU.
+
+![image.png](/boros-docs/imgs/positions-overview.png)
+
+- Rate Sensitivity: 0.0163 BTC per 1% move
+- Margin Requirement: 0.024 BTC
+
+Comparing your Rate Sensitivity against Margin Requirement can provide a sense of scale on how much buffer you have before your position is at risk of liquidation.
+
+**Volatile assets with higher volatility will require higher margin requirement for the same rate sensitivity.**
+
 ## Cross Margin
 
-Boros allows for cross-margin with the same assets, allowing users to leverage the same collateral across multiple positions within the same collateral zone (e.g. Same BTC collateral utilized across all markets within the BTC zone).
+Boros allows for cross-margin with the same assets, allowing users to use the same collateral across multiple positions within the same collateral zone (e.g. Same BTC collateral utilized across all markets within the BTC zone).
 
 Additionally, Boros also offers isolated pools, where collateral is only confined to specific markets.
 
 The Collateral and Notional size will always be denoted in the same asset. For example, in the BTCUSDT-Binance market on Boros, each YU-BTCUSDT-Binance represents yield from funding rates of 1 BTC and the collateral required to back the position is in BTC.
 
-Liquidations within a collateral zone will not affect positions in other zones or isolated pools.
-
-<figure><img src="/boros-docs/imgs/image (6).png" alt="" /><figcaption></figcaption></figure>
-
-## Leverage
-
-Leverage is the ratio of the position value against the required collateral backing it.
-
-For example: A trader is looking to open a 10,000 YU-ETHUSDT, at current prices that position has a value of 20 ETH. If the market has a 2x leverage, the minimum amount of collateral the trader has to place will be 10 ETH. In other words, with 10 ETH collateral, the trader will be able to open a position of 20ETH.
+**Liquidations within a collateral zone will not affect positions in other zones or isolated pools.**
 
 ## **Initial Margin**
 
 Leverage can be set between 1 and the max leverage, which may vary by asset. The initial margin required to open a position is:
 
 ```jsx
-Initial Margin = (NotionalSize * YearsToMaturity * ImpliedAPR) / Leverage
+Initial Margin = NotionalSize*YearsToMaturity*max(ImpliedAPR, MarginFloor)*IMRatio
 ```
 
-The initial margin is consumed by the position and CANNOT be withdrawn or used for cross margin positions. The remaining margin in your collateral that is not consumed by the position is the “Available Margin”.
+The margin scales with notional size, time to maturity, and the implied APR of the position, floored at the market's Margin Floor (see below) to ensure adequate collateral even when rates are low or negative. Once consumed, the initial margin cannot be withdrawn or used to back other positions. The collateral remaining after margin consumption is your Available Margin.
 
-Example 1: If you have \$2000 in collateral and proceeds to open a \$6000 position in a 3x leverage market, the margin consumed is \$2000 (i.e. fully consumed). The available margin is zero and the same collateral cannot be reused to open a new position.
+Example: If you have 2000 USDT and proceed to open a 2000 USDT position, the margin consumed is 2000 USDT (i.e. fully consumed). The available margin becomes 0 USDT and the same collateral cannot be reused to open a new position.
 
-Example 2: If you have \$10000 in collateral and proceeds to open a \$8000 position in a 2x leverage market, the margin consumed is \$4000 (i.e. \$4000 collateral is used to back an \$8000 position in a 2x lev market) and the available margin remaining is \$6000.
-
-Unrealized profits from open positions are automatically added to the initial margin available for new positions, reflected by an increase in the "Available Margin" within the dApp. Conversely, unrealized losses will result in a decrease in "Available Margin.”
+Unrealized profits from open positions are automatically reflected as an increase in Available Margin. Conversely, unrealized losses reduce Available Margin.
 
 ## **Maintenance Margin and Liquidations**
 
-Positions can be liquidated when the position’s **Net Balance** falls below the maintenance margin requirement (i.e. Your total net worth in the position based on the current mark implied APR is less than the required maintenance margin).
+Positions can be liquidated when the position’s Net Balance falls below the maintenance margin requirement.
 
 ### Net Balance
 
@@ -79,25 +98,19 @@ Always monitor your Net Balance and Margin Ratio. Top up your collateral to incr
 
 The mark implied APR is a simple time-weighted average (TWAP) of the last traded implied APR on the order book.
 
-It serves as the reference rate for Boros’ margin system—meaning your position value and unrealized PnL is calculated based on the mark implied APR, not the last traded price. This helps prevent unnecessary liquidations caused by short-term price spikes or potential manipulation.
+It serves as the reference rate for Boros’ margin system, meaning your net balance is calculated based on the mark implied APR, not the last traded price. This helps prevent unnecessary liquidations caused by short-term price spikes or potential manipulation.
 
 ### Maintenance Margin
 
-The maintenance margin is set at 66% of the initial margin at max leverage upon opening a position. Positions can be liquidated when the their Net Balance falls below this maintenance margin.
+The maintenance margin is set at 66% of the initial margin upon opening a position. Positions can be liquidated when the their Net Balance falls below this maintenance margin.
 
 ```jsx
 Maintenance Margin = Initial Margin * 66%
 ```
 
-The maintenance margin on Boros declines linearly to the margin floor until maturity as the position approaches maturity, assuming all other factors remain constant.
+As yields are settled, the Rate Sensitivity of the position declines over time. **A 1% move in Implied APR produces a smaller P&L impact as maturity approaches, since the remaining yield period is shorter.** Consequently, the maintenance margin required to maintain the position declines too.
 
-This is because:
-
-1. As time passes, part of the position is settled at each settlement interval (e.g. In a long-rates position, part of the position is settled when the position pays a fixed yield in exchange for the underlying yield during settlement).
-2. As yields are settled, the effective position value declines overtime, hence maintenance margin required to maintain that position declines too.
-3. At maturity, the entire position is settled (realized). Total position value is zero and maintenance margin is also zero. The realized position is reflected in the collateral.
-
-<figure><img src="/boros-docs/imgs/image (7).png" alt="" /><figcaption></figcaption></figure>
+At maturity, the entire position is settled. Rate Sensitivity reaches zero (as there is no remaining yield to respond to rate movements) and maintenance margin is also zero. The realized position is reflected in the collateral.
 
 ### Margin Floor
 
@@ -137,7 +150,7 @@ Each market will only have ONE Margin Floor value, determined by the higher of t
 
 Boros has an option to trigger auto-deleveraging, a critical feature designed as a vital safeguard to protect against significant bad debt risks.
 
-The purpose of auto-deleveraging is strictly to ensure the platform stays solvent. If triggered, the users on the opposite side of the position at risk (ranked by unrealized P\&L and leverage used) will be forced to close their positions (i.e. take profit). These positions are closed at the current implied APR against the liquidated user, ensuring that the platform does not accrue bad debt.
+The purpose of auto-deleveraging is strictly to ensure the platform stays solvent. If triggered, the users on the opposite side of the position at risk, ranked by various metrics (e.g. unrealized P&L, margin usage, among others), will be forced to close their positions (i.e. take profit). These positions are closed at the current implied APR against the liquidated user, ensuring that the platform does not accrue bad debt.
 
 Audo-deleveraging is an important final safeguard, with the goal of ensuring that under all circumstances, the protocol and users can continue to operate with ease of mind.
 

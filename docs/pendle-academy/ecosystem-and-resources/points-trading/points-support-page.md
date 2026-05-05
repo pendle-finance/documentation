@@ -121,11 +121,7 @@ If PT's value declines, LP's balance declines alongside it as well as it compris
 
 ### Points Related
 
-#### 1. Do I get points when I deposit my LP tokens to Penpie and Equilibria?
-
-Yes. Points are boosted as well if you deposit to liquid lockers like Penpie and Equilibria.
-
-#### 2. Where can I see my points? How do I know it is accruing?
+#### 1. Where can I see my points? How do I know it is accruing?
 
 You can track your EigenLayer and native protocol points over at the respective protocol's dashboard:
 
@@ -137,23 +133,23 @@ New pool launches might take a while for the respective teams to build the dashb
 
 Any dispute should be done in the respective protocol's channel. Pendle is simply a protocol to trade yields (and points). The points tracking is eventually at the underlying protocol's discretion.
 
-#### 3. How does Pendle enable leveraged points for YT?
+#### 2. How does Pendle enable leveraged points for YT?
 
 Note that Pendle does NOT give nor generate additional points to enable YT's leverage. Pendle simply streams points from the underlying to YT holders. To learn more, see [here](./) and [here](../../yield-trading-deep-dives/chapter-8-long-yield-obtain-leveraged-yield-exposure).
 
-#### 4. How often do points accrue?&#x20;
+#### 3. How often do points accrue?&#x20;
 
 It varies by protocol, check again after 1 day.&#x20;
 
 For newer markets, it might take a while for the respective teams to build the dashboard. Please be patient, your points are accruing in the meantime, just not showing in the dashboard at the moment.
 
-#### 5. My points are not showing, what do I do?
+#### 4. My points are not showing, what do I do?
 
 If you purchased PT, you are not getting points.&#x20;
 
 If you purchased YT or provided liquidity, you ARE earning points. Do give it a while for the respective dashboard to show. For newer markets, it might take a while for the respective teams to build the dashboard. Please be patient.
 
-#### 6. Do I earn Eigenlayer points when I deposit my LRTs on Pendle on Arbitrum?
+#### 5. Do I earn Eigenlayer points when I deposit my LRTs on Pendle on Arbitrum?
 
 Yes. However, it is up to the underlying protocol to continue streaming rewards and points on Arbitrum.
 

@@ -74,7 +74,7 @@ To retain most of your points exposure, toggle Keep YT Mode to retain your YT po
 
 In conclusion: LPs on Pendle retain all yield exposure and points while earning additional yields from swap fees and \$PENDLE incentives.
 
-For maximum yield and points, boost your yields by locking vePENDLE or use liquid lockers such as Penpie and Equilibria.
+For maximum yield and points, boost your yields by locking vePENDLE.
 
 ## Point Multipliers on Pendle
 

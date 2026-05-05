@@ -33,25 +33,17 @@ import Hint from '@site/src/components/Hint';
 
    该头寸对底层资产的敞口大小（即你做多或做空的 YU 数量）。
 
-   示例：5 YU-BTCUSDT-Binance = 名义规模为 5 YU，代表 Binance BTCUSDT 市场上 5 BTC 头寸的收益敞口。
+   示例：100 YU-ETHUSDT-Binance = 名义规模为 100 YU，代表 Binance ETHUSDT 市场上 100 ETH 头寸的收益敞口。
 
-<figure><img src="/boros-academy/imgs/image (27).png" alt="" /><figcaption></figcaption></figure>
+<figure><img src="/boros-academy/imgs/notional-size-ch7.png" alt="" /><figcaption></figcaption></figure>
 
-## 杠杆
-
-与永续合约交易所类似，Boros 允许交易者使用杠杆开仓。
-
-例如，在 2 倍杠杆市场中，持有 10 ETH 抵押品的交易者最多可开设价值 20 ETH 的头寸，将购买力翻倍。
-
-简而言之，杠杆可以让交易者用相同的资金做更多事，但请注意，杠杆越高，清算风险也越大。
-
-<figure><img src="/boros-academy/imgs/image (28).png" alt="" /><figcaption></figcaption></figure>
+（注：在以 USDT 为抵押品的市场中，1 YU = 对应永续合约市场上 1 USDT 名义规模的资金费率敞口）
 
 ## 清算
 
-当你头寸的价值跌至指定阈值以下时，系统将自动平仓以防止进一步损失，这就是清算。
+清算是系统对头寸的自动平仓机制。一旦触发，你的头寸将以当前的标记隐含 APR 平仓，以防止进一步损失，并保护平台免受坏账风险。
 
-你可以通过以下两种方式监控清算风险：
+你可以通过以下几种方式监控清算风险：
 
 1. **清算隐含 APR**
 
@@ -61,13 +53,27 @@ import Hint from '@site/src/components/Hint';
 
 2. **健康因子**
 
-   健康因子是衡量 Boros 上头寸安全性的指标，帮助用户直观了解头寸距离清算的「健康」程度。当健康因子降至 0 时，你的头寸将被清算。保持健康因子高于零是避免清算的关键。
+   健康因子是衡量 Boros 上头寸安全性的指标，帮助用户直观了解头寸距离清算的「健康」程度。
 
-<Hint style="danger">
-请密切关注你头寸的健康因子或清算隐含 APR，以避免被清算。
+   <Hint style="info">
+   Health Factor = 1 - (Maintenance Margin / Net Balance)
+   </Hint>
+
+   当健康因子降至 0 时，你的头寸将被清算。保持健康因子高于零是避免清算的关键。
+
+3. **利率敏感度 / 每日波动率**
+
+   利率敏感度告诉你隐含 APR 每变动 1% 时，净余额的变化幅度。每日波动率（7 日移动平均）则反映隐含 APR 平均每日的波动幅度。两者结合，可帮助你前瞻性地评估清算风险。
+
+   例如，你可以将清算隐含 APR 与每日波动率进行对比。若头寸的安全缓冲小于典型的单日波动幅度，则清算风险已显著上升，建议补充抵押品。
+
+<Hint style="info">
+**通过监控利率敏感度，了解隐含 APR 需变动多少才会触发清算；同时关注健康因子或清算隐含 APR。**
 </Hint>
 
 总体而言，你头寸的整体健康状况对某些变化较为敏感，包括 YU 的「价格」（隐含 APR）以及抵押品数量——后者在每次结算后都可能发生变化（参见[第 4 章](chapter-4-settlement)）。
+
+若底层 APR 大幅逆向于你的头寸方向，可能迅速削减抵押品，加剧清算风险。
 
 定期监控并及时调整抵押品，对于维持头寸健康（健康因子）、避免清算至关重要。
 
