@@ -106,6 +106,9 @@ BOROS_DEV_FILES=(
   "$BOROS_DEV_DOCS_DIR/Backend/5. best-practices.mdx"
   "$BOROS_DEV_DOCS_DIR/Backend/6. stop-orders.mdx"
   "$BOROS_DEV_DOCS_DIR/Backend/7. historical-data.mdx"
+  "$BOROS_DEV_DOCS_DIR/Backend/8. indicators.mdx"
+  "$BOROS_DEV_DOCS_DIR/Backend/9. computing-units.mdx"
+  "$BOROS_DEV_DOCS_DIR/Backend/10. bot-quickstart.mdx"
   "$BOROS_DEV_DOCS_DIR/FAQ.mdx"
 )
 

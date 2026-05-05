@@ -36,6 +36,7 @@ module.exports = {
         { type: "doc", id: "Backend/indicators", label: "Indicators", customProps: { icon: "insights" } },
         { type: "doc", id: "Backend/computing-units", label: "Computing Units", customProps: { icon: "speed" } },
         { type: "doc", id: "Backend/best-practices", label: "Best Practices", customProps: { icon: "star" } },
+        { type: "doc", id: "Backend/bot-quickstart", label: "Bot Quickstart", customProps: { icon: "rocket_launch" } },
       ],
     },
     { type: "doc", id: "FAQ", label: "FAQ", customProps: { icon: "help" } },

@@ -110,6 +110,7 @@
 - [Historical Data](https://docs.pendle.finance/boros-dev/Backend/historical-data): Monthly NDJSON exports — trades, OHLCV, order book snapshots, settlement rates
 - [Indicators](https://docs.pendle.finance/boros-dev/Backend/indicators): Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`) and CSV export
 - [Computing Units](https://docs.pendle.finance/boros-dev/Backend/computing-units): Per-endpoint cost model (`x-computing-unit` header, static vs dynamic)
+- [Bot Quickstart](https://docs.pendle.finance/boros-dev/Backend/bot-quickstart): End-to-end zero-to-functional grid bot — agent setup, market discovery, place/cancel/diff loop, ALO post-only orders, nonce management, signal handlers
 
 ### Trading Mechanics
 - [Order Book](https://docs.pendle.finance/boros-dev/Mechanics/OrderBook): CLOB structure, tick system, matching rules

@@ -52,18 +52,13 @@ Both v2 and v3 expose `bulk-direct-call`, but they have **different request sche
 Unless you are building a browser UI with session management, always use **v2**.
 :::
 
-**When to use `bulk-direct-call`:** The calldata generation endpoints (e.g., `POST /calldata/place-orders`) may return **multiple calldatas** in the `calldatas` array — for example, `[exit-market, place-order]` when `autoExitMarket=true`. You **must** submit all calldatas together using `bulk-direct-call` to ensure correct execution order.
+**When to use `bulk-direct-call`:** Whenever you have more than one calldata to submit in a single batch — for example, the N calldatas returned by a bulk `POST /calldata/place-orders`, or a cancel-and-replace pair where you want them to execute in order. `bulk-direct-call` accepts an array of signed calldatas and executes them sequentially.
 
-:::caution Common pitfall
-If you use `direct-call` with only the first element of a multi-calldata response, only the exit-market transaction executes — your order will not be placed. Always check the length of the `calldatas` array and use `bulk-direct-call` when there are multiple entries.
+:::caution Market entry on the new mount
+The new Open API at `https://api-boros.pendle.finance/apis/` does **not** auto-prepend an exit-market or enter-market calldata. If you need to enter a market before trading, call `POST /calldata-builder/agent/enter-markets` explicitly and include its calldata in the same `bulk-direct-call` batch (or submit it earlier).
+
+The legacy `autoExitMarket` parameter only applies to the deprecated mount at `https://api.boros.finance/open-api/v1/calldata/place-order` (singular). On the new plural endpoint, market entry/exit is your responsibility.
 :::
-
-### `autoExitMarket` Parameter
-
-When calling `POST /calldata/place-orders`, the `autoExitMarket` parameter (default: `true`) controls whether the API automatically generates an exit-market calldata for expired/unused markets:
-
-- `autoExitMarket=true` → API may return 1 or 2 calldatas: `[exit-market (optional), place-order]`. The last element is always the place-order calldata.
-- `autoExitMarket=false` → API always returns exactly 1 calldata (place-order only). Use this if you manage market entry/exit yourself.
 
 ### `skipReceipt` Parameter
 
@@ -88,7 +83,7 @@ When you enter a market, the system tracks your participation for margin calcula
 - Entering more markets = heavier margin calculations = higher gas costs
 
 :::tip
-If you trade many markets over time (e.g., weekly expiry markets), you will hit the 10-market limit. **You must exit expired/matured markets** to free up slots for new ones. The `autoExitMarket` parameter in the place-orders API can handle this automatically.
+If you trade many markets over time (e.g., weekly expiry markets), you will hit the 10-market limit. **You must exit expired/matured markets** to free up slots for new ones. Call `POST /calldata-builder/agent/exit-markets` with the matured `marketIds` and submit the calldata via the Send Txs Bot.
 :::
 
 Exiting unused markets helps:
@@ -188,7 +183,7 @@ The Send Txs Bot and Stop Order services use a legacy format:
 | Insufficient margin | Not enough collateral for the position | Deposit more, reduce size, or close other positions |
 | Agent expired | Agent approval has expired | Re-approve agent via `GET /calldata/approve-agent` |
 | Invalid signature | Signature doesn't match the expected signer | Verify you're signing with the correct agent key |
-| Market not entered | Trying to trade on a market you haven't entered | Use `GET /calldata/enter-exit-markets` to enter first |
+| Market not entered | Trying to trade on a market you haven't entered | Call `POST /calldata-builder/agent/enter-markets` first, then place |
 | Order limit reached | Exceeded `maxOpenOrders` for the market | Cancel some existing orders before placing new ones |
 | Market limit reached | Over 10 entered markets | Exit unused markets to free up slots |
 
@@ -326,10 +321,10 @@ If you are a market maker placing multiple orders across different markets or at
 | Best Practice | Why |
 |---------------|-----|
 | Use bulk orders for multiple operations | Lower gas, atomic execution |
-| Use `bulk-direct-call` for multi-calldata responses | Ensures all calldatas (exit-market + place-order) are submitted |
+| Use `bulk-direct-call` whenever you have ≥1 calldata to submit | Sequential ordered execution; supports `requireSuccess` atomicity |
 | Use `requireSuccess=false` for independent orders | Lets each order succeed/fail independently (market making) |
-| Set `autoExitMarket=false` if managing markets yourself | Avoids unexpected multi-calldata responses |
-| Exit unused/expired markets (max 10 per account) | Reduce gas overhead, free up slots |
+| Call `enter-markets` explicitly before trading a new market | New Open API mount does not auto-enter; place calls revert otherwise |
+| Exit unused/expired markets via `exit-markets` (max 10 per account) | Reduce gas overhead, free up slots |
 | Use `GET /open-api/v1/markets/{marketId}` for real-time rates | Guaranteed real-time midApr, markApr, bestBid, bestAsk |
 | Use correct `marketAcc` for isolated-only markets | Required for trading isolated-only markets |
 | Monitor gas balance | Avoid failed transactions |

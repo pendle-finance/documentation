@@ -83,9 +83,9 @@ Once your agent is approved, this is the typical order placement flow:
 
 **Step 2 (simulation) is optional** but recommended — it previews the margin impact, estimated fees, and validates constraints before generating calldata.
 
-**Step 3** returns an array of calldata objects. When `autoExitMarket` is enabled (default), the response may contain **1 or 2 calldatas**: an optional exit-market calldata followed by the place-order calldata. You must submit **all** calldatas, not just the first one.
+**Step 3** returns one calldata per entry in `orderRequests[]`. A bulk request of N orders returns N calldatas; you must sign and submit all of them. The new Open API mount does **not** auto-prepend an exit-market calldata — if you need to enter or exit markets, call `POST /calldata-builder/agent/enter-markets` (or `.../exit-markets`) explicitly. The first time a `(root, accountId)` trades on a given market, you must call `enter-markets` first or the place call will revert.
 
-**Step 5** sends the signed calldata(s) to the Send Txs Bot. Use `bulk-direct-call` when you have multiple calldatas (e.g., exit-market + place-order). Use `direct-call` only when you have exactly one calldata. The response includes a transaction status and hash.
+**Step 5** sends the signed calldata(s) to the Send Txs Bot. `bulk-direct-call` accepts one or more signed calldatas in a single request; use it for any batch. `direct-call` is only kept for the single-calldata case. The response includes a transaction status and hash.
 
 :::tip skipReceipt parameter
 When submitting via the Send Txs Bot, you can set `skipReceipt=true` to get the `txHash` returned immediately without waiting for block inclusion. With `skipReceipt=false` (default), the bot waits for the transaction to be included in a block and returns the full `status` and any `error` message. Use `skipReceipt=true` for lower latency when you can track the transaction status yourself.
@@ -96,8 +96,8 @@ The calldata endpoints return a **list of calldatas** that execute the intended 
 
 When submitting via `bulk-direct-call`, use the `requireSuccess` parameter to control atomicity:
 
-- **`requireSuccess=true` (recommended for most actions)** — All calldatas either succeed together or fail together. Use this for actions like place-order with `autoExitMarket`, where the exit-market and place-order calldatas must both execute or neither should.
-- **`requireSuccess=false`** — Each calldata is executed independently; some may succeed while others fail. This is useful specifically for `place-orders` when you want to place multiple orders and don't need them to be atomic (e.g., if one order fails due to insufficient margin, the others can still go through).
+- **`requireSuccess=true` (recommended for cancel-and-replace pairs)** — The bot simulates the whole batch first; if any call would revert, the entire batch is aborted **before** any tx is sent on-chain. Use this when later calldatas in the batch only make sense if earlier ones succeeded (e.g., cancel an order, then place its replacement).
+- **`requireSuccess=false`** — Each calldata is executed independently; some may succeed while others fail. Useful for `place-orders` when you want to place multiple orders and don't need them to be atomic (e.g., if one order fails due to insufficient margin, the others can still go through).
 :::
 
 
@@ -310,7 +310,9 @@ Generate transaction calldata for on-chain operations.
 | `POST /calldata/place-orders-with-rate` | Place orders with an explicit desired rate (instead of slippage) |
 | `GET /calldata/cancel-order` | Cancel orders |
 | `GET /calldata/cash-transfer` | Transfer between cross and isolated accounts |
-| `GET /calldata/enter-exit-markets` | Enter or exit markets |
+| `POST /calldata-builder/agent/enter-markets` | Enter one or more markets (call this before the first trade on a `(root, accountId, marketId)`). Body: `{ accountId, marketIds: number[] }`. |
+| `POST /calldata-builder/agent/exit-markets` | Exit one or more markets to free entered-market slots. Body: `{ accountId, marketIds: number[] }`. Requires zero position size, no open orders, no pending settlements. |
+| `GET /calldata/enter-exit-markets` | _(Legacy combined endpoint. Still served. Prefer the split endpoints above.)_ |
 | `GET /calldata/pay-treasury` | Pay accrued treasury fees |
 | `GET /calldata/add-liquidity-single-cash-to-amm` | Add AMM liquidity |
 | `GET /calldata/remove-liquidity-single-cash-from-amm` | Remove AMM liquidity |
