@@ -1,0 +1,57 @@
+# Computing Units
+
+Every Open API endpoint advertises a per-call cost called a **Computing Unit (CU)**. CU is how Pendle measures the work each request does so that high-frequency consumers can plan for fair-use limits.
+
+## Where CU is Reported
+
+| Surface | Format |
+|---------|--------|
+| OpenAPI spec | `x-computing-unit` extension on every operation. Static endpoints publish a number (`"1"`, `"2"`, `"20"`); dynamic endpoints publish a number with a `+` suffix (`"1+"`, `"3+"`). |
+| HTTP response | `x-computing-unit` response header on every successful call. For dynamic endpoints, the header reports the **actual** CU charged for that specific request. |
+
+The redesigned interactive docs at [api-boros.pendle.finance/apis/docs](https://api-boros.pendle.finance/apis/docs) display the published cost next to every endpoint.
+
+## Static vs Dynamic Cost
+
+### Static (`"N"`)
+
+The endpoint always charges `N` CU per call regardless of parameters. Examples:
+
+| Endpoint | CU |
+|----------|----|
+| `GET /v1/assets` | 1 |
+| `GET /v1/markets` | 2 |
+| `GET /v1/markets/order-book` | 2 |
+| `GET /v1/on-chain-events` | 3 |
+| `GET /v1/indicators/export` | 20 |
+| Any single calldata-builder POST | 1 |
+
+### Dynamic (`"N+"`)
+
+The endpoint charges at least `N` (the minimum, billed for an empty / default request) and scales with the work performed. The actual cost is reported in the response header. Common scaling axes:
+
+- **Page size** — list endpoints charge proportionally to `limit`. Example: `GET /v1/events/liquidation-events` is `max(1, ceil(limit / 200))`.
+- **Number of markets** — multi-market endpoints charge per market in the request. Example: `POST /v1/funding-rate/settlement-summary` is `max(1, markets × days)`.
+- **Number of indicators** — `GET /v1/indicators` charges 1 CU per indicator listed in `select`. A `udma:7;30` entry counts as one indicator regardless of how many windows are packed in.
+- **Order-request batch size** — `POST /v1/calldata-builder/agent/place-orders` charges 1 CU per entry in `orderRequests[]` (one on-chain call per entry).
+- **`maker` lookup flag** — `GET /v1/incentives/maker-incentives/campaigns/{marketId}` is 1 CU without `maker`, 2 CU with `maker`.
+
+The minimum-and-grow pattern means callers paying only for what they use — passing fewer markets / indicators / orders is cheaper.
+
+## Reading the Header in Practice
+
+```typescript
+const res = await axios.get(`${BASE_URL}/v1/indicators`, {
+  params: { marketId: 1, timeFrame: '1h', select: 'u,fp,fgi,udma:7;30' },
+});
+const cuCharged = Number(res.headers['x-computing-unit']);  // e.g. "4"
+```
+
+For dynamic endpoints, you can sum the header over a window to reason about total compute spent.
+
+## Tips
+
+- **Static endpoints are cheap.** The vast majority of read endpoints are 1 CU. Build dashboards against them without worrying about cost.
+- **Batch where possible.** `POST /v1/accounts/market-acc-infos` accepts up to 100 `marketAccs` in one request; `GET /v1/markets/by-ids` and `GET /v1/amm/states` likewise accept comma-separated IDs. One batched call is far cheaper than N individual calls.
+- **Prefer streaming for long histories.** For multi-day indicator windows, `GET /v1/indicators/export` is a flat 20 CU regardless of the indicators selected — much cheaper than hammering `/v1/indicators` repeatedly.
+- **Calldata is always 1 CU per on-chain call.** A `place-orders` request that compiles to 3 `placeSingleOrder` and 1 `bulkOrders` call is 4 CU.

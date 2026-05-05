@@ -7,9 +7,11 @@ module.exports = {
       type: "category", label: "Mechanics", customProps: { icon: "settings" },
       items: [
         { type: "doc", id: "Mechanics/OrderBook", label: "Order Book", customProps: { icon: "candlestick_chart" } },
+        { type: "doc", id: "Mechanics/AMM", label: "AMM", customProps: { icon: "waves" } },
         { type: "doc", id: "Mechanics/Margin", label: "Margin", customProps: { icon: "account_balance" } },
         { type: "doc", id: "Mechanics/Settlement", label: "Settlement", customProps: { icon: "task_alt" } },
         { type: "doc", id: "Mechanics/Fees", label: "Fees", customProps: { icon: "payments" } },
+        { type: "doc", id: "Mechanics/Incentives", label: "Incentives", customProps: { icon: "redeem" } },
       ],
     },
     {
@@ -31,6 +33,8 @@ module.exports = {
         { type: "doc", id: "Backend/websocket", label: "WebSocket", customProps: { icon: "wifi" } },
         { type: "doc", id: "Backend/stop-orders", label: "Stop Orders", customProps: { icon: "stop_circle" } },
         { type: "doc", id: "Backend/historical-data", label: "Historical Data", customProps: { icon: "history" } },
+        { type: "doc", id: "Backend/indicators", label: "Indicators", customProps: { icon: "insights" } },
+        { type: "doc", id: "Backend/computing-units", label: "Computing Units", customProps: { icon: "speed" } },
         { type: "doc", id: "Backend/best-practices", label: "Best Practices", customProps: { icon: "star" } },
       ],
     },

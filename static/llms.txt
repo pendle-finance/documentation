@@ -108,12 +108,16 @@
 - [Stop Orders](https://docs.pendle.finance/boros-dev/Backend/stop-orders): Take-profit and stop-loss orders
 - [Best Practices](https://docs.pendle.finance/boros-dev/Backend/best-practices): Performance and reliability tips
 - [Historical Data](https://docs.pendle.finance/boros-dev/Backend/historical-data): Monthly NDJSON exports — trades, OHLCV, order book snapshots, settlement rates
+- [Indicators](https://docs.pendle.finance/boros-dev/Backend/indicators): Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`) and CSV export
+- [Computing Units](https://docs.pendle.finance/boros-dev/Backend/computing-units): Per-endpoint cost model (`x-computing-unit` header, static vs dynamic)
 
 ### Trading Mechanics
 - [Order Book](https://docs.pendle.finance/boros-dev/Mechanics/OrderBook): CLOB structure, tick system, matching rules
+- [AMM](https://docs.pendle.finance/boros-dev/Mechanics/AMM): Continuous-liquidity AMM (Positive / Negative variants), pricing, LP add/remove
 - [Margin](https://docs.pendle.finance/boros-dev/Mechanics/Margin): Cross/isolated margin, health ratio, liquidation
 - [Settlement](https://docs.pendle.finance/boros-dev/Mechanics/Settlement): Lazy settlement and floating rate payments
 - [Fees](https://docs.pendle.finance/boros-dev/Mechanics/Fees): Taker, OTC, settlement, entrance, liquidation fees
+- [Incentives](https://docs.pendle.finance/boros-dev/Mechanics/Incentives): Maker incentives (add-liquidity + filled-volume) and AMM rewards
 
 ### Smart Contracts (reference only — use the API)
 - [Custom Types](https://docs.pendle.finance/boros-dev/Contracts/CustomTypes): Solidity type definitions and bit-packing

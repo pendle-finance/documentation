@@ -422,7 +422,7 @@ class AccountTracker {
   private async refreshAccountData() {
     try {
       // Fetch latest account state
-      const { data } = await axios.post('https://api.boros.finance/open-api/v1/accounts/market-acc-infos', {
+      const { data } = await axios.post('https://api-boros.pendle.finance/apis/v1/accounts/market-acc-infos', {
         marketAccs: [
           /* your marketAcc */
         ],

@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-04-01
+> Generated: 2026-05-05
 
 ---
 
@@ -78,6 +78,7 @@ By creating a yield market in DeFi, Pendle unlocks the full potential of yield, 
 | **Build a trading bot or data aggregator** | [Quickstart](./Quickstart.md) → [Backend API Overview](./Backend/ApiOverview.mdx) |
 | **Integrate PT/YT into your protocol (on-chain)** | [Router Overview](./Contracts/PendleRouter/PendleRouterOverview.md) → [Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide.md) |
 | **Price PT or LP (oracle / collateral)** | [Oracle Overview](./Oracles/OracleOverview.md) → [How to Integrate](./Oracles/HowToIntegratePtAndLpOracle.md) |
+| **Analyze yields & APY composition** | [Market Historical Data API](./Backend/ApiOverview.mdx#market-data-endpoints) |
 | **Work with Limit Orders** | [Limit Order Overview](./LimitOrder/Overview.md) |
 | **Track sPENDLE rewards** | [sPENDLE API](./Backend/ApiOverview.mdx#spendle-api-endpoints) |
 
@@ -98,8 +99,10 @@ By creating a yield market in DeFi, Pendle unlocks the full potential of yield, 
 ### Off-chain Integration
 
 - [Backend API overview](./Backend/ApiOverview.mdx)
+- [Market Historical Data & APY Breakdown](./Backend/ApiOverview.mdx#market-data-endpoints) - Time-series data with detailed APY and fee breakdowns
 - [RouterStatic](./Backend/RouterStatic.md) - Extensively tested contract for off-chain calculations. Not audited; should not be used for on-chain fund-related operations.
 - [sPENDLE API](./Backend/ApiOverview.mdx#spendle-api-endpoints) - Staking stats and per-user reward data
+- [Socket.IO Real-time Feeds](./Backend/SocketIO.mdx) - Pushed real-time feeds
 
 ### Limit Orders
 
@@ -774,12 +777,15 @@ Some endpoints are scoped to a specific chain:
 
 | Endpoint | Description |
 |---------|-------------|
+| `GET /v3/{chainId}/markets/{address}/historical-data` | **Market time-series data** with optional APY breakdown — [see Market Data Endpoints](#market-data-endpoints) |
+| ~~`GET /v2/{chainId}/markets/{address}/historical-data`~~ | *(Deprecated)* Use v3 instead for APY breakdown support |
 | ~~`GET /v2/{chainId}/markets/{address}/data`~~ | *(Deprecated)* Market data for a specific address |
 | ~~`GET /v2/sdk/{chainId}/convert`~~ | *(Deprecated)* Generate transaction payload — use `POST /v3/sdk/{chainId}/convert` instead |
 | `GET /v5/{chainId}/transactions/{address}` | Transaction history for an address |
 
 :::note Deprecated
 
+- `GET /v2/{chainId}/markets/{address}/historical-data` is deprecated. Use [`GET /v3/{chainId}/markets/{address}/historical-data`](#market-data-endpoints) instead, which supports `includeApyBreakdown` for detailed APY composition.
 - `GET /v2/{chainId}/markets/{address}/data` is deprecated.
 - `GET /v2/sdk/{chainId}/convert` (GET) is deprecated. Use `POST /v3/sdk/{chainId}/convert` instead, which accepts a JSON body and supports typed inputs.
 
@@ -932,6 +938,38 @@ The following endpoints are specifically deprecated:
 
 - `GET /v1/ve-pendle/data` — use [`GET /v1/spendle/data`](#get-v1spendledata) instead
 - `GET /v1/ve-pendle/market-fees-chart` — no replacement; fees data is now included in the sPENDLE historical data response
+
+## Market Data Endpoints
+
+### GET /v3/\{chainId\}/markets/\{address\}/historical-data
+
+Returns time-series data for a specific market, with optional detailed APY composition breakdown.
+
+| Property | Value |
+|----------|-------|
+| Path parameters | `chainId` (number), `address` (string) |
+| Query parameters | `time_frame`, `timestamp_start`, `timestamp_end`, `fields`, `includeFeeBreakdown`, `includeApyBreakdown` |
+| Cache TTL | Varies by time_frame |
+| CU cost | Dynamic: `max(1, ceil(total / 300))` base, `* 1.5 + 1` if `includeApyBreakdown=true`, `* 2 + 1` if `includeFeeBreakdown=true` |
+
+**Key features:**
+- **APY Breakdown**: Set `includeApyBreakdown=true` to get detailed yield composition for YT and LP positions, categorized by protocol yield, rewards, fixed yield, and incentives
+- **Flexible fields**: Select specific data fields or use `fields=all` for complete data (not recommended for large time ranges)
+- **Fee breakdown**: Include swap fee details with `includeFeeBreakdown=true` (daily/weekly timeframes only)
+
+**Response includes:**
+- Standard time-series fields: `timestamp`, `impliedApy`, `maxApy`, `tvl`, prices, liquidity metrics
+- Optional `ytApyBreakdown`: Structured APY breakdown for YT holders (categories: Protocol Yield, YT Bonus Rewards, YT Extra Rewards)
+- Optional `lpApyBreakdown`: Structured APY breakdown for LP providers (categories: Underlying Yield, External Rewards, PT Fixed Yield, LP Rewards)
+- Optional fee breakdown: `explicitSwapFee`, `implicitSwapFee`, `limitOrderFee`
+
+For detailed schemas, parameters, examples, and migration guide, see the [API Reference](https://api-v2.pendle.finance/core/docs#/Markets/MarketsController_marketHistoricalData_v3).
+
+:::tip New in v3
+
+The v3 endpoint adds support for detailed APY breakdowns while maintaining full backward compatibility with v2. All existing v2 functionality works identically in v3.
+
+:::
 
 ## sPENDLE API Endpoints
 
@@ -1704,6 +1742,7 @@ Limit orders are also integrated into the [Pendle Hosted SDK](../Backend/HostedS
 
 - [Maker APIs](https://api-v2.pendle.finance/limit-order/docs#/Maker) — Generate order data, submit orders, view active orders
 - [Taker APIs](https://api-v2.pendle.finance/limit-order/docs#/Taker) — Query available orders for filling
+- [Order Book Socket.IO feed](../Backend/SocketIO.mdx#order-book) — Pushed order-book snapshots every 5s instead of polling REST
 
 ## Maker Incentives
 
@@ -5928,7 +5967,7 @@ The source code of the whole example can be found here:
 
 ### Step 1. Deploy the oracle (if not already deployed)
 
-If the oracle is not already deployed, you can deploy it yourself the same as this `setUp` function ([source](https://github.com/pendle-finance/pendle-examples-public/blob/642b1ab2784b3015691d6c26a2684cd5f7585b0d/test/ChainlinkOracleSample.sol#L30-L41)).
+If the oracle is not already deployed, you can self-deploy it via the [Pendle Public DApp](https://dapp-public.pendle.finance/), or deploy it yourself the same as this `setUp` function ([source](https://github.com/pendle-finance/pendle-examples-public/blob/642b1ab2784b3015691d6c26a2684cd5f7585b0d/test/ChainlinkOracleSample.sol#L30-L41)).
 
 ```solidity title="code fragment of setUp function"
 factory = new PendleChainlinkOracleFactory(0x5542be50420E88dd7D5B4a3D488FA6ED82F6DAc2);
@@ -6772,7 +6811,9 @@ You can track historical PT/YT prices using:
 
 ### How can I retrieve market data such as TVL and APR?
 
-You can obtain market data by calling the Pendle API. For example, to get data for a specific pool: `https://api-v2.pendle.finance/core/v2/{chainId}/markets/{marketAddress}/data`. This returns relevant details for the specified market.
+You can obtain current market data (TVL, APY, liquidity metrics, etc.) by calling [`GET /v2/markets/all`](https://api-v2.pendle.finance/core/docs#/Markets/MarketsCrossChainController_getAllMarkets) and filtering for your desired market address.
+
+For historical time-series data, use the [Market Historical Data API](./Backend/ApiOverview.mdx#market-data-endpoints): `GET /v3/{chainId}/markets/{address}/historical-data`.
 
 ### How can I retrieve market spot prices?
 
@@ -7010,7 +7051,7 @@ For example: if a user opens a 200-YU-ETHUSDT(Binance) position that is worth 10
 
 **Net Balance**: Your portfolio’s total value in the position. Net Balance comprises of your collateral and unrealized PnL. Collateral value is affected at every yield settlement. Unrealized PnL is affected by the current implied APR of the market.
 
-**Maintenance Margin**: The amount of capital required to keep your position afloat. Your position is open for liquidation when the Net Balance falls below the Maintenance Margin. Maintenance margin is set at 50% of Initial Margin.
+**Maintenance Margin**: The amount of capital required to keep your position afloat. Your position is open for liquidation when the Net Balance falls below the Maintenance Margin. Maintenance margin is set at 66% of Initial Margin.
 
 **Initial Margin**: The margin required for the set max leverage. This margin is consumed from your collateral and cannot be withdrawn.
 
@@ -7135,24 +7176,25 @@ Opening a Boros vault position is similar in risk profile to going **long YU**. 
 
 # Fees
 
-Boros has 2 fee sources:
+Positions on Boros can have different fees based on their behavior. Refer to the info tab of each pool for more details.
+
+![Market Info](/boros-docs/imgs/market_info.png "Market Info")
 
 ### 1. Swap Fees
 
 Boros collects a flat fee on top of the implied APR for every swap. Swap fee will be deducted from the position’s collateral.
 
-For example, in a market with a swap fee tier of 0.05%, the fee for opening a position equals 0.05% × YU amount × Years to Maturity. In other words, traders will pay 0.05% fee on the \$ value of their position.
+For example, in a market with a swap fee tier of 0.05%, the fee for opening a position equals 0.05% × YU amount × Years to Maturity. In other words, traders will pay 0.05% fee on the $ value of their position.
 
 In this scenario, traders will profit if implied APR changes by more than 0.1% in their favor (assuming no yield settlement happens throughout the period), as traders will have to open and close the position, incurring 2x the swap fee.
 
 ### 2. Open Interest Fees
 
-Boros collects a flat fee of 0.1% on the fixed APR side of every YU during settlement.
+Boros collects a flat fee on the fixed APR side of every YU during settlement.
 
-For example, pools with a 8% fixed rate:
-
-* Long YU positions effectively pay 8.1% in fixed APR.
-* Short YU positions effectively receive 7.9% in fixed APR.
+For example, positions at an 8% fixed rate with a fee tier of 0.1%:
+- Long YU positions effectively pay 8.1% in fixed APR.
+- Short YU positions effectively receive 7.9% in fixed APR.
 
 ### 3. Operation Fees
 
@@ -7499,7 +7541,7 @@ Read the [LitePaper](./LitePaper.mdx) for a conceptual overview, or dive into [M
 |---|---|
 | **Backend Integration** | REST API, WebSocket, agent wallet setup, stop orders (TP/SL), transaction submission via Send Txs Bot, best practices |
 | **Historical Data** | Monthly NDJSON exports of trades, OHLCV candles, order book snapshots, settlement rates and market data |
-| **Mechanics** | Order book matching, margin system (cross vs isolated), settlement, fees |
+| **Mechanics** | Order book matching, AMM pricing, margin system (cross vs isolated), settlement, fees, incentives |
 | **Contracts** | Router, MarketHub, Market, custom types reference, NPM package |
 | **LitePaper** | User-friendly explanation of interest rate swaps with worked examples |
 | **FAQ** | Common questions and troubleshooting |
@@ -7708,7 +7750,7 @@ Market provides an on-chain [central limit order book](./Mechanics/OrderBook.mdx
 
 Automated Market Makers (AMM) provide continuous liquidity alongside the order book. In Boros, AMMs are like normal accounts: they don't have any special permissions except that they can perform OTC trades with users when requested. Router ensures optimal liquidity routing between AMMs and order book for best swap rate.
 
-More details about AMM can be found in the [whitepaper](https://github.com/pendle-finance/boros-core-public/blob/main/whitepapers/AMM.pdf).
+See [AMM Mechanics](./Mechanics/AMM.mdx) for pricing, the two AMM variants (Positive / Negative), liquidity provision, and how the AMM composes with the order book. The full mathematical specification is in the [AMM whitepaper](https://github.com/pendle-finance/boros-core-public/blob/main/whitepapers/AMM.pdf).
 
 ## Supporting Contracts
 
@@ -9502,6 +9544,9 @@ The Send Txs Bot charges gas from the user's on-chain gas balance in USD at the 
 | [WebSocket](./4.%20websocket.mdx) | Real-time market and account data streaming |
 | [Best Practices](./5.%20best-practices.mdx) | Patterns for gas efficiency, error handling, and market management |
 | [Stop Orders](./6.%20stop-orders.mdx) | Conditional take-profit and stop-loss order management |
+| [Historical Data](./7.%20historical-data.mdx) | Monthly NDJSON exports — trades, OHLCV, settlements, order book snapshots |
+| [Indicators](./8.%20indicators.mdx) | Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`) and CSV export |
+| [Computing Units](./9.%20computing-units.mdx) | How endpoint cost is reported and the static / dynamic CU model |
 
 ---
 
@@ -9517,7 +9562,8 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 | **Order Book** | Primary liquidity source with Long/Short sides organized by price ticks. See [Order Book Mechanics](/boros-dev/Mechanics/OrderBook) for matching rules and constraints. | `GET /markets/order-books`, `GET /v2/markets/order-books` |
 | **Order** | Trade instruction with `orderId`, `tick` (price level), `side`, `size` (18 decimals), and `tif` (time-in-force). Orders can be placed individually or in bulk. | `POST /calldata/place-orders`, `GET /accounts/limit-orders` |
 | **Tick** | Integer price level representing an interest rate. Formula: `rate = 1.00005^(tick × tickStep) - 1`. Higher tick = higher rate. The tick step is market-specific and controls rate granularity. Use SDK helpers to convert between human-readable APR and tick values. | All order-related endpoints, `GET /stop-order/v1/orders/tpsl/prepare` |
-| **Slippage** | Max acceptable price impact as a percentage (market orders only). Protects against unfavorable fills when the order book is thin. | `GET /simulations/place-order` |
+| **`rate` vs `limitTick`** | Two ways of specifying the limit price on an order. `rate` is the human-friendly decimal APR (e.g. `0.05` = 5%) and is rounded to the nearest valid tick by the backend. `limitTick` is the raw integer tick. The simple `place-order` endpoint takes `rate`; the advanced `place-orders` endpoint accepts either (XOR). | `POST /calldata-builder/agent/place-order(s)` |
+| **`desiredRate` vs `slippage`** | Two ways of specifying the **execution guard** (worst acceptable average fill rate) for the matched portion of an order. `desiredRate` is an absolute ceiling — the contract reverts with `TradeUndesiredRate` if `signedCost > signedSize × desiredRate`. `slippage` is a relative tolerance from the current mid-rate (e.g. `0.005` = 0.5%); the backend computes `desiredRate = midRate ± slippage` for you. **Exactly one** must be supplied on the advanced endpoint; the simple endpoint only exposes `slippage`. Strongly recommended for FOK / IOC market orders. | `POST /calldata-builder/agent/place-order(s)` |
 | **AMM** | Automated market maker providing continuous liquidity alongside the order book. The Router routes between AMM and order book for optimal execution. AMM liquidity can be optionally included in order book queries. | `GET /v2/markets/order-books`, AMM simulation/calldata endpoints |
 | **OTC Trade** | Direct swap between two accounts bypassing the order book, typically routed through the AMM. Has a separate fee rate (`otcFee`). See [Fees](/boros-dev/Mechanics/Fees). | AMM swap/liquidity endpoints |
 | **Mark Rate** | TWAP of historical order book trades, used as the reference rate for margin, liquidation, and order rate bounds. Distinct from mid rate and AMM implied rate. See [TWAP Oracle](/boros-dev/Mechanics/OrderBook#twap-oracle-mark-rate). | `GET /markets/{marketId}` (in market state) |
@@ -9530,46 +9576,34 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 | **Stop Order** | Conditional off-chain order (take-profit or stop-loss) that triggers when market APR crosses a threshold. Managed by the Stop Order Service. See [Stop Orders](./6.%20stop-orders.mdx). | `GET /stop-order/v1/orders/tpsl/prepare`, `POST /stop-order/v2/orders/place` |
 
 
-## Enums
+## Operational Concepts
 
-### Side
-
-| Value | Name | Description |
-|-------|------|-------------|
-| `0` | `LONG` | Betting on rate increase (pay fixed, receive floating) |
-| `1` | `SHORT` | Betting on rate decrease (receive fixed, pay floating) |
-
-### Time In Force (TIF)
-
-| Value | Name | Best for | Description |
-|-------|------|----------|-------------|
-| `0` | `GOOD_TIL_CANCELLED` | Limit orders | Remains on book until filled or canceled |
-| `1` | `IMMEDIATE_OR_CANCEL` | Market orders | Fills against available liquidity, cancels remainder |
-| `2` | `FILL_OR_KILL` | All-or-nothing | Must fill entire size immediately or reverts |
-| `3` | `ALO` | Market making | Post-only (Add Liquidity Only); reverts if it would match existing orders. Guarantees maker-only status. |
-| `4` | `SOFT_ALO` | Market making | Post-only (soft); skips matching without reverting. Preferred over ALO for no-revert behavior. |
-
-### Market Status
-
-`PAUSED (0)` · `CLO (1)` · `GOOD (2)` — See [Custom Types](/boros-dev/Contracts/CustomTypes#marketstatus) for descriptions and state transitions.
-
-### Stop Order Type
-
-| Value | Name | Description |
-|-------|------|-------------|
-| `2` | `TAKE_PROFIT_MARKET` | Triggers when market moves in your favor |
-| `3` | `STOP_LOSS_MARKET` | Triggers when market moves against you |
+| Term | Description | Where it appears |
+|------|-------------|-----------------|
+| **Computing Unit (CU)** | Per-endpoint cost of a request, advertised via the `x-computing-unit` OpenAPI extension and returned as the `x-computing-unit` response header. A value like `1+` means **dynamic cost** — the endpoint charges a minimum for an empty request and scales with work performed (e.g. page size, number of indicators). See [Computing Units](./9.%20computing-units.mdx). | All endpoints (header) |
+| **Indicator** | Compact letter codes for time-series market data: `u` (underlying APR), `fp` (future premium), `fgi` (fear & greed index), `ap` (asset price), `udma:<periods>` (X-day UFR moving averages). See [Indicators](./8.%20indicators.mdx). | `GET /v1/indicators`, `GET /v1/indicators/export` |
+| **Maker Incentive** | PENDLE-token rewards distributed to liquidity providers. Two campaigns: **Add-Liquidity** (rewards for resting orders that sit within an `incentiveRange` of mid-APR) and **Filled-Volume** (rewards proportional to the user's maker fill volume in the current epoch). See [Incentives](/boros-dev/Mechanics/Incentives). | `GET /v1/incentives/maker-incentives/campaigns/{marketId}` |
+| **AMM Incentive** | Rewards accrued by AMM liquidity providers — swap fees plus PENDLE incentives — denominated in USD. See [Incentives](/boros-dev/Mechanics/Incentives). | `GET /v1/incentives/amm-incentives` |
 
 
-## Additional Resources
+## SDK Helpers
 
-- [Boros User Glossary](https://pendle.gitbook.io/boros/boros-docs/about-boros/glossary) — Portfolio and general trading terms
-- [OrderBook Mechanics](/boros-dev/Mechanics/OrderBook) — How the order book works
-- [Margin Mechanics](/boros-dev/Mechanics/Margin) — Initial/maintenance margin and liquidation
-- [Settlement Mechanics](/boros-dev/Mechanics/Settlement) — Funding rate payments
-- [Fee Structure](/boros-dev/Mechanics/Fees) — Position opening, settlement, and entrance fees
-- [Custom Types](/boros-dev/Contracts/CustomTypes) — Contract type definitions
-- [API Reference](./3.%20api.mdx) — All API endpoints and integration workflows
+```typescript
+import { MarketAccLib, CROSS_MARKET_ID, estimateTickForRate, getRateAtTick } from "@pendle/sdk-boros";
+import { FixedX18 } from "@pendle/boros-offchain-math";
+
+// Pack market account for API calls
+const marketAcc = MarketAccLib.pack(walletAddress, accountId, tokenId, CROSS_MARKET_ID);
+
+// Convert between tick and rate
+const tick = estimateTickForRate(FixedX18.fromNumber(0.05), tickStep, false);
+const rate = getRateAtTick(tick, tickStep);
+
+// Convert between human-readable numbers and 18-decimal strings
+const size = FixedX18.fromNumber(100).value.toString();       // "100000000000000000000"
+const amount = FixedX18.fromBigIntString(balanceString).toNumber(); // 100.0
+```
+
 
 ---
 
@@ -9611,7 +9645,7 @@ Example can be found in https://github.com/pendle-finance/boros-api-examples/blo
 
 Once the approval transaction is processed, the agent is authorized to act on behalf of your account. You can now use the agent's signature for trading operations without requiring your root signature.
 
-**API Reference:** Check agent expiry and status: https://api.boros.finance/open-api/docs#tag/agents/get/v1/agents/expiry-time
+**API Reference:** Check agent expiry and status: https://api-boros.pendle.finance/apis/docs#tag/agents/get/v1/agents/expiry-time
 
 ## Trading with an Agent
 
@@ -9678,7 +9712,7 @@ Use the Boros web interface for a simple deposit flow. You can go to https://bor
 
 # Boros Open API
 
-This guide walks you through integrating with the Boros trading platform via the REST API. For exact request/response schemas and parameter details, see the [interactive API docs](https://api.boros.finance/open-api/docs).
+This guide walks you through integrating with the Boros trading platform via the REST API. For exact request/response schemas and parameter details, see the [interactive API docs](https://api-boros.pendle.finance/apis/docs).
 
 For key concepts and terminology, see the [Glossary](./1.%20glossary.mdx).
 
@@ -9691,7 +9725,7 @@ For key concepts and terminology, see the [Glossary](./1.%20glossary.mdx).
 
 The main API for querying data and generating transaction calldata.
 
-**Interactive docs:** [https://api.boros.finance/open-api/docs](https://api.boros.finance/open-api/docs)
+**Interactive docs:** [https://api-boros.pendle.finance/apis/docs](https://api-boros.pendle.finance/apis/docs)
 
 ### Send Txs Bot (Transaction Submission)
 
@@ -10184,7 +10218,7 @@ class AccountTracker {
   private async refreshAccountData() {
     try {
       // Fetch latest account state
-      const { data } = await axios.post('https://api.boros.finance/open-api/v1/accounts/market-acc-infos', {
+      const { data } = await axios.post('https://api-boros.pendle.finance/apis/v1/accounts/market-acc-infos', {
         marketAccs: [
           /* your marketAcc */
         ],

@@ -6,13 +6,19 @@ Backend integration means interacting with Boros through its REST API and TypeSc
 
 ## Services
 
-All services are hosted under `https://api.boros.finance`.
+All services are hosted under `https://api.boros.finance`, **except** the new Open API mount, which lives at `https://api-boros.pendle.finance/apis/`.
 
-| Service | Path prefix | Purpose |
+| Service | Path / Base | Purpose |
 |---|---|---|
-| Open API | `/open-api/v1/` or `/v2/` | Market data, calldata generation, account queries, simulations |
-| Send Txs Bot | `/send-txs-bot/v2/` or `/v3/` | Receives agent-signed calldatas, submits them on-chain, charges gas from user's gas balance |
-| Stop Order | `/stop-order/v1/` to `/v3/` | Off-chain conditional order (take-profit/stop-loss) management |
+| Open API | `https://api-boros.pendle.finance/apis/v1/` — **interactive docs:** [`api-boros.pendle.finance/apis/docs`](https://api-boros.pendle.finance/apis/docs) | Market data, calldata generation, account queries, simulations |
+| Send Txs Bot | `/send-txs-bot/v2/` (programmatic) or `/v3/` (browser session) | Receives agent-signed calldatas, submits them on-chain, charges gas from user's gas balance |
+| Stop Order | `/stop-order/v1/` to `/v4/` | Off-chain conditional order (take-profit/stop-loss) management |
+
+:::note Open API URL migration
+The redesigned Open API at `api-boros.pendle.finance/apis/` is the canonical location for all integrations. The interactive docs live at [`api-boros.pendle.finance/apis/docs`](https://api-boros.pendle.finance/apis/docs).
+
+The legacy mount at `https://api.boros.finance/open-api/v1/` (and `/v2/`) — and its docs at `https://api.boros.finance/open-api/docs` — are **deprecated**. They are still served for older clients but no longer maintained, and new endpoints (e.g. `/v1/indicators`, `/v1/incentives/*`, `/v1/market-acc/encode`) are only on the new mount.
+:::
 
 ---
 
@@ -49,7 +55,7 @@ npm install @pendle/sdk-boros
 **Links**
 
 - SDK repository: https://github.com/pendle-finance/sdk-boros-public
-- Open API interactive docs: https://api.boros.finance/open-api/docs
+- Open API interactive docs: https://api-boros.pendle.finance/apis/docs
 - Send Txs Bot interactive docs: https://api.boros.finance/send-txs-bot/docs
 - Stop Order interactive docs: https://api.boros.finance/stop-order/docs
 
@@ -65,3 +71,6 @@ npm install @pendle/sdk-boros
 | [WebSocket](./4.%20websocket.mdx) | Real-time market and account data streaming |
 | [Best Practices](./5.%20best-practices.mdx) | Patterns for gas efficiency, error handling, and market management |
 | [Stop Orders](./6.%20stop-orders.mdx) | Conditional take-profit and stop-loss order management |
+| [Historical Data](./7.%20historical-data.mdx) | Monthly NDJSON exports — trades, OHLCV, settlements, order book snapshots |
+| [Indicators](./8.%20indicators.mdx) | Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`) and CSV export |
+| [Computing Units](./9.%20computing-units.mdx) | How endpoint cost is reported and the static / dynamic CU model |

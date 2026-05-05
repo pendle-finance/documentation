@@ -14,7 +14,7 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 | **Account** | Sub-account under a root (IDs 0–255). Account `0` is default for trading; `255` is reserved for AMM. Currently only account `0` is available for external users. | `accountId` parameter across all endpoints |
 | **Agent** | Wallet authorized to execute non-sensitive trading operations on behalf of a root account. Agents cannot withdraw funds — only place orders, cancel, transfer cash, and enter/exit markets. See [Agent Trading](./2.%20agent.mdx). | `GET /agents/expiry-time`, `GET /calldata/approve-agent` |
 | **Account Manager** | Delegated wallet that can approve and revoke agents on behalf of a root account. The root sets the account manager via `setAccManager`. Useful for programmatic agent management without exposing the root key. | `GET /calldata/approve-agent` |
-| **Market Account** | Unique trading context packed as: `(root, subaccountId, tokenId, marketId)`. Use `CROSS_MARKET_ID` (16777215) for cross-margin, or a specific `marketId` for isolated. This is the key identifier for querying positions and balances. See [Custom Types](/boros-dev/Contracts/CustomTypes#marketacc). | `POST /accounts/market-acc-infos` |
+| **Market Account** (`marketAcc`) | The 26-byte (54-char hex) identifier that uniquely identifies a margin account. Bit-layout: `root(160) | accountId(8) | tokenId(16) | marketId(24)`. Use `CROSS_MARKET_ID` (`0xFFFFFF` / `16777215`) for cross-margin, or a specific `marketId` for isolated. The key identifier for querying positions, balances, and orders — every account/balance/trading endpoint expects this same handle. See [Custom Types](/boros-dev/Contracts/CustomTypes#marketacc) and the `/v1/market-acc/encode` / `/decode` API helpers. | `POST /accounts/market-acc-infos`, `GET /market-acc/encode` |
 | **Decimals** | Deposits/withdrawals use native token decimals (e.g., 6 for USDT). All trading values — sizes, balances, prices — use **18 decimals** internally. Always convert when bridging between wallet amounts and API values. | All size/amount fields |
 | **APR Format** | All APR values in the API (`markApr`, `midApr`, `liquidationApr`, `impliedApr`, `ammImpliedApr`, etc.) are **decimal fractions**, not percentages. For example, `0.05495` means **5.495%**. Multiply by 100 to get the human-readable percentage. All APR fields use the same scaling — there are no exceptions. | All market and account endpoints |
 | **Scaling Factor** | Multiplier used to normalize token amounts to 18-decimal precision internally. Calculated as `10^(18 - tokenDecimals)` during token registration (e.g., USDT with 6 decimals has scaling factor `10^12`). Tokens with more than 18 decimals are not supported. | `GET /assets/all` |
@@ -30,7 +30,8 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 | **Order Book** | Primary liquidity source with Long/Short sides organized by price ticks. See [Order Book Mechanics](/boros-dev/Mechanics/OrderBook) for matching rules and constraints. | `GET /markets/order-books`, `GET /v2/markets/order-books` |
 | **Order** | Trade instruction with `orderId`, `tick` (price level), `side`, `size` (18 decimals), and `tif` (time-in-force). Orders can be placed individually or in bulk. | `POST /calldata/place-orders`, `GET /accounts/limit-orders` |
 | **Tick** | Integer price level representing an interest rate. Formula: `rate = 1.00005^(tick × tickStep) - 1`. Higher tick = higher rate. The tick step is market-specific and controls rate granularity. Use SDK helpers to convert between human-readable APR and tick values. | All order-related endpoints, `GET /stop-order/v1/orders/tpsl/prepare` |
-| **Slippage** | Max acceptable price impact as a percentage (market orders only). Protects against unfavorable fills when the order book is thin. | `GET /simulations/place-order` |
+| **`rate` vs `limitTick`** | Two ways of specifying the limit price on an order. `rate` is the human-friendly decimal APR (e.g. `0.05` = 5%) and is rounded to the nearest valid tick by the backend. `limitTick` is the raw integer tick. The simple `place-order` endpoint takes `rate`; the advanced `place-orders` endpoint accepts either (XOR). | `POST /calldata-builder/agent/place-order(s)` |
+| **`desiredRate` vs `slippage`** | Two ways of specifying the **execution guard** (worst acceptable average fill rate) for the matched portion of an order. `desiredRate` is an absolute ceiling — the contract reverts with `TradeUndesiredRate` if `signedCost > signedSize × desiredRate`. `slippage` is a relative tolerance from the current mid-rate (e.g. `0.005` = 0.5%); the backend computes `desiredRate = midRate ± slippage` for you. **Exactly one** must be supplied on the advanced endpoint; the simple endpoint only exposes `slippage`. Strongly recommended for FOK / IOC market orders. | `POST /calldata-builder/agent/place-order(s)` |
 | **AMM** | Automated market maker providing continuous liquidity alongside the order book. The Router routes between AMM and order book for optimal execution. AMM liquidity can be optionally included in order book queries. | `GET /v2/markets/order-books`, AMM simulation/calldata endpoints |
 | **OTC Trade** | Direct swap between two accounts bypassing the order book, typically routed through the AMM. Has a separate fee rate (`otcFee`). See [Fees](/boros-dev/Mechanics/Fees). | AMM swap/liquidity endpoints |
 | **Mark Rate** | TWAP of historical order book trades, used as the reference rate for margin, liquidation, and order rate bounds. Distinct from mid rate and AMM implied rate. See [TWAP Oracle](/boros-dev/Mechanics/OrderBook#twap-oracle-mark-rate). | `GET /markets/{marketId}` (in market state) |
@@ -56,6 +57,17 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 | **Liquidation** | Forced closure of positions when health ratio ≤ 1.0. Positions are closed at mark rate; a liquidation incentive is paid to the liquidator. See [Margin Mechanics](/boros-dev/Mechanics/Margin#liquidation-process). | `GET /events/liquidation-events` |
 | **Force Cancel** | Automatic cancellation of open orders when an account's health ratio drops below the risky threshold, or when order rates deviate too far from mark rate. See [Risk Management](/boros-dev/Mechanics/Margin#risk-management-actions). | `GET /accounts/limit-orders` |
 | **CLO (Close-Only)** | [Market status](/boros-dev/Contracts/CustomTypes#marketstatus) where only position-reducing orders are accepted. See [Closing Only Mode](/boros-dev/Mechanics/Margin#closing-only-mode). | `GET /markets/{marketId}` (status field) |
+
+---
+
+## Operational Concepts
+
+| Term | Description | Where it appears |
+|------|-------------|-----------------|
+| **Computing Unit (CU)** | Per-endpoint cost of a request, advertised via the `x-computing-unit` OpenAPI extension and returned as the `x-computing-unit` response header. A value like `1+` means **dynamic cost** — the endpoint charges a minimum for an empty request and scales with work performed (e.g. page size, number of indicators). See [Computing Units](./9.%20computing-units.mdx). | All endpoints (header) |
+| **Indicator** | Compact letter codes for time-series market data: `u` (underlying APR), `fp` (future premium), `fgi` (fear & greed index), `ap` (asset price), `udma:<periods>` (X-day UFR moving averages). See [Indicators](./8.%20indicators.mdx). | `GET /v1/indicators`, `GET /v1/indicators/export` |
+| **Maker Incentive** | PENDLE-token rewards distributed to liquidity providers. Two campaigns: **Add-Liquidity** (rewards for resting orders that sit within an `incentiveRange` of mid-APR) and **Filled-Volume** (rewards proportional to the user's maker fill volume in the current epoch). See [Incentives](/boros-dev/Mechanics/Incentives). | `GET /v1/incentives/maker-incentives/campaigns/{marketId}` |
+| **AMM Incentive** | Rewards accrued by AMM liquidity providers — swap fees plus PENDLE incentives — denominated in USD. See [Incentives](/boros-dev/Mechanics/Incentives). | `GET /v1/incentives/amm-incentives` |
 
 ---
 
@@ -115,8 +127,12 @@ const amount = FixedX18.fromBigIntString(balanceString).toNumber(); // 100.0
 
 - [Boros User Glossary](https://pendle.gitbook.io/boros/boros-docs/about-boros/glossary) — Portfolio and general trading terms
 - [OrderBook Mechanics](/boros-dev/Mechanics/OrderBook) — How the order book works
+- [AMM Mechanics](/boros-dev/Mechanics/AMM) — How the AMM provides continuous liquidity
 - [Margin Mechanics](/boros-dev/Mechanics/Margin) — Initial/maintenance margin and liquidation
 - [Settlement Mechanics](/boros-dev/Mechanics/Settlement) — Funding rate payments
 - [Fee Structure](/boros-dev/Mechanics/Fees) — Position opening, settlement, and entrance fees
+- [Incentives](/boros-dev/Mechanics/Incentives) — Maker incentives and AMM rewards
+- [Indicators](./8.%20indicators.mdx) — Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`)
+- [Computing Units](./9.%20computing-units.mdx) — How endpoint cost is computed and reported
 - [Custom Types](/boros-dev/Contracts/CustomTypes) — Contract type definitions
 - [API Reference](./3.%20api.mdx) — All API endpoints and integration workflows

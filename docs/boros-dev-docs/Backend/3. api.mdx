@@ -1,6 +1,6 @@
 # Boros Open API
 
-This guide walks you through integrating with the Boros trading platform via the REST API. For exact request/response schemas and parameter details, see the [interactive API docs](https://api.boros.finance/open-api/docs).
+This guide walks you through integrating with the Boros trading platform via the REST API. For exact request/response schemas and parameter details, see the [interactive API docs](https://api-boros.pendle.finance/apis/docs).
 
 For key concepts and terminology, see the [Glossary](./1.%20glossary.mdx).
 
@@ -10,15 +10,16 @@ For key concepts and terminology, see the [Glossary](./1.%20glossary.mdx).
 
 ## Base URLs
 
-| Environment | Base URL |
-|-------------|----------|
-| Production  | `https://api.boros.finance` |
+| Service | Base URL | Purpose |
+|---------|----------|---------|
+| **Open API** | `https://api-boros.pendle.finance/apis/v1/` | Market data, calldata generation, account queries (new redesigned mount). |
+| **Open API (legacy, deprecated)** | `https://api.boros.finance/open-api/v1/` (or `/v2/`) — interactive docs at `https://api.boros.finance/open-api/docs` | Deprecated mount, kept for older clients only. Use the new mount above for everything. |
+| **Send Txs Bot** | `https://api.boros.finance/send-txs-bot/v2/` (programmatic) or `/v3/` (browser session) | Submitting signed transactions on-chain. |
+| **Stop Order** | `https://api.boros.finance/stop-order/v1/` to `/v4/` | Conditional TP/SL order management. |
 
-| Service | Path Prefix | Purpose |
-|---------|-------------|---------|
-| **Open API** | `/open-api/v1/` (or `/v2/`) | Market data, calldata generation, account queries |
-| **Send Txs Bot** | `/send-txs-bot/v2/` or `/v3/` | Submitting signed transactions on-chain |
-| **Stop Order** | `/stop-order/v1/` to `/v3/` | Conditional TP/SL order management |
+:::note
+Use the redesigned Open API at `api-boros.pendle.finance/apis/` — interactive docs: [`api-boros.pendle.finance/apis/docs`](https://api-boros.pendle.finance/apis/docs). The old `api.boros.finance/open-api/` mount (and its `/open-api/docs` page) is **deprecated**: still served for older clients, but no new endpoints are added there.
+:::
 
 ---
 
@@ -28,7 +29,7 @@ For key concepts and terminology, see the [Glossary](./1.%20glossary.mdx).
 
 The main API for querying data and generating transaction calldata.
 
-**Interactive docs:** [https://api.boros.finance/open-api/docs](https://api.boros.finance/open-api/docs)
+**Interactive docs:** [https://api-boros.pendle.finance/apis/docs](https://api-boros.pendle.finance/apis/docs)
 
 ### Send Txs Bot (Transaction Submission)
 
@@ -335,6 +336,30 @@ Access funding rate data and settlement history.
 | `GET /funding-rate/all-funding-rate-symbols` | Available funding rate symbols |
 | `POST /funding-rate/settlement-summary` | Historical settlement summaries |
 
+### Indicators
+Time-series market data — underlying APR, future premium, fear & greed index, asset price, and UFR moving averages. See [Indicators](./8.%20indicators.mdx) for the indicator letter codes and CSV export semantics.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v1/indicators` | Fetch one or more indicators by letter code (`u`, `fp`, `fgi`, `ap`, `udma:<periods>`). 1 CU per indicator. |
+| `GET /v1/indicators/export` | Export OHLCV + selected indicators as CSV (rate-limited 3 req/min/IP, 20 CU). |
+
+### Incentives
+Maker rewards and AMM rewards. See [Incentives](/boros-dev/Mechanics/Incentives) for the underlying mechanics.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v1/incentives/maker-incentives/campaigns/{marketId}` | PENDLE maker-incentive campaign for a market (add-liquidity + filled-volume). |
+| `GET /v1/incentives/amm-incentives` | Per-user AMM rewards (swap fees + Pendle incentives) — accrued, unclaimed, and per-market breakdown. |
+
+### Market Account Helpers
+Pack / unpack the `marketAcc` identifier without using the SDK.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v1/market-acc/encode` | Pack `(root, accountId, tokenId, marketId)` into the 26-byte / 54-char hex `marketAcc`. |
+| `GET /v1/market-acc/decode` | Unpack a `marketAcc` into `{ root, accountId, tokenId, marketId, isCross }`. |
+
 ### Agents
 Manage agent authorization.
 
@@ -408,6 +433,12 @@ The API does not currently enforce strict rate limits, but excessive request rat
 - Use [WebSocket](./4.%20websocket.mdx) for real-time data instead of polling
 - Use bulk order endpoints instead of multiple single-order calls
 - Cache market and asset data that doesn't change frequently
+
+A few endpoints have explicit per-IP throttles — most notably `GET /v1/indicators/export` (3 requests / minute / IP).
+
+## Computing Units
+
+Every Open API endpoint advertises a per-call cost via the `x-computing-unit` extension on the OpenAPI spec, also returned as the `x-computing-unit` HTTP response header on every successful request. Most endpoints cost **1 CU**; some scale dynamically with page size, market count, or number of indicators requested. See [Computing Units](./9.%20computing-units.mdx) for the full model.
 
 ---
 
