@@ -9,8 +9,8 @@ To be able to create a limit order and submit it to the Pendle Limit Order syste
 3. Post the limit order data and its signature to the Pendle Limit Order system
 
 Pendle exposes 2 APIs to help makers create orders more easily
-1. [Generate limit order data](https://api-v2.pendle.finance/limit-order/docs#/Maker/MakersController_generateLimitOrderData)
-2. [Post limit order](https://api-v2.pendle.finance/limit-order/docs#/Maker/MakersController_createOrder)
+1. [Generate limit order data](https://api-v2.pendle.finance/core/docs#tag/limit-orders/post/v1/limit-orders/makers/generate-limit-order-data)
+2. [Post limit order](https://api-v2.pendle.finance/core/docs#tag/limit-orders/post/v1/limit-orders/makers/limit-orders)
 
 ## TypeScript Example
 
