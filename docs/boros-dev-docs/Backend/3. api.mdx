@@ -371,6 +371,11 @@ Query transaction status with detailed on-chain event data.
 |----------|-------------|
 | `POST /send-txs-bot/v2/agent/dedicated/tx-status` | Transaction status with block info |
 | `POST /send-txs-bot/v2/agent/dedicated/tx-status-with-events` | Transaction status with parsed limit order events (placed, cancelled, market order executed). Each status item includes `limitOrdersPlaced` (orderIds + sizes), `limitOrdersCancelled` (orderIds), and `marketOrdersExecuted` (orderId, side, size). |
+| `POST /send-txs-bot/v1/agent/dedicated/trace` | Trace a submitted request by `agent` address + calldata `nonce` to check whether the Send Txs Bot received it. Useful for resolving ambiguity after network errors/timeouts. Records are retained for **24 hours**. See [Recovering from Network Errors](./5.%20best-practices.mdx#recovering-from-network-errors-trace--nonce) for the recommended retry pattern. |
+
+:::tip Nonce safety guarantee
+The Send Txs Bot rejects any calldata signed with a `nonce` ≤ your largest previously-seen nonce, **including** nonces from calldata that failed simulation. This makes it safe to retry: a successful original submission will cause the retry to be rejected, so you cannot accidentally double-submit by retrying.
+:::
 
 ---
 

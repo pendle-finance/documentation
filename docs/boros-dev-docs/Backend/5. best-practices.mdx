@@ -198,6 +198,21 @@ The Send Txs Bot and Stop Order services use a legacy format:
 - **Retry with backoff** on transient errors (network timeouts, 503s)
 - **Check transaction status** before retrying submissions to the Send Txs Bot — the original may have succeeded
 
+### Recovering from Network Errors (Trace + Nonce)
+
+When a Send Txs Bot submission times out or returns a network error, you can't tell whether the bot received the request. Use the [trace endpoint](https://api.boros.finance/send-txs-bot/docs#/Dedicated%20Agent/DedicatedAgentController_trace) (`POST /send-txs-bot/v1/agent/dedicated/trace`) to disambiguate before retrying.
+
+**Recommended pattern:**
+1. After a network error/timeout, poll the trace endpoint with the `agent` address and the `nonce` of the calldata you submitted.
+2. If the request can be traced, the bot received it — wait for the on-chain result instead of retrying.
+3. If it cannot be traced after **2–3 seconds**, assume the bot never received it and retry safely.
+
+Trace records are retained for **24 hours**.
+
+:::tip Why retry is safe
+The Send Txs Bot rejects any calldata signed with a `nonce` ≤ your largest previously-seen nonce — and this guarantee includes nonces from calldata that failed simulation. So if the original submission had actually succeeded, the retry would be rejected by the backend rather than re-executed. You cannot double-submit by retrying.
+:::
+
 ---
 
 ## Simulation Before Execution
