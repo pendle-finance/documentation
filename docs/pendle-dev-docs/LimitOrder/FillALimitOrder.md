@@ -57,6 +57,8 @@ const tx = await contract.fill(
 );
 ```
 
+The `signature` inside each `fillParams` entry may be empty (`"0x"`) when the order was pre-signed on-chain or has already been partially filled — for fresh off-chain orders, pass the maker's signature returned by the API. See [Signature Validation](./LimitOrderContract.md#signature-validation) for details.
+
 There are three main params that you need to fill the limit orders
 1. `fillParams`: The list of limit orders and the amount you want to fill (you can partially fill the order)
 2. `receiver`: The address that will receive the maker amount from the limit orders.

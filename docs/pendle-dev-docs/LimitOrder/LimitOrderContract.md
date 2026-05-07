@@ -96,6 +96,30 @@ function cancelBatch(Order[] calldata orders) external;
 #### Parameters:
 - `orders`: An array of limit orders to be canceled.
 
+### preSignSingle
+
+Registers an order on-chain by setting its remaining amount to `makingAmount`. After pre-signing, takers can fill the order without supplying a signature.
+
+Only the order's `maker` can pre-sign. The order must have a valid `nonce`, an `expiry` strictly between `block.timestamp` and `YT.expiry()`, and must not already exist on-chain.
+
+```sol
+function preSignSingle(Order calldata order) external;
+```
+
+#### Parameters:
+- `order`: The limit order to be pre-signed.
+
+### preSignBatch
+
+Pre-signs multiple orders in a single transaction. Each order is validated and registered the same as `preSignSingle`.
+
+```sol
+function preSignBatch(Order[] calldata orders) external;
+```
+
+#### Parameters:
+- `orders`: An array of limit orders to be pre-signed.
+
 ### orderStatusesRaw
 
 This method retrieves raw remaining and filled amounts for specified orders.
@@ -139,6 +163,19 @@ function fill(
 - `actualTaking`: The total amount of tokens taken from the taker to complete the fill operation.
 - `totalFee`: The total fee incurred during the fill operation.
 - `callbackReturn`: Data returned from the callback function, if used.
+
+## Signature Validation
+
+When `fill` is called, each `FillOrderParams.signature` is validated as follows:
+
+1. **Order is unknown on-chain** (never filled, never pre-signed) — the contract requires a valid signature via [`SignatureChecker.isValidSignatureNow`](https://docs.openzeppelin.com/contracts/4.x/api/utils#SignatureChecker), which accepts both:
+   - Standard ECDSA signatures from EOA makers.
+   - ERC-1271 signatures from smart-contract makers (`isValidSignature(hash, signature)`).
+2. **Order is already known on-chain** (pre-signed via `preSignSingle` / `preSignBatch`, or partially filled in a previous transaction) — signature validation is skipped, and the `signature` field can be left empty (`"0x"`).
+
+This means:
+- EOA makers sign off-chain and takers pass that signature when filling.
+- Contract makers can either implement ERC-1271 and supply a contract-validated signature, or call `preSignSingle` once and let takers fill with an empty signature.
 
 ## Callback Mechanism
 

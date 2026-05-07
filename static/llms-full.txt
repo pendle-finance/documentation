@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-05-04
+> Generated: 2026-05-07
 
 ---
 
@@ -1716,8 +1716,8 @@ Pendle's Limit Order system enables gasless, off-chain order creation with secur
 
 ## How It Works
 
-1. **Makers** create and sign limit orders off-chain (no gas required). Orders specify a desired implied APY rate and are stored on Pendle's backend.
-2. **Takers** query available orders via the API and fill them on-chain by calling the Limit Order contract.
+1. **Makers** create limit orders by either (a) signing off-chain with no gas — the recommended path for EOAs — or (b) pre-signing on-chain via `preSignSingle` / `preSignBatch`, which is intended for smart-contract makers. Orders specify a desired implied APY rate and are stored on Pendle's backend.
+2. **Takers** query available orders via the API and fill them on-chain by calling the Limit Order contract. Pre-signed orders (and orders already partially filled) can be filled with an empty signature; ERC-1271 contract signatures are also supported.
 3. The **Limit Order contract** settles orders atomically, transferring tokens between makers and takers at the agreed rates.
 
 Limit orders are also integrated into the [Pendle Hosted SDK](../Backend/HostedSdk.mdx) — when enabled, the SDK automatically includes limit order liquidity alongside AMM liquidity to improve execution prices, especially for large trades.
@@ -1836,6 +1836,20 @@ const requestBody: CreateLimitOrderRequest = {
 
 All the implementation details can be found in the [API demo repository](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
 
+## Alternative: Create an Order On-Chain
+
+In addition to off-chain signing, makers can register an order directly on-chain by calling `preSignSingle` (or `preSignBatch` for multiple orders) on the Limit Router. This is mainly useful for:
+
+- **Smart-contract makers** that cannot produce an ECDSA signature off-chain.
+- **ERC-1271 contracts** that prefer to register orders explicitly instead of relying on `isValidSignature` at fill time.
+
+### Steps
+
+1. Generate the order data (same `Order` struct as the off-chain flow — see [Order Struct Definition](./LimitOrderContract.md#order-struct-definition)). You can still use the [generate-limit-order-data API](https://api-v2.pendle.finance/core/docs#tag/limit-orders/post/v1/limit-orders/makers/generate-limit-order-data) — just skip the signing step.
+2. Call `preSignSingle(order)` from the `maker` address.
+
+Once an order is pre-signed, takers fill it the same way as a normally signed order, but they may pass an empty signature (`'0x'`) in `FillOrderParams.signature`. See [Signature Validation](./LimitOrderContract.md#signature-validation) for details.
+
 
 ---
 
@@ -1897,6 +1911,8 @@ const tx = await contract.fill(
   '0x'
 );
 ```
+
+The `signature` inside each `fillParams` entry may be empty (`"0x"`) when the order was pre-signed on-chain or has already been partially filled — for fresh off-chain orders, pass the maker's signature returned by the API. See [Signature Validation](./LimitOrderContract.md#signature-validation) for details.
 
 There are three main params that you need to fill the limit orders
 1. `fillParams`: The list of limit orders and the amount you want to fill (you can partially fill the order)
@@ -2073,6 +2089,30 @@ function cancelBatch(Order[] calldata orders) external;
 #### Parameters:
 - `orders`: An array of limit orders to be canceled.
 
+### preSignSingle
+
+Registers an order on-chain by setting its remaining amount to `makingAmount`. After pre-signing, takers can fill the order without supplying a signature.
+
+Only the order's `maker` can pre-sign. The order must have a valid `nonce`, an `expiry` strictly between `block.timestamp` and `YT.expiry()`, and must not already exist on-chain.
+
+```sol
+function preSignSingle(Order calldata order) external;
+```
+
+#### Parameters:
+- `order`: The limit order to be pre-signed.
+
+### preSignBatch
+
+Pre-signs multiple orders in a single transaction. Each order is validated and registered the same as `preSignSingle`.
+
+```sol
+function preSignBatch(Order[] calldata orders) external;
+```
+
+#### Parameters:
+- `orders`: An array of limit orders to be pre-signed.
+
 ### orderStatusesRaw
 
 This method retrieves raw remaining and filled amounts for specified orders.
@@ -2116,6 +2156,19 @@ function fill(
 - `actualTaking`: The total amount of tokens taken from the taker to complete the fill operation.
 - `totalFee`: The total fee incurred during the fill operation.
 - `callbackReturn`: Data returned from the callback function, if used.
+
+## Signature Validation
+
+When `fill` is called, each `FillOrderParams.signature` is validated as follows:
+
+1. **Order is unknown on-chain** (never filled, never pre-signed) — the contract requires a valid signature via [`SignatureChecker.isValidSignatureNow`](https://docs.openzeppelin.com/contracts/4.x/api/utils#SignatureChecker), which accepts both:
+   - Standard ECDSA signatures from EOA makers.
+   - ERC-1271 signatures from smart-contract makers (`isValidSignature(hash, signature)`).
+2. **Order is already known on-chain** (pre-signed via `preSignSingle` / `preSignBatch`, or partially filled in a previous transaction) — signature validation is skipped, and the `signature` field can be left empty (`"0x"`).
+
+This means:
+- EOA makers sign off-chain and takers pass that signature when filling.
+- Contract makers can either implement ERC-1271 and supply a contract-validated signature, or call `preSignSingle` once and let takers fill with an empty signature.
 
 ## Callback Mechanism
 
