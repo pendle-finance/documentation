@@ -166,16 +166,19 @@ function fill(
 
 ## Signature Validation
 
-When `fill` is called, each `FillOrderParams.signature` is validated as follows:
+When `fill` is called, the contract validates each `FillOrderParams.signature` against the on-chain status of the order:
 
-1. **Order is unknown on-chain** (never filled, never pre-signed) — the contract requires a valid signature via [`SignatureChecker.isValidSignatureNow`](https://docs.openzeppelin.com/contracts/4.x/api/utils#SignatureChecker), which accepts both:
-   - Standard ECDSA signatures from EOA makers.
-   - ERC-1271 signatures from smart-contract makers (`isValidSignature(hash, signature)`).
-2. **Order is already known on-chain** (pre-signed via `preSignSingle` / `preSignBatch`, or partially filled in a previous transaction) — signature validation is skipped, and the `signature` field can be left empty (`"0x"`).
+1. **Order is already known on-chain** — pre-signed via `preSignSingle` / `preSignBatch`, or partially filled in a previous transaction. Signature validation is **skipped**; the `signature` field can be left empty (`"0x"`).
+2. **Order is unknown on-chain** — the contract calls [`SignatureChecker.isValidSignatureNow(maker, orderHash, signature)`](https://docs.openzeppelin.com/contracts/4.x/api/utils#SignatureChecker), which validates in this order:
+   1. **ECDSA recovery** — recovers the signer from `signature` and checks it matches `maker`. Used for EOA makers.
+   2. **ERC-1271 fallback** — if ECDSA recovery fails (including when `signature` is empty or the wrong length), the contract calls `IERC1271(maker).isValidSignature(orderHash, signature)` on the maker contract. The order is accepted iff the call returns the magic value `0x1626ba7e`.
 
-This means:
-- EOA makers sign off-chain and takers pass that signature when filling.
-- Contract makers can either implement ERC-1271 and supply a contract-validated signature, or call `preSignSingle` once and let takers fill with an empty signature.
+### Implications for makers
+
+- **EOA makers**: sign the order off-chain via EIP-712; the taker submits that signature with the fill.
+- **Smart-contract makers** never need to produce an ECDSA signature. Two patterns are supported:
+  - **Whitelist via ERC-1271 (no router state changes)**: implement `isValidSignature(hash, signature)` so that it returns `0x1626ba7e` whenever `hash` is in an internal whitelist — the `signature` argument can be ignored entirely. Takers pass `"0x"`, the ECDSA branch fails immediately, and execution falls through to the maker's `isValidSignature`. Authorizing an order is then just a matter of writing the order hash to the maker contract's whitelist (e.g. via a governance vote, multi-sig approval, or any custom logic) — no call to the Limit Router is needed.
+  - **Pre-sign on the Limit Router**: call `preSignSingle` (or `preSignBatch`) once from the maker. After that the order is "already known", and any subsequent fill works with an empty signature regardless of how the maker implements ERC-1271.
 
 ## Callback Mechanism
 

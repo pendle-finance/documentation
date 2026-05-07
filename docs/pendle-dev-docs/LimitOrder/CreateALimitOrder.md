@@ -72,6 +72,8 @@ In addition to off-chain signing, makers can register an order directly on-chain
 - **Smart-contract makers** that cannot produce an ECDSA signature off-chain.
 - **ERC-1271 contracts** that prefer to register orders explicitly instead of relying on `isValidSignature` at fill time.
 
+> **ERC-1271 contracts can skip the on-chain pre-sign step entirely.** When the taker passes an empty signature, the Limit Router's ECDSA recovery fails and falls back to `IERC1271(maker).isValidSignature(hash, signature)`. A maker contract can therefore authorize an order simply by whitelisting its hash internally — no transaction to the Limit Router is required. See [Signature Validation](./LimitOrderContract.md#signature-validation) for the full flow.
+
 ### Steps
 
 1. Generate the order data (same `Order` struct as the off-chain flow — see [Order Struct Definition](./LimitOrderContract.md#order-struct-definition)). You can still use the [generate-limit-order-data API](https://api-v2.pendle.finance/core/docs#tag/limit-orders/post/v1/limit-orders/makers/generate-limit-order-data) — just skip the signing step.
