@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-05-05
+> Generated: 2026-05-11
 
 ---
 
@@ -1584,12 +1584,12 @@ Currently supported aggregators (can be fetched from [fetch supported aggregator
 
 | Aggregator  | Cost (Computing Units) |
 | ----------- | ---------------------- |
-| `kyberswap` | 5                      |
-| `odos`      | 15                     |
-| `okx`       | 10                     |
+| `kyberswap` | 1                      |
+| `odos`      | 10                     |
+| `okx`       | 2                      |
 | `paraswap`  | 15                     |
 
-For example, this request will use KyberSwap and Odos aggregators to find the optimal route, and it costs 25 computing units (5 from kyberswap, 15 from odos, and 5 from the base computing cost):
+For example, this request will use KyberSwap and Odos aggregators to find the optimal route, and it costs 16 computing units (1 from kyberswap, 10 from odos, and 5 from the base computing cost):
 
 ```ts
 export async function addLiquiditySingleToken() {
@@ -1615,7 +1615,7 @@ export async function addLiquiditySingleToken() {
 
 ### Reduce aggregator computing units
 
-By default, when using aggregators, the system will use public API keys for each aggregator. This means that the computing unit cost for each aggregator will be added to the total cost of the request. To reduce the computing unit cost, you can use your own API key for each aggregator. This way, the computing unit cost for that aggregator will be reduced to 0. For example, if you use your own API key for Odos, the total computing unit cost will be 5 (base cost) + 5 (kyberswap cost) + 0 (odos cost with custom API key) = 10 computing units.
+By default, when using aggregators, the system will use public API keys for each aggregator. This means that the computing unit cost for each aggregator will be added to the total cost of the request. To reduce the computing unit cost, you can use your own API key for each aggregator. This way, the computing unit cost for that aggregator will be reduced to 0. For example, if you use your own API key for Odos, the total computing unit cost will be 5 (base cost) + 1 (kyberswap cost) + 0 (odos cost with custom API key) = 6 computing units.
 
 Currently, you can use an aggregator with your own API key by specifying the corresponding field in the request headers.
 | Aggregator  | Header Key           | Note                          |
@@ -9576,14 +9576,15 @@ The Send Txs Bot charges gas from the user's on-chain gas balance in USD at the 
 |---|---|
 | [Glossary](./1.%20glossary.mdx) | Key terms and type definitions used throughout the API |
 | [Agent](./2.%20agent.mdx) | Setting up and managing agent wallets |
-| [API](./3.%20api.mdx) | Full REST endpoint reference and integration workflows |
-| [WebSocket](./4.%20websocket.mdx) | Real-time market and account data streaming |
-| [Best Practices](./5.%20best-practices.mdx) | Patterns for gas efficiency, error handling, and market management |
-| [Stop Orders](./6.%20stop-orders.mdx) | Conditional take-profit and stop-loss order management |
-| [Historical Data](./7.%20historical-data.mdx) | Monthly NDJSON exports — trades, OHLCV, settlements, order book snapshots |
-| [Indicators](./8.%20indicators.mdx) | Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`) and CSV export |
-| [Computing Units](./9.%20computing-units.mdx) | How endpoint cost is reported and the static / dynamic CU model |
-| [Bot Quickstart](./10.%20bot-quickstart.mdx) | End-to-end zero-to-functional grid bot — capstone that stitches the pages above into one runnable journey |
+| [SDK](./3.%20sdk.mdx) | TypeScript wrapper (`@pendle/boros-sdk-public`) — calldata, signing, and dispatch for Node clients |
+| [API](./4.%20api.mdx) | Full REST endpoint reference and integration workflows |
+| [WebSocket](./5.%20websocket.mdx) | Real-time market and account data streaming |
+| [Best Practices](./6.%20best-practices.mdx) | Patterns for gas efficiency, error handling, and market management |
+| [Stop Orders](./7.%20stop-orders.mdx) | Conditional take-profit and stop-loss order management |
+| [Historical Data](./8.%20historical-data.mdx) | Monthly NDJSON exports — trades, OHLCV, settlements, order book snapshots |
+| [Indicators](./9.%20indicators.mdx) | Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`) and CSV export |
+| [Computing Units](./10.%20computing-units.mdx) | How endpoint cost is reported and the static / dynamic CU model |
+| [Bot Quickstart](./11.%20bot-quickstart.mdx) | End-to-end zero-to-functional grid bot — capstone that stitches the pages above into one runnable journey |
 
 ---
 
@@ -9610,15 +9611,15 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 | **Rate Floor** | Minimum absolute rate used in margin calculations (derived from `market.imData.iTickThresh`). If an order's rate is below the rate floor, the floor value is used for margin instead. See [Margin — Pre-scaling IM](/boros-dev/Mechanics/Margin#pre-scaling-initial-margin). | Market config |
 | **Settlement** | Periodic floating rate payment exchange (typically every 8 hours) using [lazy settlement](../Mechanics/Settlement.mdx). See [Settlement Mechanics](/boros-dev/Mechanics/Settlement). | `GET /accounts/settlements`, `POST /funding-rate/settlement-summary` |
 | **Conditional Order** | On-chain order with an off-chain trigger condition, executed by a permissioned validator when conditions are met. Stop orders are built on this. See [Conditional Orders](/boros-dev/Contracts/Router#conditional-orders). | Stop Order Service endpoints |
-| **Stop Order** | Conditional off-chain order (take-profit or stop-loss) that triggers when market APR crosses a threshold. Managed by the Stop Order Service. See [Stop Orders](./6.%20stop-orders.mdx). | `GET /stop-order/v1/orders/tpsl/prepare`, `POST /stop-order/v2/orders/place` |
+| **Stop Order** | Conditional off-chain order (take-profit or stop-loss) that triggers when market APR crosses a threshold. Managed by the Stop Order Service. See [Stop Orders](./7.%20stop-orders.mdx). | `GET /stop-order/v1/orders/tpsl/prepare`, `POST /stop-order/v2/orders/place` |
 
 
 ## Operational Concepts
 
 | Term | Description | Where it appears |
 |------|-------------|-----------------|
-| **Computing Unit (CU)** | Per-endpoint cost of a request, advertised via the `x-computing-unit` OpenAPI extension and returned as the `x-computing-unit` response header. A value like `1+` means **dynamic cost** — the endpoint charges a minimum for an empty request and scales with work performed (e.g. page size, number of indicators). See [Computing Units](./9.%20computing-units.mdx). | All endpoints (header) |
-| **Indicator** | Compact letter codes for time-series market data: `u` (underlying APR), `fp` (future premium), `fgi` (fear & greed index), `ap` (asset price), `udma:<periods>` (X-day UFR moving averages). See [Indicators](./8.%20indicators.mdx). | `GET /v1/indicators`, `GET /v1/indicators/export` |
+| **Computing Unit (CU)** | Per-endpoint cost of a request, advertised via the `x-computing-unit` OpenAPI extension and returned as the `x-computing-unit` response header. A value like `1+` means **dynamic cost** — the endpoint charges a minimum for an empty request and scales with work performed (e.g. page size, number of indicators). See [Computing Units](./10.%20computing-units.mdx). | All endpoints (header) |
+| **Indicator** | Compact letter codes for time-series market data: `u` (underlying APR), `fp` (future premium), `fgi` (fear & greed index), `ap` (asset price), `udma:<periods>` (X-day UFR moving averages). See [Indicators](./9.%20indicators.mdx). | `GET /v1/indicators`, `GET /v1/indicators/export` |
 | **Maker Incentive** | PENDLE-token rewards distributed to liquidity providers. Two campaigns: **Add-Liquidity** (rewards for resting orders that sit within an `incentiveRange` of mid-APR) and **Filled-Volume** (rewards proportional to the user's maker fill volume in the current epoch). See [Incentives](/boros-dev/Mechanics/Incentives). | `GET /v1/incentives/maker-incentives/campaigns/{marketId}` |
 | **AMM Incentive** | Rewards accrued by AMM liquidity providers — swap fees plus PENDLE incentives — denominated in USD. See [Incentives](/boros-dev/Mechanics/Incentives). | `GET /v1/incentives/amm-incentives` |
 
@@ -9626,8 +9627,8 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 ## SDK Helpers
 
 ```typescript
-import { MarketAccLib, CROSS_MARKET_ID, estimateTickForRate, getRateAtTick } from "@pendle/sdk-boros";
-import { FixedX18 } from "@pendle/boros-offchain-math";
+import { MarketAccLib, CROSS_MARKET_ID } from "@pendle/boros-sdk-public";
+import { FixedX18, estimateTickForRate, getRateAtTick } from "@pendle/boros-offchain-math";
 
 // Pack market account for API calls
 const marketAcc = MarketAccLib.pack(walletAddress, accountId, tokenId, CROSS_MARKET_ID);
@@ -9640,6 +9641,8 @@ const rate = getRateAtTick(tick, tickStep);
 const size = FixedX18.fromNumber(100).value.toString();       // "100000000000000000000"
 const amount = FixedX18.fromBigIntString(balanceString).toNumber(); // 100.0
 ```
+
+See [SDK](./3.%20sdk.mdx) for the full TypeScript wrapper around these helpers.
 
 
 ---
@@ -9747,6 +9750,249 @@ Use the Boros web interface for a simple deposit flow. You can go to https://bor
 
 ---
 
+# SDK (TypeScript)
+
+`@pendle/boros-sdk-public` is a TypeScript wrapper around the Boros Open API and Send Txs Bot. It removes the boilerplate of building calldata, EIP-712 signing, and dispatching transactions. If you trade from Node, this is the recommended path.
+
+For other languages — or if you want raw HTTP control — go to [API](./4.%20api.mdx) instead. The SDK is a thin convenience layer; **anything the SDK does, the API page documents end-to-end**.
+
+For the agent model the SDK depends on, see [Agent Trading](./2.%20agent.mdx).
+
+## Install
+
+```bash
+npm install @pendle/boros-sdk-public viem
+```
+
+`viem` is a peer dependency. The SDK targets `viem@2.x`. The math helpers (`FixedX18`, `estimateTickForRate`, `getRateAtTick`) live in a separate package — install it when you need tick/rate conversion:
+
+```bash
+npm install @pendle/boros-offchain-math
+```
+
+## Initialization
+
+The SDK exposes two main classes:
+
+- **`Exchange`** — your read/write entry point. Wraps placing orders, cancelling, depositing, etc.
+- **`Agent`** — manages the agent keypair used to sign trading actions on behalf of your root.
+
+```ts
+import { createWalletClient, http } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { arbitrum } from 'viem/chains';
+import { Agent, Exchange } from '@pendle/boros-sdk-public';
+
+// 1. Root walletClient. For trading-only flows the account can be omitted —
+//    the agent signs every trading action. The root account is only needed
+//    for sensitive flows (deposit, approveAgent, withdraw).
+const rootAccount = privateKeyToAccount(process.env.ROOT_PK as `0x${string}`);
+const walletClient = createWalletClient({
+  account: rootAccount,
+  transport: http(process.env.RPC_URL),
+  chain: arbitrum,
+});
+
+// 2. Agent. Re-use a persisted private key in production; for first-time
+//    setup, `Agent.create(walletClient)` derives one deterministically from
+//    a root signature so users don't have to babysit an extra secret.
+const agent = Agent.createFromPrivateKey(process.env.AGENT_PK as `0x${string}`);
+
+// 3. Exchange.
+const exchange = new Exchange(
+  walletClient,
+  rootAccount.address,
+  /* accountId */ 0,
+  [process.env.RPC_URL!],
+  agent,
+);
+```
+
+The constructor signature is:
+
+```ts
+new Exchange(walletClient, root, accountId, rpcUrls, agent?)
+```
+
+`agent` is optional at construction time — set it later via `exchange.setAgent(agent)` if you bootstrap one with `Agent.create()` after the fact.
+
+The SDK ships with the production backend pre-wired (`api-boros.pendle.finance`, `api.boros.finance/send-txs-bot`). For staging, override at startup:
+
+```ts
+import { setOpenApiBackendUrl, setSendTxsBotBackendUrl } from '@pendle/boros-sdk-public';
+
+setOpenApiBackendUrl('https://staging-api-boros.pendle.finance/apis');
+setSendTxsBotBackendUrl('https://staging-api.boros.finance/send-txs-bot');
+```
+
+## Common flows
+
+The SDK groups operations by who signs the calldata — root for sensitive actions, agent for everything else. Skim the table, then jump to whichever section you need.
+
+| Flow | Method | Signed by | Backed by |
+|------|--------|-----------|-----------|
+| Generate + approve agent | `Agent.create(walletClient)` → `exchange.approveAgent(agent)` | root | EIP-712 → Send Txs Bot |
+| Check agent expiry | `exchange.getAgentExpiryTime()` | — | `GET /v1/agents/expiry-time` |
+| Deposit collateral | `exchange.deposit(params)` | root | ERC20 approve + on-chain deposit |
+| Withdraw collateral | `exchange.withdraw(params)` | root | request-withdraw (auto-finalized after cooldown) |
+| Pay treasury (gas top-up) | `exchange.payTreasury(params)` | agent | calldata builder + Send Txs Bot |
+| Place single order | `exchange.placeOrder(params)` | agent | calldata builder + Send Txs Bot |
+| Place many in one tx | `exchange.bulkPlaceOrders({orderRequests})` | agent | calldata builder + Send Txs Bot |
+| Cancel orders | `exchange.cancelOrders(params)` | agent | calldata builder + Send Txs Bot |
+| Bulk cancel | `exchange.bulkCancelOrders(requests)` | agent | calldata builder + Send Txs Bot |
+| Enter market (cross) | `exchange.enterMarkets(true, [marketId])` | agent | calldata builder + Send Txs Bot |
+| Exit market | `exchange.exitMarkets(true, [marketId])` | agent | calldata builder + Send Txs Bot |
+| Cash transfer (cross↔isolated) | `exchange.cashTransfer(params)` | agent | calldata builder + Send Txs Bot |
+| Read all markets | `exchange.getAllMarkets(filters?)` | — | `GET /v1/markets` (paginated, cached 5 min) |
+| Read order book | `exchange.getOrderBook({marketId, tickSize})` | — | `GET /v1/markets/order-book` |
+| Read your active orders | `exchange.getOrdersPage({isActive: true})` | — | `GET /v1/accounts/orders` (cursor) |
+| Read on-chain orders (no indexer lag) | `exchange.getActiveOrdersFromContract(params)` | — | direct `Explorer` contract read |
+| Read entered markets | `exchange.getEnteredMarkets(rootAddress)` | — | direct `MarketHub` contract read |
+| Read user positions | `exchange.getUserPositions(params)` | — | direct contract read |
+| Market summary (mid/bid/ask APR) | `exchange.getMarketData(marketId)` | — | `GET /v1/markets/by-ids` + contract |
+| Gas balance (USD) | `exchange.getGasBalance()` | — | `GET /v1/accounts/gas-balance` |
+| List assets | `exchange.getAssets()` | — | `GET /v1/assets` |
+
+### Place a limit order
+
+```ts
+import { Side, TimeInForce, MarketAccLib, CROSS_MARKET_ID } from '@pendle/boros-sdk-public';
+import { estimateTickForRate, FixedX18 } from '@pendle/boros-offchain-math';
+
+const market = (await exchange.getAllMarkets({ isUiWhitelisted: true }))[0];
+const marketAcc = MarketAccLib.pack(rootAccount.address, 0, market.tokenId, CROSS_MARKET_ID);
+
+// Convert your target APR into a contract-side tick using the market's tickStep.
+const targetApr = 0.05; // 5%
+const limitTick = Number(
+  estimateTickForRate(FixedX18.fromNumber(targetApr), BigInt(market.imData.tickStep), /* roundDown */ true),
+);
+
+const { result, executeResponse } = await exchange.placeOrder({
+  marketAcc,
+  marketId: market.marketId,
+  side: Side.LONG,
+  size: 10n ** 18n,
+  limitTick,
+  tif: TimeInForce.GOOD_TIL_CANCELLED,
+  ammId: 0,            // 0 = orderbook-only; >0 = route through specific AMM
+});
+```
+
+### Place many orders in one transaction
+
+`bulkPlaceOrders` accepts a heterogeneous list — mix single-order requests and per-market bulks in one call. One on-chain submission, one nonce, one gas charge.
+
+```ts
+await exchange.bulkPlaceOrders({
+  orderRequests: [
+    {
+      cross: true,
+      bulks: [{
+        marketId: market.marketId,
+        orders: {
+          tif: TimeInForce.GOOD_TIL_CANCELLED,
+          side: Side.LONG,
+          sizes: [10n ** 18n, 2n * 10n ** 18n],
+          limitTicks: [limitTick - 10, limitTick - 20],
+        },
+        cancelData: { ids: [], isAll: false, isStrict: false },
+      }],
+    },
+  ],
+});
+```
+
+### Read your active orders (paginated)
+
+```ts
+import { OrderType } from '@pendle/boros-sdk-public';
+
+let resumeToken: string | undefined;
+const all = [];
+do {
+  const page = await exchange.getOrdersPage({
+    isActive: true,
+    orderType: [OrderType.LIMIT],
+    limit: 200,
+    resumeToken,
+  });
+  all.push(...page.results);
+  resumeToken = page.resumeToken ?? undefined;
+} while (resumeToken);
+```
+
+The SDK keeps cursor pagination explicit — there's no `getAllOrders()` helper. Backends impose per-call CU costs, and the SDK refuses to hide them behind sugar. See [Computing Units](./10.%20computing-units.mdx).
+
+If you need fresh on-chain truth (no indexer lag, useful right after a `placeOrder` returns), call `exchange.getActiveOrdersFromContract({ marketAcc, marketId })` instead — it reads the `Explorer` contract directly.
+
+### Cancel everything in one market
+
+```ts
+await exchange.cancelOrders({
+  marketAcc,
+  marketId: market.marketId,
+  cancelAll: true,
+  orderIds: [],
+});
+```
+
+### Top up gas balance
+
+The Send Txs Bot debits each agent-signed transaction from your **off-chain gas budget** (USD). Top it up via `payTreasury`:
+
+```ts
+await exchange.payTreasury({
+  isCross: true,
+  marketId: market.marketId,
+  usdAmount: 1, // credits ~$1 to gas budget
+});
+
+console.log('Gas balance (USD):', await exchange.getGasBalance());
+```
+
+## Escape hatch — raw open-api access
+
+The wrapped methods cover common trading flows. For everything else (leaderboard, OHLCV, settlement events, indicators, conditional orders), drop down to the codegen client:
+
+```ts
+import { getOpenApiSdk } from '@pendle/boros-sdk-public';
+
+const sdk = getOpenApiSdk();
+
+// Anything in the open-api spec is reachable here, fully typed.
+const { data } = await sdk.markets.marketsControllerGetOhlcv({
+  marketId: 1,
+  resolution: '1h',
+  from: 1735689600,
+  to: 1735693200,
+});
+```
+
+`getOpenApiSdk()` returns a typed client generated from the live swagger. New endpoints land here automatically when the SDK is republished — no waiting for hand-written wrappers. Use this whenever the wrapper doesn't exist or you need to pass a parameter the wrapper doesn't expose.
+
+The SDK also re-exports the codegen response types under `OpenApi.*`:
+
+```ts
+import { OpenApi } from '@pendle/boros-sdk-public';
+
+function summarize(market: OpenApi.MarketListItemResponse) {
+  return `${market.marketId} ${market.imData.symbol}`;
+}
+```
+
+## What the SDK doesn't do
+
+- **WebSocket subscriptions** — connect to the WebSocket feed using `socket.io-client` directly; see [WebSocket](./5.%20websocket.mdx).
+- **Strategy logic** — the SDK is plumbing. Indicators, sizing, risk management are yours to build.
+- **Stop / take-profit orders** — `OrderType.TAKE_PROFIT_MARKET` and `OrderType.STOP_LOSS_MARKET` exist on the type level but the SDK does not yet expose dedicated `placeStopOrder` / `placeTakeProfitOrder` methods. Use `getOpenApiSdk()` until they land. See [Stop Orders](./7.%20stop-orders.mdx).
+
+## End-to-end example
+
+[Bot Quickstart](./11.%20bot-quickstart.mdx) walks through a real grid bot built on top of the SDK — from `approve-agent` to a running reconcile loop. ~485 lines of TypeScript total, with full source embedded at the end of that page.
+
+---
+
 # Boros Open API
 
 This guide walks you through integrating with the Boros trading platform via the REST API. For exact request/response schemas and parameter details, see the [interactive API docs](https://api-boros.pendle.finance/apis/docs).
@@ -9812,7 +10058,7 @@ The Send Txs Bot and Stop Order services use the legacy format:
 }
 ```
 
-See [Best Practices](./5.%20best-practices.mdx) for error handling recommendations.
+See [Best Practices](./6.%20best-practices.mdx) for error handling recommendations.
 
 
 ## Code Examples
@@ -9908,7 +10154,7 @@ function cleanup() {
 
 | Channel | Event | Description |
 |---------|-------|-------------|
-| `orderbook:MARKET_ID:TICK_SIZE` | `orderbook:MARKET_ID:TICK_SIZE:update` | Orderbook updates. Accepted TICK_SIZE: `0.1`, `0.01`, `0.001`, `0.0001`, `0.00001` |
+| `orderbook:MARKET_ID:TICK_SIZE` | `orderbook:MARKET_ID:TICK_SIZE:update` | Orderbook updates — **orderbook liquidity only**, AMM liquidity is not included. Accepted TICK_SIZE: `0.1`, `0.01`, `0.001`, `0.0001`, `0.00001` |
 | `market-trade:MARKET_ID` | `market-trade:MARKET_ID:update` | Individual trade executions with `rate`, `size`, `blockTimestamp`, `txHash` |
 | `statistics:MARKET_ID` | `statistics:MARKET_ID:update` | Market statistics: `markApr`, `midApr`, `lastTradedApr`, `floatingApr`, `volume24h`, `notionalOI`, `nextSettlementTime`, `longYieldApr` |
 | `market-data:MARKET_ID` | `market-data-update` | Real-time market data from on-chain events. See [Market Data Events](#market-data-events) below. |
@@ -10024,10 +10270,10 @@ For example, if your wallet address is `0xdAC17F958D2ee523a2206206994597C13D831e
 account:0xdac17f958d2ee523a2206206994597c13d831ec700
 ```
 
-You can use `AccountLib.pack()` from `@pendle/sdk-boros` to construct this:
+You can use `AccountLib.pack()` from `@pendle/boros-sdk-public` to construct this:
 
 ```typescript
-import { AccountLib } from '@pendle/sdk-boros';
+import { AccountLib } from '@pendle/boros-sdk-public';
 
 const account = AccountLib.pack('0xdAC17F958D2ee523a2206206994597C13D831ec7', 0);
 // account = '0xdac17f958d2ee523a2206206994597c13d831ec700'
@@ -10054,7 +10300,7 @@ When you receive an account update event, **refetch the relevant API endpoints**
 
 ```typescript
 import axios from "axios";
-import { MarketAccLib, CROSS_MARKET_ID } from "@pendle/sdk-boros";
+import { MarketAccLib, CROSS_MARKET_ID } from "@pendle/boros-sdk-public";
 
 async function refreshAccountData() {
   const marketAcc = MarketAccLib.pack(walletAddress, accountId, tokenId, CROSS_MARKET_ID);
@@ -10207,7 +10453,7 @@ Position sizes, rates, yields, and fees are returned as FixedX18 raw string valu
 ```typescript
 import { io } from 'socket.io-client';
 import axios from 'axios';
-import { AccountLib } from '@pendle/sdk-boros';
+import { AccountLib } from '@pendle/boros-sdk-public';
 
 class AccountTracker {
   private socket: any;
@@ -10813,7 +11059,7 @@ GET /v1/indicators/export?marketId=24&timeFrame=5m&select=u,fp,fgi,ap,udma:3;7;3
 | `GET /v1/indicators` | **1 CU per indicator in `select`.** A `udma:7;30` entry counts as one indicator. |
 | `GET /v1/indicators/export` | **20 CU** (flat). |
 
-See [Computing Units](./9.%20computing-units.mdx) for how CU is reported on every response.
+See [Computing Units](./10.%20computing-units.mdx) for how CU is reported on every response.
 
 ## Examples
 
@@ -10839,7 +11085,19 @@ GET /v1/indicators/export?marketId=24&timeFrame=1h&startTimestamp=1761782400&sel
 
 # Computing Units
 
-Every Open API endpoint advertises a per-call cost called a **Computing Unit (CU)**. CU is how Pendle measures the work each request does so that high-frequency consumers can plan for fair-use limits.
+Every Open API endpoint advertises a per-call cost called a **Computing Unit (CU)**. CU is how Pendle meters the work each request does and enforces fair-use against high-frequency consumers.
+
+## Budget
+
+**60 CU per minute per IP**, fixed window. Every successful call deducts its `x-computing-unit` cost from the bucket; the bucket refills every 60s.
+
+When the budget is exhausted the API returns **HTTP 429** with body `{ "statusCode": 429, "message": "ThrottlerException: Too Many Requests" }`. Wait for the next window before retrying.
+
+Cloudflare-fronted requests are bucketed by `cf-connecting-ip`; direct requests by remote IP. Same-origin browsers behind a NAT share one bucket. There is currently no per-API-key tier — every consumer gets the same 60 CU/minute regardless of authentication.
+
+`GET /v1/indicators/export` layers an additional hard **3 requests/minute/IP** throttle on top of the CU budget.
+
+
 
 ## Where CU is Reported
 
@@ -10899,26 +11157,26 @@ For dynamic endpoints, you can sum the header over a window to reason about tota
 
 # Bot Quickstart — Zero to Functional Grid Bot
 
-This page walks you from a freshly funded Boros root account to a running grid bot that places, cancels, and refills real limit orders on Arbitrum mainnet. It stitches together the pieces covered in [Agent](./2.%20agent.mdx), [API](./3.%20api.mdx), [WebSocket](./4.%20websocket.mdx), and [Best Practices](./5.%20best-practices.mdx) into one end-to-end journey.
+This page walks you from a freshly funded Boros root account to a running grid bot that places, cancels, and refills real limit orders on Arbitrum mainnet. The bot is built with [`@pendle/boros-sdk-public`](./3.%20sdk.mdx) — a TypeScript wrapper that handles calldata building, EIP-712 signing, and Send Txs Bot dispatch on your behalf.
 
 The strategy at the end is a **grid bot** — a fixed ladder of resting limit orders around the current market rate. Grid bots are pedagogical, not production: they **lose money in trending markets** and **accrue funding-rate settlements** while open. Use tiny size (&#36;10–&#36;15 per level) and run for short windows.
 
 The bot is built around five steps that work for any limit-order strategy:
 
 ```
-     ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐
-     │  read   │→ │ decide  │→ │  diff   │→ │   act   │→ │  react  │
-     │  state  │  │ desired │  │ vs open │  │ (place/ │  │ (fills) │
-     │         │  │ ladder  │  │ orders  │  │ cancel) │  │         │
-     └─────────┘  └─────────┘  └─────────┘  └─────────┘  └─────────┘
-                                                              │
-                                                              ▼
-                                                          loop back
+┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐
+│  read   │  │ decide  │  │  diff   │  │   act   │  │  react  │
+│  state  │→ │ desired │→ │ vs open │→ │ (place/ │→ │ (fills) │──┐
+│         │  │ ladder  │  │ orders  │  │ cancel) │  │         │  │
+└─────────┘  └─────────┘  └─────────┘  └─────────┘  └─────────┘  │
+     ▲                                                           │
+     │                                                           │
+     └───────────────────────────────────────────────────────────┘
 ```
 
 The grid bot at the end of this page is just a `desiredLadder()` function plugged into that loop. Swap the `desiredLadder` for any other strategy and the rest of the code is reusable.
 
-This guide uses **only the Open API and Send Txs Bot HTTP endpoints** — no `@pendle/sdk-boros` dependency. EIP-712 signing is done directly with `viem`, so you can port the same logic to any language with a secp256k1 + EIP-712 implementation. Full code in the [collapsed block](#full-code) at the bottom.
+If you want raw HTTP + manual signing (e.g. for a non-TypeScript port), see [API](./4.%20api.mdx) — that page documents the wire-level flow that the SDK wraps. Full bot source is embedded at the bottom of this page in [Full code](#full-code).
 
 
 ## Prerequisites
@@ -10926,132 +11184,105 @@ This guide uses **only the Open API and Send Txs Bot HTTP endpoints** — no `@p
 | Requirement | Notes |
 |---|---|
 | Funded Boros root account | Deposit ~&#36;50 collateral via [boros.pendle.finance](https://boros.pendle.finance). Onboarding (signup, KYC, deposit) is UI-first and out of scope for this page. |
-| Gas balance topped up | &#36;5 – &#36;10 in your gas treasury. Top up via the Boros UI's Gas Balance button or the [`12-top-up-gas-account.ts` example](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/12-top-up-gas-account.ts). |
+| Gas balance topped up | &#36;5 – &#36;10 in your gas treasury. Top up via the Boros UI's Gas Balance button, or call `exchange.payTreasury(...)` once you have an agent (see [SDK page](./3.%20sdk.mdx)). |
 | Arbitrum RPC URL | Any provider works (Alchemy, Infura, public). |
 | Node 20+ and `npm` | |
 
-The bot uses these npm packages — **no Pendle SDK**, just HTTP + signing primitives:
-
 ```bash
-npm install axios dotenv socket.io-client viem
+npm install @pendle/boros-sdk-public viem dotenv
 ```
 
+That's the entire dependency footprint — the SDK absorbs `axios`, EIP-712 signing, and Send Txs Bot calls.
 
-## Step 2 — Confirm gas balance
 
-Every Send Txs Bot call burns a few cents of gas, charged in USD from your root's gas balance pool. Check it before running the bot:
+## Step 2 — Pick a market
 
-```ts
-const gas = await fetch(
-  `https://api-boros.pendle.finance/apis/v1/accounts/gas-balance?root=${ROOT_ADDRESS}`,
-).then((r) => r.json());
-console.log('gas balance USD', gas.balanceInUSD);
+`exchange.getAllMarkets({ isUiWhitelisted: true })` returns every market the UI shows, paginated automatically and cached for 5 min. Filter to liquid, non-near-maturity ones:
+
+```ts title="src/pick-market.ts (excerpt)"
+const markets = await exchange.getAllMarkets({ isUiWhitelisted: true });
+const now = Math.floor(Date.now() / 1000);
+
+const candidates = markets
+  .filter((m) => m.config.status === 2)                  // 2 = trading; 0/1 = halted/CLO
+  .filter((m) => m.imData.maturity > now + 7 * 86_400)   // ≥ 1 week to maturity
+  .filter((m) => m.data.bestBid != null && m.data.bestAsk != null)
+  .sort((a, b) => (b.data.volume24h ?? 0) - (a.data.volume24h ?? 0));
+
+const market = candidates[0];
+console.log({ id: market.marketId, symbol: market.imData.symbol, tokenId: market.tokenId });
 ```
 
-Notes:
-- Gas balance is **per root**, not per accountId. All your sub-accounts share one pool.
-- `approveAgent` itself is free in Boros's accounting — only `place-orders`, `cancel-orders`, `enter-markets`, etc. charge.
-- If the bot dips below ~&#36;0.50 it will refuse to place new orders.
+The reference bot has fuller filters (spread bounds, OI utilization) — see `src/pick-market.ts` in [Full code](#full-code) below.
 
 
-## Step 4 — Read state
+## Step 4 — Decide + diff
 
-Two reads per reconcile: top-of-book and our own resting orders.
+Compute the desired ladder and compare against open orders. Both arrays use **bucket-ticks** (the tickSize-grouped units from the orderbook), so the diff is direct:
 
-### Top-of-book
+```ts title="src/grid.ts (full)"
+import { Side } from '@pendle/boros-sdk-public';
 
-```ts
-// GET /markets/order-book?marketId=…&tickSize=0.001
-const ob = await api.get('/markets/order-book', {
-  params: { marketId, tickSize: '0.001' },
-}).then((r) => r.data);
-// ob.long.ia[0]  — best bid (highest tick a long is willing to take)
-// ob.short.ia[0] — best ask (lowest tick a short is willing to give)
-```
+export type GridLevel = { side: Side; tick: number; size: bigint };
 
-The `tickSize` parameter (one of `0.1` / `0.01` / `0.001` / `0.0001` / `0.00001`) is **required** and chooses the bucket granularity for the response.
-
-:::caution `ia` is a bucketed APR index, not a contract tick
-The orderbook response uses bucketed APR units: `ia[i] = floor(apr / tickSize)` for the long side, `ceil(apr / tickSize)` for the short side. With `tickSize = 0.001`, an `ia` of `45` corresponds to a real APR somewhere in `[0.045, 0.046)` (long) or `(0.044, 0.045]` (short).
-
-These are **not** the same numbers as the `limitTick` field on a place-order request (which is a signed `int24` contract tick using a per-market `tickStep`). Conversions are below.
-:::
-
-### Our open orders
-
-```ts
-// GET /accounts/orders?root=…&accountId=0&marketId=…&isActive=true&orderType=0&limit=2000
-const r = await api.get('/accounts/orders', {
-  params: { root, accountId, marketId, isActive: true, orderType: 0, limit: 2000 },
-});
-// r.data.results[i]: { orderId, side, tick, placedSize, unfilledSize, ... }
-```
-
-`orderType: 0` filters to LIMIT orders. The `tick` field on each order is a **contract tick** — convert it to an APR bucket for the diff:
-
-```ts
-const TICK_LN = Math.log(1.00005);
-
-function contractTickToApr(tick: number, tickStep: number): number {
-  return Math.exp(tick * tickStep * TICK_LN) - 1;
+export function desiredLadder(p: {
+  bestBidTick: number; bestAskTick: number;
+  stepTicks: number; levels: number; sizePerLevel: bigint;
+}): GridLevel[] {
+  const out: GridLevel[] = [];
+  for (let i = 1; i <= p.levels; i++) {
+    out.push({ side: Side.LONG,  tick: p.bestBidTick - i * p.stepTicks, size: p.sizePerLevel });
+    out.push({ side: Side.SHORT, tick: p.bestAskTick + i * p.stepTicks, size: p.sizePerLevel });
+  }
+  return out;
 }
 
-function aprToBucket(apr: number, tickSize: number): number {
-  return Math.round(apr / tickSize);
-}
-```
-
-(See [Mechanics $\to$ Order Book](/boros-dev/Mechanics/OrderBook) for the underlying `1.00005^(tick × tickStep) - 1` formula.)
-
-
-## Step 6 — Diff
-
-Compare desired ladder to currently-open orders. Anything in the desired set that isn't already open $\to$ place. Anything open that isn't in the desired set $\to$ cancel.
-
-```ts title="src/grid.ts"
 export type ExistingOrder = { orderId: string; side: Side; tick: number; size: bigint };
 
-const key = (side: Side, tick: number) => `${side}:${tick}`;
-
 export function diff(desired: GridLevel[], existing: ExistingOrder[]) {
-  const desiredMap = new Map(desired.map((d) => [key(d.side, d.tick), d]));
-
+  const desiredKeys = new Map(desired.map((d) => [`${d.side}:${d.tick}`, d]));
   const seen = new Set<string>();
-  const toCancel: ExistingOrder[] = [];
-  for (const e of existing) {
-    const k = key(e.side, e.tick);
-    if (desiredMap.has(k) && !seen.has(k)) seen.add(k);
-    else toCancel.push(e);
-  }
-
-  const toPlace = [...desiredMap].filter(([k]) => !seen.has(k)).map(([_, lvl]) => lvl);
+  const toCancel = existing.filter((e) => {
+    const k = `${e.side}:${e.tick}`;
+    if (desiredKeys.has(k) && !seen.has(k)) { seen.add(k); return false; }
+    return true;
+  });
+  const toPlace = [...desiredKeys].flatMap(([k, lvl]) => (seen.has(k) ? [] : [lvl]));
   return { toPlace, toCancel };
 }
 ```
 
-Diffing on `(side, bucket)` makes the bot **idempotent on restart**: if you `Ctrl+C` and re-launch, the bot sees its existing orders, the diff is empty, and it just enters the loop without duplicating anything.
+
+## Step 6 — Enter the market
+
+A cross-margin sub-account must explicitly **enter** a market before it can trade there. Idempotent — call once at startup:
+
+```ts
+const sdk = getOpenApiSdk();
+const crossAcc = MarketAccLib.pack(rootAccount.address, 0, market.tokenId, CROSS_MARKET_ID);
+const { data: entered } = await sdk.accounts.accountsV2ControllerGetEnteredMarkets({
+  marketAcc: crossAcc,
+});
+
+if (!entered.results.some((r) => r.marketId === market.marketId)) {
+  await exchange.enterMarkets(true, [market.marketId]);
+}
+```
+
+See [Mechanics → Margin](/boros-dev/Mechanics/Margin#cross-vs-isolated) for why cross accounts need this.
 
 
-## Step 8 — React to fills
+## Step 8 — Run it
 
-For a tutorial bot, **polling is enough**: every reconcile reads the orderbook + open orders, recomputes the diff, and acts. A filled order disappears from the open-orders list, so the diff naturally re-places it.
-
-For low-latency strategies, subscribe to the WebSocket account channel:
-
-- URL: `wss://api.boros.finance/pendle-dapp-v3` (Socket.IO `path: /socket/socket.io`)
-- Channel: `account-updates:<rootAddress>` (the new structured channel; the legacy `account:<accountId>` only signals "something changed" and forces a REST refetch — see [WebSocket](./4.%20websocket.mdx))
-- Events: `order-update` carries `oId`, `os` (status enum), `efs` (filled size)
-- **No auth** — anyone subscribing to your root address sees your fills. Treat root address as semi-public.
-- On reconnect: re-fetch state via REST; do not try to replay the gap.
-
-Mapping a bulk-place response back to grid slots: `POST /agent/dedicated/tx-status-with-events` returns `statuses[].limitOrdersPlaced[].orderIds[]` and `sizes[]` **in the same order as the input**. A bulk of N grid levels gets back N orderIds where `orderIds[i]` corresponds to your i-th input.
-
-
-## Step 10 — Run it
+Create a local project from the source listings in [Full code](#full-code):
 
 ```bash
-git clone <your-fork> grid-bot
-cd grid-bot
+mkdir grid-bot && cd grid-bot
+mkdir src
+# copy each file from the Full code section into the matching path:
+#   ./package.json, ./tsconfig.json, ./.env.example,
+#   ./src/config.ts, ./src/grid.ts, ./src/pick-market.ts,
+#   ./src/approve-agent.ts, ./src/main.ts
 npm install
 cp .env.example .env
 # fill in ROOT_PK (one-time), ROOT_ADDRESS, GRID_SIZE_YU, etc.
@@ -11064,68 +11295,247 @@ npm run pick-market         # see top candidates; pin MARKET_ID if you want
 npm run start               # bot runs RUN_FOR_SECONDS, then auto-stops + cancels
 ```
 
-Sample output of the live mainnet smoke test (BYBIT-HYPEUSDT-29MAY2026, 4 levels, &#36;15 each):
+Sample output (HYPERLIQUID-BTC-29MAY2026, 4 levels, &#36;15 each):
 
 ```
-2026-05-05T05:23:51 agent 0xadCbe6...
-2026-05-05T05:23:51 root  0xab184f...
-2026-05-05T05:23:52 market { id: 116, symbol: 'BYBIT-HYPEUSDT-29MAY2026', tokenId: 3 }
-2026-05-05T05:23:52 gas balance USD 1.56
-2026-05-05T05:23:52 already entered market 116
-2026-05-05T05:23:52 bestLong=45 bestShort=48 | open=0 | toCancel=0 toPlace=4
-2026-05-05T05:23:54 place LONG  @ tick 43 { status: 'success', hash: '0xd58aab5c...' }
-2026-05-05T05:23:54 place SHORT @ tick 50 { status: 'success', hash: '0xd58aab5c...' }
-2026-05-05T05:23:54 place LONG  @ tick 41 { status: 'success', hash: '0xd58aab5c...' }
-2026-05-05T05:23:54 place SHORT @ tick 52 { status: 'success', hash: '0xd58aab5c...' }
-2026-05-05T05:24:09 bestLong=45 bestShort=48 | open=4 | toCancel=0 toPlace=0   ← idempotent reconcile
-2026-05-05T05:24:25 bestLong=45 bestShort=48 | open=4 | toCancel=0 toPlace=0
-2026-05-05T05:24:50 received SIGTERM, cancelling all and exiting
-2026-05-05T05:24:52 cancel-all tx { status: 'success', hash: '0xb5756840...' }
+2026-05-11T03:32:47Z agent 0xadCbe6...
+2026-05-11T03:32:47Z root  0xab184f...
+2026-05-11T03:32:47Z market { id: 109, symbol: 'HYPERLIQUID-BTC-29MAY2026', tokenId: 3 }
+2026-05-11T03:32:47Z gas balance USD 1.42
+2026-05-11T03:32:47Z already entered market 109
+2026-05-11T03:32:48Z bestLong=29 bestShort=32 | open=0 | toCancel=0 toPlace=4
+2026-05-11T03:32:50Z place LONG  @ tick 27 { status: 'success', txHash: '0xfd8cd542...', index: 0 }
+2026-05-11T03:32:50Z place SHORT @ tick 34 { status: 'success', txHash: '0xfd8cd542...', index: 1 }
+2026-05-11T03:33:06Z bestLong=29 bestShort=32 | open=4 | toCancel=0 toPlace=0   ← idempotent
+2026-05-11T03:33:36Z received TIMEOUT, cancelling all and exiting
+2026-05-11T03:33:39Z cancel-all result { executeResponse: { status: 'success', txHash: '0x21391796...', index: 0 }, result: { cancelledOrders: { orderIds: [...] } } }
 ```
 
 Common errors you'll see while iterating:
 
-- `ORDER_VALUE_TOO_LOW` — your `GRID_SIZE_YU` × `collateral.usdPrice` is below &#36;10. Bump to `15n * 10n**18n` to be safe.
-- `MMMarketAlreadyEntered()` — running `enter-markets` twice. The bot guards on `getEnteredMarkets` first; this should not happen with the included code.
-- `MarketOrderALOFilled()` — a post-only order tried to cross the book. Almost always means you passed `ammId` ≠ `0`, or computed `rate` from `ia` directly without the bucket $\to$ APR $\to$ `rate` conversion shown in step 4.
-- `AuthInvalidNonce` — see step 7c.
+- `ORDER_VALUE_TOO_LOW` — your `GRID_SIZE_YU` × `collateral.usdPrice` is below &#36;10. Bump to `15n * 10n**18n`.
+- `MMMarketAlreadyEntered()` — running `enter-markets` twice. The bot's idempotency check should prevent this.
+- `MarketOrderALOFilled()` — a post-only order tried to cross the book. Means your `limitTick` was computed wrong (off-by-one between bucket-tick and contract-tick). Check `estimateTickForRate` direction.
 - `Vault Cap Hit` — market hit its `softOICap`. Pick a different market or wait for OI to clear.
 
 
 ## Full code
 
+The complete bot is 5 source files plus config — ~485 LoC total. Architecture:
+
+| File | Purpose |
+|------|---------|
+| `src/config.ts` | `.env` loader, types, defaults |
+| `src/grid.ts` | `desiredLadder()` + `diff()` — pure functions, no IO |
+| `src/pick-market.ts` | Market scoring + ranking using `exchange.getAllMarkets` |
+| `src/approve-agent.ts` | One-time root → agent approval via `exchange.approveAgent` |
+| `src/main.ts` | The reconcile loop. Wires SDK calls into the read → decide → diff → act flow above |
+
+Pendle deps are `@pendle/boros-sdk-public` (calldata, signing, HTTP) and `@pendle/boros-offchain-math` (`FixedX18` constructor for tick math). If you need the same flow without TypeScript, follow the wire protocol on the [API page](./4.%20api.mdx) — every SDK method maps to a single HTTP endpoint.
+
 <details>
-<summary>The complete grid bot — verbatim source from the live mainnet smoke test</summary>
+<summary><strong>package.json</strong></summary>
 
-The reference implementation is split across these files. Together they form the bot you ran in step 10. **No `@pendle/sdk-boros` — pure HTTP + viem.**
-
-```ts title="src/pack.ts"
-import { Address, Hex } from 'viem';
-
-export const CROSS_MARKET_ID = 0xffffff;
-
-export function packAccount(root: Address, accountId: number): Hex {
-  const v = (BigInt(root) << 8n) | BigInt(accountId);
-  return `0x${v.toString(16).padStart(42, '0')}` as Hex;
-}
-
-export function packMarketAcc(
-  root: Address,
-  accountId: number,
-  tokenId: number,
-  marketId: number,
-): Hex {
-  const v =
-    (BigInt(root) << 48n) |
-    (BigInt(accountId) << 40n) |
-    (BigInt(tokenId) << 24n) |
-    BigInt(marketId);
-  return `0x${v.toString(16).padStart(52, '0')}` as Hex;
+```json title="package.json"
+{
+  "name": "boros-grid-bot",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Pedagogical grid bot for Boros — uses @pendle/boros-sdk-public.",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pick-market": "tsx src/pick-market.ts",
+    "approve-agent": "tsx src/approve-agent.ts",
+    "start": "tsx src/main.ts"
+  },
+  "dependencies": {
+    "@pendle/boros-offchain-math": "1.0.6",
+    "@pendle/boros-sdk-public": "^0.1.1",
+    "dotenv": "^16.4.7",
+    "viem": "2.44.4"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.3"
+  }
 }
 ```
 
+</details>
+
+<details>
+<summary><strong>tsconfig.json</strong></summary>
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "lib": ["ES2022", "DOM"],
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "noEmitOnError": true,
+    "forceConsistentCasingInFileNames": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*.ts"]
+}
+```
+
+</details>
+
+<details>
+<summary><strong>.env.example</strong></summary>
+
+```bash title=".env.example"
+# ROOT_PK is only needed once for agent approval.
+# After approval, delete ROOT_PK and set ROOT_ADDRESS instead.
+ROOT_PK=
+
+# Either ROOT_PK or ROOT_ADDRESS must be set. ROOT_ADDRESS is preferred for ongoing trading
+# so the root key never lives next to the running bot.
+ROOT_ADDRESS=
+
+# AGENT_PK is the signing key for trading. Generate with `npm run approve-agent`
+# (script will create one if missing).
+AGENT_PK=
+
+# Account ID under your root. 0 = cross-margin default.
+ACCOUNT_ID=0
+
+# Optional: pin a market. If unset, pick-market auto-selects highest-volume liquid market.
+MARKET_ID=
+
+# Tick-size aggregation for orderbook reads. One of: 0.1 / 0.01 / 0.001 / 0.0001 / 0.00001
+TICK_SIZE=0.001
+
+# Grid parameters.
+GRID_LEVELS=2          # orders per side
+GRID_STEP_TICKS=2      # tick distance between adjacent grid levels
+GRID_SIZE_YU=10000000000000000000   # FixedX18 YU per level. Scale to ≥ $10 USD.
+
+# Arbitrum RPC.
+RPC_URL=https://arb1.arbitrum.io/rpc
+
+# Auto-stop after N seconds. 0 = run until SIGINT.
+RUN_FOR_SECONDS=600
+
+# Reconcile cadence in milliseconds.
+RECONCILE_INTERVAL_MS=15000
+
+# Agent expiry in days when running approve-agent.
+AGENT_EXPIRY_DAYS=365
+```
+
+</details>
+
+<details>
+<summary><strong>src/config.ts</strong></summary>
+
+```ts title="src/config.ts"
+import 'dotenv/config';
+import { Hex, isHex } from 'viem';
+
+const allowedTickSizes = ['0.1', '0.01', '0.001', '0.0001', '0.00001'] as const;
+type TickSize = typeof allowedTickSizes[number];
+
+function req(name: string): string {
+  const v = process.env[name];
+  if (!v || v.length === 0) throw new Error(`missing required env: ${name}`);
+  return v;
+}
+
+function opt(name: string, fallback?: string): string | undefined {
+  const v = process.env[name];
+  if (!v || v.length === 0) return fallback;
+  return v;
+}
+
+function asHex(name: string): Hex {
+  const v = req(name);
+  if (!isHex(v) || v.length !== 66) {
+    throw new Error(`${name} must be a 0x-prefixed 32-byte hex private key`);
+  }
+  return v as Hex;
+}
+
+function asInt(name: string, fallback?: number): number {
+  const v = process.env[name];
+  if (!v || v.length === 0) {
+    if (fallback === undefined) throw new Error(`missing required env: ${name}`);
+    return fallback;
+  }
+  const n = Number(v);
+  if (!Number.isInteger(n)) throw new Error(`${name} must be an integer, got ${v}`);
+  return n;
+}
+
+function asBigInt(name: string, fallback?: bigint): bigint {
+  const v = process.env[name];
+  if (!v || v.length === 0) {
+    if (fallback === undefined) throw new Error(`missing required env: ${name}`);
+    return fallback;
+  }
+  return BigInt(v);
+}
+
+export type Config = {
+  rootPk: Hex | undefined;
+  rootAddress: string | undefined;
+  agentPk: Hex | undefined;
+  accountId: number;
+  marketIdOverride: number | undefined;
+  tickSize: TickSize;
+  gridLevels: number;
+  gridStepTicks: number;
+  gridSizeYU: bigint;
+  rpcUrl: string;
+  runForSeconds: number;
+  reconcileIntervalMs: number;
+  agentExpiryDays: number;
+};
+
+export function loadConfig(): Config {
+  const rootPk = process.env.ROOT_PK && process.env.ROOT_PK.length > 0 ? asHex('ROOT_PK') : undefined;
+  const agentPk = process.env.AGENT_PK && process.env.AGENT_PK.length > 0 ? asHex('AGENT_PK') : undefined;
+
+  const tickSize = opt('TICK_SIZE', '0.001') as string;
+  if (!(allowedTickSizes as readonly string[]).includes(tickSize)) {
+    throw new Error(`TICK_SIZE must be one of ${allowedTickSizes.join(', ')}, got ${tickSize}`);
+  }
+
+  return {
+    rootPk,
+    rootAddress: opt('ROOT_ADDRESS'),
+    agentPk,
+    accountId: asInt('ACCOUNT_ID', 0),
+    marketIdOverride: process.env.MARKET_ID && process.env.MARKET_ID.length > 0 ? asInt('MARKET_ID') : undefined,
+    tickSize: tickSize as TickSize,
+    gridLevels: asInt('GRID_LEVELS', 2),
+    gridStepTicks: asInt('GRID_STEP_TICKS', 2),
+    gridSizeYU: asBigInt('GRID_SIZE_YU', 10n ** 19n),
+    rpcUrl: opt('RPC_URL', 'https://arb1.arbitrum.io/rpc')!,
+    runForSeconds: asInt('RUN_FOR_SECONDS', 600),
+    reconcileIntervalMs: asInt('RECONCILE_INTERVAL_MS', 15000),
+    agentExpiryDays: asInt('AGENT_EXPIRY_DAYS', 365),
+  };
+}
+```
+
+</details>
+
+<details>
+<summary><strong>src/grid.ts</strong></summary>
+
 ```ts title="src/grid.ts"
-import { Side } from './api.js';
+import { Side } from '@pendle/boros-sdk-public';
 
 export type GridLevel = { side: Side; tick: number; size: bigint };
 
@@ -11139,15 +11549,15 @@ export type GridParams = {
 
 /**
  * Symmetric ladder around current top-of-book.
- * LONG levels at bestBidTick - step, bestBidTick - 2*step, ... (won't cross asks since they sit
- * strictly below bestBid).
+ * LONG levels at bestBidTick - step, bestBidTick - 2*step, ... (won't cross asks since
+ * they sit strictly below bestBid).
  * SHORT levels at bestAskTick + step, bestAskTick + 2*step, ... (won't cross bids).
  */
 export function desiredLadder(p: GridParams): GridLevel[] {
   const out: GridLevel[] = [];
   for (let i = 1; i <= p.levels; i++) {
-    out.push({ side: 0, tick: p.bestBidTick - i * p.stepTicks, size: p.sizePerLevel });
-    out.push({ side: 1, tick: p.bestAskTick + i * p.stepTicks, size: p.sizePerLevel });
+    out.push({ side: Side.LONG,  tick: p.bestBidTick - i * p.stepTicks, size: p.sizePerLevel });
+    out.push({ side: Side.SHORT, tick: p.bestAskTick + i * p.stepTicks, size: p.sizePerLevel });
   }
   return out;
 }
@@ -11185,231 +11595,285 @@ export function diff(desired: GridLevel[], existing: ExistingOrder[]): Diff {
 }
 ```
 
-```ts title="src/sign.ts"
-import { Address, Hex, keccak256 } from 'viem';
-import { privateKeyToAccount, PrivateKeyAccount } from 'viem/accounts';
+</details>
 
-import { OpenApi, SendTxsBot, SignedAgentExecution, AgentCall, TxResponse } from './api.js';
-import { packAccount } from './pack.js';
+<details>
+<summary><strong>src/pick-market.ts</strong></summary>
 
-const ROUTER_ADDRESS_PROD: Address = '0x8080808080daB95eFED788a9214e400ba552DEf6';
-const ROUTER_ADDRESS_DEV: Address = '0x17386DF702Cc9ec208669aB3ca5b49abE5a26dF3';
-const CHAIN_ID = 42161;
+```ts title="src/pick-market.ts"
+import { getOpenApiSdk, OpenApi } from '@pendle/boros-sdk-public';
 
-const verifyingContract: Address =
-  process.env.PENDLE_ENV === 'dev' ? ROUTER_ADDRESS_DEV : ROUTER_ADDRESS_PROD;
+import { loadConfig } from './config';
 
-const domain = {
-  name: 'Pendle Boros Router',
-  version: '1.0',
-  chainId: CHAIN_ID,
-  verifyingContract,
-} as const;
+type Market = OpenApi.MarketListItemResponse;
 
-const types = {
-  PendleSignTx: [
-    { name: 'account', type: 'bytes21' },
-    { name: 'connectionId', type: 'bytes32' },
-    { name: 'nonce', type: 'uint64' },
-  ],
-} as const;
+type Candidate = Market & {
+  spreadBps: number;
+  daysToMat: number;
+  oiUtil: number;
+};
 
-let nonceQueue: Promise<void> = Promise.resolve();
-let lastNonce = 0n;
+const MIN_MATURITY_BUFFER_S = 7 * 24 * 3600;
+const MIN_SPREAD_BPS = 5;
+const MAX_SPREAD_BPS = 200;
+const MAX_OI_UTIL = 0.95;
 
-function nextNonceBatch(count: number): bigint[] {
-  const baseFromClock = BigInt(Date.now()) * 1000n;
-  const base = baseFromClock > lastNonce ? baseFromClock : lastNonce + 1n;
-  const out: bigint[] = [];
-  for (let i = 0; i < count; i++) out.push(base + BigInt(i));
-  lastNonce = out[out.length - 1];
+export function rank(markets: Market[], now: number): Candidate[] {
+  const out: Candidate[] = [];
+  for (const m of markets) {
+    if (m.config.status !== 2) continue;
+    if (m.imData.maturity <= now + MIN_MATURITY_BUFFER_S) continue;
+    const bb = m.data.bestBid;
+    const ba = m.data.bestAsk;
+    if (bb == null || ba == null || ba <= bb) continue;
+    const spreadBps = (ba - bb) * 10_000;
+    if (spreadBps < MIN_SPREAD_BPS || spreadBps > MAX_SPREAD_BPS) continue;
+    const softCap = m.config.softOICap as number | undefined;
+    const oi = m.data.notionalOI ?? 0;
+    const oiUtil = softCap && softCap > 0 ? oi / softCap : 0;
+    if (oiUtil > MAX_OI_UTIL) continue;
+    out.push({ ...m, spreadBps, daysToMat: (m.imData.maturity - now) / 86_400, oiUtil });
+  }
+  out.sort((a, b) => (b.data.volume24h ?? 0) - (a.data.volume24h ?? 0));
   return out;
 }
 
-export type SignedBatch = SignedAgentExecution[];
-
-export async function signBatch(params: {
-  agent: PrivateKeyAccount;
-  root: Address;
-  accountId: number;
-  calls: AgentCall[];
-  nonces?: bigint[];
-}): Promise<SignedBatch> {
-  const { agent, root, accountId, calls } = params;
-  const calldatas = calls.map((c) => c.calldata as Hex);
-  const nonces = params.nonces ?? nextNonceBatch(calldatas.length);
-  const account = packAccount(root, accountId);
-
-  const out: SignedBatch = [];
-  for (let i = 0; i < calldatas.length; i++) {
-    const message = {
-      account,
-      connectionId: keccak256(calldatas[i]),
-      nonce: nonces[i],
-    };
-    const signature = await agent.signTypedData({
-      domain,
-      types,
-      primaryType: 'PendleSignTx',
-      message,
+export async function fetchAllMarkets(): Promise<Market[]> {
+  const sdk = getOpenApiSdk();
+  const out: Market[] = [];
+  let resumeToken: string | undefined;
+  do {
+    const { data } = await sdk.markets.marketsControllerListMarkets({
+      isUiWhitelisted: true,
+      limit: 200,
+      resumeToken,
     });
-    out.push({ agent: agent.address, message, signature, calldata: calldatas[i] });
-  }
+    out.push(...data.results);
+    resumeToken = data.resumeToken ?? undefined;
+  } while (resumeToken);
   return out;
 }
 
-/**
- * Sign and submit a batch with one nonce-collision retry. Serializes nonce minting across
- * concurrent submissions in this process so two batches cannot share a nonce.
- */
-export async function signAndSubmit(params: {
-  agent: PrivateKeyAccount;
-  root: Address;
-  accountId: number;
-  calls: AgentCall[];
-  sendTxsBot: SendTxsBot;
-  requireSuccess?: boolean;
-  skipReceipt?: boolean;
-}): Promise<TxResponse[]> {
-  const release = nonceQueue;
-  let resolveLock!: () => void;
-  nonceQueue = new Promise<void>((r) => {
-    resolveLock = r;
-  });
-  await release;
-  try {
-    const attempt = async (): Promise<TxResponse[]> => {
-      const datas = await signBatch({
-        agent: params.agent,
-        root: params.root,
-        accountId: params.accountId,
-        calls: params.calls,
-      });
-      return params.sendTxsBot.bulkDirectCall({
-        datas,
-        requireSuccess: params.requireSuccess,
-        skipReceipt: params.skipReceipt,
-      });
-    };
-    try {
-      return await attempt();
-    } catch (err) {
-      const msg = (err as Error).message ?? '';
-      if (msg.includes('AuthInvalidNonce')) {
-        lastNonce = BigInt(Date.now()) * 1000n + 100n;
-        return await attempt();
-      }
-      throw err;
-    }
-  } finally {
-    resolveLock();
+export async function pickMarket(override?: number): Promise<Market> {
+  const all = await fetchAllMarkets();
+  if (override !== undefined) {
+    const m = all.find((x) => x.marketId === override);
+    if (!m) throw new Error(`MARKET_ID=${override} not found in /markets`);
+    return m;
+  }
+  const ranked = rank(all, Math.floor(Date.now() / 1000));
+  if (ranked.length === 0) throw new Error('no candidate markets after filters; relax thresholds or set MARKET_ID');
+  return ranked[0];
+}
+
+async function main() {
+  loadConfig();
+  const all = await fetchAllMarkets();
+  const ranked = rank(all, Math.floor(Date.now() / 1000));
+  console.log(`fetched ${all.length} markets; ${ranked.length} pass filters`);
+  console.log('');
+  console.log('top 10:');
+  console.log(['id', 'symbol', 'mat_days', 'vol24h', 'OI', 'OI/cap', 'mark_apr', 'spread_bps'].join('\t'));
+  for (const c of ranked.slice(0, 10)) {
+    console.log([
+      c.marketId,
+      c.imData.symbol,
+      c.daysToMat.toFixed(1),
+      Math.round(c.data.volume24h),
+      Math.round(c.data.notionalOI),
+      c.oiUtil.toFixed(2),
+      c.data.markApr.toFixed(4),
+      c.spreadBps.toFixed(1),
+    ].join('\t'));
+  }
+  if (ranked.length === 0) {
+    console.error('\nno candidates passed filters. relax thresholds in pick-market.ts or set MARKET_ID manually.');
+    process.exitCode = 1;
   }
 }
 
-export function makeAgentFromPrivateKey(pk: Hex): { agent: PrivateKeyAccount; address: Address } {
-  const agent = privateKeyToAccount(pk);
-  return { agent, address: agent.address };
+if (require.main === module) {
+  void main();
 }
 ```
 
-```ts title="src/main.ts"
-import { Address } from 'viem';
-import { privateKeyToAddress, PrivateKeyAccount } from 'viem/accounts';
+</details>
 
-import { loadConfig, Config } from './config.js';
-import { OpenApi, SendTxsBot, TIF_ADD_LIQUIDITY_ONLY, MarketSummary, LimitOrder, Side } from './api.js';
-import { pickMarket } from './pick-market.js';
-import { signAndSubmit, makeAgentFromPrivateKey } from './sign.js';
-import { desiredLadder, diff, ExistingOrder, GridLevel } from './grid.js';
-import { packMarketAcc, CROSS_MARKET_ID } from './pack.js';
+<details>
+<summary><strong>src/approve-agent.ts</strong></summary>
+
+```ts title="src/approve-agent.ts"
+import 'dotenv/config';
+import { createWalletClient, http, Hex } from 'viem';
+import { privateKeyToAccount, generatePrivateKey } from 'viem/accounts';
+import { arbitrum } from 'viem/chains';
+import { Agent, Exchange } from '@pendle/boros-sdk-public';
+
+import { loadConfig } from './config';
+
+async function main() {
+  const cfg = loadConfig();
+  if (!cfg.rootPk) throw new Error('ROOT_PK is required for one-time agent approval');
+
+  let agentPk = cfg.agentPk;
+  if (!agentPk) {
+    agentPk = generatePrivateKey() as Hex;
+    console.log('generated new AGENT_PK; SAVE THIS to .env now:');
+    console.log(`AGENT_PK=${agentPk}`);
+    console.log('');
+  }
+
+  const rootAccount = privateKeyToAccount(cfg.rootPk);
+  const walletClient = createWalletClient({
+    account: rootAccount,
+    transport: http(cfg.rpcUrl),
+    chain: arbitrum,
+  });
+
+  const agent = Agent.createFromPrivateKey(agentPk);
+  const agentAddress = await agent.getAddress();
+
+  console.log('root', rootAccount.address);
+  console.log('agent', agentAddress);
+
+  const exchange = new Exchange(walletClient, rootAccount.address, cfg.accountId, [cfg.rpcUrl], agent);
+
+  const expiryTime = Math.floor(Date.now() / 1000) + cfg.agentExpiryDays * 86_400;
+  console.log('expiry', new Date(expiryTime * 1000).toISOString(), `(${cfg.agentExpiryDays} days)`);
+
+  console.log('submitting approve-agent (root signs typed data, send-txs-bot dispatches)...');
+  const res = await exchange.approveAgent(agent, undefined, expiryTime);
+  console.log('approve result', res);
+
+  try {
+    const onChainExpiry = await exchange.getAgentExpiryTime();
+    console.log('agent expiry per backend:', new Date(onChainExpiry * 1000).toISOString());
+  } catch (err) {
+    console.log('expiry check failed (backend may need a moment to index):', (err as Error).message);
+  }
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
+```
+
+</details>
+
+<details>
+<summary><strong>src/main.ts</strong></summary>
+
+```ts title="src/main.ts"
+import { createWalletClient, http, Address, Hex } from 'viem';
+import { arbitrum } from 'viem/chains';
+import { privateKeyToAccount } from 'viem/accounts';
+import {
+  Agent,
+  Exchange,
+  MarketAccLib,
+  OpenApi,
+  Side,
+  TimeInForce,
+  CROSS_MARKET_ID,
+  estimateTickForRate,
+  getOpenApiSdk,
+  getRateAtTick,
+} from '@pendle/boros-sdk-public';
+import { FixedX18 } from '@pendle/boros-offchain-math';
+
+import { loadConfig, Config } from './config';
+import { pickMarket } from './pick-market';
+import { desiredLadder, diff, ExistingOrder, GridLevel } from './grid';
+
+type Market = OpenApi.MarketListItemResponse;
 
 function log(...args: unknown[]) {
   console.log(new Date().toISOString(), ...args);
 }
 
 function side2name(s: Side): string {
-  return s === 0 ? 'LONG' : 'SHORT';
+  return s === Side.LONG ? 'LONG' : 'SHORT';
 }
 
-function fmtTx(t: { status?: string; txHash?: string; error?: string }) {
-  const out: Record<string, string> = { status: t.status ?? 'unknown', hash: t.txHash ?? '' };
-  if (t.error) out.error = t.error;
-  return out;
-}
-
-async function ensureEntered(
-  api: OpenApi,
-  sendTxsBot: SendTxsBot,
-  ctx: { agent: PrivateKeyAccount; root: Address; accountId: number; tokenId: number; marketId: number },
-) {
-  const crossAcc = packMarketAcc(ctx.root, ctx.accountId, ctx.tokenId, CROSS_MARKET_ID);
-  const entered = await api.getEnteredMarkets(crossAcc);
-  if (entered.results.some((r) => r.marketId === ctx.marketId)) {
-    log('already entered market', ctx.marketId);
-    return;
-  }
-  log('entering market', ctx.marketId);
-  const { calls } = await api.buildEnterMarkets({
-    accountId: ctx.accountId,
-    marketIds: [ctx.marketId],
-    isCross: true,
-  });
-  const txs = await signAndSubmit({
-    agent: ctx.agent,
-    root: ctx.root,
-    accountId: ctx.accountId,
-    calls,
-    sendTxsBot,
-    requireSuccess: true,
-  });
-  log('enter tx', txs.map(fmtTx));
-  for (const t of txs) {
-    if (t.error) throw new Error(`enter-markets failed: ${t.error}`);
-  }
-}
-
-const TICK_LN = Math.log(1.00005);
-function contractTickToApr(tick: number, tickStep: number): number {
-  return Math.exp(tick * tickStep * TICK_LN) - 1;
-}
 function aprToBucket(apr: number, tickSize: number): number {
   return Math.round(apr / tickSize);
 }
 
-function ordersToExisting(orders: LimitOrder[], tickStep: number, tickSize: number): ExistingOrder[] {
-  return orders.map((o) => {
-    const apr = contractTickToApr(o.tick, tickStep);
-    return {
-      orderId: o.orderId,
-      side: o.side,
-      tick: aprToBucket(apr, tickSize),
-      size: BigInt(o.placedSize),
-    };
+type Ctx = {
+  exchange: Exchange;
+  root: Address;
+  accountId: number;
+  tokenId: number;
+  market: Market;
+  marketAcc: Hex;
+  ammId: number;
+};
+
+async function ensureEntered(ctx: Ctx) {
+  const sdk = getOpenApiSdk();
+  const crossAcc = MarketAccLib.pack(ctx.root, ctx.accountId, ctx.tokenId, CROSS_MARKET_ID);
+  const { data: entered } = await sdk.accounts.accountsV2ControllerGetEnteredMarkets({
+    marketAcc: crossAcc,
   });
+  if (entered.results.some((r) => r.marketId === ctx.market.marketId)) {
+    log('already entered market', ctx.market.marketId);
+    return;
+  }
+  log('entering market', ctx.market.marketId);
+  const txs = await ctx.exchange.enterMarkets(true, [ctx.market.marketId]);
+  log('enter result', txs);
 }
 
-async function reconcile(
-  api: OpenApi,
-  sendTxsBot: SendTxsBot,
-  cfg: Config,
-  ctx: { agent: PrivateKeyAccount; root: Address; accountId: number; tokenId: number; market: MarketSummary; marketAcc: string; ammId: number },
-) {
-  const { market } = ctx;
-  const ob = await api.getOrderbook(market.marketId, cfg.tickSize);
+async function reconcile(ctx: Ctx, cfg: Config) {
+  const tickSizeNum = parseFloat(cfg.tickSize);
+  const tickStep = ctx.market.imData.tickStep;
+
+  const ob = await ctx.exchange.getOrderBook({
+    marketId: ctx.market.marketId,
+    tickSize: parseFloat(cfg.tickSize) as 0.00001 | 0.0001 | 0.001 | 0.01 | 0.1,
+  });
   const bestLongTick = ob.long?.ia?.[0];
   const bestShortTick = ob.short?.ia?.[0];
   if (bestLongTick == null || bestShortTick == null) {
     log('orderbook missing top of book; skip reconcile');
     return;
   }
-  const orders = await api.getActiveLimitOrders({
-    root: ctx.root,
-    accountId: ctx.accountId,
-    marketId: market.marketId,
-  });
-  const tickStep = market.imData.tickStep;
-  const tickSizeNum = parseFloat(cfg.tickSize);
-  const existing = ordersToExisting(orders, tickStep, tickSizeNum);
+
+  // Read all currently-resting limit orders for this (root, accountId, marketId).
+  // Cursor is honest about pagination — backends bill per call (CU model).
+  const sdk = getOpenApiSdk();
+  const existingRaw: { orderId: string; side: Side; contractTick: number; size: bigint }[] = [];
+  let resumeToken: string | undefined;
+  do {
+    const { data } = await sdk.accounts.accountsV2ControllerGetOrders({
+      root: ctx.root,
+      accountId: ctx.accountId,
+      marketId: ctx.market.marketId,
+      isActive: true,
+      orderType: '0',
+      limit: 200,
+      resumeToken,
+    });
+    for (const o of data.results) {
+      existingRaw.push({
+        orderId: o.orderId,
+        side: o.side as Side,
+        contractTick: o.tick,
+        size: BigInt(o.placedSize),
+      });
+    }
+    resumeToken = data.resumeToken ?? undefined;
+  } while (resumeToken);
+
+  // Map contract ticks → bucket ticks so diff() compares apples-to-apples.
+  const existing: ExistingOrder[] = existingRaw.map((o) => ({
+    orderId: o.orderId,
+    side: o.side,
+    tick: aprToBucket(getRateAtTick(BigInt(o.contractTick), BigInt(tickStep)).toNumber(), tickSizeNum),
+    size: o.size,
+  }));
+
   const desired = desiredLadder({
     bestBidTick: bestLongTick,
     bestAskTick: bestShortTick,
@@ -11418,84 +11882,64 @@ async function reconcile(
     sizePerLevel: cfg.gridSizeYU,
   });
   const d = diff(desired, existing);
+
   log(
     `bestLong=${bestLongTick} bestShort=${bestShortTick} | open=${existing.length} | toCancel=${d.toCancel.length} toPlace=${d.toPlace.length}`,
   );
 
   if (d.toCancel.length > 0) {
-    const { calls } = await api.buildCancelOrders([
-      {
+    try {
+      const res = await ctx.exchange.cancelOrders({
         marketAcc: ctx.marketAcc,
-        marketId: market.marketId,
+        marketId: ctx.market.marketId,
         cancelAll: false,
         orderIds: d.toCancel.map((o) => o.orderId),
-      },
-    ]);
-    const txs = await signAndSubmit({
-      agent: ctx.agent,
-      root: ctx.root,
-      accountId: ctx.accountId,
-      calls,
-      sendTxsBot,
-      requireSuccess: false,
-    });
-    for (const t of txs) {
-      log('cancel tx', fmtTx(t));
+      });
+      log('cancel result', res);
+    } catch (err) {
+      log('cancel error:', (err as Error).message);
     }
   }
 
   if (d.toPlace.length > 0) {
     const orderRequests = d.toPlace.map((lvl: GridLevel) => ({
-      singleOrder: {
-        marketAcc: ctx.marketAcc,
-        marketId: market.marketId,
-        side: lvl.side,
-        size: lvl.size.toString(),
-        tif: TIF_ADD_LIQUIDITY_ONLY,
-        rate: lvl.tick * tickSizeNum,
-        slippage: 0.5,
-        ammId: ctx.ammId,
-      },
+      marketAcc: ctx.marketAcc,
+      marketId: ctx.market.marketId,
+      side: lvl.side,
+      size: lvl.size,
+      limitTick: Number(estimateTickForRate(FixedX18.fromNumber(lvl.tick * tickSizeNum), BigInt(tickStep), false)),
+      tif: TimeInForce.ADD_LIQUIDITY_ONLY,
+      ammId: ctx.ammId,
+      slippage: 0.5,
     }));
-    const { calls } = await api.buildPlaceOrders(orderRequests);
-    const txs = await signAndSubmit({
-      agent: ctx.agent,
-      root: ctx.root,
-      accountId: ctx.accountId,
-      calls,
-      sendTxsBot,
-      requireSuccess: false,
-    });
-    for (const [i, t] of txs.entries()) {
-      const lvl = d.toPlace[i] ?? d.toPlace[0];
-      log(`place ${side2name(lvl.side)} @ tick ${lvl.tick}`, fmtTx(t));
+    try {
+      const res = await ctx.exchange.bulkPlaceOrders({ orderRequests });
+      res.forEach((entry, i) => {
+        const lvl = d.toPlace[i];
+        if ('error' in entry) {
+          log(`place ${side2name(lvl.side)} @ tick ${lvl.tick} ERROR:`, entry.error);
+          return;
+        }
+        log(`place ${side2name(lvl.side)} @ tick ${lvl.tick}`, entry.executeResponse);
+      });
+    } catch (err) {
+      log('place error:', (err as Error).message);
     }
   }
 }
 
-async function cancelAllForMarket(
-  api: OpenApi,
-  sendTxsBot: SendTxsBot,
-  ctx: { agent: PrivateKeyAccount; root: Address; accountId: number; marketId: number; marketAcc: string },
-) {
-  log('cancelling all open orders for market', ctx.marketId);
-  const { calls } = await api.buildCancelOrders([
-    { marketAcc: ctx.marketAcc, marketId: ctx.marketId, cancelAll: true },
-  ]);
-  if (calls.length === 0) {
-    log('no cancel calldata returned');
-    return;
-  }
-  const txs = await signAndSubmit({
-    agent: ctx.agent,
-    root: ctx.root,
-    accountId: ctx.accountId,
-    calls,
-    sendTxsBot,
-    requireSuccess: false,
-  });
-  for (const t of txs) {
-    log('cancel-all tx', fmtTx(t));
+async function cancelAllForMarket(ctx: Ctx) {
+  log('cancelling all open orders for market', ctx.market.marketId);
+  try {
+    const res = await ctx.exchange.cancelOrders({
+      marketAcc: ctx.marketAcc,
+      marketId: ctx.market.marketId,
+      cancelAll: true,
+      orderIds: [],
+    });
+    log('cancel-all result', res);
+  } catch (err) {
+    log('cancel-all error:', (err as Error).message);
   }
 }
 
@@ -11503,38 +11947,45 @@ async function main() {
   const cfg = loadConfig();
   if (!cfg.agentPk) throw new Error('AGENT_PK is required to run');
 
-  const { agent, address: agentAddress } = makeAgentFromPrivateKey(cfg.agentPk);
+  const agent = Agent.createFromPrivateKey(cfg.agentPk);
+  const agentAddress = await agent.getAddress();
 
   let root: Address;
   if (cfg.rootPk) {
-    root = privateKeyToAddress(cfg.rootPk) as Address;
+    root = privateKeyToAccount(cfg.rootPk).address as Address;
   } else if (cfg.rootAddress) {
     root = cfg.rootAddress.toLowerCase() as Address;
   } else {
     throw new Error('Set ROOT_ADDRESS (preferred) or ROOT_PK in .env so the bot knows your root account.');
   }
 
-  const api = new OpenApi(cfg.openApiBase);
-  const sendTxsBot = new SendTxsBot(cfg.sendTxsBotBase);
+  // Trading runtime: agent signs every action, so an account-less wallet is fine
+  // unless ROOT_PK was supplied (e.g. for the same script to also do approveAgent).
+  const walletClient = createWalletClient({
+    account: cfg.rootPk ? privateKeyToAccount(cfg.rootPk) : undefined,
+    transport: http(cfg.rpcUrl),
+    chain: arbitrum,
+  });
+  const exchange = new Exchange(walletClient, root, cfg.accountId, [cfg.rpcUrl], agent);
 
   log('agent', agentAddress);
   log('root', root);
 
-  const market = await pickMarket(api, cfg.marketIdOverride);
+  const market = await pickMarket(cfg.marketIdOverride);
   log('market', { id: market.marketId, symbol: market.imData.symbol, tokenId: market.tokenId });
 
   const ammId = (market.extConfig?.ammId as number | undefined) ?? 0;
-  const marketAcc = packMarketAcc(root, cfg.accountId, market.tokenId, CROSS_MARKET_ID);
+  const marketAcc = MarketAccLib.pack(root, cfg.accountId, market.tokenId, CROSS_MARKET_ID);
 
-  const gas = await api.getGasBalanceUsd(root);
+  const gas = await exchange.getGasBalance();
   log('gas balance USD', gas);
   if (gas < 0.5) {
     throw new Error(`gas balance too low ($${gas}); top up before running`);
   }
 
-  const ctx = { agent, root, accountId: cfg.accountId, tokenId: market.tokenId, market, marketAcc, ammId };
+  const ctx: Ctx = { exchange, root, accountId: cfg.accountId, tokenId: market.tokenId, market, marketAcc, ammId };
 
-  await ensureEntered(api, sendTxsBot, { ...ctx, marketId: market.marketId });
+  await ensureEntered(ctx);
 
   let stopping = false;
   const onStop = async (signal: string) => {
@@ -11542,7 +11993,7 @@ async function main() {
     stopping = true;
     log(`received ${signal}, cancelling all and exiting`);
     try {
-      await cancelAllForMarket(api, sendTxsBot, { ...ctx, marketId: market.marketId });
+      await cancelAllForMarket(ctx);
     } catch (err) {
       log('cancel-all error on shutdown:', (err as Error).message);
     }
@@ -11554,7 +12005,7 @@ async function main() {
   const startedAt = Date.now();
   while (!stopping) {
     try {
-      await reconcile(api, sendTxsBot, cfg, ctx);
+      await reconcile(ctx, cfg);
     } catch (err) {
       log('reconcile error:', (err as Error).message);
     }
@@ -11571,26 +12022,6 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-```
-
-`api.ts` is a thin axios wrapper around the Open API + Send Txs Bot endpoints used above (`getOrderbook`, `getActiveLimitOrders`, `buildPlaceOrders`, `buildCancelOrders`, `buildEnterMarkets`, `getEnteredMarkets`, `getGasBalanceUsd`, `bulkDirectCall`). It exports the `Side`, `MarketSummary`, `LimitOrder`, `AgentCall`, `TxResponse`, and `SignedAgentExecution` types referenced by the files above. See the [`boros-api-examples`](https://github.com/pendle-finance/boros-api-examples) repo for an equivalent client and the Open API [interactive docs](https://api-boros.pendle.finance/apis/docs) for every endpoint shape.
-
-The full repository structure:
-
-```
-grid-bot/
-  package.json       # only deps: axios, dotenv, socket.io-client, viem
-  tsconfig.json
-  .env.example
-  src/
-    config.ts        # env loading, asserts
-    api.ts           # axios clients for Open API + Send Txs Bot
-    pack.ts          # packAccount + packMarketAcc + CROSS_MARKET_ID
-    pick-market.ts   # market discovery (the rank() function from step 3)
-    sign.ts          # raw EIP-712 signAndSubmit + nonce queue + AuthInvalidNonce retry
-    grid.ts          # desiredLadder + diff
-    main.ts          # the loop above + signal handlers
-    approve-agent.ts # one-time root-signed agent approval flow
 ```
 
 </details>

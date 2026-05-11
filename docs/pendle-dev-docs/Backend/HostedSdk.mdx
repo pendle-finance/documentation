@@ -432,12 +432,12 @@ Currently supported aggregators (can be fetched from [fetch supported aggregator
 
 | Aggregator  | Cost (Computing Units) |
 | ----------- | ---------------------- |
-| `kyberswap` | 5                      |
-| `odos`      | 15                     |
-| `okx`       | 10                     |
+| `kyberswap` | 1                      |
+| `odos`      | 10                     |
+| `okx`       | 2                      |
 | `paraswap`  | 15                     |
 
-For example, this request will use KyberSwap and Odos aggregators to find the optimal route, and it costs 25 computing units (5 from kyberswap, 15 from odos, and 5 from the base computing cost):
+For example, this request will use KyberSwap and Odos aggregators to find the optimal route, and it costs 16 computing units (1 from kyberswap, 10 from odos, and 5 from the base computing cost):
 
 ```ts
 export async function addLiquiditySingleToken() {
@@ -463,7 +463,7 @@ export async function addLiquiditySingleToken() {
 
 ### Reduce aggregator computing units
 
-By default, when using aggregators, the system will use public API keys for each aggregator. This means that the computing unit cost for each aggregator will be added to the total cost of the request. To reduce the computing unit cost, you can use your own API key for each aggregator. This way, the computing unit cost for that aggregator will be reduced to 0. For example, if you use your own API key for Odos, the total computing unit cost will be 5 (base cost) + 5 (kyberswap cost) + 0 (odos cost with custom API key) = 10 computing units.
+By default, when using aggregators, the system will use public API keys for each aggregator. This means that the computing unit cost for each aggregator will be added to the total cost of the request. To reduce the computing unit cost, you can use your own API key for each aggregator. This way, the computing unit cost for that aggregator will be reduced to 0. For example, if you use your own API key for Odos, the total computing unit cost will be 5 (base cost) + 1 (kyberswap cost) + 0 (odos cost with custom API key) = 6 computing units.
 
 Currently, you can use an aggregator with your own API key by specifying the corresponding field in the request headers.
 | Aggregator  | Header Key           | Note                          |
