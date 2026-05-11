@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-05-04
+> Generated: 2026-05-11
 
 ---
 
@@ -1586,7 +1586,7 @@ Currently supported aggregators (can be fetched from [fetch supported aggregator
 | ----------- | ---------------------- |
 | `kyberswap` | 5                      |
 | `odos`      | 15                     |
-| `okx`       | 10                     |
+| `okx`       | 2                      |
 | `paraswap`  | 15                     |
 
 For example, this request will use KyberSwap and Odos aggregators to find the optimal route, and it costs 25 computing units (5 from kyberswap, 15 from odos, and 5 from the base computing cost):
