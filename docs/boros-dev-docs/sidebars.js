@@ -29,6 +29,7 @@ module.exports = {
         { type: "doc", id: "Backend/overview", label: "Overview", customProps: { icon: "info" } },
         { type: "doc", id: "Backend/glossary", label: "Glossary", customProps: { icon: "library_books" } },
         { type: "doc", id: "Backend/agent", label: "Agent", customProps: { icon: "smart_toy" } },
+        { type: "doc", id: "Backend/sdk", label: "SDK (TypeScript)", customProps: { icon: "code" } },
         { type: "doc", id: "Backend/api", label: "API", customProps: { icon: "api" } },
         { type: "doc", id: "Backend/websocket", label: "WebSocket", customProps: { icon: "wifi" } },
         { type: "doc", id: "Backend/stop-orders", label: "Stop Orders", customProps: { icon: "stop_circle" } },

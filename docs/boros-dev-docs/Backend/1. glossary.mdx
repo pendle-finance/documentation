@@ -41,7 +41,7 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 | **Rate Floor** | Minimum absolute rate used in margin calculations (derived from `market.imData.iTickThresh`). If an order's rate is below the rate floor, the floor value is used for margin instead. See [Margin — Pre-scaling IM](/boros-dev/Mechanics/Margin#pre-scaling-initial-margin). | Market config |
 | **Settlement** | Periodic floating rate payment exchange (typically every 8 hours) using [lazy settlement](../Mechanics/Settlement.mdx). See [Settlement Mechanics](/boros-dev/Mechanics/Settlement). | `GET /accounts/settlements`, `POST /funding-rate/settlement-summary` |
 | **Conditional Order** | On-chain order with an off-chain trigger condition, executed by a permissioned validator when conditions are met. Stop orders are built on this. See [Conditional Orders](/boros-dev/Contracts/Router#conditional-orders). | Stop Order Service endpoints |
-| **Stop Order** | Conditional off-chain order (take-profit or stop-loss) that triggers when market APR crosses a threshold. Managed by the Stop Order Service. See [Stop Orders](./6.%20stop-orders.mdx). | `GET /stop-order/v1/orders/tpsl/prepare`, `POST /stop-order/v2/orders/place` |
+| **Stop Order** | Conditional off-chain order (take-profit or stop-loss) that triggers when market APR crosses a threshold. Managed by the Stop Order Service. See [Stop Orders](./7.%20stop-orders.mdx). | `GET /stop-order/v1/orders/tpsl/prepare`, `POST /stop-order/v2/orders/place` |
 
 ---
 
@@ -64,8 +64,8 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 
 | Term | Description | Where it appears |
 |------|-------------|-----------------|
-| **Computing Unit (CU)** | Per-endpoint cost of a request, advertised via the `x-computing-unit` OpenAPI extension and returned as the `x-computing-unit` response header. A value like `1+` means **dynamic cost** — the endpoint charges a minimum for an empty request and scales with work performed (e.g. page size, number of indicators). See [Computing Units](./9.%20computing-units.mdx). | All endpoints (header) |
-| **Indicator** | Compact letter codes for time-series market data: `u` (underlying APR), `fp` (future premium), `fgi` (fear & greed index), `ap` (asset price), `udma:<periods>` (X-day UFR moving averages). See [Indicators](./8.%20indicators.mdx). | `GET /v1/indicators`, `GET /v1/indicators/export` |
+| **Computing Unit (CU)** | Per-endpoint cost of a request, advertised via the `x-computing-unit` OpenAPI extension and returned as the `x-computing-unit` response header. A value like `1+` means **dynamic cost** — the endpoint charges a minimum for an empty request and scales with work performed (e.g. page size, number of indicators). See [Computing Units](./10.%20computing-units.mdx). | All endpoints (header) |
+| **Indicator** | Compact letter codes for time-series market data: `u` (underlying APR), `fp` (future premium), `fgi` (fear & greed index), `ap` (asset price), `udma:<periods>` (X-day UFR moving averages). See [Indicators](./9.%20indicators.mdx). | `GET /v1/indicators`, `GET /v1/indicators/export` |
 | **Maker Incentive** | PENDLE-token rewards distributed to liquidity providers. Two campaigns: **Add-Liquidity** (rewards for resting orders that sit within an `incentiveRange` of mid-APR) and **Filled-Volume** (rewards proportional to the user's maker fill volume in the current epoch). See [Incentives](/boros-dev/Mechanics/Incentives). | `GET /v1/incentives/maker-incentives/campaigns/{marketId}` |
 | **AMM Incentive** | Rewards accrued by AMM liquidity providers — swap fees plus PENDLE incentives — denominated in USD. See [Incentives](/boros-dev/Mechanics/Incentives). | `GET /v1/incentives/amm-incentives` |
 
@@ -106,8 +106,8 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (lev
 ## SDK Helpers
 
 ```typescript
-import { MarketAccLib, CROSS_MARKET_ID, estimateTickForRate, getRateAtTick } from "@pendle/sdk-boros";
-import { FixedX18 } from "@pendle/boros-offchain-math";
+import { MarketAccLib, CROSS_MARKET_ID } from "@pendle/boros-sdk-public";
+import { FixedX18, estimateTickForRate, getRateAtTick } from "@pendle/boros-offchain-math";
 
 // Pack market account for API calls
 const marketAcc = MarketAccLib.pack(walletAddress, accountId, tokenId, CROSS_MARKET_ID);
@@ -121,6 +121,8 @@ const size = FixedX18.fromNumber(100).value.toString();       // "10000000000000
 const amount = FixedX18.fromBigIntString(balanceString).toNumber(); // 100.0
 ```
 
+See [SDK](./3.%20sdk.mdx) for the full TypeScript wrapper around these helpers.
+
 ---
 
 ## Additional Resources
@@ -132,7 +134,7 @@ const amount = FixedX18.fromBigIntString(balanceString).toNumber(); // 100.0
 - [Settlement Mechanics](/boros-dev/Mechanics/Settlement) — Funding rate payments
 - [Fee Structure](/boros-dev/Mechanics/Fees) — Position opening, settlement, and entrance fees
 - [Incentives](/boros-dev/Mechanics/Incentives) — Maker incentives and AMM rewards
-- [Indicators](./8.%20indicators.mdx) — Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`)
-- [Computing Units](./9.%20computing-units.mdx) — How endpoint cost is computed and reported
+- [Indicators](./9.%20indicators.mdx) — Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`)
+- [Computing Units](./10.%20computing-units.mdx) — How endpoint cost is computed and reported
 - [Custom Types](/boros-dev/Contracts/CustomTypes) — Contract type definitions
-- [API Reference](./3.%20api.mdx) — All API endpoints and integration workflows
+- [API Reference](./4.%20api.mdx) — All API endpoints and integration workflows

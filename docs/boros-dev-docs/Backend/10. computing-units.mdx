@@ -1,6 +1,18 @@
 # Computing Units
 
-Every Open API endpoint advertises a per-call cost called a **Computing Unit (CU)**. CU is how Pendle measures the work each request does so that high-frequency consumers can plan for fair-use limits.
+Every Open API endpoint advertises a per-call cost called a **Computing Unit (CU)**. CU is how Pendle meters the work each request does and enforces fair-use against high-frequency consumers.
+
+## Budget
+
+**60 CU per minute per IP**, fixed window. Every successful call deducts its `x-computing-unit` cost from the bucket; the bucket refills every 60s.
+
+When the budget is exhausted the API returns **HTTP 429** with body `{ "statusCode": 429, "message": "ThrottlerException: Too Many Requests" }`. Wait for the next window before retrying.
+
+Cloudflare-fronted requests are bucketed by `cf-connecting-ip`; direct requests by remote IP. Same-origin browsers behind a NAT share one bucket. There is currently no per-API-key tier — every consumer gets the same 60 CU/minute regardless of authentication.
+
+`GET /v1/indicators/export` layers an additional hard **3 requests/minute/IP** throttle on top of the CU budget.
+
+
 
 ## Where CU is Reported
 

@@ -144,7 +144,7 @@ Stop orders are conditional orders that execute automatically when the market AP
 └──────────────────────────────────────────────────────────────┘
 ```
 
-The prepare endpoint generates the order parameters (including the calldata that will be executed when triggered). The place endpoint submits the signed conditional order. See [Stop Orders](./6.%20stop-orders.mdx) for details.
+The prepare endpoint generates the order parameters (including the calldata that will be executed when triggered). The place endpoint submits the signed conditional order. See [Stop Orders](./7.%20stop-orders.mdx) for details.
 
 ---
 
@@ -339,7 +339,7 @@ Access funding rate data and settlement history.
 | `POST /funding-rate/settlement-summary` | Historical settlement summaries |
 
 ### Indicators
-Time-series market data — underlying APR, future premium, fear & greed index, asset price, and UFR moving averages. See [Indicators](./8.%20indicators.mdx) for the indicator letter codes and CSV export semantics.
+Time-series market data — underlying APR, future premium, fear & greed index, asset price, and UFR moving averages. See [Indicators](./9.%20indicators.mdx) for the indicator letter codes and CSV export semantics.
 
 | Endpoint | Description |
 |----------|-------------|
@@ -424,23 +424,33 @@ The Send Txs Bot and Stop Order services use the legacy format:
 }
 ```
 
-See [Best Practices](./5.%20best-practices.mdx) for error handling recommendations.
+See [Best Practices](./6.%20best-practices.mdx) for error handling recommendations.
 
 ---
 
 ## Rate Limiting
 
-The API does not currently enforce strict rate limits, but excessive request rates may be throttled. Recommendations:
+Every IP gets a budget of **60 Computing Units (CU) per minute**, fixed window. Each endpoint advertises its CU cost via the `x-computing-unit` response header and the OpenAPI `x-computing-unit` extension. Most read endpoints are 1 CU.
 
-- Use [WebSocket](./4.%20websocket.mdx) for real-time data instead of polling
-- Use bulk order endpoints instead of multiple single-order calls
-- Cache market and asset data that doesn't change frequently
+Exceeding the budget returns **HTTP 429** with `{ "statusCode": 429, "message": "ThrottlerException: Too Many Requests" }`. The bucket refills at the start of the next 60-second window.
 
-A few endpoints have explicit per-IP throttles — most notably `GET /v1/indicators/export` (3 requests / minute / IP).
+A few endpoints have additional per-IP throttles on top of the CU budget:
+
+| Endpoint | Extra throttle |
+|----------|----------------|
+| `GET /v1/indicators/export` | 3 requests/minute/IP |
+
+Recommendations to stay under budget:
+
+- Use [WebSocket](./5.%20websocket.mdx) for real-time data instead of polling.
+- Batch where possible: `POST /v1/accounts/market-acc-infos` accepts up to 100 `marketAccs`, `GET /v1/markets/by-ids` accepts comma-separated IDs, `POST /v1/calldata-builder/agent/place-orders` accepts an array.
+- Cache market and asset data that doesn't change frequently.
+
+See [Computing Units](./10.%20computing-units.mdx) for the per-endpoint cost table.
 
 ## Computing Units
 
-Every Open API endpoint advertises a per-call cost via the `x-computing-unit` extension on the OpenAPI spec, also returned as the `x-computing-unit` HTTP response header on every successful request. Most endpoints cost **1 CU**; some scale dynamically with page size, market count, or number of indicators requested. See [Computing Units](./9.%20computing-units.mdx) for the full model.
+Every Open API endpoint advertises a per-call cost via the `x-computing-unit` extension on the OpenAPI spec, also returned as the `x-computing-unit` HTTP response header on every successful request. Most endpoints cost **1 CU**; some scale dynamically with page size, market count, or number of indicators requested. See [Computing Units](./10.%20computing-units.mdx) for the full model.
 
 ---
 

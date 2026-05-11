@@ -111,7 +111,7 @@ Some markets are **isolated-only**, meaning they cannot be traded from a cross-m
 2. **Use the correct `marketAcc`** — Pack the `marketAcc` with the specific `marketId` instead of `CROSS_MARKET_ID`
 
 ```typescript
-import { MarketAccLib } from "@pendle/sdk-boros";
+import { MarketAccLib } from "@pendle/boros-sdk-public";
 
 // For isolated-only markets, use the specific marketId
 const isolatedMarketAcc = MarketAccLib.pack(
@@ -246,7 +246,7 @@ The AMM implied rate should normally be within the range `(bestBid - ε, bestAsk
 
 ### Use WebSocket for Streaming
 
-Don't poll REST endpoints for real-time data. Use [WebSocket](./4.%20websocket.mdx) for:
+Don't poll REST endpoints for real-time data. Use [WebSocket](./5.%20websocket.mdx) for:
 
 - **Order book updates**: `orderbook:MARKET_ID:TICK_SIZE`
 - **Trade events**: `market-trade:MARKET_ID`

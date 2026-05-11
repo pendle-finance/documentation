@@ -42,19 +42,18 @@ The official TypeScript SDK covers signature generation, calldata encoding, and 
 **Install**
 
 ```bash
-npm install @pendle/sdk-boros
+npm install @pendle/boros-sdk-public
 ```
 
 **Packages**
 
 | Package | Purpose |
 |---|---|
-| `@pendle/sdk-boros` | Main SDK — API clients, calldata builders, signature helpers |
+| `@pendle/boros-sdk-public` | Main SDK — API clients, calldata builders, signature helpers |
 | `@pendle/boros-offchain-math` | Math utilities — `FixedX18` type, tick/rate conversion |
 
 **Links**
 
-- SDK repository: https://github.com/pendle-finance/sdk-boros-public
 - Open API interactive docs: https://api-boros.pendle.finance/apis/docs
 - Send Txs Bot interactive docs: https://api.boros.finance/send-txs-bot/docs
 - Stop Order interactive docs: https://api.boros.finance/stop-order/docs
@@ -67,11 +66,12 @@ npm install @pendle/sdk-boros
 |---|---|
 | [Glossary](./1.%20glossary.mdx) | Key terms and type definitions used throughout the API |
 | [Agent](./2.%20agent.mdx) | Setting up and managing agent wallets |
-| [API](./3.%20api.mdx) | Full REST endpoint reference and integration workflows |
-| [WebSocket](./4.%20websocket.mdx) | Real-time market and account data streaming |
-| [Best Practices](./5.%20best-practices.mdx) | Patterns for gas efficiency, error handling, and market management |
-| [Stop Orders](./6.%20stop-orders.mdx) | Conditional take-profit and stop-loss order management |
-| [Historical Data](./7.%20historical-data.mdx) | Monthly NDJSON exports — trades, OHLCV, settlements, order book snapshots |
-| [Indicators](./8.%20indicators.mdx) | Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`) and CSV export |
-| [Computing Units](./9.%20computing-units.mdx) | How endpoint cost is reported and the static / dynamic CU model |
-| [Bot Quickstart](./10.%20bot-quickstart.mdx) | End-to-end zero-to-functional grid bot — capstone that stitches the pages above into one runnable journey |
+| [SDK](./3.%20sdk.mdx) | TypeScript wrapper (`@pendle/boros-sdk-public`) — calldata, signing, and dispatch for Node clients |
+| [API](./4.%20api.mdx) | Full REST endpoint reference and integration workflows |
+| [WebSocket](./5.%20websocket.mdx) | Real-time market and account data streaming |
+| [Best Practices](./6.%20best-practices.mdx) | Patterns for gas efficiency, error handling, and market management |
+| [Stop Orders](./7.%20stop-orders.mdx) | Conditional take-profit and stop-loss order management |
+| [Historical Data](./8.%20historical-data.mdx) | Monthly NDJSON exports — trades, OHLCV, settlements, order book snapshots |
+| [Indicators](./9.%20indicators.mdx) | Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`) and CSV export |
+| [Computing Units](./10.%20computing-units.mdx) | How endpoint cost is reported and the static / dynamic CU model |
+| [Bot Quickstart](./11.%20bot-quickstart.mdx) | End-to-end zero-to-functional grid bot — capstone that stitches the pages above into one runnable journey |

@@ -191,10 +191,10 @@ For example, if your wallet address is `0xdAC17F958D2ee523a2206206994597C13D831e
 account:0xdac17f958d2ee523a2206206994597c13d831ec700
 ```
 
-You can use `AccountLib.pack()` from `@pendle/sdk-boros` to construct this:
+You can use `AccountLib.pack()` from `@pendle/boros-sdk-public` to construct this:
 
 ```typescript
-import { AccountLib } from '@pendle/sdk-boros';
+import { AccountLib } from '@pendle/boros-sdk-public';
 
 const account = AccountLib.pack('0xdAC17F958D2ee523a2206206994597C13D831ec7', 0);
 // account = '0xdac17f958d2ee523a2206206994597c13d831ec700'
@@ -221,7 +221,7 @@ When you receive an account update event, **refetch the relevant API endpoints**
 
 ```typescript
 import axios from "axios";
-import { MarketAccLib, CROSS_MARKET_ID } from "@pendle/sdk-boros";
+import { MarketAccLib, CROSS_MARKET_ID } from "@pendle/boros-sdk-public";
 
 async function refreshAccountData() {
   const marketAcc = MarketAccLib.pack(walletAddress, accountId, tokenId, CROSS_MARKET_ID);
@@ -374,7 +374,7 @@ Position sizes, rates, yields, and fees are returned as FixedX18 raw string valu
 ```typescript
 import { io } from 'socket.io-client';
 import axios from 'axios';
-import { AccountLib } from '@pendle/sdk-boros';
+import { AccountLib } from '@pendle/boros-sdk-public';
 
 class AccountTracker {
   private socket: any;

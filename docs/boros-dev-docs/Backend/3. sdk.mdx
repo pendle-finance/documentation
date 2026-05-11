@@ -1,0 +1,240 @@
+# SDK (TypeScript)
+
+`@pendle/boros-sdk-public` is a TypeScript wrapper around the Boros Open API and Send Txs Bot. It removes the boilerplate of building calldata, EIP-712 signing, and dispatching transactions. If you trade from Node, this is the recommended path.
+
+For other languages — or if you want raw HTTP control — go to [API](./4.%20api.mdx) instead. The SDK is a thin convenience layer; **anything the SDK does, the API page documents end-to-end**.
+
+For the agent model the SDK depends on, see [Agent Trading](./2.%20agent.mdx).
+
+## Install
+
+```bash
+npm install @pendle/boros-sdk-public viem
+```
+
+`viem` is a peer dependency. The SDK targets `viem@2.x`. The math helpers (`FixedX18`, `estimateTickForRate`, `getRateAtTick`) live in a separate package — install it when you need tick/rate conversion:
+
+```bash
+npm install @pendle/boros-offchain-math
+```
+
+## Initialization
+
+The SDK exposes two main classes:
+
+- **`Exchange`** — your read/write entry point. Wraps placing orders, cancelling, depositing, etc.
+- **`Agent`** — manages the agent keypair used to sign trading actions on behalf of your root.
+
+```ts
+import { createWalletClient, http } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { arbitrum } from 'viem/chains';
+import { Agent, Exchange } from '@pendle/boros-sdk-public';
+
+// 1. Root walletClient. For trading-only flows the account can be omitted —
+//    the agent signs every trading action. The root account is only needed
+//    for sensitive flows (deposit, approveAgent, withdraw).
+const rootAccount = privateKeyToAccount(process.env.ROOT_PK as `0x${string}`);
+const walletClient = createWalletClient({
+  account: rootAccount,
+  transport: http(process.env.RPC_URL),
+  chain: arbitrum,
+});
+
+// 2. Agent. Re-use a persisted private key in production; for first-time
+//    setup, `Agent.create(walletClient)` derives one deterministically from
+//    a root signature so users don't have to babysit an extra secret.
+const agent = Agent.createFromPrivateKey(process.env.AGENT_PK as `0x${string}`);
+
+// 3. Exchange.
+const exchange = new Exchange(
+  walletClient,
+  rootAccount.address,
+  /* accountId */ 0,
+  [process.env.RPC_URL!],
+  agent,
+);
+```
+
+The constructor signature is:
+
+```ts
+new Exchange(walletClient, root, accountId, rpcUrls, agent?)
+```
+
+`agent` is optional at construction time — set it later via `exchange.setAgent(agent)` if you bootstrap one with `Agent.create()` after the fact.
+
+The SDK ships with the production backend pre-wired (`api-boros.pendle.finance`, `api.boros.finance/send-txs-bot`). For staging, override at startup:
+
+```ts
+import { setOpenApiBackendUrl, setSendTxsBotBackendUrl } from '@pendle/boros-sdk-public';
+
+setOpenApiBackendUrl('https://staging-api-boros.pendle.finance/apis');
+setSendTxsBotBackendUrl('https://staging-api.boros.finance/send-txs-bot');
+```
+
+## Common flows
+
+The SDK groups operations by who signs the calldata — root for sensitive actions, agent for everything else. Skim the table, then jump to whichever section you need.
+
+| Flow | Method | Signed by | Backed by |
+|------|--------|-----------|-----------|
+| Generate + approve agent | `Agent.create(walletClient)` → `exchange.approveAgent(agent)` | root | EIP-712 → Send Txs Bot |
+| Check agent expiry | `exchange.getAgentExpiryTime()` | — | `GET /v1/agents/expiry-time` |
+| Deposit collateral | `exchange.deposit(params)` | root | ERC20 approve + on-chain deposit |
+| Withdraw collateral | `exchange.withdraw(params)` | root | request-withdraw (auto-finalized after cooldown) |
+| Pay treasury (gas top-up) | `exchange.payTreasury(params)` | agent | calldata builder + Send Txs Bot |
+| Place single order | `exchange.placeOrder(params)` | agent | calldata builder + Send Txs Bot |
+| Place many in one tx | `exchange.bulkPlaceOrders({orderRequests})` | agent | calldata builder + Send Txs Bot |
+| Cancel orders | `exchange.cancelOrders(params)` | agent | calldata builder + Send Txs Bot |
+| Bulk cancel | `exchange.bulkCancelOrders(requests)` | agent | calldata builder + Send Txs Bot |
+| Enter market (cross) | `exchange.enterMarkets(true, [marketId])` | agent | calldata builder + Send Txs Bot |
+| Exit market | `exchange.exitMarkets(true, [marketId])` | agent | calldata builder + Send Txs Bot |
+| Cash transfer (cross↔isolated) | `exchange.cashTransfer(params)` | agent | calldata builder + Send Txs Bot |
+| Read all markets | `exchange.getAllMarkets(filters?)` | — | `GET /v1/markets` (paginated, cached 5 min) |
+| Read order book | `exchange.getOrderBook({marketId, tickSize})` | — | `GET /v1/markets/order-book` |
+| Read your active orders | `exchange.getOrdersPage({isActive: true})` | — | `GET /v1/accounts/orders` (cursor) |
+| Read on-chain orders (no indexer lag) | `exchange.getActiveOrdersFromContract(params)` | — | direct `Explorer` contract read |
+| Read entered markets | `exchange.getEnteredMarkets(rootAddress)` | — | direct `MarketHub` contract read |
+| Read user positions | `exchange.getUserPositions(params)` | — | direct contract read |
+| Market summary (mid/bid/ask APR) | `exchange.getMarketData(marketId)` | — | `GET /v1/markets/by-ids` + contract |
+| Gas balance (USD) | `exchange.getGasBalance()` | — | `GET /v1/accounts/gas-balance` |
+| List assets | `exchange.getAssets()` | — | `GET /v1/assets` |
+
+### Place a limit order
+
+```ts
+import { Side, TimeInForce, MarketAccLib, CROSS_MARKET_ID } from '@pendle/boros-sdk-public';
+import { estimateTickForRate, FixedX18 } from '@pendle/boros-offchain-math';
+
+const market = (await exchange.getAllMarkets({ isUiWhitelisted: true }))[0];
+const marketAcc = MarketAccLib.pack(rootAccount.address, 0, market.tokenId, CROSS_MARKET_ID);
+
+// Convert your target APR into a contract-side tick using the market's tickStep.
+const targetApr = 0.05; // 5%
+const limitTick = Number(
+  estimateTickForRate(FixedX18.fromNumber(targetApr), BigInt(market.imData.tickStep), /* roundDown */ true),
+);
+
+const { result, executeResponse } = await exchange.placeOrder({
+  marketAcc,
+  marketId: market.marketId,
+  side: Side.LONG,
+  size: 10n ** 18n,
+  limitTick,
+  tif: TimeInForce.GOOD_TIL_CANCELLED,
+  ammId: 0,            // 0 = orderbook-only; >0 = route through specific AMM
+});
+```
+
+### Place many orders in one transaction
+
+`bulkPlaceOrders` accepts a heterogeneous list — mix single-order requests and per-market bulks in one call. One on-chain submission, one nonce, one gas charge.
+
+```ts
+await exchange.bulkPlaceOrders({
+  orderRequests: [
+    {
+      cross: true,
+      bulks: [{
+        marketId: market.marketId,
+        orders: {
+          tif: TimeInForce.GOOD_TIL_CANCELLED,
+          side: Side.LONG,
+          sizes: [10n ** 18n, 2n * 10n ** 18n],
+          limitTicks: [limitTick - 10, limitTick - 20],
+        },
+        cancelData: { ids: [], isAll: false, isStrict: false },
+      }],
+    },
+  ],
+});
+```
+
+### Read your active orders (paginated)
+
+```ts
+import { OrderType } from '@pendle/boros-sdk-public';
+
+let resumeToken: string | undefined;
+const all = [];
+do {
+  const page = await exchange.getOrdersPage({
+    isActive: true,
+    orderType: [OrderType.LIMIT],
+    limit: 200,
+    resumeToken,
+  });
+  all.push(...page.results);
+  resumeToken = page.resumeToken ?? undefined;
+} while (resumeToken);
+```
+
+The SDK keeps cursor pagination explicit — there's no `getAllOrders()` helper. Backends impose per-call CU costs, and the SDK refuses to hide them behind sugar. See [Computing Units](./10.%20computing-units.mdx).
+
+If you need fresh on-chain truth (no indexer lag, useful right after a `placeOrder` returns), call `exchange.getActiveOrdersFromContract({ marketAcc, marketId })` instead — it reads the `Explorer` contract directly.
+
+### Cancel everything in one market
+
+```ts
+await exchange.cancelOrders({
+  marketAcc,
+  marketId: market.marketId,
+  cancelAll: true,
+  orderIds: [],
+});
+```
+
+### Top up gas balance
+
+The Send Txs Bot debits each agent-signed transaction from your **off-chain gas budget** (USD). Top it up via `payTreasury`:
+
+```ts
+await exchange.payTreasury({
+  isCross: true,
+  marketId: market.marketId,
+  usdAmount: 1, // credits ~$1 to gas budget
+});
+
+console.log('Gas balance (USD):', await exchange.getGasBalance());
+```
+
+## Escape hatch — raw open-api access
+
+The wrapped methods cover common trading flows. For everything else (leaderboard, OHLCV, settlement events, indicators, conditional orders), drop down to the codegen client:
+
+```ts
+import { getOpenApiSdk } from '@pendle/boros-sdk-public';
+
+const sdk = getOpenApiSdk();
+
+// Anything in the open-api spec is reachable here, fully typed.
+const { data } = await sdk.markets.marketsControllerGetOhlcv({
+  marketId: 1,
+  resolution: '1h',
+  from: 1735689600,
+  to: 1735693200,
+});
+```
+
+`getOpenApiSdk()` returns a typed client generated from the live swagger. New endpoints land here automatically when the SDK is republished — no waiting for hand-written wrappers. Use this whenever the wrapper doesn't exist or you need to pass a parameter the wrapper doesn't expose.
+
+The SDK also re-exports the codegen response types under `OpenApi.*`:
+
+```ts
+import { OpenApi } from '@pendle/boros-sdk-public';
+
+function summarize(market: OpenApi.MarketListItemResponse) {
+  return `${market.marketId} ${market.imData.symbol}`;
+}
+```
+
+## What the SDK doesn't do
+
+- **WebSocket subscriptions** — connect to the WebSocket feed using `socket.io-client` directly; see [WebSocket](./5.%20websocket.mdx).
+- **Strategy logic** — the SDK is plumbing. Indicators, sizing, risk management are yours to build.
+- **Stop / take-profit orders** — `OrderType.TAKE_PROFIT_MARKET` and `OrderType.STOP_LOSS_MARKET` exist on the type level but the SDK does not yet expose dedicated `placeStopOrder` / `placeTakeProfitOrder` methods. Use `getOpenApiSdk()` until they land. See [Stop Orders](./7.%20stop-orders.mdx).
+
+## End-to-end example
+
+[Bot Quickstart](./11.%20bot-quickstart.mdx) walks through a real grid bot built on top of the SDK — from `approve-agent` to a running reconcile loop. ~485 lines of TypeScript total, with full source embedded at the end of that page.
