@@ -96,6 +96,30 @@ function cancelBatch(Order[] calldata orders) external;
 #### Parameters:
 - `orders`: An array of limit orders to be canceled.
 
+### preSignSingle
+
+Registers an order on-chain by setting its remaining amount to `makingAmount`. After pre-signing, takers can fill the order without supplying a signature.
+
+Only the order's `maker` can pre-sign. The order must have a valid `nonce`, an `expiry` strictly between `block.timestamp` and `YT.expiry()`, and must not already exist on-chain.
+
+```sol
+function preSignSingle(Order calldata order) external;
+```
+
+#### Parameters:
+- `order`: The limit order to be pre-signed.
+
+### preSignBatch
+
+Pre-signs multiple orders in a single transaction. Each order is validated and registered the same as `preSignSingle`.
+
+```sol
+function preSignBatch(Order[] calldata orders) external;
+```
+
+#### Parameters:
+- `orders`: An array of limit orders to be pre-signed.
+
 ### orderStatusesRaw
 
 This method retrieves raw remaining and filled amounts for specified orders.
@@ -139,6 +163,22 @@ function fill(
 - `actualTaking`: The total amount of tokens taken from the taker to complete the fill operation.
 - `totalFee`: The total fee incurred during the fill operation.
 - `callbackReturn`: Data returned from the callback function, if used.
+
+## Signature Validation
+
+When `fill` is called, the contract validates each `FillOrderParams.signature` against the on-chain status of the order:
+
+1. **Order is already known on-chain** — pre-signed via `preSignSingle` / `preSignBatch`, or partially filled in a previous transaction. Signature validation is **skipped**; the `signature` field can be left empty (`"0x"`).
+2. **Order is unknown on-chain** — the contract calls [`SignatureChecker.isValidSignatureNow(maker, orderHash, signature)`](https://docs.openzeppelin.com/contracts/4.x/api/utils#SignatureChecker), which validates in this order:
+   1. **ECDSA recovery** — recovers the signer from `signature` and checks it matches `maker`. Used for EOA makers.
+   2. **ERC-1271 fallback** — if ECDSA recovery fails (including when `signature` is empty or the wrong length), the contract calls `IERC1271(maker).isValidSignature(orderHash, signature)` on the maker contract. The order is accepted iff the call returns the magic value `0x1626ba7e`.
+
+### Implications for makers
+
+- **EOA makers**: sign the order off-chain via EIP-712; the taker submits that signature with the fill.
+- **Smart-contract makers** never need to produce an ECDSA signature. Two patterns are supported:
+  - **Whitelist via ERC-1271 (no router state changes)**: implement `isValidSignature(hash, signature)` so that it returns `0x1626ba7e` whenever `hash` is in an internal whitelist — the `signature` argument can be ignored entirely. Takers pass `"0x"`, the ECDSA branch fails immediately, and execution falls through to the maker's `isValidSignature`. Authorizing an order is then just a matter of writing the order hash to the maker contract's whitelist (e.g. via a governance vote, multi-sig approval, or any custom logic) — no call to the Limit Router is needed.
+  - **Pre-sign on the Limit Router**: call `preSignSingle` (or `preSignBatch`) once from the maker. After that the order is "already known", and any subsequent fill works with an empty signature regardless of how the maker implements ERC-1271.
 
 ## Callback Mechanism
 

@@ -8,8 +8,8 @@ Pendle's Limit Order system enables gasless, off-chain order creation with secur
 
 ## How It Works
 
-1. **Makers** create and sign limit orders off-chain (no gas required). Orders specify a desired implied APY rate and are stored on Pendle's backend.
-2. **Takers** query available orders via the API and fill them on-chain by calling the Limit Order contract.
+1. **Makers** create limit orders by either (a) signing off-chain with no gas — the recommended path for EOAs — or (b) pre-signing on-chain via `preSignSingle` / `preSignBatch`, which is intended for smart-contract makers. Orders specify a desired implied APY rate and are stored on Pendle's backend.
+2. **Takers** query available orders via the API and fill them on-chain by calling the Limit Order contract. Pre-signed orders (and orders already partially filled) can be filled with an empty signature; ERC-1271 contract signatures are also supported.
 3. The **Limit Order contract** settles orders atomically, transferring tokens between makers and takers at the agreed rates.
 
 Limit orders are also integrated into the [Pendle Hosted SDK](../Backend/HostedSdk.mdx) — when enabled, the SDK automatically includes limit order liquidity alongside AMM liquidity to improve execution prices, especially for large trades.
