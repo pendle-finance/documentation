@@ -75,7 +75,8 @@ function cleanup() {
 
 | Channel | Event | Description |
 |---------|-------|-------------|
-| `orderbook:MARKET_ID:TICK_SIZE` | `orderbook:MARKET_ID:TICK_SIZE:update` | Orderbook updates — **orderbook liquidity only**, AMM liquidity is not included. Accepted TICK_SIZE: `0.1`, `0.01`, `0.001`, `0.0001`, `0.00001` |
+| `orderbook:MARKET_ID:TICK_SIZE` | `orderbook:MARKET_ID:TICK_SIZE:update` | Orderbook updates — **orderbook liquidity only**, AMM liquidity is not included. Up to **50 entries per side**. Accepted TICK_SIZE: `0.1`, `0.01`, `0.001`, `0.0001` |
+| `orderbook-include-amm:MARKET_ID:TICK_SIZE` | `orderbook-include-amm-update` | Same as above but **includes AMM liquidity** merged into both sides. Up to **50 entries per side**. |
 | `market-trade:MARKET_ID` | `market-trade:MARKET_ID:update` | Individual trade executions with `rate`, `size`, `blockTimestamp`, `txHash` |
 | `statistics:MARKET_ID` | `statistics:MARKET_ID:update` | Market statistics: `markApr`, `midApr`, `lastTradedApr`, `floatingApr`, `volume24h`, `notionalOI`, `nextSettlementTime`, `longYieldApr` |
 | `market-data:MARKET_ID` | `market-data-update` | Real-time market data from on-chain events. See [Market Data Events](#market-data-events) below. |
