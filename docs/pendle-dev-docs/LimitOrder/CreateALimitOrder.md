@@ -9,8 +9,8 @@ To be able to create a limit order and submit it to the Pendle Limit Order syste
 3. Post the limit order data and its signature to the Pendle Limit Order system
 
 Pendle exposes 2 APIs to help makers create orders more easily
-1. [Generate limit order data](https://api-v2.pendle.finance/limit-order/docs#/Maker/MakersController_generateLimitOrderData)
-2. [Post limit order](https://api-v2.pendle.finance/limit-order/docs#/Maker/MakersController_createOrder)
+1. [Generate limit order data](https://api-v2.pendle.finance/core/docs#tag/limit-orders/post/v1/limit-orders/makers/generate-limit-order-data)
+2. [Post limit order](https://api-v2.pendle.finance/core/docs#tag/limit-orders/post/v1/limit-orders/makers/limit-orders)
 
 ## TypeScript Example
 
@@ -64,4 +64,20 @@ const requestBody: CreateLimitOrderRequest = {
 ```
 
 All the implementation details can be found in the [API demo repository](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
+
+## Alternative: Create an Order On-Chain
+
+In addition to off-chain signing, makers can register an order directly on-chain by calling `preSignSingle` (or `preSignBatch` for multiple orders) on the Limit Router. This is mainly useful for:
+
+- **Smart-contract makers** that cannot produce an ECDSA signature off-chain.
+- **ERC-1271 contracts** that prefer to register orders explicitly instead of relying on `isValidSignature` at fill time.
+
+> **ERC-1271 contracts can skip the on-chain pre-sign step entirely.** When the taker passes an empty signature, the Limit Router's ECDSA recovery fails and falls back to `IERC1271(maker).isValidSignature(hash, signature)`. A maker contract can therefore authorize an order simply by whitelisting its hash internally — no transaction to the Limit Router is required. See [Signature Validation](./LimitOrderContract.md#signature-validation) for the full flow.
+
+### Steps
+
+1. Generate the order data (same `Order` struct as the off-chain flow — see [Order Struct Definition](./LimitOrderContract.md#order-struct-definition)). You can still use the [generate-limit-order-data API](https://api-v2.pendle.finance/core/docs#tag/limit-orders/post/v1/limit-orders/makers/generate-limit-order-data) — just skip the signing step.
+2. Call `preSignSingle(order)` from the `maker` address.
+
+Once an order is pre-signed, takers fill it the same way as a normally signed order, but they may pass an empty signature (`'0x'`) in `FillOrderParams.signature`. See [Signature Validation](./LimitOrderContract.md#signature-validation) for details.
 

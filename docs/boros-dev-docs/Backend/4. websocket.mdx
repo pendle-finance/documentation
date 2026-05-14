@@ -6,7 +6,7 @@ This guide explains how to directly connect to Boros's WebSocket service using S
 
 Here's a complete example of how to connect to and use the WebSocket:
 
-```text
+```typescript
 import { io } from 'socket.io-client';
 
 // Initialize the socket connection
@@ -21,7 +21,7 @@ const socket = io('wss://api.boros.finance/pendle-dapp-v3', {
 
 ### Handling Connection
 
-```text
+```typescript
 socket.on('connect', () => {
   console.log('Connected to WebSocket server');
 });
@@ -42,7 +42,7 @@ To receive updates, you need to:
 1. Subscribe to a channel
 2. Listen for updates on that channel
 
-```text
+```typescript
 // Subscribe to a channel
 socket.emit('subscribe', 'statistics:MARKET_ID');
 
@@ -56,7 +56,7 @@ socket.on('statistics:MARKET_ID:update', (data) => {
 
 Always clean up your WebSocket connections when they're no longer needed:
 
-```text
+```typescript
 function cleanup() {
   // Unsubscribe from channels
   socket.emit('unsubscribe', 'statistics:MARKET_ID');
@@ -75,7 +75,8 @@ function cleanup() {
 
 | Channel | Event | Description |
 |---------|-------|-------------|
-| `orderbook:MARKET_ID:TICK_SIZE` | `orderbook:MARKET_ID:TICK_SIZE:update` | Orderbook updates. Accepted TICK_SIZE: `0.1`, `0.01`, `0.001`, `0.0001`, `0.00001` |
+| `orderbook:MARKET_ID:TICK_SIZE` | `orderbook:MARKET_ID:TICK_SIZE:update` | Orderbook updates — **orderbook liquidity only**, AMM liquidity is not included. Up to **50 entries per side**. Accepted TICK_SIZE: `0.1`, `0.01`, `0.001`, `0.0001` |
+| `orderbook-include-amm:MARKET_ID:TICK_SIZE` | `orderbook-include-amm-update` | Same as above but **includes AMM liquidity** merged into both sides. Up to **50 entries per side**. |
 | `market-trade:MARKET_ID` | `market-trade:MARKET_ID:update` | Individual trade executions with `rate`, `size`, `blockTimestamp`, `txHash` |
 | `statistics:MARKET_ID` | `statistics:MARKET_ID:update` | Market statistics: `markApr`, `midApr`, `lastTradedApr`, `floatingApr`, `volume24h`, `notionalOI`, `nextSettlementTime`, `longYieldApr` |
 | `market-data:MARKET_ID` | `market-data-update` | Real-time market data from on-chain events. See [Market Data Events](#market-data-events) below. |
@@ -93,6 +94,17 @@ Replace `MARKET_ID` with your market identifier. For `ACCOUNT`, use `AccountLib.
 
 :::tip Prefer `account-updates` over `account`
 The legacy `account:ACCOUNT` channel only tells you *that* something changed — you still need to call the REST API to find out *what*. The new `account-updates:ROOT_ADDRESS` channel includes full event details in the payload, eliminating the need for follow-up API calls.
+:::
+
+:::note FixedX18 raw format
+Many payload fields across these channels — orderbook sizes (`sz`), position sizes, rates, yields, fees — are returned as **FixedX18 raw** string values (18-decimal fixed-point). Use `FixedX18.fromBigIntString(value).toNumber()` from `@pendle/boros-offchain-math` to convert to human-readable numbers. Individual field tables below will note `(FixedX18 raw)` where applicable.
+
+```typescript
+import { FixedX18 } from '@pendle/boros-offchain-math';
+
+const raw = '1500000000000000000'; // 1.5e18
+const value = FixedX18.fromBigIntString(raw).toNumber(); // 1.5
+```
 :::
 
 ## Best Practices
@@ -118,7 +130,7 @@ The legacy `account:ACCOUNT` channel only tells you *that* something changed —
 
 Here's a complete example putting it all together:
 
-```text
+```typescript
 import { io } from 'socket.io-client';
 
 class PendleWebSocket {
@@ -249,6 +261,32 @@ async function refreshAccountData() {
 }
 ```
 
+## Orderbook Events
+
+Subscribe to `orderbook:MARKET_ID:TICK_SIZE` (orderbook liquidity only) or `orderbook-include-amm:MARKET_ID:TICK_SIZE` (orderbook + AMM merged). Accepted `TICK_SIZE`: `0.1`, `0.01`, `0.001`, `0.0001`. Up to **50 aggregated price levels per side**, sorted best-first (descending APR for `long`, ascending for `short`).
+
+**Payload fields:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `long.ia` | number[] | Implied APR at each bid level, bucketed by `TICK_SIZE` |
+| `long.sz` | string[] | Aggregated notional size at each bid level (FixedX18 raw) |
+| `short.ia` | number[] | Implied APR at each ask level, bucketed by `TICK_SIZE` |
+| `short.sz` | string[] | Aggregated notional size at each ask level (FixedX18 raw) |
+| `syncStatus.blockNumber` | number | On-chain block this snapshot reflects |
+| `syncStatus.timestamp` | number | Unix timestamp of that block |
+
+`ia[i]` and `sz[i]` pair up: the `i`-th level has implied APR `ia[i]` and notional size `sz[i]`.
+
+`ia` is bucketed by `TICK_SIZE` — the actual APR is `ia * TICK_SIZE`. So `ia = 45` means:
+
+| TICK_SIZE | Actual APR |
+|-----------|------------|
+| `0.0001` | 0.45% |
+| `0.001`  | 4.5% |
+| `0.01`   | 45% |
+| `0.1`    | 450% |
+
 ## Market Data Events
 
 Subscribe to `market-data:MARKET_ID` to receive real-time market data derived from on-chain events. The event name is `market-data-update`.
@@ -365,10 +403,6 @@ socket.on('settlement-update', (data) => {
 });
 ```
 
-:::note All numeric values use FixedX18 raw format
-Position sizes, rates, yields, and fees are returned as FixedX18 raw string values (18-decimal fixed-point). Use `FixedX18.fromBigIntString(value).toNumber()` from `@pendle/boros-offchain-math` to convert to human-readable numbers.
-:::
-
 ### Complete Account Tracking Example
 
 ```typescript
@@ -456,7 +490,7 @@ const tracker = new AccountTracker('0xdAC17F958D2ee523a2206206994597C13D831ec7',
 
 Always implement proper error handling:
 
-```text
+```typescript
 socket.on('connect_error', (error) => {
   console.error('Connection failed:', error);
   // Implement your error handling logic
