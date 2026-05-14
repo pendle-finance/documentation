@@ -2,6 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
+> Generated: 2026-05-14
 > Generated: 2026-05-11
 
 ---
@@ -1716,8 +1717,8 @@ Pendle's Limit Order system enables gasless, off-chain order creation with secur
 
 ## How It Works
 
-1. **Makers** create and sign limit orders off-chain (no gas required). Orders specify a desired implied APY rate and are stored on Pendle's backend.
-2. **Takers** query available orders via the API and fill them on-chain by calling the Limit Order contract.
+1. **Makers** create limit orders by either (a) signing off-chain with no gas — the recommended path for EOAs — or (b) pre-signing on-chain via `preSignSingle` / `preSignBatch`, which is intended for smart-contract makers. Orders specify a desired implied APY rate and are stored on Pendle's backend.
+2. **Takers** query available orders via the API and fill them on-chain by calling the Limit Order contract. Pre-signed orders (and orders already partially filled) can be filled with an empty signature; ERC-1271 contract signatures are also supported.
 3. The **Limit Order contract** settles orders atomically, transferring tokens between makers and takers at the agreed rates.
 
 Limit orders are also integrated into the [Pendle Hosted SDK](../Backend/HostedSdk.mdx) — when enabled, the SDK automatically includes limit order liquidity alongside AMM liquidity to improve execution prices, especially for large trades.
@@ -1780,8 +1781,8 @@ To be able to create a limit order and submit it to the Pendle Limit Order syste
 3. Post the limit order data and its signature to the Pendle Limit Order system
 
 Pendle exposes 2 APIs to help makers create orders more easily
-1. [Generate limit order data](https://api-v2.pendle.finance/limit-order/docs#/Maker/MakersController_generateLimitOrderData)
-2. [Post limit order](https://api-v2.pendle.finance/limit-order/docs#/Maker/MakersController_createOrder)
+1. [Generate limit order data](https://api-v2.pendle.finance/core/docs#tag/limit-orders/post/v1/limit-orders/makers/generate-limit-order-data)
+2. [Post limit order](https://api-v2.pendle.finance/core/docs#tag/limit-orders/post/v1/limit-orders/makers/limit-orders)
 
 ## TypeScript Example
 
@@ -1835,6 +1836,22 @@ const requestBody: CreateLimitOrderRequest = {
 ```
 
 All the implementation details can be found in the [API demo repository](https://github.com/pendle-finance/pendle-examples-public/tree/main/limit-order-api-demo)
+
+## Alternative: Create an Order On-Chain
+
+In addition to off-chain signing, makers can register an order directly on-chain by calling `preSignSingle` (or `preSignBatch` for multiple orders) on the Limit Router. This is mainly useful for:
+
+- **Smart-contract makers** that cannot produce an ECDSA signature off-chain.
+- **ERC-1271 contracts** that prefer to register orders explicitly instead of relying on `isValidSignature` at fill time.
+
+> **ERC-1271 contracts can skip the on-chain pre-sign step entirely.** When the taker passes an empty signature, the Limit Router's ECDSA recovery fails and falls back to `IERC1271(maker).isValidSignature(hash, signature)`. A maker contract can therefore authorize an order simply by whitelisting its hash internally — no transaction to the Limit Router is required. See [Signature Validation](./LimitOrderContract.md#signature-validation) for the full flow.
+
+### Steps
+
+1. Generate the order data (same `Order` struct as the off-chain flow — see [Order Struct Definition](./LimitOrderContract.md#order-struct-definition)). You can still use the [generate-limit-order-data API](https://api-v2.pendle.finance/core/docs#tag/limit-orders/post/v1/limit-orders/makers/generate-limit-order-data) — just skip the signing step.
+2. Call `preSignSingle(order)` from the `maker` address.
+
+Once an order is pre-signed, takers fill it the same way as a normally signed order, but they may pass an empty signature (`'0x'`) in `FillOrderParams.signature`. See [Signature Validation](./LimitOrderContract.md#signature-validation) for details.
 
 
 ---
@@ -1897,6 +1914,8 @@ const tx = await contract.fill(
   '0x'
 );
 ```
+
+The `signature` inside each `fillParams` entry may be empty (`"0x"`) when the order was pre-signed on-chain or has already been partially filled — for fresh off-chain orders, pass the maker's signature returned by the API. See [Signature Validation](./LimitOrderContract.md#signature-validation) for details.
 
 There are three main params that you need to fill the limit orders
 1. `fillParams`: The list of limit orders and the amount you want to fill (you can partially fill the order)
@@ -2073,6 +2092,30 @@ function cancelBatch(Order[] calldata orders) external;
 #### Parameters:
 - `orders`: An array of limit orders to be canceled.
 
+### preSignSingle
+
+Registers an order on-chain by setting its remaining amount to `makingAmount`. After pre-signing, takers can fill the order without supplying a signature.
+
+Only the order's `maker` can pre-sign. The order must have a valid `nonce`, an `expiry` strictly between `block.timestamp` and `YT.expiry()`, and must not already exist on-chain.
+
+```sol
+function preSignSingle(Order calldata order) external;
+```
+
+#### Parameters:
+- `order`: The limit order to be pre-signed.
+
+### preSignBatch
+
+Pre-signs multiple orders in a single transaction. Each order is validated and registered the same as `preSignSingle`.
+
+```sol
+function preSignBatch(Order[] calldata orders) external;
+```
+
+#### Parameters:
+- `orders`: An array of limit orders to be pre-signed.
+
 ### orderStatusesRaw
 
 This method retrieves raw remaining and filled amounts for specified orders.
@@ -2116,6 +2159,22 @@ function fill(
 - `actualTaking`: The total amount of tokens taken from the taker to complete the fill operation.
 - `totalFee`: The total fee incurred during the fill operation.
 - `callbackReturn`: Data returned from the callback function, if used.
+
+## Signature Validation
+
+When `fill` is called, the contract validates each `FillOrderParams.signature` against the on-chain status of the order:
+
+1. **Order is already known on-chain** — pre-signed via `preSignSingle` / `preSignBatch`, or partially filled in a previous transaction. Signature validation is **skipped**; the `signature` field can be left empty (`"0x"`).
+2. **Order is unknown on-chain** — the contract calls [`SignatureChecker.isValidSignatureNow(maker, orderHash, signature)`](https://docs.openzeppelin.com/contracts/4.x/api/utils#SignatureChecker), which validates in this order:
+   1. **ECDSA recovery** — recovers the signer from `signature` and checks it matches `maker`. Used for EOA makers.
+   2. **ERC-1271 fallback** — if ECDSA recovery fails (including when `signature` is empty or the wrong length), the contract calls `IERC1271(maker).isValidSignature(orderHash, signature)` on the maker contract. The order is accepted iff the call returns the magic value `0x1626ba7e`.
+
+### Implications for makers
+
+- **EOA makers**: sign the order off-chain via EIP-712; the taker submits that signature with the fill.
+- **Smart-contract makers** never need to produce an ECDSA signature. Two patterns are supported:
+  - **Whitelist via ERC-1271 (no router state changes)**: implement `isValidSignature(hash, signature)` so that it returns `0x1626ba7e` whenever `hash` is in an internal whitelist — the `signature` argument can be ignored entirely. Takers pass `"0x"`, the ECDSA branch fails immediately, and execution falls through to the maker's `isValidSignature`. Authorizing an order is then just a matter of writing the order hash to the maker contract's whitelist (e.g. via a governance vote, multi-sig approval, or any custom logic) — no call to the Limit Router is needed.
+  - **Pre-sign on the Limit Router**: call `preSignSingle` (or `preSignBatch`) once from the maker. After that the order is "already known", and any subsequent fill works with an empty signature regardless of how the maker implements ERC-1271.
 
 ## Callback Mechanism
 
@@ -8011,6 +8070,14 @@ This document covers the essential concepts of the Boros margin system. For comp
 
 ## Position Value and Total Value
 
+:::info UI vs on-chain accounting
+The concepts below — **Position Value**, **Total Value**, and **leverage** — are on-chain accounting primitives used by the contracts to compute margin and health. They are **not** surfaced in the Boros UI anymore.
+
+On the UI, traders see **Rate Sensitivity** (100× DV01: `Notional Size (YU) × DaysToMaturity / 365 × 1%`) and **Daily Volatility** (7-day moving average of the market's implied APR range) instead. These are presentation-layer metrics derived from the same on-chain data, framed for traders who think in interest-rate-swap terms rather than position valuations.
+
+When reading the rest of this page, treat Position Value / Total Value / Maintenance Margin as the **on-chain truth** the contracts operate on. For the user-facing framing, see the [Boros user docs — Margin and Liquidations](https://docs.pendle.finance/boros-docs/risk-parameters/margin-and-liquidations/).
+:::
+
 ### Position Value
 
 The position value represents the current unrealized profit or loss of an interest rate swap position:
@@ -8192,7 +8259,7 @@ When insufficient liquidity exists for normal liquidation and a user's health ra
 
 **Deleverage Process:**
 
-1. Identifies accounts with opposite-side positions (typically highest leverage)
+1. Identifies accounts with opposite-side positions (typically the largest opposite-side exposure relative to margin)
 2. Forces a swap between distressed account and counterparty at mark rate
 3. Total value across accounts remains unchanged
 4. Maintenance margin requirements decrease, restoring account health
@@ -8201,7 +8268,8 @@ When insufficient liquidity exists for normal liquidation and a user's health ra
 
 - Forced deleverage is an emergency mechanism to protect protocol solvency
 - This action is not expected to occur frequently under normal market conditions
-- Priority targets are high-leverage positions on the opposite side
+- Priority targets are accounts with the largest opposite-side exposure relative to their margin
+- The mechanism is named `Deleverage` in the contracts even though Boros no longer exposes a user-facing leverage knob — see the UI-vs-on-chain note in [Position Value and Total Value](#position-value-and-total-value) above
 
 ### Risk Management Actions
 
@@ -9328,6 +9396,10 @@ int256 position = market.getSignedSizeNoSettle(userAccount);
 int256 positionValue = market.calcPositionValueNoSettle(userAccount);
 ```
 
+:::note
+`positionValue` is the on-chain accounting primitive used for margin and health-ratio math (`Position Size × Mark Rate × Time to Maturity`). It is **not** surfaced in the Boros UI — traders see Rate Sensitivity and Daily Volatility instead. See [Mechanics — Margin](../Mechanics/Margin.mdx#position-value-and-total-value) for the UI-vs-on-chain explainer.
+:::
+
 ### `calcMarginNoSettle()`
 
 ```text
@@ -9590,7 +9662,7 @@ The Send Txs Bot charges gas from the user's on-chain gas balance in USD at the 
 
 # Glossary
 
-Quick reference for key terms used in the Boros API. For portfolio concepts (leverage, margin, PnL, liquidation), see the [Boros User Glossary](https://pendle.gitbook.io/boros/boros-docs/about-boros/glossary).
+Quick reference for key terms used in the Boros API. For portfolio concepts (Rate Sensitivity, Daily Volatility, margin, PnL, liquidation), see the [Boros User Glossary](https://docs.pendle.finance/boros-docs/about-boros/glossary).
 
 
 ## Trading Concepts

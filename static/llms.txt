@@ -32,10 +32,10 @@
 
 ### Limit Orders
 - [Overview](https://docs.pendle.finance/pendle-v2-dev/LimitOrder/Overview): Gasless off-chain order creation with on-chain settlement
-- [Create a Limit Order](https://docs.pendle.finance/pendle-v2-dev/LimitOrder/CreateALimitOrder): Order struct, EIP-712 signing, and submission
-- [Fill a Limit Order](https://docs.pendle.finance/pendle-v2-dev/LimitOrder/FillALimitOrder): Querying and filling orders on-chain
+- [Create a Limit Order](https://docs.pendle.finance/pendle-v2-dev/LimitOrder/CreateALimitOrder): Order struct, EIP-712 off-chain signing, on-chain pre-signing, and submission
+- [Fill a Limit Order](https://docs.pendle.finance/pendle-v2-dev/LimitOrder/FillALimitOrder): Querying and filling orders on-chain (supports empty signature for pre-signed orders)
 - [Cancel Orders](https://docs.pendle.finance/pendle-v2-dev/LimitOrder/CancelOrders): Order cancellation mechanisms
-- [Limit Order Contract](https://docs.pendle.finance/pendle-v2-dev/LimitOrder/LimitOrderContract): Contract reference and ABI
+- [Limit Order Contract](https://docs.pendle.finance/pendle-v2-dev/LimitOrder/LimitOrderContract): Contract reference and ABI, including `preSignSingle` / `preSignBatch` and signature validation rules
 
 ### Smart Contracts (direct integration)
 - [Yield Tokenization Contracts](https://docs.pendle.finance/pendle-v2-dev/Contracts/YieldTokenization): SY/PT/YT minting, redemption, and yield accounting internals
