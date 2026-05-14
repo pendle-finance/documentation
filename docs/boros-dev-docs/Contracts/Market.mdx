@@ -159,6 +159,10 @@ int256 position = market.getSignedSizeNoSettle(userAccount);
 int256 positionValue = market.calcPositionValueNoSettle(userAccount);
 ```
 
+:::note
+`positionValue` is the on-chain accounting primitive used for margin and health-ratio math (`Position Size × Mark Rate × Time to Maturity`). It is **not** surfaced in the Boros UI — traders see Rate Sensitivity and Daily Volatility instead. See [Mechanics — Margin](../Mechanics/Margin.mdx#position-value-and-total-value) for the UI-vs-on-chain explainer.
+:::
+
 ### `calcMarginNoSettle()`
 
 ```text
