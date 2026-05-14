@@ -210,12 +210,16 @@ Query and manage user account state.
 | `totalCash` | string | Total cash balance (bigint string in settlement token) |
 | `netBalance` | string | Equity = totalCash + sum of all position values |
 | `positions` | array | List of active positions (size, rate, entry block, etc.) |
-| `initialMargin` | string | Raw initial margin without leverage |
-| `initialMarginWithLeverage` | string | Initial margin with leverage applied |
+| `initialMargin` | string | Raw initial margin (pre-scaling, before the per-account IM Factor is applied) |
+| `initialMarginWithLeverage` | string | Initial margin with the per-account IM Factor applied (the actual collateral consumed) |
 | `availableInitialMargin` | string | Remaining margin available for new positions |
 | `availableMaintMargin` | string | Remaining margin before liquidation (health ratio = 1.0 when zero) |
 
 Response includes `syncStatus` (`blockNumber` + `timestamp`).
+
+:::note Naming legacy
+The field name `initialMarginWithLeverage` predates Boros's UI redesign — the on-chain `IM Factor` (sometimes called `kIM` or `IMRatio`) used to be surfaced to users as "leverage", but the UI no longer exposes a leverage knob. The API field name is unchanged for backwards compatibility; semantically it is just "initial margin after the IM Factor is applied". Traders now see [Rate Sensitivity and Daily Volatility](https://docs.pendle.finance/boros-docs/risk-parameters/margin-and-liquidations/) instead.
+:::
 
 #### Active Positions
 

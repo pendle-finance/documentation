@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-05-04
+> Generated: 2026-05-14
 
 ---
 
@@ -8011,6 +8011,14 @@ This document covers the essential concepts of the Boros margin system. For comp
 
 ## Position Value and Total Value
 
+:::info UI vs on-chain accounting
+The concepts below — **Position Value**, **Total Value**, and **leverage** — are on-chain accounting primitives used by the contracts to compute margin and health. They are **not** surfaced in the Boros UI anymore.
+
+On the UI, traders see **Rate Sensitivity** (100× DV01: `Notional Size (YU) × DaysToMaturity / 365 × 1%`) and **Daily Volatility** (7-day moving average of the market's implied APR range) instead. These are presentation-layer metrics derived from the same on-chain data, framed for traders who think in interest-rate-swap terms rather than position valuations.
+
+When reading the rest of this page, treat Position Value / Total Value / Maintenance Margin as the **on-chain truth** the contracts operate on. For the user-facing framing, see the [Boros user docs — Margin and Liquidations](https://docs.pendle.finance/boros-docs/risk-parameters/margin-and-liquidations/).
+:::
+
 ### Position Value
 
 The position value represents the current unrealized profit or loss of an interest rate swap position:
@@ -8192,7 +8200,7 @@ When insufficient liquidity exists for normal liquidation and a user's health ra
 
 **Deleverage Process:**
 
-1. Identifies accounts with opposite-side positions (typically highest leverage)
+1. Identifies accounts with opposite-side positions (typically the largest opposite-side exposure relative to margin)
 2. Forces a swap between distressed account and counterparty at mark rate
 3. Total value across accounts remains unchanged
 4. Maintenance margin requirements decrease, restoring account health
@@ -8201,7 +8209,8 @@ When insufficient liquidity exists for normal liquidation and a user's health ra
 
 - Forced deleverage is an emergency mechanism to protect protocol solvency
 - This action is not expected to occur frequently under normal market conditions
-- Priority targets are high-leverage positions on the opposite side
+- Priority targets are accounts with the largest opposite-side exposure relative to their margin
+- The mechanism is named `Deleverage` in the contracts even though Boros no longer exposes a user-facing leverage knob — see the UI-vs-on-chain note in [Position Value and Total Value](#position-value-and-total-value) above
 
 ### Risk Management Actions
 
@@ -9328,6 +9337,10 @@ int256 position = market.getSignedSizeNoSettle(userAccount);
 int256 positionValue = market.calcPositionValueNoSettle(userAccount);
 ```
 
+:::note
+`positionValue` is the on-chain accounting primitive used for margin and health-ratio math (`Position Size × Mark Rate × Time to Maturity`). It is **not** surfaced in the Boros UI — traders see Rate Sensitivity and Daily Volatility instead. See [Mechanics — Margin](../Mechanics/Margin.mdx#position-value-and-total-value) for the UI-vs-on-chain explainer.
+:::
+
 ### `calcMarginNoSettle()`
 
 ```text
@@ -9585,7 +9598,7 @@ The Send Txs Bot charges gas from the user's on-chain gas balance in USD at the 
 
 # Glossary
 
-Quick reference for key terms used in the Boros API. For portfolio concepts (leverage, margin, PnL, liquidation), see the [Boros User Glossary](https://pendle.gitbook.io/boros/boros-docs/about-boros/glossary).
+Quick reference for key terms used in the Boros API. For portfolio concepts (Rate Sensitivity, Daily Volatility, margin, PnL, liquidation), see the [Boros User Glossary](https://docs.pendle.finance/boros-docs/about-boros/glossary).
 
 
 ## Trading Concepts
