@@ -1,0 +1,68 @@
+# Indicators
+
+The `/v1/indicators` endpoint exposes a unified time-series API for the off-chain market analytics that power the Boros UI's chart panel. Every indicator is identified by a short letter code and bucketed at one of four timeframes.
+
+For the request/response schemas, see the [interactive Open API docs](https://api-boros.pendle.finance/apis/docs).
+
+## Letter Codes
+
+| Code | Name | Source | Notes |
+|------|------|--------|-------|
+| `u` | Underlying APR | Realtime funding rate from the upstream exchange | Indexed by the market's funding-rate symbol; resolution = the market's payment period (typically 1h, 8h). Forward-filled. |
+| `fp` | Future Premium | Annualized premium of the upstream perp future relative to its index | Synced every 30 seconds; forward-filled to the chosen timeframe. |
+| `fgi` | Fear & Greed Index | Off-chain crypto sentiment index | Synced every 5 minutes; forward-filled to the chosen timeframe. |
+| `ap` | Asset Price | USD price of the market's base asset (BTC, ETH, etc.) | Sourced from the historical asset-price store. |
+| `udma:<periods>` | UFR Moving Averages | X-day moving averages of the underlying funding rate (`u`) | `<periods>` is a `;`-separated list of integer day windows, e.g. `udma:7;30` returns 7-day and 30-day MAs. The whole `udma:...` entry counts as **one indicator** for CU billing regardless of how many windows are packed in. |
+
+Indicators are returned aligned to a regular grid at the requested `timeFrame`. Where the underlying source ticks slower than the grid (e.g. funding rate at 1h, grid at 5m), values are **forward-filled** from the most recent observation.
+
+## Timeframes
+
+```
+5m  · 1h · 1d · 1w
+```
+
+The grid is in UTC. `startTimestamp` and `endTimestamp` are rounded down to the nearest grid bucket.
+
+## Response Cap
+
+A single call to `GET /v1/indicators` returns at most **500 datapoints per indicator**. The `[startTimestamp, endTimestamp]` window is clipped to that many buckets at the chosen `timeFrame`. For larger windows or bulk export, use `GET /v1/indicators/export`, which streams a CSV file (cap **10,000 rows per file**, always includes OHLCV plus any indicators in `select`).
+
+## CSV Export
+
+```
+GET /v1/indicators/export?marketId=24&timeFrame=5m&select=u,fp,fgi,ap,udma:3;7;30
+```
+
+- Always returns a CSV stream with `o, h, l, c, v` columns (5-minute, 1h, 1d or 1w OHLCV) plus one column per requested indicator.
+- Rate-limited to **3 requests per minute per IP**.
+- Costs **20 CU** regardless of the indicators selected.
+
+## Cost Model
+
+| Endpoint | CU |
+|----------|----|
+| `GET /v1/indicators` | **1 CU per indicator in `select`.** A `udma:7;30` entry counts as one indicator. |
+| `GET /v1/indicators/export` | **20 CU** (flat). |
+
+See [Computing Units](./10.%20computing-units.mdx) for how CU is reported on every response.
+
+## Examples
+
+```
+# Single indicator on the 1h grid
+GET /v1/indicators?marketId=1&timeFrame=1h&select=u
+
+# Multiple indicators including two MA windows (counts as 4 CU: u, fp, ap, udma)
+GET /v1/indicators?marketId=1&timeFrame=5m&select=u,fp,ap,udma:7;30
+
+# CSV export for the last 30 days at 1h resolution
+GET /v1/indicators/export?marketId=24&timeFrame=1h&startTimestamp=1761782400&select=u,fgi,udma:7
+```
+
+## Tips
+
+- For long histories, prefer the CSV export — it has a generous 10,000-point cap **per file** and a single 20 CU cost.
+- `u` resolution depends on the market's payment period. If the market funds every 8 hours, `u` will only have a fresh datapoint every 8 hours regardless of `timeFrame`.
+- `udma` requires the market to have a `fundingRateSymbol` configured. Markets without an upstream funding-rate symbol return empty UDMA series.
+- All numeric indicators are decimal fractions (e.g. `0.05` = 5% APR), consistent with the rest of the API.
