@@ -20,7 +20,7 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/cn/assets/css/styles.e2884bf6.css">
-<script src="/cn/assets/js/runtime~main.2d0380ac.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.1d0597e0.js" defer="defer"></script>
 <script src="/cn/assets/js/main.1195adb5.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -36,8 +36,8 @@
 <li>联合激励（Co-Incentives）：对协议提供激励的配比补贴</li>
 <li>自主分配（Discretionary）：针对高潜力资金池的战略性分配</li>
 </ul>
-<p>所有奖励渠道每周的最大发放总量为 90,000 枚 PENDLE。其中每个资金池在绩效奖励渠道中每周最多可获得 3,000 枚 PENDLE，在限价单渠道中每周最多可获得 1,000 枚 PENDLE。若某周内有未分配的 PENDLE，将退回协议国库，不结转至下一周预算。</p>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="激励多久更新一次">激励多久更新一次？<a href="#激励多久更新一次" class="hash-link" aria-label="激励多久更新一次？ 的直接链接" title="激励多久更新一次？ 的直接链接">​</a></h2>
+<p>所有奖励渠道每周的最大发放总量为 90,000 枚 PENDLE。其中每个资金池在绩效奖励渠道和限价单渠道中，每周最多可分别获得价值 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo separator="true">,</mo><mn>500</mn><mtext>和</mtext></mrow><annotation encoding="application/x-tex">2,500 和 </annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8778em;vertical-align:-0.1944em"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em"></span><span class="mord">500</span><span class="mord cjk_fallback">和</span></span></span></span>1,250 的 PENDLE 奖励。若某周内有未分配的 PENDLE，将退回协议国库，不结转至下一周预算。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="激励多久更新一次">激励多久更新一次？<a href="#激励多久更新一次" class="hash-link" aria-label="激励多久更新一次？   的直接链接" title="激励多久更新一次？ 的直接链接">​</a></h2>
 <p>激励每小时重新计算并更新一次。当新资金池被加入白名单后，将在下一个小时内开始获得激励。</p>
 <p>各组件的更新频率如下：</p>
 <ul>
@@ -49,14 +49,14 @@
 </ul>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="绩效激励performance">绩效激励（Performance）<a href="#绩效激励performance" class="hash-link" aria-label="绩效激励（Performance） 的直接链接" title="绩效激励（Performance） 的直接链接">​</a></h2>
 <p>基于绩效的排放会根据资金池在其上线周期中不同阶段的实际需求进行调整：新上线的池子会根据流动性增长获得更强力的激励，而成熟的池子则主要根据交易手续费表现获得激励。</p>
-<p><img decoding="async" loading="lazy" alt="incentive timeline" src="/cn/assets/images/incentive_timeline-3adc58ebb782d60c8e87b0b117e63055.png" title="Incentive Timeline" width="1600" height="900" class="img_ev3q"></p>
-<p>绩效激励的排放总量上限为每周最大奖励量减去联合激励和自主分配渠道已消耗的排放量。</p>
+<p><img decoding="async" loading="lazy" alt="incentive timeline" src="/cn/assets/images/incentive_timeline-0ec89d9a2c5cbed0c08b4c5f3362a0b3.png" title="Incentive Timeline" width="1600" height="900" class="img_ev3q"></p>
+<p>绩效激励的总奖励（来自手续费曲线与 TVL 曲线）每周上限为 $3,000 或 2,500 枚 PENDLE（以美元计价）两者中的较低值。</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="基于流动性的排放liquidity-based-emissions">基于流动性的排放（Liquidity-Based Emissions）<a href="#基于流动性的排放liquidity-based-emissions" class="hash-link" aria-label="基于流动性的排放（Liquidity-Based Emissions） 的直接链接" title="基于流动性的排放（Liquidity-Based Emissions） 的直接链接">​</a></h2>
 <p>每个池子根据其 <strong>加权 TVL</strong> 获得 PENDLE 激励，计算方式如下：</p>
 <div class="language-Math language-math codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#bfc7d5;--prism-background-color:#292d3e"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-math codeBlock_bY9V thin-scrollbar" style="color:#bfc7d5;background-color:#292d3e"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#bfc7d5"><span class="token plain">WeightedTVL = LP TVL + k x Floating TVL</span><br></span></code></pre></div></div>
 <p>其中 k 当前设为 0.2。</p>
 <p>加权 TVL 决定了资金池的排放份额，具体取决于其所处阶段（以上线天数定义）：
-启动期（Bootstrapping）-&gt; 上线  后 &lt;14 天
+启动期（Bootstrapping）-&gt; 上线后 &lt;14 天
 增长期（Growth）-&gt; 上线后 14–28 天
 成熟期（Mature）-&gt; 上线后 ≥28 天</p>
 <p><img decoding="async" loading="lazy" alt="Emission Curve" src="/cn/assets/images/emission_curve-0c53b890c17faf15d3fb27c216fdbc76.png" title="Emission Curve" width="1200" height="675" class="img_ev3q"></p>
@@ -74,7 +74,7 @@
 <ol>
 <li>到期前阶段（Pre-Maturity）：原资金池到期前 &lt;7 天</li>
 <li>过渡阶段（Transitional）：原资金池到期后 0–7 天</li>
-<li>到期后阶段（Post-Maturity）：原资金池到期后 &gt;7 天，或原资金池  到期前 &gt;7 天</li>
+<li>到期后阶段（Post-Maturity）：原资金池到期后 &gt;7 天，或原资金池到期前 &gt;7 天</li>
 </ol>
 <p><img decoding="async" loading="lazy" alt="Renewal Curve" src="/cn/assets/images/renewal_curve-788a9a3b79764d8f20aba81ea07d8a19.png" title="Renewal Curve" width="1200" height="675" class="img_ev3q"></p>
 <p>各阶段基于续期池流动性的排放如下：</p>
@@ -82,7 +82,7 @@
 <h4 class="anchor anchorWithStickyNavbar_LWe7" id="示例">示例<a href="#示例" class="hash-link" aria-label="示例 的直接链接" title="示例 的直接链接">​</a></h4>
 <p><img decoding="async" loading="lazy" alt="Renewal Emission" src="/cn/assets/images/renewal_emission-8951fa504831c7816e8c73aa8799cfb0.png" title="Renewal Emission" width="1600" height="900" class="img_ev3q"></p>
 <p><em>假设 USDe 资金池即将到期，其续期池（下一个最近到期版本）的加权 TVL 为 1,000 万美元。在正常情况下，根据默认流动性曲线（启动期），该资金池将获得 1.5% 的排放份额</em>。</p>
-<p><em>由于它是续期池，其激励需遵循续期流动性曲线，并取决于原 USDe 池的到期时间</em>：</p>
+<p><em>由于它是续期池，其激励需遵循续期  流动性曲线，并取决于原 USDe 池的到期时间</em>：</p>
 <ul>
 <li>到期前 &lt;7 天 → 1.0% 排放份额</li>
 <li>到期后 4 天 → 0.471% 排放份额</li>
@@ -96,7 +96,7 @@
 <p>对于处于加权 TVL 区间内的资金池，采用线性插值来确定激励率。上线 28 天后，所有资金池将回归至 0.5 的基准激励率。</p>
 <p>手续费排放的每周预算为 40,000 枚 PENDLE。</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="资格与手续费计算">资格与手续费计算<a href="#资格与手续费计算" class="hash-link" aria-label="资格与手续费计算 的直接链接" title="资格与手续费计算 的直接链接">​</a></h3>
-<p><strong>资格</strong>：资金池须上线至少 2 天方可获得手续费排放。较新的池子仍可获得基于流动性的排放及其他激励。</p>
+<p><strong>资格</strong>：资金池须上线至少 2 天方可获得手续费排放。较新的池子仍可获 得基于流动性的排放及其他激励。</p>
 <p><strong>手续费计算</strong>：手续费表现采用近期加权方法，重点关注最近活动：</p>
 <ul>
 <li>对于上线超过 14 天的池子：每次快照时更新，上次快照前 7 天的手续费权重为 2x，更早的 7 天权重为 1x</li>
@@ -112,12 +112,12 @@
 <li>4D-RASW 100 万美元 → 目标深度 75 万美元（4D-RASW &gt; 目标深度）</li>
 <li>4D-RASW 200 万美元 → 目标深度 150 万美元（4D-RASW &gt; 深度上限）</li>
 </ul>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="衰减调整目标深度decay-adjusted-target-depth">衰减调整目标深度（Decay-Adjusted Target Depth）<a href="#衰减调整目标深度decay-adjusted-target-depth" class="hash-link" aria-label="衰减调整目标深度（Decay-Adjusted Target Depth） 的直接链接" title="衰减调整目标深度（Decay-Adjusted Target Depth） 的直接链接">​</a></h3>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="衰减调整目标深度decay-adjusted-target-depth">衰减调整目标深度（Decay-Adjusted Target Depth）<a href="#衰减  调整目标深度decay-adjusted-target-depth" class="hash-link" aria-label="衰减调整目标深度（Decay-Adjusted Target Depth） 的直接链接" title="衰减调整目标深度（Decay-Adjusted Target Depth） 的直接链接">​</a></h3>
 <p>资金池的目标深度可根据其距到期时间（DTM）进行调整。衰减率在 DTM &gt; 120 时初始化为 25%，并在 DTM &lt; 60 时降至 0%。</p>
 <p>例如，目标深度为 100 万美元、DTM 不同的资金池，其衰减调整目标深度如下：</p>
 <ul>
 <li>120 DTM → 75 万美元衰减调整目标深度</li>
-<li>90 DTM → 87.5 万美元衰减调整目标深 度</li>
+<li>90 DTM → 87.5 万美元衰减调整目标深度</li>
 <li>60 DTM → 60 万美元衰减调整目标深度</li>
 </ul>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="目标激励target-incentives">目标激励（Target Incentives）<a href="#目标激励target-incentives" class="hash-link" aria-label="目标激励（Target Incentives） 的直接链接" title="目标激励（Target Incentives） 的直接链接">​</a></h3>
@@ -127,8 +127,8 @@
 <p>协议方可以通过 <strong>外部激励活动（External Incentive Campaigns）</strong> 为 Pendle 用户提供额外奖励。参与这些活动的用户也有资格获得 <strong>联合激励</strong>，即 Pendle 按一定比例进行配比补贴。</p>
 <p>协议方每投入 1 美元，Pendle 额外提供的 PENDLE 为：</p>
 <ul>
-<li>外部激励以 PENDLE 形式提供：$0.4</li>
-<li>外部激励以其他代币形式提供：$0.3</li>
+<li>外部激励以 PENDLE 形式 提供：$0.22</li>
+<li>外部激励以其他代币形式提供：$0.15</li>
 </ul>
 <p><strong>配比机制</strong></p>
 <ul>
