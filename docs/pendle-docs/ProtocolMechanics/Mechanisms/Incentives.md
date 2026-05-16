@@ -12,7 +12,7 @@ The algorithmic incentive model has four reward streams:
 - Co-Incentives: Matching rewards for protocol-provided incentives
 - Discretionary: Strategic allocations for high-potential pools
 
-The maximum rewards per week across all streams is 90,000 PENDLE. Each pool may receive up to 3,000 and 1,000 PENDLE per week from the performance and limit order streams respectively. Any PENDLE not distributed in a given week is returned to the protocol treasury and does not roll over to the next week's budget.
+The maximum rewards per week across all streams is 90,000 PENDLE. Each pool may receive up to $2,500 and $1,250 in PENDLE rewards per week from the performance and limit order streams respectively. Any PENDLE not distributed in a given week is returned to the protocol treasury and does not roll over to the next week's budget.
 
 ## How Often Are Incentives Updated?​
 
@@ -31,7 +31,7 @@ Performance-based emissions are adapted to support pools based on their expected
 
 ![incentive timeline](/pendle-docs/imgs/ProtocolMechanics/incentive_timeline.png "Incentive Timeline")
 
-The performance-based emission streams may receive up to the maximum weekly reward rate less emissions consumed by the co-incentive and discretionary streams.
+Total performance rewards (from the fee curve and TVL curves) are capped at the lower of $3,000 or 2,500 PENDLE (in USD terms) per week
 
 ## Liquidity-Based Emissions
 
@@ -154,8 +154,8 @@ For example, given a decay-adjusted target depth of \$1m, YT/USD of \$0.02, and 
 Protocols can use External Incentive Campaigns to provide additional rewards to Pendle users. Participants are also eligible for co-incentives, where Pendle will match contributions up to a defined amount.
 
 For every $1 contributed by the protocol, Pendle provides additional PENDLE of:
-- $0.4 for external incentives provided as PENDLE
-- $0.3 for external incentives provided as other tokens
+- $0.22 for external incentives provided as PENDLE
+- $0.15 for external incentives provided as other tokens
 
 **How Matching Works​**
 - Protocols submit incentives weekly (Wednesdays) through External Incentive Campaigns

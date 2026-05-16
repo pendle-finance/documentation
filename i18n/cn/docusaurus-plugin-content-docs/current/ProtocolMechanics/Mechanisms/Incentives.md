@@ -14,7 +14,7 @@ hide_table_of_contents: true
 - 联合激励（Co-Incentives）：对协议提供激励的配比补贴
 - 自主分配（Discretionary）：针对高潜力资金池的战略性分配
 
-所有奖励渠道每周的最大发放总量为 90,000 枚 PENDLE。其中每个资金池在绩效奖励渠道中每周最多可获得 3,000 枚 PENDLE，在限价单渠道中每周最多可获得 1,000 枚 PENDLE。若某周内有未分配的 PENDLE，将退回协议国库，不结转至下一周预算。
+所有奖励渠道每周的最大发放总量为 90,000 枚 PENDLE。其中每个资金池在绩效奖励渠道和限价单渠道中，每周最多可分别获得价值 $2,500 和 $1,250 的 PENDLE 奖励。若某周内有未分配的 PENDLE，将退回协议国库，不结转至下一周预算。
 
 ## 激励多久更新一次？
 
@@ -33,7 +33,7 @@ hide_table_of_contents: true
 
 ![incentive timeline](/pendle-docs/imgs/ProtocolMechanics/incentive_timeline.png "Incentive Timeline")
 
-绩效激励的排放总量上限为每周最大奖励量减去联合激励和自主分配渠道已消耗的排放量。
+绩效激励的总奖励（来自手续费曲线与 TVL 曲线）每周上限为 $3,000 或 2,500 枚 PENDLE（以美元计价）两者中的较低值。
 
 ## 基于流动性的排放（Liquidity-Based Emissions）
 
@@ -155,8 +155,8 @@ hide_table_of_contents: true
 协议方可以通过 **外部激励活动（External Incentive Campaigns）** 为 Pendle 用户提供额外奖励。参与这些活动的用户也有资格获得 **联合激励**，即 Pendle 按一定比例进行配比补贴。
 
 协议方每投入 1 美元，Pendle 额外提供的 PENDLE 为：
-- 外部激励以 PENDLE 形式提供：$0.4
-- 外部激励以其他代币形式提供：$0.3
+- 外部激励以 PENDLE 形式提供：$0.22
+- 外部激励以其他代币形式提供：$0.15
 
 **配比机制**
 - 协议方每周（周三）通过外部激励活动提交激励
