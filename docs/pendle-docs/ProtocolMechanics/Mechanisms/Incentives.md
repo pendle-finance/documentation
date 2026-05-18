@@ -12,7 +12,7 @@ The algorithmic incentive model has four reward streams:
 - Co-Incentives: Matching rewards for protocol-provided incentives
 - Discretionary: Strategic allocations for high-potential pools
 
-The maximum rewards per week across all streams is 90,000 PENDLE. Each pool may receive up to $2,500 and $1,250 in PENDLE rewards per week from the performance and limit order streams respectively. Any PENDLE not distributed in a given week is returned to the protocol treasury and does not roll over to the next week's budget.
+The maximum rewards per week across all streams is 90,000 PENDLE. Each pool may receive up to $3,000 and $1,250 in PENDLE rewards per week from the performance and limit order streams respectively. Any PENDLE not distributed in a given week is returned to the protocol treasury and does not roll over to the next week's budget.
 
 ## How Often Are Incentives Updated?​
 
