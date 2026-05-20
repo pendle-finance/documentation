@@ -110,6 +110,7 @@ BOROS_DEV_FILES=(
   "$BOROS_DEV_DOCS_DIR/Backend/9. indicators.mdx"
   "$BOROS_DEV_DOCS_DIR/Backend/10. computing-units.mdx"
   "$BOROS_DEV_DOCS_DIR/Backend/11. bot-quickstart.mdx"
+  "$BOROS_DEV_DOCS_DIR/Backend/12. api-migration.mdx"
   "$BOROS_DEV_DOCS_DIR/FAQ.mdx"
 )
 

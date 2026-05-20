@@ -12129,6 +12129,73 @@ main().catch((err) => {
 
 ---
 
+# API Migration
+
+:::danger Deprecation deadline: 20 July 2026
+The legacy `https://api.boros.finance/open-api/*`, `/send-txs-bot/*`, and `/core/*` mounts will be **shut off on 20 July 2026**. After that date, requests to those hosts will fail. Migrate to `https://api-boros.pendle.finance/apis/*` before then.
+:::
+
+The legacy Boros Open API is being replaced. All integrations should move to the redesigned API at `https://api-boros.pendle.finance/apis/`.
+
+Interactive docs for the new API: [`api-boros.pendle.finance/apis/docs`](https://api-boros.pendle.finance/apis/docs).
+
+
+## `/open-api/*` → `/apis/*`
+
+| Old | New |
+|---|---|
+| `GET  /open-api/v1/markets` | `GET  /apis/v1/markets` |
+| `GET  /open-api/v1/markets/{id}` | `GET  /apis/v1/markets/by-ids?marketIds={id}` (batched) |
+| `GET  /open-api/v1/markets/chart` | `GET  /apis/v1/markets/ohlcv` (indicators moved to `/apis/v1/indicators`) |
+| `GET  /open-api/v1/assets/all` | `GET  /apis/v1/assets` |
+| `GET  /open-api/v1/agents/expiry-time` | `GET  /apis/v1/agents/expiry-time` |
+| `GET  /open-api/v1/gas-price/current` | `GET  /apis/v1/gas-price/current` |
+| `GET  /open-api/v1/accounts/gas-balance` | `GET  /apis/v1/accounts/gas-balance` |
+| `GET  /open-api/v1/accounts/active-positions` | `GET  /apis/v1/accounts/active-positions` |
+| `POST /open-api/v1/accounts/market-acc-infos` | `POST /apis/v1/accounts/market-acc-infos` |
+| `GET  /open-api/v1/incentives/maker-incentives/campaigns/{id}` | `GET  /apis/v1/incentives/maker-incentives/campaigns/{id}` |
+| `GET  /open-api/v1/calldata/cancel-order` | `POST /apis/v1/calldata-builder/agent/cancel-orders` (GET → POST, body `{ markets: [...] }`) |
+| `POST /open-api/v1/calldata/place-orders` | `POST /apis/v1/calldata-builder/agent/place-orders` |
+| `POST /open-api/v1/calldata/place-orders-with-rate` | `POST /apis/v1/calldata-builder/agent/place-orders` (merged; use `desiredRate` XOR `slippage`) |
+| `GET  /open-api/v2/accounts/transactions` | `GET  /apis/v1/accounts/position-update-events` (cursor-based) |
+| `GET  /open-api/v2/accounts/limit-orders` | `GET  /apis/v1/accounts/orders` (cursor-based) |
+| `GET  /open-api/v2/markets/order-books` | `GET  /apis/v1/markets/order-book` |
+| `GET  /open-api/v2/simulations/place-order` | `POST /apis/v1/simulations/place-order` (GET → POST) |
+
+
+## `/core/*` → `/apis/*`
+
+The `/core/*` mount will be deprecated on **20 July 2026**. Migrate to the public `/apis/v1/*` equivalent below.
+
+| Old | New |
+|---|---|
+| `GET /core/v1/markets` | `GET /apis/v1/markets` |
+| `GET /core/v1/markets/{id}` | `GET /apis/v1/markets/by-ids?marketIds={id}` |
+| `GET /core/v1/markets/chart` | `GET /apis/v1/markets/ohlcv` |
+| `GET /core/v1/order-books/{id}` | `GET /apis/v1/markets/order-book?marketId={id}` |
+| `GET /core/v2/amm/{id}` | `GET /apis/v1/amm/states?marketIds={id}` (batched; up to 100 IDs) |
+| `GET /core/v2/assets/all` | `GET /apis/v1/assets` |
+| `GET /core/v1/accounts/gas-balance` | `GET /apis/v1/accounts/gas-balance` |
+| `GET /core/v1/gas-price` | `GET /apis/v1/gas-price/current` |
+| `GET /core/v1/collaterals/summary` | `GET /apis/v1/accounts/market-acc-infos-by-root?root={addr}` or `POST /apis/v1/accounts/market-acc-infos` |
+| `GET /core/v1/pnl/positions` | `GET /apis/v1/accounts/active-positions` |
+| `GET /core/v1/pnl/limit-orders`, `GET /core/v2/pnl/limit-orders` | `GET /apis/v1/accounts/orders` |
+| `GET /core/v1/pnl/transactions` | `GET /apis/v1/accounts/position-update-events` |
+| `GET /core/v1/pnl/market-acc-cumulative-pnl` | `POST /apis/v1/accounts/market-acc-infos` (cumulative PnL inlined) |
+| `GET /core/v1/settlement/settlements` | `GET /apis/v1/accounts/settlement-events` |
+| `GET /core/v2/incentives/maker-incentives/statistics` | `GET /apis/v1/incentives/maker-incentives/campaigns/{id}?maker={addr}` |
+
+
+## Cross-Cutting Changes
+
+- **`marketAcc` required** on every account-scoped endpoint. Anonymous mode is removed.
+- **Pagination**: `skip`/`limit` → `cursor`/`limit`.
+- **Response envelope**: `{ results: [...], cursor?: { next, hasMore }, syncStatus: { ... } }`.
+- **Computing Units**: every endpoint advertises CU cost via the `x-computing-unit` response header. See [Computing Units](./10.%20computing-units.mdx) for the budget and per-endpoint costs.
+- **Field renames**: `metadata.assetSymbol` → `underlyingSymbol`; `config.status` numeric → string label; body field `tif` → `timeInForce`; place-orders body `orderRequests[].singleOrder` → `orders[]`.
+
+---
+
 
 # Frequently Asked Questions
 

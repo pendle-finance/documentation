@@ -1,6 +1,10 @@
 # API Migration
 
-The legacy Boros Open API is being replaced. All integrations should move to the redesigned API at `https://api-boros.pendle.finance/apis/v1/`.
+:::danger Deprecation deadline: 20 July 2026
+The legacy `https://api.boros.finance/open-api/*`, `/send-txs-bot/*`, and `/core/*` mounts will be **shut off on 20 July 2026**. After that date, requests to those hosts will fail. Migrate to `https://api-boros.pendle.finance/apis/*` before then.
+:::
+
+The legacy Boros Open API is being replaced. All integrations should move to the redesigned API at `https://api-boros.pendle.finance/apis/`.
 
 Interactive docs for the new API: [`api-boros.pendle.finance/apis/docs`](https://api-boros.pendle.finance/apis/docs).
 
@@ -10,13 +14,13 @@ Interactive docs for the new API: [`api-boros.pendle.finance/apis/docs`](https:/
 
 | | Old | New |
 |---|---|---|
-| Public API | `https://api.boros.finance/open-api/{v1,v2}` | `https://api-boros.pendle.finance/apis/v1` |
-| Send Txs | `https://api.boros.finance/send-txs-bot/v2` | `https://api-boros.pendle.finance/apis/v1/send-txs` |
-| Internal UI API | `https://api.boros.finance/core/*` | `https://api-boros.pendle.finance/apis/v1` (do **not** use `/core/*` — see below) |
+| Public API | `https://api.boros.finance/open-api/*` | `https://api-boros.pendle.finance/apis/*` |
+| Send Txs | `https://api.boros.finance/send-txs-bot/*` | `https://api-boros.pendle.finance/apis/v1/send-txs/*` |
+| Internal UI API | `https://api.boros.finance/core/*` | `https://api-boros.pendle.finance/apis/*` |
 
 ---
 
-## Endpoint Mapping
+## `/open-api/*` → `/apis/*`
 
 | Old | New |
 |---|---|
@@ -37,19 +41,28 @@ Interactive docs for the new API: [`api-boros.pendle.finance/apis/docs`](https:/
 | `GET  /open-api/v2/accounts/limit-orders` | `GET  /apis/v1/accounts/orders` (cursor-based) |
 | `GET  /open-api/v2/markets/order-books` | `GET  /apis/v1/markets/order-book` |
 | `GET  /open-api/v2/simulations/place-order` | `POST /apis/v1/simulations/place-order` (GET → POST) |
-| `POST /send-txs-bot/v2/agent/bulk-direct-call` | `POST /apis/v1/send-txs/bulk-direct-call` |
-| `POST /send-txs-bot/v2/agent/dedicated/bulk-direct-call` | unchanged |
-| `POST /send-txs-bot/v2/agent/dedicated/tx-status-with-events` | unchanged |
 
 ---
 
-## Do NOT Use `/core/*` Endpoints
+## `/send-txs-bot/*` → `/apis/v1/send-txs/*`
 
-`https://api.boros.finance/core/*` is an **internal API for the Pendle UI only**. It is not a public API: there is no stability contract, no deprecation notice, no versioning guarantee, and **no support**. Endpoints, fields, and behavior can change or be removed at any time and your integration will break without warning.
+| Old | New |
+|---|---|
+| `POST /send-txs-bot/v1/agent/approve` | `POST /apis/v1/send-txs/approve` |
+| `POST /send-txs-bot/v1/agent/trace` | `POST /apis/v1/send-txs/trace` |
+| `POST /send-txs-bot/v1/agent/tx-status` | `POST /apis/v1/send-txs/tx-status` |
+| `POST /send-txs-bot/v1/agent/tx-status-with-events` | `POST /apis/v1/send-txs/tx-status-with-events` |
+| `POST /send-txs-bot/v2/agent/dedicated/bulk-direct-call` | `POST /apis/v1/send-txs/dedicated/bulk-calls` |
+| `POST /send-txs-bot/v2/agent/dedicated/tx-status` | `POST /apis/v1/send-txs/tx-status` |
+| `POST /send-txs-bot/v2/agent/dedicated/tx-status-with-events` | `POST /apis/v1/send-txs/tx-status-with-events` |
 
-If you are currently calling any `/core/*` endpoint, migrate to the public `/apis/v1/*` equivalent below.
+---
 
-| Old (`/core/*`) | New (`/apis/v1/*`) |
+## `/core/*` → `/apis/*`
+
+The `/core/*` mount will be deprecated on **20 July 2026**. Migrate to the public `/apis/v1/*` equivalent below.
+
+| Old | New |
 |---|---|
 | `GET /core/v1/markets` | `GET /apis/v1/markets` |
 | `GET /core/v1/markets/{id}` | `GET /apis/v1/markets/by-ids?marketIds={id}` |
