@@ -43,12 +43,11 @@ The endpoint always charges `N` CU per call regardless of parameters. Examples:
 The endpoint charges at least `N` (the minimum, billed for an empty / default request) and scales with the work performed. The actual cost is reported in the response header. Common scaling axes:
 
 - **Page size** — list endpoints charge proportionally to `limit`. Example: `GET /v1/events/liquidation-events` is `max(1, ceil(limit / 200))`.
-- **Number of markets** — multi-market endpoints charge per market in the request. Example: `POST /v1/funding-rate/settlement-summary` is `max(1, markets × days)`.
+- **Batch size** — multi-item endpoints charge 1 CU per 10 items. Example: `POST /v1/funding-rate/settlement-summary` is `max(1, ceil(settlementSummary.length / 10))`; `POST /v1/calldata-builder/agent/place-orders` is `max(1, ceil(orderRequests.length / 10))`.
 - **Number of indicators** — `GET /v1/indicators` charges 1 CU per indicator listed in `select`. A `udma:7;30` entry counts as one indicator regardless of how many windows are packed in.
-- **Order-request batch size** — `POST /v1/calldata-builder/agent/place-orders` charges 1 CU per entry in `orderRequests[]` (one on-chain call per entry).
 - **`maker` lookup flag** — `GET /v1/incentives/maker-incentives/campaigns/{marketId}` is 1 CU without `maker`, 2 CU with `maker`.
 
-The minimum-and-grow pattern means callers paying only for what they use — passing fewer markets / indicators / orders is cheaper.
+The minimum-and-grow pattern means callers paying only for what they use — passing fewer items / indicators is cheaper.
 
 ## Reading the Header in Practice
 
@@ -66,4 +65,4 @@ For dynamic endpoints, you can sum the header over a window to reason about tota
 - **Static endpoints are cheap.** The vast majority of read endpoints are 1 CU. Build dashboards against them without worrying about cost.
 - **Batch where possible.** `POST /v1/accounts/market-acc-infos` accepts up to 100 `marketAccs` in one request; `GET /v1/markets/by-ids` and `GET /v1/amm/states` likewise accept comma-separated IDs. One batched call is far cheaper than N individual calls.
 - **Prefer streaming for long histories.** For multi-day indicator windows, `GET /v1/indicators/export` is a flat 20 CU regardless of the indicators selected — much cheaper than hammering `/v1/indicators` repeatedly.
-- **Calldata is always 1 CU per on-chain call.** A `place-orders` request that compiles to 3 `placeSingleOrder` and 1 `bulkOrders` call is 4 CU.
+- **Calldata batching is cheap.** A `place-orders` request with up to 10 `orderRequests[]` entries is 1 CU; cost grows by 1 per additional 10 entries.
