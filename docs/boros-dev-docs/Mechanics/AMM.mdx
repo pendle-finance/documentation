@@ -1,0 +1,110 @@
+# AMM
+
+Boros pairs each market with an optional **Automated Market Maker (AMM)** that provides continuous liquidity alongside the central limit order book. The AMM is implemented as a normal MarketAcc with no special powers — its only privilege is that it can OTC-swap with users when the Router routes through it. This page explains how the AMM is priced, how add/remove-liquidity works, and how it composes with the order book.
+
+For the full mathematical specification, see the [AMM whitepaper](https://github.com/pendle-finance/boros-core-public/blob/main/whitepapers/AMM.pdf).
+
+## Two AMM Variants
+
+Boros ships two AMM contracts. Each market may bind to one (or none).
+
+| Variant | When it's used | Source |
+|---------|---------------|--------|
+| **PositiveAMM** | Markets whose implied APR is always non-negative (most funding-rate markets). | `core/amm/PositiveAMM.sol` |
+| **NegativeAMM** | Markets whose implied APR can cross zero — uses a different curve so liquidity behaves symmetrically around 0%. | `core/amm/NegativeAMM.sol` |
+
+Which curve an AMM uses is fixed at deployment time (set as a constructor arg on `AMMFactory.create`); the bound contract address determines the variant.
+
+## AMM State
+
+Every AMM tracks a small struct that can be read on-chain or via the Open API (`GET /v1/amm/states`):
+
+| Field | Meaning |
+|-------|---------|
+| `totalCash` | The AMM's cash balance in 18-decimal accounting units. **Liquidity adds are blocked when `totalCash ≤ 0`.** |
+| `totalLp` / `totalSupply` | Outstanding LP token supply. |
+| `totalSupplyCap` | Hard cap on LP supply set by admin. New deposits revert above the cap. |
+| `impliedRate` | The rate the AMM would currently quote for a marginal swap (continuous, not a tick). |
+| `oracleImpliedRate` | TWAP of the AMM's implied rate, used internally for some checks. |
+| `feeRate` | Per-AMM fee added to every swap against this AMM. **Independent** of `MarketConfig.otcFee` — at routing the two are summed (`ammAllInFeeRate = otcFee + amm.feeRate`) to form the total taker fee on AMM fills. |
+| `minAbsRate` / `maxAbsRate` | Active rate range. **Outside this range the AMM stops quoting** and only the order book provides liquidity. |
+| `cutOffTimestamp` | After this timestamp the AMM is in withdraw-only mode (no new deposits, no swaps). Used to wind AMMs down before market maturity. |
+
+## Pricing
+
+Conceptually, the AMM is a constant-product-style curve over `(cashReserve, sizeReserve)`, parameterised so that the implied APR moves smoothly as size flows in or out. A swap of `signedSize` units against the AMM costs:
+
+```
+costOut = calcSwapOutput(sizeReserve, cashReserve, signedSize)   // virtual function per AMM variant
+fee     = |signedSize| × amm.feeRate                              // AMM internal fee, no time scaling
+netCost = costOut + fee                                           // signed: paid by taker
+```
+
+On top of the AMM's internal `fee`, the MarketHub charges a separate **OTC fee** for the swap when the position is settled — `|size| × otcFee × timeToMaturity / YEAR` — credited to the protocol. Both rates apply to AMM fills; only `amm.feeRate` accrues back to LPs.
+
+Two helper view functions are exposed on each AMM contract:
+
+- **`swapView(signedSize)`** — given a desired position size, returns the cost (with fee already applied) at the current state.
+- **`calcSwapSize(targetRate)`** — given a target implied rate, returns the size you would have to swap to push the AMM to that rate.
+
+The Open API equivalents are `GET /v1/amm/states` (raw state) and the AMM-aware simulations.
+
+## Composition with the Order Book
+
+`placeSingleOrder` (the on-chain entry point that backs `POST /calldata-builder/agent/place-order`) routes between the AMM and the order book to give the taker the best execution:
+
+1. The Router reads both venues.
+2. It walks down the order book one tick at a time and quotes the AMM at each level.
+3. At each step it consumes whichever side is cheaper for the taker.
+4. Matching stops when the order is fully filled, the `desiredRate` execution guard would be violated, or no more liquidity is available within bounds.
+
+Implications for integrators:
+
+- The combined order book displayed on the UI (and returned by `GET /v1/markets/order-book` with AMM enabled) merges AMM liquidity into the tick-bucketed display. Real fills at a tick may consume both maker orders **and** AMM size at that level.
+- `bulkOrders` does **not** route through the AMM — orders are placed directly onto the book. To take AMM liquidity, use `placeSingleOrder` (single-order calldata) with `tif = IOC` or `FOK`.
+- When the market's implied APR drifts outside `[minAbsRate, maxAbsRate]`, the AMM stops quoting and the spread on the combined book typically widens.
+
+## LP Positions
+
+Adding liquidity is symmetric: you must contribute both cash and a (signed) position size proportional to the AMM's current ratio. Boros provides two helpers on `Router.AMMModule`:
+
+### Dual liquidity (`addLiquidityDualToAmm`)
+
+You supply `exactSizeIn` (signed) and the contract pulls the matching cash from your account, up to `maxCashIn`. Returns `(lpOut, cashIn, fee)`.
+
+### Single-cash liquidity (`addLiquiditySingleCashToAmm`)
+
+You supply only cash (`netCashIn`). The contract internally:
+
+1. OTC-swaps part of your cash against the AMM to acquire the required position size, then
+2. Adds the remaining cash + acquired size as dual liquidity.
+
+This is the variant the Boros UI uses by default — depositors don't have to think about position sizing. Returns `(lpOut, cashUsed, fee, swapSize)`.
+
+The corresponding remove functions (`removeLiquidityDualFromAmm`, `removeLiquiditySingleCashFromAmm`) burn LP and either return the proportional `(cash, size)` or auto-swap the size component back to cash.
+
+LP balances and per-market user data are exposed at `GET /v1/accounts/amm-states`.
+
+## Fees and Rewards
+
+- **AMM fee** — every taker swap against the AMM pays `|size| × amm.feeRate` and this fee accrues to LPs proportionally to their LP share. The MarketHub also charges a separate OTC fee (`|size| × otcFee × timeToMaturity / YEAR`) on the same fill, but that one is paid to the protocol, not LPs.
+- **PENDLE incentives** — most live AMMs additionally receive PENDLE token rewards distributed continuously to LPs. Both swap fees and PENDLE rewards (denominated in USD) are returned by `GET /v1/incentives/amm-incentives`.
+
+See [Incentives](./Incentives.mdx) for the maker-side incentive program (a separate, order-book–focused campaign).
+
+## When a Market Has No AMM
+
+A market may launch without an AMM bound. In that case:
+
+- `GET /v1/amm/states` returns no entry for the `marketId`.
+- `placeSingleOrder` and `bulkOrders` behave identically — both interact only with the order book.
+- The `ammImpliedApr` field on market endpoints is `null`.
+
+Always check `ammId` on the market response (or the AMM state list) before relying on AMM liquidity in your routing logic.
+
+## Related References
+
+- [Order Book Mechanics](./OrderBook.mdx) — tick semantics, matching priority, rate bounds
+- [Fees](./Fees.mdx) — `takerFee` vs `otcFee`, settlement fees
+- [Custom Types — `AMMId`](../Contracts/CustomTypes.mdx#ammid)
+- [Router AMM functions](../Contracts/Router.mdx#amm)

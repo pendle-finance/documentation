@@ -1,0 +1,86 @@
+# Incentives
+
+Boros runs PENDLE-denominated reward programs to bootstrap liquidity. There are two distinct incentive surfaces — one for **order-book makers** and one for **AMM liquidity providers**. Both can be queried through the Open API; this page describes how each is computed and where to read it.
+
+## Maker Incentives (Order Book)
+
+The maker-incentive program rewards traders that place resting limit orders close to the prevailing implied APR. It is split into two tracks per market.
+
+### Add-Liquidity Incentive
+
+Distributes a PENDLE budget per hour to makers whose resting size sits within an `incentiveRange` of the **mid-implied APR**.
+
+| Concept | Meaning |
+|---------|---------|
+| `incentiveRange` | Symmetric APR distance from mid above which an order stops earning. Long orders below `mid - range` and short orders above `mid + range` are out of range. |
+| `budgetPerHour` | Nominal PENDLE budget for the side per hour. |
+| `currentInRangeLiquidity` | Sum of in-range YU (notional × time-to-maturity) on that side at the latest hourly snapshot. |
+| `currentCappedDistributionPerHour` | Actual hourly emission after a per-side liquidity cap is applied (the budget is throttled when liquidity is below a target). |
+| `currentEligibleShare` | The supplied `maker`'s share of `currentInRangeLiquidity` at the latest hourly snapshot. |
+| `accumulatedReward` | Lifetime PENDLE accrued by `maker` on that side. |
+
+Long and short are scored independently — there are separate `budgetPerHour`, `incentiveRange`, and `currentEligibleShare` values for each side. A given account can earn on both at once.
+
+The hourly evaluation means makers must keep their orders **resting in-range across the hour boundary**; flickering an order through the snapshot does not cause it to count.
+
+### Filled-Volume Incentive
+
+Distributes an epoch budget proportional to each maker's filled-as-maker notional during the epoch.
+
+| Concept | Meaning |
+|---------|---------|
+| `epochTimestamp` | Start of the current epoch (Unix seconds, UTC). Epochs are **weekly** (Monday 00:00 UTC). |
+| `totalEpochReward` | PENDLE budget for the maker's epoch. |
+| `totalMakerVolume` | Total notional that was filled-as-maker across all accounts in the epoch. |
+| `userMakerVolume` | The supplied `maker`'s portion of that volume. |
+| `avgRewardPerYu` | `totalEpochReward / totalMakerVolume` — useful for comparing fill density across markets. |
+
+The user's share of the epoch reward is approximately `userMakerVolume / totalMakerVolume × totalEpochReward`.
+
+### Reading the Campaign
+
+`GET /v1/incentives/maker-incentives/campaigns/{marketId}` returns both tracks in one payload. The `maker` query parameter is optional:
+
+- Without `maker`: aggregate fields are populated; per-maker fields (`currentEligibleShare`, `accumulatedReward`, `userMakerVolume`) stay at 0. Costs **1 CU**.
+- With `maker`: the per-maker lookup is performed. Costs **2 CU**.
+
+## AMM Incentives
+
+LPs in the AMM accrue two reward streams in parallel:
+
+1. **Swap fees** — `otcFee` charged on every taker swap against the AMM, denominated in the market's collateral asset.
+2. **PENDLE incentives** — protocol-funded PENDLE token rewards distributed continuously to LPs.
+
+`GET /v1/incentives/amm-incentives` reports both streams per user, in USD:
+
+| Field | Meaning |
+|-------|---------|
+| `accruedAmountInUsd` | Total rewards earned to date across all AMMs (claimed + unclaimed). |
+| `unclaimedAmountInUsd` | Subset of the accrued total still claimable. |
+| `perMarket[]` | Per-market breakdown — each entry has `unclaimedRewards` (raw, in collateral units) and `allTimeRewards: { pendleRewards, swapFeeRewards }` for lifetime totals. |
+
+The `user` parameter is optional — omitting it returns zeros and an empty per-market list (handy for wiring up a UI before a wallet is connected).
+
+## How They Compose
+
+The two programs target different liquidity surfaces and don't overlap:
+
+| Surface | Earns from |
+|---------|-----------|
+| Resting limit orders on the book | Maker incentives (add-liquidity + filled-volume) |
+| AMM LP shares | AMM swap fees + PENDLE LP incentives |
+
+A single account can participate in both simultaneously by holding LP tokens **and** placing resting orders on the same market.
+
+## Related Endpoints
+
+- `GET /v1/incentives/maker-incentives/campaigns/{marketId}`
+- `GET /v1/incentives/amm-incentives`
+- `GET /v1/accounts/amm-states` — per-user LP positions and unclaimed rewards
+- `GET /v1/amm/states` — AMM state, fee rate, implied rate
+
+## Related Pages
+
+- [AMM Mechanics](./AMM.mdx) — How the AMM is priced and how liquidity is added
+- [Fees](./Fees.mdx) — `otcFee` (paid to LPs) vs `takerFee` (paid to protocol treasury)
+- [Order Book Mechanics](./OrderBook.mdx) — Tick semantics, mark rate, mid rate

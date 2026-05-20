@@ -1,6 +1,6 @@
 # Boros Open API
 
-This guide walks you through integrating with the Boros trading platform via the REST API. For exact request/response schemas and parameter details, see the [interactive API docs](https://api.boros.finance/open-api/docs).
+This guide walks you through integrating with the Boros trading platform via the REST API. For exact request/response schemas and parameter details, see the [interactive API docs](https://api-boros.pendle.finance/apis/docs).
 
 For key concepts and terminology, see the [Glossary](./1.%20glossary.mdx).
 
@@ -10,15 +10,16 @@ For key concepts and terminology, see the [Glossary](./1.%20glossary.mdx).
 
 ## Base URLs
 
-| Environment | Base URL |
-|-------------|----------|
-| Production  | `https://api.boros.finance` |
+| Service | Base URL | Purpose |
+|---------|----------|---------|
+| **Open API** | `https://api-boros.pendle.finance/apis/v1/` | Market data, calldata generation, account queries (new redesigned mount). |
+| **Open API (legacy, deprecated)** | `https://api.boros.finance/open-api/v1/` (or `/v2/`) — interactive docs at `https://api.boros.finance/open-api/docs` | Deprecated mount, kept for older clients only. Use the new mount above for everything. |
+| **Send Txs Bot** | `https://api.boros.finance/send-txs-bot/v2/` (programmatic) or `/v3/` (browser session) | Submitting signed transactions on-chain. |
+| **Stop Order** | `https://api.boros.finance/stop-order/v1/` to `/v4/` | Conditional TP/SL order management. |
 
-| Service | Path Prefix | Purpose |
-|---------|-------------|---------|
-| **Open API** | `/open-api/v1/` (or `/v2/`) | Market data, calldata generation, account queries |
-| **Send Txs Bot** | `/send-txs-bot/v2/` or `/v3/` | Submitting signed transactions on-chain |
-| **Stop Order** | `/stop-order/v1/` to `/v3/` | Conditional TP/SL order management |
+:::note
+Use the redesigned Open API at `api-boros.pendle.finance/apis/` — interactive docs: [`api-boros.pendle.finance/apis/docs`](https://api-boros.pendle.finance/apis/docs). The old `api.boros.finance/open-api/` mount (and its `/open-api/docs` page) is **deprecated**: still served for older clients, but no new endpoints are added there.
+:::
 
 ---
 
@@ -28,7 +29,7 @@ For key concepts and terminology, see the [Glossary](./1.%20glossary.mdx).
 
 The main API for querying data and generating transaction calldata.
 
-**Interactive docs:** [https://api.boros.finance/open-api/docs](https://api.boros.finance/open-api/docs)
+**Interactive docs:** [https://api-boros.pendle.finance/apis/docs](https://api-boros.pendle.finance/apis/docs)
 
 ### Send Txs Bot (Transaction Submission)
 
@@ -82,9 +83,9 @@ Once your agent is approved, this is the typical order placement flow:
 
 **Step 2 (simulation) is optional** but recommended — it previews the margin impact, estimated fees, and validates constraints before generating calldata.
 
-**Step 3** returns an array of calldata objects. When `autoExitMarket` is enabled (default), the response may contain **1 or 2 calldatas**: an optional exit-market calldata followed by the place-order calldata. You must submit **all** calldatas, not just the first one.
+**Step 3** returns one calldata per entry in `orderRequests[]`. A bulk request of N orders returns N calldatas; you must sign and submit all of them. The new Open API mount does **not** auto-prepend an exit-market calldata — if you need to enter or exit markets, call `POST /calldata-builder/agent/enter-markets` (or `.../exit-markets`) explicitly. The first time a `(root, accountId)` trades on a given market, you must call `enter-markets` first or the place call will revert.
 
-**Step 5** sends the signed calldata(s) to the Send Txs Bot. Use `bulk-direct-call` when you have multiple calldatas (e.g., exit-market + place-order). Use `direct-call` only when you have exactly one calldata. The response includes a transaction status and hash.
+**Step 5** sends the signed calldata(s) to the Send Txs Bot. `bulk-direct-call` accepts one or more signed calldatas in a single request; use it for any batch. `direct-call` is only kept for the single-calldata case. The response includes a transaction status and hash.
 
 :::tip skipReceipt parameter
 When submitting via the Send Txs Bot, you can set `skipReceipt=true` to get the `txHash` returned immediately without waiting for block inclusion. With `skipReceipt=false` (default), the bot waits for the transaction to be included in a block and returns the full `status` and any `error` message. Use `skipReceipt=true` for lower latency when you can track the transaction status yourself.
@@ -95,8 +96,8 @@ The calldata endpoints return a **list of calldatas** that execute the intended 
 
 When submitting via `bulk-direct-call`, use the `requireSuccess` parameter to control atomicity:
 
-- **`requireSuccess=true` (recommended for most actions)** — All calldatas either succeed together or fail together. Use this for actions like place-order with `autoExitMarket`, where the exit-market and place-order calldatas must both execute or neither should.
-- **`requireSuccess=false`** — Each calldata is executed independently; some may succeed while others fail. This is useful specifically for `place-orders` when you want to place multiple orders and don't need them to be atomic (e.g., if one order fails due to insufficient margin, the others can still go through).
+- **`requireSuccess=true` (recommended for cancel-and-replace pairs)** — The bot simulates the whole batch first; if any call would revert, the entire batch is aborted **before** any tx is sent on-chain. Use this when later calldatas in the batch only make sense if earlier ones succeeded (e.g., cancel an order, then place its replacement).
+- **`requireSuccess=false`** — Each calldata is executed independently; some may succeed while others fail. Useful for `place-orders` when you want to place multiple orders and don't need them to be atomic (e.g., if one order fails due to insufficient margin, the others can still go through).
 :::
 
 
@@ -143,7 +144,7 @@ Stop orders are conditional orders that execute automatically when the market AP
 └──────────────────────────────────────────────────────────────┘
 ```
 
-The prepare endpoint generates the order parameters (including the calldata that will be executed when triggered). The place endpoint submits the signed conditional order. See [Stop Orders](./6.%20stop-orders.mdx) for details.
+The prepare endpoint generates the order parameters (including the calldata that will be executed when triggered). The place endpoint submits the signed conditional order. See [Stop Orders](./7.%20stop-orders.mdx) for details.
 
 ---
 
@@ -313,7 +314,9 @@ Generate transaction calldata for on-chain operations.
 | `POST /calldata/place-orders-with-rate` | Place orders with an explicit desired rate (instead of slippage) |
 | `GET /calldata/cancel-order` | Cancel orders |
 | `GET /calldata/cash-transfer` | Transfer between cross and isolated accounts |
-| `GET /calldata/enter-exit-markets` | Enter or exit markets |
+| `POST /calldata-builder/agent/enter-markets` | Enter one or more markets (call this before the first trade on a `(root, accountId, marketId)`). Body: `{ accountId, marketIds: number[] }`. |
+| `POST /calldata-builder/agent/exit-markets` | Exit one or more markets to free entered-market slots. Body: `{ accountId, marketIds: number[] }`. Requires zero position size, no open orders, no pending settlements. |
+| `GET /calldata/enter-exit-markets` | _(Legacy combined endpoint. Still served. Prefer the split endpoints above.)_ |
 | `GET /calldata/pay-treasury` | Pay accrued treasury fees |
 | `GET /calldata/add-liquidity-single-cash-to-amm` | Add AMM liquidity |
 | `GET /calldata/remove-liquidity-single-cash-from-amm` | Remove AMM liquidity |
@@ -338,6 +341,30 @@ Access funding rate data and settlement history.
 |----------|-------------|
 | `GET /funding-rate/all-funding-rate-symbols` | Available funding rate symbols |
 | `POST /funding-rate/settlement-summary` | Historical settlement summaries |
+
+### Indicators
+Time-series market data — underlying APR, future premium, fear & greed index, asset price, and UFR moving averages. See [Indicators](./9.%20indicators.mdx) for the indicator letter codes and CSV export semantics.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v1/indicators` | Fetch one or more indicators by letter code (`u`, `fp`, `fgi`, `ap`, `udma:<periods>`). 1 CU per indicator. |
+| `GET /v1/indicators/export` | Export OHLCV + selected indicators as CSV (rate-limited 3 req/min/IP, 20 CU). |
+
+### Incentives
+Maker rewards and AMM rewards. See [Incentives](/boros-dev/Mechanics/Incentives) for the underlying mechanics.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v1/incentives/maker-incentives/campaigns/{marketId}` | PENDLE maker-incentive campaign for a market (add-liquidity + filled-volume). |
+| `GET /v1/incentives/amm-incentives` | Per-user AMM rewards (swap fees + Pendle incentives) — accrued, unclaimed, and per-market breakdown. |
+
+### Market Account Helpers
+Pack / unpack the `marketAcc` identifier without using the SDK.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v1/market-acc/encode` | Pack `(root, accountId, tokenId, marketId)` into the 26-byte / 54-char hex `marketAcc`. |
+| `GET /v1/market-acc/decode` | Unpack a `marketAcc` into `{ root, accountId, tokenId, marketId, isCross }`. |
 
 ### Agents
 Manage agent authorization.
@@ -406,17 +433,33 @@ The Send Txs Bot and Stop Order services use the legacy format:
 }
 ```
 
-See [Best Practices](./5.%20best-practices.mdx) for error handling recommendations.
+See [Best Practices](./6.%20best-practices.mdx) for error handling recommendations.
 
 ---
 
 ## Rate Limiting
 
-The API does not currently enforce strict rate limits, but excessive request rates may be throttled. Recommendations:
+Every IP gets a budget of **60 Computing Units (CU) per minute**, fixed window. Each endpoint advertises its CU cost via the `x-computing-unit` response header and the OpenAPI `x-computing-unit` extension. Most read endpoints are 1 CU.
 
-- Use [WebSocket](./4.%20websocket.mdx) for real-time data instead of polling
-- Use bulk order endpoints instead of multiple single-order calls
-- Cache market and asset data that doesn't change frequently
+Exceeding the budget returns **HTTP 429** with `{ "statusCode": 429, "message": "ThrottlerException: Too Many Requests" }`. The bucket refills at the start of the next 60-second window.
+
+A few endpoints have additional per-IP throttles on top of the CU budget:
+
+| Endpoint | Extra throttle |
+|----------|----------------|
+| `GET /v1/indicators/export` | 3 requests/minute/IP |
+
+Recommendations to stay under budget:
+
+- Use [WebSocket](./5.%20websocket.mdx) for real-time data instead of polling.
+- Batch where possible: `POST /v1/accounts/market-acc-infos` accepts up to 100 `marketAccs`, `GET /v1/markets/by-ids` accepts comma-separated IDs, `POST /v1/calldata-builder/agent/place-orders` accepts an array.
+- Cache market and asset data that doesn't change frequently.
+
+See [Computing Units](./10.%20computing-units.mdx) for the per-endpoint cost table.
+
+## Computing Units
+
+Every Open API endpoint advertises a per-call cost via the `x-computing-unit` extension on the OpenAPI spec, also returned as the `x-computing-unit` HTTP response header on every successful request. Most endpoints cost **1 CU**; some scale dynamically with page size, market count, or number of indicators requested. See [Computing Units](./10.%20computing-units.mdx) for the full model.
 
 ---
 

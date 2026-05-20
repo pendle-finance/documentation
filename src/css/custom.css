@@ -929,55 +929,56 @@ article {
 }
 
 /* TOC nested levels */
-.table-of-contents > ul > li > .table-of-contents__link {
+.table-of-contents > li > .table-of-contents__link {
   font-weight: 500;
-  font-size: 0.6875rem;
+  font-size: 0.875rem;
   color: var(--color-text-muted);
   margin-bottom: 0.0625rem;
   padding: 0.25rem 0.375rem;
 }
 
-.table-of-contents > ul > li > ul {
-  margin-left: 0.5rem;
-  padding-left: 0.5rem;
-  border-left: 1px solid var(--border-default);
+.table-of-contents > li > ul {
+  margin-left: 0.75rem;
+  padding-left: 0.875rem;
+  border-left: 1px solid var(--border-strong, rgba(148, 163, 184, 0.35));
   margin-top: 0.125rem;
   margin-bottom: 0.25rem;
 }
 
-.table-of-contents > ul > li > ul > li > .table-of-contents__link {
-  font-size: 0.75rem;
+.table-of-contents > li > ul > li > .table-of-contents__link {
+  font-size: 0.8125rem;
   padding: 0.375rem 0.5rem;
   color: var(--color-text-secondary);
   font-weight: 400;
 }
 
-.table-of-contents > ul > li > ul > li > ul {
-  margin-left: 0.5rem;
-  padding-left: 0.5rem;
+.table-of-contents > li > ul > li > ul {
+  margin-left: 0.75rem;
+  padding-left: 0.875rem;
+  border-left: 1px solid var(--border-default, rgba(148, 163, 184, 0.2));
   margin-top: 0.0625rem;
 }
 
-.table-of-contents > ul > li > ul > li > ul > li > .table-of-contents__link {
-  font-size: 0.6875rem;
+.table-of-contents > li > ul > li > ul > li > .table-of-contents__link {
+  font-size: 0.75rem;
   padding: 0.25rem 0.375rem;
   color: #94a3b8;
   font-weight: 400;
 }
 
-.table-of-contents > ul > li > .table-of-contents__link--active {
+.table-of-contents > li > .table-of-contents__link--active {
   color: var(--color-info);
   font-weight: 600;
   background: rgba(96, 121, 255, 0.08);
 }
 
-.table-of-contents > ul > li > ul > li > .table-of-contents__link--active {
+.table-of-contents > li > ul > li > .table-of-contents__link--active {
   color: var(--color-info);
   font-weight: 500;
   background: rgba(96, 121, 255, 0.06);
 }
 
-.table-of-contents > ul > li > ul > li > ul > li > .table-of-contents__link--active {
+.table-of-contents > li > ul > li > ul > li > .table-of-contents__link--active {
   color: var(--color-info);
   font-weight: 450;
   background: rgba(96, 121, 255, 0.04);
@@ -1878,14 +1879,29 @@ html body .menu__caret {
   height: 100% !important;
 }
 
-@media (max-width: 996px) {
-  /* Scrollable wrapper injected around tables by DocItem/Layout */
-  .tableScrollWrapper {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
-  }
+.tableScrollWrapper {
+  width: 100%;
+  max-width: 100%;
+}
 
+.tableScrollWrapper table {
+  table-layout: fixed;
+}
+
+.tableScrollWrapper td,
+.tableScrollWrapper th {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+.tableScrollWrapper td code,
+.tableScrollWrapper th code {
+  white-space: normal;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 996px) {
   /* Code blocks scroll horizontally */
   .markdown pre,
   [class*='codeBlockContainer'] {
