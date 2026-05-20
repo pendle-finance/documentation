@@ -9655,6 +9655,7 @@ The Send Txs Bot charges gas from the user's on-chain gas balance in USD at the 
 | [Indicators](./9.%20indicators.mdx) | Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`) and CSV export |
 | [Computing Units](./10.%20computing-units.mdx) | How endpoint cost is reported and the static / dynamic CU model |
 | [Bot Quickstart](./11.%20bot-quickstart.mdx) | End-to-end zero-to-functional grid bot — capstone that stitches the pages above into one runnable journey |
+| [API Migration](./12.%20api-migration.mdx) | Endpoint mapping from the legacy `/open-api/*` and internal `/core/*` mounts to the redesigned `/apis/v1/*` API |
 
 ---
 

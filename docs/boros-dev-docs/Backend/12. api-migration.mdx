@@ -1,0 +1,110 @@
+# API Migration
+
+The legacy Boros Open API is being replaced. All integrations should move to the redesigned API at `https://api-boros.pendle.finance/apis/v1/`.
+
+Interactive docs for the new API: [`api-boros.pendle.finance/apis/docs`](https://api-boros.pendle.finance/apis/docs).
+
+---
+
+## Hosts
+
+| | Old | New |
+|---|---|---|
+| Public API | `https://api.boros.finance/open-api/{v1,v2}` | `https://api-boros.pendle.finance/apis/v1` |
+| Send Txs | `https://api.boros.finance/send-txs-bot/v2` | `https://api-boros.pendle.finance/apis/v1/send-txs` |
+| Internal UI API | `https://api.boros.finance/core/*` | `https://api-boros.pendle.finance/apis/v1` (do **not** use `/core/*` — see below) |
+
+---
+
+## Endpoint Mapping
+
+| Old | New |
+|---|---|
+| `GET  /open-api/v1/markets` | `GET  /apis/v1/markets` |
+| `GET  /open-api/v1/markets/{id}` | `GET  /apis/v1/markets/by-ids?marketIds={id}` (batched) |
+| `GET  /open-api/v1/markets/chart` | `GET  /apis/v1/markets/ohlcv` (indicators moved to `/apis/v1/indicators`) |
+| `GET  /open-api/v1/assets/all` | `GET  /apis/v1/assets` |
+| `GET  /open-api/v1/agents/expiry-time` | `GET  /apis/v1/agents/expiry-time` |
+| `GET  /open-api/v1/gas-price/current` | `GET  /apis/v1/gas-price/current` |
+| `GET  /open-api/v1/accounts/gas-balance` | `GET  /apis/v1/accounts/gas-balance` |
+| `GET  /open-api/v1/accounts/active-positions` | `GET  /apis/v1/accounts/active-positions` |
+| `POST /open-api/v1/accounts/market-acc-infos` | `POST /apis/v1/accounts/market-acc-infos` |
+| `GET  /open-api/v1/incentives/maker-incentives/campaigns/{id}` | `GET  /apis/v1/incentives/maker-incentives/campaigns/{id}` |
+| `GET  /open-api/v1/calldata/cancel-order` | `POST /apis/v1/calldata-builder/agent/cancel-orders` (GET → POST, body `{ markets: [...] }`) |
+| `POST /open-api/v1/calldata/place-orders` | `POST /apis/v1/calldata-builder/agent/place-orders` |
+| `POST /open-api/v1/calldata/place-orders-with-rate` | `POST /apis/v1/calldata-builder/agent/place-orders` (merged; use `desiredRate` XOR `slippage`) |
+| `GET  /open-api/v2/accounts/transactions` | `GET  /apis/v1/accounts/position-update-events` (cursor-based) |
+| `GET  /open-api/v2/accounts/limit-orders` | `GET  /apis/v1/accounts/orders` (cursor-based) |
+| `GET  /open-api/v2/markets/order-books` | `GET  /apis/v1/markets/order-book` |
+| `GET  /open-api/v2/simulations/place-order` | `POST /apis/v1/simulations/place-order` (GET → POST) |
+| `POST /send-txs-bot/v2/agent/bulk-direct-call` | `POST /apis/v1/send-txs/bulk-direct-call` |
+| `POST /send-txs-bot/v2/agent/dedicated/bulk-direct-call` | unchanged |
+| `POST /send-txs-bot/v2/agent/dedicated/tx-status-with-events` | unchanged |
+
+---
+
+## Do NOT Use `/core/*` Endpoints
+
+`https://api.boros.finance/core/*` is an **internal API for the Pendle UI only**. It is not a public API: there is no stability contract, no deprecation notice, no versioning guarantee, and **no support**. Endpoints, fields, and behavior can change or be removed at any time and your integration will break without warning.
+
+If you are currently calling any `/core/*` endpoint, migrate to the public `/apis/v1/*` equivalent below.
+
+| Old (`/core/*`) | New (`/apis/v1/*`) |
+|---|---|
+| `GET /core/v1/markets` | `GET /apis/v1/markets` |
+| `GET /core/v1/markets/{id}` | `GET /apis/v1/markets/by-ids?marketIds={id}` |
+| `GET /core/v1/markets/chart` | `GET /apis/v1/markets/ohlcv` |
+| `GET /core/v1/order-books/{id}` | `GET /apis/v1/markets/order-book?marketId={id}` |
+| `GET /core/v2/amm/{id}` | `GET /apis/v1/amm/states?marketIds={id}` (batched; up to 100 IDs) |
+| `GET /core/v2/assets/all` | `GET /apis/v1/assets` |
+| `GET /core/v1/accounts/gas-balance` | `GET /apis/v1/accounts/gas-balance` |
+| `GET /core/v1/gas-price` | `GET /apis/v1/gas-price/current` |
+| `GET /core/v1/collaterals/summary` | `GET /apis/v1/accounts/market-acc-infos-by-root?root={addr}` or `POST /apis/v1/accounts/market-acc-infos` |
+| `GET /core/v1/pnl/positions` | `GET /apis/v1/accounts/active-positions` |
+| `GET /core/v1/pnl/limit-orders`, `GET /core/v2/pnl/limit-orders` | `GET /apis/v1/accounts/orders` |
+| `GET /core/v1/pnl/transactions` | `GET /apis/v1/accounts/position-update-events` |
+| `GET /core/v1/pnl/market-acc-cumulative-pnl` | `POST /apis/v1/accounts/market-acc-infos` (cumulative PnL inlined) |
+| `GET /core/v1/settlement/settlements` | `GET /apis/v1/accounts/settlement-events` |
+| `GET /core/v2/incentives/maker-incentives/statistics` | `GET /apis/v1/incentives/maker-incentives/campaigns/{id}?maker={addr}` |
+
+---
+
+## Use WebSocket to Reduce Polling
+
+The new API enforces **strict rate limits** (see [Computing Units](./10.%20computing-units.mdx)). If you currently poll the same endpoint many times per minute (markets, order-book, account state), switch to a WebSocket channel — subscribe once and receive push updates.
+
+### Account Channel
+
+Subscribe per `root` address. See [WebSocket → Account Channels](./5.%20websocket.mdx#account-channels).
+
+| Event | Replaces polling of |
+|---|---|
+| `POSITION_UPDATE` | `/accounts/position-update-events`, `/accounts/market-acc-infos` (position fields), legacy `/core/v1/pnl/transactions`, `/open-api/v2/accounts/transactions` |
+| `ORDER_UPDATE` | `/accounts/orders`, legacy `/open-api/v2/accounts/limit-orders`, `/core/v1/pnl/limit-orders` |
+
+### Market-Data Channel
+
+Subscribe per `marketId`. See [WebSocket → Market-Data Events](./5.%20websocket.mdx#market-data-events).
+
+| Replaces polling of |
+|---|
+| `/apis/v1/markets/by-ids`, legacy `/open-api/v1/markets/{id}`, `/core/v1/markets/{id}`, `/core/v2/amm/{id}` |
+| `/apis/v1/incentives/maker-incentives/campaigns/{id}`, legacy `/core/v2/incentives/maker-incentives/statistics` |
+
+### Order-Book Channel
+
+Subscribe per `marketId`. See [WebSocket → Orderbook Events](./5.%20websocket.mdx#orderbook-events).
+
+| Replaces polling of |
+|---|
+| `/apis/v1/markets/order-book`, legacy `/open-api/v2/markets/order-books`, `/core/v1/order-books/{id}` |
+
+---
+
+## Cross-Cutting Changes
+
+- **`marketAcc` required** on every account-scoped endpoint. Anonymous mode is removed.
+- **Pagination**: `skip`/`limit` → `cursor`/`limit`.
+- **Response envelope**: `{ results: [...], cursor?: { next, hasMore }, syncStatus: { ... } }`.
+- **Computing Units**: every endpoint advertises CU cost via the `x-computing-unit` response header. See [Computing Units](./10.%20computing-units.mdx) for the budget and per-endpoint costs.
+- **Field renames**: `metadata.assetSymbol` → `underlyingSymbol`; `config.status` numeric → string label; body field `tif` → `timeInForce`; place-orders body `orderRequests[].singleOrder` → `orders[]`.
