@@ -49,9 +49,7 @@ The endpoint always charges `N` CU per call regardless of parameters. Examples:
 
 The endpoint charges at least `N` (the minimum, billed for an empty / default request) and scales with the work performed. The actual cost is reported in the response header. Common scaling axes:
 
-- **Page size** — cursor-paginated list endpoints charge proportionally to **rows actually returned** (not the requested `limit`), so a caller passing `limit=1000` on a sub-account with 30 orders only pays for the 30 returned. Examples:
-  - `GET /v1/accounts/orders` — `max(1, ceil(results.length / 10))` (same pattern for `transfer-logs`, `gas-consumption-history`, `orders-by-placed-time`, `position-update-events`, `settlement-events`, `light-event-feed`, `markets/trades`).
-  - `GET /v1/events/liquidation-events` — still scales with the requested `limit`: `max(1, ceil(limit / 200))`.
+- **Page size** — list endpoints charge proportionally to `limit`. Example: `GET /v1/events/liquidation-events` is `max(1, ceil(limit / 200))`.
 - **Batch size** — multi-item endpoints charge 1 CU per 10 items. Example: `POST /v1/funding-rate/settlement-summary` is `max(1, ceil(settlementSummary.length / 10))`; `POST /v1/calldata-builder/agent/place-orders` is `max(1, ceil(orderRequests.length / 10))`.
 - **Number of indicators** — `GET /v1/indicators` charges 1 CU per indicator listed in `select`. A `udma:7;30` entry counts as one indicator regardless of how many windows are packed in.
 - **`maker` lookup flag** — `GET /v1/incentives/maker-incentives/campaigns/{marketId}` is 1 CU without `maker`, 2 CU with `maker`.
