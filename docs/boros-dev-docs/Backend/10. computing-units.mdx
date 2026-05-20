@@ -4,11 +4,22 @@ Every Open API endpoint advertises a per-call cost called a **Computing Unit (CU
 
 ## Budget
 
-**60 CU per minute per IP**, fixed window. Every successful call deducts its `x-computing-unit` cost from the bucket; the bucket refills every 60s.
+Two fixed-window buckets per IP, both must have capacity for a call to succeed:
 
-When the budget is exhausted the API returns **HTTP 429** with body `{ "statusCode": 429, "message": "ThrottlerException: Too Many Requests" }`. Wait for the next window before retrying.
+| Window | Limit |
+|---|---|
+| 1 minute | **200 CU** |
+| 1 week | **400,000 CU** |
 
-Cloudflare-fronted requests are bucketed by `cf-connecting-ip`; direct requests by remote IP. Same-origin browsers behind a NAT share one bucket. There is currently no per-API-key tier — every consumer gets the same 60 CU/minute regardless of authentication.
+Every successful call deducts its `x-computing-unit` cost from both buckets. The minute bucket refills every 60s; the weekly bucket refills every 168h.
+
+When either budget is exhausted the API returns **HTTP 429** with body `{ "statusCode": 429, "message": "ThrottlerException: Too Many Requests" }`. Wait for the next window before retrying.
+
+Cloudflare-fronted requests are bucketed by `cf-connecting-ip`; direct requests by remote IP. Same-origin browsers behind a NAT share one bucket. There is currently no per-API-key tier — every consumer gets the same limits regardless of authentication.
+
+:::info Need a higher limit?
+If your integration needs more than 200 CU/minute or 400,000 CU/week, please contact the Pendle team — higher tiers are available on request.
+:::
 
 ## Where CU is Reported
 
