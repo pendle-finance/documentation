@@ -1,12 +1,16 @@
 # API Migration
 
-:::danger Deprecation deadline: 20 July 2026
-The legacy `https://api.boros.finance/open-api/*`, `/send-txs-bot/*`, and `/core/*` mounts will be **shut off on 20 July 2026**. After that date, requests to those hosts will fail. Migrate to `https://api-boros.pendle.finance/apis/*` before then.
+:::danger Deprecation deadline: 20 June 2026
+The legacy `https://api.boros.finance/open-api/*`, `/send-txs-bot/*`, and `/core/*` mounts will be **shut off on 20 June 2026**. After that date, requests to those hosts will fail. Migrate to `https://api-boros.pendle.finance/apis/*` before then.
 :::
 
 The legacy Boros Open API is being replaced. All integrations should move to the redesigned API at `https://api-boros.pendle.finance/apis/`.
 
 Interactive docs for the new API: [`api-boros.pendle.finance/apis/docs`](https://api-boros.pendle.finance/apis/docs).
+
+:::info SDK users
+If you integrate via our SDK, migrate from [`@pendle/sdk-boros`](https://www.npmjs.com/package/@pendle/sdk-boros) (legacy) to [`@pendle/boros-sdk-public`](https://www.npmjs.com/package/@pendle/boros-sdk-public) (new). The legacy SDK targets the legacy API and will stop working after **20 June 2026**.
+:::
 
 ---
 
@@ -60,7 +64,7 @@ Interactive docs for the new API: [`api-boros.pendle.finance/apis/docs`](https:/
 
 ## `/core/*` → `/apis/*`
 
-The `/core/*` mount will be deprecated on **20 July 2026**. Migrate to the public `/apis/v1/*` equivalent below.
+The `/core/*` mount will be deprecated on **20 June 2026**. Migrate to the public `/apis/v1/*` equivalent below.
 
 | Old | New |
 |---|---|
