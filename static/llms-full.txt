@@ -9887,13 +9887,12 @@ new Exchange(walletClient, root, accountId, rpcUrls, agent?)
 
 `agent` is optional at construction time — set it later via `exchange.setAgent(agent)` if you bootstrap one with `Agent.create()` after the fact.
 
-The SDK ships with the production backend pre-wired (`api-boros.pendle.finance`, `api.boros.finance/send-txs-bot`). For staging, override at startup:
+The SDK ships with the production backend pre-wired (`api-boros.pendle.finance/apis`). All endpoints — markets, accounts, calldata builders, and send-txs — go through this single host. For staging, override at startup:
 
 ```ts
-import { setOpenApiBackendUrl, setSendTxsBotBackendUrl } from '@pendle/boros-sdk-public';
+import { setOpenApiBackendUrl } from '@pendle/boros-sdk-public';
 
 setOpenApiBackendUrl('https://staging-api-boros.pendle.finance/apis');
-setSendTxsBotBackendUrl('https://staging-api.boros.finance/send-txs-bot');
 ```
 
 ## Common flows
@@ -9928,27 +9927,23 @@ The SDK groups operations by who signs the calldata — root for sensitive actio
 
 ```ts
 import { Side, TimeInForce, MarketAccLib, CROSS_MARKET_ID } from '@pendle/boros-sdk-public';
-import { estimateTickForRate, FixedX18 } from '@pendle/boros-offchain-math';
 
 const market = (await exchange.getAllMarkets({ isUiWhitelisted: true }))[0];
 const marketAcc = MarketAccLib.pack(rootAccount.address, 0, market.tokenId, CROSS_MARKET_ID);
-
-// Convert your target APR into a contract-side tick using the market's tickStep.
-const targetApr = 0.05; // 5%
-const limitTick = Number(
-  estimateTickForRate(FixedX18.fromNumber(targetApr), BigInt(market.imData.tickStep), /* roundDown */ true),
-);
 
 const { result, executeResponse } = await exchange.placeOrder({
   marketAcc,
   marketId: market.marketId,
   side: Side.LONG,
   size: 10n ** 18n,
-  limitTick,
+  rate: 0.05,          // 5% APR — backend rounds to nearest valid tick
   tif: TimeInForce.GOOD_TIL_CANCELLED,
-  ammId: 0,            // 0 = orderbook-only; >0 = route through specific AMM
 });
 ```
+
+Pass `rate` (human-friendly decimal APR) or `limitTick` (raw integer tick) — **exactly one**. `rate` is the easy path; the backend rounds it to the nearest valid tick for the market. Use `limitTick` only if you've already computed the tick yourself (e.g. via `estimateTickForRate` from `@pendle/boros-offchain-math`).
+
+`ammId` is optional and defaults to orderbook-only routing. Pass a specific AMM id to route through that AMM instead.
 
 ### Place many orders in one transaction
 
@@ -11195,11 +11190,22 @@ Every Open API endpoint advertises a per-call cost called a **Computing Unit (CU
 
 ## Budget
 
-**60 CU per minute per IP**, fixed window. Every successful call deducts its `x-computing-unit` cost from the bucket; the bucket refills every 60s.
+Two fixed-window buckets per IP, both must have capacity for a call to succeed:
 
-When the budget is exhausted the API returns **HTTP 429** with body `{ "statusCode": 429, "message": "ThrottlerException: Too Many Requests" }`. Wait for the next window before retrying.
+| Window | Limit |
+|---|---|
+| 1 minute | **200 CU** |
+| 1 week | **400,000 CU** |
 
-Cloudflare-fronted requests are bucketed by `cf-connecting-ip`; direct requests by remote IP. Same-origin browsers behind a NAT share one bucket. There is currently no per-API-key tier — every consumer gets the same 60 CU/minute regardless of authentication.
+Every successful call deducts its `x-computing-unit` cost from both buckets. The minute bucket refills every 60s; the weekly bucket refills every 168h.
+
+When either budget is exhausted the API returns **HTTP 429** with body `{ "statusCode": 429, "message": "ThrottlerException: Too Many Requests" }`. Wait for the next window before retrying.
+
+Cloudflare-fronted requests are bucketed by `cf-connecting-ip`; direct requests by remote IP. Same-origin browsers behind a NAT share one bucket. There is currently no per-API-key tier — every consumer gets the same limits regardless of authentication.
+
+:::info Need a higher limit?
+If your integration needs more than 200 CU/minute or 400,000 CU/week, please contact the Pendle team — higher tiers are available on request.
+:::
 
 ## Where CU is Reported
 

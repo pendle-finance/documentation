@@ -64,13 +64,12 @@ new Exchange(walletClient, root, accountId, rpcUrls, agent?)
 
 `agent` is optional at construction time — set it later via `exchange.setAgent(agent)` if you bootstrap one with `Agent.create()` after the fact.
 
-The SDK ships with the production backend pre-wired (`api-boros.pendle.finance`, `api.boros.finance/send-txs-bot`). For staging, override at startup:
+The SDK ships with the production backend pre-wired (`api-boros.pendle.finance/apis`). All endpoints — markets, accounts, calldata builders, and send-txs — go through this single host. For staging, override at startup:
 
 ```ts
-import { setOpenApiBackendUrl, setSendTxsBotBackendUrl } from '@pendle/boros-sdk-public';
+import { setOpenApiBackendUrl } from '@pendle/boros-sdk-public';
 
 setOpenApiBackendUrl('https://staging-api-boros.pendle.finance/apis');
-setSendTxsBotBackendUrl('https://staging-api.boros.finance/send-txs-bot');
 ```
 
 ## Common flows
@@ -105,27 +104,23 @@ The SDK groups operations by who signs the calldata — root for sensitive actio
 
 ```ts
 import { Side, TimeInForce, MarketAccLib, CROSS_MARKET_ID } from '@pendle/boros-sdk-public';
-import { estimateTickForRate, FixedX18 } from '@pendle/boros-offchain-math';
 
 const market = (await exchange.getAllMarkets({ isUiWhitelisted: true }))[0];
 const marketAcc = MarketAccLib.pack(rootAccount.address, 0, market.tokenId, CROSS_MARKET_ID);
-
-// Convert your target APR into a contract-side tick using the market's tickStep.
-const targetApr = 0.05; // 5%
-const limitTick = Number(
-  estimateTickForRate(FixedX18.fromNumber(targetApr), BigInt(market.imData.tickStep), /* roundDown */ true),
-);
 
 const { result, executeResponse } = await exchange.placeOrder({
   marketAcc,
   marketId: market.marketId,
   side: Side.LONG,
   size: 10n ** 18n,
-  limitTick,
+  rate: 0.05,          // 5% APR — backend rounds to nearest valid tick
   tif: TimeInForce.GOOD_TIL_CANCELLED,
-  ammId: 0,            // 0 = orderbook-only; >0 = route through specific AMM
 });
 ```
+
+Pass `rate` (human-friendly decimal APR) or `limitTick` (raw integer tick) — **exactly one**. `rate` is the easy path; the backend rounds it to the nearest valid tick for the market. Use `limitTick` only if you've already computed the tick yourself (e.g. via `estimateTickForRate` from `@pendle/boros-offchain-math`).
+
+`ammId` is optional and defaults to orderbook-only routing. Pass a specific AMM id to route through that AMM instead.
 
 ### Place many orders in one transaction
 
@@ -256,8 +251,8 @@ Fresh integrators: skip this section. Lives here for users already wired up to t
 | Open API codegen namespace | `BorosBackend.Core` | `OpenApi` |
 | Open API accessor | `BorosBackend.getCoreSdk()` | `getOpenApiSdk()` |
 | Open API URL setter | `BorosBackend.setCoreBackendUrl(url)` | `setOpenApiBackendUrl(url)` |
-| Send Txs Bot accessor | `BorosBackend.getSendTxsBotSdk()` | `getSendTxsBotSdk()` |
-| Send Txs Bot URL setter | `BorosBackend.setSendTxsBotBackendUrl(url)` | `setSendTxsBotBackendUrl(url)` |
+| Send Txs Bot accessor | `BorosBackend.getSendTxsBotSdk()` | **removed** — use `getOpenApiSdk().sendTxs.*` |
+| Send Txs Bot URL setter | `BorosBackend.setSendTxsBotBackendUrl(url)` | **removed** — same host as Open API |
 | Default Open API base URL | `https://api.boros.finance/core` | `https://api-boros.pendle.finance/apis` |
 | Pendle V2 client | `BorosBackend.getPendleV2Sdk()` / `BorosBackend.setPendleV2BackendUrl()` | **removed** |
 | Structured-log client | `LogStoreBackend.*` namespace | **removed** |
@@ -324,10 +319,8 @@ BorosBackend.setCoreBackendUrl('https://staging-api.boros.finance/core');
 //                       ↓
 setOpenApiBackendUrl('https://staging-api-boros.pendle.finance/apis');
 
-// Send Txs Bot — function renamed, same prod URL
-BorosBackend.setSendTxsBotBackendUrl('https://staging-api.boros.finance/send-txs-bot');
-//                       ↓
-setSendTxsBotBackendUrl('https://staging-api.boros.finance/send-txs-bot');
+// Send Txs Bot — removed; send-txs is now part of the Open API host
+BorosBackend.setSendTxsBotBackendUrl(...);  // no replacement
 
 // Pendle V2 — removed
 BorosBackend.setPendleV2BackendUrl(...);  // no replacement
@@ -336,20 +329,21 @@ BorosBackend.setPendleV2BackendUrl(...);  // no replacement
 The `env`-driven prod/staging auto-switch from the old package is gone. Public SDK callers pass an explicit URL for staging; otherwise they inherit the production default baked into the package:
 
 ```ts
-OPEN_API_BACKEND_URL     = 'https://api-boros.pendle.finance/apis'
-SEND_TXS_BOT_BACKEND_URL = 'https://api.boros.finance/send-txs-bot'
+OPEN_API_BACKEND_URL = 'https://api-boros.pendle.finance/apis'
 ```
 
-**Send Txs Bot codegen client:** the `BorosBackend.SendTxsBot.Sdk` class is now exposed as the `SendTxsBot` top-level namespace. The wrapper interface was renamed `BorosSendTxsBotSdk` → `SendTxsBotSdk`. Generated payload types and method names are identical. Callers using the high-level `Exchange` methods (`placeOrder`, `bulkPlaceOrders`, `cancelOrders`, `payTreasury`, …) do not see this — `Exchange` continues to dispatch through the bot internally.
+**Send Txs Bot codegen client:** removed. The send-txs endpoints (`approve`, `trace`, `tx-status`, `tx-status-with-events`, `bulk-calls`, `dedicated/bulk-calls`) are folded into the Open API SDK under `sdk.sendTxs.*` and live on the same host. The `SendTxsBot` namespace, `SendTxsBotSdk` interface, `getSendTxsBotSdk()` accessor, and `setSendTxsBotBackendUrl()` are gone. Callers using the high-level `Exchange` methods (`placeOrder`, `bulkPlaceOrders`, `cancelOrders`, `payTreasury`, …) do not see this — `Exchange` continues to dispatch through the bot internally.
 
 ```ts
 // old
 import { BorosBackend } from '@pendle/sdk-boros';
 const bot = BorosBackend.getSendTxsBotSdk();
+await bot.agent.agentControllerBulkDirectCall({ /* ... */ });
 
 // new
-import { getSendTxsBotSdk, SendTxsBot } from '@pendle/boros-sdk-public';
-const bot = getSendTxsBotSdk();
+import { getOpenApiSdk } from '@pendle/boros-sdk-public';
+const sdk = getOpenApiSdk();
+await sdk.sendTxs.sendTxsControllerBulkCalls({ /* ... */ });
 ```
 
 ### Method-level changes {#migration-exchange-methods}
@@ -418,9 +412,9 @@ Symbol-for-symbol substitutions:
 BorosBackend.getCoreSdk()                  →  getOpenApiSdk()
 BorosBackend.Core.MarketListItemResponse   →  OpenApi.MarketListItemResponse
 BorosBackend.setCoreBackendUrl(url)        →  setOpenApiBackendUrl(url)
-BorosBackend.getSendTxsBotSdk()            →  getSendTxsBotSdk()
-BorosBackend.setSendTxsBotBackendUrl(url)  →  setSendTxsBotBackendUrl(url)
-BorosBackend.SendTxsBot.*                  →  SendTxsBot.*
+BorosBackend.getSendTxsBotSdk()            →  removed (use getOpenApiSdk().sendTxs.*)
+BorosBackend.setSendTxsBotBackendUrl(url)  →  removed (same host as Open API)
+BorosBackend.SendTxsBot.*                  →  removed (folded into OpenApi)
 BorosBackend.getPendleV2Sdk()              →  removed
 BorosBackend.setPendleV2BackendUrl(url)    →  removed
 LogStoreBackend.*                          →  removed
