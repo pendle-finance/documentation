@@ -439,27 +439,7 @@ See [Best Practices](./6.%20best-practices.mdx) for error handling recommendatio
 
 ## Rate Limiting
 
-Every IP gets a budget of **60 Computing Units (CU) per minute**, fixed window. Each endpoint advertises its CU cost via the `x-computing-unit` response header and the OpenAPI `x-computing-unit` extension. Most read endpoints are 1 CU.
-
-Exceeding the budget returns **HTTP 429** with `{ "statusCode": 429, "message": "ThrottlerException: Too Many Requests" }`. The bucket refills at the start of the next 60-second window.
-
-A few endpoints have additional per-IP throttles on top of the CU budget:
-
-| Endpoint | Extra throttle |
-|----------|----------------|
-| `GET /v1/indicators/export` | 3 requests/minute/IP |
-
-Recommendations to stay under budget:
-
-- Use [WebSocket](./5.%20websocket.mdx) for real-time data instead of polling.
-- Batch where possible: `POST /v1/accounts/market-acc-infos` accepts up to 100 `marketAccs`, `GET /v1/markets/by-ids` accepts comma-separated IDs, `POST /v1/calldata-builder/agent/place-orders` accepts an array.
-- Cache market and asset data that doesn't change frequently.
-
-See [Computing Units](./10.%20computing-units.mdx) for the per-endpoint cost table.
-
-## Computing Units
-
-Every Open API endpoint advertises a per-call cost via the `x-computing-unit` extension on the OpenAPI spec, also returned as the `x-computing-unit` HTTP response header on every successful request. Most endpoints cost **1 CU**; some scale dynamically with page size, market count, or number of indicators requested. See [Computing Units](./10.%20computing-units.mdx) for the full model.
+Boros uses a **Computing Unit (CU)** based rate-limit system — every endpoint advertises a per-call cost, and per-IP budgets apply. See [Computing Units](./10.%20computing-units.mdx) for budgets, per-endpoint costs, headers, and API-key tiers.
 
 ---
 
