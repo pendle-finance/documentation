@@ -27,7 +27,7 @@ Pendle 上的积分交易与收益交易的工作方式相同，其中：
 
 ## YT
 
-购买 YT 的地址：[https://app.pendle.finance/points](https://app.pendle.finance/points)
+购买 YT 的地址：[https://app.pendle.finance/trade/markets](https://app.pendle.finance/trade/markets)
 
 **每个 YT 让您在到期前获得 1 单位底层资产（1 ETH、1 USDC 等）的收益和积分。**
 
@@ -43,7 +43,7 @@ YT 在**到期时价值为零**，因为它不再产生任何收益和积分。
 
 ## PT
 
-购买 PT 的地址：[https://app.pendle.finance/points](https://app.pendle.finance/points)
+购买 PT 的地址：[https://app.pendle.finance/trade/markets](https://app.pendle.finance/trade/markets)
 
 **每个 PT 在到期时可以赎回 1 单位存入底层协议的底层资产（例如 1 ETH 价值的 ezETH，1 USDe 价值的 sUSDe，1 DAI 价值的 sDAI 等）。**
 
@@ -61,7 +61,7 @@ YT 在**到期时价值为零**，因为它不再产生任何收益和积分。
 
 ## LP
 
-提供流动性的地址：[https://app.pendle.finance/points](https://app.pendle.finance/points)
+提供流动性的地址：[https://app.pendle.finance/trade/pools](https://app.pendle.finance/trade/pools)
 
 Pendle 上的流动性提供者在保留所有积分敞口的同时，还可从 Pendle 获得额外收益。
 

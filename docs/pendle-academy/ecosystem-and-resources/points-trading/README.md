@@ -22,7 +22,7 @@ In other words, underlying points are treated the same way as the underlying yie
 
 ## YT
 
-Where to buy YT: [https://app.pendle.finance/points](https://app.pendle.finance/points)
+Where to buy YT: [https://app.pendle.finance/trade/markets](https://app.pendle.finance/trade/markets)
 
 **Each YT lets you receive the yield and points of 1 unit of the underlying asset until maturity. (1 ETH, 1 USDC, etc)**
 
@@ -38,7 +38,7 @@ Note that positions on Pendle are not locked and **you can sell YT anytime at ma
 
 ## PT
 
-Where to buy PT: [https://app.pendle.finance/points](https://app.pendle.finance/points)
+Where to buy PT: [https://app.pendle.finance/trade/markets](https://app.pendle.finance/trade/markets)
 
 **Each PT will be redeemable for 1 unit worth of the underlying asset deposited into the underlying protocol at maturity (e.g. 1 ETH worth of ezETH, 1 USDe worth of sUSDe, 1 DAI worth of sDAI, etc).**
 
@@ -56,7 +56,7 @@ Note that positions on Pendle are not locked and **you can sell PT anytime at ma
 
 ## LP
 
-Where to provide liquidity: [https://app.pendle.finance/points](https://app.pendle.finance/points)
+Where to provide liquidity: [https://app.pendle.finance/trade/pools](https://app.pendle.finance/trade/pools)
 
 Liquidity Providers on Pendle retain all points exposure while earning additional yield from Pendle.&#x20;
 
