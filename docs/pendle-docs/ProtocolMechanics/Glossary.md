@@ -66,7 +66,7 @@ Refers to the exchange rate between the interest-bearing token and its accountin
 
 #### LP = Liquidity Provider Token
 
-LP tokens represent a user's share of a Pendle liquidity pool, which is composed of PT and SY. LPs earn returns from multiple sources simultaneously: swap fees, PENDLE incentives, underlying yield from the SY portion, and an implicit fixed yield from the PT portion.
+LP tokens represent a user's share of a Pendle liquidity pool, which is composed of PT and SY. LPs earn returns from multiple sources simultaneously: swap fees, [PENDLE incentives](./Mechanisms/Incentives), underlying yield from the SY portion, and an implicit fixed yield from the PT portion.
 
 #### LP Wrapper
 
