@@ -30,8 +30,22 @@ The Money Market section displays key metrics at a glance:
 | **Total Supply / Cap** | Total PT currently deposited in the money market and the protocol's supply cap, if any |
 | **Assets to Borrow** | The asset you can borrow against your PT collateral, and its current borrow rate |
 | **Max LTV** | The maximum Loan-to-Value ratio — how much you can borrow relative to your PT collateral value |
-| **Available Liquidity** | How much is currently available to borrow |
+| **Total Borrow Liquidity** | How much is currently available to borrow |
 | **Max Looping APY** | The maximum APY achievable by looping your PT position (see below) |
+
+### How Money Markets Are Displayed
+
+Money markets in the Pencosystem tab appear in one of two ways, depending on the protocol and the size of the market:
+
+**Major Money Markets** are shown in a detailed table with the full set of metrics above. A money market qualifies as major if it is:
+
+- Any **Aave** market (including e-mode)
+- Any **Euler** market
+- A **Morpho** market with at least **$100K of available liquidity**
+
+**Other money markets** — including Morpho markets with less than $100K of available liquidity — appear as compact cards. When a PT market has at least one major money market, these smaller markets are grouped under a **More Money Markets…** expander; when only smaller markets are available, they are shown directly as cards.
+
+Integrations in other categories (such as Yield Strategy) are always shown as compact cards.
 
 ---
 
