@@ -5,34 +5,17 @@ module.exports = {
       type: "category", label: "About Boros", customProps: { icon: "info" },
       items: [
         { type: "doc", id: "about-boros/glossary", label: "Glossary", customProps: { icon: "library_books" } },
+        { type: "doc", id: "about-boros/funding-rate-settlement", label: "Funding Rate Settlement", customProps: { icon: "receipt_long" } },
+        { type: "doc", id: "about-boros/implied-apr-and-position-sizing", label: "Implied APR and Position Sizing", customProps: { icon: "currency_exchange" } }
       ],
     },
     {
-      type: "category", label: "Interest Rate Accounting", customProps: { icon: "calculate" },
+      type: "category", label: "Boros Systems", customProps: { icon: "shield" },
       items: [
-        { type: "doc", id: "interest-rate-accounting/interest-rate-accounting-and-settlement", label: "Interest Rate Accounting and Settlement", customProps: { icon: "receipt_long" } },
-      ],
-    },
-    {
-      type: "category", label: "Interest Rate Trading", customProps: { icon: "candlestick_chart" },
-      items: [
-        { type: "doc", id: "interest-rate-trading/interest-rate-trading-yu-trading", label: "Interest Rate Trading (YU Trading)", customProps: { icon: "currency_exchange" } },
-        { type: "doc", id: "interest-rate-trading/order-book", label: "Order Book", customProps: { icon: "candlestick_chart" } },
-        { type: "doc", id: "interest-rate-trading/vaults", label: "Vaults", customProps: { icon: "savings" } },
-        { type: "doc", id: "interest-rate-trading/fees", label: "Fees", customProps: { icon: "payments" } },
-      ],
-    },
-    {
-      type: "category", label: "Risk Parameters", customProps: { icon: "shield" },
-      items: [
-        {
-          type: "category", label: "Margin and Liquidations", customProps: { icon: "account_balance" },
-          items: [
-            { type: "doc", id: "risk-parameters/margin-and-liquidations/README", label: "Margin and Liquidations", customProps: { icon: "account_balance" } },
-            { type: "doc", id: "risk-parameters/margin-and-liquidations/detailed-calculations-on-margin-and-liquidations", label: "Detailed Calculations on Margin and Liquidations", customProps: { icon: "calculate" } },
-            { type: "doc", id: "risk-parameters/margin-and-liquidations/protective-mechanisms", label: "Protective Mechanisms", customProps: { icon: "security" } },
-          ],
-        },
+        { type: "doc", id: "boros-systems/orderbook", label: "Order Book", customProps: { icon: "account_balance" } },
+        { type: "doc", id: "boros-systems/margin-and-liquidations", label: "Margin And Liquidations", customProps: { icon: "calculate" } },
+        { type: "doc", id: "boros-systems/protective-mechanism", label: "Protective Mechanisms", customProps: { icon: "security" } },
+        { type: "doc", id: "boros-systems/fees", label: "Fees", customProps: { icon: "payments" } }
       ],
     },
     {
