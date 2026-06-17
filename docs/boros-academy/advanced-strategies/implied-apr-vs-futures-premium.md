@@ -4,37 +4,38 @@ import Hint from '@site/src/components/Hint';
 
 ## Crypto Futures Premium
 
-A futures contract is an agreement to buy or sell an asset at a set price on a future date (i.e. a maturity date). Crypto futures contract tend to trade at a premium vs its spot value, and will eventually converge to its spot value at contract expiry.
+A futures contract is a standardised agreement to buy or sell an underlying asset at a predetermined price on a specified maturity date. Crypto futures contracts have historically traded at a premium to spot (a.k.a. contango) with the basis (the price difference between futures vs spot price) converging to zero at expiry as the contract approaches settlement, in other words, futures prices will converge to its spot value at maturity.
 
-<figure><img src="/boros-academy/imgs/image (40).png" alt="" /><figcaption></figcaption></figure>
+This premium can be captured through a **cash-and-carry trade** (commonly called a basis trade): 
 
-To capture the futures premium, traders can execute a cash-and-carry trade (a.k.a Basis trade), where they hold a spot position while simultaneously shorting the futures contract of the same asset until the contract’s expiry.
+1. Long spot position while simultaneously:
+2. Short the futures contract of equivalent notional size. 
 
-Using the above screenshot as an example, a trader can hold 1 BTC spot position while simultaneously shorting 1 BTC worth of the futures contract above, effectively earning the 8% APR premium of the contract while being delta neutral (i.e. unaffected by the change in price of BTC). Note that the 8% APR is fixed as long as the trader keeps this position open until contract maturity.
+The resulting position is delta-neutral and earns the futures premium as a fixed yield, locked in at the time of trade entry and held to contract maturity.
 
-## Funding Rate Basis Trading
+<figure><img src="/boros-academy/imgs/image4.png" alt="" /><figcaption></figcaption></figure>
 
-Traders can carry out the same cash-and-carry trade strategy via Perpetual contracts as well.
+For example: if BTC quarterly futures are trading at an 8% annualised premium to spot, a trader long 1 BTC spot and short 1 BTC equivalent of futures will earn approximately 8% APR with no directional exposure, provided the position is held to maturity.
 
-In this scenario, the trader will hold a spot BTC position while shorting a BTC perpetual contract of the same size, effectively earning the funding rate as long the position is open (assuming a positive funding rate). While Perpetual contracts have no maturity as opposed to Futures contracts, this strategy has no guarantee on yield as funding rates can fluctuate significantly.
+## Constructing a Futures Equivalent Position via Boros
 
-However as covered in the previous [chapter](fixed-funding-rates-receivables), traders can fix their funding rates receivables by shorting YU of the same notional size on Boros. In this scenario, traders executing a cash-and-carry trade strategy on perpetual funding rates can fix their yield on Boros, effectively converting their floating rate exposure into a fixed exposure at the implied APR upon opening their position.
+An analogous carry strategy can be executed using perpetual contracts rather than fixed-maturity futures. Here, the investor holds a long spot position while shorting the perpetual contract of the same notional, effectively receiving the funding rate as a yield stream so long as funding remains positive. Unlike the fixed-maturity basis trade, however, perpetual carry is inherently floating: funding rates can be volatile, and there is no contractual guarantee of yield over any given horizon.
 
-## Implied APR vs Futures Premium
+This variability can be addressed through Boros. As covered in the preceding chapter, a trader executing a perpetual carry strategy can short the equivalent notional in YU on Boros, converting their floating funding rate receivable into a fixed yield at the **implied APR** prevailing at the time of entry, replicating the fixed return and fixed term profile of a traditional futures basis trade, but through the perpetuals market and Boros.
 
-Now lets compare the 2 different strategies listed above:
+## Implied APR as a Benchmark for Futures Premium
 
-1. Cash-and-carry trade via Futures\
-   This is enabled by holding a spot asset while shorting the futures contract simultaneously, **earning a fixed yield from the quarterly futures premium** until the contract expiry.
-2. Cash-and-carry trade via Perpetuals and Boros \
-   This is enabled by holding a spot asset while shorting the perpetuals contract simultaneously, earning yield from funding rates. The trader can then open a short position on Boros to **earn a fixed yield at the implied APR** upon opening the position until maturity.
+The two strategies outlined above share a materially identical risk-return profile:
 
-Notice that the above strategies have extremely similar behaviors and in fact, crypto futures premium movement have historically been rather correlated to funding rates.
+| Strategy | Mechanism | Yield Type |
+| --- | --- | --- |
+| Futures cash-and-carry | Long spot + short fixed-maturity futures | Fixed (locked to futures premium at entry) |
+| Perpetual carry + Boros | Long spot + short perp + short YU on Boros | Fixed (locked to Boros implied APR at entry) |
 
-With Boros, traders can now execute cash-and-carry trade strategies on either perpetuals or futures to achieve a delta neutral exposure while earning fixed yields. Barring contract risks, both of these strategies have similar market exposure + fixed yields. With that, perhaps futures premium might be a good indicator of implied APR of the same asset? 🤔
+Both achieve delta-neutral exposure and fixed yields over a defined horizon. Given this structural equivalence, crypto futures premium and Boros implied APR should, in equilibrium, be closely correlated.
 
-<Hint style="success">
-Futures premium might be a good indicator of implied APR as traders can execute a cash-and-carry trade strategy of similar risk profile with the same fixed yield outcome.
+<figure><img src="/boros-academy/imgs/image5.png" alt="" /><figcaption></figcaption></figure>
 
-If there is a disparity between the implied APR on Boros vs Futures Premium of a given asset, cash-and-carry traders will likely execute the strategy with the more favorable APR and unwind the less favorable one.
-</Hint>
+This convergence dynamic implies an important arbitrage relationship: where a material disparity exists between the implied APR on Boros and the annualised futures premium for the same underlying asset, rational carry traders will migrate capital toward the more attractive fixed yield and unwind the less favourable position. This flow should exert pressure that compresses the spread over time.
+
+In this sense, **futures premium serves as a natural market benchmark for Boros implied APR** and divergences between the two represent a potential opportunity for basis arbitrageurs operating across both venues.

@@ -90,6 +90,38 @@ On Boros, users are able to supplement their existing delta-neutral strategies b
 
 You can learn more about advanced strategies for Boros [here](/boros-academy/advanced-strategies/hedging-funding-rates-payment).
 
-## Additional Resources
 
-BitMex published a comprehensive report on funding rate as of Q3 2025, check it out here: [https://blog.bitmex.com/2025q3-derivatives-report/](https://blog.bitmex.com/2025q3-derivatives-report/)
+## Advanced: The Funding Rate Formula
+
+The standard formula used by Binance, Hyperliquid, and most major venues:
+
+> **F = Average Premium Index (P) + clamp(Interest Rate − P, −d, +d)**
+
+**Premium Index (P)** measures how far the perp is trading from the spot oracle price. It's computed from impact prices, the average execution price for a defined notional trade size on each side of the book, rather than the raw mid-price. This makes the index more resistant to thin-book manipulation.
+
+> Premium Index = [Max(0, Impact Bid − Spot Index) − Max(0, Spot Index − Impact Ask)] / Spot Index
+
+The premium is sampled repeatedly throughout the funding window (every 5 seconds on Hyperliquid, continuously on Binance) and time-averaged. A brief spike just before settlement has minimal effect on the final rate.
+
+**Interest Rate (I)** is a small fixed component set by the exchange, reflecting the assumed cost-of-carry differential between holding cash and holding the underlying asset. On both Binance and Hyperliquid this is fixed at 0.01% per 8-hour period (~10.95% annualised). This introduces a structural positive bias into the formula, which is why funding has historically skewed positive across most assets.
+
+**The clamp** prevents the interest adjustment term from moving the funding rate beyond a set bound in either direction. On Binance and Hyperliquid the clamp is ±0.05% (Hyperliquid expresses it as ±0.0005 per hour). This keeps funding from becoming punitive during extreme dislocations.
+
+**Worked example (Binance):**
+
+- Premium Index: 0.0429%
+- Interest Rate: 0.01%
+- F = 0.0429% + clamp(0.01% − 0.0429%, 0.05%, −0.05%)
+- = 0.0429% + clamp(−0.0329%, 0.05%, −0.05%)
+- = 0.0429% + (−0.0329%) = **0.01%**
+
+The clamp absorbed the difference, pulling the rate toward the set interest rate.
+
+## Further Reading
+
+- [Binance: Funding Rate Explainer](https://www.binance.com/en/support/faq/360033525031)
+- [Hyperliquid: Funding Docs](https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding)
+- [BitMEX: Q3 2025 Derivatives Report](https://blog.bitmex.com/2025q3-derivatives-report/)
+- [Binance Academy: What Are Funding Rates](https://academy.binance.com/en/articles/what-are-funding-rates-in-crypto-markets)
+- [Why Crypto Perps Overcharge Longs](https://x.com/mcp0x/status/2054205819223232676)
+
