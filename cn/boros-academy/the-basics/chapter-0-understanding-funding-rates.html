@@ -20,8 +20,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/cn/assets/css/styles.c8dc7fa1.css">
-<script src="/cn/assets/js/runtime~main.a53e8a9c.js" defer="defer"></script>
-<script src="/cn/assets/js/main.c6e883f6.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.370aa4d6.js" defer="defer"></script>
+<script src="/cn/assets/js/main.e62978b1.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -80,7 +80,34 @@
 <p>这实质上就是 Ethena 协议的做法——以 ETH 进行市场中性套利。双重收益流使 Ethena 能够为 sUSDe 提供超额稳定币收益（当 ETH 资金费率为正时）。然而，这一收益暴露于资金费率的波动之中，无法在高资金费率环境下锁定更高的 APR。Boros 解决了这一问题。</p>
 <p>在 Boros 上，用户可以将其现有市场中性策略中来自资金费率的浮动收益转化为_<strong>固定</strong>_收益流，从而补充其原有策略。这一功能使 Ethena 等交易者和协议能够从市场中性套利中获取稳定收益，让收益流更可预测，更易管理，甚至能够锁定更高的利率。</p>
 <p>你可以在<a href="/cn/boros-academy/advanced-strategies/hedging-funding-rates-payment">这里</a>了解 Boros 的高级策略。</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="进阶资金费率公式">进阶：资金费率公式<a href="#进阶资金费率公式" class="hash-link" aria-label="进阶：资金费率公式 的直接链接" title="进阶：资金费率公式 的直接链接">​</a></h2>
+<p>Binance、Hyperliquid 及大多数主流交易所采用的标准公式：</p>
+<blockquote>
+<p><strong>F = 平均溢价指数 (P) + clamp(利率 − P, −d, +d)</strong></p>
+</blockquote>
+<p><strong>溢价指数 (P)</strong> 衡量永续合约价格偏离现货预言机价格的程度。它由冲击价格计算得出——即在订单簿两侧执行特定名义规模交易的平均成交价格，而非原始中间价。这使得该指数对薄流动性的操纵更具抵抗力。</p>
+<blockquote>
+<p>溢价指数 = [Max(0, 冲击买价 − 现货指数) − Max(0, 现货指数 − 冲击卖价)] / 现货指数</p>
+</blockquote>
+<p>溢价在整个结算窗口内被反复采样（Hyperliquid 每 5 秒一次，Binance 持续采样）并进行时间加权平均。结算前短暂的价格尖峰对最终利率的影响极小。</p>
+<p><strong>利率 (I)</strong> 是由交易所设定的小额固定组成部分，反映持有现金与持有底层资产之间假定的持有成本差异。在 Binance 和 Hyperliquid 上，该利率固定为每 8 小时 0.01%（年化约 10.95%）。这在公式中引入了结构性正向偏差，这也是历史上大多数资产的资金费率偏正的原因。</p>
+<p><strong>clamp（钳制）</strong> 防止利率调整项将资金费率推动超出设定边界。在 Binance 和 Hyperliquid 上，clamp 为 ±0.05%（Hyperliquid 以每小时 ±0.0005 表示）。这防止了极端行情下资金费率变得过于惩罚性。</p>
+<p><strong>Binance 计算示例：</strong></p>
+<ul>
+<li>溢价指数：0.0429%</li>
+<li>利率：0.01%</li>
+<li>F = 0.0429% + clamp(0.01% − 0.0429%, 0.05%, −0.05%)</li>
+<li>= 0.0429% + clamp(−0.0329%, 0.05%, −0.05%)</li>
+<li>= 0.0429% + (−0.0329%) = <strong>0.01%</strong></li>
+</ul>
+<p>clamp 吸收了差值，将利率拉向设定的利率水平。</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="延伸阅读">延伸阅读<a href="#延伸阅读" class="hash-link" aria-label="延伸阅读 的直接链接" title="延伸阅读 的直接链接">​</a></h2>
-<p>BitMex 于 2025 年第三季度发布了一份关于资金费率的深度报告，欢迎查阅：<a href="https://blog.bitmex.com/2025q3-derivatives-report/" target="_blank" rel="noopener noreferrer">https://blog.bitmex.com/2025q3-derivatives-report/</a></p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文档页面导航"><a class="pagination-nav__link pagination-nav__link--prev" href="/cn/boros-academy/Introduction"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">介绍</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/cn/boros-academy/the-basics/chapter-1-yield-units-yu"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">第 1 章 - 收益单位（YU）</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#什么是资金费率" class="table-of-contents__link toc-highlight">什么是资金费率？</a></li><li><a href="#资金费率如何运作" class="table-of-contents__link toc-highlight">资金费率如何运作？</a></li><li><a href="#如何利用资金费率" class="table-of-contents__link toc-highlight">如何利用资金费率</a><ul><li><a href="#判断市场情绪" class="table-of-contents__link toc-highlight">判断市场情绪</a></li><li><a href="#市场中性策略现货套利交易" class="table-of-contents__link toc-highlight">市场中性策略（现货套利交易）</a></li></ul></li><li><a href="#延伸阅读" class="table-of-contents__link toc-highlight">延伸阅读</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.gg/888FMyfsPC" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://www.pendle.finance/brand-guide" target="_blank">Brand Guide</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
+<ul>
+<li><a href="https://www.binance.com/en/support/faq/360033525031" target="_blank" rel="noopener noreferrer">Binance：资金费率解析</a></li>
+<li><a href="https://hyperliquid.gitbook.io/hyperliquid-docs/trading/funding" target="_blank" rel="noopener noreferrer">Hyperliquid ：资金费率文档</a></li>
+<li><a href="https://blog.bitmex.com/2025q3-derivatives-report/" target="_blank" rel="noopener noreferrer">BitMEX：2025 年第三季度衍生品报告</a></li>
+<li><a href="https://academy.binance.com/en/articles/what-are-funding-rates-in-crypto-markets" target="_blank" rel="noopener noreferrer">Binance Academy：什么是加密货币中的资金费率</a></li>
+<li><a href="https://x.com/mcp0x/status/2054205819223232676" target="_blank" rel="noopener noreferrer">为什么加密永续合约对多头收费过高</a></li>
+</ul></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="文档页面导航"><a class="pagination-nav__link pagination-nav__link--prev" href="/cn/boros-academy/Introduction"><div class="pagination-nav__sublabel">上一页</div><div class="pagination-nav__label">介绍</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/cn/boros-academy/the-basics/chapter-1-yield-units-yu"><div class="pagination-nav__sublabel">下一页</div><div class="pagination-nav__label">第 1 章 - 收益单位（YU）</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#什么是资金费率" class="table-of-contents__link toc-highlight">什么是资金费率？</a></li><li><a href="#资金费率如何运作" class="table-of-contents__link toc-highlight">资金费率如何运作？</a></li><li><a href="#如何利用资金费率" class="table-of-contents__link toc-highlight">如何利用资金费率</a><ul><li><a href="#判断市场情绪" class="table-of-contents__link toc-highlight">判断市场情绪</a></li><li><a href="#市场中性策略现货套利交易" class="table-of-contents__link toc-highlight">市场中性策略（现货套利交易）</a></li></ul></li><li><a href="#进阶资金费率公式" class="table-of-contents__link toc-highlight">进阶：资金费率公式</a></li><li><a href="#延伸阅 读" class="table-of-contents__link toc-highlight">延伸阅读</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.gg/888FMyfsPC" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://www.pendle.finance/brand-guide" target="_blank">Brand Guide</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
 </body>
 </html>
