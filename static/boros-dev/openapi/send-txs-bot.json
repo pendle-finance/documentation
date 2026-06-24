@@ -300,7 +300,7 @@
     "tags": [],
     "servers": [
         {
-            "url": "https://api.boros.finance/send-txs-bot"
+            "url": "https://api-boros.pendle.finance/send-txs-bot"
         }
     ],
     "components": {

@@ -14,8 +14,7 @@ For key concepts and terminology, see the [Glossary](./1.%20glossary.mdx).
 |---------|----------|---------|
 | **Open API** | `https://api-boros.pendle.finance/apis/v1/` | Market data, calldata generation, account queries (new redesigned mount). |
 | **Open API (legacy, deprecated)** | `https://api.boros.finance/open-api/v1/` (or `/v2/`) — interactive docs at `https://api.boros.finance/open-api/docs` | Deprecated mount, kept for older clients only. Use the new mount above for everything. |
-| **Send Txs Bot** | `https://api.boros.finance/send-txs-bot/v2/` (programmatic) or `/v3/` (browser session) | Submitting signed transactions on-chain. |
-| **Stop Order** | `https://api.boros.finance/stop-order/v1/` to `/v4/` | Conditional TP/SL order management. |
+| **Send Txs Bot** | `https://api-boros.pendle.finance/send-txs-bot/v2/` (programmatic) or `/v3/` (browser session) | Submitting signed transactions on-chain. |
 
 :::note
 Use the redesigned Open API at `api-boros.pendle.finance/apis/` — interactive docs: [`api-boros.pendle.finance/apis/docs`](https://api-boros.pendle.finance/apis/docs). The old `api.boros.finance/open-api/` mount (and its `/open-api/docs` page) is **deprecated**: still served for older clients, but no new endpoints are added there.
@@ -35,13 +34,7 @@ The main API for querying data and generating transaction calldata.
 
 Receives signed calldata from agents and broadcasts transactions on-chain. You never call smart contracts directly — the bot submits them on your behalf and charges gas fees from your gas balance.
 
-**Interactive docs:** [https://api.boros.finance/send-txs-bot/docs](https://api.boros.finance/send-txs-bot/docs)
-
-### Stop Order Service
-
-Manages conditional stop orders (take-profit / stop-loss). These orders live off-chain and are triggered automatically when the market APR crosses a threshold. See [Stop Orders](#stop-orders-tpsl) below for details.
-
-**Interactive docs:** [https://api.boros.finance/stop-order/docs](https://api.boros.finance/stop-order/docs)
+**Interactive docs:** [https://api-boros.pendle.finance/send-txs-bot/docs](https://api-boros.pendle.finance/send-txs-bot/docs)
 
 ---
 
@@ -130,21 +123,6 @@ Withdrawals follow a **request → cooldown → finalize** pattern:
 ```
 
 Withdrawal requests and cancellations are **sensitive** actions signed by the root wallet.
-
-### 5. Setting Up Stop Orders (TP/SL)
-
-Stop orders are conditional orders that execute automatically when the market APR hits your target:
-
-```text
-┌──────────────────────────────────────────────────────────────┐
-│  1. GET  /stop-order/v1/orders/tpsl/prepare → order params   │
-│  2. POST /stop-order/v2/orders/place        → place order    │
-│                                                              │
-│  To cancel: DELETE /stop-order/v3/orders/cancel              │
-└──────────────────────────────────────────────────────────────┘
-```
-
-The prepare endpoint generates the order parameters (including the calldata that will be executed when triggered). The place endpoint submits the signed conditional order. See [Stop Orders](./7.%20stop-orders.mdx) for details.
 
 ---
 
@@ -424,7 +402,7 @@ The Open API returns errors in a structured format:
 
 The `errorCode` field is a machine-readable string you can use for programmatic error handling. Common error codes include validation errors (invalid parameters), state errors (insufficient margin), and not-found errors.
 
-The Send Txs Bot and Stop Order services use the legacy format:
+The Send Txs Bot service uses the legacy format:
 
 ```json
 {

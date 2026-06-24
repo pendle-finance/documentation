@@ -10,7 +10,7 @@ Here's a complete example of how to connect to and use the WebSocket:
 import { io } from 'socket.io-client';
 
 // Initialize the socket connection
-const socket = io('wss://api.boros.finance/pendle-dapp-v3', {
+const socket = io('wss://api-boros.pendle.finance/pendle-dapp-v3', {
   path: '/socket/socket.io',
   reconnectionAttempts: 5,
   transports: ['websocket']
@@ -137,7 +137,7 @@ class PendleWebSocket {
   private socket: any;
 
   constructor() {
-    this.socket = io('wss://api.boros.finance/pendle-dapp-v3', {
+    this.socket = io('wss://api-boros.pendle.finance/pendle-dapp-v3', {
       path: '/socket/socket.io',
       reconnectionAttempts: 5,
       transports: ['websocket']
@@ -419,7 +419,7 @@ class AccountTracker {
     this.walletAddress = walletAddress.toLowerCase();
     this.accountId = accountId;
 
-    this.socket = io('wss://api.boros.finance/pendle-dapp-v3', {
+    this.socket = io('wss://api-boros.pendle.finance/pendle-dapp-v3', {
       path: '/socket/socket.io',
       reconnectionAttempts: 5,
       transports: ['websocket'],

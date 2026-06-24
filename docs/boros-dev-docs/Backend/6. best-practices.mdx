@@ -167,7 +167,7 @@ The Open API uses a structured error format:
 }
 ```
 
-The Send Txs Bot and Stop Order services use a legacy format:
+The Send Txs Bot service uses a legacy format:
 
 ```json
 {
@@ -195,7 +195,7 @@ The Send Txs Bot and Stop Order services use a legacy format:
 
 ### Recovering from Network Errors (Trace + Nonce)
 
-When a Send Txs Bot submission times out or returns a network error, you can't tell whether the bot received the request. Use the [trace endpoint](https://api.boros.finance/send-txs-bot/docs#/Dedicated%20Agent/DedicatedAgentController_trace) (`POST /send-txs-bot/v1/agent/dedicated/trace`) to disambiguate before retrying.
+When a Send Txs Bot submission times out or returns a network error, you can't tell whether the bot received the request. Use the [trace endpoint](https://api-boros.pendle.finance/send-txs-bot/docs#/Dedicated%20Agent/DedicatedAgentController_trace) (`POST /send-txs-bot/v1/agent/dedicated/trace`) to disambiguate before retrying.
 
 **Recommended pattern:**
 1. After a network error/timeout, poll the trace endpoint with the `agent` address and the `nonce` of the calldata you submitted.

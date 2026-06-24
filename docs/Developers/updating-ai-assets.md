@@ -41,9 +41,4 @@ curl -s <boros-api-url>/docs-json \
 curl -s <send-txs-bot-url>/docs-json \
   | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin), indent=2))" \
   > static/boros-dev/openapi/send-txs-bot.json
-
-# Stop order service
-curl -s <stop-order-url>/docs-json \
-  | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin), indent=2))" \
-  > static/boros-dev/openapi/stop-order.json
 ```

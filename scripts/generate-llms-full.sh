@@ -105,7 +105,6 @@ BOROS_DEV_FILES=(
   "$BOROS_DEV_DOCS_DIR/Backend/4. api.mdx"
   "$BOROS_DEV_DOCS_DIR/Backend/5. websocket.mdx"
   "$BOROS_DEV_DOCS_DIR/Backend/6. best-practices.mdx"
-  "$BOROS_DEV_DOCS_DIR/Backend/7. stop-orders.mdx"
   "$BOROS_DEV_DOCS_DIR/Backend/8. historical-data.mdx"
   "$BOROS_DEV_DOCS_DIR/Backend/9. indicators.mdx"
   "$BOROS_DEV_DOCS_DIR/Backend/10. computing-units.mdx"
