@@ -29,7 +29,7 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (Rat
 |------|-------------|-----------------|
 | **Order Book** | Primary liquidity source with Long/Short sides organized by price ticks. See [Order Book Mechanics](/boros-dev/Mechanics/OrderBook) for matching rules and constraints. | `GET /markets/order-books`, `GET /v2/markets/order-books` |
 | **Order** | Trade instruction with `orderId`, `tick` (price level), `side`, `size` (18 decimals), and `tif` (time-in-force). Orders can be placed individually or in bulk. | `POST /calldata/place-orders`, `GET /accounts/limit-orders` |
-| **Tick** | Integer price level representing an interest rate. Formula: `rate = 1.00005^(tick × tickStep) - 1`. Higher tick = higher rate. The tick step is market-specific and controls rate granularity. Use SDK helpers to convert between human-readable APR and tick values. | All order-related endpoints, `GET /stop-order/v1/orders/tpsl/prepare` |
+| **Tick** | Integer price level representing an interest rate. Formula: `rate = 1.00005^(tick × tickStep) - 1`. Higher tick = higher rate. The tick step is market-specific and controls rate granularity. Use SDK helpers to convert between human-readable APR and tick values. | All order-related endpoints |
 | **`rate` vs `limitTick`** | Two ways of specifying the limit price on an order. `rate` is the human-friendly decimal APR (e.g. `0.05` = 5%) and is rounded to the nearest valid tick by the backend. `limitTick` is the raw integer tick. The simple `place-order` endpoint takes `rate`; the advanced `place-orders` endpoint accepts either (XOR). | `POST /calldata-builder/agent/place-order(s)` |
 | **`desiredRate` vs `slippage`** | Two ways of specifying the **execution guard** (worst acceptable average fill rate) for the matched portion of an order. `desiredRate` is an absolute ceiling — the contract reverts with `TradeUndesiredRate` if `signedCost > signedSize × desiredRate`. `slippage` is a relative tolerance from the current mid-rate (e.g. `0.005` = 0.5%); the backend computes `desiredRate = midRate ± slippage` for you. **Exactly one** must be supplied on the advanced endpoint; the simple endpoint only exposes `slippage`. Strongly recommended for FOK / IOC market orders. | `POST /calldata-builder/agent/place-order(s)` |
 | **AMM** | Automated market maker providing continuous liquidity alongside the order book. The Router routes between AMM and order book for optimal execution. AMM liquidity can be optionally included in order book queries. | `GET /v2/markets/order-books`, AMM simulation/calldata endpoints |
@@ -40,8 +40,7 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (Rat
 | **Implied Rate** | Current interest rate implied by order book trading, consisting of the last traded rate and a TWAP component. | `GET /markets/{marketId}` |
 | **Rate Floor** | Minimum absolute rate used in margin calculations (derived from `market.imData.iTickThresh`). If an order's rate is below the rate floor, the floor value is used for margin instead. See [Margin — Pre-scaling IM](/boros-dev/Mechanics/Margin#pre-scaling-initial-margin). | Market config |
 | **Settlement** | Periodic floating rate payment exchange (typically every 8 hours) using [lazy settlement](../Mechanics/Settlement.mdx). See [Settlement Mechanics](/boros-dev/Mechanics/Settlement). | `GET /accounts/settlements`, `POST /funding-rate/settlement-summary` |
-| **Conditional Order** | On-chain order with an off-chain trigger condition, executed by a permissioned validator when conditions are met. Stop orders are built on this. See [Conditional Orders](/boros-dev/Contracts/Router#conditional-orders). | Stop Order Service endpoints |
-| **Stop Order** | Conditional off-chain order (take-profit or stop-loss) that triggers when market APR crosses a threshold. Managed by the Stop Order Service. See [Stop Orders](./7.%20stop-orders.mdx). | `GET /stop-order/v1/orders/tpsl/prepare`, `POST /stop-order/v2/orders/place` |
+| **Conditional Order** | On-chain order with an off-chain trigger condition, executed by a permissioned validator when conditions are met. See [Conditional Orders](/boros-dev/Contracts/Router#conditional-orders). | Router `ConditionalModule` (on-chain) |
 
 ---
 
@@ -93,13 +92,6 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (Rat
 ### Market Status
 
 `PAUSED (0)` · `CLO (1)` · `GOOD (2)` — See [Custom Types](/boros-dev/Contracts/CustomTypes#marketstatus) for descriptions and state transitions.
-
-### Stop Order Type
-
-| Value | Name | Description |
-|-------|------|-------------|
-| `2` | `TAKE_PROFIT_MARKET` | Triggers when market moves in your favor |
-| `3` | `STOP_LOSS_MARKET` | Triggers when market moves against you |
 
 ---
 

@@ -109,10 +109,6 @@ const tick = estimateTickForRate(FixedX18.fromNumber(0.05), tickStep, false); //
 const rate = getRateAtTick(tick, tickStep); // tick → rate
 ```
 
-### How do stop orders (TP/SL) work?
-
-Stop orders are off-chain conditional orders monitored by the Stop Order Service. When the market APR crosses your specified threshold, the service automatically submits a market order on your behalf. See [Stop Orders](./Backend/6.%20stop-orders.mdx) for the full guide.
-
 ### Can I close a position partially?
 
 Yes. Use the `place-orders` calldata endpoint to place a counter-order (opposite side) with a smaller size than your current position. For a full close, use the `simulations/close-active-position` endpoint to get the exact parameters.

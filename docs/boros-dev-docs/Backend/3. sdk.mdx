@@ -228,7 +228,6 @@ function summarize(market: OpenApi.MarketListItemResponse) {
 
 - **WebSocket subscriptions** — connect to the WebSocket feed using `socket.io-client` directly; see [WebSocket](./5.%20websocket.mdx).
 - **Strategy logic** — the SDK is plumbing. Indicators, sizing, risk management are yours to build.
-- **Stop / take-profit orders** — `OrderType.TAKE_PROFIT_MARKET` and `OrderType.STOP_LOSS_MARKET` exist on the type level but the SDK does not yet expose dedicated `placeStopOrder` / `placeTakeProfitOrder` methods. Use `getOpenApiSdk()` until they land. See [Stop Orders](./7.%20stop-orders.mdx).
 
 ## End-to-end example
 

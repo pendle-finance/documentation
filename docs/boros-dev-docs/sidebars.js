@@ -32,7 +32,6 @@ module.exports = {
         { type: "doc", id: "Backend/sdk", label: "SDK (TypeScript)", customProps: { icon: "code" } },
         { type: "doc", id: "Backend/api", label: "API", customProps: { icon: "api" } },
         { type: "doc", id: "Backend/websocket", label: "WebSocket", customProps: { icon: "wifi" } },
-        { type: "doc", id: "Backend/stop-orders", label: "Stop Orders", customProps: { icon: "stop_circle" } },
         { type: "doc", id: "Backend/historical-data", label: "Historical Data", customProps: { icon: "history" } },
         { type: "doc", id: "Backend/indicators", label: "Indicators", customProps: { icon: "insights" } },
         { type: "doc", id: "Backend/computing-units", label: "Computing Units", customProps: { icon: "speed" } },

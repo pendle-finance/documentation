@@ -11,7 +11,7 @@ Router follows a modular architecture:
 - **AuthModule**: agent authentication and delegated trading (irrelevant for external parties)
 - **AMMModule**: AMM-specific operations (add/remove liquidity, swaps)
 - **TradeModule**: core trading operations (enter/exit markets, place/cancel orders, cash transfer)
-- **ConditionalModule**: conditional order execution (used by stop-order system)
+- **ConditionalModule**: conditional order execution
 - **DepositModule**: deposit box operations (managed by Pendle backend)
 - **MiscModule**: utility functions (simulation, batch operations)
 
@@ -396,7 +396,7 @@ simulations[1] = SimulateData({
 
 ## Conditional Orders
 
-The ConditionalModule enables orders with off-chain trigger conditions. This is the on-chain mechanism underlying the [Stop Order](../Backend/6.%20stop-orders.mdx) system.
+The ConditionalModule enables orders with off-chain trigger conditions.
 
 **How it works:**
 
@@ -421,5 +421,5 @@ struct ConditionalOrder {
 ```
 
 :::note
-Conditional orders are not placed directly by users. They are managed through the [Stop Order Service](../Backend/6.%20stop-orders.mdx) API, which handles the signing, condition monitoring, and execution flow.
+Conditional orders are not placed directly by users. The agent signs the `ConditionalOrder`, and a permissioned validator submits the matching execution signature once the off-chain condition is met.
 :::

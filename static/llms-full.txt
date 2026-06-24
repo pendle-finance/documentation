@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-05-20
+> Generated: 2026-06-24
 
 ---
 
@@ -372,7 +372,7 @@ Refers to the exchange rate between the interest-bearing token and its accountin
 
 #### LP = Liquidity Provider Token
 
-LP tokens represent a user's share of a Pendle liquidity pool, which is composed of PT and SY. LPs earn returns from multiple sources simultaneously: swap fees, PENDLE incentives, underlying yield from the SY portion, and an implicit fixed yield from the PT portion.
+LP tokens represent a user's share of a Pendle liquidity pool, which is composed of PT and SY. LPs earn returns from multiple sources simultaneously: swap fees, [PENDLE incentives](./Mechanisms/Incentives), underlying yield from the SY portion, and an implicit fixed yield from the PT portion.
 
 #### LP Wrapper
 
@@ -5590,7 +5590,7 @@ sPENDLE held in a user’s wallet is eligible for:
 - Voting power within the Pendle ecosystem
 - Pro-rata share of reward distributions if they meet the active participation criteria
 
-For details on governance rights and rewards distribution, see the [sPENDLE mechanism documentation](../../ProtocolMechanics/Mechanisms/sPENDLE).
+For details on governance rights and rewards distribution, see the [sPENDLE mechanism documentation](../../pendle-docs/ProtocolMechanics/Mechanisms/sPENDLE).
 
 ### Audit Reports
 
@@ -7145,443 +7145,6 @@ InitialMargin=NotionalSize*YearsToMaturity*max(ImpliedAPR, MarginFloor)*IMRatio
 
 import Hint from '@site/src/components/Hint';
 
-# Interest Rate Trading (YU Trading)
-
-## Implied APR and Fixed APR
-
-**Implied APR is the price of YU, denoted in percentage terms**. It can also be referred to as the market consensus of the future APR of an asset. It is used in conjunction with the underlying APR to make decisions on whether to long / short YU.
-
-When a user opens a long / short position on YU for the first time at the current implied APR, that implied APR becomes the fixed APR payable / receivable until maturity.
-
-Note that implied APR is the “price” of YU, which means it is directly correlated to your position value. Upon opening a position, the “value” of the position is affected by implied APR changes. In other words, if implied APR goes up, traders with a long position will see an increase in their position value and traders with a short position will see a decrease in their position value.
-
-In other words, a high implied APR can mean that the YU is “expensive”, and a low implied APR can mean that the YU is “cheap”. For yield traders with a shorter time horizon, the concept of “buy-low-sell-high” is totally applicable here, where they can enter a long position when implied APR is low, and close the position when it goes up.
-
-### Long YU
-
-<Hint style="info">
-Pay fixed APR, receive underlying APR.
-</Hint>
-
-A long YU position pays a fixed APR to receive the underlying APR. Essentially, it is a long position on the underlying APR, betting that receiving underlying APR outperforms the fixed APR payables.
-
-**Upon opening a new long position on YU, the current implied APR becomes the fixed APR payable until maturity.**
-
-Since implied APR is the “price” of the yield rate, the current implied APR directly affects your total position value. If implied APR goes up, the total position value on a long position goes up, and vice versa (i.e. price go up, your long position value go up).
-
-<Hint style="info">
-Long YU positions bet on:
-
-1. Underlying rate > fixed rate, or
-2. Implied APR going up (i.e. YU price going up)
-</Hint>
-
-### Short YU
-
-<Hint style="info">
-Pay underlying APR, receive fixed APR.
-</Hint>
-
-A short YU position pays the underlying APR to receive a fixed APR. Essentially, it is a short position on the underlying APR, betting that underlying APR payable is less the fixed rate received.
-
-**Upon opening a new short position, the current implied APR becomes the fixed APR receivable until maturity.**
-
-Since implied APR is the “price” of the yield rate, the current implied APR directly affects your total position value. If implied APR goes up, the total position value on a short position goes down, and vice versa.
-
-<Hint style="info">
-Short YU positions bet on:
-
-1. Underlying rate < fixed rate, or
-2. Implied APR going down (i.e. YU price going down)
-</Hint>
-
-## Opening a Position
-
-1. To open a position on Boros, select the desired market.
-2. Deposit the collateral of the desired market or zone.
-3. Enter the desired size of the position (either long / short position)
-4. Execute a market order or place your order on the order book.
-5. Position will be opened when the order is filled.
-
-## Closing a Position
-
-You can close a position by clicking the “close position” button, which works by opening the opposite of the currently open position. If you have a long position open, the position will be closed by opening an equivalent short position, and vice versa.
-
-<figure><img src="/boros-docs/imgs/image (5).png" alt="" /><figcaption></figcaption></figure>
-
-This is because the underlying APR payment / receivables from opposite positions cancels each other out, leaving the position with an aggregate fixed APR payment / receivables. Since a fixed APR payment / receivables to maturity is deterministic, Boros can immediately settle the position into your collateral.
-
----
-
-# Order Book
-
-Orders on Boros are placed on Implied APR of the asset, which is the yield denominated price of the asset. Learn more [here](interest-rate-trading-yu-trading#implied-apr-and-fixed-apr).
-
-## **Order types:**
-
-* Market: Order executes immediately in order of the best prices in the order book.
-* Limit: Order executes at the selected limit price or better.
-
-Limit orders on Pendle are Good Til Cancel (GTC) orders, which means they will be available in the order book until it is filled or cancelled.
-
-The order book will be closed at maturity and all orders will automatically be cancelled.
-
----
-
-import Hint from '@site/src/components/Hint';
-
-# Vaults
-
-Each YU pair on Boros has a corresponding **vault**, which provides an additional source of liquidity on top of the order book. When a trader places a market order, it can be matched with either the order book or the vault—effectively making the vault a counterparty to open positions, earning fees and PENDLE incentives.
-
-> Boros' vault mechanism is advanced and is out of scope for most users. For those curious to dive deeper, you can read our whitepaper \[here] (\<link coming soon>).
-
-### Risks
-
-Boros vaults behave similarly to a **Uniswap V2 LP position** of “long YU” and “collateral”. This means vault depositors are effectively taking a **long-biased position on YU**, which benefits from high or rising implied APRs.
-
-However, if the implied APR declines after you have deposited, your vault position may suffer **impermanent loss (IL)** —especially if it was opened at a high APR level.
-
-Before depositing, consider the **current implied APR**. A high implied APR may result in a high historical vault performance, but could also make your entry more vulnerable to drawdowns and IL.
-
-### Yields
-
-Vaults generate returns through:
-
-* **PENDLE incentives**
-* **Swap fees from market order flow**
-* **Favorable Implied APR movements**, which increase the value of your vault position.
-
-<Hint style="danger">
-Opening a Boros vault position is similar in risk profile to going **long YU**. If the implied APR drops after you enter, you may experience impermanent loss, which will be **realized when you exit** the vault.
-</Hint>
-
----
-
-# Fees
-
-Positions on Boros can have different fees based on their behavior. Refer to the info tab of each pool for more details.
-
-![Market Info](/boros-docs/imgs/market_info.png "Market Info")
-
-### 1. Swap Fees
-
-Boros collects a flat fee on top of the implied APR for every swap. Swap fee will be deducted from the position’s collateral.
-
-For example, in a market with a swap fee tier of 0.05%, the fee for opening a position equals 0.05% × YU amount × Years to Maturity. In other words, traders will pay 0.05% fee on the $ value of their position.
-
-In this scenario, traders will profit if implied APR changes by more than 0.1% in their favor (assuming no yield settlement happens throughout the period), as traders will have to open and close the position, incurring 2x the swap fee.
-
-### 2. Open Interest Fees
-
-Boros collects a flat fee on the fixed APR side of every YU during settlement.
-
-For example, positions at an 8% fixed rate with a fee tier of 0.1%:
-- Long YU positions effectively pay 8.1% in fixed APR.
-- Short YU positions effectively receive 7.9% in fixed APR.
-
-### 3. Operation Fees
-
-Boros charges a small fixed fee on your first transaction and then intermittently (approximately every \~50 transactions) thereafter. This fee, usually around \$1 during normal gas conditions, is used to cover the gas costs of executing trades from your address.
-
----
-
-# Interest Rate Accounting and Settlement
-
-Boros facilitates trading in Yield Units (YUs) of funding rates, with settlement intervals that mirror the underlying market’s schedule. For example:
-
-* On Binance, funding rates are settled every 8 hours. Correspondingly, Binance YUs on Boros are settled on the same 8-hour schedule.
-* For Hyperliquid, funding rates are settled every hour, thus Hyperliquid YUs on Boros are also settled hourly.
-
-<figure><img src="/boros-docs/imgs/image (2).png" alt="" /><figcaption></figcaption></figure>
-
-At each settlement period, Boros obtains the underlying APR (funding rate) via an oracle and settles it against every user’s fixed APR.
-
-A user’s fixed APR is determined by the average implied APR upon opening a position. When the user opens a new position, the new fixed APR is the average implied APR of opening the position.
-
-### At every settlement
-
-Boros settles the underlying rate against every user’s fixed rate.
-
-1. **Long YU:** the user **pays fixed APR and receives the underlying APR** (essentially betting on the underlying rate being HIGHER than the fixed payments). For example, if the user opened a long YU position at an implied APR of 8% and the underlying APR is currently 10%, they will receive rates of 2% (scaled down to the settlement period).
-2. **Short YU:** the user **pays the underlying APR and receives a fixed APR** (essentially betting on the underlying rate being LOWER than the fixed payments). For example, if the user opened a short YU position at implied APR of 20% and the underlying rate is currently 25%, they will lose rates of 5% (scaled down to the settlement period).
-
-The difference in the underlying and fixed APR is realized and will be reflected in every user’s collateral.
-
-1. Positions that received more than they paid will see an increase in their collateral value.
-2. Positions that received less than they paid will see a decline in their collateral value.
-
-Assuming the implied APR remains the same, the position’s value declines as a portion of the position is already realized into the collateral (i.e. YU’s value declines as there are less yield remaining to settle until maturity).
-
-The maintenance margin also declines as the position is now worth less than before the settlement (i.e. since the value of each YU is now lower, less margin is now required to maintain the same position). Maintenance margin will decline until the margin floor.
-
-At maturity, collateral is fully freed.
-
----
-
-import Hint from '@site/src/components/Hint';
-
-# Margin and Liquidations
-
-## Understanding Positions on Boros
-
-**Positions on Boros are priced and monitored via Rate Sensitivity, Daily Volatility, and Margin.** 
-
-**Rate Sensitivity:** How much your position gains or loses for every 1% change in APR, equivalent to 100x DV01 in TradFi interest rate swap conventions. This is the primary way to understand your position's exposure.
-
-```jsx
-Rate Sensitivity = Notional Size (YU) * DaysToMaturity/365 * 1%
-```
-
-**Daily Volatility:** The 7-day moving average (7DMA) of the daily implied rate range, represents volatility by showing how much Implied APR swings in a day on average 
-
-> ***Rate Sensitivity x Daily Volatility = Daily P&L Range,** giving you sense of how much your position can gain or lose on any given day under normal market conditions*
-
-**Margin:**  The capital backing your position and your runway against adverse rate moves.
-
-## Trading Example
-
-A trader wishes to long BTCUSD-Hyperliquid rates with 59 days to maturity. Implied APR is at 1.18%, and he opens a long position of 10 YU.
-
-![image.png](/boros-docs/imgs/positions-overview.png)
-
-- Rate Sensitivity: 0.0163 BTC per 1% move
-- Margin Requirement: 0.024 BTC
-
-Comparing your Rate Sensitivity against Margin Requirement can provide a sense of scale on how much buffer you have before your position is at risk of liquidation.
-
-**Volatile assets with higher volatility will require higher margin requirement for the same rate sensitivity.**
-
-## Cross Margin
-
-Boros allows for cross-margin with the same assets, allowing users to use the same collateral across multiple positions within the same collateral zone (e.g. Same BTC collateral utilized across all markets within the BTC zone).
-
-Additionally, Boros also offers isolated pools, where collateral is only confined to specific markets.
-
-The Collateral and Notional size will always be denoted in the same asset. For example, in the BTCUSDT-Binance market on Boros, each YU-BTCUSDT-Binance represents yield from funding rates of 1 BTC and the collateral required to back the position is in BTC.
-
-**Liquidations within a collateral zone will not affect positions in other zones or isolated pools.**
-
-## **Initial Margin**
-
-Leverage can be set between 1 and the max leverage, which may vary by asset. The initial margin required to open a position is:
-
-```jsx
-Initial Margin = NotionalSize*YearsToMaturity*max(ImpliedAPR, MarginFloor)*IMRatio
-```
-
-The margin scales with notional size, time to maturity, and the implied APR of the position, floored at the market's Margin Floor (see below) to ensure adequate collateral even when rates are low or negative. Once consumed, the initial margin cannot be withdrawn or used to back other positions. The collateral remaining after margin consumption is your Available Margin.
-
-Example: If you have 2000 USDT and proceed to open a 2000 USDT position, the margin consumed is 2000 USDT (i.e. fully consumed). The available margin becomes 0 USDT and the same collateral cannot be reused to open a new position.
-
-Unrealized profits from open positions are automatically reflected as an increase in Available Margin. Conversely, unrealized losses reduce Available Margin.
-
-## **Maintenance Margin and Liquidations**
-
-Positions can be liquidated when the position’s Net Balance falls below the maintenance margin requirement.
-
-### Net Balance
-
-A position’s Net Balance comprises of:
-
-```jsx
-Net Balance = Collateral + Unrealized PnL
-```
-
-#### Collateral
-
-Collateral value changes after every rate settlement where Boros settles every position’s fixed APR against the underlying APR. Learn more about interest rate accounting and settlement [here](../../interest-rate-accounting/interest-rate-accounting-and-settlement).
-
-Note that the value of your collateral is only affected after every rate settlement, where a portion of the position is realized. The change in collateral is only affected by the difference between fixed vs underlying APR.
-
-For example:
-
-A short positions can be liquidated if the underlying rate maintains above its fixed rate in extended periods.
-
-This is because at every settlement period, the position pays a higher underlying rate vs the fixed rate it receives, reducing its collateral. A prolonged exposure in this situation might reduce the collateral to the point where the Net Balance falls below the maintenance margin, triggering a liquidation.
-
-#### Unrealized PnL
-
-Unrealized PnL value is entirely dependent on the current **mark implied APR** of the asset (learn more about implied APR [here](../../interest-rate-trading/interest-rate-trading-yu-trading#implied-apr-and-fixed-apr)). In essence, unrealized PnL is affected by changes in YU value, which is derived from the mark implied APR.
-
-For example: A long position will have a negative Unrealized PnL when mark implied APR falls. The position can be liquidated if the mark implied APR falls to the point where the Net Balance falls below the maintenance margin.
-
-|                                             | Underlying Rate ⬆️ | Underlying Rate ⬇️ | Mark Implied APR ⬆️ | Mark Implied APR ⬇️ |
-| ------------------------------------------- | ------------------ | ------------------ | ------------------- | ------------------- |
-| Long Rates (pay fixed, receive underlying)  | Net Balance ⬆️     | Net Balance ⬇️     | Net Balance ⬆️      | Net Balance ⬇️      |
-| Short Rates (pay underlying, receive fixed) | Net Balance ⬇️     | Net Balance ⬆️     | Net Balance ⬇️      | Net Balance ⬆️      |
-
-<Hint style="danger">
-Always monitor your Net Balance and Margin Ratio. Top up your collateral to increase your Net Balance when Margin Ratio gets dangerously low to avoid liquidations.
-</Hint>
-
-#### Mark Implied APR
-
-The mark implied APR is a simple time-weighted average (TWAP) of the last traded implied APR on the order book.
-
-It serves as the reference rate for Boros’ margin system, meaning your net balance is calculated based on the mark implied APR, not the last traded price. This helps prevent unnecessary liquidations caused by short-term price spikes or potential manipulation.
-
-### Maintenance Margin
-
-The maintenance margin is set at 66% of the initial margin upon opening a position. Positions can be liquidated when the their Net Balance falls below this maintenance margin.
-
-```jsx
-Maintenance Margin = Initial Margin * 66%
-```
-
-As yields are settled, the Rate Sensitivity of the position declines over time. **A 1% move in Implied APR produces a smaller P&L impact as maturity approaches, since the remaining yield period is shorter.** Consequently, the maintenance margin required to maintain the position declines too.
-
-At maturity, the entire position is settled. Rate Sensitivity reaches zero (as there is no remaining yield to respond to rate movements) and maintenance margin is also zero. The realized position is reflected in the collateral.
-
-### Margin Floor
-
-The margin floor on Boros is the minimal Initial Margin necessary to open a position when the market is in a state where it is subject to high implied APR volatility. This threshold prevents the required margin from falling below a certain level, ensuring that all positions will be adequately backed by sufficient collateral under all circumstances, safeguarding the platform against bad debts.
-
-There are 2 types of Margin Floors on Boros.
-
-#### **1. Margin Floor Near Maturity**
-
-<figure><img src="/boros-docs/imgs/image (8).png" alt="" /><figcaption></figcaption></figure>
-
-As a position approaches maturity, its required margin decreases. This reduction is due to the periodic settlement of yields, which lowers the effective value of the position and consequently the required margin as the maturity date nears.
-
-Without a Margin Floor, a position that is close to maturity will only be backed by a minimal amount of collateral. Given that funding rates can experience sharp fluctuations over short periods, significant rate changes could force positions to close at an implied APR below the Maintenance Margin, potentially leading to bad debts.
-
-For example, a market with a &lt;1 Week to Maturity&gt; Margin Floor would mean that the margin CANNOT decay below the threshold as maturity approaches. Positions initiated during &lt;1 week to maturity must provide a margin _equivalent_ to an order placed with 7 days remaining until maturity. The Maintenance Margin for such positions will also be derived from the Margin Floor.
-
-The Margin Floor acts as a critical buffer that ensures that there will be sufficient collateral to withstand extreme market movements throughout maturity, protecting the platform against bad debts.
-
-#### **2. Margin Floor for Low Implied APR**
-
-On Boros, the required margin for opening or maintaining a position is proportional to the Implied APR. A lower Implied APR means a lower required margin.
-
-Users have the flexibility to place limit orders at any Implied APR, including negative values or even at 0%, which can occur in funding rates.
-
-Since Initial Margin is linearly correlated to Implied APR, an order set at 0% APR would theoretically require zero collateral. In the absence of a Margin Floor, this could allow users to place an unlimited number of YU orders at 0% APR without any collateral. Any losses from such scenarios would thus lead to bad debts for the platform.
-
-To mitigate this risk, the Margin Floor establishes a minimum Implied APR that must be considered when calculating the required margin for a position.
-
-For example, in a market with 8% Implied APR Margin Floor, any orders placed between the range of _-8% to 8%_ must provide a margin _equivalent_ to an order at 8% Implied APR.
-
-Additionally, the Margin Floor also acts as a buffer that ensures there will be sufficient collateral to handle any Implied APR fluctuations throughout maturity, thereby safeguarding the platform against bad debts.
-
-Each market will only have ONE Margin Floor value, determined by the higher of the two aforementioned types: \<Margin Floor Near Maturity> or \<Margin Floor for Low Implied APR>.
-
-### **Auto deleveraging**
-
-Boros has an option to trigger auto-deleveraging, a critical feature designed as a vital safeguard to protect against significant bad debt risks.
-
-The purpose of auto-deleveraging is strictly to ensure the platform stays solvent. If triggered, the users on the opposite side of the position at risk, ranked by various metrics (e.g. unrealized P&L, margin usage, among others), will be forced to close their positions (i.e. take profit). These positions are closed at the current implied APR against the liquidated user, ensuring that the platform does not accrue bad debt.
-
-Audo-deleveraging is an important final safeguard, with the goal of ensuring that under all circumstances, the protocol and users can continue to operate with ease of mind.
-
-You can refer to a more in-depth calculation and other preventive mechanisms on Boros over at the [next page](detailed-calculations-on-margin-and-liquidations).&#x20;
-
----
-
-# Detailed Calculations on Margin and Liquidations
-
-## Initial Margin (IM)
-
-* Overview: Initial Margin is the margin a user needs to open a new position
-* Variables:
-  * `k`<sub>`IM`</sub>: Initial Margin Factor, a setting specific to each market
-  * `s`: Notional Size
-  * `t`: Time to maturity (in years)
-  * `TimeFloor`: floor for time to maturity, a setting specific to each market
-  * `RateFloor`: floor for Mark Rate, a setting specific to each market
-* Formula:
-
-$$
-IM = k_{IM} \times |s| \times max(t, TimeFloor) \times max(markRate, RateFloor)
-$$
-
-* A user is able to open a new limit order or market order, if their total Initial Margin is less than their Net Balance, or they are closing their existing position
-
-## Maintenance Margin (MM)
-
-* Overview: Maintenance Margin is the margin a user needs to have to maintain a position (and not be liquidated)
-* Variables:
-  * `k`<sub>`MM`</sub>: Maintenance Margin Factor, a setting specific to each market
-  * `s`: Notional Size
-  * `t`: Time to maturity (in years)
-  * `TimeFloor`: floor for time to maturity, a setting specific to each market
-  * `RateFloor`: floor for Mark Rate, a setting specific to each market
-* Formula:
-
-$$
-MM = k_{MM} \times |s| \times max(t, TimeFloor) \times max(markRate, RateFloor)
-$$
-
-* To get the settings from the API:
-  * API: [https://api.boros.finance/core/docs#/Markets/MarketsController\_getMarketInfo](https://api.boros.finance/core/docs#/Markets/MarketsController_getMarketInfo)
-  * Notes on how to get settings from the API:
-    * TimeFloor: **`tThresh`** from the API, divided by 365\*_24\*_&#x33;600
-    * RateFloor:
-      * `1.00005^(iTickThresh*tickStep) - 1`
-
-## Liquidation
-
-* Overview: a user is liquidated in a collateral zone if their Net Balance goes below Maintenance Margin
-* When a liquidation happens, the user’s position is closed at the mark rate, and the user loses an liquidation penalty of:
-
-$$
-LiquidationPenalty = k * maintenanceMarginOfLiquidatedPosition
-$$
-
-* Where k will start from 25% when a position just become liquidate-able and increases linearly to 50% when the position becomes more and more unhealthy (and still not liquidated)
-
----
-
-# Protective mechanisms
-
-There a few mechanisms in place to mitigate risks for the users and Boros' system.
-
-### OI Cap
-
-* There is a hard cap on the OI of any market
-* To get the value from market API:
-  * OI Cap = **`hardOICap`/`1e18`**
-
-### Closing Only Mode
-
-* When the market dynamics becomes too extreme (for example, abnormally high price volatility or low liquidity), the Closing Only Mode will be automatically turned on
-* When Closing Only Mode is on, users will only be able to close existing positions (and not open new positions)
-
-### Max Rate Deviation
-
-* The system disallows any market trade that happens at a rate too far away from the current mark rate.
-* If a trade exceeds this limit, an error “Executed Rate Out of Range” will be displayed on the UI
-* The exact requirement is as follows:
-
-$$
-|markRate - rateTraded| \leq maxRateDeviationFactor \times max(markRate, RateFloor)
-$$
-
-* `maxRateDeviationFactor` = **`maxRateDeviationFactorBase1e4` / `1e4`**
-  * where **`maxRateDeviationFactorBase1e4`** is from the market API
-
-### Max Bounds on Limit Order rates
-
-* When placing a limit order, a user can’t long at a rate too high above the mark rate, or short at a rate too low below the mark rate.
-* The exact mechanics is this:
-  * A long order rate must not exceed _f_<sup>_u_</sup>
-  * A short order rate must not be lower than _f_<sup>_l_</sup>
-
-$$
-f^u(r_m) =    \begin{cases}      r_m\times upperLimitSlope & r_m \geq I_{threshold} \\      r_m + upperLimitConstant & 0 \leq r_m < I_{threshold} \\      -f^l(-r_m) & r_m < 0    \end{cases}\\    f^l(r_m) =    \begin{cases}      r_m\times lowerLimitSlope & r_m \geq I_{threshold} \\      r_m + lowerLimitConstant & 0 \leq r_m < I_{threshold} \\      -f^u(-r_m) & r_m < 0    \end{cases}
-$$
-
-* To get the variables from the values returned from market API:
-  * `upperLimitSlope` = **`loUpperSlopeBase1e4` / 1e4**
-  * `upperLimitConstant` = **`loUpperConstBase1e4` / 1e4**
-  * `lowerLimitSlope` = **`loLowerSlopeBase1e4` / 1e4**
-  * `lowerLimitConstant` = **`loLowerConstBase1e4` / 1e4**
-
----
-
-import Hint from '@site/src/components/Hint';
-
 # Boros Referral Program
 
 <figure><img src="/boros-docs/imgs/image.png" alt="" /><figcaption></figcaption></figure>
@@ -7633,7 +7196,7 @@ Read the [LitePaper](./LitePaper.mdx) for a conceptual overview, or dive into [M
 
 | Section | Contents |
 |---|---|
-| **Backend Integration** | REST API, WebSocket, agent wallet setup, stop orders (TP/SL), transaction submission via Send Txs Bot, best practices |
+| **Backend Integration** | REST API, WebSocket, agent wallet setup, transaction submission via Send Txs Bot, best practices |
 | **Historical Data** | Monthly NDJSON exports of trades, OHLCV candles, order book snapshots, settlement rates and market data |
 | **Mechanics** | Order book matching, AMM pricing, margin system (cross vs isolated), settlement, fees, incentives |
 | **Contracts** | Router, MarketHub, Market, custom types reference, NPM package |
@@ -8818,7 +8381,7 @@ Router follows a modular architecture:
 - **AuthModule**: agent authentication and delegated trading (irrelevant for external parties)
 - **AMMModule**: AMM-specific operations (add/remove liquidity, swaps)
 - **TradeModule**: core trading operations (enter/exit markets, place/cancel orders, cash transfer)
-- **ConditionalModule**: conditional order execution (used by stop-order system)
+- **ConditionalModule**: conditional order execution
 - **DepositModule**: deposit box operations (managed by Pendle backend)
 - **MiscModule**: utility functions (simulation, batch operations)
 
@@ -9203,7 +8766,7 @@ simulations[1] = SimulateData({
 
 ## Conditional Orders
 
-The ConditionalModule enables orders with off-chain trigger conditions. This is the on-chain mechanism underlying the [Stop Order](../Backend/6.%20stop-orders.mdx) system.
+The ConditionalModule enables orders with off-chain trigger conditions.
 
 **How it works:**
 
@@ -9228,7 +8791,7 @@ struct ConditionalOrder {
 ```
 
 :::note
-Conditional orders are not placed directly by users. They are managed through the [Stop Order Service](../Backend/6.%20stop-orders.mdx) API, which handles the signing, condition monitoring, and execution flow.
+Conditional orders are not placed directly by users. The agent signs the `ConditionalOrder`, and a permissioned validator submits the matching execution signature once the off-chain condition is met.
 :::
 
 ---
@@ -9650,7 +9213,6 @@ The Send Txs Bot charges gas from the user's on-chain gas balance in USD at the 
 | [API](./4.%20api.mdx) | Full REST endpoint reference and integration workflows |
 | [WebSocket](./5.%20websocket.mdx) | Real-time market and account data streaming |
 | [Best Practices](./6.%20best-practices.mdx) | Patterns for gas efficiency, error handling, and market management |
-| [Stop Orders](./7.%20stop-orders.mdx) | Conditional take-profit and stop-loss order management |
 | [Historical Data](./8.%20historical-data.mdx) | Monthly NDJSON exports — trades, OHLCV, settlements, order book snapshots |
 | [Indicators](./9.%20indicators.mdx) | Indicator letter codes (`u`, `fp`, `fgi`, `ap`, `udma`) and CSV export |
 | [Computing Units](./10.%20computing-units.mdx) | How endpoint cost is reported and the static / dynamic CU model |
@@ -9670,7 +9232,7 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (Rat
 |------|-------------|-----------------|
 | **Order Book** | Primary liquidity source with Long/Short sides organized by price ticks. See [Order Book Mechanics](/boros-dev/Mechanics/OrderBook) for matching rules and constraints. | `GET /markets/order-books`, `GET /v2/markets/order-books` |
 | **Order** | Trade instruction with `orderId`, `tick` (price level), `side`, `size` (18 decimals), and `tif` (time-in-force). Orders can be placed individually or in bulk. | `POST /calldata/place-orders`, `GET /accounts/limit-orders` |
-| **Tick** | Integer price level representing an interest rate. Formula: `rate = 1.00005^(tick × tickStep) - 1`. Higher tick = higher rate. The tick step is market-specific and controls rate granularity. Use SDK helpers to convert between human-readable APR and tick values. | All order-related endpoints, `GET /stop-order/v1/orders/tpsl/prepare` |
+| **Tick** | Integer price level representing an interest rate. Formula: `rate = 1.00005^(tick × tickStep) - 1`. Higher tick = higher rate. The tick step is market-specific and controls rate granularity. Use SDK helpers to convert between human-readable APR and tick values. | All order-related endpoints |
 | **`rate` vs `limitTick`** | Two ways of specifying the limit price on an order. `rate` is the human-friendly decimal APR (e.g. `0.05` = 5%) and is rounded to the nearest valid tick by the backend. `limitTick` is the raw integer tick. The simple `place-order` endpoint takes `rate`; the advanced `place-orders` endpoint accepts either (XOR). | `POST /calldata-builder/agent/place-order(s)` |
 | **`desiredRate` vs `slippage`** | Two ways of specifying the **execution guard** (worst acceptable average fill rate) for the matched portion of an order. `desiredRate` is an absolute ceiling — the contract reverts with `TradeUndesiredRate` if `signedCost > signedSize × desiredRate`. `slippage` is a relative tolerance from the current mid-rate (e.g. `0.005` = 0.5%); the backend computes `desiredRate = midRate ± slippage` for you. **Exactly one** must be supplied on the advanced endpoint; the simple endpoint only exposes `slippage`. Strongly recommended for FOK / IOC market orders. | `POST /calldata-builder/agent/place-order(s)` |
 | **AMM** | Automated market maker providing continuous liquidity alongside the order book. The Router routes between AMM and order book for optimal execution. AMM liquidity can be optionally included in order book queries. | `GET /v2/markets/order-books`, AMM simulation/calldata endpoints |
@@ -9681,8 +9243,7 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (Rat
 | **Implied Rate** | Current interest rate implied by order book trading, consisting of the last traded rate and a TWAP component. | `GET /markets/{marketId}` |
 | **Rate Floor** | Minimum absolute rate used in margin calculations (derived from `market.imData.iTickThresh`). If an order's rate is below the rate floor, the floor value is used for margin instead. See [Margin — Pre-scaling IM](/boros-dev/Mechanics/Margin#pre-scaling-initial-margin). | Market config |
 | **Settlement** | Periodic floating rate payment exchange (typically every 8 hours) using [lazy settlement](../Mechanics/Settlement.mdx). See [Settlement Mechanics](/boros-dev/Mechanics/Settlement). | `GET /accounts/settlements`, `POST /funding-rate/settlement-summary` |
-| **Conditional Order** | On-chain order with an off-chain trigger condition, executed by a permissioned validator when conditions are met. Stop orders are built on this. See [Conditional Orders](/boros-dev/Contracts/Router#conditional-orders). | Stop Order Service endpoints |
-| **Stop Order** | Conditional off-chain order (take-profit or stop-loss) that triggers when market APR crosses a threshold. Managed by the Stop Order Service. See [Stop Orders](./7.%20stop-orders.mdx). | `GET /stop-order/v1/orders/tpsl/prepare`, `POST /stop-order/v2/orders/place` |
+| **Conditional Order** | On-chain order with an off-chain trigger condition, executed by a permissioned validator when conditions are met. See [Conditional Orders](/boros-dev/Contracts/Router#conditional-orders). | Router `ConditionalModule` (on-chain) |
 
 
 ## Operational Concepts
@@ -10051,7 +9612,6 @@ function summarize(market: OpenApi.MarketListItemResponse) {
 
 - **WebSocket subscriptions** — connect to the WebSocket feed using `socket.io-client` directly; see [WebSocket](./5.%20websocket.mdx).
 - **Strategy logic** — the SDK is plumbing. Indicators, sizing, risk management are yours to build.
-- **Stop / take-profit orders** — `OrderType.TAKE_PROFIT_MARKET` and `OrderType.STOP_LOSS_MARKET` exist on the type level but the SDK does not yet expose dedicated `placeStopOrder` / `placeTakeProfitOrder` methods. Use `getOpenApiSdk()` until they land. See [Stop Orders](./7.%20stop-orders.mdx).
 
 ## End-to-end example
 
@@ -10081,13 +9641,7 @@ The main API for querying data and generating transaction calldata.
 
 Receives signed calldata from agents and broadcasts transactions on-chain. You never call smart contracts directly — the bot submits them on your behalf and charges gas fees from your gas balance.
 
-**Interactive docs:** [https://api.boros.finance/send-txs-bot/docs](https://api.boros.finance/send-txs-bot/docs)
-
-### Stop Order Service
-
-Manages conditional stop orders (take-profit / stop-loss). These orders live off-chain and are triggered automatically when the market APR crosses a threshold. See [Stop Orders](#stop-orders-tpsl) below for details.
-
-**Interactive docs:** [https://api.boros.finance/stop-order/docs](https://api.boros.finance/stop-order/docs)
+**Interactive docs:** [https://api-boros.pendle.finance/send-txs-bot/docs](https://api-boros.pendle.finance/send-txs-bot/docs)
 
 
 ## Sensitive vs Non-Sensitive Actions
@@ -10116,7 +9670,7 @@ The Open API returns errors in a structured format:
 
 The `errorCode` field is a machine-readable string you can use for programmatic error handling. Common error codes include validation errors (invalid parameters), state errors (insufficient margin), and not-found errors.
 
-The Send Txs Bot and Stop Order services use the legacy format:
+The Send Txs Bot service uses the legacy format:
 
 ```json
 {
@@ -10156,7 +9710,7 @@ Here's a complete example of how to connect to and use the WebSocket:
 import { io } from 'socket.io-client';
 
 // Initialize the socket connection
-const socket = io('wss://api.boros.finance/pendle-dapp-v3', {
+const socket = io('wss://api-boros.pendle.finance/pendle-dapp-v3', {
   path: '/socket/socket.io',
   reconnectionAttempts: 5,
   transports: ['websocket']
@@ -10283,7 +9837,7 @@ class PendleWebSocket {
   private socket: any;
 
   constructor() {
-    this.socket = io('wss://api.boros.finance/pendle-dapp-v3', {
+    this.socket = io('wss://api-boros.pendle.finance/pendle-dapp-v3', {
       path: '/socket/socket.io',
       reconnectionAttempts: 5,
       transports: ['websocket']
@@ -10565,7 +10119,7 @@ class AccountTracker {
     this.walletAddress = walletAddress.toLowerCase();
     this.accountId = accountId;
 
-    this.socket = io('wss://api.boros.finance/pendle-dapp-v3', {
+    this.socket = io('wss://api-boros.pendle.finance/pendle-dapp-v3', {
       path: '/socket/socket.io',
       reconnectionAttempts: 5,
       transports: ['websocket'],
@@ -10765,136 +10319,6 @@ If you are a market maker placing multiple orders across different markets or at
 | Never expose root key; use agents | Security best practice |
 
 For complete working examples, visit: [https://github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples)
-
----
-
-# Stop Orders (TP/SL)
-
-## Overview
-
-Stop orders are **conditional orders** that automatically execute when the market APR crosses a specified threshold. They allow you to set up take-profit (TP) and stop-loss (SL) levels for your positions without needing to monitor the market continuously.
-
-Unlike regular limit orders that live on-chain in the order book, stop orders are managed **off-chain** by the Stop Order Service. When the trigger condition is met, the service generates and submits the trade on your behalf through the agent system.
-
-## How Stop Orders Work
-
-```text
-┌─────────────────────────────────────────────────────────────┐
-│  1. You have an open position on a market                   │
-│  2. You set a stop order: "if APR reaches X, close/reduce"  │
-│  3. The Stop Order Service monitors the market APR           │
-│  4. When APR crosses your threshold → order is triggered     │
-│  5. The service executes a market order to close/reduce      │
-└─────────────────────────────────────────────────────────────┘
-```
-
-## Order Types
-
-| Type | Value | Description |
-|------|-------|-------------|
-| **Take Profit (Market)** | `2` | Triggers when the market moves in your favor. Closes at market price to lock in profit. |
-| **Stop Loss (Market)** | `3` | Triggers when the market moves against you. Closes at market price to limit losses. |
-
-Both types execute as **market orders** (IOC — Immediate or Cancel) when triggered, filling against available liquidity in the order book.
-
-## Trigger Logic
-
-The trigger condition depends on the combination of your position side and the order type:
-
-| Position | Order Type | Triggers when APR... |
-|----------|------------|---------------------|
-| Long | Take Profit | rises above the threshold |
-| Long | Stop Loss | falls below the threshold |
-| Short | Take Profit | falls below the threshold |
-| Short | Stop Loss | rises above the threshold |
-
-The trigger APR is specified as a **tick** value. See the [Glossary](./1.%20glossary.mdx) for how ticks map to interest rates.
-
-## Integration Guide
-
-### Step 1: Prepare the Stop Order
-
-Call the prepare endpoint to generate the order parameters including the calldata that will be executed when the order triggers:
-
-```typescript
-const { data: prepareResult } = await axios.get(
-  `${BASE_URL}/stop-order/v1/orders/tpsl/prepare`,
-  {
-    params: {
-      userAddress: '0xYourAddress',
-      accountId: 0,
-      marketId: 1,
-      side: 0,              // 0 = Long, 1 = Short
-      stopAprOrderType: 3,  // 2 = Take Profit, 3 = Stop Loss
-      tick: -500,           // trigger APR as tick value
-      size: '1000000000000000000000', // size in 18 decimals
-    }
-  }
-);
-```
-
-The response includes a `calldatas` array — the pre-built transaction data that the service will submit when the stop order triggers.
-
-### Step 2: Place the Stop Order
-
-Sign and submit the stop order. The placement requires an agent signature to authorize the service to execute on your behalf:
-
-```typescript
-const { data: placeResult } = await axios.post(
-  `${BASE_URL}/stop-order/v2/orders/place`,
-  {
-    userAddress: '0xYourAddress',
-    accountId: 0,
-    tokenId: 0,
-    marketId: 1,
-    side: 0,
-    stopAprOrderType: 3,
-    tick: -500,
-    size: '1000000000000000000000',
-    timeInForce: 1,          // IOC for market execution
-    calldatas: prepareResult.calldatas,
-    // ... agent signature fields
-  }
-);
-```
-
-The response confirms placement with the order details and a `stopOrderRequestId`.
-
-### Step 3: Monitor or Cancel
-
-To cancel a pending stop order:
-
-```typescript
-const { data: cancelResult } = await axios.delete(
-  `${BASE_URL}/stop-order/v3/orders/cancel`,
-  {
-    data: {
-      orderIds: ['order-id-1', 'order-id-2'],
-      // ... agent signature fields
-    }
-  }
-);
-```
-
-## Important Notes
-
-- **Off-chain execution**: Stop orders are not on-chain limit orders. They are monitored and triggered by the Stop Order Service.
-- **Market orders**: When triggered, stop orders execute as market orders (IOC). In low-liquidity conditions, the order may partially fill or not fill at all.
-- **Agent required**: Stop orders use the agent authorization system. Your agent must be approved before placing stop orders.
-- **Size in 18 decimals**: Position sizes are always specified in 18-decimal fixed-point format, regardless of the underlying token's native decimals.
-- **Tick precision**: The trigger APR is specified as a tick value. Use SDK helpers (`estimateTickForRate`, `getRateAtTick`) to convert between human-readable APR and tick values.
-
-## API Reference
-
-For exact request/response schemas, see the interactive docs:
-
-**[https://api.boros.finance/stop-order/docs](https://api.boros.finance/stop-order/docs)**
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/v1/orders/tpsl/prepare` | GET | Generate stop order parameters and calldata |
-| `/v2/orders/place` | POST | Place a signed stop order |
-| `/v3/orders/cancel` | DELETE | Cancel one or more stop orders |
 
 ---
 
@@ -11201,11 +10625,41 @@ Every successful call deducts its `x-computing-unit` cost from both buckets. The
 
 When either budget is exhausted the API returns **HTTP 429** with body `{ "statusCode": 429, "message": "ThrottlerException: Too Many Requests" }`. Wait for the next window before retrying.
 
-Cloudflare-fronted requests are bucketed by `cf-connecting-ip`; direct requests by remote IP. Same-origin browsers behind a NAT share one bucket. There is currently no per-API-key tier — every consumer gets the same limits regardless of authentication.
+### Endpoint-Specific Throttles
 
-:::info Need a higher limit?
-If your integration needs more than 200 CU/minute or 400,000 CU/week, please contact the Pendle team — higher tiers are available on request.
-:::
+A few endpoints have additional per-IP throttles on top of the CU budget:
+
+| Endpoint | Extra throttle |
+|----------|----------------|
+| `GET /v1/indicators/export` | 3 requests/minute/IP |
+
+## Higher Rate Limits via API Key
+
+If your integration needs more than the per-IP free-tier limits, paid plans are available through the **[Boros API Dashboard](https://api-boros.pendle.finance/dashboard)**.
+
+### Getting an API key
+
+1. Go to [https://api-boros.pendle.finance/dashboard](https://api-boros.pendle.finance/dashboard)
+2. Connect your wallet and sign the verification message to log in
+3. Choose a plan and create a new API key
+
+Save the generated key securely — you'll need it to authenticate your requests.
+
+### Using your API key
+
+Include your key as a Bearer token in the `Authorization` header on every request:
+
+```
+Authorization: Bearer <API_KEY>
+```
+
+**Example:**
+```bash
+curl -i -H "Authorization: Bearer your_api_key_here" \
+  https://api-boros.pendle.finance/apis/v1/markets
+```
+
+Authenticated requests are billed against your plan's higher limits instead of the per-IP free-tier budget.
 
 ## Where CU is Reported
 
@@ -12277,10 +11731,6 @@ import { FixedX18 } from "@pendle/boros-offchain-math";
 const tick = estimateTickForRate(FixedX18.fromNumber(0.05), tickStep, false); // 5% APR → tick
 const rate = getRateAtTick(tick, tickStep); // tick → rate
 ```
-
-### How do stop orders (TP/SL) work?
-
-Stop orders are off-chain conditional orders monitored by the Stop Order Service. When the market APR crosses your specified threshold, the service automatically submits a market order on your behalf. See [Stop Orders](./Backend/6.%20stop-orders.mdx) for the full guide.
 
 ### Can I close a position partially?
 
