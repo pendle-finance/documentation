@@ -107,6 +107,10 @@
     "message": "跨链 PT",
     "description": "The label for the doc item Cross-Chain PT in sidebar pendleSidebar, linking to the doc AppGuide/CrossChainPT"
   },
+  "sidebar.pendleSidebar.doc.PT Looping": {
+    "message": "PT 循环",
+    "description": "The label for the doc item PT Looping in sidebar pendleSidebar, linking to the doc AppGuide/PTLooping"
+  },
   "sidebar.pendleSidebar.doc.Pool": {
     "message": "流动性池",
     "description": "The label for the doc item Pool in sidebar pendleSidebar, linking to the doc AppGuide/Pool"
