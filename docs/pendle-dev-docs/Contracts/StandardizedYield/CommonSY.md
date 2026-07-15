@@ -6,7 +6,7 @@ hide_table_of_contents: true
 
 ## Overview
 
-Pendle provides a set of **pre-built, audited** Standardized Yield (SY) implementations that cover the most common yield-bearing asset patterns. Partners doing a [Community Listing](../Integration/CommunityListing.md) should use one of these contracts when their asset fits — this avoids the overhead of writing and auditing a custom SY from scratch.
+Pendle provides a set of **pre-built, audited** Standardized Yield (SY) implementations that cover the most common yield-bearing asset patterns. Partners doing a [Community Listing](../../Integration/CommunityListing.md) should use one of these contracts when their asset fits — this avoids the overhead of writing and auditing a custom SY from scratch.
 
 These contracts can be deployed through [`PendleCommonSYFactory`](https://github.com/pendle-finance/pendle-core-v2-public/blob/main/contracts/offchain-helpers/deploy/PendleCommonSYFactory.sol), described at the bottom of this page.
 

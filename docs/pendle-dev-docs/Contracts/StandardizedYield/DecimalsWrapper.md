@@ -50,7 +50,7 @@ function unwrap(uint256 amount) external returns (uint256 amountOut);
 
 Burns `amount` of the wrapped token from `msg.sender`, then transfers `wrappedToRaw(amount)` of `rawToken` back.
 
-**Important:** `amount` is in wrapped units (18 decimals). `wrappedToRaw` performs integer division — the caller may receive slightly fewer raw units than the proportional share (the remainder stays in the contract as recoverable dust). See [`sweep`](#sweep).
+**Important:** `amount` is in wrapped units (18 decimals). `wrappedToRaw` performs integer division — the caller may receive slightly fewer raw units than the proportional share (the remainder stays in the contract as recoverable dust). See [`dustReceiver`](#dustreceiver).
 
 ### `rawToWrapped`
 

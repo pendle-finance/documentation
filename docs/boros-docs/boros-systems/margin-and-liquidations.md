@@ -76,7 +76,7 @@ When a position's Net Balance falls below its Maintenance Margin, it becomes eli
 
 **k** starts at **25%** when the position first becomes liquidatable (health ratio = 1.0) and scales linearly up to **50%** as the position becomes progressively more distressed. This escalating penalty incentivises liquidators to act promptly and compensates them for taking on the position. **k** figure can change when a market is in distress or when the team deems necessary to adapt to certain situation.
 
-A protocol liquidation fee is also charged on top of the liquidator incentive (see [Fees](/docs/boros-docs/boros-systems/fees.md)).
+A protocol liquidation fee is also charged on top of the liquidator incentive (see [Fees](./fees)).
 
 Margin figures and requirements can differ by markets, check out the market details for specific information on the respective markets.
 

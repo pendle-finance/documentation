@@ -50,7 +50,7 @@ Before deployment, the deploying entity must **sign a message on-chain** (e.g., 
 
 ### Step 6: Seed Liquidity
 
-After deployment, the partner is responsible for bootstrapping the pool with initial liquidity. See the [Pool Guide](../../AppGuide/Pool) for recommended seeding amounts and best practices.
+After deployment, the partner is responsible for bootstrapping the pool with initial liquidity. See the [Pool Guide](/pendle-v2/AppGuide/Pool) for recommended seeding amounts and best practices.
 
 ### Step 7: Finalize with Pendle
 

@@ -18,8 +18,8 @@ hide_table_of_contents: true
 
 :::tip Use on-chain claim functions for LP/YT rewards
 This contract is only for **off-chain computed rewards**. For on-chain rewards:
-- **LP holders** → call `redeemRewards(user)` on [PendleMarket](../PendleMarket/PendleMarket)
-- **YT holders** → call `redeemDueInterestAndRewards(user, false, true)` on PendleYieldToken (see [YieldTokenization](../YieldTokenization/YieldTokenization))
+- **LP holders** → call `redeemRewards(user)` on [PendleMarket](../PendleMarket/PendleMarket.md)
+- **YT holders** → call `redeemDueInterestAndRewards(user, false, true)` on PendleYieldToken (see [YieldTokenization](../YieldTokenization/YieldTokenization.md))
 - **SY holders** → call `claimRewards(user)` on the SY contract (see [Rewards](./Rewards))
 
 See [Rewards](./Rewards) for the full reward taxonomy.

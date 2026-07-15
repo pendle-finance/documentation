@@ -149,7 +149,7 @@ function swapExactSyForPtStatic(address market, uint256 exactSyIn)
 | priceImpact | `uint256` | Price impact |
 | exchangeRateAfter | `uint256` | Exchange rate after trade |
 
-> For generating `ApproxParams` automatically, use [`swapExactSyForPtStaticAndGenerateApproxParams`](./RateFunctions#swapexactsyforptstaticanddgenerateapproxparams) instead.
+> For generating `ApproxParams` automatically, use [`swapExactSyForPtStaticAndGenerateApproxParams`](./RateFunctions.md#swapexactsyforptstaticandgenerateapproxparams) instead.
 
 ---
 
@@ -188,7 +188,7 @@ function swapExactTokenForPtStatic(address market, address tokenIn, uint256 amou
 | priceImpact | `uint256` | Price impact |
 | exchangeRateAfter | `uint256` | Exchange rate after trade |
 
-> For generating `ApproxParams` automatically, use [`swapExactTokenForPtStaticAndGenerateApproxParams`](./RateFunctions#swapexacttokenforptstaticanddgenerateapproxparams) instead.
+> For generating `ApproxParams` automatically, use [`swapExactTokenForPtStaticAndGenerateApproxParams`](./RateFunctions.md#swapexacttokenforptstaticandgenerateapproxparams) instead.
 
 ---
 
@@ -528,7 +528,7 @@ function readMarketState(address market) external view returns (MarketState memo
 
 | Type | Description |
 |------|-------------|
-| `MarketState` | Full AMM state (see [PendleMarket](../../PendleMarket/PendleMarket) for field details) |
+| `MarketState` | Full AMM state (see [PendleMarket](../../PendleMarket/PendleMarket.md) for field details) |
 
 **Use Case**
 Use to pass a pre-fetched `MarketState` into `getTradeExchangeRateExcludeFee` or other functions that accept it as a parameter, avoiding redundant on-chain reads.

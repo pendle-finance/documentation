@@ -21,7 +21,7 @@ The Linear Discount Oracle has no external dependencies during reads (`block.tim
 
 ## About the PT Oracle
 
-In the Pendle system, $PT$ can be freely traded from and to $SY$ utilizing our AMM. With the built-in TWAP oracle library, the geometric mean price of $PT$ in terms of SY or asset can be derived from our `PendleMarket` contracts fully on-chain. Please refer to the [StandardizedYield doc](../Contracts/StandardizedYield/StandardizedYield) for more details of SY & asset.
+In the Pendle system, $PT$ can be freely traded from and to $SY$ utilizing our AMM. With the built-in TWAP oracle library, the geometric mean price of $PT$ in terms of SY or asset can be derived from our `PendleMarket` contracts fully on-chain. Please refer to the [StandardizedYield doc](../Contracts/StandardizedYield/StandardizedYield.md) for more details of SY & asset.
 
 ### Oracle design
 

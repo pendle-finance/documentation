@@ -393,22 +393,22 @@ From these cumulative values, you can compute the **geometric mean price of PT**
 
 ### Integration Guide
 
-See [How to Integrate PT and LP Oracles](../../Oracles/HowToIntegratePtAndLpOracle) for implementation details.
+See [How to Integrate PT and LP Oracles](../../Oracles/HowToIntegratePtAndLpOracle.md) for implementation details.
 
 ## FAQ
 
 ### Why is there no swapExactSy function?
 
-Unlike standard AMMs, Pendle's AMM only allows swapping exact PT in/out. Therefore, functions like `swapExactSyForPt` and `swapPtForExactSy` should generally be avoided. If necessary, use PendleRouter's `swapExactSyForPt` with approx parameters. Refer to the [PendleRouter documentation](../PendleRouter/ApiReference/PtFunctions#swapexactsyforpt) for details.
+Unlike standard AMMs, Pendle's AMM only allows swapping exact PT in/out. Therefore, functions like `swapExactSyForPt` and `swapPtForExactSy` should generally be avoided. If necessary, use PendleRouter's `swapExactSyForPt` with approx parameters. Refer to the [PendleRouter documentation](../PendleRouter/ApiReference/PtFunctions.md#swapexactsyforpt) for details.
 
 ### How can I trade YT tokens when the Market only contains PT and SY?
 
-YT tokens can be traded via [flash swaps](../../../ProtocolMechanics/LiquidityEngines/AMM#flash-swaps). Use the PendleRouter's `swapExactTokenForYt` or `swapExactYtForToken` functions, which handle the necessary flash swap logic and token transfers. Refer to the [PendleRouter documentation](../PendleRouter/ApiReference/YtFunctions#swapexacttokenforyt) for details.
+YT tokens can be traded via [flash swaps](/pendle-v2/ProtocolMechanics/LiquidityEngines/AMM#flash-swaps). Use the PendleRouter's `swapExactTokenForYt` or `swapExactYtForToken` functions, which handle the necessary flash swap logic and token transfers. Refer to the [PendleRouter documentation](../PendleRouter/ApiReference/YtFunctions.md#swapexacttokenforyt) for details.
 
 
 ### Why can't I swap PT after expiry?
 
-At expiry, PT can be redeemed for the underlying asset. Market-making no longer makes economic sense at this point and would enable circular arbitrage. To redeem PT post-expiry, use the [Router](../PendleRouter/ApiReference/LiquidityFunctions#removeliquiditysingletoken).
+At expiry, PT can be redeemed for the underlying asset. Market-making no longer makes economic sense at this point and would enable circular arbitrage. To redeem PT post-expiry, use the [Router](../PendleRouter/ApiReference/LiquidityFunctions.md#removeliquiditysingletoken).
 
 ### Should I use the Router or interact with the Market directly?
 

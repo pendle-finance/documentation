@@ -28,7 +28,7 @@ DeFi yield often declines over time. With Pendle fixed yield, you can secure the
 
 ### Where does the yield come from?
 
-Behind the scenes, you are swapping your deposit for the [**Principal Token**](../pendle-101/chapter-2-yield-tokenization-basics#pt-and-yt-in-pendle) **(PT)** of your chosen asset. You buy the PT (PT-stETH in this example) **at a lower price** than the underlying asset (stETH in this example). Your PT can be **redeemed 1:1 for the underlying asset** (stETH in this example) at or after the maturity date. In other words, the price difference is your yield at maturity.
+Behind the scenes, you are swapping your deposit for the [**Principal Token**](../pendle-101/chapter-2-yield-tokenization-basics#pt--yt-in-pendle) **(PT)** of your chosen asset. You buy the PT (PT-stETH in this example) **at a lower price** than the underlying asset (stETH in this example). Your PT can be **redeemed 1:1 for the underlying asset** (stETH in this example) at or after the maturity date. In other words, the price difference is your yield at maturity.
 
 You can refer back to [Chapter 2](../pendle-101/chapter-2-yield-tokenization-basics) where we explained how PT can be sold at a discount by using yield tokenization, and how it works just like zero-coupon bonds in TradFi.
 
