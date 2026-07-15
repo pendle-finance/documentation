@@ -18,7 +18,7 @@ hide_table_of_contents: true
 
 :::info 核心特性
 - **无可变收益或积分：** PT 持有者放弃底层资产产生的所有可变收益和积分——这些全部重新分配给 YT 持有者。
-- **用作抵押品：** 由于 PT 在到期时具有可预测的价值，能有效降低清算风险，越来越多的货币市场（如 Morpho、Silo、Euler）将其作为抵押品接受。集成详情请参阅 [PT as Collateral](../../Developers/Oracles/PTAsCollateral)。
+- **用作抵押品：** 由于 PT 在到期时具有可预测的价值，能有效降低清算风险，越来越多的货币市场（如 Morpho、Silo、Euler）将其作为抵押品接受。集成详情请参阅 [PT as Collateral](/pendle-v2-dev/Oracles/PTAsCollateral)。
 :::
 
 # 兑换价值

@@ -33,7 +33,7 @@ DeFi 收益通常会随时间下降。通过 Pendle 固定收益，您可以在 
 
 ### 收益来自哪里？
 
-在幕后，您是在将存款换成所选资产的[**本金代币**](../pendle-101/chapter-2-yield-tokenization-basics#pt-and-yt-in-pendle) **(PT)**。您以**低于底层资产的价格**购买 PT（本例中为 PT-stETH）。您的 PT 可以在到期日或之后以 **1:1 兑换底层资产**（本例中为 stETH）。换句话说，价格差异即为您到期时的收益。
+在幕后，您是在将存款换成所选资产的[**本金代币**](../pendle-101/chapter-2-yield-tokenization-basics#pendle-中的-pt-与-yt) **(PT)**。您以**低于底层资产的价格**购买 PT（本例中为 PT-stETH）。您的 PT 可以在到期日或之后以 **1:1 兑换底层资产**（本例中为 stETH）。换句话说，价格差异即为您到期时的收益。
 
 您可以回顾[第二章](../pendle-101/chapter-2-yield-tokenization-basics)，其中我们解释了 PT 如何通过收益代币化以折价出售，以及它与传统金融中的零息债券的工作原理。
 

@@ -8,7 +8,7 @@ import Hint from '@site/src/components/Hint';
 # 积分交易
 
 <Hint style="info">
-遇到问题？前往我们的[支持](points-support-page)页面！
+遇到问题？前往我们的[支持](points-trading/points-support-page)页面！
 </Hint>
 
 在 Pendle 上获得杠杆积分、收益，或通过积分交易获得最高固定收益！

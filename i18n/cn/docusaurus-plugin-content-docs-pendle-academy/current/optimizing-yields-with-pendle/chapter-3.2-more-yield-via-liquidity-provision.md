@@ -81,7 +81,7 @@ import Hint from '@site/src/components/Hint';
 
 **"Pendle Trade"中"Zap"界面里的"零价格影响模式"是什么？**
 
-> 请查看[#2.-如何通过零价格影响模式实现收益中性](../yield-trading-deep-dives/chapter-7-providing-liquidity-while-trading-yield#2.-how-to-be-yield-neutral-with-zero-price-impact-mode)
+> 请查看[#2.-如何通过零价格影响模式实现收益中性](../yield-trading-deep-dives/chapter-7-providing-liquidity-while-trading-yield#2-如何通过保留-yt-模式实现收益中性)
 
 ### LP 作为您收益交易策略的一部分
 

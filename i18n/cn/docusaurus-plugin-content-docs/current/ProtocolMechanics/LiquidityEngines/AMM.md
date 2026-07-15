@@ -35,7 +35,7 @@ Pendle V2 的流动性池设置为 PT/SY，例如 PT-aUSDC / SY-aUSDC。PT 兑�
 
 > 内置自动路由，任何人都可以用任何主流资产交易 PT 和 YT。
 
-### 闪兑（Flash Swaps）
+### 闪兑（Flash Swaps） {#flash-swaps}
 
 闪兑的可行性源于 PT 与 YT 之间的关系。由于 PT 和 YT 可以从底层 SY 铸造，也可以赎回为底层 SY，可以表达出以下价格关系：
 

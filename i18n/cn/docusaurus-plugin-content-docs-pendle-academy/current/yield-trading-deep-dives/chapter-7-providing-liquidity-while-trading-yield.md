@@ -26,7 +26,7 @@ Pendle 池由 PT 和 SY 组成。以 stETH 为底层资产的例子来说，stET
 
 **两全其美：通过 PT 流动性池赚取固定收益和交换费**
 
-[持有 PT](chapter-7-providing-liquidity-while-trading-yield#2.-how-to-be-yield-neutral-with-zero-price-impact-mode) 可以获得不随市场条件变化的固定收益，这是一种仍能提供高回报的安全策略。
+[持有 PT](chapter-7-providing-liquidity-while-trading-yield#2-如何通过保留-yt-模式实现收益中性) 可以获得不随市场条件变化的固定收益，这是一种仍能提供高回报的安全策略。
 
 PT 也可以用于我们的流动性池以赚取额外收益。当您用 PT 和底层资产提供流动性（例如 PT-stETH + stETH）时，您可以赚取：
 
