@@ -4,7 +4,7 @@ hide_table_of_contents: true
 
 # PT Looping
 
-PT Looping lets you amplify your fixed yield exposure on a PT by borrowing against it and buying more PT with the borrowed funds — repeating this cycle automatically to reach a target leverage, all from a single form.
+PT Looping lets you amplify your fixed yield exposure on a PT by borrowing against it and buying more PT with the borrowed funds, repeating this cycle automatically to reach a target leverage, all from a single form.
 
 :::info Beta
 PT Looping is currently in **Beta** and is only available for PT markets that Pendle has paired with a supported money market. Not every PT market supports looping.
@@ -12,7 +12,7 @@ PT Looping is currently in **Beta** and is only available for PT markets that Pe
 
 ## How It Works
 
-A loop position is built by repeating three steps until your chosen **Target Leverage** is reached — automatically, within a single transaction flow:
+A loop position is built by repeating three steps until your chosen **Target Leverage** is reached, automatically, within a single transaction flow:
 
 1. **Supply PT as collateral** to a money market (e.g. Aave, Morpho).
 2. **Borrow** the market's debt asset against that collateral.
@@ -20,9 +20,9 @@ A loop position is built by repeating three steps until your chosen **Target Lev
 
 ### Estimates vs. what's guaranteed
 
-Because each iteration borrows against the PT bought in the previous one, the step-by-step breakdown in the trade preview is always an **estimate** (`~`) — the exact amounts depend on live prices at execution time.
+Because each iteration borrows against the PT bought in the previous one, the step-by-step breakdown in the trade preview is always an **estimate** (`~`), since the exact amounts depend on live prices at execution time.
 
-What the contract guarantees is a **minimum PT-per-debt-token exchange rate**, fixed the moment you sign. Every swap in the loop — opening or withdrawing — must clear this rate or it reverts. If the market moves too much mid-execution, the transaction stops at that step instead of finishing the remaining iterations, so you may end up with fewer iterations (and lower leverage) than projected.
+What the contract guarantees is a **minimum PT-per-debt-token exchange rate**, fixed the moment you sign. Every swap in the loop, whether opening or withdrawing, must clear this rate or it reverts. If the market moves too much mid-execution, the transaction stops at that step instead of finishing the remaining iterations, so you may end up with fewer iterations (and lower leverage) than projected.
 
 ### Money markets
 
@@ -60,20 +60,20 @@ It then shows two figures:
 
 ## Opening a Loop Position
 
-1. From the overview page, click a (PT, money market) pairing — or open a market page and select the **Loop** tab.
+1. From the overview page, click a (PT, money market) pairing, or open a market page and select the **Loop** tab.
 2. Confirm or change the **Money Market** using the selector, which shows each option's LLTV and Max Loop APY.
 3. Choose your input asset and enter the amount to deposit.
 4. Set your **Target Leverage** with the slider.
-5. Review the trading info — **Est. Looping APY**, **Est. Return**, and **Health Factor** — using the tooltips for details.
+5. Review the trading info (**Est. Looping APY**, **Est. Return**, and **Health Factor**), using the tooltips for details.
 6. Click **Create Loop**, then approve and confirm in your wallet.
 
 ![Open a loop position](/pendle-docs/imgs/AppGuide/pt-looping/open-form.png)
 
-Once submitted, a progress indicator tracks the loop, showing completed iterations and estimated time remaining. You can abort any time before it finishes — e.g. by declining the wallet signature or clicking cancel — without affecting funds beyond what has already executed on-chain.
+Once submitted, a progress indicator tracks the loop, showing completed iterations and estimated time remaining. You can abort any time before it finishes (e.g. by declining the wallet signature or clicking cancel) without affecting funds beyond what has already executed on-chain.
 
 ## Managing an Existing Position
 
-Once you hold a loop position, the action panel switches to three tabs — **Add Position**, **Withdraw**, and **Adjust Leverage** — each showing your current Looping APY, Position Value, and Health Factor.
+Once you hold a loop position, the action panel switches to three tabs (**Add Position**, **Withdraw**, and **Adjust Leverage**), each showing your current Looping APY, Position Value, and Health Factor.
 
 ![Manage a loop position](/pendle-docs/imgs/AppGuide/pt-looping/manage-tabs.png)
 
@@ -92,25 +92,25 @@ Use the slider to choose what percentage to withdraw, and select your output ass
 
 ### Adjust Leverage
 
-Move the slider up to loop further and increase leverage, or down to unwind part of the position — without depositing or withdrawing funds.
+Move the slider up to loop further and increase leverage, or down to unwind part of the position, without depositing or withdrawing funds.
 
 ## Mint Mode
 
-**Mint Mode** is an optional toggle that changes how the loop acquires PT. Off (the default), the loop **buys** PT from Pendle's AMM. On, it **mints** PT and YT from the underlying asset, uses only the **PT** to continue the loop, and returns the **YT** to your wallet — the trade form shows a **YT Received** line for it. Minting can be more efficient than swapping when AMM liquidity is thin or a swap would move the price unfavorably.
+**Mint Mode** is an optional toggle that changes how the loop acquires PT. Off (the default), the loop **buys** PT from Pendle's AMM. On, it **mints** PT and YT from the underlying asset, uses only the **PT** to continue the loop, and returns the **YT** to your wallet. The trade form shows a **YT Received** line for it. Minting can be more efficient than swapping when AMM liquidity is thin or a swap would move the price unfavorably.
 
-Mint Mode is available on the actions that acquire PT — **creating a loop position**, **adding position or collateral**, and **increasing leverage**.
+Mint Mode is available on the actions that acquire PT: **creating a loop position**, **adding position or collateral**, and **increasing leverage**.
 
 The trade-off: Mint Mode is **cheaper** on fees but builds a **smaller looped position**. Because minting splits your capital into PT *and* YT and only the PT is looped, part of its value ends up as YT in your wallet rather than as PT in the position. Buying PT directly converts the full amount into PT for maximum looped exposure, at a higher fee (see [Fees](#fees)).
 
 ## Fees
 
-PT Looping charges an **additional swap fee equal to the normal PT trading fee** on the PT swaps it performs. Because a loop runs many iterations across multiple transactions, **Pendle sponsors the gas** for you — this fee funds that sponsorship, so you don't pay gas separately. It only applies to actions that **acquire PT**: opening a position, adding to a position, adding collateral, and increasing leverage. Actions that **unwind** a position — **withdrawing** and **decreasing leverage** — don't incur it.
+PT Looping charges an **additional swap fee equal to the normal PT trading fee** on the PT swaps it performs. Because a loop runs many iterations across multiple transactions, **Pendle sponsors the gas** for you, and this fee funds that sponsorship, so you don't pay gas separately. It only applies to actions that **acquire PT**: opening a position, adding to a position, adding collateral, and increasing leverage. Actions that **unwind** a position, namely **withdrawing** and **decreasing leverage**, don't incur it.
 
-[Mint Mode](#mint-mode) is cheaper here: buying PT costs the PT trading fee on the swap **plus** the looping fee above — effectively **twice** the trading fee — whereas minting incurs no trading fee, so you pay the looping fee only **once**. This roughly halves the fee to acquire PT.
+[Mint Mode](#mint-mode) is cheaper here: buying PT costs the PT trading fee on the swap **plus** the looping fee above, effectively **twice** the trading fee, whereas minting incurs no trading fee, so you pay the looping fee only **once**. This roughly halves the fee to acquire PT.
 
 ## Health Factor & Liquidation Risk
 
-Your **Health Factor** reflects how close a position is to liquidation, calculated from your current LTV against the money market's LLTV. It's shown as a percentage with a colored bar wherever your position appears — the trade form, Dashboard, and risk info popup.
+Your **Health Factor** reflects how close a position is to liquidation, calculated from your current LTV against the money market's LLTV. It's shown as a percentage with a colored bar wherever your position appears: the trade form, Dashboard, and risk info popup.
 
 Open the **Risk Info** popup from the Money Market selector for a plain-language explanation of the pairing's oracle mechanics, including its **overall risk rating** and the per-factor breakdown below.
 
@@ -121,7 +121,7 @@ Because PT Looping pairs a PT (priced via an oracle) with a borrowed debt asset,
 ### The three risk factors
 
 - **PT price risk** — the PT is priced by the money market's oracle (see oracle types below). With a live oracle, an implied-yield spike pushes the PT price down and can move you toward liquidation; with a linear-discount oracle the PT price is effectively *up only* and doesn't react to implied yield. In every case it converges to par value at maturity.
-- **Underlying price risk** — an underlying depeg can lower your collateral value, raise your LTV, and trigger liquidation. When the oracle uses a fixed underlying price, depegs don't affect your Health Factor — but can still affect your PnL.
+- **Underlying price risk** — an underlying depeg can lower your collateral value, raise your LTV, and trigger liquidation. When the oracle uses a fixed underlying price, depegs don't affect your Health Factor, but can still affect your PnL.
 - **Negative Looping APY** — if net looping yield (PT fixed yield minus borrow cost) stays negative, borrowing interest accrues faster than PT yield, gradually eroding equity and worsening your Health Factor.
 
 ### How the oracle type changes your exposure
@@ -145,13 +145,13 @@ Each row shows the Strategy (PT + money market), Looping APY, Position Value, Su
 - **Active** — currently open and accruing.
 - **Matured** — the PT has matured. A banner prompts you to withdraw, since a matured position keeps incurring borrowing costs without further PT upside.
 
-If a position is liquidated after crossing its LLTV, it isn't shown as a separate status — it simply shrinks or disappears as collateral is seized.
+If a position is liquidated after crossing its LLTV, it isn't shown as a separate status; it simply shrinks or disappears as collateral is seized.
 
 Use the **My PT Looping History** tab to see past transactions, including the individual loop iterations for each.
 
 ### Dust positions
 
-Positions worth under **$1** are grouped under **Dust Positions**, since they're too small to be worth the gas cost of withdrawing. The **Hide dust** toggle shows or hides this section — even when hidden, the balance still exists and is never lost.
+Positions worth under **$1** are grouped under **Dust Positions**, since they're too small to be worth the gas cost of withdrawing. The **Hide dust** toggle shows or hides this section; even when hidden, the balance still exists and is never lost.
 
 ## Minimum Amounts
 
