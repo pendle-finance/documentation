@@ -10,7 +10,7 @@ hide_table_of_contents: true
 
 `PendleGaugeControllerUpg` is the central contract that allocates **PENDLE token incentives** to whitelisted Pendle markets. It holds a balance of PENDLE and streams it to each market at a configured emission rate.
 
-Pendle's off-chain algorithm (see [Incentives](../../../ProtocolMechanics/Mechanisms/Incentives)) determines how much PENDLE each market should receive per week, and the protocol owner periodically pushes updated rates on-chain via `setRewardDatas`. On every reward interaction in a market, the market contract calls `redeemMarketReward()` to pull its accumulated PENDLE from the controller.
+Pendle's off-chain algorithm (see [Incentives](/pendle-v2/ProtocolMechanics/Mechanisms/Incentives)) determines how much PENDLE each market should receive per week, and the protocol owner periodically pushes updated rates on-chain via `setRewardDatas`. On every reward interaction in a market, the market contract calls `redeemMarketReward()` to pull its accumulated PENDLE from the controller.
 
 GaugeController handles **PENDLE incentives only**. SY-native external rewards (e.g., AAVE tokens from an Aave SY, or Morpho rewards) flow through a completely separate path — see [Rewards](./Rewards) for the full picture.
 
@@ -21,7 +21,7 @@ GaugeController handles **PENDLE incentives only**. SY-native external rewards (
 - **Verifying market eligibility** — call `isWhitelisted(market)` to check if a market receives PENDLE incentives
 
 :::note
-To claim PENDLE incentives as an LP holder, call `redeemRewards(user)` on the [PendleMarket](../PendleMarket/PendleMarket) contract.
+To claim PENDLE incentives as an LP holder, call `redeemRewards(user)` on the [PendleMarket](../PendleMarket/PendleMarket.md) contract.
 :::
 
 ## Core Concepts
@@ -173,5 +173,5 @@ async function getPendleApr(
 
 - [Rewards](./Rewards) — full reward accounting model covering SY-native, PENDLE, and off-chain rewards
 - [MerkleDistributor](./MerkleDistributor) — off-chain reward distribution (voter incentives, partner points)
-- [PendleMarket](../PendleMarket/PendleMarket) — market contract that calls `redeemMarketReward()` internally
-- [Incentives](../../../ProtocolMechanics/Mechanisms/Incentives) — how PENDLE incentive allocations are determined
+- [PendleMarket](../PendleMarket/PendleMarket.md) — market contract that calls `redeemMarketReward()` internally
+- [Incentives](/pendle-v2/ProtocolMechanics/Mechanisms/Incentives) — how PENDLE incentive allocations are determined

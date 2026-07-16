@@ -33,7 +33,7 @@ Liquidity pools in Pendle V2 are set up as PT/SY, e.g. PT-aUSDC / SY-aUSDC. Swap
 
 > Auto-routing is built in, allowing anyone to trade PTs and YTs with any major asset.
 
-### Flash Swaps
+### Flash Swaps {#flash-swaps}
 
 Flash swaps are possible due to the relationship between PT and YT. As PT and YT can be minted from and redeemed to its underlying SY, we can express the price relationship:
 $$

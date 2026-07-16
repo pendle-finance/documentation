@@ -3,7 +3,7 @@ import Hint from '@site/src/components/Hint';
 # Points Trading
 
 <Hint style="info">
-Facing problems? Head to our [Support](points-support-page) page!
+Facing problems? Head to our [Support](points-trading/points-support-page) page!
 </Hint>
 
 Get leveraged points, yields or get the highest fixed yields on Pendle supercharged by points trading!

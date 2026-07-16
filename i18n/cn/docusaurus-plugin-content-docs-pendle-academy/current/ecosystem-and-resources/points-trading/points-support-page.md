@@ -12,28 +12,28 @@ import CardGrid, { Card } from '@site/src/components/CardGrid';
 
 <CardGrid type="selfService">
   <Card
-    title="YT / PT / LP" link="points-support-page#yt-pt-lp"
+    title="YT / PT / LP" link="points-support-page#yt--pt--lp"
   />
   <Card
-    title="风险" link="points-support-page#risks"
+    title="风险" link="points-support-page#风险"
   />
   <Card
-    title="余额下降" link="points-support-page#balance-is-down"
+    title="余额下降" link="points-support-page#余额下降"
   />
   <Card
-    title="积分相关" link="points-support-page#points-related"
+    title="积分相关" link="points-support-page#积分相关"
   />
   <Card
-    title="保留 YT 模式 LP" link="points-support-page#zero-price-impact-lp"
+    title="保留 YT 模式 LP" link="points-support-page#保留-yt-模式---lp"
   />
   <Card
-    title="Arbitrum 上的 LRT" link="points-support-page#lrt-on-arbitrum"
+    title="Arbitrum 上的 LRT" link="points-support-page#arbitrum-上的-lrt"
   />
   <Card
-    title="有上限的资产" link="points-support-page#usde-cap"
+    title="有上限的资产" link="points-support-page#有上限的资产"
   />
   <Card
-    title="其他" link="points-support-page#others"
+    title="其他" link="points-support-page#其他"
   />
 </CardGrid>
 
@@ -45,7 +45,7 @@ import CardGrid, { Card } from '@site/src/components/CardGrid';
 
 Pendle 将收益资产（eETH、stETH、GLP 等）拆分为两部分，**YT**（收益代币）和 **PT**（本金代币）。这两个组成部分可以在 Pendle 上交易，交易由 **LP**（流动性提供者）促成。
 
-YT 和 PT 是 Pendle 中的两个基本概念。要在 LRT 背景下了解更多关于它们的内容，请查阅[#定义](./#definition)。
+YT 和 PT 是 Pendle 中的两个基本概念。要在 LRT 背景下了解更多关于它们的内容，请查阅[#定义](./#定义)。
 
 #### 2. 我可以在 PT 和 YT 之间互换吗？
 
@@ -55,11 +55,11 @@ YT 和 PT 是 Pendle 中的两个基本概念。要在 LRT 背景下了解更多
 
 做多收益 APY 为负是因为您支付的费用多于您获得的收益。但请注意，在 LRT 的情况下，YT 会获得积分，其价值未知（Pendle 将积分价值假设为 0）。由于 YT 的成本高于当前底层 APY 估算的收益应收款，因此做多收益 APY 显示为负值。
 
-查阅[#做多收益-apy](../../optimizing-yields-with-pendle/chapter-5-important-concepts-in-yield-trading#long-yield-apy)了解更多关于做多收益 APY 的内容。
+查阅[#做多收益-apy](../../optimizing-yields-with-pendle/chapter-5-important-concepts-in-yield-trading#做多收益-apy)了解更多关于做多收益 APY 的内容。
 
 #### 4. 我必须持有到到期吗？
 
-不需要。但请参阅[#风险](points-support-page#risks)，可能与您相关。
+不需要。但请参阅[#风险](points-support-page#风险)，可能与您相关。
 
 #### 5. 1 PT-weETH 在到期时赎回 1 weETH 还是 1 eETH？
 
@@ -102,15 +102,15 @@ Pendle 仍然正常运作。简而言之，Pendle 将积分和收益流向 YT �
 
 #### 1. 我的 YT 余额下降了，这是怎么回事？
 
-这意味着 YT 的价格下跌了。有关风险列表，请参阅[#id-1.-有哪些风险](points-support-page#id-1.-what-are-the-risks)。
+这意味着 YT 的价格下跌了。有关风险列表，请参阅[#id-1.-有哪些风险](points-support-page#1-有哪些风险)。
 
 YT 的价格根据市场估值波动。YT 的价值来自其收益和积分应收款。如果市场认为其未来收益和积分的价值超过 YT 的交易价格，YT 应会出现需求，推动价格上涨，反之亦然。
 
-也就是说，YT 价格在到期时自然降至零，同时从底层 LRT 中赚取收益和积分。由于积分的美元价值未知，Pendle 假设为 0，因此您的 YT 盈亏在 Pendle 仪表板中会显示为深度亏损。在[#id-3.-为什么-yt-的做多收益-apy-为负](points-support-page#id-3.-why-does-yt-have-a-negative-long-yield-apy)中了解更多。
+也就是说，YT 价格在到期时自然降至零，同时从底层 LRT 中赚取收益和积分。由于积分的美元价值未知，Pendle 假设为 0，因此您的 YT 盈亏在 Pendle 仪表板中会显示为深度亏损。在[#id-3.-为什么-yt-的做多收益-apy-为负](points-support-page#3-为什么-yt-的做多收益-apy-为负)中了解更多。
 
 #### 2. 我的 PT 余额下降了，这是怎么回事？
 
-这意味着 PT 的价格下跌了。有关风险列表，请参阅[#id-1.-有哪些风险](points-support-page#id-1.-what-are-the-risks)。
+这意味着 PT 的价格下跌了。有关风险列表，请参阅[#id-1.-有哪些风险](points-support-page#1-有哪些风险)。
 
 PT 的价格根据市场估值波动。**然而，到期时 PT 将值其有保证的价值**。这意味着随着时间推移，每个 PT 将向该价值升值，中间有一些波动。PT 的价格上涨在到期时是有保证的，除了任何智能合约风险。
 
@@ -120,7 +120,7 @@ PT 的价格根据市场估值波动。**然而，到期时 PT 将值其有保�
 
 简而言之，流动性提供是以 SY 和 PT 进行的。（例如 SY-eETH 和 PT-eETH，其中 SY 只是收益资产的包装版本，以与 Pendle 兼容）。LP 的价值可能因无常损失（IL）而暂时下降，但到期时不会有 IL。原因如下？
 
-如果 PT 的价值下降，LP 的余额也会随之下降，因为它部分由 PT 组成。但请注意，PT 的最终价值是已知的，因为它是固定收益头寸（在[这里](points-support-page#yt-pt-lp)和[这里](../../cheatsheet-for-the-impatient/pt-yt-lp-cheatsheet)了解 PT 是什么）。这意味着**到期时，Pendle 上的 LP 不会有 IL**。短期内会有波动，但足够长的时间框架应该会产生净正头寸。
+如果 PT 的价值下降，LP 的余额也会随之下降，因为它部分由 PT 组成。但请注意，PT 的最终价值是已知的，因为它是固定收益头寸（在[这里](points-support-page#yt--pt--lp)和[这里](../../cheatsheet-for-the-impatient/pt-yt-lp-cheatsheet)了解 PT 是什么）。这意味着**到期时，Pendle 上的 LP 不会有 IL**。短期内会有波动，但足够长的时间框架应该会产生净正头寸。
 
 ***
 

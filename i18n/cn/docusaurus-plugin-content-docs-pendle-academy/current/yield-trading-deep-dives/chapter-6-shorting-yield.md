@@ -21,7 +21,7 @@ import Hint from '@site/src/components/Hint';
 
 买入并持有 PT 不仅仅是赚取固定收益。它也是押注收益下降的方式。当市场预期收益下降时，PT 价格上涨。因此，PT 也是一个做空收益头寸。
 
-[如果市场共识认为某资产的收益将下降，隐含 APY 就会下降](../optimizing-yields-with-pendle/chapter-5-important-concepts-in-yield-trading#implied-apy)。这会推高 PT 价格，您可以选择卖出 PT 来获利。这就是主动收益交易。
+[如果市场共识认为某资产的收益将下降，隐含 APY 就会下降](../optimizing-yields-with-pendle/chapter-5-important-concepts-in-yield-trading#隐含-apy)。这会推高 PT 价格，您可以选择卖出 PT 来获利。这就是主动收益交易。
 
 ### 什么时候应该买入 PT？
 

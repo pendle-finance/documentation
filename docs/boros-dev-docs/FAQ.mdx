@@ -50,7 +50,7 @@ See [Margin Mechanics](./Mechanics/Margin.mdx) for details.
 
 ### How many markets can I enter?
 
-Up to **10 markets** per market account. This limit is per combination of `(address, accountId, tokenId)` — i.e., per collateral type. If you trade many short-dated markets over time, you **must exit expired markets** to free up slots. The `autoExitMarket` parameter in the place-orders API can handle this automatically. See [Best Practices](./Backend/5.%20best-practices.mdx) for why exiting unused markets also saves gas.
+Up to **10 markets** per market account. This limit is per combination of `(address, accountId, tokenId)` — i.e., per collateral type. If you trade many short-dated markets over time, you **must exit expired markets** to free up slots. The `autoExitMarket` parameter in the place-orders API can handle this automatically. See [Best Practices](./Backend/6.%20best-practices.mdx) for why exiting unused markets also saves gas.
 
 ### How many open orders can I have?
 
@@ -70,7 +70,7 @@ Boros normalizes all internal values to 18-decimal fixed-point for consistency, 
 2. Sign the calldata with your agent key
 3. Submit: `POST /send-txs-bot/v3/agent/bulk-direct-call`
 
-See the [API integration workflow](./Backend/3.%20api.mdx#2-placing-a-trade-agent-flow) for the complete flow.
+See the [API integration workflow](./Backend/4.%20api.mdx#2-placing-a-trade-agent-flow) for the complete flow.
 
 ### What's the difference between single orders and bulk orders?
 
@@ -80,7 +80,7 @@ See the [API integration workflow](./Backend/3.%20api.mdx#2-placing-a-trade-agen
 
 **Key difference:** If you place a GTC order via `bulkOrders` at a rate that crosses the AMM's implied rate, the order will **not** match the AMM — it will be placed on the book as a maker order. To take AMM liquidity, use `placeSingleOrder` instead.
 
-See [Best Practices](./Backend/5.%20best-practices.mdx#bulk-order-placement).
+See [Best Practices](./Backend/6.%20best-practices.mdx#bulk-order-placement).
 
 ### How do I ensure my order is taker-only (no residual maker order)?
 
@@ -175,7 +175,7 @@ Your agent-submitted transactions will fail. You can still perform root-signed a
 
 ### Should I use REST or WebSocket for real-time data?
 
-Use **WebSocket** for real-time streaming: order book updates, trade events, and account state changes. Use **REST** for initial data loading and on-demand queries. See [WebSocket docs](./Backend/4.%20websocket.mdx).
+Use **WebSocket** for real-time streaming: order book updates, trade events, and account state changes. Use **REST** for initial data loading and on-demand queries. See [WebSocket docs](./Backend/5.%20websocket.mdx).
 
 ### Do WebSocket events include full data?
 
@@ -188,7 +188,7 @@ It depends on which channel you use:
 
 - **`account:ACCOUNT`** (legacy) — notification-only. Tells you *something* changed (type: `Position`, `LimitOrder`, or `Collateral`) but carries no detail. You must call the REST API (`POST /accounts/market-acc-infos`) to find out what changed.
 
-Prefer `account-updates` for all new integrations. See [WebSocket — Account Update Events](./Backend/4.%20websocket.mdx#account-update-events) for the full payload schemas.
+Prefer `account-updates` for all new integrations. See [WebSocket — Account Update Events](./Backend/5.%20websocket.mdx#account-update-events) for the full payload schemas.
 
 ---
 
@@ -215,4 +215,4 @@ If your position hasn't settled after a few minutes past the expected boundary, 
 
 ### I'm getting `MMIsolatedMarketDenied()` on an isolated-only market
 
-You're using a cross-margin `marketAcc` on a market that only supports isolated margin. Use `MarketAccLib.pack(address, accountId, tokenId, marketId)` with the **specific market ID** instead of `CROSS_MARKET_ID`. You also need to deposit collateral to the isolated account specifically. See [Best Practices — Isolated-Only Markets](./Backend/5.%20best-practices.mdx#isolated-only-markets).
+You're using a cross-margin `marketAcc` on a market that only supports isolated margin. Use `MarketAccLib.pack(address, accountId, tokenId, marketId)` with the **specific market ID** instead of `CROSS_MARKET_ID`. You also need to deposit collateral to the isolated account specifically. See [Best Practices — Isolated-Only Markets](./Backend/6.%20best-practices.mdx#isolated-only-markets).

@@ -67,7 +67,7 @@ import Hint from '@site/src/components/Hint';
 最终，决定性因素是**您对平均未来 APY 的自身判断**，这将指导您的决策并决定您在收益交易中的成功。
 
 <Hint style="info">
-💡 另见 [#如何预测平均未来-apy](chapter-8-long-yield-obtain-leveraged-yield-exposure#how-can-i-predict-the-average-future-apy)
+💡 另见 [#如何预测平均未来-apy](chapter-8-long-yield-obtain-leveraged-yield-exposure#我如何预测平均未来-apy)
 </Hint>
 
 <Hint style="info">

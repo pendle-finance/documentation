@@ -52,7 +52,7 @@ function isValidMarket(address market) external view returns (bool);
 Returns `true` if the address was deployed by this factory. This is a low-level on-chain check — it confirms the contract was deployed by Pendle's factory, but says nothing about whether the market is active, whitelisted, or supported by the protocol.
 
 :::tip
-To get the list of **whitelisted and verified markets** tracked by Pendle (with TVL, APY, and other metadata), use the [Pendle API](/pendle-v2/Developers/Backend/ApiOverview) instead:
+To get the list of **whitelisted and verified markets** tracked by Pendle (with TVL, APY, and other metadata), use the [Pendle API](../../Backend/ApiOverview) instead:
 
 ```
 GET https://api-v2.pendle.finance/core/v1/markets/all
