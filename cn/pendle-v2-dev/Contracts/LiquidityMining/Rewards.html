@@ -20,8 +20,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/cn/assets/css/styles.c8dc7fa1.css">
-<script src="/cn/assets/js/runtime~main.6d836818.js" defer="defer"></script>
-<script src="/cn/assets/js/main.571f61f2.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.a2d30918.js" defer="defer"></script>
+<script src="/cn/assets/js/main.8da607a2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -107,7 +107,7 @@
 <table><thead><tr><th>Parameter</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>user</code></td><td><code>address</code></td><td>The user to claim for</td></tr><tr><td><code>redeemInterest</code></td><td><code>bool</code></td><td>Whether to claim accrued interest</td></tr><tr><td><code>redeemRewards</code></td><td><code>bool</code></td><td>Whether to claim accrued rewards</td></tr></tbody></table>
 <table><thead><tr><th>Return Value</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>interestOut</code></td><td><code>uint256</code></td><td>Interest amount transferred (0 if <code>redeemInterest = false</code>)</td></tr><tr><td><code>rewardsOut</code></td><td><code>uint256[]</code></td><td>Reward amounts transferred, one per <code>getRewardTokens()</code> entry</td></tr></tbody></table>
 <p>The reward update <strong>must</strong> happen before the interest transfer (since interest redemption changes reward shares). The contract enforces this ordering internally.</p>
-<p>See <a href="/cn/pendle-v2-dev/Contracts/YieldTokenization/YieldTokenization">YieldTokenization</a> for the full API including interest redemption.</p>
+<p>See <a href="/cn/pendle-v2-dev/Contracts/YieldTokenization">YieldTokenization</a> for the full API including interest redemption.</p>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="market-lp-rewards">Market (LP) Rewards<a href="#market-lp-rewards" class="hash-link" aria-label="Market (LP) Rewards 的直接链接" title="Market (LP) Rewards 的直接链接">​</a></h2>
 <p><strong>Contract:</strong> <code>PendleGauge</code> (inherited by <code>PendleMarket</code>)</p>

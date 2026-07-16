@@ -20,8 +20,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/assets/css/styles.d5279556.css">
-<script src="/assets/js/runtime~main.22302b81.js" defer="defer"></script>
-<script src="/assets/js/main.f798a56f.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.37d868cd.js" defer="defer"></script>
+<script src="/assets/js/main.4c822d6a.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -66,7 +66,7 @@
 <p><strong>Return Values</strong></p>
 <table><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>netPtOut</td><td><code>uint256</code></td><td>PT received</td></tr><tr><td>netSyFee</td><td><code>uint256</code></td><td>Fee in SY</td></tr><tr><td>priceImpact</td><td><code>uint256</code></td><td>Price impact</td></tr><tr><td>exchangeRateAfter</td><td><code>uint256</code></td><td>Exchange rate after trade</td></tr></tbody></table>
 <blockquote>
-<p>For generating <code>ApproxParams</code> automatically, use <a href="/pendle-v2-dev/Contracts/RouterStatic/ApiReference/RateFunctions#swapexactsyforptstaticanddgenerateapproxparams"><code>swapExactSyForPtStaticAndGenerateApproxParams</code></a> instead.</p>
+<p>For generating <code>ApproxParams</code> automatically, use <a href="/pendle-v2-dev/Contracts/RouterStatic/ApiReference/RateFunctions#swapexactsyforptstaticandgenerateapproxparams"><code>swapExactSyForPtStaticAndGenerateApproxParams</code></a> instead.</p>
 </blockquote>
 <hr>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="swapexacttokenforptstatic">swapExactTokenForPtStatic<a href="#swapexacttokenforptstatic" class="hash-link" aria-label="Direct link to swapExactTokenForPtStatic" title="Direct link to swapExactTokenForPtStatic">​</a></h3>
@@ -77,7 +77,7 @@
 <p><strong>Return Values</strong></p>
 <table><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>netPtOut</td><td><code>uint256</code></td><td>PT received</td></tr><tr><td>netSyMinted</td><td><code>uint256</code></td><td>SY minted from the input token</td></tr><tr><td>netSyFee</td><td><code>uint256</code></td><td>Fee in SY</td></tr><tr><td>priceImpact</td><td><code>uint256</code></td><td>Price impact</td></tr><tr><td>exchangeRateAfter</td><td><code>uint256</code></td><td>Exchange rate after trade</td></tr></tbody></table>
 <blockquote>
-<p>For generating <code>ApproxParams</code> automatically, use <a href="/pendle-v2-dev/Contracts/RouterStatic/ApiReference/RateFunctions#swapexacttokenforptstaticanddgenerateapproxparams"><code>swapExactTokenForPtStaticAndGenerateApproxParams</code></a> instead.</p>
+<p>For generating <code>ApproxParams</code> automatically, use <a href="/pendle-v2-dev/Contracts/RouterStatic/ApiReference/RateFunctions#swapexacttokenforptstaticandgenerateapproxparams"><code>swapExactTokenForPtStaticAndGenerateApproxParams</code></a> instead.</p>
 </blockquote>
 <hr>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="yt-swaps-exact-in">YT Swaps (Exact In)<a href="#yt-swaps-exact-in" class="hash-link" aria-label="Direct link to YT Swaps (Exact In)" title="Direct link to YT Swaps (Exact In)">​</a></h2>
@@ -162,7 +162,7 @@
 <p><strong>Parameters</strong></p>
 <table><thead><tr><th>Name</th><th>Type</th><th>Description</th></tr></thead><tbody><tr><td>market</td><td><code>address</code></td><td>Pendle market address</td></tr></tbody></table>
 <p><strong>Return Values</strong></p>
-<table><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>MarketState</code></td><td>Full AMM state (see <a href="/pendle-v2-dev/Contracts/PendleMarket/PendleMarket">PendleMarket</a> for field details)</td></tr></tbody></table>
+<table><thead><tr><th>Type</th><th>Description</th></tr></thead><tbody><tr><td><code>MarketState</code></td><td>Full AMM state (see <a href="/pendle-v2-dev/Contracts/PendleMarket">PendleMarket</a> for field details)</td></tr></tbody></table>
 <p><strong>Use Case</strong>
 Use to pass a pre-fetched <code>MarketState</code> into <code>getTradeExchangeRateExcludeFee</code> or other functions that accept it as a parameter, avoiding redundant on-chain reads.</p>
 <hr>

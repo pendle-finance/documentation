@@ -20,8 +20,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/cn/assets/css/styles.c8dc7fa1.css">
-<script src="/cn/assets/js/runtime~main.6d836818.js" defer="defer"></script>
-<script src="/cn/assets/js/main.571f61f2.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.a2d30918.js" defer="defer"></script>
+<script src="/cn/assets/js/main.8da607a2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -36,14 +36,14 @@
 <p>回想一下，您可以在 Pendle 上将收益资产<a href="/cn/pendle-academy/pendle-101/chapter-2-yield-tokenization-basics">拆分</a>为代表本金的（PT）和代表收益的（YT）两部分。您可以在 Pendle 市场上买卖这些代币来押注收益变化。例如，如果您认为收益会下降，可以卖出 YT 并持有 PT。这样，您可以锁定固定回报率，避免收益下降带来的损失。这就是<strong>做空收益</strong>。</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="pt-是做空收益头寸">PT 是<strong>做空收益头寸</strong><a href="#pt-是做空收益头寸" class="hash-link" aria-label="pt-是做空收益头寸 的直接链接" title="pt-是做空收益头寸 的直接链接">​</a></h3>
 <p>买入并持有 PT 不仅仅是赚取固定收益。它也是押注收益下降的方式。当市场预期收益下降时，PT 价格上涨。因此，PT 也是一个做空收益头寸。</p>
-<p><a href="/cn/pendle-academy/optimizing-yields-with-pendle/chapter-5-important-concepts-in-yield-trading#implied-apy">如果市场共识认为某资产的收益将下降，隐含 APY 就会下降</a>。这会推高 PT 价格，您可以选择卖出 PT 来获利。这就是主动收益交易。</p>
+<p><a href="/cn/pendle-academy/optimizing-yields-with-pendle/chapter-5-important-concepts-in-yield-trading#%E9%9A%90%E5%90%AB-apy">如果市场共识认为某资产的收益将下降，隐含 APY 就会下降</a>。这会推高 PT 价格，您可以选择卖出 PT 来获利。这就是主动收益交易。</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="什么时候应该买入-pt">什么时候应该买入 PT？<a href="#什么时候应该买入-pt" class="hash-link" aria-label="什么时候应该买入 PT？ 的直接链接" title="什么时候应该买入 PT？ 的直接链接">​</a></h3>
 <p>从买入并持有 PT 获得的固定收益<strong>取决于 PT 的当前市场价格</strong>。</p>
 <p>直觉上，您应该<strong>在 PT 较便宜时买入</strong>，因为您将<strong>获得更高的固定收益</strong>。但如何判断 PT 的价格是否便宜呢？</p>
 <p>您需要<strong>将固定收益与底层资产的平均未来收益进行比较</strong>。平均未来收益是您对从现在到到期日期间未来收益的预测。如果固定收益高于您对平均未来收益的预测，那么现在可能是买入 PT 的好时机。这意味着您是在逆市押注并锁定更高的回报率。</p>
 <p>例如，如果您预测到期前 stETH 的平均未来收益为 5%，但 PT stETH 以 6% 的固定利率定价，那么您应该买入并持有 PT stETH。</p>
 <div class="hint_g1ws warning__CXS"><div class="content_JkbE"><p><em><strong>专业提示</strong></em> <br>
-<strong>执行 PT 交易时，时机很重要</strong>。随着人们在 Pendle 上买卖 PT，固定利率会上下波动。如果您能等待并在 PT 超卖时（由于波动性或定价错误）入场，您将锁定一个高固定利率，一直持续到到期为止。</p></div></div>
+<strong>执行 PT 交易时，时机很重要</strong>。随着人们在 Pendle 上买卖 PT， 固定利率会上下波动。如果您能等待并在 PT 超卖时（由于波动性或定价错误）入场，您将锁定一个高固定利率，一直持续到到期为止。</p></div></div>
 <p>从数值上看，<strong>固定 APY = 隐含 APY</strong>，显示市场对未来收益的预期。因此您也可以在&quot;市场&quot;页面上比较各资产市场的隐含 APY 与底层 APY。</p>
 <p>一般来说，<strong>当隐含 APY 远高于底层 APY 时，PT 较便宜</strong>（除非您认为底层 APY 会反弹）。</p>
 <figure><img src="/pendle-academy/imgs/image (105).png" alt=""><figcaption></figcaption></figure>
@@ -68,7 +68,7 @@
 <li><strong>被动管理</strong> - 持有 PT 并在到期后赎回底层资产  <strong>主动交易</strong> - 在价格上涨时卖出 PT</li>
 </ol>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="提前卖出-pt">提前卖出 PT<a href="#提前卖出-pt" class="hash-link" aria-label="提前卖出 PT 的直接链接" title="提前卖出 PT 的直接链接">​</a></h3>
-<p>除了等到期赎回底层资产外，您也可以选择提前卖出 PT。提前卖出 PT 的常见原因包括 ：</p>
+<p>除了等到期赎回底层资产外，您也可以选择提前卖出 PT。提前卖出 PT 的常见 原因包括：</p>
 <ul>
 <li>退出头寸以将资金转移到其他地方，或</li>
 <li>PT 价格已大幅上涨，有机会提前获利。这就是所谓的主动收益交易。</li>

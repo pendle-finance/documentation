@@ -20,8 +20,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/cn/assets/css/styles.c8dc7fa1.css">
-<script src="/cn/assets/js/runtime~main.6d836818.js" defer="defer"></script>
-<script src="/cn/assets/js/main.571f61f2.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.a2d30918.js" defer="defer"></script>
+<script src="/cn/assets/js/main.8da607a2.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -44,7 +44,7 @@
 </blockquote>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="1-一键操作提供流动性以做多-pt">1. 一键操作提供流动性以做多 PT<a href="#1-一键操作提供流动性以做多-pt" class="hash-link" aria-label="1. 一键操作提供流动性以做多 PT 的直接链接" title="1. 一键操作提供流动性以做多 PT 的直接链接">​</a></h2>
 <p><strong>两全其美：通过 PT 流动性池赚取固定收益和交换费</strong></p>
-<p><a href="/cn/pendle-academy/yield-trading-deep-dives/chapter-7-providing-liquidity-while-trading-yield#2.-how-to-be-yield-neutral-with-zero-price-impact-mode">持有 PT</a> 可以获得不随市场条件变化的固定收益，这是一种仍能提供高回报的安全策略。</p>
+<p><a href="/cn/pendle-academy/yield-trading-deep-dives/chapter-7-providing-liquidity-while-trading-yield#2-%E5%A6%82%E4%BD%95%E9%80%9A%E8%BF%87%E4%BF%9D%E7%95%99-yt-%E6%A8%A1%E5%BC%8F%E5%AE%9E%E7%8E%B0%E6%94%B6%E7%9B%8A%E4%B8%AD%E6%80%A7">持有 PT</a> 可以获得不随市场条件变化的固定收益，这是一种仍能提供高回报的安全策略。</p>
 <p>PT 也可以用于我们的流动性池以赚取额外收益。当您用 PT 和底层资产提供流动性（例如 PT-stETH + stETH）时，您可以赚取：</p>
 <ol>
 <li>池中的交换费</li>
@@ -72,7 +72,7 @@
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="2-如何通过保留-yt-模式实现收益中性">2. <strong>如何通过&quot;保留 YT 模式&quot;实现收益中性</strong><a href="#2-如何通过保留-yt-模式实现收益中性" class="hash-link" aria-label="2-如何通过保留-yt-模式实现收益中性 的直接链接" title="2-如何通过保留-yt-模式实现收益中性 的直接链接">​</a></h2>
 <p>如果您想在不采取净做空收益头寸的情况下提供流动性，可以在 Zap 时使用&quot;<strong>保留 YT</strong> 模式&quot;选项。</p>
 <p>回想一下，Pendle 流动性池由 PT 和底层资产组成。默认情况下，当您一键提供流动性时，一些底层资产用于从 PT/SY 池中购买 PT，其余则包装为 SY。然而，这种 PT 购买会影响价格和收益。</p>
-<h4 class="anchor anchorWithStickyNavbar_LWe7" id="什么是保留-yt-模式">什么是**&quot;保留 YT 模式&quot;？**<a href="#什么是保留-yt-模式" class="hash-link" aria-label="什么是**&quot;保留 YT 模式&quot;？** 的直接链 接" title="什么是**&quot;保留 YT 模式&quot;？** 的直接链接">​</a></h4>
+<h4 class="anchor anchorWithStickyNavbar_LWe7" id="什么是保留-yt-模式">什么是**&quot;保留 YT 模式&quot;？**<a href="#什么是保留-yt-模式" class="hash-link" aria-label="什么是**&quot;保留 YT 模式&quot;？** 的直接链接" title="什么是**&quot;保留 YT 模式&quot;？** 的直接链接">​</a></h4>
 <p>如果您启用此模式，底层资产将完全转换为 SY，其中一部分用于铸造 PT 和 YT。PT 和剩余的 SY 用于提供流动性，同时将 YT 保留在您的钱包中。这避免了在 Zap 时购买 PT，从而不会造成任何价格影响。</p>
 <p>此选项适合中高级用户，因为您需要知道如何<a href="/cn/pendle-academy/optimizing-yields-with-pendle/chapter-4-yield-trading-basics-with-yt">管理您的 YT 头寸</a>。</p>
 <h4 class="anchor anchorWithStickyNavbar_LWe7" id="收益中性">收益中性<a href="#收益中性" class="hash-link" aria-label="收益中性 的直接链接" title="收益中性 的直接链接">​</a></h4>
@@ -96,7 +96,7 @@
 <p>回想一下，<em>做多 PT = 做空收益</em>。您可以通过在 YT 和 LP 之间 Zap，而不是在 YT 和 PT 之间，来快速切换多空收益头寸。</p>
 <p>LP 头寸部分持有 PT，实现了&quot;做空&quot;收益的相同目标，同时在 PT 固定收益之上还可赚取额外收益（来自交换费、PENDLE 激励和 SY 奖励）。</p>
 <h4 class="anchor anchorWithStickyNavbar_LWe7" id="无无常损失il顾虑"><strong>无无常损失（IL）顾虑</strong><a href="#无无常损失il顾虑" class="hash-link" aria-label="无无常损失il顾虑 的直接链接" title="无无常损失il顾虑 的直接链接">​</a></h4>
-<p>在 Pendle 池中提供流动性时，您不需要担心无常损失（IL）。这是因为 Pendle 池只包含 PT 和底层资产，它们高度相关且以同一资产计价，因此它们的价格比率不会大幅波动。这意味着到期前 IL 极小。由于 PT 在到期时以 1:1 可赎回，<strong>到期时的 IL 也保证为零或没有</strong>。</p>
+<p>在 Pendle 池中提供流动性时，您不需要担心无常损失（IL）。这是因为 Pendle 池只包含 PT 和底层资产，它们高度相关且以同一资产  计价，因此它们的价格比率不会大幅波动。这意味着到期前 IL 极小。由于 PT 在到期时以 1:1 可赎回，<strong>到期时的 IL 也保证为零或没有</strong>。</p>
 <div class="hint_g1ws success_c6dp"><div class="content_JkbE"><p>查看下面的研究，了解 Pendle LP 历史上如何良好地抵御无常损失。</p><ul>
 <li><strong>Pendle LP 表现研究 -</strong> <a href="https://medium.com/pendle/evaluating-performance-of-pendle-liquidity-pools-part-1-f81e6957837d" target="_blank" rel="noopener noreferrer"><strong>第一部分</strong></a>
 <ul>
