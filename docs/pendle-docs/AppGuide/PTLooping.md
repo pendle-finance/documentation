@@ -100,13 +100,25 @@ Move the slider up to loop further and increase leverage, or down to unwind part
 
 Mint Mode is available on the actions that acquire PT: **creating a loop position**, **adding position or collateral**, and **increasing leverage**.
 
-The trade-off: Mint Mode is **cheaper** on fees but builds a **smaller looped position**. Because minting splits your capital into PT *and* YT and only the PT is looped, part of its value ends up as YT in your wallet rather than as PT in the position. Buying PT directly converts the full amount into PT for maximum looped exposure, at a higher fee (see [Fees](#fees)).
+The trade-off: Mint Mode **avoids the PT trade fee** but builds a **smaller looped position**. Because minting splits your capital into PT *and* YT and only the PT is looped, part of its value ends up as YT in your wallet rather than as PT in the position. Buying PT directly converts the full amount into PT for maximum looped exposure, at the cost of the PT trade fee (see [Fees](#fees)).
 
 ## Fees
 
-PT Looping charges an **additional swap fee equal to the normal PT trading fee** on the PT swaps it performs. Because a loop runs many iterations across multiple transactions, **Pendle sponsors the gas** for you, and this fee funds that sponsorship, so you don't pay gas separately. It only applies to actions that **acquire PT**: opening a position, adding to a position, adding collateral, and increasing leverage. Actions that **unwind** a position, namely **withdrawing** and **decreasing leverage**, don't incur it.
+Every PT Looping action bundles its costs into a **single fee charged when you initiate the trade**, made up of three parts:
 
-[Mint Mode](#mint-mode) is cheaper here: buying PT costs the PT trading fee on the swap **plus** the looping fee above, effectively **twice** the trading fee, whereas minting incurs no trading fee, so you pay the looping fee only **once**. This roughly halves the fee to acquire PT.
+- **Service fee** — a flat **5bps (0.05%)** charged on the **total notional of the loop** (your capital + the borrowed amount). This mirrors what you would pay building the same leveraged position manually via a flash loan, rather than using the built-in looping feature.
+- **PT trade fee** — the standard Pendle trading fee on each PT swap the loop performs. It applies to **every** action that goes through a PT swap: creating a position, adding position or collateral, withdrawing, and adjusting leverage in either direction.
+- **Gas** — a loop runs many iterations across multiple on-chain transactions, and the gas for all of them is included in the fee. It applies to **every** action.
+
+### How the service fee is calculated
+
+- **Open** and **Add Collateral** — service fee = **5bps × total notional** (capital + borrowed).
+- **Lever Up** (increasing leverage on an existing position) — service fee = **5bps × the additional borrowed amount only**, not the full new notional. This avoids double-charging on positions built up over multiple steps.
+- **Withdrawing** and **decreasing leverage** — **no service fee**.
+
+So the total cost to open or increase a loop is **service fee + PT trade fee + gas**. Unwinding pays only the PT trade fee + gas. You never pay gas separately anywhere in the flow; it's always covered by the fee shown at initiation.
+
+[Mint Mode](#mint-mode) reduces the trading portion of this: buying PT pays the PT trade fee on the swap, whereas minting incurs **no PT trade fee**. The service fee and gas apply either way.
 
 ## Health Factor & Liquidation Risk
 
