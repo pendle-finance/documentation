@@ -10,6 +10,8 @@ This is a passive protective mechanism, it simply prevents bad fills from happen
 
 Every taker fill is validated against the current mark rate. If the executed rate deviates too far, the transaction reverts. This protects traders from filling at stale or manipulative rates.
 
+This bound is referred to as the **Max Rate Deviation**.
+
 ### Limit Orders (Limit Rate Out of Bounds)
 
 Resting limit orders are also constrained. Orders cannot be placed at rates that are too far above (for longs) or below (for shorts) the current mark rate. The allowable band uses the mark rate as an anchor and expands slightly with time to maturity.
