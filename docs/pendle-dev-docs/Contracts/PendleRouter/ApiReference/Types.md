@@ -61,7 +61,7 @@ When `tokenIn` is any ERC20 token that needs to be swapped to a supported SY tok
 
 **SDK Integration:**
 The [Pendle Hosted SDK](../../../Backend/HostedSdk#features) automatically handles all TokenInput configuration when you enable routing. When you set `enableAggregator: true` in SDK calls, it:
-- Automatically selects the best swap aggregator (KyberSwap, ODOS, 1inch, etc.)
+- Automatically selects the best swap aggregator (KyberSwap, OKX, ParaSwap, etc.)
 - Generates optimal `swapData` for the chosen route
 - Handles all token conversions transparently
 - Provides the best possible price execution across multiple DEXes
