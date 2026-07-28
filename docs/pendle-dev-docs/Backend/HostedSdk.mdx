@@ -424,7 +424,7 @@ To take advantage of the routing feature, users need to set the `enableAggregato
 
 #### Select aggregators
 
-When `enableAggregator` is set to `true`, you can control which aggregators are used by specifying the `aggregators` parameter. This parameter accepts a comma-separated list of aggregator names (e.g. "kyberswap,odos"). If not specified, the system will use all available aggregators to find the optimal route.
+When `enableAggregator` is set to `true`, you can control which aggregators are used by specifying the `aggregators` parameter. This parameter accepts a comma-separated list of aggregator names (e.g. "kyberswap,okx"). If not specified, the system will use all available aggregators to find the optimal route.
 
 Using more aggregators generally results in better optimized routes since there are more options to choose from. However, each aggregator adds to the computing unit cost of the request (see [rate limiting](./ApiOverview.mdx#rate-limiting)). You can balance between optimization and cost by selectively enabling only the aggregators you want to use.
 
@@ -433,11 +433,10 @@ Currently supported aggregators (can be fetched from [fetch supported aggregator
 | Aggregator  | Cost (Computing Units) |
 | ----------- | ---------------------- |
 | `kyberswap` | 1                      |
-| `odos`      | 10                     |
 | `okx`       | 1                      |
 | `paraswap`  | 15                     |
 
-For example, this request will use KyberSwap and Odos aggregators to find the optimal route, and it costs 16 computing units (1 from kyberswap, 10 from odos, and 5 from the base computing cost):
+For example, this request will use KyberSwap and OKX aggregators to find the optimal route, and it costs 7 computing units (1 from kyberswap, 1 from okx, and 5 from the base computing cost):
 
 ```ts
 export async function addLiquiditySingleToken() {
@@ -449,7 +448,7 @@ export async function addLiquiditySingleToken() {
     receiver: RECEIVER_ADDRESS,
     slippage: 0.01,
     enableAggregator: true,
-    aggregators: "kyberswap,odos",
+    aggregators: "kyberswap,okx",
   });
 
   console.log("Action: ", res.action);
@@ -463,13 +462,12 @@ export async function addLiquiditySingleToken() {
 
 ### Reduce aggregator computing units
 
-By default, when using aggregators, the system will use public API keys for each aggregator. This means that the computing unit cost for each aggregator will be added to the total cost of the request. To reduce the computing unit cost, you can use your own API key for each aggregator. This way, the computing unit cost for that aggregator will be reduced to 0. For example, if you use your own API key for Odos, the total computing unit cost will be 5 (base cost) + 1 (kyberswap cost) + 0 (odos cost with custom API key) = 6 computing units.
+By default, when using aggregators, the system will use public API keys for each aggregator. This means that the computing unit cost for each aggregator will be added to the total cost of the request. To reduce the computing unit cost, you can use your own API key for each aggregator. This way, the computing unit cost for that aggregator will be reduced to 0. For example, if you use your own API key for ParaSwap, the total computing unit cost will be 5 (base cost) + 1 (kyberswap cost) + 0 (paraswap cost with custom API key) = 6 computing units.
 
 Currently, you can use an aggregator with your own API key by specifying the corresponding field in the request headers.
 | Aggregator  | Header Key           | Note                          |
 | ----------- | -------------------- | ------------------------------------ |
 | `kyberswap` | `KYBERSWAP-API-KEY`  | |
-| `odos`      | `ODOS-API-KEY`       | |
 | `okx`       | `OKX-ACCESS-KEY`, `OKX-ACCESS-SECRET`, `OKX-PASSPHRASE` | Need all three to return a valid response |
 | `paraswap`  | `PARASWAP-API-KEY` | |
 
