@@ -38,6 +38,8 @@ Boros enforces rate bounds relative to the mark rate to protect traders from fil
 
 When an incoming order executes against the book, the furthest filled rate is checked against the mark rate. If the deviation is too large, the transaction reverts.
 
+This bound is referred to as the **Max Rate Deviation**.
+
 Reduce your order size to within the executable range to have your order sent to the book.
 
 ### Maker Orders (Limit Orders) — *"Limit Rate Out of Bounds"*
