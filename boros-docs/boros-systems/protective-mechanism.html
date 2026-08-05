@@ -20,7 +20,7 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/assets/css/styles.d5279556.css">
-<script src="/assets/js/runtime~main.732ba991.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.244ac954.js" defer="defer"></script>
 <script src="/assets/js/main.4c822d6a.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -33,6 +33,7 @@
 <p>This is a passive protective mechanism, it simply prevents bad fills from happening in the first place.</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="taker-orders--executed-rate-out-of-range">Taker Orders  (Executed Rate Out of Range)<a href="#taker-orders--executed-rate-out-of-range" class="hash-link" aria-label="Direct link to Taker Orders  (Executed Rate Out of Range)" title="Direct link to Taker Orders  (Executed Rate Out of Range)">​</a></h3>
 <p>Every taker fill is validated against the current mark rate. If the executed rate deviates too far, the transaction reverts. This protects traders from filling at stale or manipulative rates.</p>
+<p>This bound is referred to as the <strong>Max Rate Deviation</strong>.</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="limit-orders-limit-rate-out-of-bounds">Limit Orders (Limit Rate Out of Bounds)<a href="#limit-orders-limit-rate-out-of-bounds" class="hash-link" aria-label="Direct link to Limit Orders (Limit Rate Out of Bounds)" title="Direct link to Limit Orders (Limit Rate Out of Bounds)">​</a></h3>
 <p>Resting limit orders are also constrained. Orders cannot be placed at rates that are too far above (for longs) or below (for shorts) the current mark rate. The allowable band uses the mark rate as an anchor and expands slightly with time to maturity.</p>
 <p>If a placed limit order later drifts outside the acceptable band as the mark rate moves, it is <strong>purged</strong> (see below).</p>
