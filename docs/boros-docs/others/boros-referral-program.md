@@ -17,8 +17,8 @@ To generate a referral code, your address must have at least **\$1,000,000 in no
 
 Upper limits for Boros referral system:
 
-* Each address is limited to \$1,000,000,000 in notional trading volume, after which the 10% discount no longer applies.
-* Each referral code lasts for 1 year since it is generated.&#x20;
+* Each address is limited to \$1,000,000,000 in notional trading volume, after which the 10% discount no longer applies and it no longer contributes to fee share for referrer. 
+* Same limitation applies after 1 year of the referral code being used.
 
 <Hint style="warning">
 The Boros team reserves the right to determine the eligibility of referral codes and payouts. Cases where the team deem as suspected abuse (e.g. exclusive self-referral) will result in no payout, or cancellation of codes.
