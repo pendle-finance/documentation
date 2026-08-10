@@ -71,6 +71,8 @@ When seeding a new pool with initial liquidity, it is **mandatory** to enable Ke
 
 Pendle allows users to directly transfer liquidity from one LP pool to another in a single transaction. This feature simplifies the process of exiting and entering different liquidity pools, ensuring optimal transitions and minimizing complexities.
 
+Transfer Liquidity applies to pools that are still active. Once a pool has matured, use [Roll Over](https://docs.pendle.finance/AppGuide/RollOver) instead.
+
 ## Redeem Rewards Bundle
 
 ![Redeem Rewards Bundle](/pendle-docs/imgs/AppGuide/redeem-rewards-bundle.png "Redeem Rewards Bundle")
