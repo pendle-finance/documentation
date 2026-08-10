@@ -73,6 +73,8 @@ Pendle 为用户提供「**保留 YT**」("Keep YT Mode")（原名「零价格�
 
 Pendle 允许用户在单笔交易中直接将流动性从一个 LP 池转移至另一个，简化了退出和进入不同流动性池的流程，确保最优过渡并降低操作复杂性。
 
+转移流动性适用于仍在存续期内的池子。池子到期后，请改用[展期](https://docs.pendle.finance/AppGuide/RollOver)。
+
 ## 一键领取奖励
 
 ![Redeem Rewards Bundle](/pendle-docs/imgs/AppGuide/redeem-rewards-bundle.png "Redeem Rewards Bundle")

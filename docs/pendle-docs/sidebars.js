@@ -55,6 +55,7 @@ module.exports = {
         { type: "doc", id: "AppGuide/CrossChainPT", label: "Cross-Chain PT", customProps: { icon: "public" } },
         { type: "doc", id: "AppGuide/PTLooping", label: "PT Looping", customProps: { icon: "autorenew" } },
         { type: "doc", id: "AppGuide/Pool", label: "Pool", customProps: { icon: "water" } },
+        { type: "doc", id: "AppGuide/RollOver", label: "Roll Over", customProps: { icon: "restart_alt" } },
         { type: "doc", id: "AppGuide/Dashboard", label: "Dashboard", customProps: { icon: "dashboard" } },
         { type: "doc", id: "AppGuide/Claim", label: "Claim", customProps: { icon: "redeem" } },
         { type: "doc", id: "AppGuide/Pencosystem", label: "Pencosystem", customProps: { icon: "hub" } },

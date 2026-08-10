@@ -33,6 +33,8 @@ The lower part of the Dashboard breaks down your Pendle positions by Assets, inc
 
 ![All My Positions](/pendle-docs/imgs/AppGuide/all_my_positions.png "All My Positions")
 
+Once an asset's market has matured, its position page shows **Roll Over** and **Redeem All** actions. See [Roll Over](https://docs.pendle.finance/AppGuide/RollOver) for how to move a matured position into a new market.
+
 You can click on “Details” for an even more comprehensive view of the asset position, which will show you a further breakdown of your position by PT, YT and LP, alongside a dynamic P&L chart (coming soon).
 
 ![My Position](/pendle-docs/imgs/AppGuide/my_position.png "My Position")
