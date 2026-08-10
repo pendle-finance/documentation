@@ -34,6 +34,8 @@ hide_table_of_contents: true
 
 ![All My Positions](/pendle-docs/imgs/AppGuide/all_my_positions.png "All My Positions")
 
+当某项资产的市场到期后，其头寸页面会显示「**展期**」("Roll Over") 和「**全部赎回**」("Redeem All") 操作。关于如何将已到期的头寸转入新市场，请参阅[展期](https://docs.pendle.finance/AppGuide/RollOver)。
+
 您可以点击“详情”以获得资产头寸的更全面视图，这将显示您的头寸按PT、YT和LP的进一步细分，以及动态盈亏图表（即将推出）。
 
 ![My Position](/pendle-docs/imgs/AppGuide/my_position.png "My Position")
