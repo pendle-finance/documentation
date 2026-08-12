@@ -8,8 +8,6 @@ Because the trade is agreed off-book and executed at a fixed time, you get:
 - **Your terms** — you negotiate the rate, size, and execution time
 - **No price impact** — the trade does not walk the book
 
-Access is **whitelisted**. If you want to participate, reach out to the team.
-
 ![Marketplace](/boros-docs/imgs/p2p-marketplace/browse-marketplace.png "Marketplace")
 
 ## Two Roles
