@@ -130,7 +130,7 @@ That's the only penalised act. There is **no penalty** for:
 
 If an offer is due to execute soon and your margin doesn't cover it, a **warning indicator** appears on that offer row and on the account. You'll also get a Telegram notification if you have notifications enabled. Top up before execution time to avoid losing your bond.
 
-## Offer Statuses
+## Offer/Trade Statuses
 
 | Status | Meaning |
 | --- | --- |
