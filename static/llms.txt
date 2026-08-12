@@ -78,6 +78,7 @@
 - [Order Book](https://docs.pendle.finance/boros-docs/interest-rate-trading/order-book): Order types, tick system, and order placement on Implied APR
 - [Vaults](https://docs.pendle.finance/boros-docs/interest-rate-trading/vaults): Vault as AMM counterparty — liquidity provision, fees, and PENDLE incentives
 - [Fees](https://docs.pendle.finance/boros-docs/interest-rate-trading/fees): Swap fees and funding fees
+- [P2P Marketplace](https://docs.pendle.finance/boros-docs/boros-systems/p2p-marketplace): Negotiate large trades off-book — deals, offers, counter-offers, bonds, and scheduled execution
 
 ### Interest Rate Accounting
 - [Interest Rate Accounting and Settlement](https://docs.pendle.finance/boros-docs/interest-rate-accounting/interest-rate-accounting-and-settlement): How YU settlement mirrors underlying market schedules (e.g. 8-hour Binance funding cycles)
