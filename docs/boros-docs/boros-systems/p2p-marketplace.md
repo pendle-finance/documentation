@@ -17,7 +17,7 @@ Access is **whitelisted**. If you want to participate, reach out to the team.
 | Role | What they do |
 | --- | --- |
 | **Maker** | Lists a deal — a public intent to trade. |
-| **Taker** | Browses deals and offers a firm trade against one. |
+| **Taker** | Browses listings and offers a firm trade against one. |
 
 You can be either. The **Maker** posts a rough intent; the **Taker** proposes the actual terms.
 
@@ -72,7 +72,7 @@ When someone offers on your deal, you have three choices:
 
 | Action | What happens |
 | --- | --- |
-| **Accept** | The deal is binding. Terms are locked and it will execute at the agreed time. |
+| **Accept** | The trade is binding. Terms are locked and it will execute at the agreed time. |
 | **Counter** | You propose your own terms. Roles flip — now it's up to them to accept, counter, or reject. |
 | **Reject** | The offer dies and their bond is released. |
 
@@ -127,9 +127,6 @@ That's the only penalised act. There is **no penalty** for:
 - Cancelling your own offer before it's accepted
 - Letting your offer expire before acceptance
 
-:::note
-Rejecting or ignoring an offer at or better than your indicative APR forfeits your **maker incentives** on that deal. It's not a penalty on your bond, but you lose the rewards.
-:::
 
 ### Watch for the Margin Warning
 
@@ -152,9 +149,8 @@ Active offers live under **My offers**; completed ones move to the **Inactive** 
 
 ## Fees
 
-P2P trades pay the **standard taker fee (5 bps)**. The contract only allows one side to pay, so the **deal initiator (maker) pays the fee**.
+P2P trades pay the **standard taker fee (5 bps)**. The contract only allows one side to pay, so currently the **deal initiator (maker) pays the fee**.
 
-Takers who fill deals earn **incentives in PENDLE**, proportional to filled size. Makers earn incentives for listing deals in target ranges — but forfeit them on a given deal if they reject or ignore an offer at or better than their indicative APR.
 
 ## Things to Know
 
