@@ -16,7 +16,8 @@ module.exports = {
         { type: "doc", id: "boros-systems/margin-and-liquidations", label: "Margin And Liquidations", customProps: { icon: "calculate" } },
         { type: "doc", id: "boros-systems/protective-mechanism", label: "Protective Mechanisms", customProps: { icon: "security" } },
         { type: "doc", id: "boros-systems/fees", label: "Fees", customProps: { icon: "payments" } },
-        { type: "doc", id: "boros-systems/incentives", label: "Incentives", customProps: { icon: "redeem" } }
+        { type: "doc", id: "boros-systems/incentives", label: "Incentives", customProps: { icon: "redeem" } },
+        { type: "doc", id: "boros-systems/p2p-marketplace", label: "P2P Marketplace", customProps: { icon: "handshake" } }
       ],
     },
     {

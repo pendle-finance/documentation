@@ -82,6 +82,7 @@ BOROS_USER_FILES=(
   "$BOROS_DOCS_DIR/risk-parameters/margin-and-liquidations/README.md"
   "$BOROS_DOCS_DIR/risk-parameters/margin-and-liquidations/detailed-calculations-on-margin-and-liquidations.md"
   "$BOROS_DOCS_DIR/risk-parameters/margin-and-liquidations/protective-mechanisms.md"
+  "$BOROS_DOCS_DIR/boros-systems/p2p-marketplace.md"
   "$BOROS_DOCS_DIR/others/boros-referral-program.md"
 )
 
