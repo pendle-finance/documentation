@@ -32,6 +32,8 @@ Agent wallet ──[non-sensitive: place / cancel / transfer]──────�
 
 The Send Txs Bot charges gas from the user's on-chain gas balance in USD at the actual Arbitrum cost, with no markup.
 
+A third credential sits alongside these two: an **API signing key**, sent as a short-lived JWT in `x-pendle-auth`. It proves which root is calling — required by [Stop Orders](./13.%20stop-orders.mdx), and used everywhere else to meter you under your own rate-limit plan rather than the shared per-IP budget. See [Authentication](./7.%20authentication.mdx).
+
 ---
 
 ## SDK

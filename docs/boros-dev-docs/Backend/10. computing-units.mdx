@@ -25,31 +25,35 @@ A few endpoints have additional per-IP throttles on top of the CU budget:
 
 ## Higher Rate Limits via API Key
 
-If your integration needs more than the per-IP free-tier limits, paid plans are available through the **[Boros API Dashboard](https://api-boros.pendle.finance/dashboard)**.
+Requests that carry no credential are metered **per IP**, against the shared
+anonymous budget. To be metered under your own plan instead, identify yourself
+with an API signing key.
 
-### Getting an API key
+### Getting a key
 
 1. Go to [https://api-boros.pendle.finance/dashboard](https://api-boros.pendle.finance/dashboard)
 2. Connect your wallet and sign the verification message to log in
-3. Choose a plan and create a new API key
+3. Choose a plan, then create an API signing key on the `/api-keys` page
 
-Save the generated key securely — you'll need it to authenticate your requests.
+Keys can also be minted from a script — see [Authentication](./7.%20authentication.mdx).
+The private key is shown **once**; store it before closing the dialog.
 
-### Using your API key
+### Using your key
 
-Include your key as a Bearer token in the `Authorization` header on every request:
+Sign a short-lived JWT with the key and send it as `x-pendle-auth` on every
+request. The gateway resolves your root wallet from it and meters you at your
+plan's limits.
 
-```
-Authorization: Bearer <API_KEY>
-```
-
-**Example:**
 ```bash
-curl -i -H "Authorization: Bearer your_api_key_here" \
+curl -i -H "x-pendle-auth: $TOKEN" \
   https://api-boros.pendle.finance/apis/v1/markets
 ```
 
-Authenticated requests are billed against your plan's higher limits instead of the per-IP free-tier budget.
+Your plan is attached to your **root wallet address**, so one key is enough for
+both purposes: it authenticates you on the endpoints that require it, and it
+identifies you for metering on all the others. See
+[Authentication](./7.%20authentication.mdx) for the JWT claims and a minting
+helper.
 
 ## Where CU is Reported
 

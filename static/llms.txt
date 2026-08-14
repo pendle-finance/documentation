@@ -105,6 +105,8 @@
 - [Glossary](https://docs.pendle.finance/boros-dev/Backend/glossary): Key terms and enum values
 - [Agent Trading](https://docs.pendle.finance/boros-dev/Backend/agent): Delegated trading with agent wallets
 - [API Reference](https://docs.pendle.finance/boros-dev/Backend/api): REST endpoints and integration workflows
+- [Authentication](https://docs.pendle.finance/boros-dev/Backend/authentication): The three Boros credentials — root wallet, agent key, and the Ed25519 API signing key sent as a short-lived JWT in `x-pendle-auth`; minting keys via EIP-712 `ApiKeyAction`, JWT claims, and rate-limit identity
+- [Stop Orders](https://docs.pendle.finance/boros-dev/Backend/stop-orders): Take-profit / stop-loss endpoints — prepare → agent-sign → place, list/detail/cancel, `orderType` and `status` values
 - [WebSocket](https://docs.pendle.finance/boros-dev/Backend/websocket): Real-time streaming
 - [Best Practices](https://docs.pendle.finance/boros-dev/Backend/best-practices): Performance and reliability tips
 - [Historical Data](https://docs.pendle.finance/boros-dev/Backend/historical-data): Monthly NDJSON exports — trades, OHLCV, order book snapshots, settlement rates

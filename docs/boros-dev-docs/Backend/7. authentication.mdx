@@ -1,0 +1,261 @@
+# Authentication
+
+Boros uses three separate credentials. They are not interchangeable, and two of
+them are `pdk_`-prefixed, so start here before wiring anything up.
+
+| Credential | Carried in | Answers | Needed for |
+|---|---|---|---|
+| **Root wallet** | an EIP-712 signature in the request body | *Do you own this account?* | Deposits, withdrawals, approving an agent, managing API signing keys |
+| **Agent key** | an EIP-712 signature in the request body | *May this action move funds?* | Placing and cancelling orders |
+| **API signing key** | `x-pendle-auth: <JWT>` | *Which root is calling?* | Stop orders; identifies you for rate limiting on every other endpoint |
+
+The root wallet and agent are covered in [Agent Trading](./2.%20agent.mdx). This
+page is about the third one.
+
+---
+
+## API signing keys
+
+An API signing key is an **Ed25519 keypair**. The server stores only the public
+half; you sign a short-lived JWT with the private half on every request. There is
+no static token on the wire, so a captured request is useless a minute later.
+
+The key proves a **root**, and nothing more. It cannot place or cancel an order on
+its own — those still carry an agent signature. A leaked signing key can read your
+orders; it cannot move your position.
+
+### Minting a key
+
+Either route works and produces the same thing:
+
+- **Dashboard** — [`api-boros.pendle.finance/dashboard`](https://api-boros.pendle.finance/dashboard), the `/api-keys` page.
+- **API** — `POST /v1/api-keys`, authenticated by an EIP-712 signature from your
+  root wallet. No browser involved, so this is the one to script.
+
+The private key is returned **once**, as a PKCS#8 PEM, and is never recoverable.
+A root may hold at most **6 live keys**.
+
+:::note The key id is not a secret
+`keyId` (`pdk_…`) is public — it travels in the JWT `kid` on every request and
+identifies which public key to verify against. The PEM is the secret. Losing the
+PEM means minting a new key; leaking the `keyId` means nothing.
+:::
+
+### Managing keys
+
+Every route below lives under `https://api-boros.pendle.finance/apis/v1/api-keys`.
+
+| Method | Path | Body / query | Notes |
+|---|---|---|---|
+| `POST` | `/v1/api-keys` | envelope + `name`, `expiresInDays?` | Returns the PEM once |
+| `GET` | `/v1/api-keys` | envelope as query params, **or** the dashboard session cookie | Never returns secrets |
+| `POST` | `/v1/api-keys/update` | envelope + `keyId`, `name?` | Patch semantics; never touches key material |
+| `POST` | `/v1/api-keys/revoke` | envelope + `keyId` | `204`; frees the name and the slot |
+| `GET` | `/v1/api-keys/eip712-domain` | — | Public |
+
+There is no rotate and no revoke-all. The response to a leak is create → redeploy
+→ revoke; the cap is 6 rather than 5 precisely so a root already at the limit can
+still do that.
+
+#### The management envelope
+
+Mutations are authenticated by an EIP-712 `ApiKeyAction` signed by the root
+wallet — the same shape as approving an agent. Four fields ride along in the JSON
+body (or as query parameters on `GET`):
+
+```
+root       your address, lowercase; must equal the recovered signer
+timestamp  unix MILLISECONDS, within ±5 minutes of server time
+nonce      32-byte hex, lowercase, single use
+signature  the EIP-712 signature over the struct below
+```
+
+```ts
+const API_KEY_ACTION_TYPES = {
+  ApiKeyAction: [
+    { name: 'root',      type: 'address' },
+    { name: 'action',    type: 'string'  },  // 'create' | 'list' | 'update' | 'revoke'
+    { name: 'keyId',     type: 'string'  },  // '' for create and list
+    { name: 'timestamp', type: 'uint256' },  // milliseconds
+    { name: 'nonce',     type: 'bytes32' },
+  ],
+} as const;
+```
+
+`action` is taken from the route rather than the body, so a signature minted for
+`list` cannot be replayed against `revoke`.
+
+**Fetch the domain, do not hardcode it.** `verifyingContract` is the Boros Router
+and differs per environment:
+
+```bash
+curl https://api-boros.pendle.finance/apis/v1/api-keys/eip712-domain
+# { "name": "Pendle Boros Router", "version": "1.0", "chainId": 42161,
+#   "verifyingContract": "0x8080808080dab95efed788a9214e400ba552def6" }
+```
+
+```ts
+import { randomBytes } from 'crypto';
+import { createWalletClient, http, type Hex } from 'viem';
+import { privateKeyToAccount } from 'viem/accounts';
+import { arbitrum } from 'viem/chains';
+
+const BASE_URL = 'https://api-boros.pendle.finance/apis';
+
+async function signAction(rootPk: Hex, action: string, keyId = '') {
+  const domain = await fetch(`${BASE_URL}/v1/api-keys/eip712-domain`).then((r) => r.json());
+  const account = privateKeyToAccount(rootPk);
+  const wallet = createWalletClient({ account, chain: arbitrum, transport: http() });
+
+  const root = account.address.toLowerCase() as Hex;
+  const timestamp = Date.now();                                 // milliseconds
+  const nonce = `0x${randomBytes(32).toString('hex')}` as Hex;   // single use
+
+  const signature = await wallet.signTypedData({
+    domain: { ...domain, chainId: BigInt(domain.chainId) },
+    types: API_KEY_ACTION_TYPES,
+    primaryType: 'ApiKeyAction',
+    message: { root, action, keyId, timestamp: BigInt(timestamp), nonce },
+  });
+
+  return { root, timestamp, nonce, signature };
+}
+
+const envelope = await signAction(process.env.ROOT_PK as Hex, 'create');
+const res = await fetch(`${BASE_URL}/v1/api-keys`, {
+  method: 'POST',
+  headers: { 'content-type': 'application/json' },
+  body: JSON.stringify({ ...envelope, name: 'prod-mm-bot-01' }),
+});
+const { keyId, privateKey } = await res.json();
+// Store privateKey now — it is never shown again.
+```
+
+---
+
+## Signing a request
+
+Every authenticated call carries a self-signed JWT in `x-pendle-auth`. Mint a
+fresh one per request.
+
+**Header**
+
+| Field | Value |
+|---|---|
+| `alg` | `EdDSA` — pinned; anything else is rejected before your key is even loaded |
+| `typ` | `JWT` |
+| `kid` | your key id, matching `^pdk_[0-9a-f]{16}$` |
+
+**Claims**
+
+| Claim | Value |
+|---|---|
+| `iss` | `pendle` |
+| `aud` | `pendle-open-api` — **a plain string**, never the RFC 7519 array form |
+| `sub` | your key id; must equal `kid` |
+| `jti` | fresh random hex per request |
+| `nbf` | now, unix **seconds** |
+| `exp` | `nbf + lifetime`, where `1 ≤ exp − nbf ≤ 120` |
+| `uri` | `"<METHOD> <path>"`, e.g. `"GET /apis/v1/stop-orders"` |
+
+Five seconds of clock tolerance are allowed on both bounds.
+
+:::warning Sign the public path
+`uri` must carry the path **as you call it, `/apis` prefix included** — not the
+internal `/v1/...` or `/open-api-v2/...` form. This is the single most common
+cause of an unexplained `401`.
+
+Query strings are **not** part of the claim, so one token covers every query on a
+given path for its lifetime. That is why `GET /v1/stop-orders/detail` takes
+`orderId` as a query parameter rather than a path segment.
+:::
+
+```ts
+import { createPrivateKey, randomBytes, sign } from 'crypto';
+
+const b64 = (value: object) => Buffer.from(JSON.stringify(value)).toString('base64url');
+
+function mintToken(keyId: string, pem: string, method: string, path: string, lifetime = 60) {
+  const now = Math.floor(Date.now() / 1000);
+  const header = b64({ alg: 'EdDSA', typ: 'JWT', kid: keyId });
+  const payload = b64({
+    sub: keyId,
+    iss: 'pendle',
+    aud: 'pendle-open-api',
+    jti: randomBytes(16).toString('hex'),
+    uri: `${method.toUpperCase()} ${path}`,   // e.g. 'GET /apis/v1/stop-orders'
+    iat: now,
+    nbf: now,
+    exp: now + lifetime,
+  });
+  const signature = sign(null, Buffer.from(`${header}.${payload}`), createPrivateKey(pem));
+  return `${header}.${payload}.${signature.toString('base64url')}`;
+}
+```
+
+```bash
+curl -H "x-pendle-auth: $TOKEN" \
+  'https://api-boros.pendle.finance/apis/v1/stop-orders?isActive=true'
+```
+
+### With the SDK
+
+The TypeScript SDK mints the token for you — install the key once and every
+open-api call is signed:
+
+```ts
+import { ApiSigningKey, setOpenApiSigningKey } from '@pendle/boros-sdk-public';
+
+setOpenApiSigningKey(
+  new ApiSigningKey({
+    keyId: process.env.BOROS_API_KEY_ID!,       // pdk_…
+    privateKey: process.env.BOROS_API_KEY_PEM!, // the PKCS#8 PEM
+  }),
+);
+```
+
+This covers the data endpoints. It does **not** cover `/v1/api-keys`, which takes
+the EIP-712 root signature described above instead.
+
+---
+
+## Rate limiting and paid tiers
+
+Rate limits are metered per **client**, and a paid plan is attached to your root
+wallet address. Send `x-pendle-auth` and the gateway resolves your root, finds
+your plan, and meters you at your tier. Send nothing and you fall back to the
+anonymous per-IP budget.
+
+So the signing key does double duty: it authenticates you on the endpoints that
+require it, and it identifies you for billing on all the others. You do not need
+a separate credential to get your paid limits.
+
+See [Computing Units](./10.%20computing-units.mdx) for budgets and per-endpoint
+costs.
+
+---
+
+## Failure modes
+
+A rejected token is never reported by the gateway — it simply forwards nothing and
+open-api answers `401` with no detail. Check these first, in order:
+
+| Symptom | Cause |
+|---|---|
+| `401` on every call | `uri` does not match. Sign the public path, **with** `/apis`. |
+| `401` on every call | `aud` emitted as an array. It must be a plain string. |
+| `401` on every call | `exp − nbf > 120`, or `nbf`/`exp` missing, or `sub ≠ kid`. |
+| `401` on every call | Key revoked or expired. |
+| Local error before any request | Key id is not `pdk_` + 16 hex — a stale `bk_` key will not load. |
+| `400 Request expired` on a management call | `timestamp` sent in seconds. It is **milliseconds** here, and **seconds** in the JWT. |
+| `401 Signature has already been used` | Nonce reused, or re-cased. Generate a fresh lowercase 32-byte nonce per call. |
+| `422` on create | Six live keys already, or the name is taken. |
+| `429` | No credential sent, so you are metered per IP. |
+
+---
+
+## Next
+
+- [Stop Orders](./13.%20stop-orders.mdx) — the endpoints that require this credential
+- [Computing Units](./10.%20computing-units.mdx) — budgets and per-endpoint costs
+- Example: [`14-stop-order.ts`](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/14-stop-order.ts)

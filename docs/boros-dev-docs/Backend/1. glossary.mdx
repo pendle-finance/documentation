@@ -40,7 +40,9 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (Rat
 | **Implied Rate** | Current interest rate implied by order book trading, consisting of the last traded rate and a TWAP component. | `GET /markets/{marketId}` |
 | **Rate Floor** | Minimum absolute rate used in margin calculations (derived from `market.imData.iTickThresh`). If an order's rate is below the rate floor, the floor value is used for margin instead. See [Margin — Pre-scaling IM](/boros-dev/Mechanics/Margin#pre-scaling-initial-margin). | Market config |
 | **Settlement** | Periodic floating rate payment exchange (typically every 8 hours) using [lazy settlement](../Mechanics/Settlement.mdx). See [Settlement Mechanics](/boros-dev/Mechanics/Settlement). | `GET /accounts/settlements`, `POST /funding-rate/settlement-summary` |
-| **Conditional Order** | On-chain order with an off-chain trigger condition, executed by a permissioned validator when conditions are met. See [Conditional Orders](/boros-dev/Contracts/Router#conditional-orders). | Router `ConditionalModule` (on-chain) |
+| **Conditional Order** | On-chain order with an off-chain trigger condition, executed by a permissioned validator when conditions are met. Exposed to integrators as [Stop Orders](/boros-dev/Backend/stop-orders); the contract side is [Conditional Orders](/boros-dev/Contracts/Router#conditional-orders). | `GET/POST /v1/stop-orders/*`, Router `ConditionalModule` (on-chain) |
+| **Stop Order** | A take-profit or stop-loss: a conditional order triggered by the market APR crossing `stopApr`. `orderType` `2` = take-profit, `3` = stop-loss. Requires an API signing key. See [Stop Orders](/boros-dev/Backend/stop-orders). | `GET/POST /v1/stop-orders/*` |
+| **API Signing Key** | Ed25519 keypair proving which **root** is calling. Every request carries a self-signed JWT in `x-pendle-auth`; nothing static goes on the wire. Proves identity only — it cannot move funds without an agent signature. See [Authentication](/boros-dev/Backend/authentication). | `POST /v1/api-keys` |
 
 ---
 

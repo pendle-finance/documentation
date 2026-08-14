@@ -1,0 +1,230 @@
+# Stop Orders
+
+Take-profit and stop-loss orders on Boros. A stop order sits off-chain until the
+market APR crosses your trigger, then a permissioned validator executes it
+on-chain against your position.
+
+These are the only endpoints that require an [API signing
+key](./7.%20authentication.mdx). Reads need the key alone; placing and cancelling
+also carry an agent signature, so a leaked key cannot move your position.
+
+**Example:** [`14-stop-order.ts`](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/14-stop-order.ts)
+
+---
+
+## Endpoints
+
+All paths below are relative to `https://api-boros.pendle.finance/apis`.
+
+| Method | Path | Credentials | CU | Throttle |
+|---|---|---|---|---|
+| `GET` | `/v1/stop-orders` | signing key | `1 + ceil(limit/200) − 1` | 60/min |
+| `GET` | `/v1/stop-orders/detail` | signing key | 1 | 60/min |
+| `GET` | `/v1/stop-orders/prepare` | signing key | 1 | 60/min |
+| `POST` | `/v1/stop-orders/place` | signing key **+ agent signature** | 5 | 20/min |
+| `POST` | `/v1/stop-orders/cancel` | signing key **+ agent signature** | 5 | 20/min |
+
+:::note The account is derived, never sent
+Every route packs the account from the API key's root plus sub-account `0`. You
+never send `account`, `accountId` or `root` — a supplied value is ignored, and the
+server re-derives the order hash over the derived account, so a payload signed for
+someone else's account fails the hash check. Sub-accounts are not addressable
+here.
+:::
+
+---
+
+## Placing a stop order
+
+Three steps: ask the server to build the struct, sign it with your agent, submit.
+
+### 1. Prepare
+
+```
+GET /v1/stop-orders/prepare
+```
+
+| Parameter | Type | Notes |
+|---|---|---|
+| `marketId` | number | Market of the position the trigger protects |
+| `isCross` | boolean | `true` = the cross account, `false` = isolated on `marketId`. Must match where the position actually sits |
+| `side` | number | The side that **closes** the position — `SHORT` (1) closes a long |
+| `type` | number | `2` take-profit, `3` stop-loss |
+| `closePosition` | boolean | `true` closes the whole position and ignores `size` |
+| `size` | string | Notional to close, scaled by 1e18. Required by the schema even when `closePosition` is set — pass `"0"` |
+| `stopApr` | number | APR that arms the trigger, as a decimal (`0.085` = 8.5%) |
+
+Returns `{ req, offchainCondition }`. `req.account` is derived from your key — it
+is not something you choose.
+
+:::warning `isCross` must match reality
+If the position is isolated and you prepare with `isCross: true`, the order is
+armed on the cross account instead — which is empty, so the trigger fires against
+nothing. Nothing errors at placement time.
+:::
+
+### 2. Sign with the agent
+
+Hash the order struct with `offchainCondition` replaced by its
+`keccak256`, then sign it with your agent key. The SDK does this for you:
+
+```ts
+import { signStopOrderRequest } from '@pendle/boros-sdk-public';
+
+const { agent, signature, orderHash } = await signStopOrderRequest({
+  req: { /* echo prepare's req, with size/tick/salt/expiry as-is */ },
+  offchainCondition,
+});
+```
+
+### 3. Place
+
+```
+POST /v1/stop-orders/place
+```
+
+```json
+{
+  "agent": "0x…",
+  "placeMsg": { "actionHash": "<orderHash>" },
+  "placeSignature": "0x…",
+  "request": { "cross": true, "marketId": 180, "side": 1, "tif": 2,
+               "size": "…", "tick": -32768, "reduceOnly": true,
+               "salt": "…", "expiry": "4294967295" },
+  "offchainCondition": "0x…",
+  "type": 3,
+  "closePosition": true
+}
+```
+
+Echo `req` back unchanged as `request`, **minus `account` and
+`hashedOffchainCondition`** — the server derives both. Any other edit invalidates
+the signature you just produced and the request fails on the order hash.
+
+Returns `{ orderHash }`. That hash is the `orderId` everywhere else.
+
+---
+
+## Reading orders
+
+```
+GET /v1/stop-orders?isActive=true&limit=10
+```
+
+| Parameter | Notes |
+|---|---|
+| `marketId` | Optional market filter |
+| `tokenId` | Optional collateral filter; ignored when `marketId` is set |
+| `isActive` | `true` live only, `false` finalised only, omitted for both |
+| `resumeToken` | From the previous response; `null` once exhausted |
+| `limit` | Default 10, max 200 |
+
+```
+GET /v1/stop-orders/detail?orderId=0x…
+```
+
+:::note Why `orderId` is a query parameter
+The signed `uri` claim binds a method and a path, and query strings are excluded
+from it. Putting the id in the query means one token covers every lookup instead
+of one token per order. An id belonging to another root reads as `404`.
+:::
+
+---
+
+## Cancelling
+
+```
+POST /v1/stop-orders/cancel
+```
+
+```json
+{ "agent": "0x…", "orderIds": ["0x…", "0x…"], "cancelSignature": "0x…" }
+```
+
+Up to **50** ids per request, and it is **all-or-nothing**: the whole call fails
+if any id is unknown, already finalised, or owned by another account.
+
+---
+
+## Reference values
+
+**`orderType`**
+
+| Value | Meaning |
+|---|---|
+| `2` | Take-profit, market |
+| `3` | Stop-loss, market |
+
+**`status`**
+
+| Value | Meaning |
+|---|---|
+| `0` | Filling |
+| `1` | Cancelled |
+| `2` | FullyFilled |
+| `3` | Expired |
+| `4` | Purged |
+| `5` | Pending — armed, waiting for the trigger |
+| `6` | Executing |
+| `7` | Retrying |
+| `8` | Failed |
+
+Not contiguous with the limit-order status enum — do not share a mapping between
+the two.
+
+---
+
+## With the SDK
+
+```ts
+import {
+  Agent, ApiSigningKey, setInternalAgent, setOpenApiSigningKey,
+  Side, StopAprOrderType, StopOrders,
+} from '@pendle/boros-sdk-public';
+
+setOpenApiSigningKey(new ApiSigningKey({
+  keyId: process.env.BOROS_API_KEY_ID!,
+  privateKey: process.env.BOROS_API_KEY_PEM!,
+}));
+
+const stopOrders = new StopOrders();          // no accountId — it comes from the key
+
+const live = await stopOrders.list({ isActive: true });
+
+setInternalAgent(Agent.createFromPrivateKey(process.env.AGENT_PK as `0x${string}`));
+
+const orderId = await stopOrders.place({      // prepare → agent-sign → submit
+  marketId: 180,
+  isCross: true,
+  side: Side.SHORT,
+  type: StopAprOrderType.STOP_LOSS_MARKET,
+  stopApr: 0.01,
+  closePosition: true,
+});
+
+await stopOrders.cancel([orderId]);
+```
+
+Requires `@pendle/boros-sdk-public` **0.2.0** or later.
+
+---
+
+## Common failures
+
+| Symptom | Cause |
+|---|---|
+| `401` on every call | The JWT. See [Authentication](./7.%20authentication.mdx#failure-modes) |
+| `400 Invalid agent` | The agent is not approved, or its approval **expired** — they last a week. Re-run the approval |
+| `403` | The agent is disabled |
+| `400` invalid order hash | You edited `req`, or sent `account` / `hashedOffchainCondition`. Echo it unchanged and omit both |
+| `400 Stop order limit exceeded` | The number of live stop orders is capped by position value — free a slot or increase the position |
+| `404` on detail | The id belongs to another root, or does not exist |
+| Trigger never fires | `isCross` did not match where the position sits |
+
+---
+
+## On-chain
+
+The contract side is the Router's `ConditionalModule` — see [Conditional
+Orders](../Contracts/Router.mdx#conditional-orders) for the struct and the
+execution path.
