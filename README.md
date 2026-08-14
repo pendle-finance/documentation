@@ -43,7 +43,7 @@ As many of us increasingly rely on AI tools to read and understand project docum
 - **[static/llms.txt](static/llms.txt)**: Concise index of all Pendle V2 + Boros developer docs, following the [llms.txt standard](https://llmstxt.org/). Served at `docs.pendle.finance/llms.txt`. Update manually when docs sections are added or removed.
 - **[static/llms-full.txt](static/llms-full.txt)**: All Pendle V2 + Boros developer documentation concatenated into one file for AI ingestion. **Generated file — do not edit directly.** Regenerate with the script below.
 - **[static/pendle-v2/openapi/open-api.json](static/pendle-v2/openapi/open-api.json)**: The OpenAPI 3.0 specification for the Pendle V2 public API (non-deprecated endpoints only). Served at `docs.pendle.finance/pendle-v2/openapi/open-api.json`. Sync with the command in the update instructions.
-- **[static/boros-dev/openapi/](static/boros-dev/openapi/)**: Static copies of Boros API specs (`open-api.json`, `send-txs-bot.json`, `stop-order.json`). Update manually from each service's `/docs-json` endpoint when the Boros API changes.
+- Boros API specs are **not** committed. `static/llms.txt` links them live at each service's `/docs-json` endpoint, so they cannot go stale.
 
 ## Updating AI assets
 

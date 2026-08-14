@@ -27,21 +27,17 @@ curl -s https://api-v2.pendle.finance/core/docs-json \
 
 Then verify the endpoint description in `static/llms.txt` (search for `V2 API Spec`) is still accurate.
 
-## 3. Sync Boros API specs
+## 3. Boros API specs — nothing to sync
 
-Run after any Boros backend deployment.
+The Boros specs are **not** committed here. `static/llms.txt` links them live:
 
-```bash
-# Main Boros API
-curl -s https://api-boros.pendle.finance/apis/docs-json \
-  | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin), indent=4))" \
-  > static/boros-dev/openapi/open-api.json
+- `https://api-boros.pendle.finance/apis/docs-json`
+- `https://api-boros.pendle.finance/send-txs-bot/docs-json`
 
-# Send-txs bot
-curl -s https://api-boros.pendle.finance/send-txs-bot/docs-json \
-  | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin), indent=4))" \
-  > static/boros-dev/openapi/send-txs-bot.json
-```
+Both are publicly fetchable — checked against GPTBot, ClaudeBot, Googlebot and
+curl, all 200. A committed copy only bought a snapshot that went stale: the last
+one sat six months behind, at 41 paths against 77 live, and any refresh landed as
+a five-figure diff nobody could review.
 
-`indent=4` matches how both files are already committed. Using a different width
-reindents every line, which turns a small endpoint change into a whole-file diff.
+The Pendle V2 spec above stays committed because `scripts/fetch-knowledge-base.js`
+syncs it automatically, so it cannot drift the same way.
