@@ -9554,6 +9554,9 @@ Use the Boros web interface for a simple deposit flow. You can go to https://bor
 
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Authentication
 
 Boros uses three separate credentials. They are not interchangeable, and two of
@@ -9571,8 +9574,12 @@ page is about the third one.
 
 ## Signing a request
 
-Every authenticated call carries a self-signed JWT in `x-pendle-auth`. Mint a
-fresh one per request.
+Every authenticated call carries a self-signed JWT in `x-pendle-auth`.
+
+:::warning Your token expires after at most 120 seconds
+`exp − nbf` may not exceed 120 seconds, and there is no refresh. Mint a fresh
+token per request — do not cache one and reuse it. The SDK does this for you.
+:::
 
 **Header**
 
@@ -9606,6 +9613,9 @@ given path for its lifetime. That is why `GET /v1/stop-orders/detail` takes
 `orderId` as a query parameter rather than a path segment.
 :::
 
+<Tabs groupId="lang">
+<TabItem value="ts" label="TypeScript">
+
 ```ts
 import { createPrivateKey, randomBytes, sign } from 'crypto';
 
@@ -9628,6 +9638,88 @@ function mintToken(keyId: string, pem: string, method: string, path: string, lif
   return `${header}.${payload}.${signature.toString('base64url')}`;
 }
 ```
+
+</TabItem>
+<TabItem value="py" label="Python">
+
+```python
+# pip install cryptography
+import base64, json, os, time
+from cryptography.hazmat.primitives.serialization import load_pem_private_key
+
+def _b64(raw: bytes) -> str:
+    return base64.urlsafe_b64encode(raw).rstrip(b"=").decode()
+
+def mint_token(key_id: str, pem: str, method: str, path: str, lifetime: int = 60) -> str:
+    key = load_pem_private_key(pem.encode(), password=None)
+    now = int(time.time())
+
+    header = _b64(json.dumps({"alg": "EdDSA", "typ": "JWT", "kid": key_id}).encode())
+    payload = _b64(json.dumps({
+        "sub": key_id,
+        "iss": "pendle",
+        "aud": "pendle-open-api",
+        "jti": os.urandom(16).hex(),
+        "uri": f"{method.upper()} {path}",   # e.g. 'GET /apis/v1/stop-orders'
+        "iat": now,
+        "nbf": now,
+        "exp": now + lifetime,
+    }).encode())
+
+    signing_input = f"{header}.{payload}".encode()
+    return f"{header}.{payload}.{_b64(key.sign(signing_input))}"
+```
+
+</TabItem>
+<TabItem value="go" label="Go">
+
+```go
+import (
+    "crypto/ed25519"
+    "crypto/rand"
+    "crypto/x509"
+    "encoding/base64"
+    "encoding/hex"
+    "encoding/json"
+    "encoding/pem"
+    "fmt"
+    "strings"
+    "time"
+)
+
+func b64(raw []byte) string { return base64.RawURLEncoding.EncodeToString(raw) }
+
+func MintToken(keyID, pemStr, method, path string, lifetime int64) (string, error) {
+    block, _ := pem.Decode([]byte(pemStr))
+    parsed, err := x509.ParsePKCS8PrivateKey(block.Bytes)
+    if err != nil {
+        return "", err
+    }
+    key := parsed.(ed25519.PrivateKey)
+
+    now := time.Now().Unix()
+    jti := make([]byte, 16)
+    rand.Read(jti)
+
+    header, _ := json.Marshal(map[string]string{"alg": "EdDSA", "typ": "JWT", "kid": keyID})
+    payload, _ := json.Marshal(map[string]any{
+        "sub": keyID,
+        "iss": "pendle",
+        "aud": "pendle-open-api",
+        "jti": hex.EncodeToString(jti),
+        "uri": fmt.Sprintf("%s %s", strings.ToUpper(method), path),
+        "iat": now,
+        "nbf": now,
+        "exp": now + lifetime,
+    })
+
+    signingInput := b64(header) + "." + b64(payload)
+    return signingInput + "." + b64(ed25519.Sign(key, []byte(signingInput))), nil
+}
+```
+
+</TabItem>
+</Tabs>
 
 ```bash
 curl -H "x-pendle-auth: $TOKEN" \
@@ -9681,6 +9773,12 @@ open-api answers `401` with no detail. Check these first, in order:
 For other languages — or if you want raw HTTP control — go to [API](./4.%20api.mdx) instead. The SDK is a thin convenience layer; **anything the SDK does, the API page documents end-to-end**.
 
 For the agent model the SDK depends on, see [Agent Trading](./2.%20agent.mdx).
+
+| | |
+|---|---|
+| Package | [`@pendle/boros-sdk-public`](https://www.npmjs.com/package/@pendle/boros-sdk-public) on npm |
+| Source | [github.com/pendle-finance/boros-sdk-public](https://github.com/pendle-finance/boros-sdk-public) |
+| Runnable examples | [github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples) |
 
 ## Install
 

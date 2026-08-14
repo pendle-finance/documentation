@@ -29,16 +29,19 @@ Then verify the endpoint description in `static/llms.txt` (search for `V2 API Sp
 
 ## 3. Sync Boros API specs
 
-Run after any Boros backend deployment. Replace `<service-url>` with the appropriate base URL:
+Run after any Boros backend deployment.
 
 ```bash
 # Main Boros API
-curl -s <boros-api-url>/docs-json \
-  | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin), indent=2))" \
+curl -s https://api-boros.pendle.finance/apis/docs-json \
+  | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin), indent=4))" \
   > static/boros-dev/openapi/open-api.json
 
 # Send-txs bot
-curl -s <send-txs-bot-url>/docs-json \
-  | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin), indent=2))" \
+curl -s https://api-boros.pendle.finance/send-txs-bot/docs-json \
+  | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin), indent=4))" \
   > static/boros-dev/openapi/send-txs-bot.json
 ```
+
+`indent=4` matches how both files are already committed. Using a different width
+reindents every line, which turns a small endpoint change into a whole-file diff.
