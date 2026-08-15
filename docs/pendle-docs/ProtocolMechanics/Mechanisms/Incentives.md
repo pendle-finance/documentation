@@ -191,6 +191,7 @@ Protocols can use **External Incentive Campaigns** to provide additional rewards
 
 A few practical notes:
 - The boost only applies to markets that already run a Limit Order incentive program. If a co-incentivized market has no LO program — or cannot absorb the extra PENDLE under its per-maker LO APR cap — that portion simply is not distributed.
+- **Target-depth cap.** The boost does not over-fund a market: it tops up a market's limit-order incentive only until the market's total LO incentive (base + boost) reaches the **[Target Incentives](#target-incentives)** for a large reference depth of roughly **\$15m** — priced the same way as a pool's own target incentive (the reference depth is [decay-adjusted](#decay-adjusted-target-depth) for days-to-maturity, valued at the YT relative price, and taken at the 50% target LO APR). A market whose base LO incentive already meets that level receives no boost, and any matched PENDLE above the cap is not distributed (it does not roll over). As a market's own base LO incentive grows or shrinks week to week, the boost shrinks or grows to keep the combined total near that target.
 - The external protocol's own tokens are unaffected: they still go to the campaign's holders.
 - Combined co-incentive spend is capped at **9,000 PENDLE per epoch**.
 
