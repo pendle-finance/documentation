@@ -22,6 +22,23 @@ Use the redesigned Open API at `api-boros.pendle.finance/apis/` — interactive 
 
 ---
 
+## Authentication
+
+Most endpoints on this page are public — market data and calldata generation need
+no credential, and actions that move funds carry their authorization as an EIP-712
+signature in the request body rather than in a header.
+
+Two cases differ:
+
+- **[Stop Orders](./13.%20stop-orders.mdx)** require an API signing key, sent as a
+  short-lived JWT in `x-pendle-auth`.
+- **Rate limits** are metered per IP unless you send that same header, in which
+  case you are metered under your own plan.
+
+See [Authentication](./7.%20authentication.mdx) for both.
+
+---
+
 ## API Services
 
 ### Open API (Primary)

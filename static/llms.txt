@@ -63,7 +63,7 @@
 
 ### Machine-Readable Specs
 - [Full Documentation (Markdown)](https://docs.pendle.finance/llms-full.txt): All Pendle V2 + Boros docs concatenated for AI ingestion
-- [V2 API Spec (JSON)](https://docs.pendle.finance/pendle-v2/openapi/open-api.json): OpenAPI spec for the Pendle V2 backend (non-deprecated endpoints only)
+- [V2 API Spec (JSON)](https://docs.pendle.finance/pendle-dev-docs/openapi/open-api.json): OpenAPI spec for the Pendle V2 backend (non-deprecated endpoints only)
 
 ---
 
@@ -105,6 +105,8 @@
 - [Glossary](https://docs.pendle.finance/boros-dev/Backend/glossary): Key terms and enum values
 - [Agent Trading](https://docs.pendle.finance/boros-dev/Backend/agent): Delegated trading with agent wallets
 - [API Reference](https://docs.pendle.finance/boros-dev/Backend/api): REST endpoints and integration workflows
+- [Authentication](https://docs.pendle.finance/boros-dev/Backend/authentication): The three Boros credentials — root wallet, agent key, and the Ed25519 API signing key sent as a short-lived JWT in `x-pendle-auth`; minting keys via EIP-712 `ApiKeyAction`, JWT claims, and rate-limit identity
+- [Stop Orders](https://docs.pendle.finance/boros-dev/Backend/stop-orders): Take-profit / stop-loss endpoints — prepare → agent-sign → place, list/detail/cancel, `orderType` and `status` values
 - [WebSocket](https://docs.pendle.finance/boros-dev/Backend/websocket): Real-time streaming
 - [Best Practices](https://docs.pendle.finance/boros-dev/Backend/best-practices): Performance and reliability tips
 - [Historical Data](https://docs.pendle.finance/boros-dev/Backend/historical-data): Monthly NDJSON exports — trades, OHLCV, order book snapshots, settlement rates
@@ -129,7 +131,8 @@
 
 ### Machine-Readable Specs
 - [Full Documentation (Markdown)](https://docs.pendle.finance/llms-full.txt): All Pendle V2 + Boros docs concatenated for AI ingestion
-- Boros OpenAPI Spec (JSON): Static copies hosted at `/boros-dev/openapi/open-api.json`, `/boros-dev/openapi/send-txs-bot.json`
+- [Boros OpenAPI Spec (JSON)](https://api-boros.pendle.finance/apis/docs-json): Served live by the API, so it always matches what is deployed. Interactive version at https://api-boros.pendle.finance/apis/docs
+- [Send Txs Bot OpenAPI Spec (JSON)](https://api-boros.pendle.finance/send-txs-bot/docs-json): Served live by the API
 
 ### FAQ
 - [FAQ](https://docs.pendle.finance/boros-dev/FAQ): Common questions about trading, margins, fees, and troubleshooting

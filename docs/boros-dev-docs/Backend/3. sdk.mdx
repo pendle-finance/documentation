@@ -6,13 +6,19 @@ For other languages — or if you want raw HTTP control — go to [API](./4.%20a
 
 For the agent model the SDK depends on, see [Agent Trading](./2.%20agent.mdx).
 
+| | |
+|---|---|
+| Package | [`@pendle/boros-sdk-public`](https://www.npmjs.com/package/@pendle/boros-sdk-public) on npm |
+| Source | [github.com/pendle-finance/boros-sdk-public](https://github.com/pendle-finance/boros-sdk-public) |
+| Runnable examples | [github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples) |
+
 ## Install
 
 ```bash
 npm install @pendle/boros-sdk-public viem
 ```
 
-`viem` is a peer dependency. The SDK targets `viem@2.x`. The math helpers (`FixedX18`, `estimateTickForRate`, `getRateAtTick`) live in a separate package — install it when you need tick/rate conversion:
+`viem` is a direct dependency pinned to an exact version, not a peer dependency. Install a range that covers the pinned one, or your package manager resolves a second copy and the `WalletClient` you construct stops matching the type the SDK declares. The math helpers (`FixedX18`, `estimateTickForRate`, `getRateAtTick`) live in a separate package — install it when you need tick/rate conversion:
 
 ```bash
 npm install @pendle/boros-offchain-math
@@ -194,9 +200,13 @@ await exchange.payTreasury({
 console.log('Gas balance (USD):', await exchange.getGasBalance());
 ```
 
+### Stop orders
+
+`StopOrders` wraps take-profit / stop-loss: `list`, `get`, `prepare`, `place`, `cancel`, where `place()` runs prepare → agent-sign → submit. It needs an [API signing key](./7.%20authentication.mdx) installed via `setOpenApiSigningKey()`, and 0.2.0 or later. See [Stop Orders](./13.%20stop-orders.mdx).
+
 ## Escape hatch — raw open-api access
 
-The wrapped methods cover common trading flows. For everything else (leaderboard, OHLCV, settlement events, indicators, conditional orders), drop down to the codegen client:
+The wrapped methods cover common trading flows. For everything else (leaderboard, OHLCV, settlement events, indicators), drop down to the codegen client:
 
 ```ts
 import { getOpenApiSdk } from '@pendle/boros-sdk-public';

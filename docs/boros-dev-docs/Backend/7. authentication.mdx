@@ -1,0 +1,94 @@
+# Authentication
+
+Boros uses three credentials. They are not interchangeable.
+
+| Credential | Sent as | Proves | Needed for |
+|---|---|---|---|
+| **Root wallet** | EIP-712 signature in the body | You own the account | Deposits, withdrawals, approving an agent, managing API keys |
+| **Agent key** | EIP-712 signature in the body | The action may move funds | Placing and cancelling orders |
+| **API signing key** | `x-pendle-auth` JWT | Which root is calling | [Stop Orders](./13.%20stop-orders.mdx); identifies you for rate limits everywhere else |
+
+The first two are covered in [Agent Trading](./2.%20agent.mdx). This page is about the third.
+
+## API Signing Keys
+
+An Ed25519 keypair. We store the public half; you sign a short-lived JWT with the private half on every request, so no static token travels on the wire.
+
+The key proves a **root** and nothing more — it cannot place or cancel an order without an agent signature.
+
+**Get one** from the [Boros API Dashboard](https://api-boros.pendle.finance/dashboard), or via `POST /v1/api-keys` if you'd rather script it. The private key is a PKCS#8 PEM shown **once**. Max 6 live keys per root; there is no rotate, so replace a key by creating the new one before revoking the old.
+
+## Signing a Request
+
+The SDK handles this — install the key once and every call is signed:
+
+```ts
+import { ApiSigningKey, setOpenApiSigningKey } from '@pendle/boros-sdk-public';
+
+setOpenApiSigningKey(new ApiSigningKey({
+  keyId: process.env.BOROS_API_KEY_ID!,       // pdk_…
+  privateKey: process.env.BOROS_API_KEY_PEM!,
+}));
+```
+
+This covers the data endpoints, **not** `/v1/api-keys` — that tree takes a root signature instead.
+
+To sign by hand, build a JWT with `alg: EdDSA`, `typ: JWT` and `kid: <your key id>` in the header, and these claims:
+
+| Claim | Value |
+|---|---|
+| `iss` | `pendle` |
+| `aud` | `pendle-open-api` — a plain string, never an array |
+| `sub` | your key id, same as `kid` |
+| `jti` | fresh random hex per request |
+| `nbf` / `exp` | unix **seconds**; `exp - nbf` must be **1–120** |
+| `uri` | `"<METHOD> <path>"`, e.g. `"GET /apis/v1/stop-orders"` |
+
+Working implementation: [`14-stop-order.ts`](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/14-stop-order.ts).
+
+:::warning Sign the public path
+`uri` must carry the path as you call it, **`/apis` prefix included** — not `/v1/...`. This is the most common cause of an unexplained `401`.
+
+Query strings are excluded from the claim, so one token covers every query on that path.
+:::
+
+## Managing Keys
+
+| Method | Path | Notes |
+|---|---|---|
+| `POST` | [`/v1/api-keys`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/post/v1/api-keys) | Returns the PEM once |
+| `GET` | [`/v1/api-keys`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/get/v1/api-keys) | Never returns secrets; also accepts the dashboard session |
+| `POST` | [`/v1/api-keys/update`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/post/v1/api-keys/update) | Patch semantics; never touches key material |
+| `POST` | [`/v1/api-keys/revoke`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/post/v1/api-keys/revoke) | Frees the name and the slot |
+| `GET` | [`/v1/api-keys/eip712-domain`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/get/v1/api-keys/eip712-domain) | Public |
+
+Each mutation carries an EIP-712 `ApiKeyAction` signed by the root wallet, alongside `root`, `timestamp` (unix **milliseconds**, ±5 min) and a single-use 32-byte `nonce`:
+
+```ts
+const API_KEY_ACTION_TYPES = {
+  ApiKeyAction: [
+    { name: 'root',      type: 'address' },
+    { name: 'action',    type: 'string'  },  // 'create' | 'list' | 'update' | 'revoke'
+    { name: 'keyId',     type: 'string'  },  // '' for create and list
+    { name: 'timestamp', type: 'uint256' },
+    { name: 'nonce',     type: 'bytes32' },
+  ],
+} as const;
+```
+
+Sign against the domain from `GET /v1/api-keys/eip712-domain` rather than hardcoding it — the `verifyingContract` differs per environment.
+
+## Rate Limits
+
+Requests with no credential are metered per IP. Send `x-pendle-auth` and you are metered under your own plan instead — it is attached to your root address, so the same key covers authentication and metering. See [Computing Units](./10.%20computing-units.mdx).
+
+## Troubleshooting
+
+A rejected token returns a bare `401` with no detail. In order of likelihood:
+
+- **`uri` mismatch** — sign the public path, with `/apis`.
+- **`aud` sent as an array** — it must be a plain string.
+- **`exp - nbf > 120`**, or `nbf`/`exp` missing, or `sub` ≠ `kid`.
+- **Key id not `pdk_` + 16 hex** — a stale `bk_` key will not load.
+- **`400 Request expired`** on a management call — `timestamp` is **milliseconds** there, **seconds** in the JWT.
+- **`401 Signature has already been used`** — nonces are single-use and lowercased before comparison.

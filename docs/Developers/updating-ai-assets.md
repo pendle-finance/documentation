@@ -27,18 +27,17 @@ curl -s https://api-v2.pendle.finance/core/docs-json \
 
 Then verify the endpoint description in `static/llms.txt` (search for `V2 API Spec`) is still accurate.
 
-## 3. Sync Boros API specs
+## 3. Boros API specs — nothing to sync
 
-Run after any Boros backend deployment. Replace `<service-url>` with the appropriate base URL:
+The Boros specs are **not** committed here. `static/llms.txt` links them live:
 
-```bash
-# Main Boros API
-curl -s <boros-api-url>/docs-json \
-  | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin), indent=2))" \
-  > static/boros-dev/openapi/open-api.json
+- `https://api-boros.pendle.finance/apis/docs-json`
+- `https://api-boros.pendle.finance/send-txs-bot/docs-json`
 
-# Send-txs bot
-curl -s <send-txs-bot-url>/docs-json \
-  | python3 -c "import json,sys; print(json.dumps(json.load(sys.stdin), indent=2))" \
-  > static/boros-dev/openapi/send-txs-bot.json
-```
+Both are publicly fetchable — checked against GPTBot, ClaudeBot, Googlebot and
+curl, all 200. A committed copy only bought a snapshot that went stale: the last
+one sat six months behind, at 41 paths against 77 live, and any refresh landed as
+a five-figure diff nobody could review.
+
+The Pendle V2 spec above stays committed because `scripts/fetch-knowledge-base.js`
+syncs it automatically, so it cannot drift the same way.

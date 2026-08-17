@@ -1,0 +1,76 @@
+# Stop Orders
+
+Take-profit and stop-loss orders. A stop order rests off-chain until the market APR crosses your trigger, then a permissioned validator executes it against your position.
+
+These are the only endpoints requiring an [API signing key](./7.%20authentication.mdx). Reads need the key alone; place and cancel also carry an agent signature, so a leaked key cannot move your position.
+
+For request/response schemas, see the [interactive Open API docs](https://api-boros.pendle.finance/apis/docs). Working example: [`14-stop-order.ts`](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/14-stop-order.ts).
+
+## Endpoints
+
+| Method | Path | Also needs | CU |
+|---|---|---|---|
+| `GET` | [`/v1/stop-orders`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/get/v1/stop-orders) | — | `1 + ceil(limit/200) - 1` |
+| `GET` | [`/v1/stop-orders/detail`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/get/v1/stop-orders/detail) | — | 1 |
+| `GET` | [`/v1/stop-orders/prepare`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/get/v1/stop-orders/prepare) | — | 1 |
+| `POST` | [`/v1/stop-orders/place`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/post/v1/stop-orders/place) | agent signature | 5 |
+| `POST` | [`/v1/stop-orders/cancel`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/post/v1/stop-orders/cancel) | agent signature | 5 |
+
+:::note Sub-accounts are not addressable here
+Every route acts on the API key's root at sub-account **`0`**, and only that one. A position held on another sub-account cannot be protected by a stop order.
+:::
+
+## Placing an Order
+
+Three steps, all of which `StopOrders.place()` does for you:
+
+1. **`GET /v1/stop-orders/prepare`** returns the order struct and trigger condition to sign.
+2. **Sign it with your agent** — `signStopOrderRequest()` in the SDK.
+3. **`POST /v1/stop-orders/place`** with the signature. Echo `prepare`'s `req` back unchanged, minus `account` and `hashedOffchainCondition`; the server derives both, and any other edit invalidates your signature.
+
+Returns `orderHash`, which is the `orderId` everywhere else.
+
+```ts
+import {
+  ApiSigningKey, setInternalAgent, setOpenApiSigningKey,
+  Side, StopAprOrderType, StopOrders,
+} from '@pendle/boros-sdk-public';
+
+setOpenApiSigningKey(new ApiSigningKey({ keyId, privateKey }));
+setInternalAgent(agent);                      // writes need an approved agent
+
+const stopOrders = new StopOrders();          // no accountId — it comes from the key
+
+const orderId = await stopOrders.place({
+  marketId: 180,
+  isCross: true,                              // where the position sits
+  side: Side.SHORT,                           // the side that CLOSES it
+  type: StopAprOrderType.STOP_LOSS_MARKET,
+  stopApr: 0.01,                              // decimal, 0.085 = 8.5%
+  closePosition: true,                        // or set `size` (1e18-scaled) instead
+});
+
+const live = await stopOrders.list({ isActive: true });
+await stopOrders.cancel([orderId]);
+```
+
+Requires `@pendle/boros-sdk-public` **0.2.0** or later.
+
+## Reading and Cancelling
+
+`GET /v1/stop-orders` is cursor-paginated, newest first — filter with `marketId`, `tokenId` or `isActive`, and pass the previous `resumeToken` for the next page. `GET /v1/stop-orders/detail` takes `orderId` as a **query** parameter; an id belonging to another root reads as `404`.
+
+`POST /v1/stop-orders/cancel` takes up to **50** ids and is all-or-nothing: the request fails if any id is unknown, already finalised, or another account's.
+
+## Reference
+
+**`orderType`** — `2` take-profit market, `3` stop-loss market.
+
+**`status`** — `0` Filling, `1` Cancelled, `2` FullyFilled, `3` Expired, `4` Purged, `5` Pending, `6` Executing, `7` Retrying, `8` Failed. Not contiguous with the limit-order status enum.
+
+## Tips
+
+- `isCross` must match where the position actually sits. Get it wrong and the order is armed on an empty account — nothing errors, the trigger simply never fires.
+- `400 Invalid agent` usually means the approval **expired**; they last a week.
+- The number of live stop orders is capped by position value, so `400 Stop order limit exceeded` means free a slot or increase the position.
+- The contracts call these **conditional orders** — same thing under a more general name. See [Conditional Orders](../Contracts/Router.mdx#conditional-orders) for the on-chain struct.

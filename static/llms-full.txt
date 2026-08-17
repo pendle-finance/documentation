@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-08-12
+> Generated: 2026-08-17
 
 ---
 
@@ -8957,7 +8957,9 @@ struct ConditionalOrder {
 ```
 
 :::note
-Conditional orders are not placed directly by users. The agent signs the `ConditionalOrder`, and a permissioned validator submits the matching execution signature once the off-chain condition is met.
+Conditional orders are not submitted directly to the contract by users. The agent signs the `ConditionalOrder`, and a permissioned validator submits the matching execution signature once the off-chain condition is met.
+
+Integrators reach this through the backend rather than the contract — see [Stop Orders](/boros-dev/Backend/stop-orders).
 :::
 
 ---
@@ -9368,6 +9370,8 @@ Agent wallet ──[non-sensitive: place / cancel / transfer]──────�
 
 The Send Txs Bot charges gas from the user's on-chain gas balance in USD at the actual Arbitrum cost, with no markup.
 
+A third credential sits alongside these two: an **API signing key**, sent as a short-lived JWT in `x-pendle-auth`. It proves which root is calling — required by [Stop Orders](./13.%20stop-orders.mdx), and used everywhere else to meter you under your own rate-limit plan rather than the shared per-IP budget. See [Authentication](./7.%20authentication.mdx).
+
 
 ## What's in This Section
 
@@ -9409,7 +9413,8 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (Rat
 | **Implied Rate** | Current interest rate implied by order book trading, consisting of the last traded rate and a TWAP component. | `GET /markets/{marketId}` |
 | **Rate Floor** | Minimum absolute rate used in margin calculations (derived from `market.imData.iTickThresh`). If an order's rate is below the rate floor, the floor value is used for margin instead. See [Margin — Pre-scaling IM](/boros-dev/Mechanics/Margin#pre-scaling-initial-margin). | Market config |
 | **Settlement** | Periodic floating rate payment exchange (typically every 8 hours) using [lazy settlement](../Mechanics/Settlement.mdx). See [Settlement Mechanics](/boros-dev/Mechanics/Settlement). | `GET /accounts/settlements`, `POST /funding-rate/settlement-summary` |
-| **Conditional Order** | On-chain order with an off-chain trigger condition, executed by a permissioned validator when conditions are met. See [Conditional Orders](/boros-dev/Contracts/Router#conditional-orders). | Router `ConditionalModule` (on-chain) |
+| **Stop Order** *(= Conditional Order)* | Two names for one thing: an order with an off-chain trigger condition, executed by a permissioned validator once the market APR crosses `stopApr`. **Conditional order** is the contract's name for the mechanism ([Router `ConditionalModule`](/boros-dev/Contracts/Router#conditional-orders)); **stop order** is the product name for the only two kinds that exist — `orderType` `2` take-profit, `3` stop-loss. Requires an API signing key. See [Stop Orders](/boros-dev/Backend/stop-orders). | `GET/POST /v1/stop-orders/*`, Router `ConditionalModule` (on-chain) |
+| **API Signing Key** | Ed25519 keypair proving which **root** is calling. Every request carries a self-signed JWT in `x-pendle-auth`; nothing static goes on the wire. Proves identity only — it cannot move funds without an agent signature. See [Authentication](/boros-dev/Backend/authentication). | `POST /v1/api-keys` |
 
 
 ## Operational Concepts
@@ -9548,6 +9553,103 @@ Use the Boros web interface for a simple deposit flow. You can go to https://bor
 
 ---
 
+# Authentication
+
+Boros uses three credentials. They are not interchangeable.
+
+| Credential | Sent as | Proves | Needed for |
+|---|---|---|---|
+| **Root wallet** | EIP-712 signature in the body | You own the account | Deposits, withdrawals, approving an agent, managing API keys |
+| **Agent key** | EIP-712 signature in the body | The action may move funds | Placing and cancelling orders |
+| **API signing key** | `x-pendle-auth` JWT | Which root is calling | [Stop Orders](./13.%20stop-orders.mdx); identifies you for rate limits everywhere else |
+
+The first two are covered in [Agent Trading](./2.%20agent.mdx). This page is about the third.
+
+## API Signing Keys
+
+An Ed25519 keypair. We store the public half; you sign a short-lived JWT with the private half on every request, so no static token travels on the wire.
+
+The key proves a **root** and nothing more — it cannot place or cancel an order without an agent signature.
+
+**Get one** from the [Boros API Dashboard](https://api-boros.pendle.finance/dashboard), or via `POST /v1/api-keys` if you'd rather script it. The private key is a PKCS#8 PEM shown **once**. Max 6 live keys per root; there is no rotate, so replace a key by creating the new one before revoking the old.
+
+## Signing a Request
+
+The SDK handles this — install the key once and every call is signed:
+
+```ts
+import { ApiSigningKey, setOpenApiSigningKey } from '@pendle/boros-sdk-public';
+
+setOpenApiSigningKey(new ApiSigningKey({
+  keyId: process.env.BOROS_API_KEY_ID!,       // pdk_…
+  privateKey: process.env.BOROS_API_KEY_PEM!,
+}));
+```
+
+This covers the data endpoints, **not** `/v1/api-keys` — that tree takes a root signature instead.
+
+To sign by hand, build a JWT with `alg: EdDSA`, `typ: JWT` and `kid: <your key id>` in the header, and these claims:
+
+| Claim | Value |
+|---|---|
+| `iss` | `pendle` |
+| `aud` | `pendle-open-api` — a plain string, never an array |
+| `sub` | your key id, same as `kid` |
+| `jti` | fresh random hex per request |
+| `nbf` / `exp` | unix **seconds**; `exp - nbf` must be **1–120** |
+| `uri` | `"<METHOD> <path>"`, e.g. `"GET /apis/v1/stop-orders"` |
+
+Working implementation: [`14-stop-order.ts`](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/14-stop-order.ts).
+
+:::warning Sign the public path
+`uri` must carry the path as you call it, **`/apis` prefix included** — not `/v1/...`. This is the most common cause of an unexplained `401`.
+
+Query strings are excluded from the claim, so one token covers every query on that path.
+:::
+
+## Managing Keys
+
+| Method | Path | Notes |
+|---|---|---|
+| `POST` | [`/v1/api-keys`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/post/v1/api-keys) | Returns the PEM once |
+| `GET` | [`/v1/api-keys`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/get/v1/api-keys) | Never returns secrets; also accepts the dashboard session |
+| `POST` | [`/v1/api-keys/update`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/post/v1/api-keys/update) | Patch semantics; never touches key material |
+| `POST` | [`/v1/api-keys/revoke`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/post/v1/api-keys/revoke) | Frees the name and the slot |
+| `GET` | [`/v1/api-keys/eip712-domain`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/get/v1/api-keys/eip712-domain) | Public |
+
+Each mutation carries an EIP-712 `ApiKeyAction` signed by the root wallet, alongside `root`, `timestamp` (unix **milliseconds**, ±5 min) and a single-use 32-byte `nonce`:
+
+```ts
+const API_KEY_ACTION_TYPES = {
+  ApiKeyAction: [
+    { name: 'root',      type: 'address' },
+    { name: 'action',    type: 'string'  },  // 'create' | 'list' | 'update' | 'revoke'
+    { name: 'keyId',     type: 'string'  },  // '' for create and list
+    { name: 'timestamp', type: 'uint256' },
+    { name: 'nonce',     type: 'bytes32' },
+  ],
+} as const;
+```
+
+Sign against the domain from `GET /v1/api-keys/eip712-domain` rather than hardcoding it — the `verifyingContract` differs per environment.
+
+## Rate Limits
+
+Requests with no credential are metered per IP. Send `x-pendle-auth` and you are metered under your own plan instead — it is attached to your root address, so the same key covers authentication and metering. See [Computing Units](./10.%20computing-units.mdx).
+
+## Troubleshooting
+
+A rejected token returns a bare `401` with no detail. In order of likelihood:
+
+- **`uri` mismatch** — sign the public path, with `/apis`.
+- **`aud` sent as an array** — it must be a plain string.
+- **`exp - nbf > 120`**, or `nbf`/`exp` missing, or `sub` ≠ `kid`.
+- **Key id not `pdk_` + 16 hex** — a stale `bk_` key will not load.
+- **`400 Request expired`** on a management call — `timestamp` is **milliseconds** there, **seconds** in the JWT.
+- **`401 Signature has already been used`** — nonces are single-use and lowercased before comparison.
+
+---
+
 # SDK (TypeScript)
 
 `@pendle/boros-sdk-public` is a TypeScript wrapper around the Boros Open API and Send Txs Bot. It removes the boilerplate of building calldata, EIP-712 signing, and dispatching transactions. If you trade from Node, this is the recommended path.
@@ -9556,13 +9658,19 @@ For other languages — or if you want raw HTTP control — go to [API](./4.%20a
 
 For the agent model the SDK depends on, see [Agent Trading](./2.%20agent.mdx).
 
+| | |
+|---|---|
+| Package | [`@pendle/boros-sdk-public`](https://www.npmjs.com/package/@pendle/boros-sdk-public) on npm |
+| Source | [github.com/pendle-finance/boros-sdk-public](https://github.com/pendle-finance/boros-sdk-public) |
+| Runnable examples | [github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples) |
+
 ## Install
 
 ```bash
 npm install @pendle/boros-sdk-public viem
 ```
 
-`viem` is a peer dependency. The SDK targets `viem@2.x`. The math helpers (`FixedX18`, `estimateTickForRate`, `getRateAtTick`) live in a separate package — install it when you need tick/rate conversion:
+`viem` is a direct dependency pinned to an exact version, not a peer dependency. Install a range that covers the pinned one, or your package manager resolves a second copy and the `WalletClient` you construct stops matching the type the SDK declares. The math helpers (`FixedX18`, `estimateTickForRate`, `getRateAtTick`) live in a separate package — install it when you need tick/rate conversion:
 
 ```bash
 npm install @pendle/boros-offchain-math
@@ -9744,9 +9852,13 @@ await exchange.payTreasury({
 console.log('Gas balance (USD):', await exchange.getGasBalance());
 ```
 
+### Stop orders
+
+`StopOrders` wraps take-profit / stop-loss: `list`, `get`, `prepare`, `place`, `cancel`, where `place()` runs prepare → agent-sign → submit. It needs an [API signing key](./7.%20authentication.mdx) installed via `setOpenApiSigningKey()`, and 0.2.0 or later. See [Stop Orders](./13.%20stop-orders.mdx).
+
 ## Escape hatch — raw open-api access
 
-The wrapped methods cover common trading flows. For everything else (leaderboard, OHLCV, settlement events, indicators, conditional orders), drop down to the codegen client:
+The wrapped methods cover common trading flows. For everything else (leaderboard, OHLCV, settlement events, indicators), drop down to the codegen client:
 
 ```ts
 import { getOpenApiSdk } from '@pendle/boros-sdk-public';
@@ -9795,72 +9907,440 @@ For key concepts and terminology, see the [Glossary](./1.%20glossary.mdx).
 **Example Repository:** [https://github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples)
 
 
-## API Services
+## Authentication
 
-### Open API (Primary)
+Most endpoints on this page are public — market data and calldata generation need
+no credential, and actions that move funds carry their authorization as an EIP-712
+signature in the request body rather than in a header.
 
-The main API for querying data and generating transaction calldata.
+Two cases differ:
 
-**Interactive docs:** [https://api-boros.pendle.finance/apis/docs](https://api-boros.pendle.finance/apis/docs)
+- **[Stop Orders](./13.%20stop-orders.mdx)** require an API signing key, sent as a
+  short-lived JWT in `x-pendle-auth`.
+- **Rate limits** are metered per IP unless you send that same header, in which
+  case you are metered under your own plan.
 
-### Send Txs Bot (Transaction Submission)
-
-Receives signed calldata from agents and broadcasts transactions on-chain. You never call smart contracts directly — the bot submits them on your behalf and charges gas fees from your gas balance.
-
-**Interactive docs:** [https://api-boros.pendle.finance/send-txs-bot/docs](https://api-boros.pendle.finance/send-txs-bot/docs)
-
-
-## Sensitive vs Non-Sensitive Actions
-
-Understanding this distinction is critical for integration:
-
-| Type | Signed by | Submitted via | Examples |
-|------|-----------|---------------|----------|
-| **Sensitive** | Root wallet | Direct to blockchain | Deposit, withdraw, approve/revoke agent |
-| **Non-sensitive** | Agent key | Send Txs Bot | Place orders, cancel orders, cash transfer, enter/exit markets |
-
-Sensitive actions require the root wallet's private key and are submitted as regular Ethereum transactions. Non-sensitive actions are signed by the agent and submitted through the Send Txs Bot service, which handles gas and on-chain submission.
+See [Authentication](./7.%20authentication.mdx) for both.
 
 
-## Error Handling
+## Integration Workflows
 
-The Open API returns errors in a structured format:
+### 1. First-Time Setup
 
-```json
-{
-  "errorCode": "INVALID_MARKET_ID",
-  "message": "Market with ID 999 not found",
-  "data": {}
-}
+Before trading, you need to set up an agent and fund your accounts.
+
+```text
+┌─────────────────────────────────────────────────────┐
+│  1. Generate an agent key pair                      │
+│  2. GET  /calldata/approve-agent → calldata         │
+│  3. Sign & submit approval tx (from root wallet)    │
+│  4. GET  /calldata/deposit → calldata               │
+│  5. Sign & submit deposit tx (from root wallet)     │
+│  6. Top up gas balance for agent tx fees             │
+└─────────────────────────────────────────────────────┘
 ```
 
-The `errorCode` field is a machine-readable string you can use for programmatic error handling. Common error codes include validation errors (invalid parameters), state errors (insufficient margin), and not-found errors.
+**Steps 2-5 are "sensitive" actions** — they require the root wallet signature and are submitted directly to the blockchain, not through the Send Txs Bot. The calldata endpoints return a `to` address (the Router contract) and the encoded calldata to include in your transaction.
 
-The Send Txs Bot service uses the legacy format:
+See [Agent Trading](./2.%20agent.mdx) for the full agent setup guide.
 
-```json
-{
-  "statusCode": 400,
-  "message": "Invalid signature"
-}
+### 2. Placing a Trade (Agent Flow)
+
+Once your agent is approved, this is the typical order placement flow:
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│  1. GET  /markets/{marketId}              → market info      │
+│  2. GET  /simulations/place-order         → preview trade    │
+│  3. POST /calldata/place-orders           → calldata[]       │
+│  4. Sign each calldata with agent key                        │
+│  5. POST /send-txs-bot/v2/agent/bulk-direct-call → tx hash  │
+│  6. Subscribe to WebSocket account channel for fill updates  │
+└──────────────────────────────────────────────────────────────┘
 ```
 
-See [Best Practices](./6.%20best-practices.mdx) for error handling recommendations.
+**Step 2 (simulation) is optional** but recommended — it previews the margin impact, estimated fees, and validates constraints before generating calldata.
+
+**Step 3** returns one calldata per entry in `orderRequests[]`. A bulk request of N orders returns N calldatas; you must sign and submit all of them. The new Open API mount does **not** auto-prepend an exit-market calldata — if you need to enter or exit markets, call `POST /calldata-builder/agent/enter-markets` (or `.../exit-markets`) explicitly. The first time a `(root, accountId)` trades on a given market, you must call `enter-markets` first or the place call will revert.
+
+**Step 5** sends the signed calldata(s) to the Send Txs Bot. `bulk-direct-call` accepts one or more signed calldatas in a single request; use it for any batch. `direct-call` is only kept for the single-calldata case. The response includes a transaction status and hash.
+
+:::tip skipReceipt parameter
+When submitting via the Send Txs Bot, you can set `skipReceipt=true` to get the `txHash` returned immediately without waiting for block inclusion. With `skipReceipt=false` (default), the bot waits for the transaction to be included in a block and returns the full `status` and any `error` message. Use `skipReceipt=true` for lower latency when you can track the transaction status yourself.
+:::
+
+:::info Calldata and requireSuccess
+The calldata endpoints return a **list of calldatas** that execute the intended action. These calldatas should be sent to the `bulk-direct-call` endpoint of the Send Txs Bot.
+
+When submitting via `bulk-direct-call`, use the `requireSuccess` parameter to control atomicity:
+
+- **`requireSuccess=true` (recommended for cancel-and-replace pairs)** — The bot simulates the whole batch first; if any call would revert, the entire batch is aborted **before** any tx is sent on-chain. Use this when later calldatas in the batch only make sense if earlier ones succeeded (e.g., cancel an order, then place its replacement).
+- **`requireSuccess=false`** — Each calldata is executed independently; some may succeed while others fail. Useful for `place-orders` when you want to place multiple orders and don't need them to be atomic (e.g., if one order fails due to insufficient margin, the others can still go through).
+:::
 
 
-## Code Examples
+### 3. Closing a Position
 
-For complete working examples covering the full integration lifecycle, see:
+```text
+┌──────────────────────────────────────────────────────────────┐
+│  1. POST /accounts/market-acc-infos       → current position │
+│  2. GET  /simulations/close-active-position → preview close  │
+│  3. POST /calldata/place-orders           → counter-order    │
+│  4. Sign & submit via Send Txs Bot                           │
+└──────────────────────────────────────────────────────────────┘
+```
 
-**[https://github.com/pendle-finance/boros-api-examples](https://github.com/pendle-finance/boros-api-examples)**
+Closing a position internally creates a counter-order (opposite side, same size). The simulation endpoint handles this logic for you.
 
-Key examples:
-- `01-agent.ts` — Agent setup and approval
-- `02-deposit.ts` to `04-withdraw.ts` — Fund management
-- `05-place-order.ts` to `08-cancel-order.ts` — Order lifecycle
-- `11-bulk-place-orders.ts` — Bulk order placement
-- `12-top-up-gas-account.ts` — Gas management
-- `13-top-up-isolated-account.ts` — Isolated margin funding
+### 4. Withdrawing Funds
+
+Withdrawals follow a **request → cooldown → finalize** pattern:
+
+```text
+┌──────────────────────────────────────────────────────────────┐
+│  1. GET  /calldata/withdraw-request       → request calldata │
+│  2. Sign & submit withdrawal request (root wallet)           │
+│  3. Wait for cooldown period                                 │
+│  4. Finalize withdrawal on MarketHub contract                │
+│                                                              │
+│  To cancel: GET /calldata/withdraw-cancel → cancel calldata  │
+└──────────────────────────────────────────────────────────────┘
+```
+
+Withdrawal requests and cancellations are **sensitive** actions signed by the root wallet.
+
+
+## Endpoint Categories
+
+### Assets
+Query available collateral tokens with metadata and current prices.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /assets/all` | List all supported collateral assets |
+
+### Markets
+Query market configurations, order books, and trade history.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /markets` | List all markets with current state and pricing. Includes `isWhitelisted` field. |
+| `GET /markets/{marketId}` | Get a single market's details |
+| `GET /markets/order-books` | Aggregated order book by tick size. _(Deprecated — use v2)_ |
+| `GET /v2/markets/order-books` | Order book with optional AMM liquidity. Response includes `syncStatus` (`blockNumber` + `timestamp`). |
+| `GET /markets/market-trades` | Recent executed trades |
+| `GET /markets/chart` | OHLCV candlestick data |
+
+### Accounts
+Query and manage user account state.
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /accounts/market-acc-infos` | Positions, margins, balances for market accounts. See [details below](#market-acc-infos). |
+| `GET /accounts/entered-markets` | Markets entered by a cross-margin account |
+| `GET /accounts/active-positions` | All active positions for a user. See [details below](#active-positions). |
+| `GET /accounts/latest-settlements` | Latest settlement per market position. See [details below](#latest-settlements). |
+| `GET /accounts/limit-orders` | Active/inactive limit orders. _(Deprecated — use v2)_ |
+| `GET /accounts/transactions` | Trade history. _(Deprecated — use v2)_ |
+| `GET /accounts/settlements` | Funding rate settlement history |
+| `GET /accounts/transfer-logs` | Deposit/withdrawal transfer logs. _(Deprecated — use v2)_ |
+| `GET /accounts/gas-balance` | Current gas balance |
+| `GET /accounts/gas-consumption-history` | Gas usage history. _(Deprecated — use v2)_ |
+| `GET /accounts/settings` | User account settings |
+| `POST /accounts/settings` | Update settings (agent-signed) |
+
+#### Market Acc Infos
+
+`POST /accounts/market-acc-infos` — Returns detailed account information for one or more market accounts. Accepts an array of up to **100** `marketAccs` in the request body.
+
+**Response fields (per market account):**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `totalCash` | string | Total cash balance (bigint string in settlement token) |
+| `netBalance` | string | Equity = totalCash + sum of all position values |
+| `positions` | array | List of active positions (size, rate, entry block, etc.) |
+| `initialMargin` | string | Raw initial margin (pre-scaling, before the per-account IM Factor is applied) |
+| `initialMarginWithLeverage` | string | Initial margin with the per-account IM Factor applied (the actual collateral consumed) |
+| `availableInitialMargin` | string | Remaining margin available for new positions |
+| `availableMaintMargin` | string | Remaining margin before liquidation (health ratio = 1.0 when zero) |
+
+Response includes `syncStatus` (`blockNumber` + `timestamp`).
+
+:::note Naming legacy
+The field name `initialMarginWithLeverage` predates Boros's UI redesign — the on-chain `IM Factor` (sometimes called `kIM` or `IMRatio`) used to be surfaced to users as "leverage", but the UI no longer exposes a leverage knob. The API field name is unchanged for backwards compatibility; semantically it is just "initial margin after the IM Factor is applied". Traders now see [Rate Sensitivity and Daily Volatility](https://docs.pendle.finance/boros-docs/risk-parameters/margin-and-liquidations/) instead.
+:::
+
+#### Active Positions
+
+`GET /accounts/active-positions` — Returns all active (non-zero size) positions for a user's account. Query params: `userAddress`, `accountId`.
+
+**Response fields (per position):**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `marketId` | number | Market identifier |
+| `marketAcc` | MarketAcc | Packed account position identifier |
+| `isCross` | boolean | Whether the position uses cross-margin mode |
+| `fixedApr` | number | The fixed APR of the position (e.g. `0.05` = 5%) |
+| `signedSize` | string | Bigint string of signed position size (negative = short) |
+| `side` | Side | `0` = Long, `1` = Short |
+| `cumulativePnl` | string | Bigint string of all-time cumulative trade PnL |
+| `isMatured` | boolean | Whether the market has reached its maturity date |
+
+Response includes `syncStatus` (`blockNumber` + `timestamp`).
+
+#### Latest Settlements
+
+`GET /accounts/latest-settlements` — Returns the most recent settlement for each market that a user's account has participated in. Query params: `userAddress`, `accountId`.
+
+**Response fields (per settlement):**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `marketId` | number | Market identifier |
+| `marketAcc` | MarketAcc | Packed account position identifier |
+| `isCross` | boolean | Whether the position uses cross-margin mode |
+| `isMatured` | boolean | Whether the market has reached maturity |
+| `timestamp` | number | Timestamp of the latest settlement |
+| `side` | Side | Position side at time of settlement (`0` = Long, `1` = Short) |
+| `positionSize` | string | Bigint string of position size at settlement |
+| `yieldPaid` | string | Bigint string of yield paid in the latest settlement period |
+| `yieldReceived` | string | Bigint string of yield received in the latest settlement period |
+| `settlement` | string | Net settlement = yieldReceived − yieldPaid |
+| `settlementRate` | number | Annualized settlement rate of the latest period (e.g. `0.05` = 5%) |
+| `cumulativeSettlementPnl` | string | All-time cumulative settlement PnL |
+| `sinceOpenSettlementPnl` | string | Cumulative settlement PnL since position was opened |
+
+Response includes `syncStatus` (`blockNumber` + `timestamp`).
+
+#### V2 Accounts (Cursor-Based Pagination)
+
+The v2 endpoints replace the v1 offset-based pagination (`skip`/`limit`/`total`) with **cursor-based pagination** using a `resumeToken`. This is significantly more efficient for large datasets.
+
+**How it works:**
+1. Make the initial request with `limit` (no `resumeToken`)
+2. The response includes a `resumeToken` string — pass it as a query parameter on the next request to get the next page
+3. When `resumeToken` is `null`, there are no more pages
+
+All v2 responses also include a `syncStatus` field (`blockNumber` + `timestamp`) indicating how up-to-date the backend data is.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v2/accounts/limit-orders` | Limit orders sorted by last updated. Supports `marketId`, `isActive`, `orderType` filters. Max `limit`: 2000. |
+| `GET /v2/accounts/all-limit-orders` | All limit orders sorted by placed order. **Guarantees no missed orders** during pagination — use this for syncing/indexing. |
+| `GET /v2/accounts/transactions` | Trade history with cursor pagination. Supports `fromBlockNumber`, `toBlockNumber`, `isLimitOrderTrade` filters. Max `limit`: 2000. |
+| `GET /v2/accounts/transfer-logs` | Deposit/withdrawal logs with cursor pagination. Max `limit`: 100. |
+| `GET /v2/accounts/gas-consumption-history` | Gas usage history with cursor pagination. Max `limit`: 100. |
+
+:::tip Which limit-orders endpoint to use?
+- **`/v2/accounts/limit-orders`** — sorted by last updated (`eventIndex`). Best for showing recent activity in a UI. Note: orders updated during pagination may shift position, so you might miss or duplicate some entries.
+- **`/v2/accounts/all-limit-orders`** — sorted by immutable placed timestamp (`placedEventIndex`). Guarantees stable pagination — **use this for syncing all orders**.
+:::
+
+**New response fields on limit orders:**
+- `placedTxHash` — the transaction hash where the order was originally placed
+
+### Calldata Generation
+Generate transaction calldata for on-chain operations.
+
+**Sensitive (root-signed, direct to chain):**
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /calldata/deposit` | Deposit collateral to margin account |
+| `GET /calldata/withdraw-request` | Request withdrawal |
+| `GET /calldata/withdraw-cancel` | Cancel pending withdrawal |
+| `GET /calldata/approve-agent` | Approve an agent |
+| `GET /calldata/revoke-agent` | Revoke an agent |
+| `GET /calldata/vault-pay-treasury` | Pay treasury from vault |
+
+**Non-sensitive (agent-signed, via Send Txs Bot):**
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /calldata/place-orders` | Place one or more limit orders |
+| `POST /calldata/place-orders-with-rate` | Place orders with an explicit desired rate (instead of slippage) |
+| `GET /calldata/cancel-order` | Cancel orders |
+| `GET /calldata/cash-transfer` | Transfer between cross and isolated accounts |
+| `POST /calldata-builder/agent/enter-markets` | Enter one or more markets (call this before the first trade on a `(root, accountId, marketId)`). Body: `{ accountId, marketIds: number[] }`. |
+| `POST /calldata-builder/agent/exit-markets` | Exit one or more markets to free entered-market slots. Body: `{ accountId, marketIds: number[] }`. Requires zero position size, no open orders, no pending settlements. |
+| `GET /calldata/enter-exit-markets` | _(Legacy combined endpoint. Still served. Prefer the split endpoints above.)_ |
+| `GET /calldata/pay-treasury` | Pay accrued treasury fees |
+| `GET /calldata/add-liquidity-single-cash-to-amm` | Add AMM liquidity |
+| `GET /calldata/remove-liquidity-single-cash-from-amm` | Remove AMM liquidity |
+
+### Simulations
+Preview operations before executing them. All simulation endpoints return the projected account state after the operation.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /simulations/deposit` | Preview deposit effect on account |
+| `GET /simulations/withdraw` | Preview withdrawal effect on account |
+| `GET /simulations/cash-transfer` | Preview cross ↔ isolated transfer |
+| `GET /simulations/place-order` | Preview order placement with fees |
+| `GET /simulations/close-active-position` | Preview closing a position |
+| `GET /simulations/add-liquidity-single-cash` | Preview adding AMM liquidity |
+| `GET /simulations/remove-liquidity-single-cash` | Preview removing AMM liquidity |
+
+### Funding Rate
+Access funding rate data and settlement history.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /funding-rate/all-funding-rate-symbols` | Available funding rate symbols |
+| `POST /funding-rate/settlement-summary` | Historical settlement summaries |
+
+### Indicators
+Time-series market data — underlying APR, future premium, fear & greed index, asset price, and UFR moving averages. See [Indicators](./9.%20indicators.mdx) for the indicator letter codes and CSV export semantics.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v1/indicators` | Fetch one or more indicators by letter code (`u`, `fp`, `fgi`, `ap`, `udma:<periods>`). 1 CU per indicator. |
+| `GET /v1/indicators/export` | Export OHLCV + selected indicators as CSV (rate-limited 3 req/min/IP, 20 CU). |
+
+### Incentives
+Maker rewards and AMM rewards. See [Incentives](/boros-dev/Mechanics/Incentives) for the underlying mechanics.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v1/incentives/maker-incentives/campaigns/{marketId}` | PENDLE maker-incentive campaign for a market (add-liquidity + filled-volume). |
+| `GET /v1/incentives/amm-incentives` | Per-user AMM rewards (swap fees + Pendle incentives) — accrued, unclaimed, and per-market breakdown. |
+
+### Market Account Helpers
+Pack / unpack the `marketAcc` identifier without using the SDK.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /v1/market-acc/encode` | Pack `(root, accountId, tokenId, marketId)` into the 26-byte / 54-char hex `marketAcc`. |
+| `GET /v1/market-acc/decode` | Unpack a `marketAcc` into `{ root, accountId, tokenId, marketId, isCross }`. |
+
+### Agents
+Manage agent authorization.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /agents/expiry-time` | Check agent expiry time |
+
+### Events
+Query protocol events.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /events/liquidation-events` | Liquidation event history |
+
+### Charts
+Charting data for trading UIs.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /charts/ohlcv` | OHLCV candlestick data |
+
+### Leaderboard
+Query trading leaderboard data.
+
+| Endpoint | Description |
+|----------|-------------|
+| `GET /leaderboard` | Trading leaderboard with rankings |
+| `GET /leaderboard/search` | Search for a specific user on the leaderboard |
+
+### Transaction Status (Send Txs Bot)
+Query transaction status with detailed on-chain event data.
+
+| Endpoint | Description |
+|----------|-------------|
+| `POST /send-txs-bot/v2/agent/dedicated/tx-status` | Transaction status with block info |
+| `POST /send-txs-bot/v2/agent/dedicated/tx-status-with-events` | Transaction status with parsed limit order events (placed, cancelled, market order executed). Each status item includes `limitOrdersPlaced` (orderIds + sizes), `limitOrdersCancelled` (orderIds), and `marketOrdersExecuted` (orderId, side, size). |
+| `POST /send-txs-bot/v1/agent/dedicated/trace` | Trace a submitted request by `agent` address + calldata `nonce` to check whether the Send Txs Bot received it. Useful for resolving ambiguity after network errors/timeouts. Records are retained for **24 hours**. See [Recovering from Network Errors](./6.%20best-practices.mdx#recovering-from-network-errors-trace--nonce) for the recommended retry pattern. |
+
+:::tip Nonce safety guarantee
+The Send Txs Bot rejects any calldata signed with a `nonce` ≤ your largest previously-seen nonce, **including** nonces from calldata that failed simulation. This makes it safe to retry: a successful original submission will cause the retry to be rejected, so you cannot accidentally double-submit by retrying.
+:::
+
+
+## Rate Limiting
+
+Boros uses a **Computing Unit (CU)** based rate-limit system — every endpoint advertises a per-call cost, and per-IP budgets apply. See [Computing Units](./10.%20computing-units.mdx) for budgets, per-endpoint costs, headers, and API-key tiers.
+
+
+---
+
+# Stop Orders
+
+Take-profit and stop-loss orders. A stop order rests off-chain until the market APR crosses your trigger, then a permissioned validator executes it against your position.
+
+These are the only endpoints requiring an [API signing key](./7.%20authentication.mdx). Reads need the key alone; place and cancel also carry an agent signature, so a leaked key cannot move your position.
+
+For request/response schemas, see the [interactive Open API docs](https://api-boros.pendle.finance/apis/docs). Working example: [`14-stop-order.ts`](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/14-stop-order.ts).
+
+## Endpoints
+
+| Method | Path | Also needs | CU |
+|---|---|---|---|
+| `GET` | [`/v1/stop-orders`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/get/v1/stop-orders) | — | `1 + ceil(limit/200) - 1` |
+| `GET` | [`/v1/stop-orders/detail`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/get/v1/stop-orders/detail) | — | 1 |
+| `GET` | [`/v1/stop-orders/prepare`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/get/v1/stop-orders/prepare) | — | 1 |
+| `POST` | [`/v1/stop-orders/place`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/post/v1/stop-orders/place) | agent signature | 5 |
+| `POST` | [`/v1/stop-orders/cancel`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/post/v1/stop-orders/cancel) | agent signature | 5 |
+
+:::note Sub-accounts are not addressable here
+Every route acts on the API key's root at sub-account **`0`**, and only that one. A position held on another sub-account cannot be protected by a stop order.
+:::
+
+## Placing an Order
+
+Three steps, all of which `StopOrders.place()` does for you:
+
+1. **`GET /v1/stop-orders/prepare`** returns the order struct and trigger condition to sign.
+2. **Sign it with your agent** — `signStopOrderRequest()` in the SDK.
+3. **`POST /v1/stop-orders/place`** with the signature. Echo `prepare`'s `req` back unchanged, minus `account` and `hashedOffchainCondition`; the server derives both, and any other edit invalidates your signature.
+
+Returns `orderHash`, which is the `orderId` everywhere else.
+
+```ts
+import {
+  ApiSigningKey, setInternalAgent, setOpenApiSigningKey,
+  Side, StopAprOrderType, StopOrders,
+} from '@pendle/boros-sdk-public';
+
+setOpenApiSigningKey(new ApiSigningKey({ keyId, privateKey }));
+setInternalAgent(agent);                      // writes need an approved agent
+
+const stopOrders = new StopOrders();          // no accountId — it comes from the key
+
+const orderId = await stopOrders.place({
+  marketId: 180,
+  isCross: true,                              // where the position sits
+  side: Side.SHORT,                           // the side that CLOSES it
+  type: StopAprOrderType.STOP_LOSS_MARKET,
+  stopApr: 0.01,                              // decimal, 0.085 = 8.5%
+  closePosition: true,                        // or set `size` (1e18-scaled) instead
+});
+
+const live = await stopOrders.list({ isActive: true });
+await stopOrders.cancel([orderId]);
+```
+
+Requires `@pendle/boros-sdk-public` **0.2.0** or later.
+
+## Reading and Cancelling
+
+`GET /v1/stop-orders` is cursor-paginated, newest first — filter with `marketId`, `tokenId` or `isActive`, and pass the previous `resumeToken` for the next page. `GET /v1/stop-orders/detail` takes `orderId` as a **query** parameter; an id belonging to another root reads as `404`.
+
+`POST /v1/stop-orders/cancel` takes up to **50** ids and is all-or-nothing: the request fails if any id is unknown, already finalised, or another account's.
+
+## Reference
+
+**`orderType`** — `2` take-profit market, `3` stop-loss market.
+
+**`status`** — `0` Filling, `1` Cancelled, `2` FullyFilled, `3` Expired, `4` Purged, `5` Pending, `6` Executing, `7` Retrying, `8` Failed. Not contiguous with the limit-order status enum.
+
+## Tips
+
+- `isCross` must match where the position actually sits. Get it wrong and the order is armed on an empty account — nothing errors, the trigger simply never fires.
+- `400 Invalid agent` usually means the approval **expired**; they last a week.
+- The number of live stop orders is capped by position value, so `400 Stop order limit exceeded` means free a slot or increase the position.
+- The contracts call these **conditional orders** — same thing under a more general name. See [Conditional Orders](../Contracts/Router.mdx#conditional-orders) for the on-chain struct.
 
 ---
 
@@ -10801,31 +11281,35 @@ A few endpoints have additional per-IP throttles on top of the CU budget:
 
 ## Higher Rate Limits via API Key
 
-If your integration needs more than the per-IP free-tier limits, paid plans are available through the **[Boros API Dashboard](https://api-boros.pendle.finance/dashboard)**.
+Requests that carry no credential are metered **per IP**, against the shared
+anonymous budget. To be metered under your own plan instead, identify yourself
+with an API signing key.
 
-### Getting an API key
+### Getting a key
 
 1. Go to [https://api-boros.pendle.finance/dashboard](https://api-boros.pendle.finance/dashboard)
 2. Connect your wallet and sign the verification message to log in
-3. Choose a plan and create a new API key
+3. Choose a plan, then create an API signing key on the `/api-keys` page
 
-Save the generated key securely — you'll need it to authenticate your requests.
+Keys can also be minted from a script — see [Authentication](./7.%20authentication.mdx).
+The private key is shown **once**; store it before closing the dialog.
 
-### Using your API key
+### Using your key
 
-Include your key as a Bearer token in the `Authorization` header on every request:
+Sign a short-lived JWT with the key and send it as `x-pendle-auth` on every
+request. The gateway resolves your root wallet from it and meters you at your
+plan's limits.
 
-```
-Authorization: Bearer <API_KEY>
-```
-
-**Example:**
 ```bash
-curl -i -H "Authorization: Bearer your_api_key_here" \
+curl -i -H "x-pendle-auth: $TOKEN" \
   https://api-boros.pendle.finance/apis/v1/markets
 ```
 
-Authenticated requests are billed against your plan's higher limits instead of the per-IP free-tier budget.
+Your plan is attached to your **root wallet address**, so one key is enough for
+both purposes: it authenticates you on the endpoints that require it, and it
+identifies you for metering on all the others. See
+[Authentication](./7.%20authentication.mdx) for the JWT claims and a minting
+helper.
 
 ## Where CU is Reported
 
