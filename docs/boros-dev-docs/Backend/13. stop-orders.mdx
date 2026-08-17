@@ -8,13 +8,13 @@ For request/response schemas, see the [interactive Open API docs](https://api-bo
 
 ## Endpoints
 
-| Method | Path | Also needs | CU | Throttle |
-|---|---|---|---|---|
-| `GET` | `/v1/stop-orders` | — | `1 + ceil(limit/200) - 1` | 60/min |
-| `GET` | `/v1/stop-orders/detail` | — | 1 | 60/min |
-| `GET` | `/v1/stop-orders/prepare` | — | 1 | 60/min |
-| `POST` | `/v1/stop-orders/place` | agent signature | 5 | 20/min |
-| `POST` | `/v1/stop-orders/cancel` | agent signature | 5 | 20/min |
+| Method | Path | Also needs | CU |
+|---|---|---|---|
+| `GET` | `/v1/stop-orders` | — | `1 + ceil(limit/200) - 1` |
+| `GET` | `/v1/stop-orders/detail` | — | 1 |
+| `GET` | `/v1/stop-orders/prepare` | — | 1 |
+| `POST` | `/v1/stop-orders/place` | agent signature | 5 |
+| `POST` | `/v1/stop-orders/cancel` | agent signature | 5 |
 
 :::note Sub-accounts are not addressable here
 Every route acts on the API key's root at sub-account **`0`**, and only that one. A position held on another sub-account cannot be protected by a stop order.
