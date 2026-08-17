@@ -24,12 +24,9 @@ All paths below are relative to `https://api-boros.pendle.finance/apis`.
 | `POST` | `/v1/stop-orders/place` | signing key **+ agent signature** | 5 | 20/min |
 | `POST` | `/v1/stop-orders/cancel` | signing key **+ agent signature** | 5 | 20/min |
 
-:::note The account is derived, never sent
-Every route packs the account from the API key's root plus sub-account `0`. You
-never send `account`, `accountId` or `root` — a supplied value is ignored, and the
-server re-derives the order hash over the derived account, so a payload signed for
-someone else's account fails the hash check. Sub-accounts are not addressable
-here.
+:::note Sub-accounts are not addressable here
+Every route acts on the API key's root at sub-account **`0`**, and only that one.
+A position held on another sub-account cannot be protected by a stop order.
 :::
 
 ---
@@ -54,8 +51,7 @@ GET /v1/stop-orders/prepare
 | `size` | string | Notional to close, scaled by 1e18. Required by the schema even when `closePosition` is set — pass `"0"` |
 | `stopApr` | number | APR that arms the trigger, as a decimal (`0.085` = 8.5%) |
 
-Returns `{ req, offchainCondition }`. `req.account` is derived from your key — it
-is not something you choose.
+Returns `{ req, offchainCondition }`.
 
 :::warning `isCross` must match reality
 If the position is isolated and you prepare with `isCross: true`, the order is

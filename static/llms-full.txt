@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-08-16
+> Generated: 2026-08-17
 
 ---
 
@@ -10446,8 +10446,7 @@ GET /v1/stop-orders/prepare
 | `size` | string | Notional to close, scaled by 1e18. Required by the schema even when `closePosition` is set — pass `"0"` |
 | `stopApr` | number | APR that arms the trigger, as a decimal (`0.085` = 8.5%) |
 
-Returns `{ req, offchainCondition }`. `req.account` is derived from your key — it
-is not something you choose.
+Returns `{ req, offchainCondition }`.
 
 :::warning `isCross` must match reality
 If the position is isolated and you prepare with `isCross: true`, the order is
