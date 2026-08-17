@@ -9611,11 +9611,11 @@ Query strings are excluded from the claim, so one token covers every query on th
 
 | Method | Path | Notes |
 |---|---|---|
-| `POST` | `/v1/api-keys` | Returns the PEM once |
-| `GET` | `/v1/api-keys` | Never returns secrets; also accepts the dashboard session |
-| `POST` | `/v1/api-keys/update` | Patch semantics; never touches key material |
-| `POST` | `/v1/api-keys/revoke` | Frees the name and the slot |
-| `GET` | `/v1/api-keys/eip712-domain` | Public |
+| `POST` | [`/v1/api-keys`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/post/v1/api-keys) | Returns the PEM once |
+| `GET` | [`/v1/api-keys`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/get/v1/api-keys) | Never returns secrets; also accepts the dashboard session |
+| `POST` | [`/v1/api-keys/update`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/post/v1/api-keys/update) | Patch semantics; never touches key material |
+| `POST` | [`/v1/api-keys/revoke`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/post/v1/api-keys/revoke) | Frees the name and the slot |
+| `GET` | [`/v1/api-keys/eip712-domain`](https://api-boros.pendle.finance/apis/docs#tag/api-keys/get/v1/api-keys/eip712-domain) | Public |
 
 Each mutation carries an EIP-712 `ApiKeyAction` signed by the root wallet, alongside `root`, `timestamp` (unix **milliseconds**, ±5 min) and a single-use 32-byte `nonce`:
 
@@ -10277,11 +10277,11 @@ For request/response schemas, see the [interactive Open API docs](https://api-bo
 
 | Method | Path | Also needs | CU |
 |---|---|---|---|
-| `GET` | `/v1/stop-orders` | — | `1 + ceil(limit/200) - 1` |
-| `GET` | `/v1/stop-orders/detail` | — | 1 |
-| `GET` | `/v1/stop-orders/prepare` | — | 1 |
-| `POST` | `/v1/stop-orders/place` | agent signature | 5 |
-| `POST` | `/v1/stop-orders/cancel` | agent signature | 5 |
+| `GET` | [`/v1/stop-orders`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/get/v1/stop-orders) | — | `1 + ceil(limit/200) - 1` |
+| `GET` | [`/v1/stop-orders/detail`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/get/v1/stop-orders/detail) | — | 1 |
+| `GET` | [`/v1/stop-orders/prepare`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/get/v1/stop-orders/prepare) | — | 1 |
+| `POST` | [`/v1/stop-orders/place`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/post/v1/stop-orders/place) | agent signature | 5 |
+| `POST` | [`/v1/stop-orders/cancel`](https://api-boros.pendle.finance/apis/docs#tag/stop-orders/post/v1/stop-orders/cancel) | agent signature | 5 |
 
 :::note Sub-accounts are not addressable here
 Every route acts on the API key's root at sub-account **`0`**, and only that one. A position held on another sub-account cannot be protected by a stop order.
