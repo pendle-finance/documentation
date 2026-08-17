@@ -202,40 +202,7 @@ console.log('Gas balance (USD):', await exchange.getGasBalance());
 
 ### Stop orders
 
-Take-profit / stop-loss orders live behind a second credential — an [API signing key](./7.%20authentication.mdx). Install it once and the SDK signs every open-api request for you:
-
-```ts
-import {
-  ApiSigningKey, setOpenApiSigningKey, setInternalAgent,
-  Side, StopAprOrderType, StopOrders,
-} from '@pendle/boros-sdk-public';
-
-setOpenApiSigningKey(new ApiSigningKey({
-  keyId: process.env.BOROS_API_KEY_ID!,       // pdk_…
-  privateKey: process.env.BOROS_API_KEY_PEM!, // PKCS#8 PEM, shown once at creation
-}));
-
-const stopOrders = new StopOrders();          // no accountId — it comes from the key
-
-// Reads need only the signing key.
-const live = await stopOrders.list({ isActive: true });
-
-// Writes also need an approved agent.
-setInternalAgent(agent);
-
-const orderId = await stopOrders.place({      // prepare → agent-sign → submit
-  marketId: market.marketId,
-  isCross: true,
-  side: Side.SHORT,
-  type: StopAprOrderType.STOP_LOSS_MARKET,
-  stopApr: 0.12,
-  closePosition: true,
-});
-
-await stopOrders.cancel([orderId]);
-```
-
-Requires **0.2.0** or later. `setOpenApiSigningKey()` covers the data endpoints but **not** the `/v1/api-keys` tree, which takes an EIP-712 root signature instead. Full endpoint reference: [Stop Orders](./13.%20stop-orders.mdx).
+`StopOrders` wraps take-profit / stop-loss: `list`, `get`, `prepare`, `place`, `cancel`, where `place()` runs prepare → agent-sign → submit. It needs an [API signing key](./7.%20authentication.mdx) installed via `setOpenApiSigningKey()`, and 0.2.0 or later. See [Stop Orders](./13.%20stop-orders.mdx).
 
 ## Escape hatch — raw open-api access
 

@@ -9553,215 +9553,100 @@ Use the Boros web interface for a simple deposit flow. You can go to https://bor
 
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-
 # Authentication
 
-Boros uses three separate credentials. They are not interchangeable, and two of
-them are `pdk_`-prefixed, so start here before wiring anything up.
+Boros uses three credentials. They are not interchangeable.
 
-| Credential | Carried in | Answers | Needed for |
+| Credential | Sent as | Proves | Needed for |
 |---|---|---|---|
-| **Root wallet** | an EIP-712 signature in the request body | *Do you own this account?* | Deposits, withdrawals, approving an agent, managing API signing keys |
-| **Agent key** | an EIP-712 signature in the request body | *May this action move funds?* | Placing and cancelling orders |
-| **API signing key** | `x-pendle-auth: <JWT>` | *Which root is calling?* | Stop orders; identifies you for rate limiting on every other endpoint |
+| **Root wallet** | EIP-712 signature in the body | You own the account | Deposits, withdrawals, approving an agent, managing API keys |
+| **Agent key** | EIP-712 signature in the body | The action may move funds | Placing and cancelling orders |
+| **API signing key** | `x-pendle-auth` JWT | Which root is calling | [Stop Orders](./13.%20stop-orders.mdx); identifies you for rate limits everywhere else |
 
-The root wallet and agent are covered in [Agent Trading](./2.%20agent.mdx). This
-page is about the third one.
+The first two are covered in [Agent Trading](./2.%20agent.mdx). This page is about the third.
 
+## API Signing Keys
 
-## Signing a request
+An Ed25519 keypair. We store the public half; you sign a short-lived JWT with the private half on every request, so no static token travels on the wire.
 
-Every authenticated call carries a self-signed JWT in `x-pendle-auth`.
+The key proves a **root** and nothing more — it cannot place or cancel an order without an agent signature.
 
-:::warning Your token expires after at most 120 seconds
-`exp − nbf` may not exceed 120 seconds, and there is no refresh. Mint a fresh
-token per request — do not cache one and reuse it. The SDK does this for you.
-:::
+**Get one** from the [Boros API Dashboard](https://api-boros.pendle.finance/dashboard), or via `POST /v1/api-keys` if you'd rather script it. The private key is a PKCS#8 PEM shown **once**. Max 6 live keys per root; there is no rotate, so replace a key by creating the new one before revoking the old.
 
-**Header**
+## Signing a Request
 
-| Field | Value |
-|---|---|
-| `alg` | `EdDSA` — pinned; anything else is rejected before your key is even loaded |
-| `typ` | `JWT` |
-| `kid` | your key id, matching `^pdk_[0-9a-f]{16}$` |
-
-**Claims**
-
-| Claim | Value |
-|---|---|
-| `iss` | `pendle` |
-| `aud` | `pendle-open-api` — **a plain string**, never the RFC 7519 array form |
-| `sub` | your key id; must equal `kid` |
-| `jti` | fresh random hex per request |
-| `nbf` | now, unix **seconds** |
-| `exp` | `nbf + lifetime`, where `1 ≤ exp − nbf ≤ 120` |
-| `uri` | `"<METHOD> <path>"`, e.g. `"GET /apis/v1/stop-orders"` |
-
-Five seconds of clock tolerance are allowed on both bounds.
-
-:::warning Sign the public path
-`uri` must carry the path **as you call it, `/apis` prefix included** — not the
-internal `/v1/...` or `/open-api-v2/...` form. This is the single most common
-cause of an unexplained `401`.
-
-Query strings are **not** part of the claim, so one token covers every query on a
-given path for its lifetime. That is why `GET /v1/stop-orders/detail` takes
-`orderId` as a query parameter rather than a path segment.
-:::
-
-<Tabs groupId="lang">
-<TabItem value="ts" label="TypeScript">
-
-```ts
-import { createPrivateKey, randomBytes, sign } from 'crypto';
-
-const b64 = (value: object) => Buffer.from(JSON.stringify(value)).toString('base64url');
-
-function mintToken(keyId: string, pem: string, method: string, path: string, lifetime = 60) {
-  const now = Math.floor(Date.now() / 1000);
-  const header = b64({ alg: 'EdDSA', typ: 'JWT', kid: keyId });
-  const payload = b64({
-    sub: keyId,
-    iss: 'pendle',
-    aud: 'pendle-open-api',
-    jti: randomBytes(16).toString('hex'),
-    uri: `${method.toUpperCase()} ${path}`,   // e.g. 'GET /apis/v1/stop-orders'
-    iat: now,
-    nbf: now,
-    exp: now + lifetime,
-  });
-  const signature = sign(null, Buffer.from(`${header}.${payload}`), createPrivateKey(pem));
-  return `${header}.${payload}.${signature.toString('base64url')}`;
-}
-```
-
-</TabItem>
-<TabItem value="py" label="Python">
-
-```python
-# pip install cryptography
-import base64, json, os, time
-from cryptography.hazmat.primitives.serialization import load_pem_private_key
-
-def _b64(raw: bytes) -> str:
-    return base64.urlsafe_b64encode(raw).rstrip(b"=").decode()
-
-def mint_token(key_id: str, pem: str, method: str, path: str, lifetime: int = 60) -> str:
-    key = load_pem_private_key(pem.encode(), password=None)
-    now = int(time.time())
-
-    header = _b64(json.dumps({"alg": "EdDSA", "typ": "JWT", "kid": key_id}).encode())
-    payload = _b64(json.dumps({
-        "sub": key_id,
-        "iss": "pendle",
-        "aud": "pendle-open-api",
-        "jti": os.urandom(16).hex(),
-        "uri": f"{method.upper()} {path}",   # e.g. 'GET /apis/v1/stop-orders'
-        "iat": now,
-        "nbf": now,
-        "exp": now + lifetime,
-    }).encode())
-
-    signing_input = f"{header}.{payload}".encode()
-    return f"{header}.{payload}.{_b64(key.sign(signing_input))}"
-```
-
-</TabItem>
-<TabItem value="go" label="Go">
-
-```go
-import (
-    "crypto/ed25519"
-    "crypto/rand"
-    "crypto/x509"
-    "encoding/base64"
-    "encoding/hex"
-    "encoding/json"
-    "encoding/pem"
-    "fmt"
-    "strings"
-    "time"
-)
-
-func b64(raw []byte) string { return base64.RawURLEncoding.EncodeToString(raw) }
-
-func MintToken(keyID, pemStr, method, path string, lifetime int64) (string, error) {
-    block, _ := pem.Decode([]byte(pemStr))
-    parsed, err := x509.ParsePKCS8PrivateKey(block.Bytes)
-    if err != nil {
-        return "", err
-    }
-    key := parsed.(ed25519.PrivateKey)
-
-    now := time.Now().Unix()
-    jti := make([]byte, 16)
-    rand.Read(jti)
-
-    header, _ := json.Marshal(map[string]string{"alg": "EdDSA", "typ": "JWT", "kid": keyID})
-    payload, _ := json.Marshal(map[string]any{
-        "sub": keyID,
-        "iss": "pendle",
-        "aud": "pendle-open-api",
-        "jti": hex.EncodeToString(jti),
-        "uri": fmt.Sprintf("%s %s", strings.ToUpper(method), path),
-        "iat": now,
-        "nbf": now,
-        "exp": now + lifetime,
-    })
-
-    signingInput := b64(header) + "." + b64(payload)
-    return signingInput + "." + b64(ed25519.Sign(key, []byte(signingInput))), nil
-}
-```
-
-</TabItem>
-</Tabs>
-
-```bash
-curl -H "x-pendle-auth: $TOKEN" \
-  'https://api-boros.pendle.finance/apis/v1/stop-orders?isActive=true'
-```
-
-### With the SDK
-
-The TypeScript SDK mints the token for you — install the key once and every
-open-api call is signed:
+The SDK handles this — install the key once and every call is signed:
 
 ```ts
 import { ApiSigningKey, setOpenApiSigningKey } from '@pendle/boros-sdk-public';
 
-setOpenApiSigningKey(
-  new ApiSigningKey({
-    keyId: process.env.BOROS_API_KEY_ID!,       // pdk_…
-    privateKey: process.env.BOROS_API_KEY_PEM!, // the PKCS#8 PEM
-  }),
-);
+setOpenApiSigningKey(new ApiSigningKey({
+  keyId: process.env.BOROS_API_KEY_ID!,       // pdk_…
+  privateKey: process.env.BOROS_API_KEY_PEM!,
+}));
 ```
 
-This covers the data endpoints. It does **not** cover `/v1/api-keys`, which takes
-the EIP-712 root signature described above instead.
+This covers the data endpoints, **not** `/v1/api-keys` — that tree takes a root signature instead.
 
+To sign by hand, build a JWT with `alg: EdDSA`, `typ: JWT` and `kid: <your key id>` in the header, and these claims:
 
-## Failure modes
-
-A rejected token is never reported by the gateway — it simply forwards nothing and
-open-api answers `401` with no detail. Check these first, in order:
-
-| Symptom | Cause |
+| Claim | Value |
 |---|---|
-| `401` on every call | `uri` does not match. Sign the public path, **with** `/apis`. |
-| `401` on every call | `aud` emitted as an array. It must be a plain string. |
-| `401` on every call | `exp − nbf > 120`, or `nbf`/`exp` missing, or `sub ≠ kid`. |
-| `401` on every call | Key revoked or expired. |
-| Local error before any request | Key id is not `pdk_` + 16 hex — a stale `bk_` key will not load. |
-| `400 Request expired` on a management call | `timestamp` sent in seconds. It is **milliseconds** here, and **seconds** in the JWT. |
-| `401 Signature has already been used` | Nonce reused, or re-cased. Generate a fresh lowercase 32-byte nonce per call. |
-| `422` on create | Six live keys already, or the name is taken. |
-| `429` | No credential sent, so you are metered per IP. |
+| `iss` | `pendle` |
+| `aud` | `pendle-open-api` — a plain string, never an array |
+| `sub` | your key id, same as `kid` |
+| `jti` | fresh random hex per request |
+| `nbf` / `exp` | unix **seconds**; `exp - nbf` must be **1–120** |
+| `uri` | `"<METHOD> <path>"`, e.g. `"GET /apis/v1/stop-orders"` |
 
+Working implementation: [`14-stop-order.ts`](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/14-stop-order.ts).
+
+:::warning Sign the public path
+`uri` must carry the path as you call it, **`/apis` prefix included** — not `/v1/...`. This is the most common cause of an unexplained `401`.
+
+Query strings are excluded from the claim, so one token covers every query on that path.
+:::
+
+## Managing Keys
+
+| Method | Path | Notes |
+|---|---|---|
+| `POST` | `/v1/api-keys` | Returns the PEM once |
+| `GET` | `/v1/api-keys` | Never returns secrets; also accepts the dashboard session |
+| `POST` | `/v1/api-keys/update` | Patch semantics; never touches key material |
+| `POST` | `/v1/api-keys/revoke` | Frees the name and the slot |
+| `GET` | `/v1/api-keys/eip712-domain` | Public |
+
+Each mutation carries an EIP-712 `ApiKeyAction` signed by the root wallet, alongside `root`, `timestamp` (unix **milliseconds**, ±5 min) and a single-use 32-byte `nonce`:
+
+```ts
+const API_KEY_ACTION_TYPES = {
+  ApiKeyAction: [
+    { name: 'root',      type: 'address' },
+    { name: 'action',    type: 'string'  },  // 'create' | 'list' | 'update' | 'revoke'
+    { name: 'keyId',     type: 'string'  },  // '' for create and list
+    { name: 'timestamp', type: 'uint256' },
+    { name: 'nonce',     type: 'bytes32' },
+  ],
+} as const;
+```
+
+Sign against the domain from `GET /v1/api-keys/eip712-domain` rather than hardcoding it — the `verifyingContract` differs per environment.
+
+## Rate Limits
+
+Requests with no credential are metered per IP. Send `x-pendle-auth` and you are metered under your own plan instead — it is attached to your root address, so the same key covers authentication and metering. See [Computing Units](./10.%20computing-units.mdx).
+
+## Troubleshooting
+
+A rejected token returns a bare `401` with no detail. In order of likelihood:
+
+- **`uri` mismatch** — sign the public path, with `/apis`.
+- **`aud` sent as an array** — it must be a plain string.
+- **`exp - nbf > 120`**, or `nbf`/`exp` missing, or `sub` ≠ `kid`.
+- **Key id not `pdk_` + 16 hex** — a stale `bk_` key will not load.
+- **`400 Request expired`** on a management call — `timestamp` is **milliseconds** there, **seconds** in the JWT.
+- **`401 Signature has already been used`** — nonces are single-use and lowercased before comparison.
 
 ---
 
@@ -9969,40 +9854,7 @@ console.log('Gas balance (USD):', await exchange.getGasBalance());
 
 ### Stop orders
 
-Take-profit / stop-loss orders live behind a second credential — an [API signing key](./7.%20authentication.mdx). Install it once and the SDK signs every open-api request for you:
-
-```ts
-import {
-  ApiSigningKey, setOpenApiSigningKey, setInternalAgent,
-  Side, StopAprOrderType, StopOrders,
-} from '@pendle/boros-sdk-public';
-
-setOpenApiSigningKey(new ApiSigningKey({
-  keyId: process.env.BOROS_API_KEY_ID!,       // pdk_…
-  privateKey: process.env.BOROS_API_KEY_PEM!, // PKCS#8 PEM, shown once at creation
-}));
-
-const stopOrders = new StopOrders();          // no accountId — it comes from the key
-
-// Reads need only the signing key.
-const live = await stopOrders.list({ isActive: true });
-
-// Writes also need an approved agent.
-setInternalAgent(agent);
-
-const orderId = await stopOrders.place({      // prepare → agent-sign → submit
-  marketId: market.marketId,
-  isCross: true,
-  side: Side.SHORT,
-  type: StopAprOrderType.STOP_LOSS_MARKET,
-  stopApr: 0.12,
-  closePosition: true,
-});
-
-await stopOrders.cancel([orderId]);
-```
-
-Requires **0.2.0** or later. `setOpenApiSigningKey()` covers the data endpoints but **not** the `/v1/api-keys` tree, which takes an EIP-712 root signature instead. Full endpoint reference: [Stop Orders](./13.%20stop-orders.mdx).
+`StopOrders` wraps take-profit / stop-loss: `list`, `get`, `prepare`, `place`, `cancel`, where `place()` runs prepare → agent-sign → submit. It needs an [API signing key](./7.%20authentication.mdx) installed via `setOpenApiSigningKey()`, and 0.2.0 or later. See [Stop Orders](./13.%20stop-orders.mdx).
 
 ## Escape hatch — raw open-api access
 
@@ -10415,141 +10267,80 @@ Boros uses a **Computing Unit (CU)** based rate-limit system — every endpoint 
 
 # Stop Orders
 
-Take-profit and stop-loss orders on Boros. A stop order sits off-chain until the
-market APR crosses your trigger, then a permissioned validator executes it
-on-chain against your position.
+Take-profit and stop-loss orders. A stop order rests off-chain until the market APR crosses your trigger, then a permissioned validator executes it against your position.
 
-These are the only endpoints that require an [API signing
-key](./7.%20authentication.mdx). Reads need the key alone; placing and cancelling
-also carry an agent signature, so a leaked key cannot move your position.
+These are the only endpoints requiring an [API signing key](./7.%20authentication.mdx). Reads need the key alone; place and cancel also carry an agent signature, so a leaked key cannot move your position.
 
-**Example:** [`14-stop-order.ts`](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/14-stop-order.ts)
+For request/response schemas, see the [interactive Open API docs](https://api-boros.pendle.finance/apis/docs). Working example: [`14-stop-order.ts`](https://github.com/pendle-finance/boros-api-examples/blob/main/examples/14-stop-order.ts).
 
+## Endpoints
 
-## Placing a stop order
+| Method | Path | Also needs | CU | Throttle |
+|---|---|---|---|---|
+| `GET` | `/v1/stop-orders` | — | `1 + ceil(limit/200) - 1` | 60/min |
+| `GET` | `/v1/stop-orders/detail` | — | 1 | 60/min |
+| `GET` | `/v1/stop-orders/prepare` | — | 1 | 60/min |
+| `POST` | `/v1/stop-orders/place` | agent signature | 5 | 20/min |
+| `POST` | `/v1/stop-orders/cancel` | agent signature | 5 | 20/min |
 
-Three steps: ask the server to build the struct, sign it with your agent, submit.
-
-### 1. Prepare
-
-```
-GET /v1/stop-orders/prepare
-```
-
-| Parameter | Type | Notes |
-|---|---|---|
-| `marketId` | number | Market of the position the trigger protects |
-| `isCross` | boolean | `true` = the cross account, `false` = isolated on `marketId`. Must match where the position actually sits |
-| `side` | number | The side that **closes** the position — `SHORT` (1) closes a long |
-| `type` | number | `2` take-profit, `3` stop-loss |
-| `closePosition` | boolean | `true` closes the whole position and ignores `size` |
-| `size` | string | Notional to close, scaled by 1e18. Required by the schema even when `closePosition` is set — pass `"0"` |
-| `stopApr` | number | APR that arms the trigger, as a decimal (`0.085` = 8.5%) |
-
-Returns `{ req, offchainCondition }`.
-
-:::warning `isCross` must match reality
-If the position is isolated and you prepare with `isCross: true`, the order is
-armed on the cross account instead — which is empty, so the trigger fires against
-nothing. Nothing errors at placement time.
+:::note Sub-accounts are not addressable here
+Every route acts on the API key's root at sub-account **`0`**, and only that one. A position held on another sub-account cannot be protected by a stop order.
 :::
 
-### 2. Sign with the agent
+## Placing an Order
 
-Hash the order struct with `offchainCondition` replaced by its
-`keccak256`, then sign it with your agent key. The SDK does this for you:
+Three steps, all of which `StopOrders.place()` does for you:
 
-```ts
-import { signStopOrderRequest } from '@pendle/boros-sdk-public';
+1. **`GET /v1/stop-orders/prepare`** returns the order struct and trigger condition to sign.
+2. **Sign it with your agent** — `signStopOrderRequest()` in the SDK.
+3. **`POST /v1/stop-orders/place`** with the signature. Echo `prepare`'s `req` back unchanged, minus `account` and `hashedOffchainCondition`; the server derives both, and any other edit invalidates your signature.
 
-const { agent, signature, orderHash } = await signStopOrderRequest({
-  req: { /* echo prepare's req, with size/tick/salt/expiry as-is */ },
-  offchainCondition,
-});
-```
-
-### 3. Place
-
-```
-POST /v1/stop-orders/place
-```
-
-```json
-{
-  "agent": "0x…",
-  "placeMsg": { "actionHash": "<orderHash>" },
-  "placeSignature": "0x…",
-  "request": { "cross": true, "marketId": 180, "side": 1, "tif": 2,
-               "size": "…", "tick": -32768, "reduceOnly": true,
-               "salt": "…", "expiry": "4294967295" },
-  "offchainCondition": "0x…",
-  "type": 3,
-  "closePosition": true
-}
-```
-
-Echo `req` back unchanged as `request`, **minus `account` and
-`hashedOffchainCondition`** — the server derives both. Any other edit invalidates
-the signature you just produced and the request fails on the order hash.
-
-Returns `{ orderHash }`. That hash is the `orderId` everywhere else.
-
-
-## Cancelling
-
-```
-POST /v1/stop-orders/cancel
-```
-
-```json
-{ "agent": "0x…", "orderIds": ["0x…", "0x…"], "cancelSignature": "0x…" }
-```
-
-Up to **50** ids per request, and it is **all-or-nothing**: the whole call fails
-if any id is unknown, already finalised, or owned by another account.
-
-
-## With the SDK
+Returns `orderHash`, which is the `orderId` everywhere else.
 
 ```ts
 import {
-  Agent, ApiSigningKey, setInternalAgent, setOpenApiSigningKey,
+  ApiSigningKey, setInternalAgent, setOpenApiSigningKey,
   Side, StopAprOrderType, StopOrders,
 } from '@pendle/boros-sdk-public';
 
-setOpenApiSigningKey(new ApiSigningKey({
-  keyId: process.env.BOROS_API_KEY_ID!,
-  privateKey: process.env.BOROS_API_KEY_PEM!,
-}));
+setOpenApiSigningKey(new ApiSigningKey({ keyId, privateKey }));
+setInternalAgent(agent);                      // writes need an approved agent
 
 const stopOrders = new StopOrders();          // no accountId — it comes from the key
 
-const live = await stopOrders.list({ isActive: true });
-
-setInternalAgent(Agent.createFromPrivateKey(process.env.AGENT_PK as `0x${string}`));
-
-const orderId = await stopOrders.place({      // prepare → agent-sign → submit
+const orderId = await stopOrders.place({
   marketId: 180,
-  isCross: true,
-  side: Side.SHORT,
+  isCross: true,                              // where the position sits
+  side: Side.SHORT,                           // the side that CLOSES it
   type: StopAprOrderType.STOP_LOSS_MARKET,
-  stopApr: 0.01,
-  closePosition: true,
+  stopApr: 0.01,                              // decimal, 0.085 = 8.5%
+  closePosition: true,                        // or set `size` (1e18-scaled) instead
 });
 
+const live = await stopOrders.list({ isActive: true });
 await stopOrders.cancel([orderId]);
 ```
 
 Requires `@pendle/boros-sdk-public` **0.2.0** or later.
 
+## Reading and Cancelling
 
-## On-chain
+`GET /v1/stop-orders` is cursor-paginated, newest first — filter with `marketId`, `tokenId` or `isActive`, and pass the previous `resumeToken` for the next page. `GET /v1/stop-orders/detail` takes `orderId` as a **query** parameter; an id belonging to another root reads as `404`.
 
-The contracts call these **conditional orders** — same thing under a more general
-name, since the mechanism is "an order plus an off-chain trigger" and take-profit
-and stop-loss are the only two triggers that exist. See [Conditional
-Orders](../Contracts/Router.mdx#conditional-orders) for the struct and the
-execution path.
+`POST /v1/stop-orders/cancel` takes up to **50** ids and is all-or-nothing: the request fails if any id is unknown, already finalised, or another account's.
+
+## Reference
+
+**`orderType`** — `2` take-profit market, `3` stop-loss market.
+
+**`status`** — `0` Filling, `1` Cancelled, `2` FullyFilled, `3` Expired, `4` Purged, `5` Pending, `6` Executing, `7` Retrying, `8` Failed. Not contiguous with the limit-order status enum.
+
+## Tips
+
+- `isCross` must match where the position actually sits. Get it wrong and the order is armed on an empty account — nothing errors, the trigger simply never fires.
+- `400 Invalid agent` usually means the approval **expired**; they last a week.
+- The number of live stop orders is capped by position value, so `400 Stop order limit exceeded` means free a slot or increase the position.
+- The contracts call these **conditional orders** — same thing under a more general name. See [Conditional Orders](../Contracts/Router.mdx#conditional-orders) for the on-chain struct.
 
 ---
 
