@@ -83,6 +83,13 @@ BOROS_USER_FILES=(
   "$BOROS_DOCS_DIR/risk-parameters/margin-and-liquidations/detailed-calculations-on-margin-and-liquidations.md"
   "$BOROS_DOCS_DIR/risk-parameters/margin-and-liquidations/protective-mechanisms.md"
   "$BOROS_DOCS_DIR/boros-systems/p2p-marketplace.md"
+  "$BOROS_DOCS_DIR/crossex-terminal/overview.md"
+  "$BOROS_DOCS_DIR/crossex-terminal/installation.md"
+  "$BOROS_DOCS_DIR/crossex-terminal/setup-api-key.md"
+  "$BOROS_DOCS_DIR/crossex-terminal/connecting-terminal.md"
+  "$BOROS_DOCS_DIR/crossex-terminal/opening-a-position.md"
+  "$BOROS_DOCS_DIR/crossex-terminal/monitoring-and-closing.md"
+  "$BOROS_DOCS_DIR/crossex-terminal/risks-and-security.md"
   "$BOROS_DOCS_DIR/others/boros-referral-program.md"
 )
 
