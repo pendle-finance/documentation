@@ -7,9 +7,9 @@ import Hint from '@site/src/components/Hint';
 
 # 概述
 
-**CrossEx-Boros Terminal** 是 Pendle 团队构建的免费[开源工具](https://github.com/pendle-finance/crossex-boros-terminal)，让交易者可以通过 [Gate CrossEx](https://www.gate.com/crossex) 和 Boros，在同一个面板上执行**四腿跨交易所资金费率套利**——全部运行在你自己的机器上。
+**Arbitrage with CrossEx** 是 Pendle 团队构建的免费[开源工具](https://github.com/pendle-finance/crossex-boros-terminal)，让交易者可以通过 [Gate CrossEx](https://www.gate.com/crossex) 和 Boros，在同一个面板上执行**四腿跨交易所资金费率套利**——全部运行在你自己的机器上。
 
-该终端在本地运行——终端本身无需任何注册。它直接对接你自己的 Gate 账户和你自己的 Boros 钱包。
+该应用在本地运行——应用本身无需任何注册。它直接对接你自己的 Gate 账户和你自己的 Boros 钱包。
 
 ## 策略：四腿资金费率套利
 
@@ -24,7 +24,7 @@ Boros 让交易者可以将某个交易所的浮动资金费率转换为可交�
 
 两条永续合约腿相互抵消价格风险，并对冲 Boros 腿上应付的浮动资金费率，使交易者保持**市场中性（delta-neutral）**，并持有 **4% 的 APR 利差**作为固定收益，直至 Boros 市场到期（杠杆前）。
 
-![4 leg funding rate arbitrage](/boros-docs/imgs/crossex-terminal/4-leg-funding-rate-arbitrage.jpg "4 Leg Funding Rate Arbitrage")
+![4 leg funding rate arbitrage](/boros-docs/imgs/arbitrage-with-crossex/4-leg-funding-rate-arbitrage.jpg "4 Leg Funding Rate Arbitrage")
 
 配合杠杆，这可以成为一个可观的收益策略——但手动在多个交易所之间协调抵押品和仓位相当繁琐，这也是大多数交易者望而却步的原因。
 
@@ -32,9 +32,9 @@ Boros 让交易者可以将某个交易所的浮动资金费率转换为可交�
 
 [CrossEx](https://www.gate.com/crossex) 是 Gate.io 推出的产品，为交易者提供跨多个交易所同时持仓的**统一保证金**。交易者无需在各交易所分别维护独立的抵押品池，而是可以在同一账户下开出套利的多空永续腿，并保持完全的市场中性。
 
-## 终端能做什么
+## 该应用能做什么
 
-CrossEx-Boros Terminal 将 CrossEx 与 Boros 整合在一起，让交易者可以：
+Arbitrage with CrossEx 将 CrossEx 与 Boros 整合在一起，让交易者可以：
 
 - **扫描机会** — 查看跨交易所的实时固定利差，并自动计算潜在收益与所需保证金
 - **一键执行**套利的永续合约腿

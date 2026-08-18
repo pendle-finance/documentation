@@ -2,9 +2,9 @@ import Hint from '@site/src/components/Hint';
 
 # Overview
 
-**CrossEx-Boros Terminal** is a free, [open-source tool](https://github.com/pendle-finance/crossex-boros-terminal) built by the Pendle team that lets traders execute a **4-leg cross-exchange funding-rate arbitrage** through [Gate CrossEx](https://www.gate.com/crossex) and Boros, from a single dashboard on their own machine.
+**Arbitrage with CrossEx** is a free, [open-source tool](https://github.com/pendle-finance/crossex-boros-terminal) built by the Pendle team that lets traders execute a **4-leg cross-exchange funding-rate arbitrage** through [Gate CrossEx](https://www.gate.com/crossex) and Boros, from a single dashboard on their own machine.
 
-It runs locally — there's nothing to sign up for on the terminal itself. It talks directly to your own Gate account and your own Boros wallet.
+It runs locally — there's nothing to sign up for on the app itself. It talks directly to your own Gate account and your own Boros wallet.
 
 ## The strategy: 4-leg funding rate arbitrage
 
@@ -19,7 +19,7 @@ One position is 4 legs, all at the same notional. Using BTC as an example:
 
 The two perp legs cancel each other's price exposure and offset the floating funding owed on the Boros legs, leaving the trader **delta-neutral** and holding just the **4% APR spread** as fixed yield until the Boros markets mature (before leverage).
 
-![4 leg funding rate arbitrage](/boros-docs/imgs/crossex-terminal/4-leg-funding-rate-arbitrage.jpg "4 Leg Funding Rate Arbitrage")
+![4 leg funding rate arbitrage](/boros-docs/imgs/arbitrage-with-crossex/4-leg-funding-rate-arbitrage.jpg "4 Leg Funding Rate Arbitrage")
 
 With leverage, this can be a lucrative yield farm — but coordinating collateral and positions across multiple exchanges manually is clunky, which is what keeps most traders from running it.
 
@@ -27,9 +27,9 @@ With leverage, this can be a lucrative yield farm — but coordinating collatera
 
 [CrossEx](https://www.gate.com/crossex) is a Gate.io product that gives traders **unified margin** across perp positions opened on multiple exchanges simultaneously. Instead of juggling separate collateral pools per venue, a trader can open the long/short perp legs of the arbitrage under one account and remain fully delta-neutral.
 
-## What the terminal does
+## What the app does
 
-The CrossEx-Boros Terminal integrates both CrossEx and Boros so a trader can:
+Arbitrage with CrossEx integrates both CrossEx and Boros so a trader can:
 
 - **Scan opportunities** — see live fixed-rate spreads across venues, with potential returns and required margin calculated automatically
 - **One-click execute** the perp legs of the arbitrage

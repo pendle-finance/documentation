@@ -15,12 +15,12 @@ Go to [API Management](https://www.gate.com/myaccount/api_key_manage) in your Ga
 - **Withdrawal:** leave **OFF**. A trading bot never needs to withdraw your funds, and with this permission off the app cannot move money off your account at all.
 - **IP Permissions:** choose **"Later"**, unless your machine has a fixed IP — in which case binding the key to it adds extra protection. Home IPs tend to change (e.g. after a router restart), and the key stops working until you update the binding.
 
-![API Trading Account](/boros-docs/imgs/crossex-terminal/api-trading-account.png "API Trading Account")
+![API Trading Account](/boros-docs/imgs/arbitrage-with-crossex/api-trading-account.png "API Trading Account")
 
-![API Key Read and Write](/boros-docs/imgs/crossex-terminal/api-key-read-write.png "API Key Read and Write")
+![API Key Read and Write](/boros-docs/imgs/arbitrage-with-crossex/api-key-read-write.png "API Key Read and Write")
 
 <Hint style="warning">
 Save the API key and API secret key immediately and securely — this is the only time you'll be able to see the secret.
 </Hint>
 
-Next: [Connecting API + Wallet to Terminal](./connecting-terminal)
+Next: [Connecting API + Wallet](./connecting-terminal)

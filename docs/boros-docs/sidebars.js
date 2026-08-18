@@ -21,15 +21,15 @@ module.exports = {
       ],
     },
     {
-      type: "category", label: "CrossEx Terminal", customProps: { icon: "sync_alt" },
+      type: "category", label: "Arbitrage with CrossEx", customProps: { icon: "sync_alt" },
       items: [
-        { type: "doc", id: "crossex-terminal/overview", label: "Overview", customProps: { icon: "auto_stories" } },
-        { type: "doc", id: "crossex-terminal/installation", label: "Installation", customProps: { icon: "download" } },
-        { type: "doc", id: "crossex-terminal/setup-api-key", label: "Setting up CrossEx & API Key", customProps: { icon: "vpn_key" } },
-        { type: "doc", id: "crossex-terminal/connecting-terminal", label: "Connecting API + Wallet to Terminal", customProps: { icon: "link" } },
-        { type: "doc", id: "crossex-terminal/opening-a-position", label: "Opening a Position", customProps: { icon: "trending_up" } },
-        { type: "doc", id: "crossex-terminal/monitoring-and-closing", label: "Monitoring & Closing Positions", customProps: { icon: "monitoring" } },
-        { type: "doc", id: "crossex-terminal/risks-and-security", label: "Risks & Security", customProps: { icon: "security" } },
+        { type: "doc", id: "arbitrage-with-crossex/overview", label: "Overview", customProps: { icon: "auto_stories" } },
+        { type: "doc", id: "arbitrage-with-crossex/installation", label: "Installation", customProps: { icon: "download" } },
+        { type: "doc", id: "arbitrage-with-crossex/setup-api-key", label: "Setting up CrossEx & API Key", customProps: { icon: "vpn_key" } },
+        { type: "doc", id: "arbitrage-with-crossex/connecting-terminal", label: "Connecting API + Wallet", customProps: { icon: "link" } },
+        { type: "doc", id: "arbitrage-with-crossex/opening-a-position", label: "Opening a Position", customProps: { icon: "trending_up" } },
+        { type: "doc", id: "arbitrage-with-crossex/monitoring-and-closing", label: "Monitoring & Closing Positions", customProps: { icon: "monitoring" } },
+        { type: "doc", id: "arbitrage-with-crossex/risks-and-security", label: "Risks & Security", customProps: { icon: "security" } },
       ],
     },
     {

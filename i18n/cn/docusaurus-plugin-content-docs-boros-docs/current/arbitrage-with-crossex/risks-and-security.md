@@ -8,7 +8,7 @@ import Hint from '@site/src/components/Hint';
 # 风险与安全
 
 <Hint style="warning">
-CrossEx-Boros Terminal 是 Pendle 发布的免费开源**实验性软件**。它会在你自己的交易所账户上用真实资金下单，可能造成亏损。本文不构成财务、投资、法律或税务建议——完整内容请见 [免责声明](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/DISCLAIMER.md)。
+Arbitrage with CrossEx 是 Pendle 发布的免费开源**实验性软件**。它会在你自己的交易所账户上用真实资金下单，可能造成亏损。本文不构成财务、投资、法律或税务建议——完整内容请见 [免责声明](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/DISCLAIMER.md)。
 </Hint>
 
 ## 交易风险
@@ -29,7 +29,7 @@ CrossEx-Boros Terminal 是 Pendle 发布的免费开源**实验性软件**。它
 
 ## 自行验证该软件
 
-该终端是开源的。你可以直接在 [github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal) 阅读源代码，或使用 README 中的 [AI 审计提示词](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai)，让 AI 助手在你运行任何脚本前先审查安装脚本、卸载脚本以及应用源代码。
+该应用是开源的。你可以直接在 [github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal) 阅读源代码，或使用 README 中的 [AI 审计提示词](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai)，让 AI 助手在你运行任何脚本前先审查安装脚本、卸载脚本以及应用源代码。
 
 ## 常见问题
 

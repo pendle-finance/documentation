@@ -176,6 +176,25 @@ const config = {
       },
     ],
     [
+      '@docusaurus/plugin-client-redirects',
+      {
+        // "CrossEx Terminal" was renamed to "Arbitrage with CrossEx"; keep the
+        // old /boros-docs/crossex-terminal/* URLs working. createRedirects is
+        // used (rather than a static list) so the /cn/ locale is covered too.
+        createRedirects(existingPath) {
+          if (existingPath.includes('/boros-docs/arbitrage-with-crossex/')) {
+            return [
+              existingPath.replace(
+                '/boros-docs/arbitrage-with-crossex/',
+                '/boros-docs/crossex-terminal/',
+              ),
+            ];
+          }
+          return undefined;
+        },
+      },
+    ],
+    [
       '@docusaurus/plugin-sitemap',
       {
         id: 'sitemap',

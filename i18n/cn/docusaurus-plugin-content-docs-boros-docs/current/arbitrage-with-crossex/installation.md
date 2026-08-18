@@ -7,7 +7,7 @@ import Hint from '@site/src/components/Hint';
 
 # 安装
 
-终端运行在你自己的机器上——支持 **macOS 或 Windows**。完整说明和源代码见 GitHub：[github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal)。
+该应用运行在你自己的机器上——支持 **macOS 或 Windows**。完整说明和源代码见 GitHub：[github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal)。
 
 <Hint style="warning">
 安装脚本会下载一份私有的 Node.js 副本和应用本身——不会触碰系统上的其他任何内容，安装过程中也绝不会要求你提供交易所密钥。运行前请先阅读脚本内容，或者让 AI 帮你[审计整个仓库](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai)。
@@ -21,7 +21,7 @@ import Hint from '@site/src/components/Hint';
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/install.sh)"
 ```
 
-安装完成后（首次可能需要几分钟），终端会在浏览器中打开 [http://localhost:6688](http://localhost:6688) —— 请收藏此地址。此后应用会一直在后台运行，即使你重启 Mac 也不例外，你还会在 `~/Applications` 文件夹中看到一个 **"CrossEx-Boros Terminal"** 启动器。
+安装完成后（首次可能需要几分钟），应用会在浏览器中打开 [http://localhost:6688](http://localhost:6688) —— 请收藏此地址。此后应用会一直在后台运行，即使你重启 Mac 也不例外，你还会在 `~/Applications` 文件夹中看到一个 **"CrossEx-Boros Terminal"** 启动器。
 
 所有文件都在同一个文件夹中：`~/.boros-crossex`。
 
@@ -33,7 +33,7 @@ import Hint from '@site/src/components/Hint';
 irm https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/install.ps1 | iex
 ```
 
-安装完成后，终端会在浏览器中打开 [http://localhost:6688](http://localhost:6688) —— 请收藏此地址。此后应用会在每次登录时自动启动，你还会在开始菜单中看到 **"CrossEx-Boros Terminal"** 快捷方式。
+安装完成后，应用会在浏览器中打开 [http://localhost:6688](http://localhost:6688) —— 请收藏此地址。此后应用会在每次登录时自动启动，你还会在开始菜单中看到 **"CrossEx-Boros Terminal"** 快捷方式。
 
 所有文件都在同一个文件夹中：`%LOCALAPPDATA%\CrossEx-Boros`。
 
@@ -50,7 +50,7 @@ irm https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main
 
 ## 更新
 
-对你的平台重新运行相同的安装命令即可。脚本会先停止旧版本再安装，因此不会有旧副本残留；你的密钥和交易记录不会受到影响。当有新版本发布时，终端页眉会显示琥珀色的**更新（Update）**提示。
+对你的平台重新运行相同的安装命令即可。脚本会先停止旧版本再安装，因此不会有旧副本残留；你的密钥和交易记录不会受到影响。当有新版本发布时，应用页眉会显示琥珀色的**更新（Update）**提示。
 
 ## 卸载
 
@@ -69,7 +69,7 @@ irm https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main
 默认会保留密钥和交易记录。如需一并删除（macOS：追加 `-- --purge`，或直接 `rm -rf ~/.boros-crossex`；Windows：调用脚本块时加上 `-Purge`）。如果交易引擎仍在运行且无法停止，卸载脚本不会删除任何内容，以避免从正在下单的进程手中删掉应用。
 
 <Hint style="warning">
-交易进行期间请让机器保持开机。终端的对账循环（reconcile loop）负责在挂单腿成交后立即下达对冲腿、重新报价并重试——交易所端没有服务器端的兜底机制。如果机器休眠或关机，未对冲的一条腿会一直保持敞口，直到服务重新上线。不会丢失任何数据，应用重启后会从中断处继续——但不要在无法让机器持续运行的情况下开启交易。
+交易进行期间请让机器保持开机。应用的对账循环（reconcile loop）负责在挂单腿成交后立即下达对冲腿、重新报价并重试——交易所端没有服务器端的兜底机制。如果机器休眠或关机，未对冲的一条腿会一直保持敞口，直到服务重新上线。不会丢失任何数据，应用重启后会从中断处继续——但不要在无法让机器持续运行的情况下开启交易。
 </Hint>
 
 下一步：[设置 CrossEx 与 API Key](./setup-api-key)

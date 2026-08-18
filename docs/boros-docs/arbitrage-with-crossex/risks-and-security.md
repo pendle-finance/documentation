@@ -3,7 +3,7 @@ import Hint from '@site/src/components/Hint';
 # Risks & Security
 
 <Hint style="warning">
-CrossEx-Boros Terminal is free, open-source, **experimental software** published by Pendle. It places real orders with real funds on your own exchange account and can lose money. Nothing here is financial, investment, legal, or tax advice — see the full [disclaimer](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/DISCLAIMER.md).
+Arbitrage with CrossEx is free, open-source, **experimental software** published by Pendle. It places real orders with real funds on your own exchange account and can lose money. Nothing here is financial, investment, legal, or tax advice — see the full [disclaimer](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/DISCLAIMER.md).
 </Hint>
 
 ## Trading risks
@@ -24,7 +24,7 @@ Using CrossEx gives delta-neutral positioning on the perp legs of the arbitrage,
 
 ## Verifying the software yourself
 
-The terminal is open source. Read the code directly at [github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal), or use the [AI-audit prompt](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai) in the README to have an AI assistant review the installer, uninstaller, and app source before you run anything.
+The app is open source. Read the code directly at [github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal), or use the [AI-audit prompt](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai) in the README to have an AI assistant review the installer, uninstaller, and app source before you run anything.
 
 ## FAQ
 
