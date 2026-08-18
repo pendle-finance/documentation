@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-08-12
+> Generated: 2026-08-18
 
 ---
 
@@ -7306,6 +7306,307 @@ P2P trades pay the **standard taker fee (5 bps)**. The contract only allows one 
 - **YU can't be used as margin.** Post fresh collateral for P2P trades.
 - **Large trades may need risk review.** Most accepts are auto-approved, but trades that trip volume or size caps go to manual review, shown in-app as *Pending Approval*.
 - **Cancelling a listing ≠ cancelling accepted offers.** Already-accepted offers still execute.
+
+---
+
+import Hint from '@site/src/components/Hint';
+
+# Overview
+
+**CrossEx-Boros Terminal** is a free, [open-source tool](https://github.com/pendle-finance/crossex-boros-terminal) built by the Pendle team that lets traders execute a **4-leg cross-exchange funding-rate arbitrage** through [Gate CrossEx](https://www.gate.com/crossex) and Boros, from a single dashboard on their own machine.
+
+It runs locally — there's nothing to sign up for on the terminal itself. It talks directly to your own Gate account and your own Boros wallet.
+
+## The strategy: 4-leg funding rate arbitrage
+
+Boros lets traders convert a venue's floating funding rate into a tradable fixed rate. The same coin's funding often carries a different **implied APR** on different venues — for example, ETH funding priced at 8% APR on Hyperliquid but 4% APR on Binance. The strategy locks in that gap as yield.
+
+One position is 4 legs, all at the same notional. Using BTC as an example:
+
+- **Short 10 YU** of BTC Hyperliquid funding at 8% Implied APR (Boros)
+- **Long 10 YU** of BTC Binance funding at 4% Implied APR (Boros)
+- **Short 10 BTC** on Hyperliquid BTC perp (via CrossEx)
+- **Long 10 BTC** on Binance BTC perp (via CrossEx)
+
+The two perp legs cancel each other's price exposure and offset the floating funding owed on the Boros legs, leaving the trader **delta-neutral** and holding just the **4% APR spread** as fixed yield until the Boros markets mature (before leverage).
+
+![4 leg funding rate arbitrage](/boros-docs/imgs/crossex-terminal/4-leg-funding-rate-arbitrage.jpg "4 Leg Funding Rate Arbitrage")
+
+With leverage, this can be a lucrative yield farm — but coordinating collateral and positions across multiple exchanges manually is clunky, which is what keeps most traders from running it.
+
+## Why CrossEx
+
+[CrossEx](https://www.gate.com/crossex) is a Gate.io product that gives traders **unified margin** across perp positions opened on multiple exchanges simultaneously. Instead of juggling separate collateral pools per venue, a trader can open the long/short perp legs of the arbitrage under one account and remain fully delta-neutral.
+
+## What the terminal does
+
+The CrossEx-Boros Terminal integrates both CrossEx and Boros so a trader can:
+
+- **Scan opportunities** — see live fixed-rate spreads across venues, with potential returns and required margin calculated automatically
+- **One-click execute** the perp legs of the arbitrage
+- **Monitor** margin, PnL, and yield across the whole 4-leg position from a single dashboard
+
+<Hint style="warning">
+This is experimental, open-source software that places real orders with real funds on your own exchange account. It is not financial, investment, legal, or tax advice. See [Risks & Security](./risks-and-security) before use.
+</Hint>
+
+## Further reading
+
+- [Understanding Implied and Underlying APR on Boros](https://pendle.gitbook.io/boros/the-basics/chapter-2-implied-apr-and-underlying-apr)
+- [How Boros enables fixed rate payments on floating funding rates](https://pendle.gitbook.io/boros/advanced-strategies/hedging-funding-rates-payment)
+- [How Boros enables receiving fixed rates on floating funding rates](https://pendle.gitbook.io/boros/advanced-strategies/fixed-funding-rates-receivables)
+- [Fixed-Return Funding Arbitrage — Boros Academy](https://docs.pendle.finance/boros-academy/advanced-strategies/fixed-return-funding-arbitrage)
+
+Next: [Installation](./installation)
+
+---
+
+import Hint from '@site/src/components/Hint';
+
+# Installation
+
+The terminal runs on your own machine — **macOS or Windows**. Full instructions and source are on GitHub: [github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal).
+
+<Hint style="warning">
+The installer downloads a private copy of Node.js and the app — it does not touch anything else on your system, and never asks for your exchange keys during install. Read the script before running it, or have an AI [audit the repo for you](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai) first.
+</Hint>
+
+## macOS
+
+Paste this into the **Terminal** app (Finder → Applications → Utilities → Terminal) and press Return:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/install.sh)"
+```
+
+When it finishes (a few minutes the first time), the terminal opens in your browser at [http://localhost:6688](http://localhost:6688) — bookmark it. From then on, the app runs in the background even after you restart your Mac, and you'll find a **"CrossEx-Boros Terminal"** launcher in your `~/Applications` folder.
+
+Everything lands in one folder: `~/.boros-crossex`.
+
+## Windows
+
+Requires **Windows 10 or 11**, and PowerShell 5 or newer (the built-in Windows PowerShell is fine). Press `Win`, type `PowerShell`, open it, then paste:
+
+```powershell
+irm https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/install.ps1 | iex
+```
+
+When it finishes, the terminal opens in your browser at [http://localhost:6688](http://localhost:6688) — bookmark it. The app starts on its own every time you sign in, and you'll find a **"CrossEx-Boros Terminal"** shortcut in your Start Menu.
+
+Everything lands in one folder: `%LOCALAPPDATA%\CrossEx-Boros`.
+
+<Hint style="info">
+Do **not** run this from an Administrator prompt — it doesn't need one.
+</Hint>
+
+## What the installer does
+
+- Downloads a private, checksum-verified copy of [Node.js](https://nodejs.org) and the app into a single folder — nothing else on your system is touched, no admin password, no PATH changes.
+- Registers a background service that keeps the app running and restarts it after crashes or reboots (a **LaunchAgent** on macOS, a per-user **Scheduled Task** on Windows).
+- Opens the app in your browser and creates the launcher.
+- Never asks for exchange keys during install — those are entered later, in the app itself.
+
+## Updating
+
+Re-run the same install command for your platform. It stops the previous version first, so an old copy never lingers; your keys and trade history are untouched. When a new version is published, the terminal shows an amber **Update** pill in the header.
+
+## Uninstalling
+
+**macOS**
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/uninstall.sh)"
+```
+
+**Windows**
+
+```powershell
+irm https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/uninstall.ps1 | iex
+```
+
+Keys and trade history are kept by default. To remove everything (macOS: append `-- --purge`, or `rm -rf ~/.boros-crossex`; Windows: add `-Purge` when invoking the script block). If the trading engine is still running and can't be stopped, the uninstaller removes nothing rather than deleting the app out from under a live process.
+
+<Hint style="warning">
+Leave the machine on while a trade is open. The terminal's reconcile loop is what places the hedge leg once a maker order fills, requotes, and retries — there is no server-side backstop on the exchange. If the machine sleeps or shuts down mid-trade, a half-filled leg stays unhedged until the server is back up. Nothing is lost, the app picks up exactly where it left off on restart — but don't start a trade you can't leave the machine running for.
+</Hint>
+
+Next: [Setting up CrossEx & API Key](./setup-api-key)
+
+---
+
+import Hint from '@site/src/components/Hint';
+
+# Setting up CrossEx & API Key
+
+## 1. Enable CrossEx
+
+Sign up on [gate.com](https://www.gate.com/signup) if you don't already have an account, then switch on the **CrossEx** feature at [gate.com/crossex](https://www.gate.com/crossex). This needs to be enabled before the API key permission below is available, and before you can transfer funds into your CrossEx account.
+
+## 2. Create an API key
+
+Go to [API Management](https://www.gate.com/myaccount/api_key_manage) in your Gate account settings and create an **APIv4** key.
+
+- **Account type:** choose **Trading account**.
+- **Permissions:** tick only **Cross-Exchange**, set to **Read and Write**.
+- **Withdrawal:** leave **OFF**. A trading bot never needs to withdraw your funds, and with this permission off the app cannot move money off your account at all.
+- **IP Permissions:** choose **"Later"**, unless your machine has a fixed IP — in which case binding the key to it adds extra protection. Home IPs tend to change (e.g. after a router restart), and the key stops working until you update the binding.
+
+![API Trading Account](/boros-docs/imgs/crossex-terminal/api-trading-account.png "API Trading Account")
+
+![API Key Read and Write](/boros-docs/imgs/crossex-terminal/api-key-read-write.png "API Key Read and Write")
+
+<Hint style="warning">
+Save the API key and API secret key immediately and securely — this is the only time you'll be able to see the secret.
+</Hint>
+
+Next: [Connecting API + Wallet to Terminal](./connecting-terminal)
+
+---
+
+# Connecting API + Wallet to Terminal
+
+Open [http://localhost:6688](http://localhost:6688) to load the CrossEx-Boros Terminal on your device.
+
+Click the settings wheel on the right of the homepage to open the settings window, then enter:
+
+- Your Gate **API key** and **API secret**
+- Your **Boros wallet address**, so your Boros positions can be tracked in the dashboard
+
+![API Key Settings](/boros-docs/imgs/crossex-terminal/api-key-settings.png "API Key Settings")
+
+The app validates your key against Gate with a live read-only call before saving it. Your key and secret are stored only on your own machine, in `~/.boros-crossex/config/.env` (macOS) or `%LOCALAPPDATA%\CrossEx-Boros\config\.env` (Windows) — never sent anywhere but signed requests to Gate's official API.
+
+Once your API key and Boros wallet are connected, you're ready to start trading.
+
+Next: [Opening a Position](./opening-a-position)
+
+---
+
+import Hint from '@site/src/components/Hint';
+
+# Opening a Position
+
+## Reading the Opportunities scan
+
+The front page of the dashboard shows currently available fixed-rate spreads, priced at a chosen notional. Click a spread's assumptions window to see and adjust them:
+
+![Click to expand rates](/boros-docs/imgs/crossex-terminal/click-to-expand-rates.png "Click to expand rates")
+
+**Perp entry**
+
+- **2 market orders** — enter the position immediately with market orders.
+- **Limit + hedge** — place a limit order on one venue, then hedge with a market order once it fills. Saves on fees (maker vs. taker), at the cost of execution time.
+
+**Perp exit cost**
+
+- **Close positions** — close the perp legs at Boros maturity.
+- **Roll over** — keep holding the perp legs past maturity and roll them into the next fixed-rate spread, skipping a round of perp entry/exit fees.
+
+**Boros entry**
+
+- **At mark rate** — potential APR assuming the Boros YU legs fill with no price impact.
+- **Market at size** — potential APR assuming the Boros YU legs fill via immediate market order.
+
+Click an opportunity, or its **Details** button, to see the individual legs of the trade:
+
+![Expanding arb details](/boros-docs/imgs/crossex-terminal/expanding-arb-details.png "Expanding arb details")
+
+<Hint style="info">
+It's recommended to open the Boros legs first, before the perp legs — Boros price impact is higher and less predictable, so lock in the Boros spread before committing to the full 4-leg position. Try a small test size first to get familiar with the flow before executing larger amounts.
+</Hint>
+
+## Executing the perp legs
+
+Once you've found the right trade, click **"Execute it"**, then adjust the notional amount per leg in the order ticket. Select the order type (market order / limit + hedge), then click and hold **"Execute pair"** to open the perp spread:
+
+![Order ticket - Execute it](/boros-docs/imgs/crossex-terminal/order-ticket-execute-it.png "Order ticket - Execute it")
+
+## Opening the Boros legs
+
+Navigate to the **Positions** tab to see which Boros positions you still need to open to lock in the fixed rate. Go to the relevant Boros market maturity for each perp market and open a 1:1 notional long/short position matching the perp legs you just executed.
+
+Once done, return to the terminal — you're now receiving fixed yield until maturity, and the **Positions** tab shows your estimated returns on capital.
+
+Next: [Monitoring & Closing Positions](./monitoring-and-closing)
+
+---
+
+import Hint from '@site/src/components/Hint';
+
+# Monitoring & Closing Positions
+
+## Closing the 4-leg arbitrage
+
+First, close your YU positions on Boros. Once closed, a **"Close both"** button appears at the bottom right of the perp leg window — click and hold it to close both perp positions via market order.
+
+![Close both perp legs](/boros-docs/imgs/crossex-terminal/close-both-perp-legs.png "Close both perp legs")
+
+<Hint style="info">
+Because of the leverage on the arbitrage's perp legs, you may receive Initial Margin Ratio (IMR) alert emails from Gate. As your positions are delta-neutral, liquidation risk stays very low barring price dislocation across multiple perp platforms.
+</Hint>
+
+## Using the order ticket (advanced)
+
+To manually open a perp spread outside the guided Opportunities flow, use the **Order ticket** box:
+
+1. Select the ticker you want to open a spread on
+2. Load the notional amount per leg
+3. Select order type (market order / limit)
+4. Click and hold **"Execute pair"**
+
+Your spread trade is now live. This is intended for traders who want to set up a perp spread before locking in fixed rates with Boros YUs, or who want specific limit orders for more advanced strategies. If you're new to funding rate arbitrage, use the guided terminal flow instead.
+
+Next: [Risks & Security](./risks-and-security)
+
+---
+
+import Hint from '@site/src/components/Hint';
+
+# Risks & Security
+
+<Hint style="warning">
+CrossEx-Boros Terminal is free, open-source, **experimental software** published by Pendle. It places real orders with real funds on your own exchange account and can lose money. Nothing here is financial, investment, legal, or tax advice — see the full [disclaimer](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/DISCLAIMER.md).
+</Hint>
+
+## Trading risks
+
+Using CrossEx gives delta-neutral positioning on the perp legs of the arbitrage, but the trade is not risk-free:
+
+- **Exchange or platform issues** — problems with Gate as an exchange, or a CrossEx malfunction, can interfere with the arbitrage.
+- **Perp price gaps** — an unlikely but possible dislocation between the two perp venues could put the unified margin account at risk of liquidation even though the position is delta-neutral.
+- **Boros liquidation** — if the spread moves far enough from your entry, your Boros position can be liquidated, breaking the fixed return. Keep a margin buffer on your Boros positions to guard against this.
+- **Unhedged legs** — if only one perp leg fills (or a leg is opened without its hedge), you're exposed to price risk until it's corrected. Always confirm both legs are filled after execution.
+
+## Data & security model
+
+- **Your API keys never leave your machine**, except inside signed requests to Gate.io's official API (`api.gateio.ws`). They're stored in `~/.boros-crossex/config/.env` (macOS) or `%LOCALAPPDATA%\CrossEx-Boros\config\.env` (Windows), readable only by your user account.
+- **The app isn't reachable over your network.** The server binds to `127.0.0.1` only and rejects requests whose Host/Origin isn't localhost.
+- **No telemetry, no analytics.** The only outbound traffic is to Gate's official API, public market-data endpoints for the venues involved, and a periodic version check against GitHub to show "update available" (`UPDATE_CHECK=0` disables it).
+- **It can't withdraw your funds.** If you created the API key as described in [Setting up CrossEx & API Key](./setup-api-key), Gate enforces this at the account level regardless of anything the app does.
+
+## Verifying the software yourself
+
+The terminal is open source. Read the code directly at [github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal), or use the [AI-audit prompt](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai) in the README to have an AI assistant review the installer, uninstaller, and app source before you run anything.
+
+## FAQ
+
+**Are the displayed rates a quote?**
+No. Every rate is live and moves; nothing shown is executable at a guaranteed price. Rates are priced at $100k notional per leg on the standard (VIP 0) fee tier, so your own size and fee tier will change the result.
+
+**Why is a spread sometimes negative?**
+The engine always shows the orientation that receives the higher fixed rate — a negative number means execution cost (fees, price impact) exceeds the spread at that size, so it isn't worth trading.
+
+**What if the software breaks?**
+It's open source and experimental, with no guaranteed support. Read the source yourself or have an AI assistant audit it before you paste in a key.
+
+## Further reading
+
+- [Understanding Implied and Underlying APR on Boros](https://pendle.gitbook.io/boros/the-basics/chapter-2-implied-apr-and-underlying-apr)
+- [How Boros enables fixed rate payments on floating funding rates](https://pendle.gitbook.io/boros/advanced-strategies/hedging-funding-rates-payment)
+- [How Boros enables receiving fixed rates on floating funding rates](https://pendle.gitbook.io/boros/advanced-strategies/fixed-funding-rates-receivables)
+- [Fixed-Return Funding Arbitrage — Boros Academy](https://docs.pendle.finance/boros-academy/advanced-strategies/fixed-return-funding-arbitrage)
+- [CrossEx-Boros Terminal User Guide](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/USER_GUIDE.md)
+- [Full Disclaimer](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/DISCLAIMER.md)
 
 ---
 
