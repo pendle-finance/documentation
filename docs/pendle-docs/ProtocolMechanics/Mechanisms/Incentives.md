@@ -168,9 +168,9 @@ For example, for a pool with \$1m target depth:
 - 60 DTM → \$1m decay-adjusted target depth (no reduction)
 
 ### Target Incentives
-The decay-adjusted target depth is used to determine the actual incentive allocated to a pool, based on a target LO APR of **45%**. The dollar value is derived by multiplying the target depth by the YT relative price, then applying the 45% reward rate over the year.
+The decay-adjusted target depth is used to determine the actual incentive allocated to a pool, based on a target LO APR of **40%**. The dollar value is derived by multiplying the target depth by the YT relative price, then applying the 40% reward rate over the year.
 
-For example, given a decay-adjusted target depth of \$1m, a YT/USD of \$0.02, and a target APR of 45%, a pool would receive roughly \$173 in weekly PENDLE incentive. The weekly incentive per pool is capped at **\$1,250**.
+For example, given a decay-adjusted target depth of \$1m, a YT/USD of \$0.02, and a target APR of 40%, a pool would receive roughly \$154 in weekly PENDLE incentive. The weekly incentive per pool is capped at **\$1,250**.
 
 ### New Pool Boost
 When a market is newly deployed — no predecessor and whitelisted less than 4 days — it has no trading history to imply depth from. To ensure it earns LO incentive from day one, its target depth is set to the greater of the depth cap (15% of TVL) and a **\$50,000** floor. After the new-pool period ends, the normal TID/VID calculation takes over.
@@ -191,7 +191,7 @@ Protocols can use **External Incentive Campaigns** to provide additional rewards
 
 A few practical notes:
 - The boost only applies to markets that already run a Limit Order incentive program. If a co-incentivized market has no LO program — or cannot absorb the extra PENDLE under its per-maker LO APR cap — that portion simply is not distributed.
-- **Target-depth cap.** The boost does not over-fund a market: it tops up a market's limit-order incentive only until the market's total LO incentive (base + boost) reaches the **[Target Incentives](#target-incentives)** for a large reference depth of roughly **\$15m** — priced the same way as a pool's own target incentive (the reference depth is [decay-adjusted](#decay-adjusted-target-depth) for days-to-maturity, valued at the YT relative price, and taken at the 45% target LO APR). A market whose base LO incentive already meets that level receives no boost, and any matched PENDLE above the cap is not distributed (it does not roll over). As a market's own base LO incentive grows or shrinks week to week, the boost shrinks or grows to keep the combined total near that target.
+- **Target-depth cap.** The boost does not over-fund a market: it tops up a market's limit-order incentive only until the market's total LO incentive (base + boost) reaches the **[Target Incentives](#target-incentives)** for a large reference depth of roughly **\$15m** — priced the same way as a pool's own target incentive (the reference depth is [decay-adjusted](#decay-adjusted-target-depth) for days-to-maturity, valued at the YT relative price, and taken at the 40% target LO APR). A market whose base LO incentive already meets that level receives no boost, and any matched PENDLE above the cap is not distributed (it does not roll over). As a market's own base LO incentive grows or shrinks week to week, the boost shrinks or grows to keep the combined total near that target.
 - The external protocol's own tokens are unaffected: they still go to the campaign's holders.
 - Combined co-incentive spend is capped at **9,000 PENDLE per epoch**.
 
