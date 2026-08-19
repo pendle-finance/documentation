@@ -8,6 +8,8 @@ on:
 
 jobs:
   deploy:
+    permissions:
+      contents: write
     name: Deploy
     runs-on: ubuntu-latest
     timeout-minutes: 15
