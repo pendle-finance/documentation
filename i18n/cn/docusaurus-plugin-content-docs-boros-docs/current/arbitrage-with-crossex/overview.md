@@ -7,9 +7,11 @@ import Hint from '@site/src/components/Hint';
 
 # 概述
 
-**Arbitrage with CrossEx** 是 Pendle 团队构建的免费[开源工具](https://github.com/pendle-finance/crossex-boros-terminal)，让交易者可以通过 [Gate CrossEx](https://www.gate.com/crossex) 和 Boros，在同一个面板上执行**四腿跨交易所资金费率套利**——全部运行在你自己的机器上。
+**Arbitrage with CrossEx** 是 Pendle 团队构建的免费[开源工具](https://github.com/pendle-finance/arbitrage-with-crossex)，让交易者可以通过 [Gate CrossEx](https://www.gate.com/crossex) 和 Boros，在同一个面板上执行**四腿跨交易所资金费率套利**——全部运行在你自己的机器上。
 
 该应用在本地运行——应用本身无需任何注册。它直接对接你自己的 Gate 账户和你自己的 Boros 钱包。
+
+了解更多并开始使用：[boros.pendle.finance/arbitrage-crossex](https://boros.pendle.finance/arbitrage-crossex)。
 
 ## 策略：四腿资金费率套利
 

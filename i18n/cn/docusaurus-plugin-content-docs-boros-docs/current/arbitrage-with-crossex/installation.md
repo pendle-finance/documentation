@@ -7,10 +7,10 @@ import Hint from '@site/src/components/Hint';
 
 # 安装
 
-该应用运行在你自己的机器上——支持 **macOS 或 Windows**。完整说明和源代码见 GitHub：[github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal)。
+该应用运行在你自己的机器上——支持 **macOS 或 Windows**。产品介绍见 [boros.pendle.finance/arbitrage-crossex](https://boros.pendle.finance/arbitrage-crossex)，完整说明和源代码见 GitHub：[github.com/pendle-finance/arbitrage-with-crossex](https://github.com/pendle-finance/arbitrage-with-crossex)。
 
 <Hint style="warning">
-安装脚本会下载一份私有的 Node.js 副本和应用本身——不会触碰系统上的其他任何内容，安装过程中也绝不会要求你提供交易所密钥。运行前请先阅读脚本内容，或者让 AI 帮你[审计整个仓库](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai)。
+安装脚本会下载一份私有的 Node.js 副本和应用本身——不会触碰系统上的其他任何内容，安装过程中也绝不会要求你提供交易所密钥。运行前请先阅读脚本内容，或者让 AI 帮你[审计整个仓库](https://github.com/pendle-finance/arbitrage-with-crossex#verify-this-project-yourself-with-ai)。
 </Hint>
 
 ## macOS
@@ -18,10 +18,10 @@ import Hint from '@site/src/components/Hint';
 将以下内容粘贴到 **终端（Terminal）** 应用中（Finder → 应用程序 → 实用工具 → 终端），然后按回车：
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/arbitrage-with-crossex/main/install.sh)"
 ```
 
-安装完成后（首次可能需要几分钟），应用会在浏览器中打开 [http://localhost:6688](http://localhost:6688) —— 请收藏此地址。此后应用会一直在后台运行，即使你重启 Mac 也不例外，你还会在 `~/Applications` 文件夹中看到一个 **"CrossEx-Boros Terminal"** 启动器。
+安装完成后（首次可能需要几分钟），应用会在浏览器中打开 [http://localhost:6688](http://localhost:6688) —— 请收藏此地址。此后应用会一直在后台运行，即使你重启 Mac 也不例外，你还会在 `~/Applications` 文件夹中看到一个 **"Arbitrage with CrossEx"** 启动器。
 
 所有文件都在同一个文件夹中：`~/.boros-crossex`。
 
@@ -30,10 +30,10 @@ import Hint from '@site/src/components/Hint';
 需要 **Windows 10 或 11**，以及 PowerShell 5 或更高版本（系统自带的 Windows PowerShell 即可）。按 `Win` 键，输入 `PowerShell`，打开后粘贴：
 
 ```powershell
-irm https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/pendle-finance/arbitrage-with-crossex/main/install.ps1 | iex
 ```
 
-安装完成后，应用会在浏览器中打开 [http://localhost:6688](http://localhost:6688) —— 请收藏此地址。此后应用会在每次登录时自动启动，你还会在开始菜单中看到 **"CrossEx-Boros Terminal"** 快捷方式。
+安装完成后，应用会在浏览器中打开 [http://localhost:6688](http://localhost:6688) —— 请收藏此地址。此后应用会在每次登录时自动启动，你还会在开始菜单中看到 **"Arbitrage with CrossEx"** 快捷方式。
 
 所有文件都在同一个文件夹中：`%LOCALAPPDATA%\CrossEx-Boros`。
 
@@ -57,13 +57,13 @@ irm https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main
 **macOS**
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/uninstall.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/arbitrage-with-crossex/main/uninstall.sh)"
 ```
 
 **Windows**
 
 ```powershell
-irm https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/uninstall.ps1 | iex
+irm https://raw.githubusercontent.com/pendle-finance/arbitrage-with-crossex/main/uninstall.ps1 | iex
 ```
 
 默认会保留密钥和交易记录。如需一并删除（macOS：追加 `-- --purge`，或直接 `rm -rf ~/.boros-crossex`；Windows：调用脚本块时加上 `-Purge`）。如果交易引擎仍在运行且无法停止，卸载脚本不会删除任何内容，以避免从正在下单的进程手中删掉应用。

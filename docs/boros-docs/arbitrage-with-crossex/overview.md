@@ -2,9 +2,11 @@ import Hint from '@site/src/components/Hint';
 
 # Overview
 
-**Arbitrage with CrossEx** is a free, [open-source tool](https://github.com/pendle-finance/crossex-boros-terminal) built by the Pendle team that lets traders execute a **4-leg cross-exchange funding-rate arbitrage** through [Gate CrossEx](https://www.gate.com/crossex) and Boros, from a single dashboard on their own machine.
+**Arbitrage with CrossEx** is a free, [open-source tool](https://github.com/pendle-finance/arbitrage-with-crossex) built by the Pendle team that lets traders execute a **4-leg cross-exchange funding-rate arbitrage** through [Gate CrossEx](https://www.gate.com/crossex) and Boros, from a single dashboard on their own machine.
 
 It runs locally — there's nothing to sign up for on the app itself. It talks directly to your own Gate account and your own Boros wallet.
+
+Learn more and get started at [boros.pendle.finance/arbitrage-crossex](https://boros.pendle.finance/arbitrage-crossex).
 
 ## The strategy: 4-leg funding rate arbitrage
 

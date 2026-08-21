@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-08-18
+> Generated: 2026-08-21
 
 ---
 
@@ -7313,9 +7313,11 @@ import Hint from '@site/src/components/Hint';
 
 # Overview
 
-**Arbitrage with CrossEx** is a free, [open-source tool](https://github.com/pendle-finance/crossex-boros-terminal) built by the Pendle team that lets traders execute a **4-leg cross-exchange funding-rate arbitrage** through [Gate CrossEx](https://www.gate.com/crossex) and Boros, from a single dashboard on their own machine.
+**Arbitrage with CrossEx** is a free, [open-source tool](https://github.com/pendle-finance/arbitrage-with-crossex) built by the Pendle team that lets traders execute a **4-leg cross-exchange funding-rate arbitrage** through [Gate CrossEx](https://www.gate.com/crossex) and Boros, from a single dashboard on their own machine.
 
 It runs locally — there's nothing to sign up for on the app itself. It talks directly to your own Gate account and your own Boros wallet.
+
+Learn more and get started at [boros.pendle.finance/arbitrage-crossex](https://boros.pendle.finance/arbitrage-crossex).
 
 ## The strategy: 4-leg funding rate arbitrage
 
@@ -7365,10 +7367,10 @@ import Hint from '@site/src/components/Hint';
 
 # Installation
 
-The app runs on your own machine — **macOS or Windows**. Full instructions and source are on GitHub: [github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal).
+The app runs on your own machine — **macOS or Windows**. See [boros.pendle.finance/arbitrage-crossex](https://boros.pendle.finance/arbitrage-crossex) for an overview, or GitHub for full instructions and source: [github.com/pendle-finance/arbitrage-with-crossex](https://github.com/pendle-finance/arbitrage-with-crossex).
 
 <Hint style="warning">
-The installer downloads a private copy of Node.js and the app — it does not touch anything else on your system, and never asks for your exchange keys during install. Read the script before running it, or have an AI [audit the repo for you](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai) first.
+The installer downloads a private copy of Node.js and the app — it does not touch anything else on your system, and never asks for your exchange keys during install. Read the script before running it, or have an AI [audit the repo for you](https://github.com/pendle-finance/arbitrage-with-crossex#verify-this-project-yourself-with-ai) first.
 </Hint>
 
 ## macOS
@@ -7376,10 +7378,10 @@ The installer downloads a private copy of Node.js and the app — it does not to
 Paste this into the **Terminal** app (Finder → Applications → Utilities → Terminal) and press Return:
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/arbitrage-with-crossex/main/install.sh)"
 ```
 
-When it finishes (a few minutes the first time), the app opens in your browser at [http://localhost:6688](http://localhost:6688) — bookmark it. From then on, the app runs in the background even after you restart your Mac, and you'll find a **"CrossEx-Boros Terminal"** launcher in your `~/Applications` folder.
+When it finishes (a few minutes the first time), the app opens in your browser at [http://localhost:6688](http://localhost:6688) — bookmark it. From then on, the app runs in the background even after you restart your Mac, and you'll find an **"Arbitrage with CrossEx"** launcher in your `~/Applications` folder.
 
 Everything lands in one folder: `~/.boros-crossex`.
 
@@ -7388,10 +7390,10 @@ Everything lands in one folder: `~/.boros-crossex`.
 Requires **Windows 10 or 11**, and PowerShell 5 or newer (the built-in Windows PowerShell is fine). Press `Win`, type `PowerShell`, open it, then paste:
 
 ```powershell
-irm https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/pendle-finance/arbitrage-with-crossex/main/install.ps1 | iex
 ```
 
-When it finishes, the app opens in your browser at [http://localhost:6688](http://localhost:6688) — bookmark it. The app starts on its own every time you sign in, and you'll find a **"CrossEx-Boros Terminal"** shortcut in your Start Menu.
+When it finishes, the app opens in your browser at [http://localhost:6688](http://localhost:6688) — bookmark it. The app starts on its own every time you sign in, and you'll find an **"Arbitrage with CrossEx"** shortcut in your Start Menu.
 
 Everything lands in one folder: `%LOCALAPPDATA%\CrossEx-Boros`.
 
@@ -7415,13 +7417,13 @@ Re-run the same install command for your platform. It stops the previous version
 **macOS**
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/uninstall.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/arbitrage-with-crossex/main/uninstall.sh)"
 ```
 
 **Windows**
 
 ```powershell
-irm https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/uninstall.ps1 | iex
+irm https://raw.githubusercontent.com/pendle-finance/arbitrage-with-crossex/main/uninstall.ps1 | iex
 ```
 
 Keys and trade history are kept by default. To remove everything (macOS: append `-- --purge`, or `rm -rf ~/.boros-crossex`; Windows: add `-Purge` when invoking the script block). If the trading engine is still running and can't be stopped, the uninstaller removes nothing rather than deleting the app out from under a live process.
@@ -7565,7 +7567,7 @@ import Hint from '@site/src/components/Hint';
 # Risks & Security
 
 <Hint style="warning">
-Arbitrage with CrossEx is free, open-source, **experimental software** published by Pendle. It places real orders with real funds on your own exchange account and can lose money. Nothing here is financial, investment, legal, or tax advice — see the full [disclaimer](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/DISCLAIMER.md).
+Arbitrage with CrossEx is free, open-source, **experimental software** published by Pendle. It places real orders with real funds on your own exchange account and can lose money. Nothing here is financial, investment, legal, or tax advice — see the full [disclaimer](https://github.com/pendle-finance/arbitrage-with-crossex/blob/main/docs/DISCLAIMER.md).
 </Hint>
 
 ## Trading risks
@@ -7586,7 +7588,7 @@ Using CrossEx gives delta-neutral positioning on the perp legs of the arbitrage,
 
 ## Verifying the software yourself
 
-The app is open source. Read the code directly at [github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal), or use the [AI-audit prompt](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai) in the README to have an AI assistant review the installer, uninstaller, and app source before you run anything.
+The app is open source. Read the code directly at [github.com/pendle-finance/arbitrage-with-crossex](https://github.com/pendle-finance/arbitrage-with-crossex), or use the [AI-audit prompt](https://github.com/pendle-finance/arbitrage-with-crossex#verify-this-project-yourself-with-ai) in the README to have an AI assistant review the installer, uninstaller, and app source before you run anything.
 
 ## FAQ
 
@@ -7605,8 +7607,8 @@ It's open source and experimental, with no guaranteed support. Read the source y
 - [How Boros enables fixed rate payments on floating funding rates](https://pendle.gitbook.io/boros/advanced-strategies/hedging-funding-rates-payment)
 - [How Boros enables receiving fixed rates on floating funding rates](https://pendle.gitbook.io/boros/advanced-strategies/fixed-funding-rates-receivables)
 - [Fixed-Return Funding Arbitrage — Boros Academy](https://docs.pendle.finance/boros-academy/advanced-strategies/fixed-return-funding-arbitrage)
-- [CrossEx-Boros Terminal User Guide](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/USER_GUIDE.md)
-- [Full Disclaimer](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/DISCLAIMER.md)
+- [Arbitrage with CrossEx User Guide](https://github.com/pendle-finance/arbitrage-with-crossex/blob/main/docs/USER_GUIDE.md)
+- [Full Disclaimer](https://github.com/pendle-finance/arbitrage-with-crossex/blob/main/docs/DISCLAIMER.md)
 
 ---
 

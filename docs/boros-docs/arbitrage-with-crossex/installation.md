@@ -2,10 +2,10 @@ import Hint from '@site/src/components/Hint';
 
 # Installation
 
-The app runs on your own machine — **macOS or Windows**. Full instructions and source are on GitHub: [github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal).
+The app runs on your own machine — **macOS or Windows**. See [boros.pendle.finance/arbitrage-crossex](https://boros.pendle.finance/arbitrage-crossex) for an overview, or GitHub for full instructions and source: [github.com/pendle-finance/arbitrage-with-crossex](https://github.com/pendle-finance/arbitrage-with-crossex).
 
 <Hint style="warning">
-The installer downloads a private copy of Node.js and the app — it does not touch anything else on your system, and never asks for your exchange keys during install. Read the script before running it, or have an AI [audit the repo for you](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai) first.
+The installer downloads a private copy of Node.js and the app — it does not touch anything else on your system, and never asks for your exchange keys during install. Read the script before running it, or have an AI [audit the repo for you](https://github.com/pendle-finance/arbitrage-with-crossex#verify-this-project-yourself-with-ai) first.
 </Hint>
 
 ## macOS
@@ -13,10 +13,10 @@ The installer downloads a private copy of Node.js and the app — it does not to
 Paste this into the **Terminal** app (Finder → Applications → Utilities → Terminal) and press Return:
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/arbitrage-with-crossex/main/install.sh)"
 ```
 
-When it finishes (a few minutes the first time), the app opens in your browser at [http://localhost:6688](http://localhost:6688) — bookmark it. From then on, the app runs in the background even after you restart your Mac, and you'll find a **"CrossEx-Boros Terminal"** launcher in your `~/Applications` folder.
+When it finishes (a few minutes the first time), the app opens in your browser at [http://localhost:6688](http://localhost:6688) — bookmark it. From then on, the app runs in the background even after you restart your Mac, and you'll find an **"Arbitrage with CrossEx"** launcher in your `~/Applications` folder.
 
 Everything lands in one folder: `~/.boros-crossex`.
 
@@ -25,10 +25,10 @@ Everything lands in one folder: `~/.boros-crossex`.
 Requires **Windows 10 or 11**, and PowerShell 5 or newer (the built-in Windows PowerShell is fine). Press `Win`, type `PowerShell`, open it, then paste:
 
 ```powershell
-irm https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/install.ps1 | iex
+irm https://raw.githubusercontent.com/pendle-finance/arbitrage-with-crossex/main/install.ps1 | iex
 ```
 
-When it finishes, the app opens in your browser at [http://localhost:6688](http://localhost:6688) — bookmark it. The app starts on its own every time you sign in, and you'll find a **"CrossEx-Boros Terminal"** shortcut in your Start Menu.
+When it finishes, the app opens in your browser at [http://localhost:6688](http://localhost:6688) — bookmark it. The app starts on its own every time you sign in, and you'll find an **"Arbitrage with CrossEx"** shortcut in your Start Menu.
 
 Everything lands in one folder: `%LOCALAPPDATA%\CrossEx-Boros`.
 
@@ -52,13 +52,13 @@ Re-run the same install command for your platform. It stops the previous version
 **macOS**
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/uninstall.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/pendle-finance/arbitrage-with-crossex/main/uninstall.sh)"
 ```
 
 **Windows**
 
 ```powershell
-irm https://raw.githubusercontent.com/pendle-finance/crossex-boros-terminal/main/uninstall.ps1 | iex
+irm https://raw.githubusercontent.com/pendle-finance/arbitrage-with-crossex/main/uninstall.ps1 | iex
 ```
 
 Keys and trade history are kept by default. To remove everything (macOS: append `-- --purge`, or `rm -rf ~/.boros-crossex`; Windows: add `-Purge` when invoking the script block). If the trading engine is still running and can't be stopped, the uninstaller removes nothing rather than deleting the app out from under a live process.
