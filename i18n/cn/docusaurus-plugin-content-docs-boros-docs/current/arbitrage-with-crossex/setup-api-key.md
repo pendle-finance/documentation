@@ -20,12 +20,12 @@ import Hint from '@site/src/components/Hint';
 - **提现权限：** 保持**关闭**。交易机器人不需要提现权限，关闭后应用完全无法从你的账户转出资金。
 - **IP 权限：** 选择 **"Later"（稍后设置）**，除非你的机器有固定 IP——如果有，绑定 IP 可以增加一层保护。家庭网络的 IP 通常会变化（例如路由器重启后），届时密钥会失效，需要重新绑定。
 
-![API Trading Account](/boros-docs/imgs/crossex-terminal/api-trading-account.png "API Trading Account")
+![API Trading Account](/boros-docs/imgs/arbitrage-with-crossex/api-trading-account.png "API Trading Account")
 
-![API Key Read and Write](/boros-docs/imgs/crossex-terminal/api-key-read-write.png "API Key Read and Write")
+![API Key Read and Write](/boros-docs/imgs/arbitrage-with-crossex/api-key-read-write.png "API Key Read and Write")
 
 <Hint style="warning">
 请立即妥善保存 API key 和 API secret key —— 这是你唯一能看到 secret 的机会。
 </Hint>
 
-下一步：[将 API 与钱包接入终端](./connecting-terminal)
+下一步：[将 API 与钱包接入](./connecting-terminal)

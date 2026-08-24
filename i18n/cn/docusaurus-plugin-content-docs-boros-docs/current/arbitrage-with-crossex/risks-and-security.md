@@ -8,7 +8,7 @@ import Hint from '@site/src/components/Hint';
 # 风险与安全
 
 <Hint style="warning">
-CrossEx-Boros Terminal 是 Pendle 发布的免费开源**实验性软件**。它会在你自己的交易所账户上用真实资金下单，可能造成亏损。本文不构成财务、投资、法律或税务建议——完整内容请见 [免责声明](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/DISCLAIMER.md)。
+Arbitrage with CrossEx 是 Pendle 发布的免费开源**实验性软件**。它会在你自己的交易所账户上用真实资金下单，可能造成亏损。本文不构成财务、投资、法律或税务建议——完整内容请见 [免责声明](https://github.com/pendle-finance/arbitrage-with-crossex/blob/main/docs/DISCLAIMER.md)。
 </Hint>
 
 ## 交易风险
@@ -26,10 +26,11 @@ CrossEx-Boros Terminal 是 Pendle 发布的免费开源**实验性软件**。它
 - **应用无法通过网络访问。** 服务器仅绑定 `127.0.0.1`，并拒绝 Host/Origin 不是 localhost 的请求。
 - **无遥测、无数据分析。** 唯一的对外流量是发往 Gate 官方 API、相关交易所的公开行情接口，以及一个定期对 GitHub 的版本检查请求，用于显示"有可用更新"（可通过 `UPDATE_CHECK=0` 关闭）。
 - **无法提现你的资金。** 只要你按照 [设置 CrossEx 与 API Key](./setup-api-key) 中的说明创建 API 密钥，Gate 会在账户层面强制执行这一限制，与应用本身的行为无关。
+- **Boros 代理密钥同样无法划转资金。** 用于签署 Boros 订单的委托密钥可以交易该账户，但无法存入或提取资金——这些操作需要你本人的钱包。你可以随时在 Boros rates 面板中点击 **Remove key** 撤销该密钥，且该授权本身带有到期日期。
 
 ## 自行验证该软件
 
-该终端是开源的。你可以直接在 [github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal) 阅读源代码，或使用 README 中的 [AI 审计提示词](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai)，让 AI 助手在你运行任何脚本前先审查安装脚本、卸载脚本以及应用源代码。
+该应用是开源的。你可以直接在 [github.com/pendle-finance/arbitrage-with-crossex](https://github.com/pendle-finance/arbitrage-with-crossex) 阅读源代码，或使用 README 中的 [AI 审计提示词](https://github.com/pendle-finance/arbitrage-with-crossex#verify-this-project-yourself-with-ai)，让 AI 助手在你运行任何脚本前先审查安装脚本、卸载脚本以及应用源代码。
 
 ## 常见问题
 
@@ -48,5 +49,5 @@ CrossEx-Boros Terminal 是 Pendle 发布的免费开源**实验性软件**。它
 - [Boros 如何为浮动资金费率提供固定利率支付](https://pendle.gitbook.io/boros/advanced-strategies/hedging-funding-rates-payment)
 - [Boros 如何让你从浮动资金费率中获得固定利率](https://pendle.gitbook.io/boros/advanced-strategies/fixed-funding-rates-receivables)
 - [固定收益资金费率套利 — Boros Academy](https://docs.pendle.finance/boros-academy/advanced-strategies/fixed-return-funding-arbitrage)
-- [CrossEx-Boros Terminal 用户指南](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/USER_GUIDE.md)
-- [完整免责声明](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/DISCLAIMER.md)
+- [Arbitrage with CrossEx 用户指南](https://github.com/pendle-finance/arbitrage-with-crossex/blob/main/docs/USER_GUIDE.md)
+- [完整免责声明](https://github.com/pendle-finance/arbitrage-with-crossex/blob/main/docs/DISCLAIMER.md)

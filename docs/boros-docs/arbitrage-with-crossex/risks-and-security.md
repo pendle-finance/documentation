@@ -3,7 +3,7 @@ import Hint from '@site/src/components/Hint';
 # Risks & Security
 
 <Hint style="warning">
-CrossEx-Boros Terminal is free, open-source, **experimental software** published by Pendle. It places real orders with real funds on your own exchange account and can lose money. Nothing here is financial, investment, legal, or tax advice — see the full [disclaimer](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/DISCLAIMER.md).
+Arbitrage with CrossEx is free, open-source, **experimental software** published by Pendle. It places real orders with real funds on your own exchange account and can lose money. Nothing here is financial, investment, legal, or tax advice — see the full [disclaimer](https://github.com/pendle-finance/arbitrage-with-crossex/blob/main/docs/DISCLAIMER.md).
 </Hint>
 
 ## Trading risks
@@ -21,10 +21,11 @@ Using CrossEx gives delta-neutral positioning on the perp legs of the arbitrage,
 - **The app isn't reachable over your network.** The server binds to `127.0.0.1` only and rejects requests whose Host/Origin isn't localhost.
 - **No telemetry, no analytics.** The only outbound traffic is to Gate's official API, public market-data endpoints for the venues involved, and a periodic version check against GitHub to show "update available" (`UPDATE_CHECK=0` disables it).
 - **It can't withdraw your funds.** If you created the API key as described in [Setting up CrossEx & API Key](./setup-api-key), Gate enforces this at the account level regardless of anything the app does.
+- **The Boros agent key can't move funds either.** The delegated key that signs your Boros orders can trade the account but cannot deposit or withdraw — those need your actual wallet. You can revoke it at any time with **Remove key** in the Boros rates ticket, and the approval carries an expiry date.
 
 ## Verifying the software yourself
 
-The terminal is open source. Read the code directly at [github.com/pendle-finance/crossex-boros-terminal](https://github.com/pendle-finance/crossex-boros-terminal), or use the [AI-audit prompt](https://github.com/pendle-finance/crossex-boros-terminal#verify-this-project-yourself-with-ai) in the README to have an AI assistant review the installer, uninstaller, and app source before you run anything.
+The app is open source. Read the code directly at [github.com/pendle-finance/arbitrage-with-crossex](https://github.com/pendle-finance/arbitrage-with-crossex), or use the [AI-audit prompt](https://github.com/pendle-finance/arbitrage-with-crossex#verify-this-project-yourself-with-ai) in the README to have an AI assistant review the installer, uninstaller, and app source before you run anything.
 
 ## FAQ
 
@@ -43,5 +44,5 @@ It's open source and experimental, with no guaranteed support. Read the source y
 - [How Boros enables fixed rate payments on floating funding rates](https://pendle.gitbook.io/boros/advanced-strategies/hedging-funding-rates-payment)
 - [How Boros enables receiving fixed rates on floating funding rates](https://pendle.gitbook.io/boros/advanced-strategies/fixed-funding-rates-receivables)
 - [Fixed-Return Funding Arbitrage — Boros Academy](https://docs.pendle.finance/boros-academy/advanced-strategies/fixed-return-funding-arbitrage)
-- [CrossEx-Boros Terminal User Guide](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/USER_GUIDE.md)
-- [Full Disclaimer](https://github.com/pendle-finance/crossex-boros-terminal/blob/main/docs/DISCLAIMER.md)
+- [Arbitrage with CrossEx User Guide](https://github.com/pendle-finance/arbitrage-with-crossex/blob/main/docs/USER_GUIDE.md)
+- [Full Disclaimer](https://github.com/pendle-finance/arbitrage-with-crossex/blob/main/docs/DISCLAIMER.md)
