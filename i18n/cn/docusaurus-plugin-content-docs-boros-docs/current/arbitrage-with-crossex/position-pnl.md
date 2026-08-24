@@ -9,9 +9,21 @@ import Hint from '@site/src/components/Hint';
 
 每个仓位方框都会给出一个资本回报率。决定这个数字的有两点：哪些成本计入该仓位，以及什么算作它所占用的资本。两者都可调整，也都很重要——同一笔交易在不同设置下读数可能相差很大。
 
+## 盈亏拆解
+
+点击仓位上的 **see more**，即可展开两张瀑布图。
+
+![Position PnL charts](/boros-docs/imgs/arbitrage-with-crossex/position-pnl-charts.png "Position PnL charts")
+
+**PNL BY MATURITY（到期盈亏）** 预测持有至到期的结果：从锁定的利差出发，依次扣除永续腿入场手续费、入场滑点、Boros 交易手续费，以及结算费（含已支付和尚未产生的部分）。
+
+**CURRENT PNL (NOW)（当前盈亏）** 展示仓位当前的状况：包含同样的成本项，另加每日浮动的部分——永续资金费（`Perp FR`）、Boros 资金费（`Boros FR`）以及 Boros 盯市盈亏（`Boros MTM`）。
+
 ## 成本假设
 
-每个持仓都有两个开关，二者都会影响主要数字和瀑布图。
+点击仓位上的 **Costs** 按钮可打开该仓位的 *Cost assumptions（成本假设）* 弹窗，其中有两个开关，二者都会影响主要数字和瀑布图。
+
+![Cost assumptions dialog](/boros-docs/imgs/arbitrage-with-crossex/position-costs-modal.png "Cost assumptions dialog")
 
 **Perp exit cost（永续腿平仓成本）** —— 永续腿在到期时的处理方式。
 
@@ -25,7 +37,7 @@ import Hint from '@site/src/components/Hint';
 
 ### 拆分入场成本
 
-在 **Include** 模式下，**▾** 按钮可将成本拆分为多个部分，让你只计入其中一部分——当持仓是分多次建立时（例如加仓，或从上一到期日继承而来的腿）尤为有用。默认全部勾选，按钮会显示仍计入的部分数量（例如 `Include (3 of 4)`），你的勾选状态会按仓位分别记住。
+在 **Include** 模式下，其旁边的计数按钮（例如 `3 of 3`）可展开 **CHARGED TO THIS POSITION** 列表，将成本拆分为多个部分，让你只计入其中一部分——当持仓是分多次建立时（例如加仓，或从上一到期日继承而来的腿）尤为有用。默认全部勾选，按钮会显示仍计入的部分数量，你的勾选状态会按仓位分别记住。
 
 其中有两类条目，精确度并不相同：
 
