@@ -92,9 +92,10 @@
 - [Overview](https://docs.pendle.finance/boros-docs/arbitrage-with-crossex/overview): Arbitrage with CrossEx — open-source tool for 4-leg cross-exchange funding-rate arbitrage via Gate CrossEx and Boros
 - [Installation](https://docs.pendle.finance/boros-docs/arbitrage-with-crossex/installation): macOS/Windows install, update, and uninstall instructions
 - [Setting up CrossEx & API Key](https://docs.pendle.finance/boros-docs/arbitrage-with-crossex/setup-api-key): Enabling CrossEx and creating a scoped Gate API key
-- [Connecting API + Wallet](https://docs.pendle.finance/boros-docs/arbitrage-with-crossex/connecting-terminal): Linking your API key and Boros wallet to the local app
-- [Opening a Position](https://docs.pendle.finance/boros-docs/arbitrage-with-crossex/opening-a-position): Reading the opportunities scan and executing the 4 legs
-- [Monitoring & Closing Positions](https://docs.pendle.finance/boros-docs/arbitrage-with-crossex/monitoring-and-closing): Closing the 4-leg arbitrage and using the advanced order ticket
+- [Connecting API + Wallet](https://docs.pendle.finance/boros-docs/arbitrage-with-crossex/connecting-terminal): Linking your Gate API key, tracked Boros address, and Boros agent key to the local app
+- [Opening a Position](https://docs.pendle.finance/boros-docs/arbitrage-with-crossex/opening-a-position): Reading the opportunities scan, adjusting assumptions, and executing all 4 legs — Boros rate legs then CrossEx perp legs
+- [Monitoring & Closing Positions](https://docs.pendle.finance/boros-docs/arbitrage-with-crossex/monitoring-and-closing): Monitoring the Positions tab, closing or rolling over the 4-leg arbitrage, and using the order tickets directly
+- [Understanding Position PnL](https://docs.pendle.finance/boros-docs/arbitrage-with-crossex/position-pnl): Perp entry/exit cost assumptions, what counts as capital, and how shared venue legs are split between positions
 - [Risks & Security](https://docs.pendle.finance/boros-docs/arbitrage-with-crossex/risks-and-security): Trading risks, data/security model, and FAQ
 
 ### Others

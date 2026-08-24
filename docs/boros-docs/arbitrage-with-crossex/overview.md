@@ -34,8 +34,8 @@ With leverage, this can be a lucrative yield farm — but coordinating collatera
 Arbitrage with CrossEx integrates both CrossEx and Boros so a trader can:
 
 - **Scan opportunities** — see live fixed-rate spreads across venues, with potential returns and required margin calculated automatically
-- **One-click execute** the perp legs of the arbitrage
-- **Monitor** margin, PnL, and yield across the whole 4-leg position from a single dashboard
+- **Execute all four legs** — lock the fixed rate on Boros, then hedge the perp legs through CrossEx, without leaving the dashboard
+- **Monitor** margin, PnL, and yield across the whole 4-leg position from a single dashboard, with a full breakdown of every cost charged against the return
 
 <Hint style="warning">
 This is experimental, open-source software that places real orders with real funds on your own exchange account. It is not financial, investment, legal, or tax advice. See [Risks & Security](./risks-and-security) before use.

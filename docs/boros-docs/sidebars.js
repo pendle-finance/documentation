@@ -29,6 +29,7 @@ module.exports = {
         { type: "doc", id: "arbitrage-with-crossex/connecting-terminal", label: "Connecting API + Wallet", customProps: { icon: "link" } },
         { type: "doc", id: "arbitrage-with-crossex/opening-a-position", label: "Opening a Position", customProps: { icon: "trending_up" } },
         { type: "doc", id: "arbitrage-with-crossex/monitoring-and-closing", label: "Monitoring & Closing Positions", customProps: { icon: "monitoring" } },
+        { type: "doc", id: "arbitrage-with-crossex/position-pnl", label: "Understanding Position PnL", customProps: { icon: "calculate" } },
         { type: "doc", id: "arbitrage-with-crossex/risks-and-security", label: "Risks & Security", customProps: { icon: "security" } },
       ],
     },
