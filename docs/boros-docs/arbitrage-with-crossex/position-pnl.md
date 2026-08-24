@@ -4,9 +4,21 @@ import Hint from '@site/src/components/Hint';
 
 Every position box reports a return on capital. Two things decide that number: which costs are charged to the position, and what counts as the capital it consumed. Both are adjustable, and both matter — the same trade can read very differently depending on how they're set.
 
+## The PnL breakdown
+
+Click **see more** on a position to expand two waterfall charts.
+
+![Position PnL charts](/boros-docs/imgs/arbitrage-with-crossex/position-pnl-charts.png "Position PnL charts")
+
+**PNL BY MATURITY** projects the result of holding to maturity, starting from the spread locked and subtracting perp entry fees, entry slip, Boros trade fees, and settlement fees (both paid so far and still to come).
+
+**CURRENT PNL (NOW)** shows where the position stands today: the same cost lines, plus the floating components that move day to day — perp funding (`Perp FR`), Boros funding (`Boros FR`), and Boros mark-to-market (`Boros MTM`).
+
 ## Cost assumptions
 
-Each open position has two toggles, and both move the headline numbers and the waterfall charts.
+The **Costs** button on a position opens its *Cost assumptions* dialog, which has two toggles. Both move the headline numbers and the waterfall charts.
+
+![Cost assumptions dialog](/boros-docs/imgs/arbitrage-with-crossex/position-costs-modal.png "Cost assumptions dialog")
 
 **Perp exit cost** — what happens to the perp legs at maturity.
 
@@ -20,7 +32,7 @@ Each open position has two toggles, and both move the headline numbers and the w
 
 ### Itemising entry cost
 
-Under **Include**, the **▾** button breaks the cost into parts so you can charge only some of it — useful when a book was built across several executions, such as a top-up or legs inherited from a previous maturity. Everything is ticked by default, the button shows how many parts remain charged (e.g. `Include (3 of 4)`), and your ticks are remembered per position.
+Under **Include**, the count button beside it (e.g. `3 of 3`) expands a **CHARGED TO THIS POSITION** list, breaking the cost into parts so you can charge only some of it — useful when a book was built across several executions, such as a top-up or legs inherited from a previous maturity. Everything is ticked by default, the button shows how many parts remain charged, and your ticks are remembered per position.
 
 Two kinds of row appear, and they are not equally precise:
 
