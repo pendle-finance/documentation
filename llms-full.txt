@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-08-24
+> Generated: 2026-08-25
 
 ---
 
@@ -7345,7 +7345,7 @@ With leverage, this can be a lucrative yield farm — but coordinating collatera
 Arbitrage with CrossEx integrates both CrossEx and Boros so a trader can:
 
 - **Scan opportunities** — see live fixed-rate spreads across venues, with potential returns and required margin calculated automatically
-- **Execute all four legs** — lock the fixed rate on Boros, then hedge the perp legs through CrossEx, without leaving the dashboard
+- **Execute all four legs** — a guided wizard locks the fixed rate on Boros, then hedges the perp legs through CrossEx, without leaving the dashboard
 - **Monitor** margin, PnL, and yield across the whole 4-leg position from a single dashboard, with a full breakdown of every cost charged against the return
 
 <Hint style="warning">
@@ -7489,11 +7489,11 @@ This is read-only: the terminal matches your Boros positions to your Gate perp l
 
 ## 3. Boros agent key
 
-To place Boros orders from the terminal itself, switch the order ticket to the **Boros rates** tab and connect a **delegated agent key**.
+To place Boros orders from the terminal itself, connect a **delegated agent key**. Open **Order ticket** in the header and switch to the **Boros rates** tab — the key panel sits at the top. It also appears on the Boros step of the [strategy wizard](./opening-a-position#opening-the-strategy).
 
-![Boros rates ticket](/boros-docs/imgs/arbitrage-with-crossex/boros-rates-ticket.png "Boros rates ticket")
+![Order ticket panel](/boros-docs/imgs/arbitrage-with-crossex/order-ticket-panel.png "Order ticket panel")
 
-The agent key signs your Boros orders. Once it's connected the tab shows a **trading enabled** badge, the agent address, and the date the approval expires. **Remove key** revokes it.
+The agent key signs your Boros orders. Once it's connected the panel shows a **trading enabled** badge, the agent address, and the date the approval expires. **Remove key** revokes it.
 
 <Hint style="info">
 A delegated agent key can trade the account but **cannot deposit or withdraw** — moving funds always needs your actual wallet. This is the same agent-key mechanism Boros uses on its own front end.
@@ -7509,7 +7509,7 @@ import Hint from '@site/src/components/Hint';
 
 # Opening a Position
 
-Both halves of the trade are executed from the terminal: the **rate legs** on Boros and the **perp legs** through CrossEx. The recommended order is always **lock the rate first, then hedge the perps** — Boros price impact is higher and less predictable, so you want the spread secured before committing to the perp side.
+Both halves of the trade are executed from the terminal: the **rate legs** on Boros and the **perp legs** through CrossEx. The guided wizard walks you through both in the right order — **lock the rate first, then hedge the perps** — since Boros price impact is higher and less predictable, so you want the spread secured before committing to the perp side.
 
 ## Reading the Opportunities scan
 
@@ -7565,27 +7565,36 @@ Below that, two waterfall charts: **profit by maturity**, itemising the gross sp
 The APR here is modelled against the *minimum* capital the legs require. The Positions tab divides by the Boros collateral you have actually posted, so a live, over-collateralised position will read a lower APR than the estimate for the very same trade.
 </Hint>
 
-## Step 1 — Lock the rate on Boros
+## Opening the strategy
 
-Click **Lock the rate** on the opportunity. This loads the two Boros legs into the **Boros rates** order ticket.
+Click **Open this strategy →** on an opportunity. This launches a two-step wizard that carries you through both halves of the trade, with the legs already filled in from the opportunity you picked.
 
-![Boros rates ticket](/boros-docs/imgs/arbitrage-with-crossex/boros-rates-ticket.png "Boros rates ticket")
+![Strategy wizard](/boros-docs/imgs/arbitrage-with-crossex/strategy-wizard.png "Strategy wizard")
 
-Check **Leg A** and **Leg B** — each is a market and maturity, with its own Long/Short side — then set **Size per leg**, keep the mode on **Open**, and set **Max slippage (% APR)**, which caps how far each leg may fill from the quoted rate. Click **Confirm — 2 Boros market orders** to send them.
+### Step 1 — Lock the rate (Boros)
 
-The two markets must share a collateral and maturity. You can also use this ticket standalone to close rate legs (switch to **Close**, which is reduce-only) or to open a single leg via the **Single** tab.
+The wizard opens on the Boros step with both rate legs prefilled. Check **Leg A** and **Leg B** — each is a market and maturity with its own Long/Short side — then confirm the **Size per leg**, keep the mode on **Open**, and set **Max slippage (% APR)**, which caps how far each leg may fill from the quoted rate.
+
+Before you commit, the **ESTIMATED SPREAD** panel shows what you're about to lock:
+
+- the estimated spread, and the **worst case** given your slippage cap
+- each leg's rate
+- the **taker fee**, the **margin required** for both legs, and the **prepaid gas**
+- the resulting position change on each leg
+
+Click **Confirm — 2 Boros market orders** to send them. The wizard then advances to step 2.
 
 <Hint style="info">
-To improve the spread you lock, consider resting a limit order on one Boros leg and market-ordering the other, rather than taking both at market. Sometimes this is worth a good deal of APR — though a clearly good opportunity may be worth taking immediately before someone else does.
+The market dropdowns only list markets that can pair with the other leg — the wizard hides those that don't share a collateral and maturity, and tells you how many it hid.
 </Hint>
 
-## Step 2 — Hedge the perps on CrossEx
+### Step 2 — Hedge the perps (Gate CrossEx)
 
-With the rate locked, click **Hedge the perps** to load the perp legs into the **CrossEx perps** ticket. Set **Size per leg**, then choose an execution mode.
+With the rate locked, the wizard moves to the perp leg. Set the size, then choose an execution mode.
 
 **2 market orders** opens both legs immediately — simple, and the right choice when you want certainty of fill.
 
-**Limit + hedge** is the default and saves fees. The maker side is chosen automatically to minimise the total fee bill. After you click **Execute pair**:
+**Limit + hedge** is the default and saves fees. The maker side is chosen automatically to minimise the total fee bill. Once running:
 
 1. A limit order is placed at the maker price — set just beyond the touch by default, and tracking the book until you type a price to pin it.
 2. Each time it fills, in whole or in part, the filled amount is immediately hedged with a market order on the other venue.
@@ -7598,6 +7607,17 @@ Execute a small test size first to get familiar with the flow before trading mea
 </Hint>
 
 Once both steps are done you hold all four legs, and the **Positions** tab shows your locked rate and estimated return until maturity.
+
+## The order ticket
+
+To trade outside the guided flow, click **Order ticket** in the header. It opens as a side panel with the same two tickets:
+
+![Order ticket panel](/boros-docs/imgs/arbitrage-with-crossex/order-ticket-panel.png "Order ticket panel")
+
+- **CrossEx perps** — pick a coin, set size per leg, choose the execution mode, and **Execute pair**. The **Single** tab opens one leg on its own.
+- **Boros rates** — pick two markets sharing a collateral and maturity, set sides, size, and max slippage, and confirm.
+
+This suits traders who want to set up a perp spread before locking rates, or who want specific limit orders for more advanced execution. If you're new to funding rate arbitrage, use the guided wizard instead.
 
 Next: [Monitoring & Closing Positions](./monitoring-and-closing)
 
@@ -7615,7 +7635,7 @@ Once open, a 4-leg position needs little maintenance — the main decision is wh
 
 At the top, **BOROS-TRACKED TOTALS** summarises every tracked position: **Current PnL**, **Capital**, and **Est. by maturity**.
 
-Each position box is headed by the coin, the venue pair (e.g. `Gate ⇄ Hyperliquid`), the maturity with days remaining, and a status chip — `hedged ✓` when all four legs are in place, or `unhedged` when they aren't. Below that sit the headline numbers:
+Each position box is headed by the coin, the venue pair (e.g. `Gate ⇄ Hyperliquid`), the maturity with days remaining, and a status chip — `hedged ✓` when all four legs are in place, `partial hedge` when every leg is open in the right direction but the sizes don't match, or `unhedged` when legs are missing. Below that sit the headline numbers:
 
 - **FIXED APY** — the locked annualised return, with the underlying spread and ROI beneath it
 - **PNL NOW** — mark-to-market profit or loss today
@@ -7625,7 +7645,7 @@ Each position box is headed by the coin, the venue pair (e.g. `Gate ⇄ Hyperliq
 The leg table lists all four legs — both `·CX` perp legs and both `BOROS` rate legs — with notional, rate (`floating` for perps, the locked rate for Boros legs), and net PnL.
 
 <Hint style="info">
-A position only shows a rate, capital, and ROI once every leg is in place. A partially built position reads **Incomplete position**, and an `unhedged` box offers **Open the perp legs →**, which prefills the pair ticket with the opposite floating exposure.
+A position only shows a rate, capital, and ROI once every leg is in place. A partially built one reads **Incomplete position**, and a mismatched one reads **Sizes don't match** — every leg is open in the right direction, but only the matched part is hedged. An `unhedged` box offers **Open the perp legs →**, which prefills the pair ticket with the opposite floating exposure.
 </Hint>
 
 ## Closing a position
@@ -7635,7 +7655,7 @@ Each side closes on its own venue, using the two buttons at the bottom of the po
 - **Close perp pair** — closes both CrossEx perp legs together.
 - **Close Boros legs** — closes both Boros rate legs.
 
-For finer control, the **MANUAL ADJUSTMENT** column on each leg row has **All of it** and **Close**, letting you close a single leg or part of one rather than the whole side.
+For finer control, the **MANUAL ADJUSTMENT** column on each leg row lets you close a single leg rather than the whole side. It shows **All of it** when the whole leg belongs to this position, or the matched size against the venue total (e.g. `1.26 HYPE / 1.89 HYPE`) when the leg is shared with another strategy.
 
 <Hint style="info">
 Because of the leverage on the perp legs, you may receive Initial Margin Ratio (IMR) alert emails from Gate. As the positions are delta-neutral, liquidation risk stays very low barring price dislocation across venues.
@@ -7649,12 +7669,7 @@ To roll over: close only the Boros legs at maturity, open new Boros legs at the 
 
 ## Using the order ticket directly
 
-Both tickets can be driven manually, outside the guided Opportunities flow:
-
-- **CrossEx perps** — pick a coin, set size per leg, choose market or limit + hedge, and **Execute pair**. The **Single** tab opens one leg on its own.
-- **Boros rates** — pick two markets sharing a collateral and maturity, set sides, size, and max slippage, and confirm.
-
-This suits traders who want to set up a perp spread before locking rates, or who want specific limit orders for more advanced execution. If you're new to funding rate arbitrage, use the guided Opportunities flow instead.
+Click **Order ticket** in the header to open the side panel and trade either side manually, outside the guided wizard — useful for topping up a leg or unwinding part of a position. See [the order ticket](./opening-a-position#the-order-ticket) for what each tab does.
 
 Next: [Understanding Position PnL](./position-pnl)
 
@@ -7683,7 +7698,7 @@ Using CrossEx gives delta-neutral positioning on the perp legs of the arbitrage,
 - **The app isn't reachable over your network.** The server binds to `127.0.0.1` only and rejects requests whose Host/Origin isn't localhost.
 - **No telemetry, no analytics.** The only outbound traffic is to Gate's official API, public market-data endpoints for the venues involved, and a periodic version check against GitHub to show "update available" (`UPDATE_CHECK=0` disables it).
 - **It can't withdraw your funds.** If you created the API key as described in [Setting up CrossEx & API Key](./setup-api-key), Gate enforces this at the account level regardless of anything the app does.
-- **The Boros agent key can't move funds either.** The delegated key that signs your Boros orders can trade the account but cannot deposit or withdraw — those need your actual wallet. You can revoke it at any time with **Remove key** in the Boros rates ticket, and the approval carries an expiry date.
+- **The Boros agent key can't move funds either.** The delegated key that signs your Boros orders can trade the account but cannot deposit or withdraw — those need your actual wallet. You can revoke it at any time with **Remove key** in the order ticket's Boros rates tab, and the approval carries an expiry date.
 
 ## Verifying the software yourself
 
