@@ -15,7 +15,7 @@ import Hint from '@site/src/components/Hint';
 
 顶部的 **BOROS-TRACKED TOTALS** 汇总所有被追踪的仓位：**Current PnL（当前盈亏）**、**Capital（资本）** 和 **Est. by maturity（到期预估）**。
 
-每个仓位方框的标题显示币种、交易所组合（例如 `Gate ⇄ Hyperliquid`）、到期日及剩余天数，以及状态标识——四条腿齐备时显示 `hedged ✓`，否则显示 `unhedged`。其下是主要数字：
+每个仓位方框的标题显示币种、交易所组合（例如 `Gate ⇄ Hyperliquid`）、到期日及剩余天数，以及状态标识——四条腿齐备时显示 `hedged ✓`；各条腿方向均正确但规模不匹配时显示 `partial hedge`；有腿缺失时显示 `unhedged`。其下是主要数字：
 
 - **FIXED APY** — 锁定的年化回报，下方附有对应利差与 ROI
 - **PNL NOW** — 当前的浮动盈亏
@@ -25,7 +25,7 @@ import Hint from '@site/src/components/Hint';
 腿表格列出全部四条腿——两条 `·CX` 永续腿和两条 `BOROS` 利率腿——并显示名义本金、利率（永续腿为 `floating`，Boros 腿为锁定利率）以及净盈亏。
 
 <Hint style="info">
-只有当全部四条腿齐备时，仓位才会显示利率、资本和 ROI。尚未建全的仓位会显示 **Incomplete position**；`unhedged` 方框则提供 **Open the perp legs →** 按钮，可用相反的浮动敞口预填对交易面板。
+只有当全部四条腿齐备时，仓位才会显示利率、资本和 ROI。尚未建全的仓位会显示 **Incomplete position**；规模不匹配的仓位会显示 **Sizes don't match**——各条腿方向均正确，但只有匹配的部分被对冲。`unhedged` 方框则提供 **Open the perp legs →** 按钮，可用相反的浮动敞口预填对交易面板。
 </Hint>
 
 ## 平掉仓位
@@ -35,7 +35,7 @@ import Hint from '@site/src/components/Hint';
 - **Close perp pair** — 同时平掉两条 CrossEx 永续腿。
 - **Close Boros legs** — 平掉两条 Boros 利率腿。
 
-若需更精细的控制，每一行腿的 **MANUAL ADJUSTMENT** 列提供 **All of it** 和 **Close**，可只平掉单条腿或其中一部分，而非整侧。
+若需更精细的控制，每一行腿的 **MANUAL ADJUSTMENT** 列可只平掉单条腿，而非整侧。当整条腿都属于该仓位时显示 **All of it**；当该腿与其他策略共享时，则显示匹配规模与交易所总量之比（例如 `1.26 HYPE / 1.89 HYPE`）。
 
 <Hint style="info">
 由于永续腿使用了杠杆，你可能会收到 Gate 关于初始保证金率（IMR）的提醒邮件。由于仓位是市场中性的，除非出现跨交易所的价格错位，否则清算风险极低。
@@ -49,11 +49,6 @@ import Hint from '@site/src/components/Hint';
 
 ## 直接使用订单面板
 
-两个订单面板都可以手动操作，无需经过引导式的 Opportunities 流程：
-
-- **CrossEx perps** — 选择币种，设置每条腿规模，选择市价单或 limit + hedge，然后 **Execute pair**。**Single** 标签页可单独开出一条腿。
-- **Boros rates** — 选择两个使用相同抵押品与到期日的市场，设置方向、规模和最大滑点，然后确认。
-
-这适合希望在锁定利率前先建立永续价差的交易者，或希望通过特定限价单实现更进阶执行的交易者。如果你刚接触资金费率套利，建议使用引导式 Opportunities 流程。
+点击页首的 **Order ticket** 打开侧边面板，即可在引导式向导之外手动操作任意一侧——适合为某条腿加仓，或部分平掉某个仓位。各下单页的说明详见[订单面板](./opening-a-position#订单面板order-ticket)。
 
 下一步：[理解仓位盈亏](./position-pnl)

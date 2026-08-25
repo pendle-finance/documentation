@@ -7,7 +7,7 @@ import Hint from '@site/src/components/Hint';
 
 # 开仓
 
-交易的两个部分都在终端内执行：Boros 上的**利率腿**，以及通过 CrossEx 执行的**永续腿**。推荐顺序始终是**先锁定利率，再对冲永续腿**——Boros 的价格冲击更大且更难预测，因此应先锁定利差，再投入永续腿。
+交易的两个部分都在终端内执行：Boros 上的**利率腿**，以及通过 CrossEx 执行的**永续腿**。引导式向导会按正确顺序带你完成两步——**先锁定利率，再对冲永续腿**——因为 Boros 的价格冲击更大且更难预测，应先锁定利差，再投入永续腿。
 
 ## 阅读机会扫描（Opportunities scan）
 
@@ -37,7 +37,7 @@ Opportunities 标签页列出当前可用的固定利差，每一项都按你选
 
 **Perp exit cost（永续腿平仓成本）**
 
-- **Close positions（平仓）** — 假设你在到期时平掉永续腿并支付相应手续费。
+- **Close positions（平仓）** — 假设你在到期时平掉永续腿。
 - **Roll over（展期）** — 假设你保留永续腿并滚动进入下一到期日，从而完全省去一轮永续腿手续费。
 
 **Boros entry（Boros 入场方式）**
@@ -63,27 +63,36 @@ Opportunities 标签页列出当前可用的固定利差，每一项都按你选
 此处的 APR 是按各腿所需的**最低**资本建模的。而 Positions 标签页会除以你实际投入的 Boros 保证金，因此一个超额抵押的实际仓位，其显示的 APR 会低于同一笔交易的估算值。
 </Hint>
 
-## 第一步 —— 在 Boros 上锁定利率
+## 开启策略
 
-点击机会卡片上的 **Lock the rate**，两条 Boros 腿会被载入 **Boros rates** 订单面板。
+点击机会卡片上的 **Open this strategy →**，会启动一个两步向导，带你完成交易的两个部分，且各条腿已根据你选择的机会预先填好。
 
-![Boros rates ticket](/boros-docs/imgs/arbitrage-with-crossex/boros-rates-ticket.png "Boros rates ticket")
+![Strategy wizard](/boros-docs/imgs/arbitrage-with-crossex/strategy-wizard.png "Strategy wizard")
 
-检查 **Leg A** 和 **Leg B**——每条腿对应一个市场与到期日，并各自有 Long/Short 方向——然后设置 **Size per leg（每条腿规模）**，将模式保持在 **Open**，并设置 **Max slippage (% APR)**，用于限制每条腿相对报价利率的最大成交偏离。点击 **Confirm — 2 Boros market orders** 发送订单。
+### 第一步 —— 锁定利率（Boros）
 
-两个市场必须使用相同的抵押品和到期日。你也可以单独使用该面板平掉利率腿（切换到 **Close**，该模式为只减仓），或通过 **Single** 标签页开出单条腿。
+向导首先进入 Boros 步骤，两条利率腿均已预填。检查 **Leg A** 和 **Leg B**——每条腿对应一个市场与到期日，并各自有 Long/Short 方向——然后确认 **Size per leg（每条腿规模）**，将模式保持在 **Open**，并设置 **Max slippage (% APR)**，用于限制每条腿相对报价利率的最大成交偏离。
+
+在你确认之前，**ESTIMATED SPREAD（预估利差）** 面板会展示你即将锁定的内容：
+
+- 预估利差，以及在你设定的滑点上限下的**最差情形（Worst case）**
+- 每条腿各自的利率
+- **taker 手续费**、两条腿所需的**保证金**，以及**预付 gas**
+- 每条腿由此产生的仓位变化
+
+点击 **Confirm — 2 Boros market orders** 发送订单，向导随后进入第二步。
 
 <Hint style="info">
-若想改善所锁定的利差，可考虑在一条 Boros 腿上挂限价单，另一条以市价单成交，而非两条都吃单。这有时能带来可观的 APR 提升——不过遇到明显优质的机会时，也值得立即成交，以免被其他用户抢先。
+市场下拉框只列出能与另一条腿配对的市场——向导会隐藏那些抵押品或到期日不匹配的市场，并告知隐藏了多少个。
 </Hint>
 
-## 第二步 —— 在 CrossEx 上对冲永续腿
+### 第二步 —— 对冲永续腿（Gate CrossEx）
 
-锁定利率后，点击 **Hedge the perps**，将永续腿载入 **CrossEx perps** 面板。设置 **Size per leg**，然后选择执行方式。
+锁定利率后，向导进入永续腿步骤。设置规模，然后选择执行方式。
 
 **2 market orders** 会立即开出两条腿——操作简单，适合你希望确保成交的情况。
 
-**Limit + hedge** 是默认选项，可节省手续费。系统会自动选择挂单方向，使总手续费最低。点击 **Execute pair** 后：
+**Limit + hedge** 是默认选项，可节省手续费。系统会自动选择挂单方向，使总手续费最低。启动后：
 
 1. 系统按挂单价格挂出限价单——默认略优于盘口价格，并会跟随盘口移动，直到你手动输入价格将其固定。
 2. 每当该限价单全部或部分成交，成交部分会立即在另一交易所以市价单对冲。
@@ -96,5 +105,16 @@ Opportunities 标签页列出当前可用的固定利差，每一项都按你选
 </Hint>
 
 两步完成后，你就持有了全部四条腿，**Positions** 标签页会显示你锁定的利率以及到期前的预估回报。
+
+## 订单面板（Order ticket）
+
+若要在引导流程之外交易，点击页首的 **Order ticket**。它会以侧边面板打开，包含同样的两个下单页：
+
+![Order ticket panel](/boros-docs/imgs/arbitrage-with-crossex/order-ticket-panel.png "Order ticket panel")
+
+- **CrossEx perps** — 选择币种，设置每条腿规模，选择执行方式，然后 **Execute pair**。**Single** 标签页可单独开出一条腿。
+- **Boros rates** — 选择两个使用相同抵押品与到期日的市场，设置方向、规模和最大滑点，然后确认。
+
+这适合希望在锁定利率前先建立永续价差的交易者，或希望通过特定限价单实现更进阶执行的交易者。如果你刚接触资金费率套利，建议使用引导式向导。
 
 下一步：[监控与平仓](./monitoring-and-closing)
