@@ -10,7 +10,7 @@ Once open, a 4-leg position needs little maintenance — the main decision is wh
 
 At the top, **BOROS-TRACKED TOTALS** summarises every tracked position: **Current PnL**, **Capital**, and **Est. by maturity**.
 
-Each position box is headed by the coin, the venue pair (e.g. `Gate ⇄ Hyperliquid`), the maturity with days remaining, and a status chip — `hedged ✓` when all four legs are in place, or `unhedged` when they aren't. Below that sit the headline numbers:
+Each position box is headed by the coin, the venue pair (e.g. `Gate ⇄ Hyperliquid`), the maturity with days remaining, and a status chip — `hedged ✓` when all four legs are in place, `partial hedge` when every leg is open in the right direction but the sizes don't match, or `unhedged` when legs are missing. Below that sit the headline numbers:
 
 - **FIXED APY** — the locked annualised return, with the underlying spread and ROI beneath it
 - **PNL NOW** — mark-to-market profit or loss today
@@ -20,7 +20,7 @@ Each position box is headed by the coin, the venue pair (e.g. `Gate ⇄ Hyperliq
 The leg table lists all four legs — both `·CX` perp legs and both `BOROS` rate legs — with notional, rate (`floating` for perps, the locked rate for Boros legs), and net PnL.
 
 <Hint style="info">
-A position only shows a rate, capital, and ROI once every leg is in place. A partially built position reads **Incomplete position**, and an `unhedged` box offers **Open the perp legs →**, which prefills the pair ticket with the opposite floating exposure.
+A position only shows a rate, capital, and ROI once every leg is in place. A partially built one reads **Incomplete position**, and a mismatched one reads **Sizes don't match** — every leg is open in the right direction, but only the matched part is hedged. An `unhedged` box offers **Open the perp legs →**, which prefills the pair ticket with the opposite floating exposure.
 </Hint>
 
 ## Closing a position
@@ -30,7 +30,7 @@ Each side closes on its own venue, using the two buttons at the bottom of the po
 - **Close perp pair** — closes both CrossEx perp legs together.
 - **Close Boros legs** — closes both Boros rate legs.
 
-For finer control, the **MANUAL ADJUSTMENT** column on each leg row has **All of it** and **Close**, letting you close a single leg or part of one rather than the whole side.
+For finer control, the **MANUAL ADJUSTMENT** column on each leg row lets you close a single leg rather than the whole side. It shows **All of it** when the whole leg belongs to this position, or the matched size against the venue total (e.g. `1.26 HYPE / 1.89 HYPE`) when the leg is shared with another strategy.
 
 <Hint style="info">
 Because of the leverage on the perp legs, you may receive Initial Margin Ratio (IMR) alert emails from Gate. As the positions are delta-neutral, liquidation risk stays very low barring price dislocation across venues.
@@ -44,11 +44,6 @@ To roll over: close only the Boros legs at maturity, open new Boros legs at the 
 
 ## Using the order ticket directly
 
-Both tickets can be driven manually, outside the guided Opportunities flow:
-
-- **CrossEx perps** — pick a coin, set size per leg, choose market or limit + hedge, and **Execute pair**. The **Single** tab opens one leg on its own.
-- **Boros rates** — pick two markets sharing a collateral and maturity, set sides, size, and max slippage, and confirm.
-
-This suits traders who want to set up a perp spread before locking rates, or who want specific limit orders for more advanced execution. If you're new to funding rate arbitrage, use the guided Opportunities flow instead.
+Click **Order ticket** in the header to open the side panel and trade either side manually, outside the guided wizard — useful for topping up a leg or unwinding part of a position. See [the order ticket](./opening-a-position#the-order-ticket) for what each tab does.
 
 Next: [Understanding Position PnL](./position-pnl)

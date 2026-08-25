@@ -22,11 +22,11 @@ This is read-only: the terminal matches your Boros positions to your Gate perp l
 
 ## 3. Boros agent key
 
-To place Boros orders from the terminal itself, switch the order ticket to the **Boros rates** tab and connect a **delegated agent key**.
+To place Boros orders from the terminal itself, connect a **delegated agent key**. Open **Order ticket** in the header and switch to the **Boros rates** tab — the key panel sits at the top. It also appears on the Boros step of the [strategy wizard](./opening-a-position#opening-the-strategy).
 
-![Boros rates ticket](/boros-docs/imgs/arbitrage-with-crossex/boros-rates-ticket.png "Boros rates ticket")
+![Order ticket panel](/boros-docs/imgs/arbitrage-with-crossex/order-ticket-panel.png "Order ticket panel")
 
-The agent key signs your Boros orders. Once it's connected the tab shows a **trading enabled** badge, the agent address, and the date the approval expires. **Remove key** revokes it.
+The agent key signs your Boros orders. Once it's connected the panel shows a **trading enabled** badge, the agent address, and the date the approval expires. **Remove key** revokes it.
 
 <Hint style="info">
 A delegated agent key can trade the account but **cannot deposit or withdraw** — moving funds always needs your actual wallet. This is the same agent-key mechanism Boros uses on its own front end.

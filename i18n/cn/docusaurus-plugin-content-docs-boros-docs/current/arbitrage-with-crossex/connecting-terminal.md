@@ -27,11 +27,11 @@ import Hint from '@site/src/components/Hint';
 
 ## 3. Boros 代理密钥（Agent key）
 
-若要直接从终端下达 Boros 订单，请将订单面板切换到 **Boros rates** 标签页，并接入一个**委托代理密钥（delegated agent key）**。
+若要直接从终端下达 Boros 订单，需接入一个**委托代理密钥（delegated agent key）**。点击页首的 **Order ticket** 并切换到 **Boros rates** 标签页，密钥面板位于顶部。该面板同样出现在[策略向导](./opening-a-position#开启策略)的 Boros 步骤中。
 
-![Boros rates ticket](/boros-docs/imgs/arbitrage-with-crossex/boros-rates-ticket.png "Boros rates ticket")
+![Order ticket panel](/boros-docs/imgs/arbitrage-with-crossex/order-ticket-panel.png "Order ticket panel")
 
-代理密钥用于签署你的 Boros 订单。接入后，该标签页会显示 **trading enabled** 标识、代理地址，以及授权到期日期。点击 **Remove key** 可撤销该密钥。
+代理密钥用于签署你的 Boros 订单。接入后，该面板会显示 **trading enabled** 标识、代理地址，以及授权到期日期。点击 **Remove key** 可撤销该密钥。
 
 <Hint style="info">
 委托代理密钥可以交易该账户，但**无法存入或提取资金**——资金划转始终需要你本人的钱包。这与 Boros 官方前端所使用的代理密钥机制相同。

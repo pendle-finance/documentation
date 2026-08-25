@@ -2,7 +2,7 @@ import Hint from '@site/src/components/Hint';
 
 # Opening a Position
 
-Both halves of the trade are executed from the terminal: the **rate legs** on Boros and the **perp legs** through CrossEx. The recommended order is always **lock the rate first, then hedge the perps** — Boros price impact is higher and less predictable, so you want the spread secured before committing to the perp side.
+Both halves of the trade are executed from the terminal: the **rate legs** on Boros and the **perp legs** through CrossEx. The guided wizard walks you through both in the right order — **lock the rate first, then hedge the perps** — since Boros price impact is higher and less predictable, so you want the spread secured before committing to the perp side.
 
 ## Reading the Opportunities scan
 
@@ -58,27 +58,36 @@ Below that, two waterfall charts: **profit by maturity**, itemising the gross sp
 The APR here is modelled against the *minimum* capital the legs require. The Positions tab divides by the Boros collateral you have actually posted, so a live, over-collateralised position will read a lower APR than the estimate for the very same trade.
 </Hint>
 
-## Step 1 — Lock the rate on Boros
+## Opening the strategy
 
-Click **Lock the rate** on the opportunity. This loads the two Boros legs into the **Boros rates** order ticket.
+Click **Open this strategy →** on an opportunity. This launches a two-step wizard that carries you through both halves of the trade, with the legs already filled in from the opportunity you picked.
 
-![Boros rates ticket](/boros-docs/imgs/arbitrage-with-crossex/boros-rates-ticket.png "Boros rates ticket")
+![Strategy wizard](/boros-docs/imgs/arbitrage-with-crossex/strategy-wizard.png "Strategy wizard")
 
-Check **Leg A** and **Leg B** — each is a market and maturity, with its own Long/Short side — then set **Size per leg**, keep the mode on **Open**, and set **Max slippage (% APR)**, which caps how far each leg may fill from the quoted rate. Click **Confirm — 2 Boros market orders** to send them.
+### Step 1 — Lock the rate (Boros)
 
-The two markets must share a collateral and maturity. You can also use this ticket standalone to close rate legs (switch to **Close**, which is reduce-only) or to open a single leg via the **Single** tab.
+The wizard opens on the Boros step with both rate legs prefilled. Check **Leg A** and **Leg B** — each is a market and maturity with its own Long/Short side — then confirm the **Size per leg**, keep the mode on **Open**, and set **Max slippage (% APR)**, which caps how far each leg may fill from the quoted rate.
+
+Before you commit, the **ESTIMATED SPREAD** panel shows what you're about to lock:
+
+- the estimated spread, and the **worst case** given your slippage cap
+- each leg's rate
+- the **taker fee**, the **margin required** for both legs, and the **prepaid gas**
+- the resulting position change on each leg
+
+Click **Confirm — 2 Boros market orders** to send them. The wizard then advances to step 2.
 
 <Hint style="info">
-To improve the spread you lock, consider resting a limit order on one Boros leg and market-ordering the other, rather than taking both at market. Sometimes this is worth a good deal of APR — though a clearly good opportunity may be worth taking immediately before someone else does.
+The market dropdowns only list markets that can pair with the other leg — the wizard hides those that don't share a collateral and maturity, and tells you how many it hid.
 </Hint>
 
-## Step 2 — Hedge the perps on CrossEx
+### Step 2 — Hedge the perps (Gate CrossEx)
 
-With the rate locked, click **Hedge the perps** to load the perp legs into the **CrossEx perps** ticket. Set **Size per leg**, then choose an execution mode.
+With the rate locked, the wizard moves to the perp leg. Set the size, then choose an execution mode.
 
 **2 market orders** opens both legs immediately — simple, and the right choice when you want certainty of fill.
 
-**Limit + hedge** is the default and saves fees. The maker side is chosen automatically to minimise the total fee bill. After you click **Execute pair**:
+**Limit + hedge** is the default and saves fees. The maker side is chosen automatically to minimise the total fee bill. Once running:
 
 1. A limit order is placed at the maker price — set just beyond the touch by default, and tracking the book until you type a price to pin it.
 2. Each time it fills, in whole or in part, the filled amount is immediately hedged with a market order on the other venue.
@@ -91,5 +100,16 @@ Execute a small test size first to get familiar with the flow before trading mea
 </Hint>
 
 Once both steps are done you hold all four legs, and the **Positions** tab shows your locked rate and estimated return until maturity.
+
+## The order ticket
+
+To trade outside the guided flow, click **Order ticket** in the header. It opens as a side panel with the same two tickets:
+
+![Order ticket panel](/boros-docs/imgs/arbitrage-with-crossex/order-ticket-panel.png "Order ticket panel")
+
+- **CrossEx perps** — pick a coin, set size per leg, choose the execution mode, and **Execute pair**. The **Single** tab opens one leg on its own.
+- **Boros rates** — pick two markets sharing a collateral and maturity, set sides, size, and max slippage, and confirm.
+
+This suits traders who want to set up a perp spread before locking rates, or who want specific limit orders for more advanced execution. If you're new to funding rate arbitrage, use the guided wizard instead.
 
 Next: [Monitoring & Closing Positions](./monitoring-and-closing)
