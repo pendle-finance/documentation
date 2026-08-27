@@ -28,6 +28,8 @@ YT reward APR = ytMin + (ytMax − ytMin) × progress          (ramps up)
 PT reward APR = ptMax × (1 − progress)                       (ramps down, floored at 0)
 ```
 
+![DIC reward curves](/pendle-docs/imgs/ProtocolMechanics/dic_reward_curves.svg "The two DIC reward curves")
+
 **Intuition:**
 - **YT (growth engine).** When the pool is small the YT reward is low; as TVL climbs toward the End Target the YT reward rises to `ytMax`. This pulls in more liquidity precisely as the campaign gains traction.
 - **PT (bootstrap counter-lever).** When the pool is empty the PT reward is at its maximum (`ptMax`), giving the very first depositors an outsized fixed-yield sweetener. As TVL climbs, the PT reward decays to zero — the market no longer needs the extra push once it is deep.
@@ -43,6 +45,8 @@ The curve is fixed by the End Target alone and never changes for the life of the
 ## The Ratchet
 
 If the reward rate simply tracked live TVL, a brief liquidity spike (or a whale entering and leaving) would make the advertised APR flicker. DIC prevents this with a **ratchet**.
+
+![The DIC ratchet](/pendle-docs/imgs/ProtocolMechanics/dic_ratchet.svg "The ratchet follows the confirmed high-water-mark")
 
 Both reward APRs are driven by a **confirmed TVL high-water-mark** rather than by the instantaneous TVL. A new TVL level only lifts the high-water-mark after it has been *sustained for a dwell period* (a few hours by default), so an unsustained spike cannot inflate the rate. Because the high-water-mark only ever moves up:
 
@@ -69,6 +73,8 @@ worst-case TVL  h* = clamp(  (ytMin + ptMax) × End Target
 
 Total budget = h* × ( YT reward APR(h*) + PT reward APR(h*) ) × (days-to-maturity / 365)
 ```
+
+![DIC worst-case budget](/pendle-docs/imgs/ProtocolMechanics/dic_worst_case.svg "Worst-case budget sits at the joint-spend peak")
 
 The joint peak `h*` matters because YT and PT can both pay at the same TVL: charging only at the End Target (where PT reward is 0) would under-fund the campaign whenever that joint peak sits in the interior of the curve. When the YT ramp is steep enough that `ptMax ≤ ytMax − ytMin`, joint spend only ever increases with TVL and the worst case simply sits at the Cap.
 
