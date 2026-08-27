@@ -22,6 +22,7 @@
 - [Minting](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/YieldTokenization/Minting): How PT and YT are minted from SY
 - [AMM](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/LiquidityEngines/AMM): Pendle's custom AMM for yield trading
 - [Fees](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/Mechanisms/Fees): Protocol fee structure
+- [Dynamic Incentives](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/Mechanisms/DynamicIncentives): Dynamic Incentive Controller — TVL-driven YT/PT reward curves for protocol-funded market campaigns
 
 ### API Integration (recommended for most users)
 - [API Overview](https://docs.pendle.finance/pendle-v2-dev/Backend/ApiOverview): Hosted SDK vs data APIs, rate limits, authentication, and API entry points
