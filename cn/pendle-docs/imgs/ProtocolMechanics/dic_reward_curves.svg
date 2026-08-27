@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 440" font-family="-apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif">
+  <rect x="0" y="0" width="720" height="440" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <text x="360" y="34" text-anchor="middle" font-size="17" font-weight="600" fill="#0f172a">The two DIC reward curves</text>
+
+  <!-- axes -->
+  <line x1="90" y1="360" x2="670" y2="360" stroke="#94a3b8" stroke-width="1.5"/>
+  <line x1="90" y1="360" x2="90" y2="70" stroke="#94a3b8" stroke-width="1.5"/>
+
+  <!-- End Target marker -->
+  <line x1="660" y1="70" x2="660" y2="360" stroke="#cbd5e1" stroke-width="1.2" stroke-dasharray="5 4"/>
+  <text x="660" y="382" text-anchor="middle" font-size="12" fill="#64748b">End Target</text>
+  <text x="90" y="382" text-anchor="middle" font-size="12" fill="#64748b">0</text>
+  <text x="380" y="410" text-anchor="middle" font-size="13" fill="#475569">Market TVL (SY units) →</text>
+
+  <!-- y label -->
+  <text x="34" y="215" text-anchor="middle" font-size="13" fill="#475569" transform="rotate(-90 34 215)">Reward APR →</text>
+
+  <!-- PT curve: ptMax -> 0 (ramps down) -->
+  <line x1="90" y1="90" x2="660" y2="360" stroke="#f59e0b" stroke-width="3"/>
+  <circle cx="90" cy="90" r="4" fill="#f59e0b"/>
+  <circle cx="660" cy="360" r="4" fill="#f59e0b"/>
+  <text x="102" y="84" font-size="12" fill="#b45309" font-weight="600">ptMax</text>
+
+  <!-- YT curve: ytMin -> ytMax (ramps up) -->
+  <line x1="90" y1="300" x2="660" y2="120" stroke="#2563eb" stroke-width="3"/>
+  <circle cx="90" cy="300" r="4" fill="#2563eb"/>
+  <circle cx="660" cy="120" r="4" fill="#2563eb"/>
+  <text x="98" y="318" font-size="12" fill="#1d4ed8" font-weight="600">ytMin</text>
+  <text x="616" y="112" font-size="12" fill="#1d4ed8" font-weight="600">ytMax</text>
+
+  <!-- legend -->
+  <rect x="118" y="60" width="18" height="4" rx="2" fill="#2563eb"/>
+  <text x="144" y="65" font-size="12.5" fill="#334155">YT reward — growth engine (ramps up)</text>
+  <rect x="410" y="60" width="18" height="4" rx="2" fill="#f59e0b"/>
+  <text x="436" y="65" font-size="12.5" fill="#334155">PT reward — bootstrap (ramps down)</text>
+</svg>
