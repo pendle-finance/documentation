@@ -29,6 +29,7 @@ V2_FILES=(
   "$PENDLE_DOCS_DIR/ProtocolMechanics/YieldTokenization/Minting.md"
   "$PENDLE_DOCS_DIR/ProtocolMechanics/LiquidityEngines/AMM.md"
   "$PENDLE_DOCS_DIR/ProtocolMechanics/Mechanisms/Fees.md"
+  "$PENDLE_DOCS_DIR/ProtocolMechanics/Mechanisms/DynamicIncentives.md"
   # API integration
   "$DEV_DOCS_DIR/Backend/ApiOverview.mdx"
   "$DEV_DOCS_DIR/Backend/HostedSdk.mdx"

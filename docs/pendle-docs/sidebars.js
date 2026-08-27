@@ -36,6 +36,7 @@ module.exports = {
             { type: "doc", id: "ProtocolMechanics/Mechanisms/Tokenomics", label: "Tokenomics" },
             { type: "doc", id: "ProtocolMechanics/Mechanisms/sPENDLE", label: "sPENDLE" },
             { type: "doc", id: "ProtocolMechanics/Mechanisms/Incentives", label: "Incentives" },
+            { type: "doc", id: "ProtocolMechanics/Mechanisms/DynamicIncentives", label: "Dynamic Incentives" },
             { type: "doc", id: "ProtocolMechanics/Mechanisms/Fees", label: "Fees" }
           ],
         },
