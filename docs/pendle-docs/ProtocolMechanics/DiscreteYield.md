@@ -38,11 +38,18 @@ The remaining **83** goes to the treasury. Under the old index rule Bob would ha
 
 ## Example 2 — selling before the payout
 
-Same setup, except Bob holds all year and sells everything the day before the payout, to a buyer who is still holding when it lands.
+Same setup as Example 1, except Bob sells **400** of his 1,000 YT the day before the payout, to **Dave**, who is still holding when it lands. He keeps the other 600.
 
-$A = 1{,}000, \quad P = 0, \quad E = \min(1{,}000, 0) = 0$
+| position | held | $A$ | $P$ | $E$ | would earn | paid |
+| --- | --- | --- | --- | --- | --- | --- |
+| Alice · YT | all year | $1{,}000$ | $1{,}000$ | $1{,}000$ | $100$ | $100$ |
+| Bob · YT | 2 mo, sells 400 | $167$ | $600$ | $167$ | $60$ | $17$ |
+| Dave · YT | last day | $\approx 0$ | $400$ | $\approx 0$ | $40$ | $\approx 0$ |
+| **total** | | $1{,}167$ | $2{,}000$ | $1{,}167$ | $\mathbf{200}$ | $\mathbf{117}$ |
 
-Bob is paid nothing — he was compensated in the sale price. Alice still receives exactly **100, not 200**: Bob's forfeit is not redistributed to her, because her own position only generated 100.
+Bob is paid **17**, exactly what he was paid in Example 1: he is paid on what he accrued, and the 600 he kept still covers it. Selling part of a position costs nothing while what you keep covers your accrual — had he sold 900 and kept 100, $E = \min(167, 100) = 100$ and he would be paid **10**.
+
+Dave is paid **nothing**. He holds 400 at the payout but accrued none of the yield, and he paid Bob for it in the price. The **83** between what the positions held at the payout would have earned and what was actually paid goes to the treasury — the same 83 as Example 1, and not to Alice, who still receives exactly **100** because her own position only generated 100.
 
 ## Example 3 — both legs, with a round trip
 
