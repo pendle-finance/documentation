@@ -2,6 +2,15 @@
 
 This guide explains how to directly connect to Boros's WebSocket service using Socket.IO client.
 
+:::caution WebSocket is in beta
+The WebSocket service is currently a **beta experiment**. Channels, event names and payloads may change, and delivery is not guaranteed — events can be delayed or dropped, especially around reconnects.
+
+Do not rely on it as the sole source of truth for your account state. For now, fetch your current positions from the REST API — either on a cron/polling schedule or after each WebSocket notification:
+
+- [`GET /accounts/active-positions`](./4.%20api.mdx#active-positions) — all active positions for a user
+- [`POST /accounts/market-acc-infos`](./4.%20api.mdx#market-acc-infos) — positions, margins and balances per market account
+:::
+
 ## Basic Usage
 
 Here's a complete example of how to connect to and use the WebSocket:
