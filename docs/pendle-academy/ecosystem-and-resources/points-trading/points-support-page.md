@@ -159,9 +159,9 @@ Yes. However, it is up to the underlying protocol to continue streaming rewards 
 
 #### 1. 1. What is the difference between when I provide liquidity with **Keep YT Mode** on vs off?
 
-Learn more on how liquidity provision works: [https://docs.pendle.finance/AppGuide/Pool](https://docs.pendle.finance/AppGuide/Pool)
+Learn more on how liquidity provision works: [https://docs.pendle.finance/pendle-v2/AppGuide/Pool](https://docs.pendle.finance/pendle-v2/AppGuide/Pool)
 
-Without Keep YT Mode, you are providing liquidity with 100% of your capital. LPs consist of PT and its underlying (wrapped in [SY](https://docs.pendle.finance/ProtocolMechanics/YieldTokenization/SY)). Note that PT does not earn points.&#x20;
+Without Keep YT Mode, you are providing liquidity with 100% of your capital. LPs consist of PT and its underlying (wrapped in [SY](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/YieldTokenization/SY)). Note that PT does not earn points.&#x20;
 
 With Keep YT Mode toggled on, Pendle retains your YT exposure in your LP process. (i.e. YT is not sold for additional LP -> hence no price impact). This results in less yield as you have less position in LP (since some capital is retained in YT). The amount of YTs that is retained in this process is equivalent to the amount of PTs in your LP position. **This means that Keep YT Mode mode retains most of your points exposure while earning yields from swap fees and Pendle incentives.** Note that PT's fixed yield is offset by YT's price decay at maturity.
 
