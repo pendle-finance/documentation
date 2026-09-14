@@ -111,12 +111,12 @@ All Pendle API endpoints are rate-limited to ensure service stability and fair u
 Pendle uses a **Computing Unit (CU)** based system. Every endpoint has a CU cost, which may be fixed or dynamic depending on the endpoint.
 The rate limit is calculated based on the total CU cost of all endpoints.
 
-Each user (IP) has a rate limit of 100 CU per minute, and 200,000 CU per week.
+Each user (IP) has a rate limit of 200 CU per minute, and 200,000 CU per week.
 
 Both limits apply simultaneously. You must stay within both the per-minute AND weekly limits to avoid rate limiting.
 
 **Example**: If an endpoint costs 5 CU, you can call it:
-- 20 times per minute (100 ÷ 5 = 20)
+- 40 times per minute (200 ÷ 5 = 40)
 - 40,000 times per week (200,000 ÷ 5 = 40,000)
 
 #### Computing Unit Costs
@@ -132,7 +132,7 @@ Our endpoints return the following headers to help you monitor your usage:
 | Header | Description |
 |--------|-------------|
 | `X-Computing-Unit` | CU cost of this request |
-| `X-RateLimit-Limit` | Maximum CU per minute (e.g., 100 for free tier) |
+| `X-RateLimit-Limit` | Maximum CU per minute (e.g., 200 for free tier) |
 | `X-RateLimit-Remaining` | CU remaining in current minute window |
 | `X-RateLimit-Reset` | Unix timestamp when minute limit resets |
 | `X-RateLimit-Weekly-Limit` | Maximum CU per week (e.g., 200,000 for free tier) |
@@ -143,8 +143,8 @@ Our endpoints return the following headers to help you monitor your usage:
 Example response:
 ```
 x-computing-unit: 25
-x-ratelimit-limit: 100
-x-ratelimit-remaining: 75
+x-ratelimit-limit: 200
+x-ratelimit-remaining: 175
 x-ratelimit-reset: 1724206817
 x-ratelimit-weekly-limit: 200000
 x-ratelimit-weekly-remaining: 175000
@@ -180,7 +180,7 @@ You can purchase multiple units to scale your rate limits based on your applicat
 
 | Weekly Cost | CU per Minute | Weekly CU Limit |
 |-------------|---------------|-----------------|
-| **$0** (Free) | 100 | 200,000 |
+| **$0** (Free) | 200 | 200,000 |
 | **$10** | 500 | 1,000,000 |
 | **$20** | 1,000 | 2,000,000 |
 | **$30** | 1,500 | 3,000,000 |
@@ -224,10 +224,10 @@ The response will have rate limit headers as described in [Rate Limit Headers](#
 
 :::note
 
-You may occasionally notice `X-Ratelimit-Limit: 100` in responses even when you have a higher rate limit plan. 
+You may occasionally notice `X-Ratelimit-Limit: 200` in responses even when you have a higher rate limit plan. 
 This happens when the response is served from **Cloudflare's cache** (indicated by the `CF-Cache-Status: HIT` header). 
 When a cache hit occurs, the request never reaches our backend, so **it does not count against your rate limit quota**. 
-The `X-Ratelimit-Limit: 100` value in this case is simply a default header from the cached response and does not reflect your actual rate limit.
+The `X-Ratelimit-Limit: 200` value in this case is simply a default header from the cached response and does not reflect your actual rate limit.
 
 :::
 
