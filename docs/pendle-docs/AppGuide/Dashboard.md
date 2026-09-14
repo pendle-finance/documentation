@@ -21,7 +21,7 @@ Total current, *active* positions on the selected chain in dollar terms
 
 #### My Claimable Yield & Rewards
 
-All of the accrued yield and rewards from YT and LP that can be [claimed](https://docs.pendle.finance/AppGuide/Claim) on the selected chain
+All of the accrued yield and rewards from YT and LP that can be [claimed](https://docs.pendle.finance/pendle-v2/AppGuide/Claim) on the selected chain
 
 #### Leaderboard
 
@@ -33,7 +33,7 @@ The lower part of the Dashboard breaks down your Pendle positions by Assets, inc
 
 ![All My Positions](/pendle-docs/imgs/AppGuide/all_my_positions.png "All My Positions")
 
-Once an asset's market has matured, its position page shows **Roll Over** and **Redeem All** actions. See [Roll Over](https://docs.pendle.finance/AppGuide/RollOver) for how to move a matured position into a new market.
+Once an asset's market has matured, its position page shows **Roll Over** and **Redeem All** actions. See [Roll Over](https://docs.pendle.finance/pendle-v2/AppGuide/RollOver) for how to move a matured position into a new market.
 
 You can click on “Details” for an even more comprehensive view of the asset position, which will show you a further breakdown of your position by PT, YT and LP, alongside a dynamic P&L chart (coming soon).
 

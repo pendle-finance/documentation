@@ -27,7 +27,7 @@ import Hint from '@site/src/components/Hint';
 <figure><img src="/pendle-academy/imgs/image (111).png" alt="" /><figcaption><p>vePENDLE yields</p></figcaption></figure>
 
 <Hint style="info">
-💡 Learn more about the mechanics of vePENDLE in the [documentations](https://docs.pendle.finance/ProtocolMechanics/Mechanisms/vePENDLE).
+💡 Learn more about the mechanics of vePENDLE in the [documentations](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/Mechanisms/sPENDLE).
 </Hint>
 
 ***

@@ -15,7 +15,7 @@ A Pendle pool consists of PT and SY. Let’s use stETH as an example of our unde
 
 **SY** is a wrapped version of the underlying asset, which gives Pendle a standard way to interact with any yield mechanism and split it into PT & YT. You can think of SY the same as the underlying yield-bearing asset.
 
-> Notice that there’s no YT in the pool, because both PT and YT are traded through the same pool of liquidity. This is made possible by using a pseudo-AMM with [flash swaps](https://docs.pendle.finance/ProtocolMechanics/LiquidityEngines/AMM#flash-swaps), which we won’t go into details here.
+> Notice that there’s no YT in the pool, because both PT and YT are traded through the same pool of liquidity. This is made possible by using a pseudo-AMM with [flash swaps](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/LiquidityEngines/AMM#flash-swaps), which we won’t go into details here.
 
 ## 1. Zap to provide liquidity to Long PT
 
