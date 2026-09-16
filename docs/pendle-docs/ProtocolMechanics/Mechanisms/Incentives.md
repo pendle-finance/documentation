@@ -7,178 +7,179 @@ hide_table_of_contents: true
 The Algorithmic Incentive Model (AIM) is an automated, merit-based reward system that allocates PENDLE emissions to pools based on their performance. Pools that excel across liquidity, swap fees, limit-order depth, and co-incentives receive a higher share of rewards to recognize their contribution to the Pendle ecosystem. Each weekly incentive epoch starts on **Thursday 00:00 UTC**.
 
 Incentives are delivered through four reward streams:
-- **Performance**: emissions based on a pool's liquidity (TVL) and swap-fee generation
-- **Limit Order**: emissions that reward limit-order depth on the orderbook
-- **Co-Incentives**: PENDLE that Pendle matches against protocol-provided incentives — now used to boost the market's limit-order (maker) incentive
+- **Performance**: emissions based on a pool's liquidity (LP TVL) and swap-fee generation
+- **Limit Order**: emissions that reward limit-order depth, paid separately on each side of the book
+- **Co-Incentives**: PENDLE that Pendle matches against protocol-provided incentives — used to lift the market's limit-order depth targets
 - **Discretionary**: strategic allocations for high-potential pools
 
-A pool's combined **Performance** (TVL + Fee) incentive is capped at the lower of **\$1,500 or 1,250 PENDLE** per week, and its **Limit Order** incentive is capped at **\$1,250** per week. A typical weekly budget is around 90,000 PENDLE. Any PENDLE not distributed in a given week is returned to the protocol treasury and does not roll over to the next week's budget.
+| Stream | What it is paid on | Rate | Cap |
+|---|---|---|---|
+| Liquidity | LP TVL, capped at a \$2.5m anchor | 0.20% APR (1.00% bootstrapping) | \$96/wk · \$481/wk |
+| Fee | the week's swap fees | 25c per \$1 | \$625/wk |
+| Long book | target depth × maker capital at risk | 30% APR | 100% APR on posted depth · \$1,250/wk |
+| Short book | target depth × maker capital at risk | 30% APR | 200% APR on posted depth · \$1,250/wk |
+| Co-incentives | partner campaign value | 15% match (22% in PENDLE) | 9,000 PENDLE per epoch, all pools |
+
+Every amount above is an **absolute figure derived from the pool's own liquidity, fees and depth** — there is no fixed weekly PENDLE budget that pools compete for a share of, and nothing rolls over between weeks.
+
+### Converting Dollars to PENDLE
+
+All four streams are sized in dollars and then converted to PENDLE at:
+
+```Math
+PENDLE = USD / max(PENDLE price, $1.25)
+```
+
+The \$1.25 floor caps **issuance**, not value. Below \$1.25 the protocol emits the tokens it would have emitted at \$1.25, and the dollar value delivered falls with the price.
 
 ## How Often Are Incentives Updated?​
 
 Incentives are recalculated and updated every hour. When a new pool is whitelisted, it begins receiving incentives within the next hour.
 
 Individual components update on different schedules:
-- **Liquidity emissions**: continuously in real time as TVL changes
+- **Liquidity emissions**: continuously in real time as LP TVL changes
 - **Fee emissions**: recalculated three times per epoch — at the initial Thursday distribution, then again on Saturday and Monday
-- **Limit order emissions**: continuously (hourly) as TVL and volume change
+- **Limit order emissions**: continuously (hourly) as TVL, volume and posted depth change
 - **Co-incentives**: updated weekly
 - **Discretionary**: updated weekly
 
 ## Performance
 
-A pool's Performance incentive is the sum of its **liquidity-based** and **fee-based** emissions. It is adapted to support pools across their lifecycle: newer pools are aggressively incentivized based on liquidity growth, while mature pools are primarily incentivized based on swap-fee performance.
+A pool's Performance incentive is the sum of its **liquidity-based** and **fee-based** emissions. Both are quoted against a single **\$2.5m anchor** — the pool size the system is calibrated for — and both read **LP TVL**, because LPs are who receives the reward.
 
-![incentive timeline](/pendle-docs/imgs/ProtocolMechanics/incentive_timeline.png "Incentive Timeline")
+```Math
+Performance = Liquidity + Fee
+```
 
-The combined liquidity + fee (Performance) incentive is capped per pool at the lower of **\$1,500 or 1,250 PENDLE** per week (see [Performance Cap & Cut-off](#performance-cap--cut-off)).
+The model is adapted to support pools across their lifecycle: newer pools are incentivized on liquidity growth at a much higher rate, while mature pools earn primarily on swap-fee performance.
 
 ## Liquidity-Based Emissions
 
-Pools receive PENDLE based on their **weighted TVL**, a blend that gives most of the weight to in-pool liquidity:
+Pools receive PENDLE as an **APR on their own LP TVL, capped at the \$2.5m anchor**. Above \$2.5m the dollar amount is flat, so a larger pool is paid the same money spread thinner.
 
-```Math
-Weighted TVL = 80% × Pool Liquidity + 20% × Total TVL (including PT/YT holders)
-```
+The rate depends on the pool's age, counted from the first Thursday after it was whitelisted:
 
-(Equivalently, `Weighted TVL = LP TVL + k × Floating TVL` with `k = 0.2`.)
+| Phase | Age | Weekly emission | Ceiling |
+|---|---|---|---|
+| **Bootstrap** | under 7 days | `1.00% × min(floorTVL(LP TVL), $2.5m) / 52` | \$481 /wk |
+| **Growth** | 7 – 14 days | `[1.00% × (1−p) + 0.20% × p] × min(LP TVL, $2.5m) / 52` where `p = (age − 7) / 7` | — |
+| **Mature** | 14 days or more | `0.20% × min(LP TVL, $2.5m) / 52` | \$96 /wk |
 
-Weighted TVL determines a pool's share of emissions depending on its lifecycle phase, defined by its age (counted from the first Thursday after it was whitelisted):
-- **Bootstrap** → less than 14 days since launch
-- **Transition** → 14–21 days since launch
-- **Mature** → 21 days or more since launch
+During the Bootstrap phase, pools also receive an artificial TVL floor so very small new pools are not paid on near-zero liquidity: pools under \$200K are treated as \$200K, pools between \$200K and \$500K as \$500K, and pools between \$500K and \$2M as \$2M. These floors are a bootstrap device only — **they lapse at day 7**, so the Growth week is a genuine taper on both the rate and the basis.
 
-![Emission Curve](/pendle-docs/imgs/ProtocolMechanics/emission_curve.png "Emission Curve")
+#### Examples
 
-The Bootstrap curve has an aggressive reward-per-liquidity slope to support new pools during their critical early phase. During the Transition phase the curve gradually shifts from Bootstrap toward Mature, after which pool performance is driven mainly by fees.
+- A **mature** pool with \$5m LP TVL: the basis is capped at the \$2.5m anchor, so it earns `0.20% × $2.5m / 52` = **\$96/week** — the same as a pool with \$2.5m.
+- A **mature** pool with \$1m LP TVL earns `0.20% × $1m / 52` = **\$38/week**.
+- A **bootstrapping** pool 3 days old with \$300K LP TVL: the floor lifts its basis to \$500K, so it earns `1.00% × $500K / 52` = **\$96/week** — five times what the same liquidity would earn at maturity.
+- A pool **10.5 days old** sits halfway through the Growth taper (`p = 0.5`), so its rate is 0.60%.
 
-During the Bootstrap phase, pools also receive an artificial TVL floor so very small new pools are not under-rewarded: pools under \$200K are treated as \$200K, pools between \$200K and \$500K as \$500K, and pools between \$500K and \$2M as \$2M.
+### Activation Gate
 
-The liquidity emission share is interpolated piecewise-linearly between the following milestones:
-
-| Weighted TVL | PENDLE Emission Share (Bootstrap, \<14 days) | PENDLE Emission Share (Mature, ≥21 days) |
-|---|---|---|
-| \$0     | 0%      | 0%     |
-| \$2m    | 0.333%  | 0%     |
-| \$5m    | 0.75%   | 0.15%  |
-| \$10m+  | 0.75%   | 0.15%  |
+A gate can zero a **mature** pool whose total TVL sits below a threshold. It never applies to a pool that is still bootstrapping or growing, and it is **set to \$0 by default** — nothing is cut unless it is switched on.
 
 ### Renewed Pools
-When a new maturity (a **Renewal Pool**) is launched for an existing pool (a **Maturing Pool**) on the same chain, the Renewal Pool follows the **Renewal Liquidity Curve**, which overrides the default Liquidity Curve.
 
-The Renewal Pool's incentives are determined by:
-1. The Maturing Pool's days-to-maturity
-2. The Renewal Pool's liquidity
-
-There are 3 phases for the **Renewal Liquidity Curve** (transition period is 7 days):
-1. **Pre-Maturity** (\<7 days before the original pool matures)
-2. **Transition** (0–7 days after the original pool matures)
-3. **Post-Maturity** (\>7 days after the original pool matures, or \>7 days before it matures)
-
-![Renewal Curve](/pendle-docs/imgs/ProtocolMechanics/renewal_curve.png "Renewal Curve")
-
-Each phase applies a different emission level based on the Renewal Pool's liquidity:
-
-| Weighted TVL (Renewal Pool) | PENDLE Emission Share (Pre-Maturity) | PENDLE Emission Share (Post-Maturity) |
-|---|---|---|
-| \$0     | 0%      | 0%     |
-| \$2m    | 0.333%  | 0%     |
-| \$5m    | 0.75%   | 0.15%  |
-| \$10m+  | 0.75%   | 0.15%  |
-
-The system also looks at how much incentive the Maturing Pool was earning, and guarantees the Renewal Pool at least a weighted decay from the predecessor's share — ensuring a smooth transition rather than a sudden drop.
-
-#### Example
-
-![Renewal Emission](/pendle-docs/imgs/ProtocolMechanics/renewal_emission.png "Renewal Emission")
-
-*Assume a USDe pool is maturing soon, and its Renewal Pool (the next closest maturity) has \$10M weighted TVL.*
-
-Following the Renewal Liquidity Curve, the Renewal Pool's emission share depends on the Maturing Pool's days-to-maturity:
-- More than 7 days before the predecessor matures → Post-Maturity curve → **0.15%** emission share
-- Within 7 days before the predecessor matures → Pre-Maturity curve → **0.75%** emission share
-- During the 7-day window after the predecessor matures → blends from Pre-Maturity (0.75%) down to Post-Maturity (0.15%)
-
-The objective is to calibrate incentives based on context. Renewal pools inherit established liquidity and a user base, so they need less bootstrapping support than a genuinely new asset. This lets the protocol focus stronger incentives on new asset launches while still supporting smooth rollovers for maturing pools.
+Renewal no longer has its own liquidity curve. A renewed pool walks the same Bootstrap → Growth → Mature path as any other new pool. Continuity for rollovers is handled on the **limit-order side** instead, through the long book's [initialization rule](#long-book), which lets a renewed market inherit its predecessor's depth target for the first 7 days.
 
 ## Fee-Based Emissions
 
-Pools receive PENDLE based on their swap-fee performance. Unlike the previous model, fee incentive is now **deterministic per pool**: each pool earns a PENDLE amount derived directly from its own fees, with **no shared weekly budget** and no scaling against other pools.
+Pools receive PENDLE based on the swap fees they actually produced that week, with a ceiling quoted against the same \$2.5m anchor:
 
-A pool's fee incentive is computed in three steps:
+```Math
+Fee = min( 0.25 × the week's swap fees , 1.30% × $2.5m / 52 )
+    = min( 0.25 × fees , $625/wk )
+```
 
-1. **Recency-weighted fee** — fee performance uses a 2-week recency-weighted treasury fee that emphasizes recent activity:
+There is **no phase distinction, no eligibility gate of its own, and no recency weighting** — the week's fees are the week's fees. This is the component that rewards a pool for being *used* rather than for being *large*, and at \$625 against the liquidity side's \$96 it is deliberately the larger of the two.
 
-   ```Math
-   Weighted Fee = (Recent Week Fee × 2 + Previous Week Fee) / 3
-   ```
+#### Examples
 
-   For newer pools (less than 14 days old), only the recent week's fee is used.
+- A pool that generated \$1,200 in swap fees this week earns `0.25 × $1,200` = **\$300**.
+- A pool that generated \$4,000 earns `0.25 × $4,000 = $1,000`, which is trimmed to the **\$625** ceiling.
 
-2. **TVL-tier rate** — the weighted fee is multiplied by a rate that amplifies small, young pools during their Bootstrap phase. The rate is interpolated over weighted-TVL tiers:
+## Performance Ceiling & Cut-off
 
-   | Weighted TVL | Rate (Bootstrap, age \< 21 days) | Rate (Mature, age ≥ 21 days) |
-   |---|---|---|
-   | ≤ \$2m   | 0.75 | 0.25 |
-   | \$2m–\$5m | 0.75 → 0.25 | 0.25 |
-   | ≥ \$5m   | 0.25 | 0.25 |
+The Performance ceiling is not a separate cap — it falls out of the two rates:
 
-   Once a pool is mature, the rate is a flat 0.25.
+| Phase | Ceiling | As APR on the anchor |
+|---|---|---|
+| Mature | \$96 + \$625 = **\$721 /wk** | 1.50% |
+| Bootstrap | \$481 + \$625 = **\$1,106 /wk** | 2.30% |
 
-3. **Convert to PENDLE** — the rate-adjusted fee is divided by the current PENDLE price to give the pool's deterministic weekly fee incentive in PENDLE.
+If a pool's combined Liquidity + Fee incentive falls below **50 PENDLE per week**, it is set to zero. This avoids pushing negligibly small on-chain rewards that cost gas but add little value. The cut-off is **skipped** in two cases:
+- **Pre-mature pools** (still bootstrapping or growing, under 14 days old) — these legitimately have small liquidity and fee revenue while ramping up.
+- **Manually overridden pools** — when an admin has fixed a Liquidity or Fee value for the market.
 
-There is **no global fee budget** and no cross-pool sharing. Each pool's fee incentive stands on its own and is bounded only by the per-pool [Performance Cap](#performance-cap--cut-off).
-
-### Eligibility and Fee Measurement​
-
-**Eligibility**: pools must be at least 2 days old to receive fee-based emissions. Newer pools can still receive liquidity-based emissions and other incentives.
-
-**Renewed markets**: a freshly deployed Renewal Pool can inherit a portion of its predecessor's fee history during the renewal window, so its fee incentive does not start from zero. As the renewal window elapses, the pool transitions to using only its own fees.
-
-## Performance Cap & Cut-off
-
-The combined Performance incentive (TVL + Fee) for each pool is capped at the lower of **\$1,500 or 1,250 PENDLE** per week. TVL incentive is allocated first; the fee incentive then fills whatever room remains under the cap.
-
-If a pool's combined TVL + Fee incentive falls below **50 PENDLE per week**, it is set to zero. This avoids pushing negligibly small on-chain rewards that cost gas but add little value. The cut-off is **skipped** in two cases:
-- **Pre-mature pools** (still in the Bootstrap or Transition phase, age under 21 days) — these legitimately have small TVL and fee revenue while ramping up.
-- **Manually overridden pools** — when an admin has fixed a TVL or Fee value for the market.
-
-Co-incentive (limit-order boost), Limit Order incentive, and Discretionary allocations are added **on top** and are not subject to the Performance Cap or cut-off.
+Limit Order incentives, the co-incentive top-up, and Discretionary allocations are added **on top** and are not subject to the Performance ceiling or cut-off.
 
 ## Limit Order Emissions
 
-Pools receive Limit Order (LO) rewards for providing limit-order depth on the orderbook, with a per-pool cap of **\$1,250 per week**. Incentives are distributed to limit orders within **±3.5%** of the current implied yield, on a time- and notional-value-weighted basis.
+Pools receive Limit Order (LO) rewards for providing depth on the orderbook. **Each side of the book is sized and capped independently**, so a single pool can draw up to **\$2,500 a week** across both. Incentives are distributed to limit orders within **±3.5%** of the current implied yield, on a time- and notional-value-weighted basis.
 
-### Target Depth
+### How a Target Becomes Dollars
 
-Each pool targets a baseline of **5% of its total TVL** in orderbook depth, with the potential to grow up to **15% of total TVL** based on its recent trading volume.
+```Math
+Budget/day = Target depth × DTM multiplier × YT relative price × 30% / 365
 
-- **TVL-Implied Depth (TID)**: 5% of total TVL — the baseline floor.
-- **Volume-Implied Depth (VID)**: a 4-day recency-weighted trading volume — `(Recent 4-day Volume × 2 + Previous 4-day Volume) / 3` (newer pools use only the recent 4 days).
-- **Depth Cap**: 15% of total TVL — the upper limit.
+YT relative price = 1 − (1 + IY)^(−DTM/365)
+```
 
-The target depth is whichever is larger between TID and VID, but never exceeding the Depth Cap. For example, a pool with \$10m total TVL targets \$500k in orderbook depth as a baseline, and can grow toward the \$1.5m depth cap as its recent volume rises.
+Depth is quoted in **notional**, but a maker's actual **capital at risk** is the YT leg, and that is what the protocol pays on. The YT relative price converts one to the other: a 30-day market at 10% implied yield prices YT near 0.8% of notional, so \$10m of resting depth is about \$80k of maker capital. The protocol pays **30% APR on that \$80k**, not on the \$10m.
 
-### Decay-Adjusted Target Depth
-A pool's target depth may be reduced to reflect its days-to-maturity (DTM), since pools far from maturity see less active trading. The decay rate starts at 25% for pools with DTM \> 120 and decreases linearly to 0% for pools with DTM \< 60.
+The **DTM multiplier** discounts long-dated books, which are cheap to hold and rarely need to be bought:
 
-For example, for a pool with \$1m target depth:
-- 120 DTM → \$750k decay-adjusted target depth (full 25% reduction)
-- 90 DTM → \$875k decay-adjusted target depth (half the reduction)
-- 60 DTM → \$1m decay-adjusted target depth (no reduction)
+| Days to maturity | Multiplier |
+|---|---|
+| above 120 | 0.75 |
+| 60 – 120 | slides linearly up to 1.00 at 60 days |
+| below 60 | 1.00 |
 
-### Target Incentives
-The decay-adjusted target depth is used to determine the actual incentive allocated to a pool, based on a target LO APR of **40%**. The dollar value is derived by multiplying the target depth by the YT relative price, then applying the 40% reward rate over the year.
+For example, a \$1m target depth is treated as \$750k at 120 DTM, \$875k at 90 DTM, and the full \$1m at 60 DTM or less.
 
-For example, given a decay-adjusted target depth of \$1m, a YT/USD of \$0.02, and a target APR of 40%, a pool would receive roughly \$154 in weekly PENDLE incentive. The weekly incentive per pool is capped at **\$1,250**.
+#### Example
 
-### New Pool Boost
-When a market is newly deployed — no predecessor and whitelisted less than 4 days — it has no trading history to imply depth from. To ensure it earns LO incentive from day one, its target depth is set to the greater of the depth cap (15% of TVL) and a **\$50,000** floor. After the new-pool period ends, the normal TID/VID calculation takes over.
+Given a \$1m target depth at 60 DTM (no discount) and a YT relative price of 2%, maker capital at risk is \$20,000, so the pool earns `$20,000 × 30% / 52` ≈ **\$115 per week**.
 
-### Renewed Markets
-When a market rolls over to a new expiry, the new pool has no trading history yet, so its VID would otherwise drop to zero. To prevent a sudden incentive drop, renewed markets get two adjustments during a 7-day transition:
-1. **Depth-cap bypass** — the 15%-of-TVL depth cap is not applied, so target depth can exceed the normal upper bound (the \$1,250 weekly cap still applies).
-2. **Volume blending** — the predecessor's trading volume is blended into the new pool's VID, shifting from the predecessor's volume to the new pool's own volume as trading activity migrates.
+### Long Book
+
+The long book is **Sell PT / Buy YT resting below mid**. It is consumed by short-direction flow — a taker buying PT or selling YT — so that is the flow it sizes against. Four rules set the target, and **the target on any day is the largest that applies**:
+
+| Rule | Definition | What it is for |
+|---|---|---|
+| **Floor** | `min(1% × pool TVL, $1m)` | the depth the target decays back to |
+| **Initialization** | `max(50% × predecessor's peak, $1m)`, held 7 days on a renewal | a rolled market inherits its predecessor's book instead of restarting on the floor |
+| **Expansion** | `min(1.5 × trailing 24h short-side volume, $10m)` | flow that arrived yesterday buys depth today |
+| **Decay** | `Peak × (1 − (d/7)²)` | a busy day funds depth for a week, then lets go |
+
+```Math
+Long target = max( decayed expansion peak , floor , initialization if in window )
+
+Long pay/day = min( budget , 100% APR × posted in-band long depth / 365 , $1,250 / 7 )
+```
+
+The **max-APR cap** is what keeps the rule honest: the protocol offers to pay for a *target*, but only pays for depth that **actually shows up**, and never at more than 100% APR on it.
+
+### Short Book
+
+The short book is **Buy PT / Sell YT resting above mid** — where a YT holder goes to exit. It is filled by a taker going long, so it sizes against **long-side flow**, exactly mirroring the other side.
+
+Four things differ from the long book; the floor, the 1.5× expansion multiplier and the seven-day decay are shared.
+
+| Difference | Why |
+|---|---|
+| Reads **long-side** volume | long flow is what consumes short depth |
+| Expansion ceiling of **\$5m**, not \$10m | the short side is structurally smaller |
+| A second ceiling at **33.33% of floating YT supply** | a short maker can only be filled against YT that actually exists |
+| **No initialization bonus** | a new or renewed market opens on its floor and earns its way up |
+
+```Math
+Short target = min( max( decayed peak , min(1% × TVL, $1m) ) , $5m , 33.33% × YT supply )
+
+Short pay/day = min( budget , 200% APR × posted in-band short depth / 365 , $1,250 / 7 )
+```
+
+The max-APR cap is **200%** on this side against the long book's 100%, because short depth is scarcer and harder to source.
 
 ## Co-Incentives
 
@@ -187,27 +188,41 @@ Protocols can use **External Incentive Campaigns** to provide additional rewards
 - **22%** when the contributed token is PENDLE
 - **15%** for external incentives provided as other tokens
 
-**Where the matched PENDLE now goes.** Previously, Pendle's matched PENDLE was paid to passive LP/YT holders. It is now used to **boost the target market's Limit Order (maker) incentive** — added on top of the market's base LO emission. This rewards makers who actually place limit orders and trade PT/YT, and surfaces as part of the market's maker/LO APR rather than its holder APR.
+```Math
+Allocation/day = 15% × partner campaign value/day   (22% if the partner pays in PENDLE)
+```
 
-A few practical notes:
-- The boost only applies to markets that already run a Limit Order incentive program. If a co-incentivized market has no LO program — or cannot absorb the extra PENDLE under its per-maker LO APR cap — that portion simply is not distributed.
-- **Target-depth cap.** The boost does not over-fund a market: it tops up a market's limit-order incentive only until the market's total LO incentive (base + boost) reaches the **[Target Incentives](#target-incentives)** for a large reference depth of roughly **\$15m** — priced the same way as a pool's own target incentive (the reference depth is [decay-adjusted](#decay-adjusted-target-depth) for days-to-maturity, valued at the YT relative price, and taken at the 40% target LO APR). A market whose base LO incentive already meets that level receives no boost, and any matched PENDLE above the cap is not distributed (it does not roll over). As a market's own base LO incentive grows or shrinks week to week, the boost shrinks or grows to keep the combined total near that target.
-- The external protocol's own tokens are unaffected: they still go to the campaign's holders.
-- Combined co-incentive spend is capped at **9,000 PENDLE per epoch**.
+**Where the matched PENDLE goes.** The match is spent **lifting both limit-order books' depth targets to campaign floors**, so it rewards makers who actually place orders and trade PT/YT. These floors exist only while a campaign runs — a pool with no campaign keeps its ordinary targets on both sides.
+
+```Math
+Long floor  = $3m
+Short floor = min( $1.5m , 33.33% × floating YT supply )
+```
+
+The top-up on each side is whatever is still needed to reach that side's floor, given what the base stream already pays. If the allocation cannot cover both, it is **split pro rata**.
+
+Three limits then apply, in order:
+
+1. **Protocol cap** — 9,000 PENDLE per epoch across all pools. If the epoch's top-ups exceed it, every pool is scaled down pro rata.
+2. **Per-side APR headroom** — each side's top-up is capped at that side's remaining max-APR room (100% long, 200% short) on the depth **actually posted**, net of what the base stream already pays.
+3. **Unspent allocation is not emitted.** A pool whose own volume already carries it past both floors earns nothing extra, and the match is simply not spent. It does not roll over.
+
+Campaign pools also benefit on the base stream: the **expansion multiplier rises from 1.5× to 3×** for as long as the campaign runs, on both books.
 
 **How matching works​**
 - Protocols submit incentives weekly through External Incentive Campaigns.
 - Token values are calculated using 7-day moving-average prices for both the contributed token and PENDLE.
 - Protocols receive their guaranteed match rate for that week.
+- The external protocol's own tokens are unaffected: they still go to the campaign's holders.
 
 ## Discretionary
 
-Up to **15%** of the maximum weekly emissions may be used for discretionary allocations, primarily targeted at pools with high growth potential.
+Up to **15%** of the maximum weekly emissions may be used for discretionary allocations, primarily targeted at pools with high growth potential. Discretionary is unchanged by this model.
 
 ## How It Adds Up
 
 A pool's total weekly incentive is:
 
-> **Total = Discretionary + Co-incentive LO boost + Limit Order incentive + min(Performance Cap, TVL + Fee)**
+> **Total = Discretionary + Co-incentive top-up + Long book + Short book + (Liquidity + Fee)**
 
-Only the TVL + Fee Performance component is subject to the per-pool Performance Cap and the small-amount cut-off. Discretionary, the co-incentive limit-order boost, and the Limit Order incentive are added on top.
+Each stream carries its own bound: Liquidity + Fee is bounded by the Performance ceiling and the small-amount cut-off, each book by its own budget, max-APR cap and \$1,250 weekly cap, and the co-incentive top-up by the per-epoch protocol cap and the per-side APR headroom.
