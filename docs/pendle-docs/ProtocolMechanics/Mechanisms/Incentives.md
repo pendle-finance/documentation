@@ -141,6 +141,24 @@ For example, a \$1m target depth is treated as \$750k at 120 DTM, \$875k at 90 D
 
 Given a \$1m target depth at 60 DTM (no discount) and a YT relative price of 2%, maker capital at risk is \$20,000, so the pool earns `$20,000 × 30% / 52` ≈ **\$115 per week**.
 
+### Measuring 24h Volume
+
+Both books size their expansion from a day's trading volume, measured with its **largest trades thrown out**:
+
+```Math
+Trimmed 24h volume = ( sum of the day's trades, excluding the largest 5% ) / 95%
+```
+
+Because a busy day funds depth for a whole week through the decay rule, a single very large trade would otherwise buy a week of depth on its own. Dropping the top 5% of trades sizes each book against flow that actually recurs, and dividing by 95% keeps the result on a full-day scale.
+
+- A day with **fewer than 20 trades** is counted in full, since 5% of it is less than one trade.
+- The trim can only **lower** a day's volume, never raise it.
+- Each book reads the **opposite** side's trades: the long book counts trades buying PT or selling YT, and the short book counts trades selling PT or buying YT.
+
+#### Example
+
+A day with 99 trades of \$1,000 and one \$5m trade: the 5 largest trades (the \$5m and four \$1,000 trades) are dropped, and the remaining \$95,000 is divided by 95%, so the day counts as **\$100,000** of volume rather than \$5.1m.
+
 ### Long Book
 
 The long book is **Sell PT / Buy YT resting below mid**. It is consumed by short-direction flow — a taker buying PT or selling YT — so that is the flow it sizes against. Four rules set the target, and **the target on any day is the largest that applies**:
@@ -149,7 +167,7 @@ The long book is **Sell PT / Buy YT resting below mid**. It is consumed by short
 |---|---|---|
 | **Floor** | `min(1% × pool TVL, $1m)` | the depth the target decays back to |
 | **Initialization** | `max(50% × predecessor's peak, $1m)`, held 7 days on a renewal | a rolled market inherits its predecessor's book instead of restarting on the floor |
-| **Expansion** | `min(1.5 × trailing 24h short-side volume, $10m)` | flow that arrived yesterday buys depth today |
+| **Expansion** | `min(1.5 × trimmed 24h short-side volume, $10m)` | flow that arrived yesterday buys depth today |
 | **Decay** | `Peak × (1 − (d/7)²)` | a busy day funds depth for a week, then lets go |
 
 ```Math
