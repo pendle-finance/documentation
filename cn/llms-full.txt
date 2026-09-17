@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-09-02
+> Generated: 2026-09-17
 
 ---
 
@@ -479,7 +479,7 @@ To redeem your PT on maturity:
 
 Yield Token (YT) represents the yield component of an underlying yield-bearing asset.
 
-By holding YT, yield from the underlying asset will be streamed to the users, up until maturity. This rate of yield production is represented as “[Underlying APY](https://docs.pendle.finance/ProtocolMechanics/Glossary)” in the Pendle app.
+By holding YT, yield from the underlying asset will be streamed to the users, up until maturity. This rate of yield production is represented as “[Underlying APY](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/Glossary)” in the Pendle app.
 
 For example, buying 10 YT-wstETH (stETH) and holding them for 5 days lets you receive all of the yield equivalent to a 10 stETH within the same period of time.
 
@@ -491,7 +491,7 @@ Because YTs are purchased for a fraction of the underlying asset's price, they o
 
 The value of YT trends towards $0 as it approaches maturity (*ceteris paribus*), becoming $0 upon maturity. If the implied yield remains constant, the YT's price decreases linearly with the time remaining — a YT with 15 days left to maturity will be worth roughly half the price it was when it had 30 days left. Users profit when the total yield collected up to that point ends up being higher than the cost of YT acquisition.
 
-You can think of [Implied APY](https://docs.pendle.finance/ProtocolMechanics/Glossary) as the “rate” at which YT is priced by the market. If the average Underlying APY ends up being higher than the “rate” or Implied APY that you paid for, you will profit.
+You can think of [Implied APY](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/Glossary) as the “rate” at which YT is priced by the market. If the average Underlying APY ends up being higher than the “rate” or Implied APY that you paid for, you will profit.
 
 As such, buying YT can be treated as “longing the yield” of an asset.
 
@@ -501,7 +501,7 @@ YTs are a popular instrument for farming points from airdrop campaigns, as they 
 
 You can learn more about yield trading on Pendle [here](https://app.pendle.finance/trade/education/learn).
 
-Note: YT yields are distributed as SY, which can be unwrapped back into the underlying asset using [SY Unwrapper](https://docs.pendle.finance/ProtocolMechanics/YieldTokenization/SY).
+Note: YT yields are distributed as SY, which can be unwrapped back into the underlying asset using [SY Unwrapper](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/YieldTokenization/SY).
 
 
 # Claiming YT Yield
@@ -1046,12 +1046,12 @@ All Pendle API endpoints are rate-limited to ensure service stability and fair u
 Pendle uses a **Computing Unit (CU)** based system. Every endpoint has a CU cost, which may be fixed or dynamic depending on the endpoint.
 The rate limit is calculated based on the total CU cost of all endpoints.
 
-Each user (IP) has a rate limit of 100 CU per minute, and 200,000 CU per week.
+Each user (IP) has a rate limit of 200 CU per minute, and 200,000 CU per week.
 
 Both limits apply simultaneously. You must stay within both the per-minute AND weekly limits to avoid rate limiting.
 
 **Example**: If an endpoint costs 5 CU, you can call it:
-- 20 times per minute (100 ÷ 5 = 20)
+- 40 times per minute (200 ÷ 5 = 40)
 - 40,000 times per week (200,000 ÷ 5 = 40,000)
 
 #### Computing Unit Costs
@@ -1067,7 +1067,7 @@ Our endpoints return the following headers to help you monitor your usage:
 | Header | Description |
 |--------|-------------|
 | `X-Computing-Unit` | CU cost of this request |
-| `X-RateLimit-Limit` | Maximum CU per minute (e.g., 100 for free tier) |
+| `X-RateLimit-Limit` | Maximum CU per minute (e.g., 200 for free tier) |
 | `X-RateLimit-Remaining` | CU remaining in current minute window |
 | `X-RateLimit-Reset` | Unix timestamp when minute limit resets |
 | `X-RateLimit-Weekly-Limit` | Maximum CU per week (e.g., 200,000 for free tier) |
@@ -1078,8 +1078,8 @@ Our endpoints return the following headers to help you monitor your usage:
 Example response:
 ```
 x-computing-unit: 25
-x-ratelimit-limit: 100
-x-ratelimit-remaining: 75
+x-ratelimit-limit: 200
+x-ratelimit-remaining: 175
 x-ratelimit-reset: 1724206817
 x-ratelimit-weekly-limit: 200000
 x-ratelimit-weekly-remaining: 175000
@@ -1115,7 +1115,7 @@ You can purchase multiple units to scale your rate limits based on your applicat
 
 | Weekly Cost | CU per Minute | Weekly CU Limit |
 |-------------|---------------|-----------------|
-| **$0** (Free) | 100 | 200,000 |
+| **$0** (Free) | 200 | 200,000 |
 | **$10** | 500 | 1,000,000 |
 | **$20** | 1,000 | 2,000,000 |
 | **$30** | 1,500 | 3,000,000 |
@@ -1159,10 +1159,10 @@ The response will have rate limit headers as described in [Rate Limit Headers](#
 
 :::note
 
-You may occasionally notice `X-Ratelimit-Limit: 100` in responses even when you have a higher rate limit plan. 
+You may occasionally notice `X-Ratelimit-Limit: 200` in responses even when you have a higher rate limit plan. 
 This happens when the response is served from **Cloudflare's cache** (indicated by the `CF-Cache-Status: HIT` header). 
 When a cache hit occurs, the request never reaches our backend, so **it does not count against your rate limit quota**. 
-The `X-Ratelimit-Limit: 100` value in this case is simply a default header from the cached response and does not reflect your actual rate limit.
+The `X-Ratelimit-Limit: 200` value in this case is simply a default header from the cached response and does not reflect your actual rate limit.
 
 :::
 
@@ -10524,6 +10524,15 @@ Key examples:
 # Boros WebSocket
 
 This guide explains how to directly connect to Boros's WebSocket service using Socket.IO client.
+
+:::caution WebSocket is in beta
+The WebSocket service is currently a **beta experiment**. Channels, event names and payloads may change, and delivery is not guaranteed — events can be delayed or dropped, especially around reconnects.
+
+Do not rely on it as the sole source of truth for your account state. For now, fetch your current positions from the REST API — either on a cron/polling schedule or after each WebSocket notification:
+
+- [`GET /accounts/active-positions`](./4.%20api.mdx#active-positions) — all active positions for a user
+- [`POST /accounts/market-acc-infos`](./4.%20api.mdx#market-acc-infos) — positions, margins and balances per market account
+:::
 
 ## Basic Usage
 
