@@ -214,8 +214,8 @@ An asset on Pendle can hit one of two different caps. They block different thing
 | --- | --- | --- |
 | What is full | The market's SY (the wrapper Pendle deposits the asset into) | The underlying asset itself (e.g. 3Jane's USD3 supply) |
 | Shown in the app | Yellow **Deposit full** notice | Blue pause icon, **&lt;asset&gt; minting full** (e.g. **USD3 minting full**) |
-| Buy PT / YT / add liquidity with | SY only (e.g. SY-USD3) | The underlying (e.g. USD3) or SY |
-| Blocked inputs | Every other token, including the underlying | Tokens that must first be minted into the underlying (e.g. USDC) |
+| Buy PT / YT / add liquidity with | SY only (e.g. SY-USD3) | Any token, as usual. Other tokens (e.g. USDC) are swapped into the underlying on a DEX instead of being minted |
+| Blocked inputs | Every other token, including the underlying | None for market orders |
 | Limit orders | SY only | The underlying or SY only |
 | Existing positions and exits | Not affected | Not affected |
 
@@ -235,15 +235,17 @@ The cap is set on the SY contract, usually to match a limit set by the underlyin
 
 The underlying protocol has hit its own supply cap, so no new units of the asset can be minted. For example, when 3Jane's USD3 is full, USDC cannot be minted into USD3.
 
-The Pendle market itself stays open: you can still buy PT or YT, or add liquidity, with the underlying asset (e.g. USD3) or its SY (e.g. SY-USD3). Only inputs that would have to be minted into the underlying first (e.g. USDC) are unavailable, and limit orders accept only the underlying or SY. Existing positions are not affected, and you can still exit as usual.
+The Pendle market itself works as usual: you can still buy PT or YT, or add liquidity, with any supported token. When you pay with a token like USDC, it is swapped into the underlying (e.g. USD3) on a DEX instead of being minted, so the price you get depends on the underlying's DEX liquidity. Existing positions are not affected, and you can still exit as usual.
+
+The one exception is **limit orders**, which accept only the underlying (e.g. USD3) or SY (e.g. SY-USD3) while the cap is full: a limit order paid in USDC would need to mint the underlying when it is filled, and that mint would fail.
 
 ##### 2. Why are some assets capped by their underlying protocol?
 
 The cap is enforced by the underlying protocol, not by Pendle, and lifts when that protocol raises the cap or its supply drops below it.
 
-##### 3. I hold USDC. How do I enter a market whose underlying is full?
+##### 3. I hold USDC. Can I still enter a market whose underlying is full?
 
-Swap into the underlying asset first (e.g. buy USD3 on the open market), then use it on Pendle.
+Yes. Market orders route your USDC through a DEX into the underlying. For a limit order, swap into the underlying (e.g. USD3) first, then place the order with it.
 
 ***
 
