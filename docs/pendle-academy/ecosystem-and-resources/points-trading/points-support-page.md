@@ -25,7 +25,7 @@ import CardGrid, { Card } from '@site/src/components/CardGrid';
     title="LRT on Arbitrum" link="points-support-page#lrt-on-arbitrum"
   />
   <Card
-    title="Capped Assets" link="points-support-page#usde-cap"
+    title="Capped Assets" link="points-support-page#capped-assets"
   />
   <Card
     title="Others" link="points-support-page#others"
@@ -206,15 +206,44 @@ Yes. If the underlying LRT gives points on Ethereum, it will behave the same way
 
 ***
 
-### Capped Assets
+### Capped Assets {#capped-assets}
 
-#### 1. What happens if the asset reaches cap on Pendle?
+An asset on Pendle can hit one of two different caps. They block different things, so the app shows them differently:
 
-You will not be able to purchase YT/PT/LP with assets from outside of Pendle. You can still exit YT/PT/LP position into other assets but re-entering will not be possible if the cap fills after you exit.
+| | SY Cap | Underlying Cap |
+| --- | --- | --- |
+| What is full | The market's SY (the wrapper Pendle deposits the asset into) | The underlying asset itself (e.g. 3Jane's USD3 supply) |
+| Shown in the app | Yellow **Deposit full** notice | Blue pause icon, **&lt;asset&gt; minting full** (e.g. **USD3 minting full**) |
+| Buy PT / YT / add liquidity with | SY only (e.g. SY-USD3) | The underlying (e.g. USD3) or SY |
+| Blocked inputs | Every other token, including the underlying | Tokens that must first be minted into the underlying (e.g. USDC) |
+| Limit orders | SY only | The underlying or SY only |
+| Existing positions and exits | Not affected | Not affected |
 
-#### 2. Why are some assets capped on Pendle?
+#### SY Cap {#sy-cap}
 
-The caps are enforced by the underlying protocols.&#x20;
+##### 1. What happens when a market reaches its SY cap?
+
+No new assets can be deposited into the market's SY. You can still buy PT or YT, or add liquidity, using SY you already hold (e.g. SY-USD3), but every other token, including the underlying asset, is blocked as an input. You can still exit your PT/YT/LP position into other assets, but re-entering with those assets will not be possible while the cap stays full.
+
+##### 2. Why do some markets have an SY cap?
+
+The cap is set on the SY contract, usually to match a limit set by the underlying protocol.
+
+#### Underlying Cap {#underlying-cap}
+
+##### 1. What happens when an asset reaches its underlying cap?
+
+The underlying protocol has hit its own supply cap, so no new units of the asset can be minted. For example, when 3Jane's USD3 is full, USDC cannot be minted into USD3.
+
+The Pendle market itself stays open: you can still buy PT or YT, or add liquidity, with the underlying asset (e.g. USD3) or its SY (e.g. SY-USD3). Only inputs that would have to be minted into the underlying first (e.g. USDC) are unavailable, and limit orders accept only the underlying or SY. Existing positions are not affected, and you can still exit as usual.
+
+##### 2. Why are some assets capped by their underlying protocol?
+
+The cap is enforced by the underlying protocol, not by Pendle, and lifts when that protocol raises the cap or its supply drops below it.
+
+##### 3. I hold USDC. How do I enter a market whose underlying is full?
+
+Swap into the underlying asset first (e.g. buy USD3 on the open market), then use it on Pendle.
 
 ***
 
