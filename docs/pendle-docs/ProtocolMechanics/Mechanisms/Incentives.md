@@ -146,18 +146,22 @@ Given a \$1m target depth at 60 DTM (no discount) and a YT relative price of 2%,
 Both books size their expansion from a day's trading volume, measured with its **largest trades thrown out**:
 
 ```Math
-Trimmed 24h volume = ( sum of the day's trades, excluding the largest 5% ) / 95%
+On days with 10 or more trades:
+Trimmed 24h volume = ( sum of the day's trades, excluding the largest 5%, rounded up ) / 95%
 ```
 
-Because a busy day funds depth for a whole week through the decay rule, a single very large trade would otherwise buy a week of depth on its own. Dropping the top 5% of trades sizes each book against flow that actually recurs, and dividing by 95% keeps the result on a full-day scale.
+Because a busy day funds depth for a whole week through the decay rule, a single very large trade would otherwise buy a week of depth on its own. Dropping the largest trades sizes each book against flow that actually recurs, and dividing by 95% keeps the result on a full-day scale.
 
-- A day with **fewer than 20 trades** is counted in full, since 5% of it is less than one trade.
+- A day with **fewer than 10 trades** is counted in full. On a quiet pool there's no ordinary flow for one large trade to stand out from; its largest trade is usually the day.
+- From 10 trades, the count dropped **rounds up**, so at least one trade always goes: 10–20 trades drop one, 21–40 drop two.
 - The trim can only **lower** a day's volume, never raise it.
 - Each book reads the **opposite** side's trades: the long book counts trades buying PT or selling YT, and the short book counts trades selling PT or buying YT.
 
 #### Example
 
 A day with 99 trades of \$1,000 and one \$5m trade: the 5 largest trades (the \$5m and four \$1,000 trades) are dropped, and the remaining \$95,000 is divided by 95%, so the day counts as **\$100,000** of volume rather than \$5.1m.
+
+A day with 12 trades, one of them a \$600,000 trade, drops that trade. The same trade on a 4-trade day counts in full.
 
 ### Long Book
 
