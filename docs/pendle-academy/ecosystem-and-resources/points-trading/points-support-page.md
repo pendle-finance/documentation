@@ -235,7 +235,7 @@ The cap is set on the SY contract, usually to match a limit set by the underlyin
 
 The underlying protocol has hit its own supply cap, so no new units of the asset can be minted. For example, when 3Jane's USD3 is full, USDC cannot be minted into USD3.
 
-The Pendle market itself works as usual: you can still buy PT or YT, or add liquidity, with any supported token. When you pay with a token like USDC, it is swapped into the underlying (e.g. USD3) on a DEX instead of being minted, so the price you get depends on the underlying's DEX liquidity. Existing positions are not affected, and you can still exit as usual.
+The Pendle market itself works as usual: you can still buy PT or YT, or add liquidity, with any supported token. When you pay with a token like USDC, it is swapped into the underlying (e.g. USD3) on a DEX instead of being minted, so the price impact depends on the underlying's DEX liquidity. Existing positions are not affected, and you can still exit as usual.
 
 The one exception is **limit orders**, which accept only the underlying (e.g. USD3) or SY (e.g. SY-USD3) while the cap is full: a limit order paid in USDC would need to mint the underlying when it is filled, and that mint would fail.
 
