@@ -10271,13 +10271,7 @@ new Exchange(walletClient, root, accountId, rpcUrls, agent?)
 
 `agent` is optional at construction time — set it later via `exchange.setAgent(agent)` if you bootstrap one with `Agent.create()` after the fact.
 
-The SDK ships with the production backend pre-wired (`api-boros.pendle.finance/apis`). All endpoints — markets, accounts, calldata builders, and send-txs — go through this single host. For staging, override at startup:
-
-```ts
-import { setOpenApiBackendUrl } from '@pendle/boros-sdk-public';
-
-setOpenApiBackendUrl('https://api.secrettune.io/apis');
-```
+The SDK ships with the production backend pre-wired (`https://api-boros.pendle.finance/apis`). All endpoints — markets, accounts, calldata builders, and send-txs — go through this single host; no setup is needed.
 
 ## Common flows
 
