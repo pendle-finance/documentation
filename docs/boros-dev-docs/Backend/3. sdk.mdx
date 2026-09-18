@@ -69,7 +69,7 @@ The SDK ships with the production backend pre-wired (`api-boros.pendle.finance/a
 ```ts
 import { setOpenApiBackendUrl } from '@pendle/boros-sdk-public';
 
-setOpenApiBackendUrl('https://staging-api-boros.pendle.finance/apis');
+setOpenApiBackendUrl('https://api.secrettune.io/apis');
 ```
 
 ## Common flows
@@ -314,9 +314,9 @@ Method names on the codegen client are unchanged. A handful of upstream NestJS `
 
 ```ts
 // Open API (renamed + new default host)
-BorosBackend.setCoreBackendUrl('https://staging-api.boros.finance/core');
+BorosBackend.setCoreBackendUrl('https://api.secrettune.io/core');
 //                       ↓
-setOpenApiBackendUrl('https://staging-api-boros.pendle.finance/apis');
+setOpenApiBackendUrl('https://api.secrettune.io/apis');
 
 // Send Txs Bot — removed; send-txs is now part of the Open API host
 BorosBackend.setSendTxsBotBackendUrl(...);  // no replacement
