@@ -64,13 +64,7 @@ new Exchange(walletClient, root, accountId, rpcUrls, agent?)
 
 `agent` is optional at construction time — set it later via `exchange.setAgent(agent)` if you bootstrap one with `Agent.create()` after the fact.
 
-The SDK ships with the production backend pre-wired (`api-boros.pendle.finance/apis`). All endpoints — markets, accounts, calldata builders, and send-txs — go through this single host. For staging, override at startup:
-
-```ts
-import { setOpenApiBackendUrl } from '@pendle/boros-sdk-public';
-
-setOpenApiBackendUrl('https://api.secrettune.io/apis');
-```
+The SDK ships with the production backend pre-wired (`https://api-boros.pendle.finance/apis`). All endpoints — markets, accounts, calldata builders, and send-txs — go through this single host; no setup is needed.
 
 ## Common flows
 
@@ -313,10 +307,10 @@ Method names on the codegen client are unchanged. A handful of upstream NestJS `
 **URL setters:**
 
 ```ts
-// Open API (renamed + new default host)
-BorosBackend.setCoreBackendUrl('https://api.secrettune.io/core');
+// Open API (renamed)
+BorosBackend.setCoreBackendUrl(url);
 //                       ↓
-setOpenApiBackendUrl('https://api.secrettune.io/apis');
+setOpenApiBackendUrl(url);
 
 // Send Txs Bot — removed; send-txs is now part of the Open API host
 BorosBackend.setSendTxsBotBackendUrl(...);  // no replacement
@@ -325,7 +319,7 @@ BorosBackend.setSendTxsBotBackendUrl(...);  // no replacement
 BorosBackend.setPendleV2BackendUrl(...);  // no replacement
 ```
 
-The `env`-driven prod/staging auto-switch from the old package is gone. Public SDK callers pass an explicit URL for staging; otherwise they inherit the production default baked into the package:
+The `env`-driven environment auto-switch from the old package is gone. The public package always targets production, baked in as the default — calling the setter is not required:
 
 ```ts
 OPEN_API_BACKEND_URL = 'https://api-boros.pendle.finance/apis'
