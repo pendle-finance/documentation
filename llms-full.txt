@@ -10276,7 +10276,7 @@ The SDK ships with the production backend pre-wired (`api-boros.pendle.finance/a
 ```ts
 import { setOpenApiBackendUrl } from '@pendle/boros-sdk-public';
 
-setOpenApiBackendUrl('https://staging-api-boros.pendle.finance/apis');
+setOpenApiBackendUrl('https://api.secrettune.io/apis');
 ```
 
 ## Common flows
