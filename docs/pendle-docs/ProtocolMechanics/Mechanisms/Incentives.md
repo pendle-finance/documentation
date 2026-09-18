@@ -4,10 +4,10 @@ hide_table_of_contents: true
 
 # Incentives
 
-The Algorithmic Incentive Model (AIM) is an automated, merit-based reward system that allocates PENDLE emissions to pools based on their performance. Pools that excel across liquidity, swap fees, limit-order depth, and co-incentives receive a higher share of rewards to recognize their contribution to the Pendle ecosystem. Each weekly incentive epoch starts on **Thursday 00:00 UTC**.
+The Algorithmic Incentive Model (AIM) is an automated, merit-based reward system that allocates PENDLE emissions to pools based on their performance. Pools that excel across liquidity, fee generation, limit-order depth, and co-incentives receive a higher share of rewards to recognize their contribution to the Pendle ecosystem. Each weekly incentive epoch starts on **Thursday 00:00 UTC**.
 
 Incentives are delivered through four reward streams:
-- **Performance**: emissions based on a pool's liquidity (LP TVL) and swap-fee generation
+- **Performance**: emissions based on a pool's liquidity (LP TVL) and the fees it generates
 - **Limit Order**: emissions that reward limit-order depth, paid separately on each side of the book
 - **Co-Incentives**: PENDLE that Pendle matches against protocol-provided incentives — used to lift the market's limit-order depth targets
 - **Discretionary**: strategic allocations for high-potential pools
@@ -15,7 +15,7 @@ Incentives are delivered through four reward streams:
 | Stream | What it is paid on | Rate | Cap |
 |---|---|---|---|
 | Liquidity | LP TVL, capped at a \$2.5m anchor | 0.20% APR (1.00% bootstrapping) | \$96/wk · \$481/wk |
-| Fee | the week's swap fees | 25c per \$1 | \$625/wk |
+| Fee | the week's total fees | 25c per \$1 | \$625/wk |
 | Long book | target depth × maker capital at risk | 30% APR | 100% APR on posted depth · \$1,250/wk |
 | Short book | target depth × maker capital at risk | 30% APR | 200% APR on posted depth · \$1,250/wk |
 | Co-incentives | partner campaign value | 15% match (22% in PENDLE) | 9,000 PENDLE per epoch, all pools |
@@ -84,18 +84,20 @@ Renewal no longer has its own liquidity curve. A renewed pool walks the same Boo
 
 ## Fee-Based Emissions
 
-Pools receive PENDLE based on the swap fees they actually produced that week, with a ceiling quoted against the same \$2.5m anchor:
+Pools receive PENDLE based on the fees they actually produced that week, with a ceiling quoted against the same \$2.5m anchor:
 
 ```Math
-Fee = min( 0.25 × the week's swap fees , 1.30% × $2.5m / 52 )
+Fee = min( 0.25 × the week's total fees , 1.30% × $2.5m / 52 )
     = min( 0.25 × fees , $625/wk )
 ```
+
+**Total fees** means every fee the pool produced over the week — swap fees, both explicit and implicit, **and limit-order fees**. A pool is credited for the trading it hosts, whatever route the trade took.
 
 There is **no phase distinction, no eligibility gate of its own, and no recency weighting** — the week's fees are the week's fees. This is the component that rewards a pool for being *used* rather than for being *large*, and at \$625 against the liquidity side's \$96 it is deliberately the larger of the two.
 
 #### Examples
 
-- A pool that generated \$1,200 in swap fees this week earns `0.25 × $1,200` = **\$300**.
+- A pool that generated \$1,200 in fees this week earns `0.25 × $1,200` = **\$300**.
 - A pool that generated \$4,000 earns `0.25 × $4,000 = $1,000`, which is trimmed to the **\$625** ceiling.
 
 ## Performance Ceiling & Cut-off
