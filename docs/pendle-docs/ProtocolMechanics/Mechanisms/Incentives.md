@@ -207,7 +207,7 @@ The max-APR cap is **200%** on this side against the long book's 100%, because s
 
 ## Co-Incentives
 
-Protocols can use **External Incentive Campaigns** to provide additional rewards to Pendle users. The protocol's own deposited tokens are distributed to that market's holders, exactly as before. On top of that, Pendle **matches** a portion of the campaign's value in PENDLE:
+Protocols can use **External Incentive Campaigns** or a **Dynamic Incentive campaign** to provide additional rewards to Pendle users. The protocol's own deposited tokens are distributed to that market's holders, exactly as before. On top of that, Pendle **matches** a portion of the campaign's value in PENDLE:
 
 - **22%** when the contributed token is PENDLE
 - **15%** for external incentives provided as other tokens
@@ -215,6 +215,8 @@ Protocols can use **External Incentive Campaigns** to provide additional rewards
 ```Math
 Allocation/day = 15% × partner campaign value/day   (22% if the partner pays in PENDLE)
 ```
+
+**How a campaign's value is measured.** An External Incentive Campaign is valued at the tokens it distributes over the epoch. A Dynamic Incentive campaign is valued at what it emits over the epoch **at its confirmed TVL watermark** — the level the pool has already held long enough for the campaign's own reward rates to recognise it — rather than at the campaign's maximum funded size. Both kinds are matched on the same terms and share the same per-epoch cap.
 
 **Where the matched PENDLE goes.** The match is spent **lifting both limit-order books' depth targets to campaign floors**, so it rewards makers who actually place orders and trade PT/YT. These floors exist only while a campaign runs — a pool with no campaign keeps its ordinary targets on both sides.
 
