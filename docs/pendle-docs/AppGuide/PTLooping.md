@@ -104,16 +104,29 @@ The trade-off: Mint Mode **avoids the PT trade fee** but builds a **smaller loop
 
 ## Fees
 
-Every PT Looping action bundles its costs into a **single fee charged when you initiate the trade**, made up of three parts:
+Every PT Looping action bundles its costs into a **single fee charged when you initiate the trade**, made up of up to three parts:
 
-- **Service fee** — a flat **5bps (0.05%)** charged on the **total notional of the loop** (your capital + the borrowed amount). This mirrors what you would pay building the same leveraged position manually via a flash loan, rather than using the built-in looping feature.
+- **Service fee** — charged on the notional of the loop, at a **dynamic rate** (see [below](#service-fee-rate)).
 - **PT trade fee** — the standard Pendle trading fee on each PT swap the loop performs. It applies to **every** action that goes through a PT swap: creating a position, adding position or collateral, withdrawing, and adjusting leverage in either direction.
 - **Gas** — a loop runs many iterations across multiple on-chain transactions, and the gas for all of them is included in the fee. It applies to **every** action.
 
-### How the service fee is calculated
+### Service fee rate
 
-- **Open** and **Add Collateral** — service fee = **5bps × total notional** (capital + borrowed).
-- **Lever Up** (increasing leverage on an existing position) — service fee = **5bps × the additional borrowed amount only**, not the full new notional. This avoids double-charging on positions built up over multiple steps.
+The service fee is **dynamic, not a flat rate**. You still pay it once, upfront, when you open or increase a loop — but the rate it's charged at is reset **daily for each market**.
+
+The rate is set so that the fee comes out to roughly **10% of the yield your loop is projected to earn by maturity**, and it is **capped at 10bps (0.1%)**. In practice that means:
+
+- **Lower-APY loops pay a lower fee.** A loop projected to earn 0.8% by maturity is charged about 2.5bps, not the full 10bps.
+- **The fee scales down as maturity approaches.** Less time left means less yield to earn, so the daily reset lowers the rate.
+- **10bps is the ceiling.** High-APY loops pay 10bps and no more, even where 10% of the projected yield would be higher.
+
+The exact rate for your trade is shown in the fee breakdown before you confirm.
+
+### What the fee is charged on
+
+- **Open** and **Add Position** — service fee = **rate × (deposit + amount borrowed)**.
+- **Add Collateral** — service fee = **rate × deposit**.
+- **Lever Up** (increasing leverage on an existing position) — service fee = **rate × the additional borrowed amount only**, not the full new notional. This avoids double-charging on positions built up over multiple steps.
 - **Withdrawing** and **decreasing leverage** — **no service fee**.
 
 So the total cost to open or increase a loop is **service fee + PT trade fee + gas**. Unwinding pays only the PT trade fee + gas. You never pay gas separately anywhere in the flow; it's always covered by the fee shown at initiation.
