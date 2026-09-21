@@ -106,7 +106,7 @@ The trade-off: Mint Mode **avoids the PT trade fee** but builds a **smaller loop
 
 Every PT Looping action bundles its costs into a **single fee charged when you initiate the trade**, made up of up to three parts:
 
-- **Service fee** — set daily per market to about 10% of the yield a loop in that market is projected to earn by maturity, capped at **10bps (0.1%)**. Below the cap it falls as maturity approaches and is lower on lower-APY markets. Your deposit and leverage don't change the rate, only the amount it applies to.
+- **Service fee** — set daily per market to about 10% of the yield a loop in that market is projected to earn by maturity, capped at **10bps (0.1%)**. Below the cap it falls as maturity approaches and is lower on lower-APY markets.
 - **PT trade fee** — the standard Pendle trading fee on each PT swap the loop performs. It applies to **every** action that goes through a PT swap: creating a position, adding position or collateral, withdrawing, and adjusting leverage in either direction.
 - **Gas** — a loop runs many iterations across multiple on-chain transactions, and the gas for all of them is included in the fee. It applies to **every** action.
 
