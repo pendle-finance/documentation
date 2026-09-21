@@ -104,16 +104,17 @@ The trade-off: Mint Mode **avoids the PT trade fee** but builds a **smaller loop
 
 ## Fees
 
-Every PT Looping action bundles its costs into a **single fee charged when you initiate the trade**, made up of three parts:
+Every PT Looping action bundles its costs into a **single fee charged when you initiate the trade**, made up of up to three parts:
 
-- **Service fee** — a flat **5bps (0.05%)** charged on the **total notional of the loop** (your capital + the borrowed amount). This mirrors what you would pay building the same leveraged position manually via a flash loan, rather than using the built-in looping feature.
+- **Service fee** — set daily per market to about 10% of the yield a loop in that market is projected to earn by maturity, capped at **10bps (0.1%)**. Below the cap it falls as maturity approaches and is lower on lower-APY markets. Your deposit and leverage don't change the rate, only the amount it applies to.
 - **PT trade fee** — the standard Pendle trading fee on each PT swap the loop performs. It applies to **every** action that goes through a PT swap: creating a position, adding position or collateral, withdrawing, and adjusting leverage in either direction.
 - **Gas** — a loop runs many iterations across multiple on-chain transactions, and the gas for all of them is included in the fee. It applies to **every** action.
 
 ### How the service fee is calculated
 
-- **Open** and **Add Collateral** — service fee = **5bps × total notional** (capital + borrowed).
-- **Lever Up** (increasing leverage on an existing position) — service fee = **5bps × the additional borrowed amount only**, not the full new notional. This avoids double-charging on positions built up over multiple steps.
+- **Open** and **Add Position** — service fee = **rate × (deposit + amount borrowed)**.
+- **Add Collateral** — service fee = **rate × deposit**.
+- **Lever Up** (increasing leverage on an existing position) — service fee = **rate × the additional borrowed amount only**, not the full new notional. This avoids double-charging on positions built up over multiple steps.
 - **Withdrawing** and **decreasing leverage** — **no service fee**.
 
 So the total cost to open or increase a loop is **service fee + PT trade fee + gas**. Unwinding pays only the PT trade fee + gas. You never pay gas separately anywhere in the flow; it's always covered by the fee shown at initiation.
