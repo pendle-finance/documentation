@@ -233,6 +233,10 @@ Three limits then apply, in order:
 2. **Per-side APR headroom** — each side's top-up is capped at that side's remaining max-APR room (100% long, 200% short) on the depth **actually posted**, net of what the base stream already pays.
 3. **Unspent allocation is not emitted.** A pool whose own volume already carries it past both floors earns nothing extra, and the match is simply not spent. It does not roll over.
 
+**The match is credited first.** Rule 3 governs what a pool is *paid*. It does not mean a campaign whose pool is already past both floors goes unrecognised: the match is credited against the pool's limit-order emission **before** the base stream, and the base covers only the remainder. A pool's reported co-incentive therefore reflects the match up to the pool's whole limit-order emission — on a pool whose match exceeds it, the entire limit-order figure is reported as co-incentive.
+
+The pool's total is the same either way, and so is every maker's reward rate. What this decides is which stream the same PENDLE is reported under, so a partner can see its match in the pool's co-incentive figure rather than a zero that looks the same as not being matched.
+
 Campaign pools also benefit on the base stream: the **expansion multiplier rises from 1.5× to 3×** for as long as the campaign runs, on both books.
 
 **How matching works​**
