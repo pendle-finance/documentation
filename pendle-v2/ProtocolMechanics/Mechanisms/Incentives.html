@@ -21,7 +21,7 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/assets/css/styles.d5279556.css">
-<script src="/assets/js/runtime~main.faeefa52.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.a2bbc4c7.js" defer="defer"></script>
 <script src="/assets/js/main.673909c0.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -143,6 +143,8 @@
 <li><strong>Per-side APR headroom</strong> — each side&#x27;s top-up is capped at that side&#x27;s remaining max-APR room (100% long, 200% short) on the depth <strong>actually posted</strong>, net of what the base stream already pays.</li>
 <li><strong>Unspent allocation is not emitted.</strong> A pool whose own volume already carries it past both floors earns nothing extra, and the match is simply not spent. It does not roll over.</li>
 </ol>
+<p><strong>The match is credited first.</strong> Rule 3 governs what a pool is <em>paid</em>. It does not mean a campaign whose pool is already past both floors goes unrecognised: the match is credited against the pool&#x27;s limit-order emission <strong>before</strong> the base stream, and the base covers only the remainder. A pool&#x27;s reported co-incentive therefore reflects the match up to the pool&#x27;s whole limit-order emission — on a pool whose match exceeds it, the entire limit-order figure is reported as co-incentive.</p>
+<p>The pool&#x27;s total is the same either way, and so is every maker&#x27;s reward rate. What this decides is which stream the same PENDLE is reported under, so a partner can see its match in the pool&#x27;s co-incentive figure rather than a zero that looks the same as not being matched.</p>
 <p>Campaign pools also benefit on the base stream: the <strong>expansion multiplier rises from 1.5× to 3×</strong> for as long as the campaign runs, on both books.</p>
 <p><strong>How matching works​</strong></p>
 <ul>
