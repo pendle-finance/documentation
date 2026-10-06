@@ -71,6 +71,10 @@ For money markets listing PTs as collateral or borrowable assets, the oracle pro
 
 ### Deployment
 
+:::tip
+The easiest way to deploy is through the [Deploy Oracle](https://dapp-public.pendle.finance/deploy-oracle) page on the Pendle Public DApp: connect a wallet, then select the market, asset type, and oracle. To deploy directly from the contracts, use the factory below.
+:::
+
 The oracle can be deployed using the `sparkLinearDiscountOracleFactory`. The address of the factory can be found in the [Deployments on GitHub](https://github.com/pendle-finance/pendle-core-v2-public/tree/main/deployments), under the `"sparkLinearDiscountOracleFactory"` field. The factory has two methods to help with oracle deployment:
 
 ```sol

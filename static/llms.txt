@@ -62,6 +62,7 @@
 - [Developer FAQ](https://docs.pendle.finance/pendle-v2-dev/FAQ): Common contract and integration questions
 - [Troubleshooting](https://docs.pendle.finance/pendle-v2-dev/Troubleshooting): Common errors and debugging guidance
 - [Points & Rewards Tracking](https://docs.pendle.finance/pendle-v2-dev/Integration/PointsTracking): Partner integration for points and rewards distribution
+- [Cross-Chain Oracle Service](https://docs.pendle.finance/pendle-v2-dev/Integration/CrossChainOracle): LayerZero V2-based relay of a bridged asset's exchange rate from its hub chain (24h heartbeat, 0.1% deviation); pricing per market per month
 
 ### Machine-Readable Specs
 - [Full Documentation (Markdown)](https://docs.pendle.finance/llms-full.txt): All Pendle V2 + Boros docs concatenated for AI ingestion
