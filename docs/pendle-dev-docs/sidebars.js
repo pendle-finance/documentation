@@ -12,6 +12,7 @@ module.exports = {
       items: [
         { type: "doc", id: "Integration/CommunityListing", label: "Community Listing" },
         { type: "doc", id: "Integration/CrossChainPT", label: "Cross-Chain PT" },
+        { type: "doc", id: "Integration/CrossChainOracle", label: "Cross-Chain Oracle Service" },
         { type: "doc", id: "Integration/PointsTracking", label: "Points & Rewards Tracking" },
       ],
     },

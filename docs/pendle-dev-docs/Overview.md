@@ -40,6 +40,7 @@ hide_table_of_contents: true
 
 - **Router**: [Documentation](./Contracts/PendleRouter/PendleRouterOverview.md) | [Integration Guide](./Contracts/PendleRouter/ContractIntegrationGuide.md)
 - **Oracles**: [Overview](./Oracles/OracleOverview.md) | [Integration Guide](./Oracles/HowToIntegratePtAndLpOracle.md) | [PT as Collateral](./Oracles/PTAsCollateral.md) | [LP as Collateral](./Oracles/LPAsCollateral.md)
+- [Cross-Chain Oracle Service](./Integration/CrossChainOracle.md) - Relay a bridged asset's exchange rate from its hub chain to list it on another chain
 - [Example Repository](https://github.com/pendle-finance/pendle-examples-public) - Various contract interaction examples
 
 ### Off-chain Integration

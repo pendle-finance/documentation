@@ -66,6 +66,7 @@ V2_FILES=(
   "$DEV_DOCS_DIR/Oracles/DeterministicOracles/LPLinearDiscountOracle.md"
   # Integration guides
   "$DEV_DOCS_DIR/Integration/PointsTracking.md"
+  "$DEV_DOCS_DIR/Integration/CrossChainOracle.md"
   # Reference
   "$DEV_DOCS_DIR/Deployments.md"
   "$DEV_DOCS_DIR/FAQ.md"

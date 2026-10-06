@@ -36,6 +36,10 @@ For most non-ERC-4626 assets, a custom **Standardized Yield (SY)** contract must
 
 **All custom SY contracts must be audited.** Pendle can recommend and facilitate an audit with their retained auditors who have extensive experience with SY contracts.
 
+:::info Listing a bridged asset?
+If the SY needs an exchange rate that only exists on another chain (e.g., an OFT whose rate is computed on Ethereum), Pendle can relay it for you. See the [Cross-Chain Oracle Service](./CrossChainOracle.md).
+:::
+
 :::tip
 It is highly recommended to deploy custom SY contracts as **upgradable proxies** using Pendle's designated proxy admin. This allows for future modifications without requiring a full market migration.
 :::
