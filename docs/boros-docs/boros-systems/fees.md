@@ -24,7 +24,7 @@ Charged on all open positions at each periodic settlement. This is the carrying 
 
 > **Settlement Fee = Position Size × Settlement Fee Rate × Settlement Period (in years)**
 
-At an 0.2% annualized settlement fee rate, the cost per 8-hour period is approximately 0.000183% of your position size — small per cycle, but it accumulates over the life of a position. This is analogous to a funding fee on perpetuals.
+At an 0.2% annualized settlement fee rate, the cost per 8-hour period (e.g. on a Binance market) is approximately 0.000183% of your position size — small per cycle, but it accumulates over the life of a position. This is analogous to a funding fee on perpetuals.
 
 The settlement fee applies regardless of whether the position is long or short.
 

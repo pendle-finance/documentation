@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-10-06
+> Generated: 2026-10-12
 
 ---
 
@@ -7345,58 +7345,75 @@ import Hint from '@site/src/components/Hint';
 
 # Boros Overview
 
-Boros is a yield-trading platform on margin by Pendle. Currently, Boros offers the trading of funding-rates from various avenues, including off-chain funding-rates from centralized exchanges. In the future, Boros will expand to support trading yields of different categories.
+Boros is a rate-trading platform on margin by Pendle. Each Boros market tracks a floating rate, and lets you trade that rate against a fixed one until maturity. Any rate with a reliable oracle feed can be listed as a market.
+
+Boros launched with funding rates from centralized and decentralized perp exchanges. It now also lists **Spread Markets**, which trade the difference between two funding rates. Other rate categories will follow.
 
 ![Boros Overview](/img/boros-overview.png)
 
-While capturing funding rates via cash/carry trades has been a bread-and-butter trade in both TradFi and Crypto, Boros is the first protocol in the world to specifically allow the trading of funding rate movements, and to unlock entirely new categories of yield strategies through its Yield Unit (YU) markets.
+Capturing funding rates through cash-and-carry trades is a staple strategy in both TradFi and crypto. Boros was the first protocol to let you trade the *movement* of those rates directly. It does this through Yield Unit (YU) markets, which open up new kinds of yield strategies.
 
 There are 3 main components within Boros:
 
 ### 1. Interest Rate Accounting
 
-To trade a yield of a given asset, Boros has to first obtain its yield-rate via an oracle (e.g. Binance BTCUSDT funding rate, Hyperliquid HYPEUSDC funding rate, etc). This yield is referred to as the “Underlying Yield” as the number is obtained from the yield of the underlying asset.
+Before Boros can trade a rate, it needs the rate itself. Boros reads each rate from an oracle, for example the Binance BTCUSDT funding rate or the Hyperliquid HYPEUSDC funding rate. This is called the **Underlying APR**, because it is the rate of the underlying asset or venue.
 
 <Hint style="info">
-As long as there is an oracle feed for a yield percentage, the asset can be supported on Boros.
+As long as there is an oracle feed for a rate, it can be supported on Boros. That includes rates built from other rates, such as the spread between two exchanges' funding rates.
 </Hint>
 
 ### 2. Interest Rate Trading (YU trading)
 
-**Boros enables the trading of interest rates by representing a floating-yield stream into YU (yield unit).** Each YU represents the yield of 1 unit of the collateral asset in the underlying yield bearing asset.
+**Boros enables the trading of interest rates by representing a floating-rate stream as YU (Yield Units).** Each YU represents the floating rate earned on 1 unit of the collateral asset.
 
-For example, in a BTCUSDT(Hyperliquid) market on Boros with BTC as collateral, each YU in this market represents the funding rate of 1 BTC in Hyperliquid.
-
-Some use cases:
-
-1. **Speculating on Funding Rate Direction** 
-A trader bullish on funding-rate can enter a long position on YU**.** This position is effectively paying the implied APR in a fixed-stream in exchange for the current funding-rate (i.e. the underlying APR of YU). If the funding-rate yield is higher than the fixed-stream payments, the trader is in profit.
-2. **Hedging Funding Rate Payments**
-A BTC/USDT Binance perp trader can hedge their funding-rate payments by turning it into a fixed-stream payment. To achieve that, they can enter a long position on YU-BTCUSDT(Binance). This is achieved by paying a fixed stream to receive a floating stream of the underlying BTC/USDT funding rate. **The results in the trader hedging the funding rate payment into a fixed payment until maturity.**
-3. **Locking in Fixed Yield for Cash and Carry**
-A trader with a cash and carry position via perps can lock-in the current rates offered on Boros by entering a short-yield position. A cash and carry position receives funding-rate yields from the perps market. The trader can receive fixed yield by paying the current floating-stream (of funding rates) in exchange for the current fixed-stream payment. The net result of the position is a fixed-yield position until maturity.
-4. **Arbitraging Funding Rate Spreads Between Platforms**
-Funding rates for the same asset often diverge across perp platforms. The classic approach is to short the higher-funding market, long the lower-funding one, collect the spread. Simple on paper, but operationally heavy with double the liquidation risk and no guarantee the differential holds.
-Boros enhances this. By pairing each perp leg with a Boros rate swap (short YU on the high-funding leg, long YU on the low-funding leg), the trader locks in the spread as a fixed differential, with no directional exposure and no dependency on rates staying put.
+For example, in a BTCUSDT (Hyperliquid) market with BTC as collateral, each YU represents the funding rate of 1 BTC on Hyperliquid. In the BTC Spread HL-Gate market, each YU represents the Hyperliquid-minus-Gate funding spread on 1 BTC.
 
 ### 3. Margin, Liquidations and Risk Parameters
 
-To open a position on Boros, you have to place collaterals based on the desired asset. After which you can either open a long / short position on Boros. If your net balance falls under the maintenance margin, the position will be open for liquidation.
+To open a position on Boros, you post collateral in the market's collateral asset, then open a long or short position. If your net balance falls below the maintenance margin, the position can be liquidated.
 
-## Why trade Funding Rates?
+The same trading, margin, settlement and liquidation rules apply to every market, whatever rate it tracks.
 
-Perpetual futures are among the most actively traded instruments in crypto. Yet until Boros, there was no dedicated venue to trade funding rates directly. Boros changes that with its Yield Unit (YU) markets, giving traders precise control over their funding rate exposure.
+## Market Types
+
+Boros currently lists two types of markets. You can switch between them with the **Funding** and **Spread** tabs on the markets page.
+
+- **[Funding Markets](./about-boros/market-types#funding-markets)**: the underlying rate is the funding rate of a single perp market, such as Binance BTCUSDT.
+- **[Spread Markets](./about-boros/spread-markets)**: the underlying rate is the difference between two funding rates on the same asset, such as Hyperliquid BTC funding minus Gate BTC funding.
+
+See [Market Types](./about-boros/market-types) for how each type is defined and settled.
+
+## Use Cases
+
+1. **Speculating on Rate Direction**
+A trader who expects a funding rate to rise can go long YU. This position pays the implied APR as a fixed stream and receives the floating underlying rate. If the floating rate ends up higher than the fixed rate, the trader profits.
+2. **Hedging Funding Rate Payments**
+A BTC/USDT perp trader on Binance can turn their floating funding payments into a fixed payment. To do this, they go long YU-BTCUSDT (Binance), paying a fixed stream and receiving the floating funding rate. **The result is a funding cost fixed until maturity.**
+3. **Locking in Fixed Yield for Cash and Carry**
+A cash-and-carry position collects floating funding from the perp market. The trader can lock in today's rate by going short YU, which means paying the floating stream and receiving a fixed one. The combined position earns a fixed yield until maturity.
+4. **Trading Funding Rate Spreads Between Platforms**
+Funding rates for the same asset often differ across perp venues. A **[Spread Market](./about-boros/spread-markets)** lets you trade that difference as a single position:
+    - **Short the spread** to lock in today's gap as a fixed rate. Paired with a short perp on the higher-funding venue and a long perp on the lower-funding one, this locks the cross-exchange arbitrage into a fixed return with no price exposure. [Arbitrage with CrossEx](./arbitrage-with-crossex/overview) automates this.
+    - **Long the spread** to bet that the gap between the two venues will widen.
+
+    For venue pairs without a Spread Market, you can build the same exposure from two Funding Market positions. Go short YU on the higher-funding venue and long YU on the lower-funding one.
+
+## Why Trade Rates?
+
+Perpetual futures are among the most actively traded instruments in crypto. Every perp position pays or receives funding, but until Boros there was no venue to trade that rate directly. Boros gives traders precise control over that exposure. It extends the same mechanism to any rate with an oracle feed, starting with the spreads between venues.
 
 **There are three main ways to use Boros:**
 
-- Long/short YU markets in order to express a directional view on where funding rates are headed
-- Pair a YU position with an existing perp position to convert floating funding rate payments or receivables into a fixed rate
-- Exploit rate differentials between exchanges by using Boros to lock in the spread as fixed yield
+- Long or short a rate to express a view on where it is headed
+- Pair a YU position with an existing perp position to convert floating funding payments or receivables into a fixed rate
+- Lock in the rate differential between two exchanges as fixed yield, in one position on a Spread Market
+
 ---
 
 # Glossary
 
-**YU (Yield Units)**: Each YU represents yield from 1 unit of collateral in the underlying asset. For example, in a BTCUSDT(Hyperliquid) market on Boros with BTC as collateral, each YU in this market represents the funding rate of 1 BTC in Hyperliquid.
+**YU (Yield Units)**: Each YU represents the floating rate earned on 1 unit of collateral. For example, in a BTCUSDT (Hyperliquid) market with BTC as collateral, each YU represents the funding rate of 1 BTC on Hyperliquid. In the BTC Spread HL-Gate market, each YU represents the Hyperliquid-minus-Gate funding spread on 1 BTC.
 
 **Collateral**: The capital backing your position. Collateral is required to open any position on Boros. Collateral is open for liquidation when your Net Balance falls below the Maintenance Margin.
 
@@ -7404,7 +7421,13 @@ Perpetual futures are among the most actively traded instruments in crypto. Yet 
 
 **Mark APR (Mark Implied APR):** A simple time-weighted average (TWAP) of the last traded implied APR on the order book. Mark APR is used for unrealized PnL and liquidation calculations. This is similar to "mark price" in a perpetual exchange and is used to avoid unwanted consequences from short term price manipulations.
 
-**Underlying APR**: The current APR of the underlying asset (i.e. the current funding rate of the underlying exchange).
+**Underlying APR**: The current floating rate the market tracks, as reported by its oracle. On a Funding Market, this is the funding rate of the referenced exchange. On a Spread Market, it is the funding rate of leg A minus the funding rate of leg B.
+
+**Funding Market**: A market whose underlying rate is the funding rate of a single perp market on a single exchange, e.g. BTCUSDT (Binance). See [Market Types](./market-types).
+
+**Spread Market**: A market whose underlying rate is the difference between two funding rates on the same asset, named in the form *BTC Spread HL-Gate*. See [Spread Markets](./spread-markets).
+
+**Leg**: One of the two funding rates that make up a Spread Market. The first-named venue is leg A and the second is leg B. The underlying spread is A − B.
 
 **My Fixed APR:** The fixed APR of the currently open position. This is established by the weighted average of the implied APRs during entry.
 
@@ -7435,14 +7458,693 @@ For example: if a user opens a 200-YU-ETHUSDT(Binance) position, the Notional si
 **Initial Margin**: The margin consumed when opening a position, calculated based on notional size, time to maturity, and implied APR.
 
 ```jsx
-InitialMargin=NotionalSize*YearsToMaturity*max(ImpliedAPR, MarginFloor)*IMRatio
+InitialMargin=NotionalSize*YearsToMaturity*max(|ImpliedAPR|, MarginFloor)*IMRatio
 ```
 
-**Margin Floor**: The minimal margin necessary to initiate a position when a pool nears maturity or when its Implied APR approaches 0%. This threshold prevents the required margin from falling below a certain level, safeguarding against bad debt risks due to high volatility.
+**Margin Floor**: The minimal margin necessary to initiate a position when a pool nears maturity or when its Implied APR is close to 0%. This threshold prevents the required margin from falling below a certain level, safeguarding against bad debt risks due to high volatility.
 
 **IM Ratio**: Leverage ratio for the market, the lower the number, the lower the initial margin requirement is for that market.
 
 
+---
+
+# Market Types
+
+Every Boros market trades one floating rate against a fixed rate until maturity. What changes from one market to the next is the rate. The trading mechanics stay the same. Boros currently lists two types of markets, shown under the **Funding** and **Spread** tabs on the markets page.
+
+The order book, [margin and liquidations](../boros-systems/margin-and-liquidations), [fees](../boros-systems/fees) and [protective mechanisms](../boros-systems/protective-mechanism) work the same way across both types.
+
+## Funding Markets
+
+The underlying rate is the funding rate of a single perpetual market on a single exchange.
+
+| | |
+| --- | --- |
+| **Underlying APR** | The funding rate of the referenced perp market, annualised |
+| **1 YU represents** | The funding earned on 1 unit of collateral, e.g. 1 BTC of notional on Binance BTCUSDT |
+| **Settlement cadence** | Matches the exchange's funding interval, e.g. every 8 hours on Binance or every hour on Hyperliquid |
+| **Oracle** | The exchange's funding rate, validated on-chain (see [Rate Settlement](./rate-settlement#the-underlying-rate-oracle)) |
+| **Example** | BTCUSDT (Binance) |
+
+## Spread Markets
+
+The underlying rate is the difference between two funding rates on the same asset: **Rate A − Rate B**. The exchange listed first is usually the one with the historically higher funding rate.
+
+| | |
+| --- | --- |
+| **Underlying APR** | Funding rate of exchange A − funding rate of exchange B, annualised. It can be negative. |
+| **1 YU represents** | The spread earned on 1 unit of collateral, e.g. 1 BTC of notional on both venues |
+| **Settlement cadence** | Matches the less frequent of the two exchanges |
+| **Oracle** | The two existing funding rate feeds of the legs |
+| **Example** | BTC Spread HL-Gate (Hyperliquid BTC funding − Gate BTC funding) |
+
+See [Spread Markets](./spread-markets) for how Spread Markets work in detail.
+
+---
+
+import Hint from '@site/src/components/Hint';
+
+# Spread Markets
+
+On a given day, BTC funding might be 10% APR on Hyperliquid and 7% APR on Gate. That 3% gap is a rate in its own right. It moves, it can be forecast, and arbitrageurs earn it every day. A **Spread Market** lets you trade that gap directly, as a single position.
+
+A Spread Market is a Boros market whose underlying rate is the difference between two funding rates on the same asset:
+
+> **Underlying APR = Funding Rate of Exchange A − Funding Rate of Exchange B**
+
+Each side of the spread is called a **leg**. The leg order is fixed by the market, and the market name shows it. In **BTC Spread HL-Gate**, Hyperliquid is leg A and Gate is leg B, so the underlying is Hyperliquid BTC funding minus Gate BTC funding. Leg A is usually the venue with the historically higher funding rate, so the spread is usually positive.
+
+Apart from the underlying rate, a Spread Market is an ordinary Boros market. Implied APR, fixed APR, the order book, margin, liquidation, PnL and fees all work exactly as they do on a [Funding Market](./market-types#funding-markets).
+
+## Long and Short the Spread
+
+Each YU in a Spread Market represents the spread earned on 1 unit of collateral. In BTC Spread HL-Gate, 1 YU is the spread on 1 BTC of notional on both venues.
+
+### Long the Spread
+
+**Pay the fixed spread, receive the floating spread.**
+
+A long spread position profits when:
+
+1. The underlying spread is wider than your fixed APR (positive settlement cash flows)
+2. The implied spread rises after entry (unrealised PnL improves)
+
+Go long if you expect leg A's funding to pull further ahead of leg B's.
+
+### Short the Spread
+
+**Receive the fixed spread, pay the floating spread.**
+
+A short spread position profits when:
+
+1. The underlying spread is narrower than your fixed APR (positive settlement cash flows)
+2. The implied spread falls after entry (unrealised PnL improves)
+
+Go short if you expect the gap to close, or to lock in today's gap as a fixed rate. Locking in the gap is the cross-exchange arbitrage trade (see [below](#spread-markets-and-funding-rate-arbitrage)).
+
+## Example
+
+You short 10 YU of BTC Spread HL-Gate at an implied APR of 4%. That 4% becomes your fixed APR.
+
+The market settles every 8 hours (see [Settlement](#settlement)). Over the next 8-hour period, Hyperliquid BTC funding averages 10% APR and Gate BTC funding is 7% APR. The underlying spread for that period is therefore 3%.
+
+> Settlement = 10 BTC × (4% − 3%) × 8 / (24 × 365) ≈ 0.0000913 BTC
+
+You received 4% and paid 3% on 10 BTC of notional for 8 hours, so your collateral increases by about 0.0000913 BTC. A long position at the same fixed rate would have paid this amount.
+
+If the spread instead widened to 6% for the period, the same short position would pay 10 × (6% − 4%) × 8/8760 ≈ 0.000183 BTC.
+
+## Negative Spreads
+
+The underlying spread can turn negative when leg B's funding rises above leg A's. The settlement formula does not change. A negative spread is simply a low floating rate:
+
+- A **short** position at a 4% fixed APR during a −3% period receives 4% − (−3%) = **7%** for that period
+- A **long** position at the same fixed APR pays 7% for that period
+
+The implied APR can also trade below zero if the market expects leg B to stay ahead. Margin is calculated on the *absolute* rate, so a position opened at −5% is margined in the same way as one opened at 5%. See [Margin & Liquidations](../boros-systems/margin-and-liquidations#initial-margin).
+
+## Settlement
+
+The two legs of a spread often settle funding on different schedules. For example, Hyperliquid settles every hour and Gate every 8 hours. A Spread Market settles on the cadence of the **less frequent** of the two legs.
+
+At each settlement:
+
+- The less frequent leg contributes its funding rate for the period
+- The more frequent leg contributes the **average** of its funding rates since the last Spread Market settlement
+- The underlying spread for the period is leg A − leg B. It is cash-settled against your fixed APR, as on any other market.
+
+In BTC Spread HL-Gate, the market settles every 8 hours. Over each 8-hour window, Hyperliquid's hourly funding prints are averaged and Gate's 8-hour rate is subtracted from that average.
+
+Both legs use the existing funding rate oracle feeds. See [Rate Settlement](./rate-settlement#the-underlying-rate-oracle) for how those feeds are validated.
+
+## What Stays the Same
+
+A Spread Market reuses every Boros system. Spread positions follow the same rules as any other position:
+
+- **[Implied APR and position sizing](./implied-apr-and-position-sizing)**: rate sensitivity, buffer and daily volatility are calculated the same way
+- **[Order book](../boros-systems/orderbook)**: market and limit orders, matching priority and rate bounds
+- **[Margin & Liquidations](../boros-systems/margin-and-liquidations)**: one initial margin, one maintenance margin and one liquidation implied APR per position, in cross or isolated mode
+- **[Fees](../boros-systems/fees)**: taker, settlement, market entrance and liquidation fees
+- **[Protective Mechanisms](../boros-systems/protective-mechanism)**: purging, force-cancellation, ADL and market modes
+
+## Spread Markets vs Two Funding Market Positions
+
+Before Spread Markets, the only way to hold a spread on Boros was to open two [Funding Market](./market-types#funding-markets) positions. You would go short YU on leg A's market and long YU on leg B's. You can still do this, and it is the only option for venue pairs or maturities without a Spread Market.
+
+| | Spread Market | Two Funding Market positions |
+| --- | --- | --- |
+| Positions | 1 | 2 |
+| Margin requirement | 1 | 2, one per leg |
+| Liquidation implied APR | 1, on the spread | 2, one per leg, each moving with its own rate |
+| Execution | 1 order | 2 orders, and a limit order on one leg can fill without the other |
+| Settlement | One cadence, the slower leg's | Each leg settles on its own exchange's cadence |
+| Availability | Listed pairs and maturities only | Any two markets that share a collateral and maturity |
+
+<Hint style="info">
+With two Funding Market positions, each leg can be liquidated on its own move, even when the spread between them has barely changed. A Spread Market margins and liquidates the spread itself, so only a move in the spread can liquidate the position.
+</Hint>
+
+## Spread Markets and Funding Rate Arbitrage
+
+When funding differs between two venues, the classic arbitrage is to short the perp on the higher-funding venue and long the perp on the lower-funding venue. The trade collects the gap without any price exposure. The gap is floating, though, and it can close or flip at any time.
+
+Shorting the matching Spread Market fixes it:
+
+- **Short 10 BTC perp** on Hyperliquid: receive Hyperliquid funding
+- **Long 10 BTC perp** on Gate: pay Gate funding
+- **Short 10 YU** of BTC Spread HL-Gate at 4%: pay (Hyperliquid − Gate) funding, receive 4% fixed
+
+The floating funding on the perps cancels the floating spread paid on Boros. You are left with a fixed **4% APR** on 10 BTC of notional until maturity, with no price exposure. The trade has three legs and one Boros position.
+
+[Arbitrage with CrossEx](../arbitrage-with-crossex/overview) runs this trade from a single dashboard, with the perp legs held on Gate CrossEx.
+
+<Hint style="warning">
+The Spread Market's settlement cadence may differ from the perp legs' funding cadence. The floating amounts on each side therefore net out over each settlement period rather than at every funding print. Your locked rate is unaffected.
+</Hint>
+
+---
+
+# Rate Settlement
+
+## How Boros Positions Work
+
+Every position on Boros is an interest rate swap: you exchange one rate stream for another until maturity. One side is fixed. The other is the market's floating underlying rate, which is a single funding rate on a Funding Market or the spread between two funding rates on a [Spread Market](./spread-markets).
+
+- **Long (Pay Fixed, Receive Floating):** You lock in a fixed APR at entry and receive the underlying floating rate at each settlement. You profit when the floating rate exceeds your fixed rate.
+- **Short (Pay Floating, Receive Fixed):** You receive your locked-in fixed APR and pay the underlying floating rate at each settlement. You profit when the floating rate stays below your fixed rate.
+
+![FR Settlement](/boros-docs/imgs/image2.png "FR Settlement")
+
+Your fixed APR is set at the moment your order fills. It is the average implied APR of the filled order.
+
+## Periodic Settlement
+
+At each settlement interval, Boros reads the underlying rate from its oracle and realises the net difference between the floating and fixed rate into your collateral.
+
+Settlement intervals follow the underlying market:
+
+| Market type | Settlement interval |
+| --- | --- |
+| Funding Market, Binance | Every 8 hours |
+| Funding Market, Hyperliquid | Every 1 hour |
+| Spread Market | The interval of the less frequent leg, e.g. every 8 hours for BTC Spread HL-Gate. The more frequent leg contributes the average of its rates since the last settlement. See [Spread Markets](./spread-markets#settlement). |
+
+The net cash flow per settlement:
+
+> **Long:** Settlement = Position Size × (Floating Rate − Fixed Rate) × Settlement Period
+> **Short:** Settlement = Position Size × (Fixed Rate − Floating Rate) × Settlement Period
+
+A positive result is added to your collateral and a negative result is deducted from it.
+
+## How Settlement Affects Margin
+
+Each settlement period, two things happen:
+
+1. **Collateral changes** by the net rate differential (positive or negative).
+2. **Margin requirement declines** as time to maturity shrinks. The remaining yield stream is smaller, so less margin is required to hold the same position size.
+
+A position that is persistently out of the money will see collateral eroded each period. If sustained, this can push a position toward liquidation even without any change in the mark rate.
+
+At maturity, rate sensitivity reaches zero, all margin is freed, and collateral reflects the cumulative net of every settlement over the position's life.
+
+## The Underlying Rate Oracle
+
+The underlying rate used in each settlement is sourced independently and is never derived from Boros's own order book. The pipeline:
+
+1. An off-chain bot fetches the actual funding rate from the relevant CEX or perp DEX at each epoch boundary
+2. The rate is submitted to a **FundingRateVerifier**, validated against one of three independent oracle sources (Chainlink Data Streams, ChaosLabs Risk Oracle, or Pendle's oracle)
+3. Once validated, it is forwarded to the **FIndex Oracle**, which accumulates it into a cumulative index that the market reads at settlement
+
+A Spread Market does not have a separate oracle. It reads the existing validated feeds of its two legs and settles their difference.
+
+Every submitted rate is validated for correct sequencing, so **no rate settlement can be skipped**. If the bot misses an update window, a short grace period allows catch-up. After that, a manual admin override merges the missed epochs into the next valid update.
+
+---
+
+# Implied APR and Position Sizing
+
+## Implied APR and Fixed APR
+
+**Implied APR is the market price of a YU position, expressed as an annualised rate.** It reflects the market's collective expectation of the future underlying rate (a funding rate, or a spread between two funding rates) and is the rate at which traders enter positions.
+
+When you open a position, the prevailing implied APR locks in as your **fixed APR,** the rate you will pay (long) or receive (short) through to maturity. It does not change after entry.
+
+Implied APR is also the primary driver of unrealised PnL:
+
+- Rising implied APR benefits long positions, hurts short positions
+- Falling implied APR benefits short positions, hurts long positions
+
+
+### Long YU
+
+**Pay fixed APR, receive floating APR.**
+
+Going long is a bet that the underlying rate will exceed your fixed APR, or that implied APR will rise after entry (increasing the mark-to-market value of your position).
+
+A long position profits when:
+
+1. Underlying rate > fixed rate (positive settlement cash flows)
+2. Implied APR rises after entry (unrealised PnL improves)
+
+Both can occur simultaneously, and either alone is sufficient to generate a profit.
+
+
+### Short YU
+
+**Pay floating APR, receive fixed APR.**
+
+Going short is a bet that the underlying rate will stay below your fixed APR, or that implied APR will fall after entry.
+
+A short position profits when:
+
+1. Underlying rate < fixed rate (positive settlement cash flows)
+2. Implied APR falls after entry (unrealised PnL improves)
+
+
+## Rate Sensitivity and Position Sizing
+
+Unlike spot or perp trading, YU positions are not sized by collateral leverage in the traditional sense. The relevant measure is **Rate Sensitivity,** how much your collateral changes for every 1% move in implied APR.
+
+> **Rate Sensitivity = Position Size × Time to Maturity (years) × 1%**
+
+![Rate Sens](/boros-docs/imgs/rate-sensitivity.png "Rate Sensitivity")
+
+For example, A 250 ETH YU **short** position with 17 days to maturity has a rate sensitivity of ~0.122 ETH per 1% move ($200 at the time of writing):
+
+- 1% increase in implied APR (adverse move) costs you 0.122 ETH
+- 1% decline in implied APR (favourable move) earns you 0.122 ETH
+
+Rate sensitivity declines naturally as maturity approaches, since the same position has less exposure with, for instance, 10 days remaining vs 180 days.
+
+**Using Rate Sensitivity to assess risk:**
+
+Your effective risk buffer is:
+
+> **Buffer = Margin / Rate Sensitivity**
+
+This tells you how many percentage points implied APR can move against you before you approach liquidation. Compare this against **Daily Volatility** (the 7-day moving average of daily implied APR range) to gauge whether your margin is adequate for current market conditions.
+
+For example: $1000 margin with a rate sensitivity of $200 gives a buffer of ~5%. If daily volatility is running >5%, your position can be wiped out in a single day's move and could a signal to reduce size or top up collateral.
+
+The levers for managing your rate sensitivity (risks) are straightforward:
+
+- **Reduce position size** → lower rate sensitivity
+- **Choose a shorter-dated market** → lower rate sensitivity for same notional size
+- **Add collateral** → widens your buffer without changing rate sensitivity
+
+
+## Opening a Position
+
+1. Select a market and deposit collateral into the relevant zone
+2. Enter position size and direction (long or short)
+3. Execute a market order for immediate fill, or place a limit order at your target implied APR
+4. Position is live once the order fills
+
+
+## Closing a Position
+
+Closing works by executing the opposite trade against your existing position. A long is closed by going short for the equivalent size, and vice versa. The floating rate legs cancel out, leaving a net fixed APR cash flow to maturity, which Boros immediately settles into your collateral rather than requiring you to hold to expiry.
+
+![Closing Position](/boros-docs/imgs/image5.png "Closing Position")
+
+You can close partially by entering a smaller opposing size than your current position. The remainder stays open at your original fixed APR.
+
+**Caution:** Limit orders are independent of open positions. If you place a limit order to close 1,000 YU and then manually close 250 YU via market order, the original limit order for 1,000 YU remains active. If it fills, it will close your remaining 750 YU and open a new 250 YU position in the opposite direction. Always cancel or adjust limit orders when manually managing positions.
+---
+
+# Order Book
+
+Boros operates a central limit order book (CLOB) for trading interest rate swaps (YU). 
+
+## Mark Rate
+
+The **mark rate** is Boros's reference rate for margining, liquidations, and order validity checks. It is a **time-weighted average of recent trade prices** (TWAP), typically calculated over a 5-minute (subject to changes) rolling window.
+
+When a trade occurs, the mark rate updates as a blend of the newly executed rate and the prior mark rate, weighted by how much time has elapsed since the last trade. This makes the mark rate resistant to short-term manipulation (a single trade cannot move it instantaneously).
+
+The mark rate is distinct from the **Last Traded Rate (**the last filled order in the order book). Under normal conditions, these should be very close or the same. They can diverge slightly during volatile trading periods or when the mark APR TWAP is still updating to catch-up with the last traded rate.
+
+![Order Book](/boros-docs/imgs/image3.png "Order Book")
+
+## Order Types
+
+Orders on Boros are placed based on Implied APR of the asset, which is the price of the asset denominated in APR terms. Learn more **here**.
+
+- Market: Order executes immediately in order of the best prices in the order book.
+- Limit: Order executes at the selected limit price or better.
+
+Limit orders on Pendle are Good Til Cancel (GTC) orders, which means they will be available in the order book until it is filled or cancelled.
+
+The order book will be closed at maturity and all orders will automatically be cancelled.
+
+## Matching Priority
+
+Orders are matched by **rate-time priority**:
+
+- Better rates (prices) are matched first (long orders willing to pay higher rates; short orders willing to receive lower rates)
+- Within the same rate (price), orders are matched in the order they were placed (first-in, first-out)
+
+## Rate Bounds and Out-of-Range Errors
+
+Boros enforces rate bounds relative to the mark rate to protect traders from filling at stale or manipulative prices. There are two distinct checks:
+
+### Taker Orders — *"Executed Rate Out of Range"*
+
+When an incoming order executes against the book, the furthest filled rate is checked against the mark rate. If the deviation is too large, the transaction reverts.
+
+This bound is referred to as the **Max Rate Deviation**.
+
+Reduce your order size to within the executable range to have your order sent to the book.
+
+### Maker Orders (Limit Orders) — *"Limit Rate Out of Bounds"*
+
+Resting limit orders are also constrained. An order will be rejected at placement if its rate deviates too far from the mark rate. The allowable range widens as time to maturity increases, reflecting that longer-duration positions reasonably trade at a wider spread from the current mark.
+
+*Long / short* maker orders that are placed too far *above / below* the mark rate respectively will be rejected.
+
+## Order Lifecycle and Purging
+
+Beyond manual cancellation, orders can be removed by the protocol's risk management system:
+
+- **Force-cancellation**: If your account's health ratio deteriorates to a risky level, all open orders across all markets may be force-cancelled to prevent further exposure.
+- **Purging**: If a resting order's rate drifts too far from the current mark rate (due to mark rate movement after placement), it is purged from the book. Purged orders are not filled, they are simply removed. Purged orders are likely so far out of the current mark rate that it will not affect the order book even in extreme market conditions.
+- **Health-jump cancellation**: If a pending rate settlement would push your health ratio into risky territory, orders contributing to that risk may be proactively cancelled.
+
+## Order Limits
+
+- No minimum order size
+- Maximum of **100 open orders per account** across both sides (configurable per market). Exceeding this causes the transaction to revert.
+- Self-trading is prevented, if an incoming order would match against your own resting order, the transaction reverts.
+
+## Market Modes
+
+Markets operate in one of three states:
+
+| Status | Meaning |
+| --- | --- |
+| **GOOD** | Normal operations — all order types permitted |
+| **OI Capped** | Only orders that reduce existing position size are allowed. No new exposure can be opened (OI is capped from current value). Limit orders can still be posted to the book.  |
+| Makers Only Mode | No new trades can execute, including closing open positions. Limit orders can still be posted to the book. |
+| Market Paused (Halted) | All trading and order placement suspended. |
+---
+
+# Margin & Liquidations
+
+## Understanding Your Position's Risk
+
+Boros uses three linked metrics to characterise a position's exposure and margin requirements:
+
+**Rate Sensitivity** is how much PnL your position gains or loses for every 1% move in implied APR. It's the primary lens for understanding exposure, equivalent to 100 × DV01 in TradFi interest rate swap conventions.
+
+> Rate Sensitivity = Notional Size × (Days to Maturity / 365) × 1%
+
+**Daily Volatility** is the 7-day moving average of the daily implied APR range, how much the rate swings in a typical day.
+
+> Rate Sensitivity × Daily Volatility = Daily P&L Range
+
+This gives you a practical sense of how much your position can gain or lose on any given day under recent conditions. More volatile assets require proportionally higher margin for the same rate sensitivity.
+
+**Margin** is the collateral used to back your position, your buffer against adverse rate moves.
+
+
+## Net Balance
+
+Your **Net Balance** determines whether a position remains healthy or is eligible for liquidation:
+
+> Net Balance = Collateral + Unrealized PnL
+
+**Collateral** is adjusted at every settlement period (e.g. every 8 hours on a Binance market; see [Rate Settlement](../about-boros/rate-settlement#periodic-settlement)), when the difference between the fixed rate and the underlying rate is cash-settled into your collateral. A short position, for example, will see its collateral erode if the underlying rate stays persistently above the fixed rate it receives.
+
+**Unrealized PnL** moves with the mark implied APR. A long position sees unrealized losses as the mark rate falls, and vice versa.
+
+Monitor your Net Balance closely, add collateral if your margin ratio is trending low.
+
+
+## Margin Modes
+
+**Cross Margin** allows a single collateral deposit to back multiple positions within the same collateral zone (e.g. all BTC-denominated markets share one BTC collateral pool). Unrealized profits in one position offset margin requirements across the zone. Liquidations in one zone do not affect positions in other zones.
+
+**Isolated Margin** confines collateral to a single market. Losses in an isolated position cannot spill over to other positions.
+
+
+## Initial Margin
+
+Initial margin is the collateral required to open a position. It scales with notional size, time to maturity, and the implied APR at which the position is opened — floored at the market's Margin Floor (see below):
+
+> IM = IM Factor × |Notional Size| × max(Time to Maturity, Time Floor) × max(|Mark Rate|, Rate Floor)
+
+Once consumed, initial margin is locked and cannot be reused to back other positions. Any remaining collateral beyond the initial margin is your **Available Margin**, which increases with unrealized profits and decreases with unrealized losses. Your collateral balance then increases or decreases by the settlement PnL.
+
+
+## Maintenance Margin
+
+Maintenance margin is the minimum Net Balance required to keep a position open. It uses the same formula as initial margin but with a lower factor:
+
+> MM = MM Factor × |Notional Size| × max(Time to Maturity, Time Floor) × max(|Mark Rate|, Rate Floor)
+
+As maturity approaches and periodic settlements reduce the position's residual yield exposure, both rate sensitivity and maintenance margin decline in tandem. At maturity, both reach zero and the full position is settled into collateral.
+
+A position becomes eligible for liquidation when its **Net Balance falls below its Maintenance Margin**.
+
+
+## Margin Floor
+
+The Margin Floor sets a minimum rate (implied APR) and minimum time-to-maturity used in margin calculations, ensuring positions are never backed by trivially small collateral. There are two components:
+
+**Rate Floor:** Because initial margin scales linearly with implied APR, a position opened near 0% (or negative) rates would require near-zero margin, creating bad debt risk. The Rate Floor enforces a minimum APR for margin calculation purposes. For example, in a market with an 8% Rate Floor, any position opened between -8% and +8% is margined as if it were opened at 8%.
+
+**Time Floor (Near-Maturity Floor):** As maturity approaches, required margin shrinks. Without a floor, positions in the final days before maturity would be backed by negligible collateral, leaving the protocol exposed to sharp last-minute rate swings. The Time Floor prevents margin from decaying below the equivalent of a position with a set number of days remaining (e.g. 7 days). Any position opened inside that window is margined as if it still had 7 days to maturity.
+
+Each market applies the **higher** of the two floors.
+
+
+## Liquidation
+
+When a position's Net Balance falls below its Maintenance Margin, it becomes eligible for liquidation. The position is closed at the current mark rate, and a **liquidation penalty** is deducted from the user's remaining collateral:
+
+> Liquidation Penalty = k × Maintenance Margin of Liquidated Position
+
+**k** starts at **25%** when the position first becomes liquidatable (health ratio = 1.0) and scales linearly up to **50%** as the position becomes progressively more distressed. This escalating penalty incentivises liquidators to act promptly and compensates them for taking on the position. **k** figure can change when a market is in distress or when the team deems necessary to adapt to certain situation.
+
+A protocol liquidation fee is also charged on top of the liquidator incentive (see [Fees](./fees)).
+
+Margin figures and requirements can differ by markets, check out the market details for specific information on the respective markets.
+
+![Market Info Popup](/boros-docs/imgs/market-info-popup.png "Market Info Popup")
+---
+
+# Protective Mechanisms
+
+Boros has multiple protective risk systems, a set of interventions at various level of forcefulness designed to protect the protocol from bad debt. Under normal conditions, most of these mechanisms are invisible. They activate in response to deteriorating health ratios, extreme rate movements, or rising open interest. Understanding them helps traders anticipate how their positions and orders might be affected.
+
+## Order Rate Bounds
+
+This is a passive protective mechanism, it simply prevents bad fills from happening in the first place.
+
+### Taker Orders  (Executed Rate Out of Range)
+
+Every taker fill is validated against the current mark rate. If the executed rate deviates too far, the transaction reverts. This protects traders from filling at stale or manipulative rates.
+
+This bound is referred to as the **Max Rate Deviation**.
+
+### Limit Orders (Limit Rate Out of Bounds)
+
+Resting limit orders are also constrained. Orders cannot be placed at rates that are too far above (for longs) or below (for shorts) the current mark rate. The allowable band uses the mark rate as an anchor and expands slightly with time to maturity.
+
+If a placed limit order later drifts outside the acceptable band as the mark rate moves, it is **purged** (see below).
+
+
+## Out-of-Bound Order Purging
+
+As the mark rate moves after an order is placed, a previously valid limit order may fall outside the current rate bounds. Boros periodically scans the book and **purges** orders that are no longer within acceptable range.
+
+Purged orders receive a **PURGED** status. They are not filled and the order is simply removed and your margin for that order is returned. Settlement payments are correctly applied up to the point of purge.
+
+This mechanism keeps the order book clean and prevents stale orders from matching at economically unreasonable rates during fast-moving markets.
+
+
+## Force-Cancellation of Risky Orders
+
+If your account's health ratio falls below the risky threshold, all your open orders across all markets may be force-cancelled by the protocol's risk bots.
+
+This is a protective intervention, to prevent resting orders from filling and increasing your exposure at a time when you are already near the margin boundary. No positions are closed, only unfilled orders are removed.
+
+Additionally, if a pending rate settlement would push your health ratio below the risky threshold, the system may proactively cancel orders that are materially contributing to that risk **before** the settlement executes. This is the **health-jump order cancellation** mechanism.
+
+Both actions are performed automatically by Boros's infrastructure with no manual input required.
+
+
+## Liquidation
+
+When your Net Balance falls below your Maintenance Margin (health ratio < 1.0), your account becomes eligible for liquidation.
+
+### How It Works
+
+Your position is closed at the current mark rate and transferred to a liquidator, who absorbs it in exchange for a discount (the liquidation incentive).
+
+### Liquidation Incentive
+
+The liquidator receives a rate discount relative to the mark rate, scaled by how distressed your position is. The incentive scales **up** as your health ratio falls, a more distressed position offers a larger discount to attract timely liquidation. It is capped at your health ratio to ensure that the liquidated user’s health improves after the liquidation.
+
+### After Liquidation
+
+Liquidation always strictly **improves your health ratio**. This is because the incentive paid to the liquidator is capped at a level that ensures your remaining value-to-margin ratio cannot decline. You keep any collateral that was not required to cover the margin deficit and incentive.
+
+
+## Auto-Deleveraging (ADL)
+
+ADL on Boros is the **last resort**. It is only triggered when a position is so distressed that normal liquidation cannot resolve it due to insufficient market liquidity for the liquidator to hedge the position and the health ratio has fallen to the ADL threshold.
+
+### What Happens
+
+The protocol identifies accounts on the **opposite side** of the distressed position and a portion of their position is forcibly closed against the distressed account.
+
+Unlike liquidation, there is no liquidation incentive in ADL. The winning counterparties do not choose to participate, their profitable positions are unwound to absorb the losses of the distressed account.
+
+### Bad Debt Sharing
+
+If the distressed account has negative value (i.e. losses exceed all remaining collateral), ADL may involve proportional bad debt sharing:
+
+> Loss assigned to winner = Bad Debt × (Size Deleveraged / Total Loser Size)
+
+The deleverage executes at (or near) the mark rate. Total value across the system is preserved and only margin requirements change. Only in extraordinary circumstances, ADL can happen at a rate other than the mark APR (for example when the losing user is already on bad debt, the deleverage will happen at the price where bad debt is avoided instead of the mark rate)
+
+### Who Gets Deleveraged First
+
+Counterparties are selected and ranked based on health ratio (lowest health ratio accounts are selected first).
+
+### How to Reduce ADL Risk
+
+To reduce ADL risks while participating in a market that could be in distress: simply improve your health ratio, which can be done by:
+
+- Closing/reducing your position size to lower maintenance margin
+- Increase collateral
+
+ADL is not expected under normal market conditions, it exists purely as a final safeguard for extreme scenarios.
+
+
+## Market Modes
+
+### **OI Capped**
+
+Triggered when total open interest hits the market cap, or when abnormal conditions are detected. Market orders can only reduce existing positions and no new exposure can be opened (OI is not allowed to increase). Limit orders remain open and can be posted freely.
+
+### **Makers Only Mode**
+
+Triggered in severe cases. No new trades can execute, including closing open positions. Limit orders can still be posted to the book. In practice, this is similar to OI Capped given that limit orders remain available, the only meaningful difference is that all taker orders (including closing open positions) are fully disabled.
+
+### **Market Halted**
+
+In the most extreme scenarios, an entire market can be halted, suspending all trading, order placement, and cancellation. This is a manual intervention by the team and is reserved for exceptional circumstances.
+---
+
+# Fees
+
+Boros charges four types of fees. All fees are denominated in the collateral asset of the relevant market and deducted directly from your collateral balance.
+
+Fee rate can differ by markets, check out the market details for specific information on the respective markets.
+
+![Market Info](/boros-docs/imgs/market-info.png "Market Info")
+
+## 1. Taker Fee (Swap Fee)
+
+Charged when your order executes against a resting order on the book (Market Order). **Maker orders (limit orders that rest on the book) are never charged a fee,** the fee falls entirely on the taker at the point of fill.
+
+The fee scales with position size and time to maturity:
+
+> **Fee = Position Size × Fee Rate × Time to Maturity (in years)**
+
+So a larger position or a longer-dated market incurs a proportionally higher fee. For example, at a 0.05% fee rate, opening a position 90 days before maturity costs roughly 0.012% of notional (0.05% × 90/365).
+
+The practical implication: your position needs implied APR to move by at least **2× the taker fee** in your favor to be profitable on a round-trip (open + close), assuming no yield settlement income in between and both trades were done via market order (taker).
+
+## 2. Settlement Fee (Open Interest Fee)
+
+Charged on all open positions at each periodic settlement. This is the carrying cost of holding a position.
+
+> **Settlement Fee = Position Size × Settlement Fee Rate × Settlement Period (in years)**
+
+At an 0.2% annualized settlement fee rate, the cost per 8-hour period (e.g. on a Binance market) is approximately 0.000183% of your position size — small per cycle, but it accumulates over the life of a position. This is analogous to a funding fee on perpetuals.
+
+The settlement fee applies regardless of whether the position is long or short.
+
+## 3. Market Entrance Fee
+
+A one-time fee charged the first time you interact with a given market. It is approximately **$1 USD** equivalent, denominated in the market's base asset:
+
+- BTC markets: ~0.000008 BTC
+- ETH markets: ~0.00027 ETH
+
+This fee is charged once per market and is not repeated on subsequent interactions.
+
+## 4. Liquidation Fee
+
+Fee is charged on the liquidated position size and collected by the protocol. This is separate from the incentive paid to the liquidator. Like the taker fee, it scales with position size and time to maturity remaining at the point of liquidation.
+
+## Fee Summary
+
+| Fee | When | Maker / Taker | Discountable |
+| --- | --- | --- | --- |
+| Taker fee | On order fill | Taker only | Yes (Referral Discount) |
+| Settlement fee | Every settlement on open positions | Both sides | No |
+| Market entrance fee | First interaction per market | — | No |
+| Liquidation fee | On liquidation | — | No |
+---
+
+# Incentives
+
+Boros runs two distinct incentive programs: one for resting limit orders that provide liquidity within a defined rate boundary, and one that returns a portion of taker fees to the makers those takers fill against.
+
+## Limit Order Incentives
+
+Boros distributes weekly PENDLE incentives to users who place limit orders that rest in the order book and are subsequently filled by takers. The goal is to encourage organic liquidity provision across markets.
+
+### Eligibility
+
+A limit order qualifies for incentives when:
+
+- It is placed as a **maker order,** meaning it rests in the order book rather than filling immediately on placement.
+- The order rate falls **within the incentive boundary** for that market (see below).
+
+Limit orders that match immediately upon placement are treated as taker orders and do not qualify.
+
+### Incentive Boundary
+
+Each market defines an incentive boundary, a rate range around the current mid rate within which resting limit orders must sit to qualify. Orders placed outside this boundary do not earn incentives.
+
+The boundary is market-specific and dynamic. It is set asymmetrically when there is a liquidity imbalance between the long and short sides of the book: the thinner side receives a wider boundary and proportionally higher rewards, creating a directional incentive to fill liquidity gaps. The specific boundary for each market is queryable via the Boros API.
+
+### Reward Calculation
+
+Incentives are allocated weekly per market. Each user's share is determined by their contribution to total maker contribution within the epoch:
+
+Incentives are denominated in PENDLE. The weekly allocation per market is set by Boros and may be adjusted based on market activity and growth targets.
+
+
+## Maker Incentive
+
+When a maker limit order is filled by a taker, the maker receives **20% of the taker fee** paid on that trade as a rebate, distributed weekly.
+
+### How It Works
+
+Takers pay a swap fee on every fill. The fee is calculated as:
+
+`Taker fee = Fee rate × Notional (in YU) × Time to maturity (in years)`
+
+Of that fee, 20% is passed to the maker whose order was filled. The remaining 80% is retained by the protocol.
+
+### Notes
+
+- The incentive applies to any filled maker limit order, regardless of whether that order also qualifies for the limit order incentive program above.
+- The incentive is credited in the same collateral asset used to settle the trade.
+- Makers already benefit from 0% fees on their own order placement; the 20% incentive is additive on top of this.
+
+
+## Distribution
+
+Incentive epochs run weekly from Friday 00:00 to Friday 00:00 UTC. At the close of each epoch, each eligible user's share is calculated based on their sizes recorded during that window.
+
+Distribution is completed by Monday 23:59 UTC at the latest. Before any distribution is processed, the team reviews activity from the epoch to verify that all qualifying volume is legitimate. Boros reserves the right to withhold or adjust distributions where activity is flagged as manipulative or otherwise in bad faith.
 ---
 
 # P2P Marketplace
@@ -7505,7 +8207,7 @@ Browse the marketplace, pick a listing, and click through to place an offer. Unl
 | --- | --- |
 | **Offer APR** | The rate you actually want to trade at. Defaults to the indicative APR, but you can offer anything. |
 | **Size** | How much YU you want to trade. |
-| **Execution time** | The exact time the trade will fire on-chain. Usually set just before a funding settlement. |
+| **Execution time** | The exact time the trade will fire on-chain. Usually set just before a rate settlement. |
 | **Note to maker** | Optional message to accompany your offer. |
 
 ![Place an offer](/boros-docs/imgs/p2p-marketplace/make-offer.png "Place an offer")
@@ -7604,7 +8306,7 @@ P2P trades pay the **standard taker fee (5 bps)**. The contract only allows one 
 
 ## Things to Know
 
-- **Execution time matters.** It's usually set just before a funding settlement, so pick it deliberately.
+- **Execution time matters.** It's usually set just before a rate settlement, so pick it deliberately.
 - **You can hedge at acceptance.** Because acceptance is binding and bail is compensated, it's safe to open your hedge as soon as a trade is accepted.
 - **Offers can't be edited.** To change terms, cancel and resubmit or counter.
 - **YU can't be used as margin.** Post fresh collateral for P2P trades.
@@ -7617,24 +8319,45 @@ import Hint from '@site/src/components/Hint';
 
 # Overview
 
-**Arbitrage with CrossEx** is a free, [open-source tool](https://github.com/pendle-finance/arbitrage-with-crossex) built by the Pendle team that lets traders execute a **4-leg cross-exchange funding-rate arbitrage** through [Gate CrossEx](https://www.gate.com/crossex) and Boros, from a single dashboard on their own machine.
+**Arbitrage with CrossEx** is a free, [open-source tool](https://github.com/pendle-finance/arbitrage-with-crossex) built by the Pendle team that lets traders run a **cross-exchange funding-rate arbitrage** through [Gate CrossEx](https://www.gate.com/crossex) and Boros, from a single dashboard on their own machine.
 
 It runs locally — there's nothing to sign up for on the app itself. It talks directly to your own Gate account and your own Boros wallet.
 
 Learn more and get started at [boros.pendle.finance/arbitrage-crossex](https://boros.pendle.finance/arbitrage-crossex).
 
-## The strategy: 4-leg funding rate arbitrage
+## The strategy: cross-exchange funding rate arbitrage
 
-Boros lets traders convert a venue's floating funding rate into a tradable fixed rate. The same coin's funding often carries a different **implied APR** on different venues — for example, ETH funding priced at 8% APR on Hyperliquid but 4% APR on Binance. The strategy locks in that gap as yield.
+The same coin's funding rate often differs between venues. For example, BTC funding might be priced at 8% APR on Hyperliquid and 4% APR on Binance. The strategy locks in that 4% gap as a fixed yield.
 
-One position is 4 legs, all at the same notional. Using BTC as an example:
+Every position has two halves, both at the same notional:
+
+- **The perp pair (via CrossEx):** short the perp on the higher-funding venue and long the perp on the lower-funding venue. The two perps cancel each other's price exposure, and together they collect the floating funding gap.
+- **The rate lock (on Boros):** pay that floating gap away on Boros in exchange for a fixed rate. What remains is a fixed return until the Boros market matures.
+
+Boros offers two ways to lock the rate.
+
+### Option 1: Short a Spread Market (3 legs)
+
+If Boros lists a [Spread Market](../about-boros/spread-markets) for the venue pair, the whole rate lock is one position. Using BTC Spread HL-Gate as an example:
+
+- **Short 10 YU** of BTC Spread HL-Gate at 4% Implied APR (Boros)
+- **Short 10 BTC** on Hyperliquid BTC perp (via CrossEx)
+- **Long 10 BTC** on Gate BTC perp (via CrossEx)
+
+The Boros side is a single order, with **one margin requirement and one liquidation implied APR**, both based on the spread itself. A move in either venue's funding rate cannot liquidate you on its own. Only a move in the spread can.
+
+### Option 2: Two Funding Market legs (4 legs)
+
+For any venue pair without a Spread Market, the rate lock is built from two [Funding Market](../about-boros/market-types#funding-markets) positions. Using BTC on Hyperliquid and Binance:
 
 - **Short 10 YU** of BTC Hyperliquid funding at 8% Implied APR (Boros)
 - **Long 10 YU** of BTC Binance funding at 4% Implied APR (Boros)
 - **Short 10 BTC** on Hyperliquid BTC perp (via CrossEx)
 - **Long 10 BTC** on Binance BTC perp (via CrossEx)
 
-The two perp legs cancel each other's price exposure and offset the floating funding owed on the Boros legs, leaving the trader **delta-neutral** and holding just the **4% APR spread** as fixed yield until the Boros markets mature (before leverage).
+This works for any two markets that share a collateral and maturity. The Boros side is then two positions, each with its own margin and its own liquidation level.
+
+Either way, the trader is **delta-neutral** and holds just the **4% APR spread** as fixed yield until the Boros market matures (before leverage).
 
 ![4 leg funding rate arbitrage](/boros-docs/imgs/arbitrage-with-crossex/4-leg-funding-rate-arbitrage.jpg "4 Leg Funding Rate Arbitrage")
 
@@ -7649,8 +8372,8 @@ With leverage, this can be a lucrative yield farm — but coordinating collatera
 Arbitrage with CrossEx integrates both CrossEx and Boros so a trader can:
 
 - **Scan opportunities** — see live fixed-rate spreads across venues, with potential returns and required margin calculated automatically
-- **Execute all four legs** — a guided wizard locks the fixed rate on Boros, then hedges the perp legs through CrossEx, without leaving the dashboard
-- **Monitor** margin, PnL, and yield across the whole 4-leg position from a single dashboard, with a full breakdown of every cost charged against the return
+- **Execute every leg** — a guided wizard locks the fixed rate on Boros (one Spread Market order, or two Funding Market orders), then hedges the perp legs through CrossEx, without leaving the dashboard
+- **Monitor** margin, PnL, and yield across the whole position from a single dashboard, with a full breakdown of every cost charged against the return
 
 <Hint style="warning">
 This is experimental, open-source software that places real orders with real funds on your own exchange account. It is not financial, investment, legal, or tax advice. See [Risks & Security](./risks-and-security) before use.
@@ -7658,6 +8381,7 @@ This is experimental, open-source software that places real orders with real fun
 
 ## Further reading
 
+- [Spread Markets on Boros](../about-boros/spread-markets)
 - [Understanding Implied and Underlying APR on Boros](https://pendle.gitbook.io/boros/the-basics/chapter-2-implied-apr-and-underlying-apr)
 - [How Boros enables fixed rate payments on floating funding rates](https://pendle.gitbook.io/boros/advanced-strategies/hedging-funding-rates-payment)
 - [How Boros enables receiving fixed rates on floating funding rates](https://pendle.gitbook.io/boros/advanced-strategies/fixed-funding-rates-receivables)
@@ -7813,7 +8537,7 @@ import Hint from '@site/src/components/Hint';
 
 # Opening a Position
 
-Both halves of the trade are executed from the terminal: the **rate legs** on Boros and the **perp legs** through CrossEx. The guided wizard walks you through both in the right order — **lock the rate first, then hedge the perps** — since Boros price impact is higher and less predictable, so you want the spread secured before committing to the perp side.
+Both halves of the trade are executed from the terminal: the **rate lock** on Boros (a single [Spread Market](../about-boros/spread-markets) position, or two Funding Market legs) and the **perp legs** through CrossEx. The guided wizard walks you through both in the right order — **lock the rate first, then hedge the perps** — since Boros price impact is higher and less predictable, so you want the spread secured before committing to the perp side.
 
 ## Reading the Opportunities scan
 
@@ -7824,7 +8548,7 @@ The Opportunities tab lists live fixed-rate spreads, each priced at your chosen 
 Each card shows the coin, the two venues (which side is shorted and which is longed), the maturity, and:
 
 - **APR** — the net return after fees, price impact, and slippage, annualised
-- **CAPITAL** — what the four legs actually consume as margin
+- **CAPITAL** — what all the legs actually consume as margin
 - **RETURN** — the estimated profit in dollars over the life of the position
 - **NOTIONAL** — the size each leg is priced at
 
@@ -7849,7 +8573,7 @@ Click the **with these assumptions** bar to open the panel. Every change re-pric
 **Boros entry**
 
 - **At mark rate** — assumes the Boros legs fill with no price impact.
-- **Market at size** — assumes both Boros legs fill via market order at your size.
+- **Market at size** — assumes the Boros side (the Spread Market order, or both Funding Market legs) fills via market order at your size.
 
 <Hint style="info">
 Your current Gate VIP tier is already factored into every number. A higher tier meaningfully raises the APR on the same trade, since perp fees are one of the largest cost lines.
@@ -7861,9 +8585,9 @@ Click **More details** on any card to see how the number was built.
 
 ![Opportunity details](/boros-docs/imgs/arbitrage-with-crossex/opportunity-details.png "Opportunity details")
 
-The panel lays out all four legs — the two CrossEx perp legs with their available leverage, and the two Boros rate legs with their rate before and after price impact — then a **NET EFFECT** line stating the funding spread being locked and the resulting APR on capital.
+The panel lays out every leg — the two CrossEx perp legs with their available leverage, and the Boros side (one Spread Market leg, or two Funding Market legs) with its rate before and after price impact — then a **NET EFFECT** line stating the funding spread being locked and the resulting APR on capital.
 
-Below that, two waterfall charts: **profit by maturity**, itemising the gross spread down through Boros impact, Boros fees, settlement, perp entry fees, and entry slip to reach estimated profit; and **capital**, showing the initial margin each of the four legs contributes.
+Below that, two waterfall charts: **profit by maturity**, itemising the gross spread down through Boros impact, Boros fees, settlement, perp entry fees, and entry slip to reach estimated profit; and **capital**, showing the initial margin each leg contributes. A Spread Market contributes a single Boros margin requirement.
 
 <Hint style="warning">
 The APR here is modelled against the *minimum* capital the legs require. The Positions tab divides by the Boros collateral you have actually posted, so a live, over-collateralised position will read a lower APR than the estimate for the very same trade.
@@ -7877,19 +8601,24 @@ Click **Open this strategy →** on an opportunity. This launches a two-step wiz
 
 ### Step 1 — Lock the rate (Boros)
 
-The wizard opens on the Boros step with both rate legs prefilled. Check **Leg A** and **Leg B** — each is a market and maturity with its own Long/Short side — then confirm the **Size per leg**, keep the mode on **Open**, and set **Max slippage (% APR)**, which caps how far each leg may fill from the quoted rate.
+The wizard opens on the Boros step with the rate lock prefilled.
+
+- **Spread Market** — when the opportunity is on a venue pair with a Spread Market, the rate lock is one short on that market. A single order, a single slippage cap, and one margin requirement.
+- **Two Funding Market legs** — otherwise, check **Leg A** and **Leg B**. Each is a market and maturity with its own Long/Short side.
+
+Then confirm the **Size per leg**, keep the mode on **Open**, and set **Max slippage (% APR)**, which caps how far each leg may fill from the quoted rate.
 
 Before you commit, the **ESTIMATED SPREAD** panel shows what you're about to lock:
 
 - the estimated spread, and the **worst case** given your slippage cap
 - each leg's rate
-- the **taker fee**, the **margin required** for both legs, and the **prepaid gas**
-- the resulting position change on each leg
+- the **taker fee**, the **margin required** on Boros, and the **prepaid gas**
+- the resulting position change on Boros
 
-Click **Confirm — 2 Boros market orders** to send them. The wizard then advances to step 2.
+Confirm to send the Boros order (one order on a Spread Market, two on Funding Markets). The wizard then advances to step 2.
 
 <Hint style="info">
-The market dropdowns only list markets that can pair with the other leg — the wizard hides those that don't share a collateral and maturity, and tells you how many it hid.
+For two Funding Market legs, the market dropdowns only list markets that can pair with the other leg — the wizard hides those that don't share a collateral and maturity, and tells you how many it hid.
 </Hint>
 
 ### Step 2 — Hedge the perps (Gate CrossEx)
@@ -7910,7 +8639,7 @@ If the **Convert to taker after** countdown (1m / 5m / 15m) expires with the ord
 Execute a small test size first to get familiar with the flow before trading meaningful amounts. For a large position, break it into several executions — five lots of $100k rather than $500k at once — to reduce average slippage. Executing when the market is calm helps too.
 </Hint>
 
-Once both steps are done you hold all four legs, and the **Positions** tab shows your locked rate and estimated return until maturity.
+Once both steps are done you hold the full position — three legs with a Spread Market, four with Funding Markets — and the **Positions** tab shows your locked rate and estimated return until maturity.
 
 ## The order ticket
 
@@ -7919,7 +8648,7 @@ To trade outside the guided flow, click **Order ticket** in the header. It opens
 ![Order ticket panel](/boros-docs/imgs/arbitrage-with-crossex/order-ticket-panel.png "Order ticket panel")
 
 - **CrossEx perps** — pick a coin, set size per leg, choose the execution mode, and **Execute pair**. The **Single** tab opens one leg on its own.
-- **Boros rates** — pick two markets sharing a collateral and maturity, set sides, size, and max slippage, and confirm.
+- **Boros rates** — pick a Spread Market, or two Funding Markets sharing a collateral and maturity; set sides, size, and max slippage, and confirm.
 
 This suits traders who want to set up a perp spread before locking rates, or who want specific limit orders for more advanced execution. If you're new to funding rate arbitrage, use the guided wizard instead.
 
@@ -7933,20 +8662,20 @@ import Hint from '@site/src/components/Hint';
 
 ## The Positions tab
 
-Once open, a 4-leg position needs little maintenance — the main decision is what to do at maturity. The **Positions** tab groups each strategy into its own box, with all four legs in one table.
+Once open, an arbitrage position needs little maintenance — the main decision is what to do at maturity. The **Positions** tab groups each strategy into its own box, with all of its legs in one table.
 
 ![Positions tab](/boros-docs/imgs/arbitrage-with-crossex/positions-tab.png "Positions tab")
 
 At the top, **BOROS-TRACKED TOTALS** summarises every tracked position: **Current PnL**, **Capital**, and **Est. by maturity**.
 
-Each position box is headed by the coin, the venue pair (e.g. `Gate ⇄ Hyperliquid`), the maturity with days remaining, and a status chip — `hedged ✓` when all four legs are in place, `partial hedge` when every leg is open in the right direction but the sizes don't match, or `unhedged` when legs are missing. Below that sit the headline numbers:
+Each position box is headed by the coin, the venue pair (e.g. `Gate ⇄ Hyperliquid`), the maturity with days remaining, and a status chip — `hedged ✓` when every leg is in place, `partial hedge` when every leg is open in the right direction but the sizes don't match, or `unhedged` when legs are missing. Below that sit the headline numbers:
 
 - **FIXED APY** — the locked annualised return, with the underlying spread and ROI beneath it
 - **PNL NOW** — mark-to-market profit or loss today
 - **PNL AT MATURITY** — the projected result if held to maturity
 - **CAPITAL** — what the position consumes
 
-The leg table lists all four legs — both `·CX` perp legs and both `BOROS` rate legs — with notional, rate (`floating` for perps, the locked rate for Boros legs), and net PnL.
+The leg table lists every leg — both `·CX` perp legs and the `BOROS` side (one Spread Market leg, or two Funding Market legs) — with notional, rate (`floating` for perps, the locked rate for Boros legs), and net PnL.
 
 <Hint style="info">
 A position only shows a rate, capital, and ROI once every leg is in place. A partially built one reads **Incomplete position**, and a mismatched one reads **Sizes don't match** — every leg is open in the right direction, but only the matched part is hedged. An `unhedged` box offers **Open the perp legs →**, which prefills the pair ticket with the opposite floating exposure.
@@ -7957,9 +8686,13 @@ A position only shows a rate, capital, and ROI once every leg is in place. A par
 Each side closes on its own venue, using the two buttons at the bottom of the position box:
 
 - **Close perp pair** — closes both CrossEx perp legs together.
-- **Close Boros legs** — closes both Boros rate legs.
+- **Close Boros legs** — closes the Boros side: the Spread Market position, or both Funding Market legs.
 
 For finer control, the **MANUAL ADJUSTMENT** column on each leg row lets you close a single leg rather than the whole side. It shows **All of it** when the whole leg belongs to this position, or the matched size against the venue total (e.g. `1.26 HYPE / 1.89 HYPE`) when the leg is shared with another strategy.
+
+<Hint style="info">
+On a Spread Market, the Boros side has one margin requirement and one liquidation implied APR, both based on the spread. With two Funding Market legs, each Boros leg has its own, so keep an eye on both.
+</Hint>
 
 <Hint style="info">
 Because of the leverage on the perp legs, you may receive Initial Margin Ratio (IMR) alert emails from Gate. As the positions are delta-neutral, liquidation risk stays very low barring price dislocation across venues.
@@ -7969,13 +8702,86 @@ Because of the leverage on the perp legs, you may receive Initial Margin Ratio (
 
 If you can lock a decent spread on the same perp pair at the next maturity, rolling over is usually better than closing. The existing position escapes its perp closing fees and the new one escapes its perp opening fees — keep rolling and a position pays no perp fees at all, which is one of the largest boosts available to this strategy.
 
-To roll over: close only the Boros legs at maturity, open new Boros legs at the next maturity, and leave the perp legs untouched. Then set the old position's **Perp exit cost** to *Omit (rolling over)*, and on the new position untick the inherited executions under **Perp entry cost**. Both live in the **Costs** dialog — see [Understanding Position PnL](./position-pnl).
+To roll over: close only the Boros side at maturity, open a new one at the next maturity (on the same Spread Market's next maturity, if there is one), and leave the perp legs untouched. Then set the old position's **Perp exit cost** to *Omit (rolling over)*, and on the new position untick the inherited executions under **Perp entry cost**. Both live in the **Costs** dialog — see [Understanding Position PnL](./position-pnl).
 
 ## Using the order ticket directly
 
 Click **Order ticket** in the header to open the side panel and trade either side manually, outside the guided wizard — useful for topping up a leg or unwinding part of a position. See [the order ticket](./opening-a-position#the-order-ticket) for what each tab does.
 
 Next: [Understanding Position PnL](./position-pnl)
+
+---
+
+import Hint from '@site/src/components/Hint';
+
+# Understanding Position PnL
+
+Every position box reports a return on capital. Two things decide that number: which costs are charged to the position, and what counts as the capital it consumed. Both are adjustable, and both matter — the same trade can read very differently depending on how they're set.
+
+## The PnL breakdown
+
+Click **see more** on a position to expand two waterfall charts.
+
+![Position PnL charts](/boros-docs/imgs/arbitrage-with-crossex/position-pnl-charts.png "Position PnL charts")
+
+**PNL BY MATURITY** projects the result of holding to maturity, starting from the spread locked and subtracting perp entry fees, entry slip, Boros trade fees, and settlement fees (both paid so far and still to come).
+
+**CURRENT PNL (NOW)** shows where the position stands today: the same cost lines, plus the floating components that move day to day — perp funding (`Perp FR`), Boros funding (`Boros FR`), and Boros mark-to-market (`Boros MTM`). On a Spread Market, `Boros FR` is the floating spread settled on the single Boros position.
+
+## Cost assumptions
+
+The **Costs** button on a position opens its *Cost assumptions* dialog, which has two toggles. Both move the headline numbers and the waterfall charts.
+
+![Cost assumptions dialog](/boros-docs/imgs/arbitrage-with-crossex/position-costs-modal.png "Cost assumptions dialog")
+
+**Perp exit cost** — what happens to the perp legs at maturity.
+
+- **Include** (default) — assumes you close them and pay another round of perp fees, modelled with the same fees and slippage as the entry.
+- **Omit (rolling over)** — assumes you keep the perp legs into the next maturity, so no closing fees are charged. Only correct if you can actually lock a new spread on the same pair at the next maturity.
+
+**Perp entry cost** — whether this position is charged what it cost to open the perp legs.
+
+- **Include** (default) — correct whenever you opened the perp legs for this position.
+- **Omit (rolled over)** — use when the perp legs were already open and you rolled them into this maturity. They paid their fees during the previous position, but Gate reports fees cumulatively and entry price from the original open, so without this the position is billed for money it never spent. This moves current PnL as well as the projection.
+
+### Itemising entry cost
+
+Under **Include**, the count button beside it (e.g. `3 of 3`) expands a **CHARGED TO THIS POSITION** list, breaking the cost into parts so you can charge only some of it — useful when a book was built across several executions, such as a top-up or legs inherited from a previous maturity. Everything is ticked by default, the button shows how many parts remain charged, and your ticks are remembered per position.
+
+Two kinds of row appear, and they are not equally precise:
+
+- **Entry slip** rows are per execution, each with its date, the venues crossed, and the size matched. Untick the ones whose fills belonged to an earlier strategy.
+- **Fees** rows are per leg, marked *position life*. Gate reports a position's trading fees as one cumulative number, so they genuinely cannot be split by date — the terminal shows them per leg rather than inventing a split.
+
+## What counts as your capital
+
+Every APR is a return *on* this number, so it decides whether a position looks good. The perp side is always the initial margin those legs consume. For the Boros side, **Settings → Capital counted per position** picks between two readings:
+
+- **Posted balance** (default) — the collateral account's balance, split across the positions it backs. Right when that account exists only for these positions.
+- **Margin used** — only the initial margin the Boros legs post. Use this if you also keep trading money in the same collateral account, since otherwise idle cash is counted as capital these positions needed, inflating capital and dragging every APR down.
+
+The choice is remembered per browser and applies to every position box and the totals strip.
+
+<Hint style="info">
+This is why a live position often reads a lower APR than the Opportunities estimate for the same trade: the estimate models the minimum capital required, while a live position divides by what you actually posted.
+</Hint>
+
+## When one venue leg belongs to two positions
+
+This applies when the Boros side is built from Funding Market legs. A Spread Market position belongs to one venue pair, so its Boros side is never shared. The perp legs can still be.
+
+If you run, say, HL/OKX and HL/Binance at the same time, the Hyperliquid side is a single position everywhere you look — Gate reports one row at a blended entry price, Boros one position at a blended fixed rate. Neither says which part belongs to which strategy.
+
+The terminal splits it back apart and shows each strategy as its own box with its own size, entry prices, and locked rate. It works from the execution record: the local deal journal plus your fill history at the venue, where each fill carries the order tag the terminal writes.
+
+- **`split measured`** — the record is complete, and the split is a measurement.
+- **`split unconfirmed`** — for positions opened elsewhere, or older than the fill history reaches, the terminal pairs legs by how close their prices and open times are. The sizes are still right, since they come from the pairing itself. But the crossing cost is reported as **unknown** rather than estimated (charging a blended entry price to either strategy would invent a number), and the locked spread falls back to the blended rate.
+
+**Adjust split** on the box is how you correct it: type the size this position really holds and **Pin size**, and everything unpinned is re-solved around it. **Detach** declares the two legs are not a strategy together, after which both are reported as unhedged. **Back to automatic** hands the pair back to the solver. Pins are remembered per tracked address.
+
+If a venue position later shrinks below a pin, the pin is clamped and reported rather than silently rescaled, and any size belonging to no position gets its own unhedged box instead of disappearing.
+
+Next: [Risks & Security](./risks-and-security)
 
 ---
 
@@ -7993,7 +8799,8 @@ Using CrossEx gives delta-neutral positioning on the perp legs of the arbitrage,
 
 - **Exchange or platform issues** — problems with Gate as an exchange, or a CrossEx malfunction, can interfere with the arbitrage.
 - **Perp price gaps** — an unlikely but possible dislocation between the two perp venues could put the unified margin account at risk of liquidation even though the position is delta-neutral.
-- **Boros liquidation** — if the spread moves far enough from your entry, your Boros position can be liquidated, breaking the fixed return. Keep a margin buffer on your Boros positions to guard against this.
+- **Boros liquidation** — if the spread moves far enough from your entry, your Boros position can be liquidated, breaking the fixed return. On a Spread Market there is one liquidation level, based on the spread. With two Funding Market legs, each leg has its own, and a sharp move in one venue's rate can liquidate that leg even if the spread barely moves. Keep a margin buffer on your Boros positions to guard against this.
+- **Settlement timing** — a Spread Market settles on the slower leg's cadence. The perp legs pay funding on their own schedules, so floating PnL on the two halves nets out over each settlement period rather than print by print. The locked rate is unaffected.
 - **Unhedged legs** — if only one perp leg fills (or a leg is opened without its hedge), you're exposed to price risk until it's corrected. Always confirm both legs are filled after execution.
 
 ## Data & security model

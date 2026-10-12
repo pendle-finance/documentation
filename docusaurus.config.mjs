@@ -182,6 +182,11 @@ const config = {
         // old /boros-docs/crossex-terminal/* URLs working. createRedirects is
         // used (rather than a static list) so the /cn/ locale is covered too.
         createRedirects(existingPath) {
+          // "Funding Rate Settlement" was renamed to "Rate Settlement" when
+          // Boros expanded beyond single funding rates (Spread Markets).
+          if (existingPath.endsWith('/boros-docs/about-boros/rate-settlement')) {
+            return [existingPath.replace('/rate-settlement', '/funding-rate-settlement')];
+          }
           if (existingPath.includes('/boros-docs/arbitrage-with-crossex/')) {
             return [
               existingPath.replace(

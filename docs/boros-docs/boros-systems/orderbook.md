@@ -54,7 +54,7 @@ Beyond manual cancellation, orders can be removed by the protocol's risk managem
 
 - **Force-cancellation**: If your account's health ratio deteriorates to a risky level, all open orders across all markets may be force-cancelled to prevent further exposure.
 - **Purging**: If a resting order's rate drifts too far from the current mark rate (due to mark rate movement after placement), it is purged from the book. Purged orders are not filled, they are simply removed. Purged orders are likely so far out of the current mark rate that it will not affect the order book even in extreme market conditions.
-- **Health-jump cancellation**: If a pending funding rate update would push your health ratio into risky territory, orders contributing to that risk may be proactively cancelled.
+- **Health-jump cancellation**: If a pending rate settlement would push your health ratio into risky territory, orders contributing to that risk may be proactively cancelled.
 
 ## Order Limits
 

@@ -12,7 +12,7 @@ Click **see more** on a position to expand two waterfall charts.
 
 **PNL BY MATURITY** projects the result of holding to maturity, starting from the spread locked and subtracting perp entry fees, entry slip, Boros trade fees, and settlement fees (both paid so far and still to come).
 
-**CURRENT PNL (NOW)** shows where the position stands today: the same cost lines, plus the floating components that move day to day — perp funding (`Perp FR`), Boros funding (`Boros FR`), and Boros mark-to-market (`Boros MTM`).
+**CURRENT PNL (NOW)** shows where the position stands today: the same cost lines, plus the floating components that move day to day — perp funding (`Perp FR`), Boros funding (`Boros FR`), and Boros mark-to-market (`Boros MTM`). On a Spread Market, `Boros FR` is the floating spread settled on the single Boros position.
 
 ## Cost assumptions
 
@@ -53,6 +53,8 @@ This is why a live position often reads a lower APR than the Opportunities estim
 </Hint>
 
 ## When one venue leg belongs to two positions
+
+This applies when the Boros side is built from Funding Market legs. A Spread Market position belongs to one venue pair, so its Boros side is never shared. The perp legs can still be.
 
 If you run, say, HL/OKX and HL/Binance at the same time, the Hyperliquid side is a single position everywhere you look — Gate reports one row at a blended entry price, Boros one position at a blended fixed rate. Neither says which part belongs to which strategy.
 

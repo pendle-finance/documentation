@@ -58,7 +58,7 @@ Browse the marketplace, pick a listing, and click through to place an offer. Unl
 | --- | --- |
 | **Offer APR** | The rate you actually want to trade at. Defaults to the indicative APR, but you can offer anything. |
 | **Size** | How much YU you want to trade. |
-| **Execution time** | The exact time the trade will fire on-chain. Usually set just before a funding settlement. |
+| **Execution time** | The exact time the trade will fire on-chain. Usually set just before a rate settlement. |
 | **Note to maker** | Optional message to accompany your offer. |
 
 ![Place an offer](/boros-docs/imgs/p2p-marketplace/make-offer.png "Place an offer")
@@ -157,7 +157,7 @@ P2P trades pay the **standard taker fee (5 bps)**. The contract only allows one 
 
 ## Things to Know
 
-- **Execution time matters.** It's usually set just before a funding settlement, so pick it deliberately.
+- **Execution time matters.** It's usually set just before a rate settlement, so pick it deliberately.
 - **You can hedge at acceptance.** Because acceptance is binding and bail is compensated, it's safe to open your hedge as soon as a trade is accepted.
 - **Offers can't be edited.** To change terms, cancel and resubmit or counter.
 - **YU can't be used as margin.** Post fresh collateral for P2P trades.

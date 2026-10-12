@@ -17,7 +17,7 @@ import Hint from '@site/src/components/Hint';
 
 **PNL BY MATURITY（到期盈亏）** 预测持有至到期的结果：从锁定的利差出发，依次扣除永续腿入场手续费、入场滑点、Boros 交易手续费，以及结算费（含已支付和尚未产生的部分）。
 
-**CURRENT PNL (NOW)（当前盈亏）** 展示仓位当前的状况：包含同样的成本项，另加每日浮动的部分——永续资金费（`Perp FR`）、Boros 资金费（`Boros FR`）以及 Boros 盯市盈亏（`Boros MTM`）。
+**CURRENT PNL (NOW)（当前盈亏）** 展示仓位当前的状况：包含同样的成本项，另加每日浮动的部分——永续资金费（`Perp FR`）、Boros 资金费（`Boros FR`）以及 Boros 盯市盈亏（`Boros MTM`）。在价差市场上，`Boros FR` 是在单个 Boros 仓位上结算的浮动价差。
 
 ## 成本假设
 
@@ -58,6 +58,8 @@ import Hint from '@site/src/components/Hint';
 </Hint>
 
 ## 当一条交易所腿属于两个仓位时
+
+这种情况适用于 Boros 一侧由资金费率市场腿构成时。价差市场仓位只属于一个交易所组合，因此其 Boros 一侧永远不会被共享；永续腿仍可能被共享。
 
 假设你同时运行 HL/OKX 和 HL/Binance，那么 Hyperliquid 一侧在任何地方看起来都是单一仓位——Gate 报告为一行、使用混合入场价格，Boros 报告为一个仓位、使用混合固定利率。两者都不会说明哪部分属于哪个策略。
 

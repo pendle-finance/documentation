@@ -5,7 +5,9 @@ module.exports = {
       type: "category", label: "About Boros", customProps: { icon: "info" },
       items: [
         { type: "doc", id: "about-boros/glossary", label: "Glossary", customProps: { icon: "library_books" } },
-        { type: "doc", id: "about-boros/funding-rate-settlement", label: "Funding Rate Settlement", customProps: { icon: "receipt_long" } },
+        { type: "doc", id: "about-boros/market-types", label: "Market Types", customProps: { icon: "category" } },
+        { type: "doc", id: "about-boros/spread-markets", label: "Spread Markets", customProps: { icon: "compare_arrows" } },
+        { type: "doc", id: "about-boros/rate-settlement", label: "Rate Settlement", customProps: { icon: "receipt_long" } },
         { type: "doc", id: "about-boros/implied-apr-and-position-sizing", label: "Implied APR and Position Sizing", customProps: { icon: "currency_exchange" } }
       ],
     },
