@@ -9,7 +9,7 @@ import Hint from '@site/src/components/Hint';
 
 打开 [http://localhost:6688](http://localhost:6688)，在你的设备上加载 Arbitrage with CrossEx。
 
-接入分为两部分：**Gate API key**，让应用可以通过 CrossEx 交易永续腿；以及 **Boros 钱包**，让应用可以交易并追踪利率腿。你可以先完成前者并立即开始对冲永续腿——但只有两者都完成，才能在应用内运行完整的四腿仓位。
+接入分为两部分：**Gate API key**，让应用可以通过 CrossEx 交易永续腿；以及 **Boros 钱包**，让应用可以交易并追踪利率腿。你可以先完成前者并立即开始对冲永续腿——但只有两者都完成，才能在应用内运行完整的套利仓位。
 
 ## 1. Gate API key
 
