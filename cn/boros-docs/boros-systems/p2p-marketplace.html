@@ -21,8 +21,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/cn/assets/css/styles.c8dc7fa1.css">
-<script src="/cn/assets/js/runtime~main.0529ad9c.js" defer="defer"></script>
-<script src="/cn/assets/js/main.8fdba2ae.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.b3ee28f5.js" defer="defer"></script>
+<script src="/cn/assets/js/main.83b2c01b.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -57,7 +57,7 @@
 <p>发布挂单不产生任何成本，也不构成任何承诺。你可以随时取消未成交的挂单，且无任何惩罚。</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="提交报价">提交报价<a href="#提交报价" class="hash-link" aria-label="提交报价 的直接链接" title="提交报价 的直接链接">​</a></h2>
 <p>浏览市场，选择一个挂单，点击进入并提交报价。与挂单不同，报价是一个<strong>实盘报价</strong>：</p>
-<table><thead><tr><th>字段</th><th>含义</th></tr></thead><tbody><tr><td><strong>报价 APR</strong></td><td>你实际希望成交的利率。默认为指示性 APR，但你可以报任意价格。</td></tr><tr><td><strong>规模</strong></td><td>你希望交易的 YU 数量。</td></tr><tr><td><strong>执行时间</strong></td><td>交易在链上触发的确切时间。通常设置在资金费率结算之前。</td></tr><tr><td><strong>给 Maker 的留言</strong></td><td>可选，随报价一同发送的消息。</td></tr></tbody></table>
+<table><thead><tr><th>字段</th><th>含义</th></tr></thead><tbody><tr><td><strong>报价 APR</strong></td><td>你实际希望成交的利率。默认为指示性 APR，但你可以报任意价格。</td></tr><tr><td><strong>规模</strong></td><td>你希望交易的 YU 数量。</td></tr><tr><td><strong>执行时间</strong></td><td>交易在链上触发的确切时间。通常设置在费率结算之前。</td></tr><tr><td><strong>给 Maker 的留言</strong></td><td>可选，随报价一同发送的消息。</td></tr></tbody></table>
 <p><img decoding="async" loading="lazy" alt="Place an offer" src="/cn/assets/images/make-offer-a43ac0638c78e35e64358ea4ee6213ea.png" title="Place an offer" width="1230" height="788" class="img_ev3q"></p>
 <p>提交时，系统会从你的保证金账户锁定一笔 <strong>bond</strong>。确认前，面板会显示 bond 金额。</p>
 <p>在报价被接受之前，你<strong>可以随时取消待处理的报价</strong>，且无任何惩罚，bond 将全额退回。</p>
@@ -67,7 +67,7 @@
 <table><thead><tr><th>操作</th><th>结果</th></tr></thead><tbody><tr><td><strong>接受（Accept）</strong></td><td>交易即具约束力。条款被锁定，并将在约定时间执行。</td></tr><tr><td><strong>还价（Counter）</strong></td><td>你提出自己的条款。接下来由对方决定接受、再次还价或拒绝。</td></tr><tr><td><strong>拒绝（Reject）</strong></td><td>该报价作废，对方的 bond 被释放。</td></tr></tbody></table>
 <p>不作回应也是一种选择。若在执行时间前未被接受，报价会自动过期。</p>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="还价">还价<a href="#还价" class="hash-link" aria-label="还价 的直接链接" title="还价 的直接链接">​</a></h3>
-<p>还价本质上就是按你自己的条款提出的一个<strong>全新报价</strong>  。你可以修改三项可协商条款中的任意一项：<strong>APR、规模和执行时间</strong>。</p>
+<p>还价本质上就是按你自己的条款提出的一个<strong>全新报价</strong>。你  可以修改三项可协商条款中的任意一项：<strong>APR、规模和执行时间</strong>。</p>
 <p><img decoding="async" loading="lazy" alt="Counter an offer" src="/cn/assets/images/counter-offer-1188b2aaf356232d9edbd996842c2790.png" title="Counter an offer" width="1112" height="747" class="img_ev3q"></p>
 <p>还价会为你的新报价锁定一笔完整的 bond，而被替代的那笔报价的 bond 会退回给对方。</p>
 <p>协商可以来回进行任意多轮，直到一方接受（具约束力）或拒绝（作废）为止。</p>
@@ -96,7 +96,7 @@
 <li>取消挂单中未成交的部分</li>
 <li>拒绝或忽略报价</li>
 <li>在报价被接受前取消自己的报价</li>
-<li>让自己的报价在 被接受前过期</li>
+<li>让自己的报价在被接 受前过期</li>
 </ul>
 <h3 class="anchor anchorWithStickyNavbar_LWe7" id="注意保证金预警">注意保证金预警<a href="#注意保证金预警" class="hash-link" aria-label="注意保证金预警 的直接链接" title="注意保证金预警 的直接链接">​</a></h3>
 <p>若某笔报价即将执行而你的保证金不足，该报价行及对应账户上会出现<strong>预警提示</strong>。如果你已开启通知，还会收到 Telegram 提醒。请在执行时间前补足保证金，以免损失 bond。</p>
@@ -107,7 +107,7 @@
 <p>P2P 交易支付<strong>标准的 taker 费率（5 bps）</strong>。合约仅允许单方支付，因此目前由 <strong>Maker</strong>（发布挂单的一方）承担费用。</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="须知事项">须知事项<a href="#须知事项" class="hash-link" aria-label="须知事项 的直接链接" title="须知事项 的直接链接">​</a></h2>
 <ul>
-<li><strong>执行时间很重要。</strong> 它通常设置在资金费率结算之前，请审慎选择。</li>
+<li><strong>执行时间很重要。</strong> 它通常设置在费率结算之前，请审慎选择。</li>
 <li><strong>接受后即可对冲。</strong> 由于接受具有约束力且违约方需作出补偿，交易一经接受，你就可以放心地建立对冲。</li>
 <li><strong>报价无法修改。</strong> 若要更改条款，请取消后重新提交，或使用还价。</li>
 <li><strong>YU 不能用作保证金。</strong> 请为 P2P 交易存入新的抵押品。</li>

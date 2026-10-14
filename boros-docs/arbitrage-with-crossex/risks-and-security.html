@@ -21,8 +21,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/assets/css/styles.d5279556.css">
-<script src="/assets/js/runtime~main.bacd1d11.js" defer="defer"></script>
-<script src="/assets/js/main.5dbf4af6.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.3cfcda1f.js" defer="defer"></script>
+<script src="/assets/js/main.d29041f4.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -35,7 +35,8 @@
 <ul>
 <li><strong>Exchange or platform issues</strong> — problems with Gate as an exchange, or a CrossEx malfunction, can interfere with the arbitrage.</li>
 <li><strong>Perp price gaps</strong> — an unlikely but possible dislocation between the two perp venues could put the unified margin account at risk of liquidation even though the position is delta-neutral.</li>
-<li><strong>Boros liquidation</strong> — if the spread moves far enough from your entry, your Boros position can be liquidated, breaking the fixed return. Keep a margin buffer on your Boros positions to guard against this.</li>
+<li><strong>Boros liquidation</strong> — if the spread moves far enough from your entry, your Boros position can be liquidated, breaking the fixed return. On a Spread Market there is one liquidation level, based on the spread. With two Funding Market legs, each leg has its own, and a sharp move in one venue&#x27;s rate can liquidate that leg even if the spread barely moves. Keep a margin buffer on your Boros positions to guard against this.</li>
+<li><strong>Settlement timing</strong> — a Spread Market settles on the slower leg&#x27;s cadence. The perp legs pay funding on their own schedules, so floating PnL on the two halves nets out over each settlement period rather than print by print. The locked rate is unaffected.</li>
 <li><strong>Unhedged legs</strong> — if only one perp leg fills (or a leg is opened without its hedge), you&#x27;re exposed to price risk until it&#x27;s corrected. Always confirm both legs are filled after execution.</li>
 </ul>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="data--security-model">Data &amp; security model<a href="#data--security-model" class="hash-link" aria-label="Direct link to Data &amp; security model" title="Direct link to Data &amp; security model">​</a></h2>

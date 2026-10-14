@@ -21,8 +21,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/cn/assets/css/styles.c8dc7fa1.css">
-<script src="/cn/assets/js/runtime~main.0529ad9c.js" defer="defer"></script>
-<script src="/cn/assets/js/main.8fdba2ae.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.b3ee28f5.js" defer="defer"></script>
+<script src="/cn/assets/js/main.83b2c01b.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -34,7 +34,7 @@
 <p>点击仓位上的 <strong>see more</strong>，即可展开两张瀑布图。</p>
 <p><img decoding="async" loading="lazy" alt="Position PnL charts" src="/cn/assets/images/position-pnl-charts-1e5263cecdf963dc9206fd74072c448e.png" title="Position PnL charts" width="1440" height="1000" class="img_ev3q"></p>
 <p><strong>PNL BY MATURITY（到期盈亏）</strong> 预测持有至到期的结果：从锁定的利差出发，依次扣除永续腿入场手续费、入场滑点、Boros 交易手续费，以及结算费（含已支付和尚未产生的部分）。</p>
-<p><strong>CURRENT PNL (NOW)（当前盈亏）</strong> 展示仓位当前的状况：包含同样的成本项，另加每日浮动的部分——永续资金费（<code>Perp FR</code>）、Boros 资金费（<code>Boros FR</code>）以及 Boros 盯市盈亏（<code>Boros MTM</code>）。</p>
+<p><strong>CURRENT PNL (NOW)（当前盈亏）</strong> 展示仓位当前的状况：包含同样的成本项，另加每日浮动的部分——永续资金费（<code>Perp FR</code>）、Boros 资金费（<code>Boros FR</code>）以及 Boros 盯市盈亏（<code>Boros MTM</code>）。在价差市场上，<code>Boros FR</code> 是在单个 Boros 仓位上结算的浮动利差。</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="成本假设">成本假设<a href="#成本假设" class="hash-link" aria-label="成本假设 的直接链接" title="成本假设 的直接链接">​</a></h2>
 <p>点击仓位上的 <strong>Costs</strong> 按钮可打开该仓位的 <em>Cost assumptions（成本假设）</em> 弹窗，其中有两个开关，二者都会影响主要数字和瀑布图。</p>
 <p><img decoding="async" loading="lazy" alt="Cost assumptions dialog" src="/cn/assets/images/position-costs-modal-663ae757efa480df5f1352b3a899ff7d.png" title="Cost assumptions dialog" width="1440" height="1000" class="img_ev3q"></p>
@@ -43,7 +43,7 @@
 <li><strong>Include（计入，默认）</strong> — 假设你将其平掉并再支付一轮永续腿手续费，按与入场相同的费率和滑点建模。</li>
 <li><strong>Omit (rolling over)（略去，展期）</strong> — 假设你保留永续腿并延续到下一到期日，因此不计平仓手续费。仅当你确实能在同一交易对的下一到期日锁定新利差时，这一设置才成立。</li>
 </ul>
-<p><strong>Perp entry cost（永续腿入场成本）</strong> —— 该仓位是否应承担开出永续腿的成本。</p>
+<p><strong>Perp entry cost（永续腿入场成本 ）</strong> —— 该仓位是否应承担开出永续腿的成本。</p>
 <ul>
 <li><strong>Include（计入，默认）</strong> — 当永续腿确实是为该仓位而开时，这是正确选项。</li>
 <li><strong>Omit (rolled over)（略去，已展期）</strong> — 当永续腿此前已开、并被展期进入本到期日时使用。这些腿的手续费在上一个仓位中已经支付，但 Gate 会累计报告手续费、并沿用最初开仓的入场价格，因此若不启用该选项，本仓位会被计入它从未支付的成本。该选项同时影响当前盈亏和预测值。</li>
@@ -55,8 +55,8 @@
 <li><strong>Entry slip（入场滑点）</strong> 按每次执行列出，各自带有日期、所跨越的交易所和匹配规模。可取消勾选那些属于早前策略的成交。</li>
 <li><strong>Fees（手续费）</strong> 按每条腿列出，标记为 <em>position life（仓位存续期）</em>。Gate 将一个仓位的交易手续费作为单一累计数字报告，因此确实无法按日期拆分——终端选择按腿展示，而不是凭空编造拆分结果。</li>
 </ul>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="什么算作你的资本">什么算作你的资本<a href="#什么算作你的资本" class="hash-link" aria-label="什么算作你的资本 的直接链接" title="什么算作你的资本 的直接链接">​</a></h2>
-<p>每个 APR  都是相对于这个数字的回报，因此它决定了一个仓位看起来是否划算。永续腿一侧始终按其占用的初始保证金计算。至于 Boros 一侧，<strong>Settings → Capital counted per position</strong> 提供两种口径：</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="什么算作你的资本">什么算作你的资本<a href="#什么算作你的资本" class="hash-link" aria-label="什么算作你的资  本 的直接链接" title="什么算作你的资本 的直接链接">​</a></h2>
+<p>每个 APR 都是相对于这个数字的回报，因此它决定了一个仓位看起来是否划算。永续腿一侧始终按其占用的初始保证金计算。至于 Boros 一侧，<strong>Settings → Capital counted per position</strong> 提供两种口径：</p>
 <ul>
 <li><strong>Posted balance（已投入余额，默认）</strong> — 抵押账户的余额，按其所支持的各仓位分摊。当该账户只服务于这些仓位时，这一口径是正确的。</li>
 <li><strong>Margin used（已用保证金）</strong> — 仅计算 Boros 腿投入的初始保证金。如果你在同一抵押账户中还存放着其他交易资金，应使用此项；否则那些闲置资金会被算作这些仓位所需的资本，从而虚增资本并拉低所有 APR。</li>
@@ -64,6 +64,7 @@
 <p>该选择按浏览器记住，并应用于每个仓位方框及汇总栏。</p>
 <div class="hint_g1ws info_ye3t"><div class="content_JkbE"><p>这也解释了为何实际持仓显示的 APR 往往低于 Opportunities 中同一笔交易的估算值：估算基于所需的最低资本建模，而实际持仓则除以你真正投入的金额。</p></div></div>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="当一条交易所腿属于两个仓位时">当一条交易所腿属于两个仓位时<a href="#当一条交易所腿属于两个仓位时" class="hash-link" aria-label="当一条交易所腿属于两个仓位时 的直接链接" title="当一条交易所腿属于两个仓位时 的直接链接">​</a></h2>
+<p>这种情况适用于 Boros 一侧由资金费率市场腿构成时。价差市场仓位只属于一个交易所组合，因此其 Boros 一侧永远不会被共享；永续腿仍可能被共享。</p>
 <p>假设你同时运行 HL/OKX 和 HL/Binance，那么 Hyperliquid 一侧在任何地方看起来都是单一仓位——Gate 报告为一行、使用混合入场价格，Boros 报告为一个仓位、使用混合固定利率。两者都不会说明哪部分属于哪个策略。</p>
 <p>终端会将其还原拆分，并把每个策略显示为独立方框，各有自己的规模、入场价格和锁定利率。其依据是执行记录：本地成交日志，以及你在交易所的成交历史（每笔成交都带有终端写入的订单标签）。</p>
 <ul>

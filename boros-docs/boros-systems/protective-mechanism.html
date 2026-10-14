@@ -21,8 +21,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/assets/css/styles.d5279556.css">
-<script src="/assets/js/runtime~main.bacd1d11.js" defer="defer"></script>
-<script src="/assets/js/main.5dbf4af6.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.3cfcda1f.js" defer="defer"></script>
+<script src="/assets/js/main.d29041f4.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -40,12 +40,12 @@
 <p>If a placed limit order later drifts outside the acceptable band as the mark rate moves, it is <strong>purged</strong> (see below).</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="out-of-bound-order-purging">Out-of-Bound Order Purging<a href="#out-of-bound-order-purging" class="hash-link" aria-label="Direct link to Out-of-Bound Order Purging" title="Direct link to Out-of-Bound Order Purging">​</a></h2>
 <p>As the mark rate moves after an order is placed, a previously valid limit order may fall outside the current rate bounds. Boros periodically scans the book and <strong>purges</strong> orders that are no longer within acceptable range.</p>
-<p>Purged orders receive a <strong>PURGED</strong> status. They are not filled and the order is simply removed and your margin for that order is returned. Funding payments are correctly applied up to the point of purge.</p>
+<p>Purged orders receive a <strong>PURGED</strong> status. They are not filled and the order is simply removed and your margin for that order is returned. Settlement payments are correctly applied up to the point of purge.</p>
 <p>This mechanism keeps the order book clean and prevents stale orders from matching at economically unreasonable rates during fast-moving markets.</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="force-cancellation-of-risky-orders">Force-Cancellation of Risky Orders<a href="#force-cancellation-of-risky-orders" class="hash-link" aria-label="Direct link to Force-Cancellation of Risky Orders" title="Direct link to Force-Cancellation of Risky Orders">​</a></h2>
 <p>If your account&#x27;s health ratio falls below the risky threshold, all your open orders across all markets may be force-cancelled by the protocol&#x27;s risk bots.</p>
 <p>This is a protective intervention, to prevent resting orders from filling and increasing your exposure at a time when you are already near the margin boundary. No positions are closed, only unfilled orders are removed.</p>
-<p>Additionally, if a pending funding rate update would push your health ratio below the risky threshold, the system may proactively cancel orders that are materially contributing to that risk <strong>before</strong> the settlement executes. This is the <strong>health-jump order cancellation</strong> mechanism.</p>
+<p>Additionally, if a pending rate settlement would push your health ratio below the risky threshold, the system may proactively cancel orders that are materially contributing to that risk <strong>before</strong> the settlement executes. This is the <strong>health-jump order cancellation</strong> mechanism.</p>
 <p>Both actions are performed automatically by Boros&#x27;s infrastructure with no manual input required.</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="liquidation">Liquidation<a href="#liquidation" class="hash-link" aria-label="Direct link to Liquidation" title="Direct link to Liquidation">​</a></h2>
 <p>When your Net Balance falls below your Maintenance Margin (health ratio &lt; 1.0), your account becomes eligible for liquidation.</p>
