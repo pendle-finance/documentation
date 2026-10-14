@@ -23,7 +23,7 @@ Your **Net Balance** determines whether a position remains healthy or is eligibl
 
 > Net Balance = Collateral + Unrealized PnL
 
-**Collateral** is adjusted at every settlement period (every 8 hours), when the difference between the fixed rate and the underlying rate is cash-settled into your collateral. A short position, for example, will see its collateral erode if the underlying rate stays persistently above the fixed rate it receives.
+**Collateral** is adjusted at every settlement period (e.g. every 8 hours on a Binance market; see [Rate Settlement](../about-boros/rate-settlement#periodic-settlement)), when the difference between the fixed rate and the underlying rate is cash-settled into your collateral. A short position, for example, will see its collateral erode if the underlying rate stays persistently above the fixed rate it receives.
 
 **Unrealized PnL** moves with the mark implied APR. A long position sees unrealized losses as the mark rate falls, and vice versa.
 

@@ -23,7 +23,7 @@ If a placed limit order later drifts outside the acceptable band as the mark rat
 
 As the mark rate moves after an order is placed, a previously valid limit order may fall outside the current rate bounds. Boros periodically scans the book and **purges** orders that are no longer within acceptable range.
 
-Purged orders receive a **PURGED** status. They are not filled and the order is simply removed and your margin for that order is returned. Funding payments are correctly applied up to the point of purge.
+Purged orders receive a **PURGED** status. They are not filled and the order is simply removed and your margin for that order is returned. Settlement payments are correctly applied up to the point of purge.
 
 This mechanism keeps the order book clean and prevents stale orders from matching at economically unreasonable rates during fast-moving markets.
 
@@ -34,7 +34,7 @@ If your account's health ratio falls below the risky threshold, all your open or
 
 This is a protective intervention, to prevent resting orders from filling and increasing your exposure at a time when you are already near the margin boundary. No positions are closed, only unfilled orders are removed.
 
-Additionally, if a pending funding rate update would push your health ratio below the risky threshold, the system may proactively cancel orders that are materially contributing to that risk **before** the settlement executes. This is the **health-jump order cancellation** mechanism.
+Additionally, if a pending rate settlement would push your health ratio below the risky threshold, the system may proactively cancel orders that are materially contributing to that risk **before** the settlement executes. This is the **health-jump order cancellation** mechanism.
 
 Both actions are performed automatically by Boros's infrastructure with no manual input required.
 

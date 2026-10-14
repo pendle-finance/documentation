@@ -2,7 +2,7 @@
 
 ## Implied APR and Fixed APR
 
-**Implied APR is the market price of a YU position, expressed as an annualised rate.** It reflects the market's collective expectation of an asset's future funding rate and is the rate at which traders enter positions.
+**Implied APR is the market price of a YU position, expressed as an annualised rate.** It reflects the market's collective expectation of the future underlying rate (a funding rate, or a spread between two funding rates) and is the rate at which traders enter positions.
 
 When you open a position, the prevailing implied APR locks in as your **fixed APR,** the rate you will pay (long) or receive (short) through to maturity. It does not change after entry.
 
@@ -16,7 +16,7 @@ Implied APR is also the primary driver of unrealised PnL:
 
 **Pay fixed APR, receive floating APR.**
 
-Going long is a bet that the underlying funding rate will exceed your fixed APR, or that implied APR will rise after entry (increasing the mark-to-market value of your position).
+Going long is a bet that the underlying rate will exceed your fixed APR, or that implied APR will rise after entry (increasing the mark-to-market value of your position).
 
 A long position profits when:
 
@@ -30,7 +30,7 @@ Both can occur simultaneously, and either alone is sufficient to generate a prof
 
 **Pay floating APR, receive fixed APR.**
 
-Going short is a bet that the underlying funding rate will stay below your fixed APR, or that implied APR will fall after entry.
+Going short is a bet that the underlying rate will stay below your fixed APR, or that implied APR will fall after entry.
 
 A short position profits when:
 

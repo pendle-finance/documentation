@@ -4,7 +4,7 @@ import Hint from '@site/src/components/Hint';
 
 Open [http://localhost:6688](http://localhost:6688) to load Arbitrage with CrossEx on your device.
 
-Setup has two halves: your **Gate API key**, which lets the app trade the perp legs through CrossEx, and your **Boros wallet**, which lets it trade and track the rate legs. You can do the first and start hedging perps straight away — but both are needed to run a full 4-leg position from the app.
+Setup has two halves: your **Gate API key**, which lets the app trade the perp legs through CrossEx, and your **Boros wallet**, which lets it trade and track the rate legs. You can do the first and start hedging perps straight away — but both are needed to run a full arbitrage position from the app.
 
 ## 1. Gate API key
 

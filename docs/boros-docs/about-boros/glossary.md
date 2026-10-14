@@ -1,6 +1,6 @@
 # Glossary
 
-**YU (Yield Units)**: Each YU represents yield from 1 unit of collateral in the underlying asset. For example, in a BTCUSDT(Hyperliquid) market on Boros with BTC as collateral, each YU in this market represents the funding rate of 1 BTC in Hyperliquid.
+**YU (Yield Units)**: Each YU represents the floating rate earned on 1 unit of collateral. For example, in a BTCUSDT (Hyperliquid) market with BTC as collateral, each YU represents the funding rate of 1 BTC on Hyperliquid. In the BTC Spread HL-Gate market, each YU represents the Hyperliquid-minus-Gate funding spread on 1 BTC.
 
 **Collateral**: The capital backing your position. Collateral is required to open any position on Boros. Collateral is open for liquidation when your Net Balance falls below the Maintenance Margin.
 
@@ -8,7 +8,13 @@
 
 **Mark APR (Mark Implied APR):** A simple time-weighted average (TWAP) of the last traded implied APR on the order book. Mark APR is used for unrealized PnL and liquidation calculations. This is similar to "mark price" in a perpetual exchange and is used to avoid unwanted consequences from short term price manipulations.
 
-**Underlying APR**: The current APR of the underlying asset (i.e. the current funding rate of the underlying exchange).
+**Underlying APR**: The current floating rate the market tracks, as reported by its oracle. On a Funding Market, this is the funding rate of the referenced exchange. On a Spread Market, it is the funding rate of leg A minus the funding rate of leg B.
+
+**Funding Market**: A market whose underlying rate is the funding rate of a single perp market on a single exchange, e.g. BTCUSDT (Binance). See [Market Types](./market-types).
+
+**Spread Market**: A market whose underlying rate is the difference between two funding rates on the same asset, named in the form *BTC Spread HL-Gate*. See [Spread Markets](./spread-markets).
+
+**Leg**: One of the two funding rates that make up a Spread Market. The first-named venue is leg A and the second is leg B. The underlying spread is A − B.
 
 **My Fixed APR:** The fixed APR of the currently open position. This is established by the weighted average of the implied APRs during entry.
 
@@ -39,10 +45,10 @@ For example: if a user opens a 200-YU-ETHUSDT(Binance) position, the Notional si
 **Initial Margin**: The margin consumed when opening a position, calculated based on notional size, time to maturity, and implied APR.
 
 ```jsx
-InitialMargin=NotionalSize*YearsToMaturity*max(ImpliedAPR, MarginFloor)*IMRatio
+InitialMargin=NotionalSize*YearsToMaturity*max(|ImpliedAPR|, MarginFloor)*IMRatio
 ```
 
-**Margin Floor**: The minimal margin necessary to initiate a position when a pool nears maturity or when its Implied APR approaches 0%. This threshold prevents the required margin from falling below a certain level, safeguarding against bad debt risks due to high volatility.
+**Margin Floor**: The minimal margin necessary to initiate a position when a pool nears maturity or when its Implied APR is close to 0%. This threshold prevents the required margin from falling below a certain level, safeguarding against bad debt risks due to high volatility.
 
 **IM Ratio**: Leverage ratio for the market, the lower the number, the lower the initial margin requirement is for that market.
 

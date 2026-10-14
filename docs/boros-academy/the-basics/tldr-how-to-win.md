@@ -14,6 +14,16 @@
    2. Short YU if you think: average funding rate < current implied APR
 3. Watch your position's health factor and make sure you don’t get liquidated!
 
+## If you're trading the spread between two exchanges
+
+1. Deposit Collateral
+2. Open a position on a spread market
+   1. Long the spread if you think: the average gap between the two funding rates > current implied APR
+   2. Short the spread if you think: the average gap < current implied APR, or to lock in the gap as fixed yield against a perp spread
+3. Watch your position's health factor and make sure you don’t get liquidated!
+
+See [Spread Markets 101](../advanced-strategies/spread-markets-101) for both sides of this trade.
+
 ## If you're trading the price of YUs (betting on Implied APR movements)
 
 1. Deposit Collateral
@@ -64,7 +74,7 @@ We recommend bookmarking this page and using it to analyze trade ideas before op
 
 ## TL;DR there are multiple ways to win on Boros!
 
-Whether you intend to trade short term Implied APR fluctuations, capture settlement spreads or both, Boros gives you the flexibility to execute any funding rate-powered strategy.
+Whether you intend to trade short term Implied APR fluctuations, capture settlement spreads or both, Boros gives you the flexibility to execute any funding rate-powered strategy, on a single venue or across two.
 
 To understand how traders have executed these strategies in practice, here’s two trader case studies:
 

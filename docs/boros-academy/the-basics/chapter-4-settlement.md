@@ -4,13 +4,15 @@ import Hint from '@site/src/components/Hint';
 
 ## Yield Settlement
 
-Boros currently supports trading of Funding Rates which are typically settled periodically. On Boros, yields are settled periodically at the same time as the underlying perp DEX’s funding rate settlement.
+Boros markets track funding rates, which are settled periodically. On Boros, yields are settled periodically at the same time as the underlying perp exchange’s funding rate settlement.
 
 For example, funding rates on Binance are settled every 8 hours; consequently, rates on Boros for the Binance pools are also settled every 8 hours. Similarly, Hyperliquid funding rates are settled hourly, and Boros rates for these pools follow the same hourly settlement schedule. You get the idea.
 
+**Spread markets** combine two exchanges, so they settle on the schedule of the *less frequent* one. In ETH Spread HL-Gate, for example, Gate settles every 8 hours and Hyperliquid every hour. The spread market settles every 8 hours, using the average of Hyperliquid's hourly rates since the last settlement.
+
 #### How Settlement Works
 
-Using an 8h settlement interval for example: every 8 hours, Boros settles the underlying rate against every user’s fixed rate. The difference between these rates will be settled and reflected in the users’ collateral (the rates’ difference is taken at the point of settlement, i.e. a single snapshot).
+Using an 8h settlement interval for example: every 8 hours, Boros settles the underlying rate against every user’s fixed rate. The difference between these rates will be settled and reflected in the users’ collateral (the rates’ difference is taken at the point of settlement, i.e. a single snapshot; for spread markets, the more frequent leg uses its average since the last settlement instead).
 
 | At Every Settlement → | Pay                 | Receive             |
 | --------------------- | ------------------- | ------------------- |

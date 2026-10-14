@@ -12,7 +12,8 @@ Using CrossEx gives delta-neutral positioning on the perp legs of the arbitrage,
 
 - **Exchange or platform issues** — problems with Gate as an exchange, or a CrossEx malfunction, can interfere with the arbitrage.
 - **Perp price gaps** — an unlikely but possible dislocation between the two perp venues could put the unified margin account at risk of liquidation even though the position is delta-neutral.
-- **Boros liquidation** — if the spread moves far enough from your entry, your Boros position can be liquidated, breaking the fixed return. Keep a margin buffer on your Boros positions to guard against this.
+- **Boros liquidation** — if the spread moves far enough from your entry, your Boros position can be liquidated, breaking the fixed return. On a Spread Market there is one liquidation level, based on the spread. With two Funding Market legs, each leg has its own, and a sharp move in one venue's rate can liquidate that leg even if the spread barely moves. Keep a margin buffer on your Boros positions to guard against this.
+- **Settlement timing** — a Spread Market settles on the slower leg's cadence. The perp legs pay funding on their own schedules, so floating PnL on the two halves nets out over each settlement period rather than print by print. The locked rate is unaffected.
 - **Unhedged legs** — if only one perp leg fills (or a leg is opened without its hedge), you're exposed to price risk until it's corrected. Always confirm both legs are filled after execution.
 
 ## Data & security model

@@ -15,12 +15,23 @@ import Hint from '@site/src/components/Hint';
 
 ## 理解 YU
 
-Boros 通过创建一种名为收益单位（YU）的工具来实现收益率交易。YU 代表底层资产在到期日前的未来收益。简而言之，持有 YU 即意味着你拥有该资产在特定期限内所产生收益的权利。
+Boros 通过创建一种名为收益单位（YU）的工具来实现收益率交易。YU 代表底层利率在到期日前的未来收益。简而言之，持有 YU 即意味着你拥有该利率在特定期限内所产生收益的权利。
+
+### YU 可以代表哪些利率？ {#what-rates-can-yu-represent}
+
+任何拥有可靠预言机数据的利率都可以在 Boros 上线。目前 Boros 市场分为两类，在应用中分别显示为「**资金费率**」("Funding") 与「**价差**」("Spread") 标签：
+
+1. **资金费率市场。** 单一交易所上单个永续合约市场的资金费率，包括：
+    * **中心化交易所的加密永续合约**，例如 Binance、OKX、Bybit、Gate 与 KuCoin 上的 BTC、ETH 与 HYPE 永续合约
+    * **去中心化交易所的加密永续合约**，例如 Hyperliquid 与 Lighter 上的 ETH 或 HYPE
+    * **非加密资产永续合约**，例如 Hyperliquid 上的布伦特原油
+2. **价差市场。** 同一资产在两家交易所的资金费率之*差*，例如 Hyperliquid ETH 资金费率减去 Gate ETH 资金费率。参见[价差市场入门](../advanced-strategies/spread-markets-101)。
 
 例如：
 
 * 5 个 YU-ETHUSDT-Binance 代表 Binance ETHUSDT 上 5 ETH 头寸的资金费率收益。
 * 69 个 YU-BTCUSDT-Hyperliquid 代表 Hyperliquid 上 69 BTC 头寸的资金费率收益。
+* 10 个 ETH Spread HL-Gate 的 YU 代表 10 ETH 头寸在 Hyperliquid 与 Gate 之间的 ETH 资金费率差值。
 
 <Hint style="info">
 收益单位（YU）是 Boros 上所有操作的核心。在 Boros 上进行收益率交易，就是通过做多或做空 YU 来进行。目标是捕捉预期收益随时间的差异。
@@ -32,7 +43,7 @@ YU 的价格以「隐含 APR」（Implied APR）表示。你可以将其理解�
 
 开仓时，入场的平均隐含 APR 构成固定利率支付的基础。
 
-隐含 APR 的另一种理解方式是：市场对从现在到到期日，该资产平均资金费率支付的预期。
+隐含 APR 的另一种理解方式是：市场对从现在到到期日，平均底层利率（资金费率或资金费率价差）的预期。
 
 你可以在[第 2 章](chapter-2-implied-apr-and-underlying-apr)中了解更多关于隐含 APR 的内容。
 
@@ -53,4 +64,4 @@ YU 的价格以「隐含 APR」（Implied APR）表示。你可以将其理解�
 
 请注意，Boros 上所有收益均以 APR 形式表示（即以单利年化，非复利），以符合市场惯例。
 
-熟悉 Pendle V2 的用户可将 YU 类比为 YT：用户「支付」隐含收益，以换取底层收益。Boros 上的收益单位（YU）代表底层永续合约交易所（如 Hyperliquid、Binance、Deribit 等）中，1 单位抵押资产的资金费率收益。
+熟悉 Pendle V2 的用户可将 YU 类比为 YT：用户「支付」隐含收益，以换取底层收益。Boros 上的收益单位（YU）代表 1 单位抵押资产的底层利率：可以是某个永续合约交易所（如 Hyperliquid、Binance、Deribit 等）的资金费率，也可以是其中两家之间的资金费率价差。
