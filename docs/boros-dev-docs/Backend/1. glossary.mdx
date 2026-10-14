@@ -9,6 +9,7 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (Rat
 | Term | Description | Where it appears |
 |------|-------------|-----------------|
 | **Market** | A trading market uniquely identified by `marketId`, with one collateral token and specific parameters. Each market represents a different interest rate swap: different token, different maturity, different reference rate. | `GET /markets`, `GET /markets/{marketId}` |
+| **Spread Market** | A market whose underlying rate is the difference between two exchanges' funding rates on the same asset: `underlying APR = leg A − leg B` (e.g. BTC Spread HL-Gate = Hyperliquid BTC funding − Gate BTC funding). It settles at the slower leg's cadence and can trade below zero. Otherwise identical to any other market. Flagged by `metadata.isSpreadMarket`. See [Spread Markets](https://docs.pendle.finance/boros-docs/about-boros/spread-markets). | `GET /v1/markets` (`metadata.isSpreadMarket`) |
 | **Asset** | Any collateral token in the system, identified by `tokenId` (e.g., USDT has 6 decimals, BTC has 8). Internally all values are normalized to 18 decimals. | `GET /assets/all` |
 | **Root** | EVM address (0x-prefixed) serving as the primary trading identity. The root wallet signs sensitive actions (deposit, withdraw, agent approval). | All account endpoints, calldata endpoints |
 | **Account** | Sub-account under a root (IDs 0–255). Account `0` is default for trading; `255` is reserved for AMM. Currently only account `0` is available for external users. | `accountId` parameter across all endpoints |

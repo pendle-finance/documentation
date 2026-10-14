@@ -114,6 +114,8 @@ const market = candidates[0];
 console.log({ id: market.marketId, symbol: market.imData.symbol, tokenId: market.tokenId });
 ```
 
+Spread markets (`m.metadata.isSpreadMarket === true`) also come back from this call. Their underlying is the gap between two exchanges' funding rates, so it sits near zero and can turn negative. Drop them with `.filter((m) => !m.metadata.isSpreadMarket)` if your strategy assumes a single-venue funding rate.
+
 The reference bot has fuller filters (spread bounds, OI utilization) — see `src/pick-market.ts` in [Full code](#full-code) below.
 
 ---

@@ -78,7 +78,7 @@ See [AMM Mechanics](./Mechanics/AMM.mdx) for pricing, the two AMM variants (Posi
 
 ### FIndex Oracle
 
-Each market has an associated FIndex Oracle that provides the floating rate data used in [periodic settlement](./Mechanics/Settlement.mdx). The oracle reports the cumulative floating index and fee index, which are packed into the [`FIndex`](./Contracts/CustomTypes.mdx#findex) type. Oracle updates trigger settlement calculations for all positions in the market. The oracle address is configured per market and can be queried via [`getMarketConfig()`](./Contracts/Market.mdx#getmarketconfig).
+Each market has an associated FIndex Oracle that provides the floating rate data used in [periodic settlement](./Mechanics/Settlement.mdx). The oracle reports the cumulative floating index and fee index, which are packed into the [`FIndex`](./Contracts/CustomTypes.mdx#findex) type. Oracle updates trigger settlement calculations for all positions in the market. For a spread market, the reported floating rate is the difference between two exchanges' funding rates (leg A − leg B). The contract interface does not change. The oracle address is configured per market and can be queried via [`getMarketConfig()`](./Contracts/Market.mdx#getmarketconfig).
 
 ### Deposit Box
 
