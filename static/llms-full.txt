@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-10-12
+> Generated: 2026-10-14
 
 ---
 
@@ -7506,7 +7506,7 @@ import Hint from '@site/src/components/Hint';
 
 # Spread Markets
 
-On a given day, BTC funding might be 10% APR on Hyperliquid and 7% APR on Gate. That 3% gap is a rate in its own right. It moves, it can be forecast, and arbitrageurs earn it every day. A **Spread Market** lets you trade that gap directly, as a single position.
+On a given day, BTC funding might be 10% APR on Hyperliquid and 7% APR on Gate. That 3% gap is a rate in its own right. It moves, and it can be forecast. A **Spread Market** lets you trade that gap directly, as a single position.
 
 A Spread Market is a Boros market whose underlying rate is the difference between two funding rates on the same asset:
 
@@ -7561,7 +7561,7 @@ The underlying spread can turn negative when leg B's funding rises above leg A's
 - A **short** position at a 4% fixed APR during a −3% period receives 4% − (−3%) = **7%** for that period
 - A **long** position at the same fixed APR pays 7% for that period
 
-The implied APR can also trade below zero if the market expects leg B to stay ahead. Margin is calculated on the *absolute* rate, so a position opened at −5% is margined in the same way as one opened at 5%. See [Margin & Liquidations](../boros-systems/margin-and-liquidations#initial-margin).
+The implied APR can also trade below zero if the market expects leg B to stay ahead. Margin is calculated on the *absolute* mark rate, so a market trading at −5% requires the same margin as one trading at +5%. See [Margin & Liquidations](../boros-systems/margin-and-liquidations#initial-margin).
 
 ## Settlement
 
@@ -7575,6 +7575,8 @@ At each settlement:
 
 In BTC Spread HL-Gate, the market settles every 8 hours. Over each 8-hour window, Hyperliquid's hourly funding prints are averaged and Gate's 8-hour rate is subtracted from that average.
 
+If either exchange changes its funding interval, the Spread Market still settles on the less frequent leg's interval.
+
 Both legs use the existing funding rate oracle feeds. See [Rate Settlement](./rate-settlement#the-underlying-rate-oracle) for how those feeds are validated.
 
 ## What Stays the Same
@@ -7586,6 +7588,7 @@ A Spread Market reuses every Boros system. Spread positions follow the same rule
 - **[Margin & Liquidations](../boros-systems/margin-and-liquidations)**: one initial margin, one maintenance margin and one liquidation implied APR per position, in cross or isolated mode
 - **[Fees](../boros-systems/fees)**: taker, settlement, market entrance and liquidation fees
 - **[Protective Mechanisms](../boros-systems/protective-mechanism)**: purging, force-cancellation, ADL and market modes
+- **[Maturity](./rate-settlement#how-settlement-affects-margin)**: settlements stop, margin is released, and collateral reflects every settlement over the position's life
 
 ## Spread Markets vs Two Funding Market Positions
 
@@ -8334,7 +8337,7 @@ Every position has two halves, both at the same notional:
 - **The perp pair (via CrossEx):** short the perp on the higher-funding venue and long the perp on the lower-funding venue. The two perps cancel each other's price exposure, and together they collect the floating funding gap.
 - **The rate lock (on Boros):** pay that floating gap away on Boros in exchange for a fixed rate. What remains is a fixed return until the Boros market matures.
 
-Boros offers two ways to lock the rate.
+Boros offers two ways to lock the rate. When a Spread Market exists for the venue pair, the terminal always uses it, since it needs less margin and has deeper liquidity. Two Funding Market legs are used only for pairs without one.
 
 ### Option 1: Short a Spread Market (3 legs)
 
@@ -8601,7 +8604,9 @@ Click **Open this strategy →** on an opportunity. This launches a two-step wiz
 
 ### Step 1 — Lock the rate (Boros)
 
-The wizard opens on the Boros step with the rate lock prefilled.
+The wizard opens on the Boros step with the rate lock prefilled. When a Spread Market exists for the venue pair, the terminal always uses it, since it needs less margin and has deeper liquidity.
+
+In the terminal, a *leg* is one position. A Spread Market counts as a single Boros leg, even though the spread itself is built from two funding rates.
 
 - **Spread Market** — when the opportunity is on a venue pair with a Spread Market, the rate lock is one short on that market. A single order, a single slippage cap, and one margin requirement.
 - **Two Funding Market legs** — otherwise, check **Leg A** and **Leg B**. Each is a market and maturity with its own Long/Short side.

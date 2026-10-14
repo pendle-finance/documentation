@@ -7,7 +7,7 @@ import Hint from '@site/src/components/Hint';
 
 # 价差市场
 
-某一天，BTC 资金费率在 Hyperliquid 上可能是 10% APR，在 Gate 上是 7% APR。这 3% 的差值本身就是一个利率：它会变动、可以预测，套利者每天都在赚取它。**价差市场（Spread Market）**让您以单一头寸直接交易这一差值。
+某一天，BTC 资金费率在 Hyperliquid 上可能是 10% APR，在 Gate 上是 7% APR。这 3% 的差值本身就是一个利率：它会变动，也可以预测。**价差市场（Spread Market）**让您以单一头寸直接交易这一差值。
 
 价差市场是一种 Boros 市场，其底层利率是同一资产在两家交易所的资金费率之差：
 
@@ -62,7 +62,7 @@ import Hint from '@site/src/components/Hint';
 - 固定 APR 为 4% 的**空头**头寸，在价差为 −3% 的周期内收取 4% − (−3%) = **7%**
 - 相同固定 APR 的**多头**头寸在该周期内支付 7%
 
-如果市场预期腿 B 将持续领先，隐含 APR 也可能以负值交易。保证金按利率的*绝对值*计算，因此以 −5% 开设的头寸与以 5% 开设的头寸保证金相同。参见[保证金与清算](../boros-systems/margin-and-liquidations#initial-margin)。
+如果市场预期腿 B 将持续领先，隐含 APR 也可能以负值交易。保证金按标记利率的*绝对值*计算，因此以 −5% 交易的市场与以 +5% 交易的市场所需保证金相同。参见[保证金与清算](../boros-systems/margin-and-liquidations#initial-margin)。
 
 ## 结算 {#settlement}
 
@@ -76,6 +76,8 @@ import Hint from '@site/src/components/Hint';
 
 在 BTC Spread HL-Gate 中，市场每 8 小时结算一次。在每个 8 小时窗口内，Hyperliquid 的每小时资金费率取平均值，再减去 Gate 的 8 小时费率。
 
+如果任一交易所调整其资金费率间隔，价差市场仍按结算频率较低的一条腿的间隔结算。
+
 两条腿均使用现有的资金费率预言机数据源。关于这些数据源的验证方式，请参阅[费率结算](./rate-settlement#the-underlying-rate-oracle)。
 
 ## 保持不变的部分 {#what-stays-the-same}
@@ -87,6 +89,7 @@ import Hint from '@site/src/components/Hint';
 - **[保证金与清算](../boros-systems/margin-and-liquidations)**：每个头寸一个初始保证金、一个维持保证金和一个清算隐含 APR，支持交叉保证金或隔离保证金模式
 - **[费用](../boros-systems/fees)**：吃单费、结算费、市场入场费与清算费
 - **[保护机制](../boros-systems/protective-mechanism)**：订单清除、强制取消危险订单、ADL 与市场模式
+- **[到期](./rate-settlement#how-settlement-affects-margin)**：结算停止，保证金释放，抵押品反映头寸整个生命周期中的每一次结算
 
 ## 价差市场 vs 两个资金费率市场头寸 {#spread-markets-vs-two-funding-market-positions}
 

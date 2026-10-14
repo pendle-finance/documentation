@@ -16,7 +16,7 @@ Boros enables yield trading by creating something called a Yield Unit (YU). YU r
 
 Any rate with a reliable oracle feed can be listed on Boros. Today, Boros markets fall into two groups, shown as the **Funding** and **Spread** tabs in the app:
 
-1. **Funding rate markets.** The funding rate of a single perpetual market on a single exchange. These include:
+1. **Funding markets.** The funding rate of a single perpetual market on a single exchange. These include:
     * **Crypto perps on centralized exchanges**, such as BTC, ETH and HYPE perps on Binance, OKX, Bybit, Gate and KuCoin
     * **Crypto perps on decentralized exchanges**, such as ETH or HYPE on Hyperliquid and Lighter
     * **Non-crypto perps**, such as Brent oil on Hyperliquid
@@ -26,7 +26,7 @@ For example:
 
 * 5 YU-ETHUSDT-Binance represents yield from funding rates on a 5 ETH position on Binance ETHUSDT.
 * 69 YU-BTCUSDT-Hyperliquid represents yield from funding rates on a 69 BTC position on Hyperliquid.
-* 10 YU-ETH Spread HL-Gate represents the difference between Hyperliquid and Gate ETH funding rates on a 10 ETH position.
+* 10 YU of ETH Spread HL-Gate represents the difference between Hyperliquid and Gate ETH funding rates on a 10 ETH position.
 
 <Hint style="info">
 Yield Units (or YU) is the core of all actions in Boros. Yield trading on Boros is enabled by entering either a long position or a short position on YU. The goal is to capture differences in expected yield over time.

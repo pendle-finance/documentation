@@ -38,7 +38,7 @@ import Hint from '@site/src/components/Hint';
 若需更精细的控制，每一行腿的 **MANUAL ADJUSTMENT** 列可只平掉单条腿，而非整侧。当整条腿都属于该仓位时显示 **All of it**；当该腿与其他策略共享时，则显示匹配规模与交易所总量之比（例如 `1.26 HYPE / 1.89 HYPE`）。
 
 <Hint style="info">
-在价差市场上，Boros 一侧只有一个保证金要求和一个清算隐含 APR，二者都基于价差。使用两条资金费率市场腿时，每条 Boros 腿各有一套，需要同时留意。
+在价差市场上，Boros 一侧只有一个保证金要求和一个清算隐含 APR，二者都基于利差。使用两条资金费率市场腿时，每条 Boros 腿各有一套，需要同时留意。
 </Hint>
 
 <Hint style="info">
@@ -53,6 +53,6 @@ import Hint from '@site/src/components/Hint';
 
 ## 直接使用订单面板
 
-点击页首的 **Order ticket** 打开侧边面板，即可在引导式向导之外手动操作任意一侧——适合为某条腿加仓，或部分平掉某个仓位。各下单页的说明详见[订单面板](./opening-a-position#订单面板order-ticket)。
+点击页首的 **Order ticket** 打开侧边面板，即可在引导式向导之外手动操作任意一侧——适合为某条腿加仓，或部分平掉某个仓位。各下单页的说明详见[订单面板](./opening-a-position#the-order-ticket)。
 
 下一步：[理解仓位盈亏](./position-pnl)

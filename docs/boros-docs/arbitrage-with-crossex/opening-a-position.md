@@ -66,7 +66,9 @@ Click **Open this strategy →** on an opportunity. This launches a two-step wiz
 
 ### Step 1 — Lock the rate (Boros)
 
-The wizard opens on the Boros step with the rate lock prefilled.
+The wizard opens on the Boros step with the rate lock prefilled. When a Spread Market exists for the venue pair, the terminal always uses it, since it needs less margin and has deeper liquidity.
+
+In the terminal, a *leg* is one position. A Spread Market counts as a single Boros leg, even though the spread itself is built from two funding rates.
 
 - **Spread Market** — when the opportunity is on a venue pair with a Spread Market, the rate lock is one short on that market. A single order, a single slippage cap, and one margin requirement.
 - **Two Funding Market legs** — otherwise, check **Leg A** and **Leg B**. Each is a market and maturity with its own Long/Short side.

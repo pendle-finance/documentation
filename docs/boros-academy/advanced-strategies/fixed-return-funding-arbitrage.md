@@ -67,7 +67,7 @@ Assume you are trying to arbitrage the spread between BTC rates on Hyperliquid a
 
 ### Simplify with a spread market
 
-If Boros lists a spread market for the two exchanges, steps A and C combine into a **single position**: short the spread market. You hold one Boros position with one margin requirement and one liquidation level, instead of two.
+If Boros lists a spread market for the two exchanges, steps 1 and 3 combine into a **single position**: short the spread market. You hold one Boros position with one margin requirement and one liquidation level, instead of two.
 
 1. Short the spread market (on Boros)
 2. Short BTC on exchange A

@@ -17,7 +17,7 @@ Every position has two halves, both at the same notional:
 - **The perp pair (via CrossEx):** short the perp on the higher-funding venue and long the perp on the lower-funding venue. The two perps cancel each other's price exposure, and together they collect the floating funding gap.
 - **The rate lock (on Boros):** pay that floating gap away on Boros in exchange for a fixed rate. What remains is a fixed return until the Boros market matures.
 
-Boros offers two ways to lock the rate.
+Boros offers two ways to lock the rate. When a Spread Market exists for the venue pair, the terminal always uses it, since it needs less margin and has deeper liquidity. Two Funding Market legs are used only for pairs without one.
 
 ### Option 1: Short a Spread Market (3 legs)
 

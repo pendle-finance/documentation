@@ -17,7 +17,7 @@ import Hint from '@site/src/components/Hint';
 
 **PNL BY MATURITY（到期盈亏）** 预测持有至到期的结果：从锁定的利差出发，依次扣除永续腿入场手续费、入场滑点、Boros 交易手续费，以及结算费（含已支付和尚未产生的部分）。
 
-**CURRENT PNL (NOW)（当前盈亏）** 展示仓位当前的状况：包含同样的成本项，另加每日浮动的部分——永续资金费（`Perp FR`）、Boros 资金费（`Boros FR`）以及 Boros 盯市盈亏（`Boros MTM`）。在价差市场上，`Boros FR` 是在单个 Boros 仓位上结算的浮动价差。
+**CURRENT PNL (NOW)（当前盈亏）** 展示仓位当前的状况：包含同样的成本项，另加每日浮动的部分——永续资金费（`Perp FR`）、Boros 资金费（`Boros FR`）以及 Boros 盯市盈亏（`Boros MTM`）。在价差市场上，`Boros FR` 是在单个 Boros 仓位上结算的浮动利差。
 
 ## 成本假设
 

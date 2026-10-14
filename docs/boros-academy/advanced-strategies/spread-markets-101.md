@@ -4,7 +4,7 @@ import Hint from '@site/src/components/Hint';
 
 ## What is a spread market?
 
-Spread markets are a separate category from single funding rate markets. They let you trade the difference between two funding rates with a single position.
+Spread markets are a separate category from funding markets. They let you trade the difference between two funding rates with a single position.
 
 **For example:** ETH Spread HL-Gate is the Boros spread market for the difference between ETH funding rates on Hyperliquid and Gate.
 
@@ -20,11 +20,11 @@ During periods of market volatility, the underlying APR of a spread can flip neg
 
 Trading spread markets works the same way as trading any other Boros market. Longs bet that the underlying rate will average higher than the implied APR of their entry. Shorts bet that it will average lower. In a spread market, a long YU position bets that the average funding rate spread will be higher than the implied APR at entry.
 
-*Note: implied APR works on spread markets just like it does on [single YU markets](../the-basics/chapter-2-implied-apr-and-underlying-apr).*
+*Note: implied APR works on spread markets just like it does on [funding markets](../the-basics/chapter-2-implied-apr-and-underlying-apr).*
 
 ## Short spread for fixed yield arbitrage
 
-Pairing an equivalent perp spread with a short spread on Boros gives you fixed yield arbitrage on the spread.
+Pairing a short spread on Boros with an equivalent perp position (short perp A, long perp B) gives you fixed yield arbitrage on the spread.
 
 **This is [Fixed Return Funding Arbitrage](fixed-return-funding-arbitrage), with the two Boros legs combined into one position.**
 
@@ -40,7 +40,7 @@ Pairing an equivalent perp spread with a short spread on Boros gives you fixed y
 
 ## Long spread
 
-**Spread markets give longs a structural edge that single YU markets don't.**
+**Spread markets give longs a structural edge that funding markets don't.**
 
 **Spread shorters are largely indifferent to rate movements.** They short the spread market to turn their perp spread into a fixed yield arbitrage, so *the price they pay is mostly secondary.*
 

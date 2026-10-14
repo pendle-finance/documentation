@@ -2,7 +2,7 @@ import Hint from '@site/src/components/Hint';
 
 # Spread Markets
 
-On a given day, BTC funding might be 10% APR on Hyperliquid and 7% APR on Gate. That 3% gap is a rate in its own right. It moves, it can be forecast, and arbitrageurs earn it every day. A **Spread Market** lets you trade that gap directly, as a single position.
+On a given day, BTC funding might be 10% APR on Hyperliquid and 7% APR on Gate. That 3% gap is a rate in its own right. It moves, and it can be forecast. A **Spread Market** lets you trade that gap directly, as a single position.
 
 A Spread Market is a Boros market whose underlying rate is the difference between two funding rates on the same asset:
 
@@ -57,7 +57,7 @@ The underlying spread can turn negative when leg B's funding rises above leg A's
 - A **short** position at a 4% fixed APR during a −3% period receives 4% − (−3%) = **7%** for that period
 - A **long** position at the same fixed APR pays 7% for that period
 
-The implied APR can also trade below zero if the market expects leg B to stay ahead. Margin is calculated on the *absolute* rate, so a position opened at −5% is margined in the same way as one opened at 5%. See [Margin & Liquidations](../boros-systems/margin-and-liquidations#initial-margin).
+The implied APR can also trade below zero if the market expects leg B to stay ahead. Margin is calculated on the *absolute* mark rate, so a market trading at −5% requires the same margin as one trading at +5%. See [Margin & Liquidations](../boros-systems/margin-and-liquidations#initial-margin).
 
 ## Settlement
 
@@ -71,6 +71,8 @@ At each settlement:
 
 In BTC Spread HL-Gate, the market settles every 8 hours. Over each 8-hour window, Hyperliquid's hourly funding prints are averaged and Gate's 8-hour rate is subtracted from that average.
 
+If either exchange changes its funding interval, the Spread Market still settles on the less frequent leg's interval.
+
 Both legs use the existing funding rate oracle feeds. See [Rate Settlement](./rate-settlement#the-underlying-rate-oracle) for how those feeds are validated.
 
 ## What Stays the Same
@@ -82,6 +84,7 @@ A Spread Market reuses every Boros system. Spread positions follow the same rule
 - **[Margin & Liquidations](../boros-systems/margin-and-liquidations)**: one initial margin, one maintenance margin and one liquidation implied APR per position, in cross or isolated mode
 - **[Fees](../boros-systems/fees)**: taker, settlement, market entrance and liquidation fees
 - **[Protective Mechanisms](../boros-systems/protective-mechanism)**: purging, force-cancellation, ADL and market modes
+- **[Maturity](./rate-settlement#how-settlement-affects-margin)**: settlements stop, margin is released, and collateral reflects every settlement over the position's life
 
 ## Spread Markets vs Two Funding Market Positions
 

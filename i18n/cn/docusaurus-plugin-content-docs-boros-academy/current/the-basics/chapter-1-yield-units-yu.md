@@ -31,7 +31,7 @@ Boros 通过创建一种名为收益单位（YU）的工具来实现收益率交
 
 * 5 个 YU-ETHUSDT-Binance 代表 Binance ETHUSDT 上 5 ETH 头寸的资金费率收益。
 * 69 个 YU-BTCUSDT-Hyperliquid 代表 Hyperliquid 上 69 BTC 头寸的资金费率收益。
-* 10 个 YU-ETH Spread HL-Gate 代表 10 ETH 头寸在 Hyperliquid 与 Gate 之间的 ETH 资金费率差值。
+* 10 个 ETH Spread HL-Gate 的 YU 代表 10 ETH 头寸在 Hyperliquid 与 Gate 之间的 ETH 资金费率差值。
 
 <Hint style="info">
 收益单位（YU）是 Boros 上所有操作的核心。在 Boros 上进行收益率交易，就是通过做多或做空 YU 来进行。目标是捕捉预期收益随时间的差异。
