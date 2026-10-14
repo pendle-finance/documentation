@@ -65,6 +65,16 @@ Assume you are trying to arbitrage the spread between BTC rates on Hyperliquid a
 
 **A + B + C + D = Receive the fixed funding between Hyperliquid and Binance with no exposure to BTC price movements or funding rate volatility.**
 
+### Simplify with a spread market
+
+If Boros lists a spread market for the two exchanges, steps A and C combine into a **single position**: short the spread market. You hold one Boros position with one margin requirement and one liquidation level, instead of two.
+
+1. Short the spread market (on Boros)
+2. Short BTC on exchange A
+3. Long BTC on exchange B
+
+The result is the same fixed funding between the two exchanges, with no exposure to BTC price movements. See [Spread Markets 101](spread-markets-101) for the full walkthrough.
+
 ## The Benefits of this Strategy
 
 Executing this arbitrage with Boros comes with significant benefits, such as:
@@ -74,6 +84,7 @@ Executing this arbitrage with Boros comes with significant benefits, such as:
 * **Longer-duration arbitrage (more potential yield).** With the removal of rate volatility, this arbitrage can be executed for longer time periods, allowing traders to capture a larger share of the available yield.
 * **Negative funding ceases to be an issue.** Previously, traders executing this arbitrage had to unwind positions when rates went negative.
 * **Delta-neutral exposure while farming yield.** Directional price risk is non-existent on this trade, due to being delta-neutral. Boros unlocks yield farming from discrepancies between perp funding rates.
+* **One position with a spread market.** Where a spread market exists, the two Boros legs become a single short spread position. One order means no risk of only one leg filling, and with one margin requirement a sharp move in a single exchange's rate can't liquidate one leg on its own.
 
 ## Using the Boros Strategy Dashboard
 

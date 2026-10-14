@@ -18,6 +18,7 @@ module.exports = {
     {
       type: "category", label: "Advanced Strategies", customProps: { icon: "psychology" },
       items: [
+        { type: "doc", id: "advanced-strategies/spread-markets-101", label: "Spread Markets 101", customProps: { icon: "difference" } },
         { type: "doc", id: "advanced-strategies/hedging-funding-rates-payment", label: "Hedging Funding Rates Payment", customProps: { icon: "shield" } },
         { type: "doc", id: "advanced-strategies/fixed-funding-rates-receivables", label: "Fixed Funding Rates Receivables", customProps: { icon: "lock" } },
         { type: "doc", id: "advanced-strategies/fixed-return-funding-arbitrage", label: "Fixed Return Funding Arbitrage", customProps: { icon: "swap_horiz" } },
