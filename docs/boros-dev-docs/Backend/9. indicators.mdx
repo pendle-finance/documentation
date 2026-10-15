@@ -8,7 +8,7 @@ For the request/response schemas, see the [interactive Open API docs](https://ap
 
 | Code | Name | Source | Notes |
 |------|------|--------|-------|
-| `u` | Underlying APR | Realtime funding rate from the upstream exchange | Indexed by the market's funding-rate symbol; resolution = the market's payment period (typically 1h, 8h). Forward-filled. |
+| `u` | Underlying APR | Realtime funding rate from the upstream exchange. On a spread market: leg A − leg B | Indexed by the market's funding-rate symbol; resolution = the market's payment period (typically 1h, 8h). Forward-filled. |
 | `fp` | Future Premium | Annualized premium of the upstream perp future relative to its index | Synced every 30 seconds; forward-filled to the chosen timeframe. |
 | `fgi` | Fear & Greed Index | Off-chain crypto sentiment index | Synced every 5 minutes; forward-filled to the chosen timeframe. |
 | `ap` | Asset Price | USD price of the market's base asset (BTC, ETH, etc.) | Sourced from the historical asset-price store. |
@@ -65,4 +65,5 @@ GET /v1/indicators/export?marketId=24&timeFrame=1h&startTimestamp=1761782400&sel
 - For long histories, prefer the CSV export — it has a generous 10,000-point cap **per file** and a single 20 CU cost.
 - `u` resolution depends on the market's payment period. If the market funds every 8 hours, `u` will only have a fresh datapoint every 8 hours regardless of `timeFrame`.
 - `udma` requires the market to have a `fundingRateSymbol` configured. Markets without an upstream funding-rate symbol return empty UDMA series.
+- On spread markets (`metadata.isSpreadMarket = true`), `u` is the spread between the two legs' funding rates and can be negative. It updates at the slower leg's cadence, with the faster leg averaged over each period. `udma` averages that spread.
 - All numeric indicators are decimal fractions (e.g. `0.05` = 5% APR), consistent with the rest of the API.

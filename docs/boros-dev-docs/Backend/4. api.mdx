@@ -153,7 +153,7 @@ Query market configurations, order books, and trade history.
 
 | Endpoint | Description |
 |----------|-------------|
-| `GET /markets` | List all markets with current state and pricing. Includes `isWhitelisted` field. |
+| `GET /markets` | List all markets with current state and pricing. Includes `isWhitelisted` field and `metadata.isSpreadMarket` (`true` when the underlying is a funding-rate spread between two exchanges; see [Spread Markets](https://docs.pendle.finance/boros-docs/about-boros/spread-markets)). |
 | `GET /markets/{marketId}` | Get a single market's details |
 | `GET /markets/order-books` | Aggregated order book by tick size. _(Deprecated — use v2)_ |
 | `GET /v2/markets/order-books` | Order book with optional AMM liquidity. Response includes `syncStatus` (`blockNumber` + `timestamp`). |

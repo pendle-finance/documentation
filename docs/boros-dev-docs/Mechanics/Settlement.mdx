@@ -142,6 +142,7 @@ Floating payments are calculated based on your position size at the exact paymen
 Floating rate settlements are triggered by off-chain oracle updates and occur at regular intervals:
 
 - **Settlement frequency**: Typically every hour (but varies by market)
+- **Spread markets**: The floating rate is leg A − leg B. Settlement runs on the slower leg's cadence (e.g. every 8 hours for a Hyperliquid-Gate spread), and the faster leg is averaged over the period. See [Spread Markets](https://docs.pendle.finance/boros-docs/about-boros/spread-markets).
 - **Expected settlement time**: Approximately **30 seconds after the hour** (e.g., 08:00:30 UTC)
 - **Exceptional cases**: During extreme market volatility or high/low settlement values that could push users' health ratios near zero, settlements may be delayed while the system runs additional risk management operations (e.g., liquidation bots)
 
