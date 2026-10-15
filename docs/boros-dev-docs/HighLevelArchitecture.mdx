@@ -90,7 +90,7 @@ Pendle operates permissioned bots that perform automated risk management on beha
 
 - **Liquidation Bot**: Liquidates accounts whose [health ratio](./Mechanics/Margin.mdx#health-ratio) drops to 1.0 or below
 - **Force-Cancel Bot**: Cancels open orders for accounts approaching liquidation, or orders with rates that deviate too far from the mark rate (see [Risk Management Actions](./Mechanics/Margin.mdx#risk-management-actions))
-- **CLO Bot**: Toggles markets into [Close-Only mode](./Mechanics/Margin.mdx#closing-only-mode) when open interest approaches risk limits
+- **CLO Bot**: Toggles markets into [Close-Only mode](./Mechanics/Margin.mdx#closing-only-mode) when open interest approaches risk limits. It only switches between `GOOD` and `CLO`, so it never lifts an [ALO](/boros-dev/Contracts/CustomTypes#marketstatus) market
 
 Users should monitor their [order status](/boros-dev/Contracts/CustomTypes#orderstatus) and account health, especially during volatile market conditions, as these bots may modify open orders or trigger liquidations.
 
