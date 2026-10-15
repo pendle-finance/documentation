@@ -119,13 +119,27 @@ int16 endTick = side.endTick();          // Boundary tick values
 
 ### MarketStatus
 
-**Definition**: `enum MarketStatus { PAUSED, CLO, GOOD }`
+**Definition**: `enum MarketStatus { PAUSED, CLO, GOOD, ALO }`
 
 - **PAUSED (0)**: Market is fully paused — no trading, no order placement, no cancellation
-- **CLO (1)**: Close-Only mode — only orders that reduce existing position size are allowed. New position opening is prohibited. Activated when open interest approaches risk limits
+- **CLO (1)**: Close-Only mode — an action is accepted only if the user's position does not increase or flip sign afterwards. Resting orders in the opening direction may still be placed (they never match into a larger position), but they don't qualify for the [closing-orders margin exemption](../Mechanics/Margin.mdx#margin-check-for-closing-orders), so strict initial margin applies. Accounts with the `exemptCLOCheck` flag are exempt. Activated when open interest approaches risk limits
 - **GOOD (2)**: Normal operating mode — all trading operations are available
+- **ALO (3)**: a market-wide **post-only** mode, named after the `ALO` [TimeInForce](#timeinforce). Non-empty orders must use a post-only [TimeInForce](#timeinforce) (`ALO` or `SOFT_ALO`); any other TIF reverts with `MarketALO()`. Nothing matches: an `ALO` order that would match reverts, and `SOFT_ALO` drops the matchable part. OTC trades are rejected, so AMM swaps and AMM liquidity add/remove are blocked too. See [Post-Only Mode (ALO)](../Mechanics/Margin.mdx#post-only-mode-alo)
 
-Markets transition between states based on risk conditions (e.g., open interest approaching caps). Query the current status via [`getMarketConfig()`](./Market.mdx#getmarketconfig).
+:::warning
+Values are **not** ordered by strictness. Strictest to loosest is `PAUSED`, `ALO`, `CLO`, `GOOD`, but the values are `0`, `3`, `1`, `2`. Never compare statuses with `<` or `>`.
+:::
+
+| Action | GOOD | CLO | ALO | PAUSED |
+|---|---|---|---|---|
+| Enter/exit market, settle | ✅ | ✅ | ✅ | ✅ |
+| Place non-matching limit order | ✅ | ✅ | `ALO` / `SOFT_ALO` TIF only | ❌ |
+| Place matching order, OTC, AMM swap or AMM liquidity change | ✅ | Only if the position doesn't increase or flip (exemptable) | ❌ | ❌ |
+| Cancel orders | ✅ | ✅ | ✅ | ❌ |
+| Liquidate | ✅ | ✅ | ✅ (see [caveat](../Mechanics/Margin.mdx#post-only-mode-alo)) | ❌ |
+| Force ops (force cancel, purge, deleverage) | ✅ | ✅ | ✅ | ✅ |
+
+Markets transition between states based on risk conditions (e.g., open interest approaching caps). Pausing a market overwrites `CLO` / `ALO`, and unpausing does not restore it. Query the current status via [`getMarketConfig()`](./Market.mdx#getmarketconfig).
 
 ### LiqSettings
 

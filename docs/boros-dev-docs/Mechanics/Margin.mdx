@@ -140,6 +140,8 @@ When initial margin requirements are not met, users can still place orders under
 
 These relaxed conditions allow users to reduce risk even when under-collateralized.
 
+This margin exemption is separate from the market-wide [Closing Only Mode](#closing-only-mode): the CLO status only checks the resulting position, while this exemption requires all three conditions above.
+
 ## Maintenance Margin and Liquidation
 
 ### Maintenance Margin
@@ -246,8 +248,20 @@ When the system approaches this limit, "Closing only" mode may be activated for 
 
 Markets can enter [CLO (Close-Only)](/boros-dev/Contracts/CustomTypes#marketstatus) mode when open interest approaches the hard cap or during high-risk conditions. In this mode:
 
-- Only orders that reduce position size are allowed
-- New position opening is prohibited
+- An action is accepted only if the user's position does not increase in size or flip sign afterwards; otherwise it reverts with `MarketCLO()`
+- Resting orders in the opening direction may still be placed, since they never match into a larger position. They don't qualify for the [closing-orders margin exemption](#margin-check-for-closing-orders), so strict initial margin applies
 - Certain whitelisted accounts (e.g., market makers) may be exempt from CLO restrictions via the `exemptCLOCheck` flag
 
-The market's current status (PAUSED, CLO, or GOOD) can be queried via [`getMarketConfig()`](../Contracts/Market.mdx#getmarketconfig).
+### Post-Only Mode (ALO)
+
+Markets can enter [ALO](/boros-dev/Contracts/CustomTypes#marketstatus) mode, a market-wide **post-only** mode for rebuilding order book liquidity without any matching. In this mode:
+
+- Non-empty orders must use the `ALO` or `SOFT_ALO` [TimeInForce](/boros-dev/Contracts/CustomTypes#timeinforce); any other TIF reverts with `MarketALO()`. An `ALO` order that would match reverts with `MarketOrderALOFilled()`; a `SOFT_ALO` order drops the matchable part
+- OTC trades are rejected, so AMM swaps and AMM liquidity add/remove are blocked
+- Cancels are allowed, and new orders must still sit within the rate bounds around the mark rate
+- Since nothing matches, orders resting from before ALO stay unfilled and users cannot voluntarily reduce or close positions
+- When the mark rate is the implied (TWAP) rate, it stays frozen while the market is in ALO, because nothing trades
+- Settlement and funding, cash operations, exiting a market with an empty position, and force cancel / purge / deleverage still work
+- Liquidation is still accepted by the market, but Pendle's standard liquidation executor hedges through the book and AMM and cannot complete; only a backstop takeover without a hedge works
+
+Pausing a market overwrites `CLO` / `ALO`, and unpausing does not restore the previous mode. The market's current status (PAUSED, CLO, GOOD or ALO) can be queried via [`getMarketConfig()`](../Contracts/Market.mdx#getmarketconfig). See [MarketStatus](/boros-dev/Contracts/CustomTypes#marketstatus) for what each status allows.
