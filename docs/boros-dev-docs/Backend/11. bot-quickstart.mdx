@@ -105,7 +105,7 @@ const markets = await exchange.getAllMarkets({ isUiWhitelisted: true });
 const now = Math.floor(Date.now() / 1000);
 
 const candidates = markets
-  .filter((m) => m.config.status === 2)                  // 2 = trading; 0/1 = halted/CLO
+  .filter((m) => m.config.status === 2)                  // 2 = GOOD; 0/1/3 = PAUSED/CLO/ALO
   .filter((m) => m.imData.maturity > now + 7 * 86_400)   // ≥ 1 week to maturity
   .filter((m) => m.data.bestBid != null && m.data.bestAsk != null)
   .sort((a, b) => (b.data.volume24h ?? 0) - (a.data.volume24h ?? 0));
