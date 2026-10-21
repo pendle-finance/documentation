@@ -2,7 +2,7 @@
 
 > This file contains all Pendle V2 and Boros documentation concatenated for AI consumption.
 > Sources: https://docs.pendle.finance/pendle-v2 | https://docs.pendle.finance/pendle-v2-dev | https://docs.pendle.finance/boros-docs | https://docs.pendle.finance/boros-dev
-> Generated: 2026-10-14
+> Generated: 2026-10-21
 
 ---
 
@@ -9112,7 +9112,7 @@ See [AMM Mechanics](./Mechanics/AMM.mdx) for pricing, the two AMM variants (Posi
 
 ### FIndex Oracle
 
-Each market has an associated FIndex Oracle that provides the floating rate data used in [periodic settlement](./Mechanics/Settlement.mdx). The oracle reports the cumulative floating index and fee index, which are packed into the [`FIndex`](./Contracts/CustomTypes.mdx#findex) type. Oracle updates trigger settlement calculations for all positions in the market. The oracle address is configured per market and can be queried via [`getMarketConfig()`](./Contracts/Market.mdx#getmarketconfig).
+Each market has an associated FIndex Oracle that provides the floating rate data used in [periodic settlement](./Mechanics/Settlement.mdx). The oracle reports the cumulative floating index and fee index, which are packed into the [`FIndex`](./Contracts/CustomTypes.mdx#findex) type. Oracle updates trigger settlement calculations for all positions in the market. For a spread market, the reported floating rate is the difference between two exchanges' funding rates (leg A − leg B). The contract interface does not change. The oracle address is configured per market and can be queried via [`getMarketConfig()`](./Contracts/Market.mdx#getmarketconfig).
 
 ### Deposit Box
 
@@ -9719,6 +9719,7 @@ Floating payments are calculated based on your position size at the exact paymen
 Floating rate settlements are triggered by off-chain oracle updates and occur at regular intervals:
 
 - **Settlement frequency**: Typically every hour (but varies by market)
+- **Spread markets**: The floating rate is leg A − leg B. Settlement runs on the slower leg's cadence (e.g. every 8 hours for a Hyperliquid-Gate spread), and the faster leg is averaged over the period. See [Spread Markets](https://docs.pendle.finance/boros-docs/about-boros/spread-markets).
 - **Expected settlement time**: Approximately **30 seconds after the hour** (e.g., 08:00:30 UTC)
 - **Exceptional cases**: During extreme market volatility or high/low settlement values that could push users' health ratios near zero, settlements may be delayed while the system runs additional risk management operations (e.g., liquidation bots)
 
@@ -9967,11 +9968,12 @@ int16 endTick = side.endTick();          // Boundary tick values
 
 ### MarketStatus
 
-**Definition**: `enum MarketStatus { PAUSED, CLO, GOOD }`
+**Definition**: `enum MarketStatus { PAUSED, CLO, GOOD, ALO }`
 
 - **PAUSED (0)**: Market is fully paused — no trading, no order placement, no cancellation
 - **CLO (1)**: Close-Only mode — only orders that reduce existing position size are allowed. New position opening is prohibited. Activated when open interest approaches risk limits
 - **GOOD (2)**: Normal operating mode — all trading operations are available
+- **ALO (3)**: Post-only mode — orders can only be placed with the `ALO` or `SOFT_ALO` [TimeInForce](#timeinforce) and nothing is matched. Orders can still be cancelled
 
 Markets transition between states based on risk conditions (e.g., open interest approaching caps). Query the current status via [`getMarketConfig()`](./Market.mdx#getmarketconfig).
 
@@ -10563,7 +10565,7 @@ struct MarketConfigStruct {
     int16 loUpperSlopeBase1e4;               // Limit order upper slope
     int16 loLowerConstBase1e4;               // Limit order lower constant
     int16 loLowerSlopeBase1e4;               // Limit order lower slope
-    MarketStatus status;                     // Market status (PAUSED/CLO/GOOD)
+    MarketStatus status;                     // Market status (PAUSED/CLO/GOOD/ALO)
     bool useImpliedAsMarkRate;               // Whether to use implied rate as mark rate
 }
 
@@ -12249,7 +12251,7 @@ For the request/response schemas, see the [interactive Open API docs](https://ap
 
 | Code | Name | Source | Notes |
 |------|------|--------|-------|
-| `u` | Underlying APR | Realtime funding rate from the upstream exchange | Indexed by the market's funding-rate symbol; resolution = the market's payment period (typically 1h, 8h). Forward-filled. |
+| `u` | Underlying APR | Realtime funding rate from the upstream exchange. On a spread market: leg A − leg B | Indexed by the market's funding-rate symbol; resolution = the market's payment period (typically 1h, 8h). Forward-filled. |
 | `fp` | Future Premium | Annualized premium of the upstream perp future relative to its index | Synced every 30 seconds; forward-filled to the chosen timeframe. |
 | `fgi` | Fear & Greed Index | Off-chain crypto sentiment index | Synced every 5 minutes; forward-filled to the chosen timeframe. |
 | `ap` | Asset Price | USD price of the market's base asset (BTC, ETH, etc.) | Sourced from the historical asset-price store. |
@@ -12306,6 +12308,7 @@ GET /v1/indicators/export?marketId=24&timeFrame=1h&startTimestamp=1761782400&sel
 - For long histories, prefer the CSV export — it has a generous 10,000-point cap **per file** and a single 20 CU cost.
 - `u` resolution depends on the market's payment period. If the market funds every 8 hours, `u` will only have a fresh datapoint every 8 hours regardless of `timeFrame`.
 - `udma` requires the market to have a `fundingRateSymbol` configured. Markets without an upstream funding-rate symbol return empty UDMA series.
+- On spread markets (`metadata.isSpreadMarket = true`), `u` is the spread between the two legs' funding rates and can be negative. It updates at the slower leg's cadence, with the faster leg averaged over each period. `udma` averages that spread.
 - All numeric indicators are decimal fractions (e.g. `0.05` = 5% APR), consistent with the rest of the API.
 
 ---
@@ -12467,7 +12470,7 @@ const markets = await exchange.getAllMarkets({ isUiWhitelisted: true });
 const now = Math.floor(Date.now() / 1000);
 
 const candidates = markets
-  .filter((m) => m.config.status === 2)                  // 2 = trading; 0/1 = halted/CLO
+  .filter((m) => m.config.status === 2)                  // 2 = GOOD; 0/1/3 = PAUSED/CLO/ALO
   .filter((m) => m.imData.maturity > now + 7 * 86_400)   // ≥ 1 week to maturity
   .filter((m) => m.data.bestBid != null && m.data.bestAsk != null)
   .sort((a, b) => (b.data.volume24h ?? 0) - (a.data.volume24h ?? 0));
@@ -12475,6 +12478,8 @@ const candidates = markets
 const market = candidates[0];
 console.log({ id: market.marketId, symbol: market.imData.symbol, tokenId: market.tokenId });
 ```
+
+Spread markets (`m.metadata.isSpreadMarket === true`) also come back from this call. Their underlying is the gap between two exchanges' funding rates, so it sits near zero and can turn negative. Drop them with `.filter((m) => !m.metadata.isSpreadMarket)` if your strategy assumes a single-venue funding rate.
 
 The reference bot has fuller filters (spread bounds, OI utilization) — see `src/pick-market.ts` in [Full code](#full-code) below.
 

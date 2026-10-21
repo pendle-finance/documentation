@@ -119,11 +119,12 @@ int16 endTick = side.endTick();          // Boundary tick values
 
 ### MarketStatus
 
-**Definition**: `enum MarketStatus { PAUSED, CLO, GOOD }`
+**Definition**: `enum MarketStatus { PAUSED, CLO, GOOD, ALO }`
 
 - **PAUSED (0)**: Market is fully paused — no trading, no order placement, no cancellation
 - **CLO (1)**: Close-Only mode — only orders that reduce existing position size are allowed. New position opening is prohibited. Activated when open interest approaches risk limits
 - **GOOD (2)**: Normal operating mode — all trading operations are available
+- **ALO (3)**: Post-only mode — orders can only be placed with the `ALO` or `SOFT_ALO` [TimeInForce](#timeinforce) and nothing is matched. Orders can still be cancelled
 
 Markets transition between states based on risk conditions (e.g., open interest approaching caps). Query the current status via [`getMarketConfig()`](./Market.mdx#getmarketconfig).
 

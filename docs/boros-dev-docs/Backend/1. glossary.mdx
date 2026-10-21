@@ -57,6 +57,7 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (Rat
 | **Liquidation** | Forced closure of positions when health ratio ≤ 1.0. Positions are closed at mark rate; a liquidation incentive is paid to the liquidator. See [Margin Mechanics](/boros-dev/Mechanics/Margin#liquidation-process). | `GET /events/liquidation-events` |
 | **Force Cancel** | Automatic cancellation of open orders when an account's health ratio drops below the risky threshold, or when order rates deviate too far from mark rate. See [Risk Management](/boros-dev/Mechanics/Margin#risk-management-actions). | `GET /accounts/limit-orders` |
 | **CLO (Close-Only)** | [Market status](/boros-dev/Contracts/CustomTypes#marketstatus) where only position-reducing orders are accepted. See [Closing Only Mode](/boros-dev/Mechanics/Margin#closing-only-mode). | `GET /markets/{marketId}` (status field) |
+| **ALO (Post-Only)** | [Market status](/boros-dev/Contracts/CustomTypes#marketstatus) where only post-only orders (`ALO` / `SOFT_ALO` TimeInForce) are accepted and nothing is matched. | `GET /markets/{marketId}` (status field) |
 
 ---
 
@@ -92,7 +93,7 @@ Quick reference for key terms used in the Boros API. For portfolio concepts (Rat
 
 ### Market Status
 
-`PAUSED (0)` · `CLO (1)` · `GOOD (2)` — See [Custom Types](/boros-dev/Contracts/CustomTypes#marketstatus) for descriptions and state transitions.
+`PAUSED (0)` · `CLO (1)` · `GOOD (2)` · `ALO (3)` — See [Custom Types](/boros-dev/Contracts/CustomTypes#marketstatus) for descriptions and state transitions.
 
 ---
 
