@@ -31,7 +31,7 @@ import Hint from '@site/src/components/Hint';
 
 将 Boros 上的做空价差头寸与等额的永续合约头寸（做空永续合约 A、做多永续合约 B）配对，即可在该价差上实现固定收益套利。
 
-**这就是[固定收益资金费率套利](fixed-return-funding-arbitrage)，只是把两条 Boros 腿合并成了一个头寸。**
+**这就是[固定收益资金费率套利](fixed-return-funding-arbitrage)。具体的数字示例请参阅该页面。**
 
 **简单 3 步：**
 

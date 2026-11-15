@@ -1,4 +1,3 @@
-import Hint from '@site/src/components/Hint';
 
 # Fixed Return Funding Arbitrage
 
@@ -8,7 +7,7 @@ Before Boros, this trade was fraught with risks from funding rate volatility. No
 
 ## How it works
 
-Because platforms have different liquidity, trader flows, market sentiment, and risk models, perp funding rates often do not move in sync. For example, Binance settles on an 8-hour basis, while Hyperliquid settles hourly. These structural differences between platforms can create persistent opportunities to arbitrage the spread between funding rates.
+Because platforms have different liquidity, trader flows, market sentiment, and risk models, perp funding rates often do not move in sync. These structural differences between platforms can create persistent opportunities to arbitrage the spread between funding rates.
 
 ## Traditional naked arbitrage (without Boros)
 
@@ -16,64 +15,44 @@ The classic approach is simple on paper: take opposite perp positions on two exc
 
 **But in practice, it is operationally heavy.**
 
-**Example:**
-
-<Hint style="info">
-Funding rate for BTC on Exchange A → +5% APR (Long)
-
-Funding rate for BTC on Exchange B → +25% APR (Short)
-
-Short Exchange B, Long Exchange A: 25% - 5% = receive 20% APR
-</Hint>
-
 **This trade comes with “hidden” complications:**
 
-* Traders need margin on multiple exchanges and must constantly monitor the gap between rates to know when to unwind the trade profitably.
+* Funding rate spreads are floating spreads, and when funding rates flip, you can end up in the negative.
 * **During volatile market conditions, accounts may need to be rebalanced and adjusted accordingly, and liquidation risks increase.**
-* Shifts in funding rates can be sudden and volatile, leading to reduced yield and potential losses if rates change.
 
 **But with Boros, this trade becomes a stable, fixed-yield trade with zero directional exposure.**
 
-## Using Boros for Funding Rate Arbitrage
+## Fixed Returns via Boros Spread Markets
 
-By pairing YUs with this funding rate arbitrage, the risks above are reduced significantly.
+Boros [spread markets](spread-markets-101) isolate this funding rate gap, and make it easy for you to turn these floating spreads into fixed yield in just 2 steps.
 
-Instead, traders can compare the spread between the implied APRs of two perp markets and use it to earn fixed yield between perp platforms.
+1. **Long the perp with lower funding, short the perp with higher funding**
 
-<figure><img src="/boros-academy/imgs/fixed-arb-illustration.png" alt="" /><figcaption></figcaption></figure>
+This earns you the spread between the 2 funding rates. Higher leverage on the perps raises your return on capital, but also your liquidation risk. Note: the spread is floating and can move against you.
 
-<Hint style="info">
-Long Perp + Long YU = Pay Fixed Funding
+<figure><img src="/boros-academy/imgs/delta-neutral-funding-arb.png" alt="Delta-neutral funding arbitrage: short the perp on Exchange A to receive its floating funding rate, long the perp on Exchange B to pay its floating funding rate, and receive the floating spread between the two as yield" /><figcaption></figcaption></figure>
 
-Short Perp + Short YU = Receive Fixed Funding
+2. **Sell the floating spread on Boros for a fixed spread.**
 
-**Difference between YU Implied APR = Your Fixed Funding**
-</Hint>
+**A fixed spread means fixed return.** The only thing you have to manage now is your collateral on the perps and Boros.
 
-**Let’s map this out with an example.**
+Simply short the spread market on Boros for the same notional as your perp positions.
 
-Assume you are trying to arbitrage the spread between BTC rates on Hyperliquid and BTC rates on Binance.
+### What the numbers look like
 
-1. Short Hyperliquid BTC rates (on Boros)
-2. Short BTC on Hyperliquid
-3. Long Binance BTC rates (on Boros)
-4. Long BTC on Binance
+**Assume that ETH funding is higher on Hyperliquid than on Gate, and the implied APR of the ETH HL-Gate spread market is 3.1%.**
 
-- A + B = Receive fixed funding on BTC on Hyperliquid
-- C + D = Pay fixed funding on BTC on Binance
-- B + D = Delta-neutral on BTC
+You short ETH on Hyperliquid and long ETH on Gate, setting up a floating spread.
 
-**A + B + C + D = Receive the fixed funding between Hyperliquid and Binance with no exposure to BTC price movements or funding rate volatility.**
+Then, you sell the ETH floating spread on Boros at 3.1%, and receive 3.1% APR until the spread market matures.
 
-### Simplify with a spread market
+<figure><img src="/boros-academy/imgs/spread-arb-pay-receive-legs.png" alt="Pay and receive legs: a 1.1k ETH spread position on the ETH HL-Gate perps receives the funding spread, a 1.1k ETH short spread position on Boros pays that same funding spread, so the two cancel and you receive a fixed APR of 3.1% on the 1.1k ETH spread" /><figcaption></figcaption></figure>
 
-If Boros lists a spread market for the two exchanges, steps 1 and 3 combine into a **single position**: short the spread market. You hold one Boros position with one margin requirement and one liquidation level, instead of two.
+With our [Arbitrage terminal](/boros-docs/arbitrage-with-crossex/overview), capturing yield opportunities like this on Boros is simple and fuss-free. The terminal helps you manage perp positions in-app, and the only collateral requiring management is your margin on the Boros side.
 
-1. Short the spread market (on Boros)
-2. Short BTC on exchange A
-3. Long BTC on exchange B
+Longs capture the difference between the implied and underlying spread, creating a win-win flywheel for sellers who want fixed spreads. See [the PvE nature of spread markets](spread-markets-101#the-pve-nature-of-spread-markets) for how it works.
 
-The result is the same fixed funding between the two exchanges, with no exposure to BTC price movements. See [Spread Markets 101](spread-markets-101) for the full walkthrough.
+<figure><img src="/boros-academy/imgs/spread-markets-how-everyone-wins.png" alt="Spread Markets: How Everyone Wins. A four-step flywheel: arbitrageurs short the spread to lock in fixed yield, longs buy the compressed spread as it reverts, arbitrageurs re-short the wider spread at larger size, and longs buy the compressed spread again" /><figcaption></figcaption></figure>
 
 ## The Benefits of this Strategy
 
@@ -84,7 +63,7 @@ Executing this arbitrage with Boros comes with significant benefits, such as:
 * **Longer-duration arbitrage (more potential yield).** With the removal of rate volatility, this arbitrage can be executed for longer time periods, allowing traders to capture a larger share of the available yield.
 * **Negative funding ceases to be an issue.** Previously, traders executing this arbitrage had to unwind positions when rates went negative.
 * **Delta-neutral exposure while farming yield.** Directional price risk is non-existent on this trade, due to being delta-neutral. Boros unlocks yield farming from discrepancies between perp funding rates.
-* **One position with a spread market.** Where a spread market exists, the two Boros legs become a single short spread position. One order means no risk of only one leg filling, and with one margin requirement a sharp move in a single exchange's rate can't liquidate one leg on its own.
+* **One Boros position.** The spread market covers both funding rates in a single short spread position. One order means no risk of only one leg filling, and with one margin requirement a sharp move in a single exchange's rate can't liquidate one leg on its own.
 
 ## Using the Boros Strategy Dashboard
 

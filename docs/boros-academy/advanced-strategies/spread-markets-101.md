@@ -26,7 +26,7 @@ Trading spread markets works the same way as trading any other Boros market. Lon
 
 Pairing a short spread on Boros with an equivalent perp position (short perp A, long perp B) gives you fixed yield arbitrage on the spread.
 
-**This is [Fixed Return Funding Arbitrage](fixed-return-funding-arbitrage), with the two Boros legs combined into one position.**
+**This is [Fixed Return Funding Arbitrage](fixed-return-funding-arbitrage). See that page for a worked example with numbers.**
 
 **3 simple steps:**
 
