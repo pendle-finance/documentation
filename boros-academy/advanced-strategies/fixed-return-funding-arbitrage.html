@@ -21,8 +21,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/assets/css/styles.d5279556.css">
-<script src="/assets/js/runtime~main.4da2472f.js" defer="defer"></script>
-<script src="/assets/js/main.2e817c7e.js" defer="defer"></script>
+<script src="/assets/js/runtime~main.d6f3d43d.js" defer="defer"></script>
+<script src="/assets/js/main.e08d749e.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -32,46 +32,36 @@
 <p><strong>Can you get delta-neutral, fixed yield between two perp markets?</strong></p>
 <p>Before Boros, this trade was fraught with risks from funding rate volatility. Now, it’s a viable, repeatable yield strategy.</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="how-it-works">How it works<a href="#how-it-works" class="hash-link" aria-label="Direct link to How it works" title="Direct link to How it works">​</a></h2>
-<p>Because platforms have different liquidity, trader flows, market sentiment, and risk models, perp funding rates often do not move in sync. For example, Binance settles on an 8-hour basis, while Hyperliquid settles hourly. These structural differences between platforms can create persistent opportunities to arbitrage the spread between funding rates.</p>
+<p>Because platforms have different liquidity, trader flows, market sentiment, and risk models, perp funding rates often do not move in sync. These structural differences between platforms can create persistent opportunities to arbitrage the spread between funding rates.</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="traditional-naked-arbitrage-without-boros">Traditional naked arbitrage (without Boros)<a href="#traditional-naked-arbitrage-without-boros" class="hash-link" aria-label="Direct link to Traditional naked arbitrage (without Boros)" title="Direct link to Traditional naked arbitrage (without Boros)">​</a></h2>
 <p>The classic approach is simple on paper: take opposite perp positions on two exchanges to capture the difference in funding rates.</p>
 <p><strong>But in practice, it is operationally heavy.</strong></p>
-<p><strong>Example:</strong></p>
-<div class="hint_g1ws info_ye3t"><div class="content_JkbE"><p>Funding rate for BTC on Exchange A → +5% APR (Long)</p><p>Funding rate for BTC on Exchange B → +25% APR (Short)</p><p>Short Exchange B, Long Exchange A: 25% - 5% = receive 20% APR</p></div></div>
 <p><strong>This trade comes with “hidden” complications:</strong></p>
 <ul>
-<li>Traders need margin on multiple exchanges and must constantly monitor the gap between rates to know when to unwind the trade profitably.</li>
+<li>Funding rate spreads are floating spreads, and when funding rates flip, you can end up in the negative.</li>
 <li><strong>During volatile market conditions, accounts may need to be rebalanced and adjusted accordingly, and liquidation risks increase.</strong></li>
-<li>Shifts in funding rates can be sudden and volatile, leading to reduced yield and potential losses if rates change.</li>
 </ul>
 <p><strong>But with Boros, this trade becomes a stable, fixed-yield trade with zero directional exposure.</strong></p>
-<h2 class="anchor anchorWithStickyNavbar_LWe7" id="using-boros-for-funding-rate-arbitrage">Using Boros for Funding Rate Arbitrage<a href="#using-boros-for-funding-rate-arbitrage" class="hash-link" aria-label="Direct link to Using Boros for Funding Rate Arbitrage" title="Direct link to Using Boros for Funding Rate Arbitrage">​</a></h2>
-<p>By pairing YUs with this funding rate arbitrage, the risks above are reduced significantly.</p>
-<p>Instead, traders can compare the spread between the implied APRs of two perp markets and use it to earn fixed yield between perp platforms.</p>
-<figure><img src="/boros-academy/imgs/fixed-arb-illustration.png" alt=""><figcaption></figcaption></figure>
-<div class="hint_g1ws info_ye3t"><div class="content_JkbE"><p>Long Perp + Long YU = Pay Fixed Funding</p><p>Short Perp + Short YU = Receive Fixed Funding</p><p><strong>Difference between YU Implied APR = Your Fixed Funding</strong></p></div></div>
-<p><strong>Let’s map this out with an example.</strong></p>
-<p>Assume you are trying to arbitrage the spread between BTC rates on Hyperliquid and BTC rates on Binance.</p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="fixed-returns-via-boros-spread-markets">Fixed Returns via Boros Spread Markets<a href="#fixed-returns-via-boros-spread-markets" class="hash-link" aria-label="Direct link to Fixed Returns via Boros Spread Markets" title="Direct link to Fixed Returns via Boros Spread Markets">​</a></h2>
+<p>Boros <a href="/boros-academy/advanced-strategies/spread-markets-101">spread markets</a> isolate this funding rate gap, and make it easy for you to turn these floating spreads into fixed yield in just 2 steps.</p>
 <ol>
-<li>Short Hyperliquid BTC rates (on Boros)</li>
-<li>Short BTC on Hyperliquid</li>
-<li>Long Binance BTC rates (on Boros)</li>
-<li>Long BTC on Binance</li>
+<li><strong>Long the perp with lower funding, short the perp with higher funding</strong></li>
 </ol>
-<ul>
-<li>A + B = Receive fixed funding on BTC on Hyperliquid</li>
-<li>C + D = Pay fixed funding on BTC on Binance</li>
-<li>B + D = Delta-neutral on BTC</li>
-</ul>
-<p><strong>A + B + C + D = Receive the fixed funding between Hyperliquid and Binance with no exposure to BTC price movements or funding rate volatility.</strong></p>
-<h3 class="anchor anchorWithStickyNavbar_LWe7" id="simplify-with-a-spread-market">Simplify with a spread market<a href="#simplify-with-a-spread-market" class="hash-link" aria-label="Direct link to Simplify with a spread market" title="Direct link to Simplify with a spread market">​</a></h3>
-<p>If Boros lists a spread market for the two exchanges, steps 1 and 3 combine into a <strong>single position</strong>: short the spread market. You hold one Boros position with one margin requirement and one liquidation level, instead of two.</p>
-<ol>
-<li>Short the spread market (on Boros)</li>
-<li>Short BTC on exchange A</li>
-<li>Long BTC on exchange B</li>
+<p>This earns you the spread between the 2 funding rates. Higher leverage on the perps raises your return on capital, but also your liquidation risk. Note: the spread is floating and can move against you.</p>
+<figure><img src="/boros-academy/imgs/delta-neutral-funding-arb.png" alt="Delta-neutral funding arbitrage: short the perp on Exchange A to receive its floating funding rate, long the perp on Exchange B to pay its floating funding rate, and receive the floating spread between the two as yield"><figcaption></figcaption></figure>
+<ol start="2">
+<li><strong>Sell the floating spread on Boros for a fixed spread.</strong></li>
 </ol>
-<p>The result is the same fixed funding between the two exchanges, with no exposure to BTC price movements. See <a href="/boros-academy/advanced-strategies/spread-markets-101">Spread Markets 101</a> for the full walkthrough.</p>
+<p><strong>A fixed spread means fixed return.</strong> The only thing you have to manage now is your collateral on the perps and Boros.</p>
+<p>Simply short the spread market on Boros for the same notional as your perp positions.</p>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="what-the-numbers-look-like">What the numbers look like<a href="#what-the-numbers-look-like" class="hash-link" aria-label="Direct link to What the numbers look like" title="Direct link to What the numbers look like">​</a></h3>
+<p><strong>Assume that ETH funding is higher on Hyperliquid than on Gate, and the implied APR of the ETH HL-Gate spread market is 3.1%.</strong></p>
+<p>You short ETH on Hyperliquid and long ETH on Gate, setting up a floating spread.</p>
+<p>Then, you sell the ETH floating spread on Boros at 3.1%, and receive 3.1% APR until the spread market matures.</p>
+<figure><img src="/boros-academy/imgs/spread-arb-pay-receive-legs.png" alt="Pay and receive legs: a 1.1k ETH spread position on the ETH HL-Gate perps receives the funding spread, a 1.1k ETH short spread position on Boros pays that same funding spread, so the two cancel and you receive a fixed APR of 3.1% on the 1.1k ETH spread"><figcaption></figcaption></figure>
+<p>With our <a href="/boros-docs/arbitrage-with-crossex/overview">Arbitrage terminal</a>, capturing yield opportunities like this on Boros is simple and fuss-free. The terminal helps you manage perp positions in-app, and the only collateral requiring management is your margin on the Boros side.</p>
+<p>Longs capture the difference between the implied and underlying spread, creating a win-win flywheel for sellers who want fixed spreads. See <a href="/boros-academy/advanced-strategies/spread-markets-101#the-pve-nature-of-spread-markets">the PvE nature of spread markets</a> for how it works.</p>
+<figure><img src="/boros-academy/imgs/spread-markets-how-everyone-wins.png" alt="Spread Markets: How Everyone Wins. A four-step flywheel: arbitrageurs short the spread to lock in fixed yield, longs buy the compressed spread as it reverts, arbitrageurs re-short the wider spread at larger size, and longs buy the compressed spread again"><figcaption></figcaption></figure>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="the-benefits-of-this-strategy">The Benefits of this Strategy<a href="#the-benefits-of-this-strategy" class="hash-link" aria-label="Direct link to The Benefits of this Strategy" title="Direct link to The Benefits of this Strategy">​</a></h2>
 <p>Executing this arbitrage with Boros comes with significant benefits, such as:</p>
 <ul>
@@ -80,13 +70,13 @@
 <li><strong>Longer-duration arbitrage (more potential yield).</strong> With the removal of rate volatility, this arbitrage can be executed for longer time periods, allowing traders to capture a larger share of the available yield.</li>
 <li><strong>Negative funding ceases to be an issue.</strong> Previously, traders executing this arbitrage had to unwind positions when rates went negative.</li>
 <li><strong>Delta-neutral exposure while farming yield.</strong> Directional price risk is non-existent on this trade, due to being delta-neutral. Boros unlocks yield farming from discrepancies between perp funding rates.</li>
-<li><strong>One position with a spread market.</strong> Where a spread market exists, the two Boros legs become a single short spread position. One order means no risk of only one leg filling, and with one margin requirement a sharp move in a single exchange&#x27;s rate can&#x27;t liquidate one leg on its own.</li>
+<li><strong>One Boros position.</strong> The spread market covers both funding rates in a single short spread position. One order means no risk of only one leg filling, and with one margin requirement a sharp move in a single exchange&#x27;s rate can&#x27;t liquidate one leg on its own.</li>
 </ul>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="using-the-boros-strategy-dashboard">Using the Boros Strategy Dashboard<a href="#using-the-boros-strategy-dashboard" class="hash-link" aria-label="Direct link to Using the Boros Strategy Dashboard" title="Direct link to Using the Boros Strategy Dashboard">​</a></h2>
 <p>The Boros Strategy Dashboard makes spotting arbitrage opportunities and executing them quick and easy.</p>
 <p>The dashboard highlights currently available arbitrage opportunities, and the possible fixed yields with Boros.</p>
 <p><a href="https://boros.pendle.finance/strategy" target="_blank" rel="noopener noreferrer">Simply load up the dashboard</a>, select the arbitrage you would like to set up, and follow the steps to unlock fixed yield.</p>
 <p>Note: The possible yield from this arbitrage is determined by your leverage on the perp side of the trade. As such, adjust perp leverage in the strategy calculator according to your risk appetite.</p>
-<p><strong>For a detailed overview of this strategy, and the average returns from it on BTC and ETH, check out our <a href="https://x.com/boros_fi/status/2001831621817962761" target="_blank" rel="noopener noreferrer">in-depth report here</a>.</strong></p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/boros-academy/advanced-strategies/fixed-funding-rates-receivables"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Fixed Funding Rates Receivables</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/boros-academy/advanced-strategies/implied-apr-vs-futures-premium"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Implied APR vs Futures Premium</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#how-it-works" class="table-of-contents__link toc-highlight">How it works</a></li><li><a href="#traditional-naked-arbitrage-without-boros" class="table-of-contents__link toc-highlight">Traditional naked arbitrage (without Boros)</a></li><li><a href="#using-boros-for-funding-rate-arbitrage" class="table-of-contents__link toc-highlight">Using Boros for Funding Rate Arbitrage</a><ul><li><a href="#simplify-with-a-spread-market" class="table-of-contents__link toc-highlight">Simplify with a spread market</a></li></ul></li><li><a href="#the-benefits-of-this-strategy" class="table-of-contents__link toc-highlight">The Benefits of this Strategy</a></li><li><a href="#using-the-boros-strategy-dashboard" class="table-of-contents__link toc-highlight">Using the Boros Strategy Dashboard</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.gg/888FMyfsPC" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://www.pendle.finance/brand-guide" target="_blank">Brand Guide</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
+<p><strong>For a detailed overview of this strategy, and the average returns from it on BTC and ETH, check out our <a href="https://x.com/boros_fi/status/2001831621817962761" target="_blank" rel="noopener noreferrer">in-depth report here</a>.</strong></p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/boros-academy/advanced-strategies/fixed-funding-rates-receivables"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Fixed Funding Rates Receivables</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/boros-academy/advanced-strategies/implied-apr-vs-futures-premium"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Implied APR vs Futures Premium</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#how-it-works" class="table-of-contents__link toc-highlight">How it works</a></li><li><a href="#traditional-naked-arbitrage-without-boros" class="table-of-contents__link toc-highlight">Traditional naked arbitrage (without Boros)</a></li><li><a href="#fixed-returns-via-boros-spread-markets" class="table-of-contents__link toc-highlight">Fixed Returns via Boros Spread Markets</a><ul><li><a href="#what-the-numbers-look-like" class="table-of-contents__link toc-highlight">What the numbers look like</a></li></ul></li><li><a href="#the-benefits-of-this-strategy" class="table-of-contents__link toc-highlight">The Benefits of this Strategy</a></li><li><a href="#using-the-boros-strategy-dashboard" class="table-of-contents__link toc-highlight">Using the Boros Strategy Dashboard</a></li></ul></div></div></div></div></div></main></div></div></div><div class="background_hm_f"><div class="root_DvgA"><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Pages</div><a href="https://www.pendle.finance/" target="_blank">Website</a><a href="https://app.pendle.finance/market" target="_blank">App</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">Socials</div><a href="https://discord.gg/888FMyfsPC" target="_blank">Discord</a><a href="https://twitter.com/pendle_fi/" target="_blank">Twitter</a><a href="https://t.me/pendlefinance/" target="_blank">Telegram</a></div><div class="linkGroup_Ckfr"><div class="linkGroupTitle_rRS_">About Us</div><a href="https://medium.com/pendle/" target="_blank">Medium</a><a href="https://angel.co/company/pendle_finance/" target="_blank">Careers</a><a href="https://www.pendle.finance/brand-guide" target="_blank">Brand Guide</a><a href="https://github.com/pendle-finance/pendle-core-v2-public/tree/master/audits" target="_blank">Audits</a></div></div></div></div>
 </body>
 </html>

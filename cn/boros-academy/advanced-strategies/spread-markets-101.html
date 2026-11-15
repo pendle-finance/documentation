@@ -21,8 +21,8 @@
 <link rel="llms-txt" href="/llms.txt">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=block"><link rel="stylesheet" href="/cn/assets/css/styles.c8dc7fa1.css">
-<script src="/cn/assets/js/runtime~main.43ab29ce.js" defer="defer"></script>
-<script src="/cn/assets/js/main.06a9a0db.js" defer="defer"></script>
+<script src="/cn/assets/js/runtime~main.01876190.js" defer="defer"></script>
+<script src="/cn/assets/js/main.4f419086.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;"><defs>
@@ -40,7 +40,7 @@
 <p><em>注：隐含 APR 在价差市场上的运作方式，与在<a href="/cn/boros-academy/the-basics/chapter-2-implied-apr-and-underlying-apr">资金费率市场</a>上完全相同。</em></p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="short-spread-for-fixed-yield-arbitrage">做空价差，进行固定收益套利<a href="#short-spread-for-fixed-yield-arbitrage" class="hash-link" aria-label="做空价差，进行固定收益套  利 的直接链接" title="做空价差，进行固定收益套利 的直接链接">​</a></h2>
 <p>将 Boros 上的做空价差头寸与等额的永续合约头寸（做空永续合约 A、做多永续合约 B）配对，即可在该价差上实现固定收益套利。</p>
-<p><strong>这就是<a href="/cn/boros-academy/advanced-strategies/fixed-return-funding-arbitrage">固定收益资金费率套利</a>，只是把两条 Boros 腿合并成了一个头寸。</strong></p>
+<p><strong>这就是<a href="/cn/boros-academy/advanced-strategies/fixed-return-funding-arbitrage">固定收益资金费率套利</a>。具体的数字示例请参阅该页面。</strong></p>
 <p><strong>简单 3 步：</strong></p>
 <ol>
 <li>在 Boros 上做空价差市场。这会将隐含 APR 锁定为你的应收收益，同时由你支付浮动价差。</li>
@@ -53,7 +53,7 @@
 <p><strong>价差市场为多头提供了资金费率市场所没有的结构性优势。</strong></p>
 <p><strong>做空价差的一方基本不关心利率变动。</strong> 他们做空价差市场，是为了把永续合约价差转化为固定收益套利，因此<em>支付的价格大多是次要的。</em></p>
 <p>因此，隐含价差持续面临做空压力，多头可以通过站在订单簿的另一侧获益。</p>
-<p>持有至到期的多头，赚取的是隐含价差与底层价差之间的差  额。<strong>隐含价差被压得越低于底层价差，多头的潜在利润就越大。</strong> 差距越大，持有做多价差头寸所赚取的收益就越多。</p>
+<p>持有至到期的多头，赚取的是隐含价差与底层价差之间的差额。<strong>隐含价差被压得越低于底层价差，多头的潜在利润就越大。</strong> 差距越大，持有做多价差头寸所赚取的收益就越多。</p>
 <p>套利者做空价差，为其永续合约价差锁定固定收益。而做多价差，你就能收取隐含价差与底层价差之间的差额。</p>
 <p>想了解做多价差为何同时也是一种有历史数据支持的均值回归交易，请阅读<a href="https://x.com/gabavineb/status/2102389618394223006" target="_blank" rel="noopener noreferrer">这篇推文</a>。</p>
 <h2 class="anchor anchorWithStickyNavbar_LWe7" id="the-pve-nature-of-spread-markets">价差市场的 PvE 特性<a href="#the-pve-nature-of-spread-markets" class="hash-link" aria-label="价差市场的 PvE 特性 的直接链接" title="价差市场的 PvE 特性 的直接链接">​</a></h2>
