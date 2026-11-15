@@ -3,7 +3,6 @@ pagination_label: "固定收益资金费率套利"
 title: "固定收益资金费率套利"
 ---
 
-import Hint from '@site/src/components/Hint';
 
 # 固定收益资金费率套利
 
@@ -13,7 +12,7 @@ import Hint from '@site/src/components/Hint';
 
 ## 工作原理
 
-由于各平台在流动性、交易者结构、市场情绪以及风控模型上的差异，永续合约的资金费率往往并不同步。例如 Binance 每 8 小时结算一次，而 Hyperliquid 按小时结算。这些结构性差异，为资金费率价差的套利创造了持续存在的机会。
+由于各平台在流动性、交易者结构、市场情绪以及风控模型上的差异，永续合约的资金费率往往并不同步。这些结构性差异，为资金费率价差的套利创造了持续存在的机会。
 
 ## 传统裸套利（不使用 Boros）
 
@@ -21,64 +20,44 @@ import Hint from '@site/src/components/Hint';
 
 **但实际操作中，运营负担相当沉重。**
 
-**示例：**
-
-<Hint style="info">
-交易所 A 的 BTC 资金费率 → +5% APR（多头）
-
-交易所 B 的 BTC 资金费率 → +25% APR（空头）
-
-做空交易所 B、做多交易所 A：25% - 5% = 收取 20% APR
-</Hint>
-
 **这一交易隐藏着诸多复杂性：**
 
-* 交易者需要在多个交易所同时维持保证金，并持续监控利率价差，判断何时平仓才能盈利。
+* 资金费率价差是浮动的，一旦资金费率反转，你可能由盈转亏。
 * **市场剧烈波动时，账户可能需要再平衡与调整，清算风险也随之上升。**
-* 资金费率可能突然剧烈变化，导致预期收益缩水，甚至产生亏损。
 
 **但有了 Boros，这笔交易就变成了零方向敞口的稳定固定收益交易。**
 
-## 使用 Boros 进行资金费率套利
+## 通过 Boros 价差市场获取固定收益 {#fixed-returns-via-boros-spread-markets}
 
-通过将 YU 与资金费率套利结合，上述风险大幅降低。
+Boros 的[价差市场](spread-markets-101)将这一资金费率差值单独剥离出来，只需 2 步，即可轻松将浮动价差转化为固定收益。
 
-交易者可以比较两个永续合约市场之间的隐含 APR 价差，并据此在永续合约平台之间锁定固定收益。
+1. **做多资金费率较低的永续合约，做空资金费率较高的永续合约**
 
-<figure><img src="/boros-academy/imgs/fixed-arb-illustration.png" alt="" /><figcaption></figcaption></figure>
+这样你就能赚取两个资金费率之间的价差。永续合约杠杆越高，资本回报率越高，但清算风险也随之上升。注意：价差是浮动的，可能朝不利于你的方向变动。
 
-<Hint style="info">
-做多永续 + 做多 YU = 支付固定资金费率
+<figure><img src="/boros-academy/imgs/delta-neutral-funding-arb.png" alt="Delta 中性资金费率套利：在交易所 A 做空永续合约以收取其浮动资金费率，在交易所 B 做多永续合约以支付其浮动资金费率，并以收益形式收取二者之间的浮动价差" /><figcaption></figcaption></figure>
 
-做空永续 + 做空 YU = 收取固定资金费率
+2. **在 Boros 上卖出浮动价差，换取固定价差。**
 
-**两边 YU 隐含 APR 之差 = 你锁定的固定资金费率**
-</Hint>
+**固定价差意味着固定收益。** 现在你唯一需要管理的，就是你在永续合约和 Boros 上的保证金。
 
-**下面用一个例子来梳理。**
+只需在 Boros 上以与永续合约头寸相同的名义本金做空价差市场即可。
 
-假设你想套利 Hyperliquid 与 Binance 之间 BTC 资金费率的价差。
+### 具体数字 {#what-the-numbers-look-like}
 
-1. 在 Boros 上做空 Hyperliquid BTC 利率
-2. 在 Hyperliquid 上做空 BTC
-3. 在 Boros 上做多 Binance BTC 利率
-4. 在 Binance 上做多 BTC
+**假设 Hyperliquid 上的 ETH 资金费率高于 Gate，且 ETH HL-Gate 价差市场的隐含 APR 为 3.1%。**
 
-- A + B = 收取 Hyperliquid 上 BTC 的固定资金费率
-- C + D = 支付 Binance 上 BTC 的固定资金费率
-- B + D = 对 BTC 实现 Delta 中性
+你在 Hyperliquid 上做空 ETH，同时在 Gate 上做多 ETH，建立一个浮动价差头寸。
 
-**A + B + C + D = 收取 Hyperliquid 与 Binance 之间的固定资金费率价差，且不承担 BTC 价格变动或资金费率波动的风险。**
+然后，你在 Boros 上以 3.1% 卖出 ETH 浮动价差，此后直至价差市场到期，你都将收取 3.1% 的 APR。
 
-### 用价差市场简化 {#simplify-with-a-spread-market}
+<figure><img src="/boros-academy/imgs/spread-arb-pay-receive-legs.png" alt="支付腿与收取腿：ETH HL-Gate 永续合约上 1.1k ETH 的价差头寸收取资金费率价差，Boros 上 1.1k ETH 的做空价差头寸支付同一资金费率价差，二者相互抵消，你最终收取 1.1k ETH 价差 3.1% 的固定 APR" /><figcaption></figcaption></figure>
 
-如果 Boros 为这两家交易所上线了价差市场，步骤 1 与 3 可以合并为**单一头寸**：做空价差市场。你在 Boros 上只持有一个头寸，只有一个保证金要求和一个清算水平，而不是两个。
+借助我们的[套利终端](/boros-docs/arbitrage-with-crossex/overview)，在 Boros 上捕捉此类收益机会简单又省心。终端可在应用内帮你管理永续合约头寸，你唯一需要管理的保证金只有 Boros 一侧。
 
-1. 做空价差市场（在 Boros 上）
-2. 在交易所 A 做空 BTC
-3. 在交易所 B 做多 BTC
+多头赚取隐含价差与底层价差之间的差额，从而为希望锁定固定价差的卖方形成双赢的飞轮。其运作方式请参阅[价差市场的 PvE 特性](spread-markets-101#the-pve-nature-of-spread-markets)。
 
-结果同样是两家交易所之间的固定资金费率，且不承担 BTC 价格变动的风险。完整讲解请参阅[价差市场入门](spread-markets-101)。
+<figure><img src="/boros-academy/imgs/spread-markets-how-everyone-wins.png" alt="价差市场：多空共赢。四步飞轮：套利者做空价差以锁定固定收益；多头在价差回归时买入被压缩的价差；套利者以更大规模再次做空扩大后的价差；多头再次买入被压缩的价差" /><figcaption></figcaption></figure>
 
 ## 该策略的优势
 
@@ -89,7 +68,7 @@ import Hint from '@site/src/components/Hint';
 * **可执行更长周期的套利（潜在收益更高）。** 由于消除了利率波动风险，这一套利可以在更长时间区间执行，让交易者捕捉更多可获得的收益。
 * **负资金费率不再是问题。** 过去执行这一套利时，资金费率转负后必须及时平仓；如今则无需如此。
 * **Delta 中性敞口下持续赚取收益。** 该策略不存在方向性价格风险（已实现 Delta 中性），Boros 释放了在永续合约资金费率差异中获取收益的可能性。
-* **使用价差市场时只需一个头寸。** 若存在价差市场，两条 Boros 腿将合并为一个做空价差头寸。只需一笔订单，因此不会出现只有一条腿成交的风险；且只有一个保证金要求，单一交易所利率的剧烈变动不会单独清算某一条腿。
+* **在 Boros 上只需一个头寸。** 价差市场以单一做空价差头寸同时覆盖两个资金费率。只需一笔订单，因此不会出现只有一条腿成交的风险；且只有一个保证金要求，单一交易所利率的剧烈变动不会单独清算某一条腿。
 
 ## 使用 Boros 策略仪表板
 
