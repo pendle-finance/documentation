@@ -1340,7 +1340,7 @@ Also, the API response includes a `requiredApprovals` field listing tokens that 
 
 #### **Q: How do I reduce Computing Unit costs when using aggregators?**
 
-A: Obtain API keys from aggregator partners (KyberSwap, OKX) and pass them in request headers. This reduces that aggregator's CU cost to 0. See [Reducing Aggregator Costs](./HostedSdk.mdx#reduce-aggregator-computing-units).
+A: Obtain API keys from aggregator partners (KyberSwap, OKX, 0x) and pass them in request headers. This reduces that aggregator's CU cost to 0. See [Reducing Aggregator Costs](./HostedSdk.mdx#reduce-aggregator-computing-units).
 
 #### **Q: What happens if I don't specify which aggregators to use?**
 
@@ -1862,6 +1862,7 @@ Currently, you can use an aggregator with your own API key by specifying the cor
 | ----------- | -------------------- | ------------------------------------ |
 | `kyberswap` | `KYBERSWAP-API-KEY`  | |
 | `okx`       | `OKX-ACCESS-KEY`, `OKX-ACCESS-SECRET`, `OKX-PASSPHRASE` | Need all three to return a valid response |
+| `0x`        | `0x-api-key` | |
 
 When using custom aggregator keys, make sure to include the required headers in your request. If the headers are not provided, the system will use the public API key for that aggregator.
 
