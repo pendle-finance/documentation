@@ -61,7 +61,7 @@ When `tokenIn` is any ERC20 token that needs to be swapped to a supported SY tok
 
 **SDK Integration:**
 The [Pendle Hosted SDK](../../../Backend/HostedSdk#features) automatically handles all TokenInput configuration when you enable routing. When you set `enableAggregator: true` in SDK calls, it:
-- Automatically selects the best swap aggregator (KyberSwap, OKX, ParaSwap, etc.)
+- Automatically selects the best swap aggregator (KyberSwap, OKX, etc.)
 - Generates optimal `swapData` for the chosen route
 - Handles all token conversions transparently
 - Provides the best possible price execution across multiple DEXes
@@ -229,7 +229,7 @@ struct SwapData {
 | needScale | `bool` | Whether the swap amount needs scaling |
 
 **Use Case**
-Enables integration with external swap aggregators like KyberSwap, 1inch, Paraswap, etc. This allows Pendle to support zapping in/out with any ERC20 token by routing through external DEXes.
+Enables integration with external swap aggregators like KyberSwap, OKX, 1inch, etc. This allows Pendle to support zapping in/out with any ERC20 token by routing through external DEXes.
 
 ### SwapType
 
@@ -257,7 +257,7 @@ enum SwapType {
 | `ETH_WETH` | ETH/WETH conversion |
 | `OKX` | OKX DEX aggregation |
 | `ONE_INCH` | 1inch aggregation |
-| `PARASWAP` | Paraswap aggregation |
+| `PARASWAP` | Paraswap aggregation (defined in the contract, but no longer used by the Pendle Hosted SDK) |
 
 **Use Case**
 Specifies which external aggregator to use for token swaps, enabling Pendle to leverage the best available liquidity across different DEXes. The [Pendle Hosted SDK](../../../Backend/HostedSdk#features) automatically selects the optimal SwapType based on available liquidity and routing efficiency.
