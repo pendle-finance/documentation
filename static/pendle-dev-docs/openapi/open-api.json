@@ -7365,7 +7365,7 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the aggregator, e.g., kyberswap, okx",
+            "description": "Name of the aggregator, e.g., kyberswap, okx, 0x",
             "example": "kyberswap"
           },
           "computingUnit": {
