@@ -242,8 +242,7 @@ enum SwapType {
     ODOS,
     ETH_WETH,
     OKX,
-    ONE_INCH,
-    PARASWAP
+    ONE_INCH
 }
 ```
 
@@ -257,7 +256,6 @@ enum SwapType {
 | `ETH_WETH` | ETH/WETH conversion |
 | `OKX` | OKX DEX aggregation |
 | `ONE_INCH` | 1inch aggregation |
-| `PARASWAP` | Paraswap aggregation (defined in the contract, but no longer used by the Pendle Hosted SDK) |
 
 **Use Case**
 Specifies which external aggregator to use for token swaps, enabling Pendle to leverage the best available liquidity across different DEXes. The [Pendle Hosted SDK](../../../Backend/HostedSdk#features) automatically selects the optimal SwapType based on available liquidity and routing efficiency.
