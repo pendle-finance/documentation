@@ -657,6 +657,57 @@ Rather than having separate pools for YT and PT, concentrating all tokens in a P
 ---
 
 
+# Limit Orders
+
+Users can trade PT and YT peer to peer with limit orders, next to the AMM. A maker signs an order to buy or sell at a set implied APY. A taker fills the order through the Limit Order contract, which settles the trade between the two users. You can place limit orders on PT and YT of supported assets on any chain, and most popular markets support them.
+
+For the role of each party, see [Who Does What](/pendle-v2-dev/LimitOrder/WhoDoesWhat).
+
+![Order Book](/pendle-docs/imgs/AppGuide/order_book.png "Order Book")
+
+## When an Order Gets Filled
+
+An order is filled only when a taker chooses to fill it. Takers usually fill an order when its implied APY is better than the AMM rate. When a swap goes through the Pendle Router, the Router fills the orders that the caller passes, then trades the rest on the AMM. So an order adds liquidity at its implied APY: a swap in that direction can fill the order before it moves the AMM rate further.
+
+A quote from the Pendle Hosted SDK can split a swap between the AMM and limit orders to reduce price impact. The user reviews the quote and signs the transaction. Other routers and takers can compute their own split. The quote also counts the gas cost of each fill, so small orders are less likely to be included, mainly on chains with high gas fees.
+
+[Flash swap](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/LiquidityEngines/AMM#flash-swaps) between PT and YT lets a taker who buys YT fill a maker's order to buy PT, and a taker who sells YT fill a maker's order to sell PT. This gives takers more orders that they can fill.
+
+## Order Validity
+
+Orders can be:
+
+- Active (Partially or fully fillable)
+- Executed (Order is fully filled)
+- Expired (Order is not fully filled by its expiry date)
+- Cancelled
+- Invalid
+
+Only the underlying yield-bearing asset can be used to place a limit order.
+
+Partially Fillable order will be highlighted in a yellow warning. Orders will only be partially fillable when: 
+1. The balance of asset in your wallet falls below the order amount but not 0
+2. The allowance set from your address is less than the order amount but not 0
+
+Invalid orders will be highlighted in a red warning. Limit orders will be invalid when:
+1. The balance of asset in your wallet falls to 0
+2. The allowance set from your address is 0
+
+Setting a limit order requires signature from your address while revoking the order involves a transaction to revoke the signature.
+
+## Fees
+
+Fees for swaps on limit order will be the same as if they were done on the AMM. The **taker** of the order pays both the gas fee and the swap fee. The **maker** of the order does not incur these costs (maker order fee is currently set to 0). The Limit Order contract charges the fee rate that the contract owner sets for each market (see [Owner Parameters](/pendle-v2-dev/LimitOrder/LimitOrderContract#owner-parameters)).
+
+Fees collected are distributed in accordance with the protocol's [fee structure](../Mechanisms/Fees).
+
+## Arbitrage 
+
+Arbitrageurs keep AMM rates and limit-order rates in line. They fill orders with the public `fill` function and can trade on the AMM in the same transaction through its callback. Anyone can run an arbitrage bot. An entity in the Pendle Group also runs one, as the [Terms of Use](/pendle-v2/TermsOfUse) disclose. It reads the same order data as every other user.
+
+---
+
+
 # Fees
 
 Pendle protocol has 2 revenue sources:
@@ -1967,13 +2018,11 @@ By calling **`getLpToAssetRate`**, we receive `2049787610667181659`, which is 2.
 
 # Limit Orders
 
-A Pendle V2 limit order is a message that a maker signs. It sets a token, an amount, an implied APY and an expiry. Signing costs no gas. Any taker can fill a signed order by calling the Limit Order contract. The contract checks the signature and settles the trade between the maker and the taker in one transaction.
-
-For the role of each party, see [Who Does What](./WhoDoesWhat.md).
+Limit orders let users trade PT and YT with each other at a set implied APY. A maker signs an order, a taker fills it, and the Limit Order contract settles the trade on-chain. For the role of each party, see [Who Does What](./WhoDoesWhat.md).
 
 ## How It Works
 
-1. **Makers** create limit orders by either (a) signing off-chain with no gas — the recommended path for EOAs — or (b) pre-signing on-chain via `preSignSingle` / `preSignBatch`, which publishes the full order on-chain in an `OrderPreSigned` event. Orders specify a desired implied APY rate. Makers publish signed orders through the Pendle API, on-chain, or both.
+1. **Makers** create an order that sets a token, an amount, an implied APY and an expiry. They either (a) sign it off-chain at no gas cost and publish it through the Pendle API — the recommended path for EOAs — or (b) pre-sign it on-chain via `preSignSingle` / `preSignBatch`, which publishes the full order in an `OrderPreSigned` event.
 2. **Takers** choose the orders to fill, for example from the Pendle API, and fill them on-chain by calling the Limit Order contract. Pre-signed orders (and orders already partially filled) can be filled with an empty signature; ERC-1271 contract signatures are also supported.
 3. The **Limit Order contract** settles each fill atomically. It moves tokens between the maker and the taker at the rate that the maker signed.
 
@@ -1991,11 +2040,11 @@ The [Pendle Hosted SDK](../Backend/HostedSdk.mdx) can include open limit orders 
 ## Sections
 
 - [**Who Does What**](./WhoDoesWhat.md) — The role of makers, takers, the contract, the contract owner and the Pendle API
-- [**Without the Pendle API**](./WithoutTheApi.md) — Cancel, fill and post orders with the contract alone
-- [**Limit Order Contract**](./LimitOrderContract.md) — Smart contract reference: order struct, method definitions, and callback mechanism
+- [**Limit Order Contract**](./LimitOrderContract.md) — Smart contract reference: order struct, method definitions, callback mechanism, and owner parameters
 - [**Create a Limit Order**](./CreateALimitOrder.md) — Guide for makers: generate, sign, and submit orders
 - [**Cancel Limit Orders**](./CancelOrders.mdx) — Guide for makers: cancel specific orders or invalidate all via nonce
 - [**Fill a Limit Order**](./FillALimitOrder.md) — Guide for takers: query and fill orders on-chain
+- [**Without the Pendle API**](./WithoutTheApi.md) — Cancel, fill and post orders with the contract alone
 
 ## API Reference
 
@@ -2031,62 +2080,19 @@ Certain markets offer token rewards to makers who provide liquidity through limi
 
 # Who Does What
 
-A Pendle V2 limit order is a trade between two users: a maker and a taker. The Limit Order contract settles the trade on-chain. The Pendle API and the Pendle app are optional tools around it.
-
-## The three parts
-
-| Part | What it is | Who uses it |
-|------|------------|-------------|
-| Settlement | The Limit Order contract. It checks the maker's signature and moves tokens between the maker and the taker in one transaction. | The taker calls it. Any address can call `fill`. |
-| Signed orders | Orders that makers sign. A signed order is valid wherever it is stored. | Makers publish them through the Pendle API, on-chain with `preSignSingle`, or both. A pre-signed order is public on-chain: the contract emits the full order in an `OrderPreSigned` event. |
-| Quotes | The Pendle app and the Hosted SDK can suggest which orders to fill and how much to trade on the AMM. | The user reviews the quote and signs the transaction. Other tools can make their own quotes. |
-
-## Roles
+A Pendle V2 limit order is a trade between two users: a maker and a taker. The Limit Order contract settles the trade on-chain. The Pendle API, the Pendle app and the Hosted SDK are optional tools around the contract.
 
 | Role | What it does |
 |------|--------------|
-| Maker | Signs an order that sets a token, an amount, an implied APY and an expiry. Keeps the tokens in their own wallet until a taker fills the order. Can cancel the order on-chain at any time with `cancelSingle`, `cancelBatch` or `increaseNonces`. |
+| Maker | Signs an order that sets a token, an amount, an implied APY and an expiry. Publishes it through the Pendle API, on-chain with `preSignSingle`, or both. A pre-signed order is public on-chain. Keeps the tokens in their own wallet until a taker fills the order, and can cancel the order on-chain at any time. |
 | Taker | Chooses which signed orders to fill. Calls `fill` on the Limit Order contract directly, or through the Pendle Router in a swap. Pays the fee and the gas. |
-| Limit Order contract | Checks the signature, expiry, nonce and remaining amount of each order. Moves tokens between the maker and the taker in the same transaction, at the rate the maker signed. Sends the fee to the fee recipient. |
-| Contract owner | Sets the fee rate for each market and the fee recipient. Can cancel any open order with `forceCancel`, only in an emergency, and can upgrade the contract. Sets a fee rate only for markets that passed security review and audits. See [Owner Parameters](./LimitOrderContract.md#owner-parameters). Cannot sign orders or fill orders for users. |
+| Limit Order contract | Checks the signature, expiry, nonce and remaining amount of each order. Moves tokens between the maker and the taker in the same transaction, at the rate the maker signed. Sends the fee to the fee recipient. Any address can call `fill`. |
+| Contract owner | Holds owner powers over fee rates, emergency cancellation and upgrades. Cannot sign orders or fill orders for users. See [Owner Parameters](./LimitOrderContract.md#owner-parameters). |
 | Pendle API | An optional service operated by an entity in the Pendle Group. It accepts every signed order that the contract can fill, treats all makers the same, and serves active orders on [public endpoints](https://api-v2.pendle.finance/limit-order/docs#/Taker) and the [Socket.IO feed](../Backend/SocketIO.mdx#order-book). It does not sign or send transactions for users. |
-| Pendle app and Hosted SDK | Optional tools that build a quote: which orders to fill and how much to trade on the AMM. The user sees the result and signs. The tools do not hold user funds. |
-| Arbitrageurs | Any address can fill orders and trade on the AMM in the same transaction through the [callback](./LimitOrderContract.md#callback-mechanism). An entity in the Pendle Group runs one arbitrage bot, as the [Terms of Use](/pendle-v2/TermsOfUse) disclose. It reads the same order data as every other user. |
+| Pendle app and Hosted SDK | Optional tools that build a quote: which orders to fill and how much to trade on the AMM. The user sees the quote and signs. Other tools can build their own quotes. The tools do not hold user funds. |
+| Arbitrageurs | Any address can fill orders and trade on the AMM in the same transaction. An entity in the Pendle Group runs one arbitrage bot with the same order data as every other user. See [Limit Orders › Arbitrage](/pendle-v2/ProtocolMechanics/LiquidityEngines/OrderBook). |
 
-## What needs the Pendle API
-
-Nothing in settlement needs the Pendle API. With the contract alone, makers can post and cancel orders, takers can find every pre-signed order from chain events, and takers can fill any signed order they hold. See [Without the Pendle API](./WithoutTheApi.md).
-
----
-
-
-# Without the Pendle API
-
-The Pendle API is a convenience. These actions use only the Limit Order contract, so they work when the API is offline or when you choose not to use it.
-
-## Cancel your orders
-
-- **Cancel one order:** call `cancelSingle(order)` with the order data. Keep a copy of every order you sign, so that you can cancel it without the API.
-- **Cancel many orders:** call `cancelBatch(orders)`.
-- **Cancel all your orders:** call `increaseNonces()`. Every order with a nonce lower than your new nonce becomes invalid. You do not need the order data.
-
-See [Cancel Limit Orders](./CancelOrders.mdx).
-
-## Fill an order
-
-Any taker who has a valid signed order can call `fill` on the Limit Order contract. Pass the order, its signature and the amount to fill. The contract checks the order and settles the trade.
-
-See [Fill a Limit Order](./FillALimitOrder.md).
-
-## Post an order on-chain
-
-A maker can register an order on-chain with `preSignSingle(order)`, or `preSignBatch(orders)` for many orders. The contract emits an `OrderPreSigned` event with the full order, so a taker can find pre-signed orders from chain data alone. The taker can then fill the order with an empty signature (`0x`).
-
-See [Create an Order On-Chain](./CreateALimitOrder.md#alternative-create-an-order-on-chain).
-
-## Build the order data yourself
-
-The order struct and its fields are public. You can build and sign an order without the generate-order API. See [Order Struct Definition](./LimitOrderContract.md#order-struct-definition).
+Nothing in settlement needs the Pendle API. See [Without the Pendle API](./WithoutTheApi.md).
 
 ---
 
@@ -2319,30 +2325,12 @@ You can find a complete example of how to increase the nonce in our [API demo re
 The Limit Order contract is where limit orders are settled, allowing orders to be generated off-chain and settled on-chain.
 
 The Limit Order contract provides methods to support:
-1. Makers canceling their orders.
+1. Makers posting orders on-chain (pre-signing) and canceling their orders.
 2. Takers filling orders.
 3. A callback function to support arbitrageurs arbitraging limit orders.
+4. Owner parameters for fees and emergencies (see [Owner Parameters](#owner-parameters)).
 
 You can find the contract's implementation [here](https://github.com/pendle-finance/pendle-core-v2/tree/main/contracts/limit).
-
-## Owner Parameters
-
-The Limit Order contract has an owner role. The owner can:
-
-- set the fee rate for each market (YT),
-- set the address that receives fees,
-- set the mint-SY signer addresses,
-- cancel any open order with `forceCancel`, which emits `OrderForceCanceled`, and
-- upgrade the contract.
-
-A market accepts fills only after its fee rate is set. Until then, `fill` reverts with `LOP: fee not set`.
-
-The owner role cannot sign orders or fill orders for users. Makers and takers sign their own orders and transactions.
-
-### When the owner uses these powers
-
-- **Market fee rate.** The owner sets a fee rate only for a market that has passed Pendle's security review and audits. This keeps markets that are not safe out of the Limit Order contract. Any user can then post and fill orders on that market.
-- **`forceCancel`.** The owner uses it only in an emergency: when an underlying asset is compromised, or when a fill would harm users. The owner never uses it for sanctions. Each use emits `OrderForceCanceled`, so every use is public on-chain.
 
 ## Order Struct Definition
 
@@ -2558,6 +2546,57 @@ The callback mechanism enables complex interactions and arbitrage opportunities.
 ![Limit Order Callback Flow](/pendle-dev-docs/imgs/Developers/limit_order_callback_flow.png "Limit Order Callback Flow")
 
 This flow allows for flexible and creative use of the `fill` function, providing opportunities for arbitrage and custom contract logic. Arbitrageurs can take advantage of this mechanism to execute strategies that generate profit by finding discrepancies in token values or other market inefficiencies.
+
+## Owner Parameters
+
+The Limit Order contract has an owner role. The owner can:
+
+- set the fee rate for each market (YT),
+- set the address that receives fees,
+- set the mint-SY signer addresses,
+- cancel any open order with `forceCancel`, which emits `OrderForceCanceled`, and
+- upgrade the contract.
+
+A market accepts fills only after its fee rate is set. Until then, `fill` reverts with `LOP: fee not set`.
+
+The owner role cannot sign orders or fill orders for users. Makers and takers sign their own orders and transactions.
+
+### When the owner uses these powers
+
+- **Market fee rate.** The owner sets a fee rate only for a market that has passed Pendle's security review and audits. This keeps markets that are not safe out of the Limit Order contract. Any user can then post and fill orders on that market.
+- **`forceCancel`.** The owner uses it only in an emergency: when an underlying asset is compromised, or when a fill would harm users. The owner never uses it for sanctions. Each use emits `OrderForceCanceled`, so every use is public on-chain.
+
+---
+
+
+# Without the Pendle API
+
+The Pendle API is a convenience. These actions use only the Limit Order contract, so they work when the API is offline or when you choose not to use it.
+
+## Cancel your orders
+
+- **Cancel one order:** call `cancelSingle(order)` with the order data. Keep a copy of every order you sign, so that you can cancel it without the API.
+- **Cancel many orders:** call `cancelBatch(orders)`.
+- **Cancel all your orders:** call `increaseNonces()`. Every order with a nonce lower than your new nonce becomes invalid. You do not need the order data.
+
+See [Cancel Limit Orders](./CancelOrders.mdx).
+
+## Fill an order
+
+Any taker who has a valid signed order can call `fill` on the Limit Order contract. Pass the order, its signature and the amount to fill. The contract checks the order and settles the trade.
+
+See [Fill a Limit Order](./FillALimitOrder.md).
+
+## Post an order on-chain
+
+A maker can register an order on-chain with `preSignSingle(order)`, or `preSignBatch(orders)` for many orders. The contract emits an `OrderPreSigned` event with the full order, so a taker can find pre-signed orders from chain data alone. The taker can then fill the order with an empty signature (`0x`).
+
+See [Create an Order On-Chain](./CreateALimitOrder.md#alternative-create-an-order-on-chain).
+
+## Build the order data yourself
+
+The order struct and its fields are public. You can build and sign an order without the generate-order API. See [Order Struct Definition](./LimitOrderContract.md#order-struct-definition).
+
 ---
 
 

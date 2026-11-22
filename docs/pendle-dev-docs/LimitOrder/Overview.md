@@ -4,13 +4,11 @@ hide_table_of_contents: true
 
 # Limit Orders
 
-A Pendle V2 limit order is a message that a maker signs. It sets a token, an amount, an implied APY and an expiry. Signing costs no gas. Any taker can fill a signed order by calling the Limit Order contract. The contract checks the signature and settles the trade between the maker and the taker in one transaction.
-
-For the role of each party, see [Who Does What](./WhoDoesWhat.md).
+Limit orders let users trade PT and YT with each other at a set implied APY. A maker signs an order, a taker fills it, and the Limit Order contract settles the trade on-chain. For the role of each party, see [Who Does What](./WhoDoesWhat.md).
 
 ## How It Works
 
-1. **Makers** create limit orders by either (a) signing off-chain with no gas — the recommended path for EOAs — or (b) pre-signing on-chain via `preSignSingle` / `preSignBatch`, which publishes the full order on-chain in an `OrderPreSigned` event. Orders specify a desired implied APY rate. Makers publish signed orders through the Pendle API, on-chain, or both.
+1. **Makers** create an order that sets a token, an amount, an implied APY and an expiry. They either (a) sign it off-chain at no gas cost and publish it through the Pendle API — the recommended path for EOAs — or (b) pre-sign it on-chain via `preSignSingle` / `preSignBatch`, which publishes the full order in an `OrderPreSigned` event.
 2. **Takers** choose the orders to fill, for example from the Pendle API, and fill them on-chain by calling the Limit Order contract. Pre-signed orders (and orders already partially filled) can be filled with an empty signature; ERC-1271 contract signatures are also supported.
 3. The **Limit Order contract** settles each fill atomically. It moves tokens between the maker and the taker at the rate that the maker signed.
 
@@ -28,11 +26,11 @@ The [Pendle Hosted SDK](../Backend/HostedSdk.mdx) can include open limit orders 
 ## Sections
 
 - [**Who Does What**](./WhoDoesWhat.md) — The role of makers, takers, the contract, the contract owner and the Pendle API
-- [**Without the Pendle API**](./WithoutTheApi.md) — Cancel, fill and post orders with the contract alone
-- [**Limit Order Contract**](./LimitOrderContract.md) — Smart contract reference: order struct, method definitions, and callback mechanism
+- [**Limit Order Contract**](./LimitOrderContract.md) — Smart contract reference: order struct, method definitions, callback mechanism, and owner parameters
 - [**Create a Limit Order**](./CreateALimitOrder.md) — Guide for makers: generate, sign, and submit orders
 - [**Cancel Limit Orders**](./CancelOrders.mdx) — Guide for makers: cancel specific orders or invalidate all via nonce
 - [**Fill a Limit Order**](./FillALimitOrder.md) — Guide for takers: query and fill orders on-chain
+- [**Without the Pendle API**](./WithoutTheApi.md) — Cancel, fill and post orders with the contract alone
 
 ## API Reference
 

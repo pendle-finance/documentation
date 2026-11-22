@@ -4,34 +4,29 @@ hide_table_of_contents: true
 
 # Limit Orders
 
-Users can trade PT and YT peer to peer with limit orders, next to the AMM. A maker signs an order to buy or sell at a set implied APY. A taker fills the order through the Limit Order contract, which settles the trade between the two users.
+Users can trade PT and YT peer to peer with limit orders, next to the AMM. A maker signs an order to buy or sell at a set implied APY. A taker fills the order through the Limit Order contract, which settles the trade between the two users. You can place limit orders on PT and YT of supported assets on any chain, and most popular markets support them.
 
-Limit orders and the AMM together add liquidity to each market. The Pendle Hosted SDK can suggest a split of a swap between the AMM and open limit orders. The suggestion is a quote: the user reviews it and signs the transaction. Other routers and takers can compute their own split. For the role of each party, see [Who Does What](/pendle-v2-dev/LimitOrder/WhoDoesWhat).
+For the role of each party, see [Who Does What](/pendle-v2-dev/LimitOrder/WhoDoesWhat).
 
 ![Order Book](/pendle-docs/imgs/AppGuide/order_book.png "Order Book")
-
-## What is Limit Order
-
-Limit order on Pendle is a purchase / sell order at a specified implied APY. You can set limit orders on PT and YT of supported assets on any chain. 
-
-Most popular market on Pendle has limit order support. 
 
 ## When an Order Gets Filled
 
 An order is filled only when a taker chooses to fill it. Takers usually fill an order when its implied APY is better than the AMM rate. When a swap goes through the Pendle Router, the Router fills the orders that the caller passes, then trades the rest on the AMM. So an order adds liquidity at its implied APY: a swap in that direction can fill the order before it moves the AMM rate further.
 
-A quote from the Pendle Hosted SDK can split a swap between the AMM and limit orders to reduce price impact. The quote also counts the gas cost of each fill. So small orders are less likely to be included in a quote, mainly on chains with high gas fees.
+A quote from the Pendle Hosted SDK can split a swap between the AMM and limit orders to reduce price impact. The user reviews the quote and signs the transaction. Other routers and takers can compute their own split. The quote also counts the gas cost of each fill, so small orders are less likely to be included, mainly on chains with high gas fees.
+
+[Flash swap](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/LiquidityEngines/AMM#flash-swaps) between PT and YT lets a taker who buys YT fill a maker's order to buy PT, and a taker who sells YT fill a maker's order to sell PT. This gives takers more orders that they can fill.
+
+## Order Validity
 
 Orders can be:
+
 - Active (Partially or fully fillable)
 - Executed (Order is fully filled)
 - Expired (Order is not fully filled by its expiry date)
-- Cancelled 
+- Cancelled
 - Invalid
-
-[Flash swap](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/LiquidityEngines/AMM#flash-swaps) capability between PT and YT enhances the Order Book's flexibility by lets a taker who buys YT fill a maker's order to buy PT, and a taker who sells YT fill a maker's order to sell PT. This gives takers more orders that they can fill.
-
-## Order Validity
 
 Only the underlying yield-bearing asset can be used to place a limit order.
 

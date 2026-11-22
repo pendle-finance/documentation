@@ -3,30 +3,12 @@
 The Limit Order contract is where limit orders are settled, allowing orders to be generated off-chain and settled on-chain.
 
 The Limit Order contract provides methods to support:
-1. Makers canceling their orders.
+1. Makers posting orders on-chain (pre-signing) and canceling their orders.
 2. Takers filling orders.
 3. A callback function to support arbitrageurs arbitraging limit orders.
+4. Owner parameters for fees and emergencies (see [Owner Parameters](#owner-parameters)).
 
 You can find the contract's implementation [here](https://github.com/pendle-finance/pendle-core-v2/tree/main/contracts/limit).
-
-## Owner Parameters
-
-The Limit Order contract has an owner role. The owner can:
-
-- set the fee rate for each market (YT),
-- set the address that receives fees,
-- set the mint-SY signer addresses,
-- cancel any open order with `forceCancel`, which emits `OrderForceCanceled`, and
-- upgrade the contract.
-
-A market accepts fills only after its fee rate is set. Until then, `fill` reverts with `LOP: fee not set`.
-
-The owner role cannot sign orders or fill orders for users. Makers and takers sign their own orders and transactions.
-
-### When the owner uses these powers
-
-- **Market fee rate.** The owner sets a fee rate only for a market that has passed Pendle's security review and audits. This keeps markets that are not safe out of the Limit Order contract. Any user can then post and fill orders on that market.
-- **`forceCancel`.** The owner uses it only in an emergency: when an underlying asset is compromised, or when a fill would harm users. The owner never uses it for sanctions. Each use emits `OrderForceCanceled`, so every use is public on-chain.
 
 ## Order Struct Definition
 
@@ -242,3 +224,22 @@ The callback mechanism enables complex interactions and arbitrage opportunities.
 ![Limit Order Callback Flow](/pendle-dev-docs/imgs/Developers/limit_order_callback_flow.png "Limit Order Callback Flow")
 
 This flow allows for flexible and creative use of the `fill` function, providing opportunities for arbitrage and custom contract logic. Arbitrageurs can take advantage of this mechanism to execute strategies that generate profit by finding discrepancies in token values or other market inefficiencies.
+
+## Owner Parameters
+
+The Limit Order contract has an owner role. The owner can:
+
+- set the fee rate for each market (YT),
+- set the address that receives fees,
+- set the mint-SY signer addresses,
+- cancel any open order with `forceCancel`, which emits `OrderForceCanceled`, and
+- upgrade the contract.
+
+A market accepts fills only after its fee rate is set. Until then, `fill` reverts with `LOP: fee not set`.
+
+The owner role cannot sign orders or fill orders for users. Makers and takers sign their own orders and transactions.
+
+### When the owner uses these powers
+
+- **Market fee rate.** The owner sets a fee rate only for a market that has passed Pendle's security review and audits. This keeps markets that are not safe out of the Limit Order contract. Any user can then post and fill orders on that market.
+- **`forceCancel`.** The owner uses it only in an emergency: when an underlying asset is compromised, or when a fill would harm users. The owner never uses it for sanctions. Each use emits `OrderForceCanceled`, so every use is public on-chain.
