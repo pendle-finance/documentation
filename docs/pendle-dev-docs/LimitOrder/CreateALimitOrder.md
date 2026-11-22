@@ -1,12 +1,12 @@
 # Create a Limit Order
 
-Pendle Limit Order system allows makers to create limit orders without using gas. To achieve this, makers' signed orders are stored off-chain and will be filled by the takers on-chain.
+Makers can create limit orders without paying gas. A maker signs an order off-chain, and a taker fills it on-chain through the Limit Order contract.
 
-To be able to create a limit order and submit it to the Pendle Limit Order system, you can follow these steps:
+To create a limit order and publish it through the Pendle API, follow these steps:
 
 1. Generate the limit order data
 2. Sign the limit order data
-3. Post the limit order data and its signature to the Pendle Limit Order system
+3. Publish the limit order data and its signature through the Pendle API
 
 Pendle exposes 2 APIs to help makers create orders more easily
 1. [Generate limit order data](https://api-v2.pendle.finance/core/docs#tag/limit-orders/post/v1/limit-orders/makers/generate-limit-order-data)
@@ -52,7 +52,7 @@ You can find the full example of signing a limit order using the ethers.js libra
 
 ### Step 3: Post the limit order
 
-After signing the limit order data, you can send the limit order data along with the signature to our Backend API
+After signing the limit order data, you can send the limit order data along with the signature to the Pendle API
 
 ```ts
 const requestBody: CreateLimitOrderRequest = {

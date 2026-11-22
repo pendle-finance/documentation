@@ -9,6 +9,17 @@ The Limit Order contract provides methods to support:
 
 You can find the contract's implementation [here](https://github.com/pendle-finance/pendle-core-v2/tree/main/contracts/limit).
 
+## Owner Parameters
+
+The Limit Order contract has an owner role. The owner can:
+
+- set the fee rate for each market (YT), and
+- set the address that receives fees.
+
+A market accepts fills only after its fee rate is set. Until then, `fill` reverts with `LOP: fee not set`.
+
+The owner role cannot sign orders or fill orders for users. Makers and takers sign their own orders and transactions.
+
 ## Order Struct Definition
 
 ```sol

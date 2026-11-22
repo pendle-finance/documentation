@@ -37,6 +37,8 @@ V2_FILES=(
   "$DEV_DOCS_DIR/Backend/RouterStatic.md"
   # Limit orders
   "$DEV_DOCS_DIR/LimitOrder/Overview.md"
+  "$DEV_DOCS_DIR/LimitOrder/WhoDoesWhat.md"
+  "$DEV_DOCS_DIR/LimitOrder/WithoutTheApi.md"
   "$DEV_DOCS_DIR/LimitOrder/CreateALimitOrder.md"
   "$DEV_DOCS_DIR/LimitOrder/FillALimitOrder.md"
   "$DEV_DOCS_DIR/LimitOrder/CancelOrders.mdx"

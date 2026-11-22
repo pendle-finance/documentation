@@ -122,6 +122,8 @@ module.exports = {
       customProps: { icon: "list_alt" },
       items: [
         { type: "doc", id: "LimitOrder/Overview", label: "Overview" },
+        { type: "doc", id: "LimitOrder/WhoDoesWhat", label: "Who Does What" },
+        { type: "doc", id: "LimitOrder/WithoutTheApi", label: "Without the Pendle API" },
         { type: "doc", id: "LimitOrder/LimitOrderContract", label: "Contract" },
         { type: "doc", id: "LimitOrder/CreateALimitOrder", label: "Create a Limit Order" },
         { type: "doc", id: "LimitOrder/CancelOrders", label: "Cancel Orders" },

@@ -75,3 +75,18 @@ An ERC-20 token that wraps the underlying LP position on a 1:1 basis, enabling L
 #### Watermark Rate
 
 The highest recorded exchange rate between the IBT and its accounting asset. When the exchange rate falls below this level, PT will redeem below its actual value at maturity, and YT will stop earning yield.
+#### Limit Order
+
+A message that a maker signs to buy or sell PT or YT at a set implied APY before an expiry. A taker fills it through the Limit Order contract.
+
+#### Maker
+
+The user who signs a limit order. The maker keeps the tokens in their own wallet until a taker fills the order.
+
+#### Taker
+
+The user who fills a limit order by calling the Limit Order contract, directly or through the Pendle Router. The taker pays the fee and the gas.
+
+#### Fill
+
+The on-chain transaction in which the Limit Order contract settles all or part of a limit order between the maker and the taker.

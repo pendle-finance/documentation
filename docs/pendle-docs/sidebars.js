@@ -21,11 +21,11 @@ module.exports = {
         },
         {
           type: "category",
-          label: "Liquidity Engines",
+          label: "How Trades Settle",
           customProps: { icon: "water" },
           items: [
             { type: "doc", id: "ProtocolMechanics/LiquidityEngines/AMM", label: "AMM" },
-            { type: "doc", id: "ProtocolMechanics/LiquidityEngines/OrderBook", label: "Order Book" }
+            { type: "doc", id: "ProtocolMechanics/LiquidityEngines/OrderBook", label: "Limit Orders" }
           ],
         },
         {

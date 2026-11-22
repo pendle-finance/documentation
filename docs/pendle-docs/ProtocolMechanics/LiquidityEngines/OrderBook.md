@@ -2,11 +2,11 @@
 hide_table_of_contents: true
 ---
 
-# Order Book
+# Limit Orders
 
-Pendle features an Order Book system alongside its AMM to enable peer-to-peer trading of PT and YT. Users can place limit orders to buy or sell at a specified implied APY.
+Users can trade PT and YT peer to peer with limit orders, next to the AMM. A maker signs an order to buy or sell at a set implied APY. A taker fills the order through the Limit Order contract, which settles the trade between the two users.
 
-Together, the Order Book and AMM enhance market liquidity, facilitating smoother trading on Pendle. Pendle's swap router intelligently sources liquidity from **both** the AMM pool and the limit order book simultaneously, automatically calculating the optimal path for any given trade to minimize price impact and gas costs for the user.
+Limit orders and the AMM together add liquidity to each market. The Pendle Hosted SDK can suggest a split of a swap between the AMM and open limit orders. The suggestion is a quote: the user reviews it and signs the transaction. Other routers and takers can compute their own split. For the role of each party, see [Who Does What](/pendle-v2-dev/LimitOrder/WhoDoesWhat).
 
 ![Order Book](/pendle-docs/imgs/AppGuide/order_book.png "Order Book")
 
@@ -16,11 +16,11 @@ Limit order on Pendle is a purchase / sell order at a specified implied APY. You
 
 Most popular market on Pendle has limit order support. 
 
-## Order Execution
+## When an Order Gets Filled
 
-A limit order will be executed if the implied APY of the AMM moves towards the order APY. At that moment, any further swaps (taker order) in said implied APY direction will fill the order book first, before proceeding to the AMM. In other words, a limit order deepens liquidity of the AMM at that specific implied APY as swaps will fill the order first before pushing the AMM’s implied APY again. 
+An order is filled only when a taker chooses to fill it. Takers usually fill an order when its implied APY is better than the AMM rate. When a swap goes through the Pendle Router, the Router fills the orders that the caller passes, then trades the rest on the AMM. So an order adds liquidity at its implied APY: a swap in that direction can fill the order before it moves the AMM rate further.
 
-Swaps can be partially allocated to the AMM and limit orders (if any) to optimize for price-impact. That amount is determined at the most optimal amount, taking the AMM price impact and gas fees into account. Consequently, smaller orders face a lower likelihood of being filled due to the increased number of transactions required, leading to higher gas fees, particularly on chains with costly gas fees.
+A quote from the Pendle Hosted SDK can split a swap between the AMM and limit orders to reduce price impact. The quote also counts the gas cost of each fill. So small orders are less likely to be included in a quote, mainly on chains with high gas fees.
 
 Orders can be:
 - Active (Partially or fully fillable)
@@ -29,7 +29,7 @@ Orders can be:
 - Cancelled 
 - Invalid
 
-[Flash swap](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/LiquidityEngines/AMM#flash-swaps) capability between PT and YT enhances the Order Book's flexibility by allowing a buy YT taker order to be matched with a buy PT limit order, and vice versa—a sell YT taker order can be matched with a sell PT limit order. This capability significantly broadens potential trading matches, streamlining transactions between PT and YT.
+[Flash swap](https://docs.pendle.finance/pendle-v2/ProtocolMechanics/LiquidityEngines/AMM#flash-swaps) capability between PT and YT enhances the Order Book's flexibility by lets a taker who buys YT fill a maker's order to buy PT, and a taker who sells YT fill a maker's order to sell PT. This gives takers more orders that they can fill.
 
 ## Order Validity
 
@@ -47,10 +47,10 @@ Setting a limit order requires signature from your address while revoking the or
 
 ## Fees
 
-Fees for swaps on limit order will be the same as if they were done on the AMM. The **taker** of the order pays both the gas fee and the swap fee. The **maker** of the order does not incur these costs (maker order fee is currently set to 0). The team has full discretion on when to scale-up fees for maker orders.
+Fees for swaps on limit order will be the same as if they were done on the AMM. The **taker** of the order pays both the gas fee and the swap fee. The **maker** of the order does not incur these costs (maker order fee is currently set to 0). The Limit Order contract charges the fee rate that the contract owner sets for each market (see [Owner Parameters](/pendle-v2-dev/LimitOrder/LimitOrderContract#owner-parameters)).
 
 Fees collected are distributed in accordance with the protocol's [fee structure](../Mechanisms/Fees).
 
 ## Arbitrage 
 
-Pendle operates an arbitrage bot that continuously aligns prices between the AMM and the Order Book. This ensures any price discrepancies due to liquidity differences are quickly corrected, maintaining consistent pricing across the two system.
+Arbitrageurs keep AMM rates and limit-order rates in line. They fill orders with the public `fill` function and can trade on the AMM in the same transaction through its callback. Anyone can run an arbitrage bot. An entity in the Pendle Group also runs one, as the [Terms of Use](/pendle-v2/TermsOfUse) disclose.
