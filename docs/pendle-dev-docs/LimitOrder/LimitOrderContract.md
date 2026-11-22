@@ -23,6 +23,11 @@ A market accepts fills only after its fee rate is set. Until then, `fill` revert
 
 The owner role cannot sign orders or fill orders for users. Makers and takers sign their own orders and transactions.
 
+### When the owner uses these powers
+
+- **Market fee rate.** The owner sets a fee rate only for a market that has passed Pendle's security review and audits. This keeps markets that are not safe out of the Limit Order contract. Any user can then post and fill orders on that market.
+- **`forceCancel`.** The owner uses it only in an emergency: when an underlying asset is compromised, or when a fill would harm users. The owner never uses it for sanctions. Each use emits `OrderForceCanceled`, so every use is public on-chain.
+
 ## Order Struct Definition
 
 ```sol
