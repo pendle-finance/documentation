@@ -10,7 +10,7 @@ For the role of each party, see [Who Does What](./WhoDoesWhat.md).
 
 ## How It Works
 
-1. **Makers** create limit orders by either (a) signing off-chain with no gas — the recommended path for EOAs — or (b) pre-signing on-chain via `preSignSingle` / `preSignBatch`, which is intended for smart-contract makers. Orders specify a desired implied APY rate. Makers usually publish signed orders through the Pendle API.
+1. **Makers** create limit orders by either (a) signing off-chain with no gas — the recommended path for EOAs — or (b) pre-signing on-chain via `preSignSingle` / `preSignBatch`, which publishes the full order on-chain in an `OrderPreSigned` event. Orders specify a desired implied APY rate. Makers publish signed orders through the Pendle API, on-chain, or both.
 2. **Takers** choose the orders to fill, for example from the Pendle API, and fill them on-chain by calling the Limit Order contract. Pre-signed orders (and orders already partially filled) can be filled with an empty signature; ERC-1271 contract signatures are also supported.
 3. The **Limit Order contract** settles each fill atomically. It moves tokens between the maker and the taker at the rate that the maker signed.
 

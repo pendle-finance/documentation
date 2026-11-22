@@ -13,8 +13,11 @@ You can find the contract's implementation [here](https://github.com/pendle-fina
 
 The Limit Order contract has an owner role. The owner can:
 
-- set the fee rate for each market (YT), and
-- set the address that receives fees.
+- set the fee rate for each market (YT),
+- set the address that receives fees,
+- set the mint-SY signer addresses,
+- cancel any open order with `forceCancel`, which emits `OrderForceCanceled`, and
+- upgrade the contract.
 
 A market accepts fills only after its fee rate is set. Until then, `fill` reverts with `LOP: fee not set`.
 
@@ -109,7 +112,7 @@ function cancelBatch(Order[] calldata orders) external;
 
 ### preSignSingle
 
-Registers an order on-chain by setting its remaining amount to `makingAmount`. After pre-signing, takers can fill the order without supplying a signature.
+Registers an order on-chain by setting its remaining amount to `makingAmount`. Emits `OrderPreSigned(orderHash, order)` with the full order data. After pre-signing, takers can fill the order without supplying a signature.
 
 Only the order's `maker` can pre-sign. The order must have a valid `nonce`, an `expiry` strictly between `block.timestamp` and `YT.expiry()`, and must not already exist on-chain.
 

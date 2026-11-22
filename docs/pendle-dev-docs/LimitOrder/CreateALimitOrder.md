@@ -40,7 +40,7 @@ const requestBody: GenerateLimitOrderDataRequest = {
 
 Full details of all limit order data can be found via the `GenerateLimitOrderDataResponse` on our [API specification](https://api-v2.pendle.finance/limit-order/docs#/)
 
-Note that you need to ensure you have sufficient balance and allowance to create the limit order; otherwise, the API will return a 400 error.
+The Pendle API accepts every order that the contract can fill, and treats all makers the same. It refuses an order only when the contract could not fill it, for example when the balance or the allowance is too low. In that case the API returns HTTP 400.
 
 ### Step 2: Sign limit order data
 
@@ -67,7 +67,7 @@ All the implementation details can be found in the [API demo repository](https:/
 
 ## Alternative: Create an Order On-Chain
 
-In addition to off-chain signing, makers can register an order directly on-chain by calling `preSignSingle` (or `preSignBatch` for multiple orders) on the Limit Router. This is mainly useful for:
+In addition to off-chain signing, makers can register an order directly on-chain by calling `preSignSingle` (or `preSignBatch` for multiple orders) on the Limit Router. The contract emits an `OrderPreSigned` event with the full order, so any taker can find the order from chain data without the Pendle API. Pre-signing is also useful for:
 
 - **Smart-contract makers** that cannot produce an ECDSA signature off-chain.
 - **ERC-1271 contracts** that prefer to register orders explicitly instead of relying on `isValidSignature` at fill time.

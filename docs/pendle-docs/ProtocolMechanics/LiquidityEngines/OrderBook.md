@@ -53,4 +53,4 @@ Fees collected are distributed in accordance with the protocol's [fee structure]
 
 ## Arbitrage 
 
-Arbitrageurs keep AMM rates and limit-order rates in line. They fill orders with the public `fill` function and can trade on the AMM in the same transaction through its callback. Anyone can run an arbitrage bot. An entity in the Pendle Group also runs one, as the [Terms of Use](/pendle-v2/TermsOfUse) disclose.
+Arbitrageurs keep AMM rates and limit-order rates in line. They fill orders with the public `fill` function and can trade on the AMM in the same transaction through its callback. Anyone can run an arbitrage bot. An entity in the Pendle Group also runs one, as the [Terms of Use](/pendle-v2/TermsOfUse) disclose. It reads the same order data as every other user.

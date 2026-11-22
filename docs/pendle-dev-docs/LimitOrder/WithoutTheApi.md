@@ -22,7 +22,7 @@ See [Fill a Limit Order](./FillALimitOrder.md).
 
 ## Post an order on-chain
 
-A maker can register an order on-chain with `preSignSingle(order)`, or `preSignBatch(orders)` for many orders. A taker who has the order data can then fill it with an empty signature (`0x`).
+A maker can register an order on-chain with `preSignSingle(order)`, or `preSignBatch(orders)` for many orders. The contract emits an `OrderPreSigned` event with the full order, so a taker can find pre-signed orders from chain data alone. The taker can then fill the order with an empty signature (`0x`).
 
 See [Create an Order On-Chain](./CreateALimitOrder.md#alternative-create-an-order-on-chain).
 
