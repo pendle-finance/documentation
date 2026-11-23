@@ -66,9 +66,9 @@ Boros normalizes all internal values to 18-decimal fixed-point for consistency, 
 
 ### How do I place an order?
 
-1. Generate calldata: `POST /open-api/v1/calldata/place-orders`
+1. Generate calldata: `POST /apis/v1/calldata-builder/agent/place-orders`
 2. Sign the calldata with your agent key
-3. Submit: `POST /send-txs-bot/v3/agent/bulk-direct-call`
+3. Submit: `POST /apis/v1/send-txs/bulk-calls`
 
 See the [API integration workflow](./Backend/4.%20api.mdx#2-placing-a-trade-agent-flow) for the complete flow.
 
@@ -119,10 +119,7 @@ No. Order IDs are unique **per market**, not globally. The combination of **(Mar
 
 ### What is `direct-call` vs `bulk-direct-call`?
 
-- **`direct-call`**: Submits a single calldata. Use when the calldata API returns exactly one entry.
-- **`bulk-direct-call`**: Submits one or more calldatas with guaranteed sequential execution (based on nonce). **You must use this** when the calldata API returns multiple entries (e.g., `[exit-market, place-order]` when `autoExitMarket=true`).
-
-If you use `direct-call` with only the first element of a multi-calldata response, only the first operation executes (e.g., only the exit-market happens, and your order is never placed).
+Both are legacy `/send-txs-bot/*` endpoints and are **deprecated**. Use `POST /apis/v1/send-txs/bulk-calls`: it takes one or more calldatas and executes them sequentially (based on nonce). When the calldata API returns multiple entries, submit **all** of them in one request — sending only the first executes only the first operation.
 
 ### What does `autoExitMarket` do?
 

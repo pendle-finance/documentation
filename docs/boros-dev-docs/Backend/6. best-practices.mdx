@@ -35,34 +35,30 @@ Unlike single order placement (`placeSingleOrder`), **bulk orders do NOT match w
 
 ## Transaction Submission
 
-### `direct-call` vs `bulk-direct-call`
+### Submission endpoints
 
-The Send Txs Bot provides two submission endpoints:
+The Send Txs Bot is served under `https://api-boros.pendle.finance/apis/v1/send-txs/`:
 
 | Endpoint | Use case |
 |----------|----------|
-| `POST /v2/agent/direct-call` | Submit a **single** calldata |
-| `POST /v2/agent/bulk-direct-call` | Submit **one or more** calldatas with sequential execution |
+| `POST /send-txs/bulk-calls` | Submit **one or more** calldatas with sequential execution. Send a single calldata as a one-item batch. |
+| `POST /send-txs/dedicated/bulk-calls` | Same, sent by a dedicated bot in a transaction of its own. **Whitelisted accounts only**; supports `simulate`. |
 
-:::info v2 vs v3 Send Txs Bot
-Both v2 and v3 expose `bulk-direct-call`, but they have **different request schemas**:
-- **v2** (`BulkAgentExecuteDto`) — no session required. Use this for **programmatic / API integrations**.
-- **v3** (`BulkAgentExecuteV2Dto`) — requires a mandatory `agentSession` field (HTTP-only cookie / CSRF token). Use this for **browser-based UIs** only.
-
-Unless you are building a browser UI with session management, always use **v2**.
+:::caution Legacy endpoints deprecated
+The legacy `/send-txs-bot/v2/agent/direct-call`, `/send-txs-bot/v2/agent/bulk-direct-call` and `/send-txs-bot/v2/agent/dedicated/bulk-direct-call` are **deprecated** and will be shut off. See the [API migration guide](./12.%20api-migration.mdx#send-txs-bot--apisv1send-txs).
 :::
 
-**When to use `bulk-direct-call`:** Whenever you have more than one calldata to submit in a single batch — for example, the N calldatas returned by a bulk `POST /calldata/place-orders`, or a cancel-and-replace pair where you want them to execute in order. `bulk-direct-call` accepts an array of signed calldatas and executes them sequentially.
+**Batching:** submit every calldata of one action in the same request — for example, the N calldatas returned by a bulk `POST /calldata-builder/agent/place-orders`, or a cancel-and-replace pair where you want them to execute in order. The batch executes sequentially.
 
 :::caution Market entry on the new mount
-The new Open API at `https://api-boros.pendle.finance/apis/` does **not** auto-prepend an exit-market or enter-market calldata. If you need to enter a market before trading, call `POST /calldata-builder/agent/enter-markets` explicitly and include its calldata in the same `bulk-direct-call` batch (or submit it earlier).
+The new Open API at `https://api-boros.pendle.finance/apis/` does **not** auto-prepend an exit-market or enter-market calldata. If you need to enter a market before trading, call `POST /calldata-builder/agent/enter-markets` explicitly and include its calldata in the same `bulk-calls` batch (or submit it earlier).
 
 The legacy `autoExitMarket` parameter only applies to the deprecated mount at `https://api.boros.finance/open-api/v1/calldata/place-order` (singular). On the new plural endpoint, market entry/exit is your responsibility.
 :::
 
 ### `skipReceipt` Parameter
 
-Controls whether the Send Txs Bot waits for block confirmation:
+Controls whether `POST /send-txs/bulk-calls` waits for block confirmation (`/send-txs/dedicated/bulk-calls` has no `skipReceipt`; a returned `txHash` is already in a block):
 
 - `skipReceipt=false` (default): Waits for the transaction to be included in a block, then returns `status` and `error` fields. Higher latency but gives immediate confirmation.
 - `skipReceipt=true`: Returns the `txHash` immediately after broadcasting. Lower latency but you must track the transaction status yourself.
@@ -195,7 +191,7 @@ The Send Txs Bot service uses a legacy format:
 
 ### Recovering from Network Errors (Trace + Nonce)
 
-When a Send Txs Bot submission times out or returns a network error, you can't tell whether the bot received the request. Use the [trace endpoint](https://api-boros.pendle.finance/send-txs-bot/docs#/Dedicated%20Agent/DedicatedAgentController_trace) (`POST /send-txs-bot/v1/agent/dedicated/trace`) to disambiguate before retrying.
+When a Send Txs Bot submission times out or returns a network error, you can't tell whether the bot received the request. Use the trace endpoint (`POST https://api-boros.pendle.finance/apis/v1/send-txs/trace`; legacy: `/send-txs-bot/v1/agent/dedicated/trace`) to disambiguate before retrying.
 
 **Recommended pattern:**
 1. After a network error/timeout, poll the trace endpoint with the `agent` address and the `nonce` of the calldata you submitted.
@@ -282,7 +278,7 @@ Don't poll REST endpoints for real-time data. Use [WebSocket](./5.%20websocket.m
 
 ## Market Maker Order Flow
 
-The calldata endpoints (e.g., `POST /calldata/place-orders`) return a list of calldatas. You sign each calldata with your agent key, then send them to `POST /send-txs-bot/v2/agent/bulk-direct-call`.
+The calldata endpoints (e.g., `POST /calldata/place-orders`) return a list of calldatas. You sign each calldata with your agent key, then send them to `POST /send-txs/bulk-calls` (or `/send-txs/dedicated/bulk-calls` if your account is whitelisted).
 
 When submitting, set the `requireSuccess` parameter to control atomicity:
 - **`requireSuccess=true`** — All calldatas are placed atomically (all succeed or all revert).
@@ -294,14 +290,14 @@ When submitting, set the `requireSuccess` parameter to control atomicity:
 ┌──────────────────────────────────────────────────────────────────────┐
 │  1. POST /calldata/place-orders          → calldatas[]              │
 │  2. Sign each calldata with agent key                               │
-│  3. POST /send-txs-bot/v2/agent/bulk-direct-call                   │
+│  3. POST /send-txs/bulk-calls                                       │
 │     with requireSuccess=true or false    → tx results               │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
 ### `requireSuccess` Parameter (Send Txs Bot)
 
-The `requireSuccess` parameter on `bulk-direct-call` controls whether the calldatas execute atomically:
+The `requireSuccess` parameter on `bulk-calls` controls whether the calldatas execute atomically:
 
 | Value | Behavior | Use case |
 |-------|----------|----------|
@@ -336,7 +332,7 @@ If you are a market maker placing multiple orders across different markets or at
 | Best Practice | Why |
 |---------------|-----|
 | Use bulk orders for multiple operations | Lower gas, atomic execution |
-| Use `bulk-direct-call` whenever you have ≥1 calldata to submit | Sequential ordered execution; supports `requireSuccess` atomicity |
+| Use `bulk-calls` whenever you have ≥1 calldata to submit | Sequential ordered execution; supports `requireSuccess` atomicity |
 | Use `requireSuccess=false` for independent orders | Lets each order succeed/fail independently (market making) |
 | Call `enter-markets` explicitly before trading a new market | New Open API mount does not auto-enter; place calls revert otherwise |
 | Exit unused/expired markets via `exit-markets` (max 10 per account) | Reduce gas overhead, free up slots |

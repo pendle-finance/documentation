@@ -14,7 +14,8 @@ For key concepts and terminology, see the [Glossary](./1.%20glossary.mdx).
 |---------|----------|---------|
 | **Open API** | `https://api-boros.pendle.finance/apis/v1/` | Market data, calldata generation, account queries (new redesigned mount). |
 | **Open API (legacy, deprecated)** | `https://api.boros.finance/open-api/v1/` (or `/v2/`) — interactive docs at `https://api.boros.finance/open-api/docs` | Deprecated mount, kept for older clients only. Use the new mount above for everything. |
-| **Send Txs Bot** | `https://api-boros.pendle.finance/send-txs-bot/v2/` (programmatic) or `/v3/` (browser session) | Submitting signed transactions on-chain. |
+| **Send Txs Bot** | `https://api-boros.pendle.finance/apis/v1/send-txs/` | Submitting signed transactions on-chain. |
+| **Send Txs Bot (legacy, deprecated)** | `https://api-boros.pendle.finance/send-txs-bot/v2/` (or `/v1/`, `/v3/`) — interactive docs at `/send-txs-bot/docs` | Deprecated mount, kept for older clients only. Will be shut off. |
 
 :::note
 Use the redesigned Open API at `api-boros.pendle.finance/apis/` — interactive docs: [`api-boros.pendle.finance/apis/docs`](https://api-boros.pendle.finance/apis/docs). The old `api.boros.finance/open-api/` mount (and its `/open-api/docs` page) is **deprecated**: still served for older clients, but no new endpoints are added there.
@@ -34,7 +35,11 @@ The main API for querying data and generating transaction calldata.
 
 Receives signed calldata from agents and broadcasts transactions on-chain. You never call smart contracts directly — the bot submits them on your behalf and charges gas fees from your gas balance.
 
-**Interactive docs:** [https://api-boros.pendle.finance/send-txs-bot/docs](https://api-boros.pendle.finance/send-txs-bot/docs)
+**Interactive docs:** the **Send-Txs** section of [https://api-boros.pendle.finance/apis/docs](https://api-boros.pendle.finance/apis/docs)
+
+:::caution Legacy Send Txs Bot mount deprecated
+`https://api-boros.pendle.finance/send-txs-bot/*` (also on `api.boros.finance`) is **deprecated** and will be shut off. Submit through `https://api-boros.pendle.finance/apis/v1/send-txs/*` instead — see the [API migration guide](./12.%20api-migration.mdx#send-txs-bot--apisv1send-txs).
+:::
 
 ---
 
@@ -69,7 +74,7 @@ Once your agent is approved, this is the typical order placement flow:
 │  2. GET  /simulations/place-order         → preview trade    │
 │  3. POST /calldata/place-orders           → calldata[]       │
 │  4. Sign each calldata with agent key                        │
-│  5. POST /send-txs-bot/v2/agent/bulk-direct-call → tx hash  │
+│  5. POST /send-txs/bulk-calls             → tx hash          │
 │  6. Subscribe to WebSocket account channel for fill updates  │
 └──────────────────────────────────────────────────────────────┘
 ```
@@ -78,16 +83,18 @@ Once your agent is approved, this is the typical order placement flow:
 
 **Step 3** returns one calldata per entry in `orderRequests[]`. A bulk request of N orders returns N calldatas; you must sign and submit all of them. The new Open API mount does **not** auto-prepend an exit-market calldata — if you need to enter or exit markets, call `POST /calldata-builder/agent/enter-markets` (or `.../exit-markets`) explicitly. The first time a `(root, accountId)` trades on a given market, you must call `enter-markets` first or the place call will revert.
 
-**Step 5** sends the signed calldata(s) to the Send Txs Bot. `bulk-direct-call` accepts one or more signed calldatas in a single request; use it for any batch. `direct-call` is only kept for the single-calldata case. The response includes a transaction status and hash.
+**Step 5** sends the signed calldata(s) to the Send Txs Bot. `POST /send-txs/bulk-calls` accepts one or more signed calldatas in a single request; send a single calldata as a one-item batch. The response has one entry per calldata, with transaction status and hash. Whitelisted accounts submit to `POST /send-txs/dedicated/bulk-calls` instead (see below).
 
 :::tip skipReceipt parameter
-When submitting via the Send Txs Bot, you can set `skipReceipt=true` to get the `txHash` returned immediately without waiting for block inclusion. With `skipReceipt=false` (default), the bot waits for the transaction to be included in a block and returns the full `status` and any `error` message. Use `skipReceipt=true` for lower latency when you can track the transaction status yourself.
+When submitting via `POST /send-txs/bulk-calls`, you can set `skipReceipt=true` to get the `txHash` returned immediately without waiting for block inclusion. With `skipReceipt=false` (default), the bot waits for the transaction to be included in a block and returns the full `status` and any `error` message. Use `skipReceipt=true` for lower latency when you can track the transaction status yourself.
+
+`POST /send-txs/dedicated/bulk-calls` has no `skipReceipt`: when it returns a `txHash`, the transaction is already in a block.
 :::
 
 :::info Calldata and requireSuccess
-The calldata endpoints return a **list of calldatas** that execute the intended action. These calldatas should be sent to the `bulk-direct-call` endpoint of the Send Txs Bot.
+The calldata endpoints return a **list of calldatas** that execute the intended action. These calldatas should be sent to `POST /send-txs/bulk-calls` (or `/send-txs/dedicated/bulk-calls`).
 
-When submitting via `bulk-direct-call`, use the `requireSuccess` parameter to control atomicity:
+When submitting, use the `requireSuccess` parameter to control atomicity:
 
 - **`requireSuccess=true` (recommended for cancel-and-replace pairs)** — The bot simulates the whole batch first; if any call would revert, the entire batch is aborted **before** any tx is sent on-chain. Use this when later calldatas in the batch only make sense if earlier ones succeeded (e.g., cancel an order, then place its replacement).
 - **`requireSuccess=false`** — Each calldata is executed independently; some may succeed while others fail. Useful for `place-orders` when you want to place multiple orders and don't need them to be atomic (e.g., if one order fails due to insufficient margin, the others can still go through).
@@ -374,13 +381,13 @@ Query trading leaderboard data.
 | `GET /leaderboard/search` | Search for a specific user on the leaderboard |
 
 ### Transaction Status (Send Txs Bot)
-Query transaction status with detailed on-chain event data.
+Query transaction status with detailed on-chain event data. Paths are relative to `https://api-boros.pendle.finance/apis/v1`; the legacy `/send-txs-bot/*` equivalents are listed in the [API migration guide](./12.%20api-migration.mdx#send-txs-bot--apisv1send-txs).
 
 | Endpoint | Description |
 |----------|-------------|
-| `POST /send-txs-bot/v2/agent/dedicated/tx-status` | Transaction status with block info |
-| `POST /send-txs-bot/v2/agent/dedicated/tx-status-with-events` | Transaction status with parsed limit order events (placed, cancelled, market order executed). Each status item includes `limitOrdersPlaced` (orderIds + sizes), `limitOrdersCancelled` (orderIds), and `marketOrdersExecuted` (orderId, side, size). |
-| `POST /send-txs-bot/v1/agent/dedicated/trace` | Trace a submitted request by `agent` address + calldata `nonce` to check whether the Send Txs Bot received it. Useful for resolving ambiguity after network errors/timeouts. Records are retained for **24 hours**. See [Recovering from Network Errors](./6.%20best-practices.mdx#recovering-from-network-errors-trace--nonce) for the recommended retry pattern. |
+| `POST /send-txs/tx-status` | Transaction status with block info |
+| `POST /send-txs/tx-status-with-events` | Transaction status with parsed limit order events (placed, cancelled, market order executed). Each status item includes `limitOrdersPlaced` (orderIds + sizes), `limitOrdersCancelled` (orderIds), and `marketOrdersExecuted` (orderId, side, size). |
+| `POST /send-txs/trace` | Trace a submitted request by `agent` address + calldata `nonce` to check whether the Send Txs Bot received it. Useful for resolving ambiguity after network errors/timeouts. Records are retained for **24 hours**. See [Recovering from Network Errors](./6.%20best-practices.mdx#recovering-from-network-errors-trace--nonce) for the recommended retry pattern. |
 
 :::tip Nonce safety guarantee
 The Send Txs Bot rejects any calldata signed with a `nonce` ≤ your largest previously-seen nonce, **including** nonces from calldata that failed simulation. This makes it safe to retry: a successful original submission will cause the retry to be rejected, so you cannot accidentally double-submit by retrying.

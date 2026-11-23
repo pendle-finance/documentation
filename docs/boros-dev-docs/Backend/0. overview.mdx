@@ -11,7 +11,7 @@ All services are hosted under `https://api-boros.pendle.finance`, with the new O
 | Service | Path / Base | Purpose |
 |---|---|---|
 | Open API | `https://api-boros.pendle.finance/apis/v1/` — **interactive docs:** [`api-boros.pendle.finance/apis/docs`](https://api-boros.pendle.finance/apis/docs) | Market data, calldata generation, account queries, simulations |
-| Send Txs Bot | `/send-txs-bot/v2/` (programmatic) or `/v3/` (browser session) | Receives agent-signed calldatas, submits them on-chain, charges gas from user's gas balance |
+| Send Txs Bot | `https://api-boros.pendle.finance/apis/v1/send-txs/` (the legacy `/send-txs-bot/*` mount is deprecated) | Receives agent-signed calldatas, submits them on-chain, charges gas from user's gas balance |
 
 :::note Open API URL migration
 The redesigned Open API at `api-boros.pendle.finance/apis/` is the canonical location for all integrations. The interactive docs live at [`api-boros.pendle.finance/apis/docs`](https://api-boros.pendle.finance/apis/docs).
@@ -54,7 +54,7 @@ npm install @pendle/boros-sdk-public
 **Links**
 
 - Open API interactive docs: https://api-boros.pendle.finance/apis/docs
-- Send Txs Bot interactive docs: https://api-boros.pendle.finance/send-txs-bot/docs
+- Send Txs Bot interactive docs: the **Send-Txs** section of https://api-boros.pendle.finance/apis/docs
 
 ---
 
