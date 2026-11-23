@@ -58,7 +58,7 @@ The legacy `autoExitMarket` parameter only applies to the deprecated mount at `h
 
 ### `skipReceipt` Parameter
 
-Controls whether `POST /send-txs/bulk-calls` waits for block confirmation (`/send-txs/dedicated/bulk-calls` has no `skipReceipt`; a returned `txHash` is already in a block):
+Controls whether `POST /send-txs/bulk-calls` waits for block confirmation:
 
 - `skipReceipt=false` (default): Waits for the transaction to be included in a block, then returns `status` and `error` fields. Higher latency but gives immediate confirmation.
 - `skipReceipt=true`: Returns the `txHash` immediately after broadcasting. Lower latency but you must track the transaction status yourself.
