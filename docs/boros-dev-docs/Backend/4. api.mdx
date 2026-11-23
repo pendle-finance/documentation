@@ -87,8 +87,6 @@ Once your agent is approved, this is the typical order placement flow:
 
 :::tip skipReceipt parameter
 When submitting via `POST /send-txs/bulk-calls`, you can set `skipReceipt=true` to get the `txHash` returned immediately without waiting for block inclusion. With `skipReceipt=false` (default), the bot waits for the transaction to be included in a block and returns the full `status` and any `error` message. Use `skipReceipt=true` for lower latency when you can track the transaction status yourself.
-
-`POST /send-txs/dedicated/bulk-calls` has no `skipReceipt`: when it returns a `txHash`, the transaction is already in a block.
 :::
 
 :::info Calldata and requireSuccess
