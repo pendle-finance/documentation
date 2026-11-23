@@ -52,13 +52,25 @@ If you integrate via our SDK, migrate from [`@pendle/sdk-boros`](https://www.npm
 
 | Old | New |
 |---|---|
+| `POST /send-txs-bot/v2/agent/bulk-direct-call` | `POST /apis/v1/send-txs/bulk-calls` |
+| `POST /send-txs-bot/v2/agent/direct-call` | `POST /apis/v1/send-txs/bulk-calls` (send one item in `datas`) |
 | `POST /send-txs-bot/v1/agent/approve` | `POST /apis/v1/send-txs/approve` |
 | `POST /send-txs-bot/v1/agent/trace` | `POST /apis/v1/send-txs/trace` |
 | `POST /send-txs-bot/v1/agent/tx-status` | `POST /apis/v1/send-txs/tx-status` |
 | `POST /send-txs-bot/v1/agent/tx-status-with-events` | `POST /apis/v1/send-txs/tx-status-with-events` |
 | `POST /send-txs-bot/v2/agent/dedicated/bulk-direct-call` | `POST /apis/v1/send-txs/dedicated/bulk-calls` |
+| `POST /send-txs-bot/v1/agent/dedicated/direct-call` | `POST /apis/v1/send-txs/dedicated/bulk-calls` (send one item in `datas`) |
+| `POST /send-txs-bot/v1/agent/dedicated/trace` | `POST /apis/v1/send-txs/trace` |
 | `POST /send-txs-bot/v2/agent/dedicated/tx-status` | `POST /apis/v1/send-txs/tx-status` |
 | `POST /send-txs-bot/v2/agent/dedicated/tx-status-with-events` | `POST /apis/v1/send-txs/tx-status-with-events` |
+
+Notes for the dedicated (whitelisted) routes:
+
+- **Requests and responses are unchanged**, and the same whitelist applies. Only the path changes.
+- `skipReceipt` has never had an effect on the dedicated route and is not part of `/dedicated/bulk-calls`; you can drop it. When a `txHash` is returned, the transaction is already in a block.
+- `/apis/v1/send-txs/trace` returns the same `dedicatedResponse` as the legacy dedicated trace, plus a `result.txHash` field.
+
+For all `/apis/v1/send-txs/*` routes: requests go through the API gateway and cost **5 CU** each (see [Computing Units](./10.%20computing-units.mdx)). Send your API key (`Authorization: Bearer <API_KEY>`) to use your plan's limit instead of the per-IP default.
 
 ---
 
