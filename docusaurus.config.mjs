@@ -195,6 +195,34 @@ const config = {
               ),
             ];
           }
+          // The developer docs moved from /Developers/* and later
+          // /pendle-v2/Developers/* to /pendle-v2-dev/*. GitHub Pages has no
+          // server-side redirects, so map every old path to its new page.
+          const devDocs = existingPath.match(/^(\/cn)?\/pendle-v2-dev(\/.*)$/);
+          if (devDocs) {
+            const [, locale = '', rest] = devDocs;
+            const rests = [rest];
+            // Old contract pages carried a doubled leaf, e.g.
+            // /Developers/Contracts/StandardizedYield/StandardizedYield.
+            const doubled = rest.match(/^\/Contracts\/(StandardizedYield|PendleMarket|YieldTokenization)$/);
+            if (doubled) rests.push(`${rest}/${doubled[1]}`);
+            if (rest === '/Backend/ApiOverview') {
+              rests.push('/Backend/BackendAndHostedSDK', '/Backend');
+            }
+            if (rest === '/Overview') rests.push('');
+            if (rest === '/Deployments') {
+              for (const chain of ['Arbitrum', 'BNBChain', 'Ethereum']) {
+                rests.push(`/DeployedContracts/${chain}`);
+              }
+              for (const chain of ['Arbitrum', 'BNBChain', 'Base', 'Berachain', 'Ethereum', 'Mantle', 'Optimism', 'Sonic']) {
+                rests.push(`/Deployments/${chain}`);
+              }
+            }
+            return rests.flatMap((r) => [
+              `${locale}/Developers${r}`,
+              `${locale}/pendle-v2/Developers${r}`,
+            ]);
+          }
           return undefined;
         },
       },
