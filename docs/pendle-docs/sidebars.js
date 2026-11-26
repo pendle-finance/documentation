@@ -55,6 +55,7 @@ module.exports = {
         { type: "doc", id: "AppGuide/Swap", label: "Swap", customProps: { icon: "swap_horiz" } },
         { type: "doc", id: "AppGuide/LimitOrder", label: "Limit Order", customProps: { icon: "tune" } },
         { type: "doc", id: "AppGuide/TradingAlerts", label: "Trading Alerts", customProps: { icon: "notifications" } },
+        { type: "doc", id: "AppGuide/InAppChat", label: "In-app Chat", customProps: { icon: "support_agent" } },
         { type: "doc", id: "AppGuide/CrossChainPT", label: "Cross-Chain PT", customProps: { icon: "public" } },
         { type: "doc", id: "AppGuide/PTLooping", label: "PT Looping", customProps: { icon: "autorenew" } },
         { type: "doc", id: "AppGuide/EcosystemVaults", label: "Ecosystem Vaults", customProps: { icon: "account_balance" } },
