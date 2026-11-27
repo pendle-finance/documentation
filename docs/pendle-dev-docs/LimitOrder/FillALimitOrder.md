@@ -1,8 +1,8 @@
 # Fill a Limit Order
 
-Takers can fill any signed limit order from the Pendle Limit Order order books by executing the fill order on the smart contract. By using Pendle Limit Order APIs, takers can access liquidity sources without slippage, ensuring secure on-chain settlements.
+Takers can fill any valid signed limit order, from any source, by calling `fill` on the Limit Order contract. The contract settles each fill on-chain at the rate the maker signed. The Pendle API is one source of signed orders.
 
-Pendle exposes 1 API for takers to view active orders to fill them on-chain
+The Pendle API has one endpoint that lists active orders that takers can fill:
 
 [Get limit orders](https://api-v2.pendle.finance/limit-order/docs#/Taker/TakersController_generateLimitOrderData)
 

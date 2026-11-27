@@ -28,6 +28,7 @@ V2_FILES=(
   "$PENDLE_DOCS_DIR/ProtocolMechanics/YieldTokenization/YT.md"
   "$PENDLE_DOCS_DIR/ProtocolMechanics/YieldTokenization/Minting.md"
   "$PENDLE_DOCS_DIR/ProtocolMechanics/LiquidityEngines/AMM.md"
+  "$PENDLE_DOCS_DIR/ProtocolMechanics/LiquidityEngines/OrderBook.md"
   "$PENDLE_DOCS_DIR/ProtocolMechanics/Mechanisms/Fees.md"
   "$PENDLE_DOCS_DIR/ProtocolMechanics/Mechanisms/DynamicIncentives.md"
   "$PENDLE_DOCS_DIR/ProtocolMechanics/DiscreteYield.md"
@@ -37,10 +38,12 @@ V2_FILES=(
   "$DEV_DOCS_DIR/Backend/RouterStatic.md"
   # Limit orders
   "$DEV_DOCS_DIR/LimitOrder/Overview.md"
+  "$DEV_DOCS_DIR/LimitOrder/WhoDoesWhat.md"
   "$DEV_DOCS_DIR/LimitOrder/CreateALimitOrder.md"
   "$DEV_DOCS_DIR/LimitOrder/FillALimitOrder.md"
   "$DEV_DOCS_DIR/LimitOrder/CancelOrders.mdx"
   "$DEV_DOCS_DIR/LimitOrder/LimitOrderContract.md"
+  "$DEV_DOCS_DIR/LimitOrder/WithoutTheApi.md"
   # Smart contracts
   "$DEV_DOCS_DIR/Contracts/YieldTokenization/YieldTokenization.md"
   "$DEV_DOCS_DIR/Contracts/StandardizedYield/StandardizedYield.md"

@@ -1,12 +1,12 @@
 # Create a Limit Order
 
-Pendle Limit Order system allows makers to create limit orders without using gas. To achieve this, makers' signed orders are stored off-chain and will be filled by the takers on-chain.
+Makers can create limit orders without paying gas. A maker signs an order off-chain, and a taker fills it on-chain through the Limit Order contract.
 
-To be able to create a limit order and submit it to the Pendle Limit Order system, you can follow these steps:
+To create a limit order and publish it through the Pendle API, follow these steps:
 
 1. Generate the limit order data
 2. Sign the limit order data
-3. Post the limit order data and its signature to the Pendle Limit Order system
+3. Publish the limit order data and its signature through the Pendle API
 
 Pendle exposes 2 APIs to help makers create orders more easily
 1. [Generate limit order data](https://api-v2.pendle.finance/core/docs#tag/limit-orders/post/v1/limit-orders/makers/generate-limit-order-data)
@@ -40,7 +40,7 @@ const requestBody: GenerateLimitOrderDataRequest = {
 
 Full details of all limit order data can be found via the `GenerateLimitOrderDataResponse` on our [API specification](https://api-v2.pendle.finance/limit-order/docs#/)
 
-Note that you need to ensure you have sufficient balance and allowance to create the limit order; otherwise, the API will return a 400 error.
+The Pendle API accepts every order that the contract can fill, and treats all makers the same. It refuses an order only when the contract could not fill it, for example when the balance or the allowance is too low. In that case the API returns HTTP 400.
 
 ### Step 2: Sign limit order data
 
@@ -52,7 +52,7 @@ You can find the full example of signing a limit order using the ethers.js libra
 
 ### Step 3: Post the limit order
 
-After signing the limit order data, you can send the limit order data along with the signature to our Backend API
+After signing the limit order data, you can send the limit order data along with the signature to the Pendle API
 
 ```ts
 const requestBody: CreateLimitOrderRequest = {
@@ -67,7 +67,7 @@ All the implementation details can be found in the [API demo repository](https:/
 
 ## Alternative: Create an Order On-Chain
 
-In addition to off-chain signing, makers can register an order directly on-chain by calling `preSignSingle` (or `preSignBatch` for multiple orders) on the Limit Router. This is mainly useful for:
+In addition to off-chain signing, makers can register an order directly on-chain by calling `preSignSingle` (or `preSignBatch` for multiple orders) on the Limit Router. The contract emits an `OrderPreSigned` event with the full order, so any taker can find the order from chain data without the Pendle API. Pre-signing is also useful for:
 
 - **Smart-contract makers** that cannot produce an ECDSA signature off-chain.
 - **ERC-1271 contracts** that prefer to register orders explicitly instead of relying on `isValidSignature` at fill time.

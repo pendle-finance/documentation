@@ -54,7 +54,7 @@ hide_table_of_contents: true
 
 8. After you click “Place Order” in step 7, a pop-up will appear on the Safe Wallet tab, requesting you to sign the order message and collect other signatures. Click the “Sign” button to sign the message and collect the required signatures from other signers.
 
-  After you collect enough signatures, the orders will be submitted to Pendle’s Limit Order system in a couple of seconds.
+  After you collect enough signatures, the app publishes your signed order through the Pendle API in a couple of seconds.
 
   ![Signed message pop up](/pendle-docs/imgs/AppGuide/limit-order-multisig/8.signed-message-pop-up.png "Signed message pop up")
 
@@ -70,6 +70,6 @@ hide_table_of_contents: true
 
 Arbitrage bot factor in fees from both the AMM and the orderbook when deciding whether to act. A trade is only profitable if the spread between the two exceeds the combined fees of both systems. For example, if the orderbook fee is 0.2% and the AMM fee is 0.15%, arbitrage will only occur when the spread exceeds 0.35%. Below that threshold, the trade would be unprofitable after fees, so no arbitrage takes place.
 
-**Why is only ~90% of my swap routed through the orderbook, even though it offers a better price?**
+**Why does the app's quote put only ~90% of my swap into limit orders, even though they offer a better price?**
 
-This is by design. A small portion of every swap is always routed through the AMM as a safety buffer. Orderbook execution can occasionally result in dust amounts — tiny leftovers that are too small to process further. Without the AMM fallback, those dust amounts would either need to be returned to you (requiring an additional swap) or burned. By routing a small slice through the AMM, all funds are guaranteed to be fully utilized, since the AMM provides continuous liquidity at all times.
+The Pendle app's quote always keeps a small part of each swap on the AMM as a safety buffer. The quote is a suggestion that you see before you sign. Orderbook execution can occasionally result in dust amounts — tiny leftovers that are too small to process further. Without the AMM fallback, those dust amounts would either need to be returned to you (requiring an additional swap) or burned. By routing a small slice through the AMM, all funds are guaranteed to be fully utilized, since the AMM provides continuous liquidity at all times.

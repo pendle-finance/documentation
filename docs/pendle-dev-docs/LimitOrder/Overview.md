@@ -4,15 +4,15 @@ hide_table_of_contents: true
 
 # Limit Orders
 
-Pendle's Limit Order system enables gasless, off-chain order creation with secure on-chain settlement. It allows users to place orders at specific implied APY rates, which are matched and settled through the Limit Order smart contract.
+Limit orders let users trade PT and YT with each other at a set implied APY. A maker signs an order, a taker fills it, and the Limit Order contract settles the trade on-chain. For the role of each party, see [Who Does What](./WhoDoesWhat.md).
 
 ## How It Works
 
-1. **Makers** create limit orders by either (a) signing off-chain with no gas — the recommended path for EOAs — or (b) pre-signing on-chain via `preSignSingle` / `preSignBatch`, which is intended for smart-contract makers. Orders specify a desired implied APY rate and are stored on Pendle's backend.
-2. **Takers** query available orders via the API and fill them on-chain by calling the Limit Order contract. Pre-signed orders (and orders already partially filled) can be filled with an empty signature; ERC-1271 contract signatures are also supported.
-3. The **Limit Order contract** settles orders atomically, transferring tokens between makers and takers at the agreed rates.
+1. **Makers** create an order that sets a token, an amount, an implied APY and an expiry. They either (a) sign it off-chain at no gas cost and publish it through the Pendle API — the recommended path for EOAs — or (b) pre-sign it on-chain via `preSignSingle` / `preSignBatch`, which publishes the full order in an `OrderPreSigned` event.
+2. **Takers** choose the orders to fill, for example from the Pendle API, and fill them on-chain by calling the Limit Order contract. Pre-signed orders (and orders already partially filled) can be filled with an empty signature; ERC-1271 contract signatures are also supported.
+3. The **Limit Order contract** settles each fill atomically. It moves tokens between the maker and the taker at the rate that the maker signed.
 
-Limit orders are also integrated into the [Pendle Hosted SDK](../Backend/HostedSdk.mdx) — when enabled, the SDK automatically includes limit order liquidity alongside AMM liquidity to improve execution prices, especially for large trades.
+The [Pendle Hosted SDK](../Backend/HostedSdk.mdx) can include open limit orders in a swap quote. When enabled, the quote can fill some orders and trade the rest on the AMM, which helps most on large trades. The quote is a suggestion: the caller reviews the calldata and signs the transaction.
 
 ## Order Types
 
@@ -25,10 +25,12 @@ Limit orders are also integrated into the [Pendle Hosted SDK](../Backend/HostedS
 
 ## Sections
 
-- [**Limit Order Contract**](./LimitOrderContract.md) — Smart contract reference: order struct, method definitions, and callback mechanism
+- [**Who Does What**](./WhoDoesWhat.md) — The role of makers, takers, the contract, the contract owner and the Pendle API
+- [**Limit Order Contract**](./LimitOrderContract.md) — Smart contract reference: order struct, method definitions, callback mechanism, and owner parameters
 - [**Create a Limit Order**](./CreateALimitOrder.md) — Guide for makers: generate, sign, and submit orders
 - [**Cancel Limit Orders**](./CancelOrders.mdx) — Guide for makers: cancel specific orders or invalidate all via nonce
 - [**Fill a Limit Order**](./FillALimitOrder.md) — Guide for takers: query and fill orders on-chain
+- [**Without the Pendle API**](./WithoutTheApi.md) — Cancel, fill and post orders with the contract alone
 
 ## API Reference
 
