@@ -2408,7 +2408,7 @@
     "tags": [],
     "servers": [
         {
-            "url": "https://api.boros.finance/open-api"
+            "url": "https://api-boros.pendle.finance/open-api"
         }
     ],
     "components": {
